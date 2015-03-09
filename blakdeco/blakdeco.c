@@ -520,6 +520,7 @@ char * name_function(int fnum)
    case STRINGCONSISTSOF : return "StringConsistsOf";
 
    case SETCLASSVAR : return "SetClassVar";
+   case GETPROPERTY : return "GetProperty";
 
    case CREATETIMER : return "CreateTimer";
    case DELETETIMER : return "DeleteTimer";
