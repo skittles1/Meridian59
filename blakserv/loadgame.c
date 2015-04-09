@@ -356,27 +356,37 @@ Bool LoadGameObject(void)
 
 Bool LoadGameListNodes(void)
 {
-	int num_list_nodes,i;
-	val_type first_val,rest_val;
-	
-	LoadGameReadInt(&num_list_nodes);
-	
-	for (i=0;i<num_list_nodes;i++)
-	{
-		LoadGameReadInt(&first_val.int_val);
-		LoadGameReadInt(&rest_val.int_val);
-		
-		LoadGameTranslateVal(&first_val);
-		LoadGameTranslateVal(&rest_val);
-		
-		if (!LoadList(i,first_val,rest_val))
-		{
-			eprintf("LoadGameList can't set list node %i\n",i);
-			return False;
-		}
-	}
-	
-	return True;
+   int num_list_nodes,i;
+   val_type first_val,rest_val;
+   char buf[100];
+
+   LoadGameReadInt(&num_list_nodes);
+
+   for (i=0;i<num_list_nodes;i++)
+   {
+      LoadGameReadInt(&first_val.int_val);
+      if (first_val.v.tag == TAG_MESSAGE)
+      {
+         dprintf("Loading message %i %i",first_val.v.tag,first_val.v.data);
+         // Reconstruct a message val_type.
+         LoadGameReadString(buf,sizeof(buf));
+         dprintf("Buffer is %s",buf);
+         first_val.v.data = GetIDByName(buf);
+         dprintf("Setting message to %i",first_val.v.data);
+      }
+      LoadGameReadInt(&rest_val.int_val);
+
+      LoadGameTranslateVal(&first_val);
+      LoadGameTranslateVal(&rest_val);
+
+      if (!LoadList(i,first_val,rest_val))
+      {
+         eprintf("LoadGameList can't set list node %i\n",i);
+         return False;
+      }
+   }
+
+   return True;
 }
 
 Bool LoadGameTables(void)

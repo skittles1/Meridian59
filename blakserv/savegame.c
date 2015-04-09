@@ -309,8 +309,28 @@ void SaveListNodes(void)
 
 void SaveEachListNode(list_node *l,int list_id)
 {
-   SaveGameCopyIntBuffer(l->first.int_val);
-   SaveGameCopyIntBuffer(l->rest.int_val);
+   char *message_name;
+
+   if (l->first.v.tag == TAG_MESSAGE)
+   {
+      message_name = GetNameByID(l->first.v.data);
+      if (message_name == NULL)
+      {
+         eprintf("Not saving invalid message list node %i %i",l->first.v.tag,l->first.v.data);
+         SaveGameWriteInt(INVALID_DATA);
+         SaveGameWriteInt(l->rest.int_val);
+         return;
+      }
+      dprintf("Saving message list node %i %i",l->first.v.tag,l->first.v.data);
+      SaveGameWriteInt(l->first.int_val);
+      // Save the message name after the val_type. We use the message name
+      // to get the message ID when we load the game in case it changes.
+      SaveGameWriteString(message_name);
+   }
+   else
+      SaveGameWriteInt(l->first.int_val);
+
+   SaveGameWriteInt(l->rest.int_val);
 }
 
 void SaveTables(void)
