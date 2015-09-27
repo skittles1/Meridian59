@@ -1193,8 +1193,8 @@ void codegen_class(class_type c)
       OutputInt(outfile, handler->header->message_id->idnum);
       OutputInt(outfile, endpos); 
       if (handler->comment == NULL)
-	 OutputInt(outfile, -1);
-      else OutputInt(outfile, handler->comment->value.numval);
+	      OutputInt(outfile, -1);
+      else OutputInt(outfile, (int)handler->comment->value.numval);
 
       messagepos = FileCurPos(outfile);  /* Move to next entry */
       FileGotoEnd(outfile);

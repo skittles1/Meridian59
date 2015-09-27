@@ -76,7 +76,7 @@ enum { AND_OP, OR_OP, PLUS_OP, MINUS_OP, MULT_OP, DIV_OP, MOD_OP, NOT_OP, NEG_OP
 typedef struct {
    int type;
    union {
-      int       numval;
+      __int64       numval;
       char      *stringval;
       char      *fnameval;
       /* No value associated with NIL */
@@ -96,7 +96,7 @@ typedef struct {
    int idnum;
    int ownernum; /* Id # of thing that contains this identifier in its scope.  e.g. if
 		    this id is of type message, then this is the class # */
-   int source;   /* Whether this id came from the database file (source = DBASE)
+   __int64 source;   /* Whether this id came from the database file (source = DBASE)
 		    or from a source code file (source = COMPILE) */
 } *id_type, id_struct;
 

@@ -251,8 +251,8 @@ enum
 
 typedef struct
 {
-   int data:28;
-   unsigned int tag:4;
+   __int64 data : 56;
+   unsigned __int64 tag : 8;
 } constant_type;
 
 /* opcode byte breakdown */

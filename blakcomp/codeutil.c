@@ -70,10 +70,10 @@ void OutputGotoOffset(int outfile, int source, int destination)
  * const_to_int:  Convert a compiler constant into an object code constant,
  *    and then change this result to an integer and return it.
  */
-int const_to_int(const_type c)
+__int64 const_to_int(const_type c)
 {
    constant_type code_const; /* Stuff to be written out */
-   int result;
+   __int64 result;
 
    switch(c->type)
    {
@@ -129,7 +129,7 @@ int const_to_int(const_type c)
  */
 void OutputConstant(int outfile, const_type c)
 {
-   int outnum = const_to_int(c);
+   __int64 outnum = const_to_int(c);
    write(outfile, &outnum, sizeof(outnum));
 }
 /************************************************************************/
@@ -198,16 +198,19 @@ void BackpatchGoto(int outfile, int source, int destination)
  *    Sourcenum must be either SOURCE1 or SOURCE2; the corresponding field 
  *    of opcode is set.
  */
-int set_source_id(opcode_type *opcode, int sourcenum, expr_type e)
+__int64 set_source_id(opcode_type *opcode, int sourcenum, expr_type e)
 {
    id_type id;
    int temp, retval;
+   __int64 retval_high;
+   bool rethigh = False;
 
    switch(e->type)
    {
    case E_CONSTANT:
       temp = CONSTANT;
-      retval = const_to_int(e->value.constval);
+      retval_high = const_to_int(e->value.constval);
+      rethigh = True;
       break;
       
    case E_IDENTIFIER:
@@ -245,6 +248,8 @@ int set_source_id(opcode_type *opcode, int sourcenum, expr_type e)
    else
       codegen_error("Illegal sourcenum value in set_source_id");
 
+   if (rethigh)
+      return retval_high;
    return retval;
 }
 /************************************************************************/

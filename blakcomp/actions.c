@@ -783,7 +783,7 @@ arg_type make_arg_from_setting(id_type id, expr_type expr)
 /************************************************************************/
 id_type make_constant_id(id_type id, expr_type expr)
 {
-   int numeric_val;
+   __int64 numeric_val;
 
    /* Right hand side must be a number or a negative number */
    switch (expr->type)
