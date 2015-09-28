@@ -54,6 +54,12 @@ void OutputInt(int outfile, int datum)
    write(outfile, &datum, sizeof(datum)); 
 }
 /************************************************************************/
+void OutputInt64(int outfile, __int64 datum)
+{
+   /* Write out a 8 byte # */
+   write(outfile, &datum, sizeof(datum));
+}
+/************************************************************************/
 /*
  * OutputGotoOffset:  Write out jump offset from goto instruction (source)
  *    to destination.  An extra +1 is added to the offset because jump offsets
