@@ -124,13 +124,8 @@ void MainServer()
 	UpdateSecurityRedbook();
 	UnpauseTimers();
 
-    FlushDefaultChannels(); // TODO: Delete Me
-
 	ServiceTimers(); /* returns if server termiated */
 
-    lprintf("Entering MainExitServer"); // TODO: Delete Me
-    FlushDefaultChannels(); // TODO: Delete Me
-	
 	MainExitServer();
 }
 
