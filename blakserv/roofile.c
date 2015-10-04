@@ -87,7 +87,7 @@ __inline float GetSectorHeightFloorWithDepth(SectorNode* Sector, V2* P)
    return height;
 }
 
-__inline bool BSPCanMoveInRoomTreeInternal(Sector* SectorS, Sector* SectorE, Side* SideS, Side* SideE, V2* Q)
+__inline bool BSPCanMoveInRoomTreeInternal(SectorNode* SectorS, SectorNode* SectorE, Side* SideS, Side* SideE, V2* Q)
 {
    // block moves with end outside
    if (!SectorE || !SideE)
@@ -124,7 +124,7 @@ __inline bool BSPCanMoveInRoomTreeInternal(Sector* SectorS, Sector* SectorE, Sid
    return true;
 }
 
-void BSPUpdateLeafHeights(room_type* Room, Sector* Sector, bool Floor)
+void BSPUpdateLeafHeights(room_type* Room, SectorNode* Sector, bool Floor)
 {
    for (int i = 0; i < Room->TreeNodesCount; i++)
    {
@@ -449,9 +449,9 @@ bool BSPCanMoveInRoomTree(BspNode* Node, V2* S, V2* E, Wall** BlockWall)
    {
       V2 q;
       Side* sideS;
-      Sector* sectorS;
+      SectorNode* sectorS;
       Side* sideE;
-      Sector* sectorE;
+      SectorNode* sectorE;
 
       // CASE 1) The move line actually crosses this infinite splitter.
       // This case handles long movelines where S and E can be far away from each other and
