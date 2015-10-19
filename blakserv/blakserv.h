@@ -148,6 +148,7 @@ enum
 #include <crtdbg.h>
 #include <io.h>
 #include <process.h>
+#include "mutex_windows.h"
 #endif  // BLAK_PLATFORM_WINDOWS
 
 #ifdef BLAK_PLATFORM_LINUX
@@ -270,7 +271,7 @@ char * GetLastErrorStr();
 #ifdef BLAK_PLATFORM_WINDOWS
 #include "interface.h"
 #else
-#include "linux-interface.h"
+#include "interface_linux.h"
 #endif
 
 #include "intrlock.h"
