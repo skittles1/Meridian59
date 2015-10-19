@@ -95,7 +95,8 @@ OBJS =  \
 	$(OUTDIR)/sprocket.obj \
 	$(OUTDIR)/linux-critical_section.obj \
 	$(OUTDIR)/linux-threading.obj \
-	$(OUTDIR)/linux-interface.obj \
+	$(OUTDIR)/interface_linux.obj \
+	$(OUTDIR)/mutex_linux.obj \
 
 
 all : makedirs $(OUTDIR)/blakserv

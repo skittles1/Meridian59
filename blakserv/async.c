@@ -413,164 +413,139 @@ void AsyncSocketClose(SOCKET sock)
 
 void AsyncSocketWrite(SOCKET sock)
 {
-	int bytes;  
-	session_node *s;
-	buffer_node *bn;
-	
-	s = GetSessionBySocket(sock);
-	if (s == NULL)
-		return;
-	
-	if (s->hangup)
-		return;
+   int bytes;  
+   session_node *s;
+   buffer_node *bn;
 
-#ifdef BLAK_PLATFORM_WINDOWS	
-	/* dprintf("got async write session %i\n",s->session_id); */
-	if (WaitForSingleObject(s->muxSend,10000) != WAIT_OBJECT_0)
-	{
-		eprintf("AsyncSocketWrite couldn't get session %i muxSend\n",s->session_id);
-		return;
+   s = GetSessionBySocket(sock);
+   if (s == NULL)
+      return;
+
+   if (s->hangup)
+      return;
+
+   /* dprintf("got async write session %i\n",s->session_id); */
+   if (!MutexAcquireWithTimeout(s->muxSend,10000))
+   {
+      eprintf("AsyncSocketWrite couldn't get session %i muxSend\n",s->session_id);
+      return;
 	}
-#else
-    EnterCriticalSection((CRITICAL_SECTION*)s->muxSend);
-#endif
-	
-	while (s->send_list != NULL)
-	{
-		bn = s->send_list;
-		/* dprintf("async writing %i\n",bn->len_buf); */
-		bytes = send(s->conn.socket,bn->buf,bn->len_buf,0);
-		if (bytes == SOCKET_ERROR)
-		{
-			if (GetLastError() != WSAEWOULDBLOCK)
-			{
-#ifdef BLAK_PLATFORM_WINDOWS
-				/* eprintf("AsyncSocketWrite got send error %i\n",GetLastError()); */
-				if (!ReleaseMutex(s->muxSend))
-					eprintf("File %s line %i release of non-owned mutex\n",__FILE__,__LINE__);
-#else
-                LeaveCriticalSection((CRITICAL_SECTION*)s->muxSend);
-#endif
-				HangupSession(s);
-				return;
-			}
+
+   while (s->send_list != NULL)
+   {
+      bn = s->send_list;
+      /* dprintf("async writing %i\n",bn->len_buf); */
+      bytes = send(s->conn.socket,bn->buf,bn->len_buf,0);
+      if (bytes == SOCKET_ERROR)
+      {
+         if (GetLastError() != WSAEWOULDBLOCK)
+         {
+            /* eprintf("AsyncSocketWrite got send error %i\n",GetLastError()); */
+            if (!MutexRelease(s->muxSend))
+               eprintf("File %s line %i release of non-owned mutex\n",__FILE__,__LINE__);
+
+            HangupSession(s);
+            return;
+         }
 			
-			/* dprintf("got write event, but send would block\n"); */
-			break;
-		}
-		else
-		{
-			if (bytes != bn->len_buf)
-				dprintf("async write wrote %i/%i bytes\n",bytes,bn->len_buf);
+         /* dprintf("got write event, but send would block\n"); */
+         break;
+      }
+      else
+      {
+         if (bytes != bn->len_buf)
+            dprintf("async write wrote %i/%i bytes\n",bytes,bn->len_buf);
 			
-			transmitted_bytes += bn->len_buf;
+         transmitted_bytes += bn->len_buf;
 			
-			s->send_list = bn->next;
-			DeleteBuffer(bn);
-		}
-	}
-#ifdef BLAK_PLATFORM_WINDOWS
-	if (!ReleaseMutex(s->muxSend))
-		eprintf("File %s line %i release of non-owned mutex\n",__FILE__,__LINE__);
-#else
-    LeaveCriticalSection((CRITICAL_SECTION*)s->muxSend);
-#endif
+         s->send_list = bn->next;
+         DeleteBuffer(bn);
+      }
+   }
+   if (!MutexRelease(s->muxSend))
+      eprintf("File %s line %i release of non-owned mutex\n",__FILE__,__LINE__);
 }
 
 void AsyncSocketRead(SOCKET sock)
 {
-	int bytes;
-	session_node *s;
-	buffer_node *bn;
+   int bytes;
+   session_node *s;
+   buffer_node *bn;
+
+   s = GetSessionBySocket(sock);
+   if (s == NULL)
+      return;
+
+   if (s->hangup)
+      return;
+
+   if (!MutexAcquireWithTimeout(s->muxReceive,10000))
+   {
+      eprintf("AsyncSocketRead couldn't get session %i muxReceive",s->session_id);
+      return;
+   }
+
+   if (s->receive_list == NULL)
+   {
+      s->receive_list = GetBuffer();
+      /* dprintf("Read0x%08x\n",s->receive_list); */
+   }
 	
-	s = GetSessionBySocket(sock);
-	if (s == NULL)
-		return;
+   // find the last buffer in the receive list
+   bn = s->receive_list;
+   while (bn->next != NULL)
+      bn = bn->next;
 	
-	if (s->hangup)
-		return;
+   // if that buffer is filled to capacity already, get another and append it
+   if (bn->len_buf >= bn->size_buf)
+   {
+      bn->next = GetBuffer();
+      /* dprintf("ReadM0x%08x\n",bn->next); */
+      bn = bn->next;
+   }
 	
-#ifdef BLAK_PLATFORM_WINDOWS
-	if (WaitForSingleObject(s->muxReceive,10000) != WAIT_OBJECT_0)
-	{
-		eprintf("AsyncSocketRead couldn't get session %i muxReceive",s->session_id);
-		return;
-	}
-#else
-    EnterCriticalSection((CRITICAL_SECTION*)s->muxReceive);
-#endif
+   // read from the socket, up to the remaining capacity of this buffer
+   bytes = recv(s->conn.socket,bn->buf + bn->len_buf,bn->size_buf - bn->len_buf,0);
+   if (bytes == SOCKET_ERROR)
+   {
+      if (GetLastError() != WSAEWOULDBLOCK)
+      {
+         /* eprintf("AsyncSocketRead got read error %i\n",GetLastError()); */
+         if (!MutexRelease(s->muxReceive))
+            eprintf("File %s line %i release of non-owned mutex\n",__FILE__,__LINE__);
+
+         HangupSession(s);
+         return;
+      }
+      if (!MutexRelease(s->muxReceive))
+         eprintf("File %s line %i release of non-owned mutex\n",__FILE__,__LINE__);
+   }
+
+   if (bytes < 0 || bytes > bn->size_buf - bn->len_buf)
+   {
+      eprintf("AsyncSocketRead got %i bytes from recv() when asked to stop at %i\n",bytes,bn->size_buf - bn->len_buf);
+      FlushDefaultChannels();
+      bytes = 0;
+   }
+
+   bn->len_buf += bytes;
 	
-	if (s->receive_list == NULL)
-	{
-		s->receive_list = GetBuffer();
-		/* dprintf("Read0x%08x\n",s->receive_list); */
-	}
-	
-	// find the last buffer in the receive list
-	bn = s->receive_list;
-	while (bn->next != NULL)
-		bn = bn->next;
-	
-	// if that buffer is filled to capacity already, get another and append it
-	if (bn->len_buf >= bn->size_buf)
-	{
-		bn->next = GetBuffer();
-		/* dprintf("ReadM0x%08x\n",bn->next); */
-		bn = bn->next;
-	}
-	
-	// read from the socket, up to the remaining capacity of this buffer
-	bytes = recv(s->conn.socket,bn->buf + bn->len_buf,bn->size_buf - bn->len_buf,0);
-	if (bytes == SOCKET_ERROR)
-	{
-		if (GetLastError() != WSAEWOULDBLOCK)
-		{
-#ifdef BLAK_PLATFORM_WINDOWS
-			/* eprintf("AsyncSocketRead got read error %i\n",GetLastError()); */
-			if (!ReleaseMutex(s->muxReceive))
-				eprintf("File %s line %i release of non-owned mutex\n",__FILE__,__LINE__);
-#else
-            LeaveCriticalSection((CRITICAL_SECTION*)s->muxReceive);
-#endif
-			HangupSession(s);
-			return;
-		}
-#ifdef BLAK_PLATFORM_WINDOWS
-		if (!ReleaseMutex(s->muxReceive))
-			eprintf("File %s line %i release of non-owned mutex\n",__FILE__,__LINE__);
-#else
-        LeaveCriticalSection((CRITICAL_SECTION*)s->muxReceive);
-#endif
-	}
-	
-	if (bytes < 0 || bytes > bn->size_buf - bn->len_buf)
-	{
-		eprintf("AsyncSocketRead got %i bytes from recv() when asked to stop at %i\n",bytes,bn->size_buf - bn->len_buf);
-		FlushDefaultChannels();
-		bytes = 0;
-	}
-	
-	bn->len_buf += bytes;
-	
-	/*
-	dprintf("read %i bytes sess %i from %i\n",bytes,s->session_id,s->num_receiving,
-	   s->num_receiving-bytes);
-	   
-		 if (s->num_receiving > 0)
-		 {
-		 int i;
-		 dprintf("read got in %s\n",GetStateName(s));
-		 for (i=s->num_receiving-bytes;i<s->num_receiving;i++)
-		 dprintf("%5u",s->receiving_buf[i]);
-		 dprintf("\n");
-		 }
-	*/ 
-#ifdef BLAK_PLATFORM_WINDOWS
-	if (!ReleaseMutex(s->muxReceive))
-		eprintf("File %s line %i release of non-owned mutex\n",__FILE__,__LINE__);  
-#else
-    LeaveCriticalSection((CRITICAL_SECTION*)s->muxReceive);
-#endif
+   /*
+   dprintf("read %i bytes sess %i from %i\n",bytes,s->session_id,s->num_receiving,
+        s->num_receiving-bytes);
+
+      if (s->num_receiving > 0)
+      {
+         int i;
+         dprintf("read got in %s\n",GetStateName(s));
+         for (i=s->num_receiving-bytes;i<s->num_receiving;i++)
+         dprintf("%5u",s->receiving_buf[i]);
+         dprintf("\n");
+      }
+   */
+
+   if (!MutexRelease(s->muxReceive))
+      eprintf("File %s line %i release of non-owned mutex\n",__FILE__,__LINE__);  
 	
 	SignalSession(s->session_id);
 }
