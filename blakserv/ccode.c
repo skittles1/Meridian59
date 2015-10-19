@@ -143,7 +143,7 @@ int C_LoadGame(int object_id, local_var_type *local_vars,
       return NIL;
    }
 
-   PostThreadMessage(main_thread_id, WM_BLAK_MAIN_LOAD_GAME, 0, save_time);
+   MessagePost(main_thread_id, WM_BLAK_MAIN_LOAD_GAME, 0, save_time);
 
    return NIL;
 }
