@@ -109,6 +109,7 @@ OBJS =  \
     $(OUTDIR)\files.obj \
     $(OUTDIR)\sprocket.obj \
 	$(OUTDIR)\mutex_windows.obj \
+    $(OUTDIR)\tmsgloop_windows.obj \
     $(OUTDIR)\database.obj \
 
 all : makedirs $(OUTDIR)\blakserv.exe

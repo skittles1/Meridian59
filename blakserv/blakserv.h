@@ -149,6 +149,7 @@ enum
 #include <io.h>
 #include <process.h>
 #include "mutex_windows.h"
+#include "tmsgloop_windows.h"
 #endif  // BLAK_PLATFORM_WINDOWS
 
 #ifdef BLAK_PLATFORM_LINUX

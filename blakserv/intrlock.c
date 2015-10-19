@@ -51,7 +51,7 @@ void SetQuit()
 {
    EnterCriticalSection(&csQuit);   
    quit = True;
-   PostThreadMessage(main_thread_id,WM_QUIT,0,0);
+   MessagePost(main_thread_id,WM_QUIT,0,0);
    LeaveCriticalSection(&csQuit);
 }
 
@@ -68,5 +68,5 @@ Bool GetQuit()
 
 void SignalSession(int session_id)
 {
-   PostThreadMessage(main_thread_id,WM_BLAK_MAIN_READ,0,session_id);
+   MessagePost(main_thread_id,WM_BLAK_MAIN_READ,0,session_id);
 }

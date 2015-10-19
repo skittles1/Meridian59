@@ -19,11 +19,15 @@ bool MutexAcquire(Mutex mutex) {
    return pthread_mutex_lock(&mutex->mutex) == 0;
 }
 
-bool MutexAcquireWithTimeout(Mutex mutex, int timeoutMs) {
-   timespec tspec;
-   tspec.tv_sec = 0;
-   tspec.tv_nsec = timeoutMs * 1000L * 1000L;
-   return pthread_mutex_timedlock(&mutex->mutex, &tspec);
+bool MutexAcquireWithTimeout(Mutex mutex, int ms) {
+
+   timespec ts;
+
+   clock_gettime(CLOCK_REALTIME, &ts);
+   ts.tv_sec += (ms / 1000L);
+   ts.tv_nsec += ( ms - (( ms  / 1000L ) * 1000L )) * 1000000L;
+
+   return pthread_mutex_timedlock(&mutex->mutex, &ts);
 }
 
 bool MutexRelease(Mutex mutex) {
