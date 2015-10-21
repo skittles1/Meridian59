@@ -302,6 +302,7 @@ void InitSessionState(session_node *s,int state)
 		ResyncInit(s);
 		break;
 	}
+
 	if (s->connected)
 		InterfaceUpdateSession(s);
 		/*

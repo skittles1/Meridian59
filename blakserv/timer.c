@@ -326,7 +326,9 @@ void ServiceTimers(void)
    INT64 ms;
 
    StartupComplete(); /* for the interface to report no errors on startup */
+#ifdef BLAK_PLATFORM_WINDOWS
    InterfaceUpdate();
+#endif
    lprintf("Status: %i accounts\n",GetNextAccountID());
 
    lprintf("-------------------------------------------------------------------------------------\n");

@@ -1,19 +1,11 @@
 #include "blakserv.h"
 
+int sessions_logged_on;
+
 void InitInterface(void)
 {
     // TODO: stub
-}
-
-void StoreInstanceData(HINSTANCE hInstance,int how_show)
-{
-    // TODO: stub
-}
-
-int GetUsedSessions(void)
-{
-    // TODO: stub
-    return 0;
+    lprintf("Entering InitInterface");
 }
 
 void StartupPrintf(const char *fmt,...)
@@ -24,6 +16,11 @@ void StartupPrintf(const char *fmt,...)
 void StartupComplete(void)
 {
     // TODO: stub
+}
+
+int GetUsedSessions(void)
+{
+   return sessions_logged_on;
 }
 
 void InterfaceUpdate(void)
@@ -51,16 +48,6 @@ void InterfaceUpdateChannel(void)
     // TODO: stub
 }
 
-void InterfaceSignalConsole(void)
-{
-    // TODO: stub
-}
-
-void InterfaceCheckPortal(void)
-{
-    // TODO: stub
-}
-
 void InterfaceSendBufferList(buffer_node *blist)
 {
     // TODO: stub
@@ -83,11 +70,6 @@ HANDLE StartAsyncNameLookup(char *peer_addr,char *buf)
 }
 
 void StartAsyncSession(session_node *s)
-{
-    // TODO: stub
-}
-
-void StartAsyncPortalSocket(SOCKET sock)
 {
     // TODO: stub
 }
