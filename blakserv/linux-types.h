@@ -60,10 +60,8 @@ typedef LPCSTR LPCTSTR;
 #define WSAEWOULDBLOCK EWOULDBLOCK
 #define SOCKET_ERROR -1
 #define INVALID_SOCKET -1
-//#define SOCKADDR_IN sockaddr_in // TODO: Is this needed anymore?
 #define SOCKADDR_IN6 sockaddr_in6
 #define SOCKADDR sockaddr
-//#define IN_ADDR in_addr	// TODO: Is this steill needed?
 #define IN6_ADDR in6_addr
 #define FD_READ     1
 #define FD_WRITE    2
@@ -92,4 +90,5 @@ inline int WSACleanup(){return 0;}
 
 #include "linux-critical_section.h"
 #include "mutex_linux.h"
-#include "tmsgloop_linux.h"
+#include "thdmsgqueue_linux.h"
+#include "main_linux.h"

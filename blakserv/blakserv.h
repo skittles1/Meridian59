@@ -149,7 +149,8 @@ enum
 #include <io.h>
 #include <process.h>
 #include "mutex_windows.h"
-#include "tmsgloop_windows.h"
+#include "thdmsgqueue_windows.h"
+#include "main_windows.h"
 #endif  // BLAK_PLATFORM_WINDOWS
 
 #ifdef BLAK_PLATFORM_LINUX
@@ -270,7 +271,7 @@ char * GetLastErrorStr();
 #include "memory.h"
 
 #ifdef BLAK_PLATFORM_WINDOWS
-#include "interface.h"
+#include "interface_windows.h"
 #else
 #include "interface_linux.h"
 #endif

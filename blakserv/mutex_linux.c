@@ -9,10 +9,11 @@
 #include "blakserv.h"
 
 Mutex MutexCreate() {
+   // TODO: this is probably not the best way to allocate the memory
    Mutex mutex = new MutexWrapper();
    pthread_mutex_init(&mutex->mutex, NULL);
 
-   // TODO: function should return something?
+   return mutex;
 }
 
 bool MutexAcquire(Mutex mutex) {
@@ -26,6 +27,13 @@ bool MutexAcquireWithTimeout(Mutex mutex, int ms) {
    clock_gettime(CLOCK_REALTIME, &ts);
    ts.tv_sec += (ms / 1000L);
    ts.tv_nsec += ( ms - (( ms  / 1000L ) * 1000L )) * 1000000L;
+
+   // check for tv_nsec overflow (no more than 1,000,000,000)
+   if (ts.tv_nsec > 1000000000)
+   {
+      ts.tv_nsec -= 1000000000;
+      ts.tv_sec += 1;
+   }
 
    return pthread_mutex_timedlock(&mutex->mutex, &ts);
 }

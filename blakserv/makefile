@@ -42,6 +42,7 @@ LIBS = gdi32.lib user32.lib wsock32.lib winmm.lib comctl32.lib libmysql.lib libc
 
 OBJS =  \
     $(OUTDIR)\main.obj \
+    $(OUTDIR)\main_windows.obj \
     $(OUTDIR)\loadkod.obj \
     $(OUTDIR)\class.obj \
     $(OUTDIR)\message.obj \
@@ -91,7 +92,7 @@ OBJS =  \
     $(OUTDIR)\version.obj \
     $(OUTDIR)\systimer.obj \
     $(OUTDIR)\memory.obj \
-    $(OUTDIR)\interface.obj \
+    $(OUTDIR)\interface_windows.obj \
     $(OUTDIR)\intrlock.obj \
     $(OUTDIR)\chanbuf.obj \
     $(OUTDIR)\debug.obj \
@@ -109,7 +110,7 @@ OBJS =  \
     $(OUTDIR)\files.obj \
     $(OUTDIR)\sprocket.obj \
 	$(OUTDIR)\mutex_windows.obj \
-    $(OUTDIR)\tmsgloop_windows.obj \
+    $(OUTDIR)\thdmsgqueue_windows.obj \
     $(OUTDIR)\database.obj \
 
 all : makedirs $(OUTDIR)\blakserv.exe

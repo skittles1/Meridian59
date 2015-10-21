@@ -27,13 +27,21 @@ bool WaitForAnyMessageWithTimeout(INT64 ms)
    int retVal = 1;
 
    clock_gettime(CLOCK_REALTIME, &ts);
-   ts.tv_sec += (ms / 1000);
-   ts.tv_nsec += ( ms - (( ms  / 1000 ) * 1000 )) * 1000000L;
+
+   ts.tv_sec += (ms / 1000L);
+   ts.tv_nsec += ( ms - (( ms  / 1000L ) * 1000L )) * 1000000L;
+
+   // check for tv_nsec overflow (no more than 1,000,000,000)
+   if (ts.tv_nsec > 1000000000)
+   {
+      ts.tv_nsec -= 1000000000;
+      ts.tv_sec += 1;
+   }
 
    pthread_mutex_lock(&Msgs.mux);
 
    // wait for "message waiting" is signaled
-   pthread_cond_timedwait(&Msgs.msgEvent, &Msgs.mux, &ts);
+   retVal = pthread_cond_timedwait(&Msgs.msgEvent, &Msgs.mux, &ts);
 
    // cond_wait will unlock the mutex while waiting then lock it when it returns, we must unlock it now
    pthread_mutex_unlock(&Msgs.mux);
@@ -57,11 +65,12 @@ bool MessagePost(DWORD idThread, UINT Msg, WPARAM wParam, LPARAM lParam)
 
     pthread_mutex_lock(&Msgs.mux);
 
+
     if (Msgs.head == NULL)
     {
         Msgs.head = (MsgNode*)malloc(sizeof(MsgNode));
         Msgs.head->next = NULL;
-        Msgs.tail->prev = NULL;
+        Msgs.head->prev = NULL;
         Msgs.tail = Msgs.head;
     }
     else
@@ -78,7 +87,6 @@ bool MessagePost(DWORD idThread, UINT Msg, WPARAM wParam, LPARAM lParam)
     Msgs.tail->msg.wParam = wParam;
 
     Msgs.count++;
-
     pthread_cond_signal(&Msgs.msgEvent);
     pthread_mutex_unlock(&Msgs.mux);
 
@@ -89,6 +97,8 @@ bool MessagePeek(LPMSG lpMsg, HWND hWnd, UINT wMsgFilterMin, UINT  wMsgFilterMax
 {
    // TODO: Finish
    // TODO: handle wRemoveMsg
+
+   lprintf("MARK MessagePeek\n"); FlushDefaultChannels(); // TODO: Remove Me
 
    MsgNode* current;
 
