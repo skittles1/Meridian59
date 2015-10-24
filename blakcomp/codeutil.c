@@ -673,6 +673,10 @@ int flatten_expr(expr_type e, id_type destvar, int maxlocal)
             destvar, e->lineno, our_maxlocal);
       break;
 
+   case E_TERNARY_OP:
+      our_maxlocal = codegen_conditional_op(e, destvar, our_maxlocal);
+      break;
+
    default:
       codegen_error("Unknown expression type (%d) encountered", e->type);
    }

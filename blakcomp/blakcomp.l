@@ -193,7 +193,7 @@ default { return DEFAULT; }
 "&="  { yylval.int_val = BITAND_OP; return ASSIGN_OP; }
 "|="  { yylval.int_val = BITOR_OP; return ASSIGN_OP; }
 
-[-+*/%,:#&@()={}\$\[\]\|~]	{ return yytext[0]; }	/* return character itself */
+[-+*/%,?:#&@()={}\$\[\]\|~]	{ return yytext[0]; }	/* return character itself */
 \;                              { return SEP; }  /* Separator */
 
 	/* names */
