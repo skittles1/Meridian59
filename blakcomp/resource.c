@@ -116,7 +116,7 @@ void write_resources(char *fname)
                if (r->resource[j])
                {
                   // Write out id #
-                  fwrite(&r->lhs->idnum, 4, 1, f);
+                  fwrite(&r->lhs->idnum, 8, 1, f);
 
                   fwrite(&j, 4, 1, f);
                   str = GetStringFromResource(r, j);

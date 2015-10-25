@@ -39,6 +39,7 @@ extern int codegen_ok;          /* Did codegen complete successfully? */
 void OutputOpcode(int outfile, opcode_type opcode);
 void OutputByte(int outfile, BYTE datum);
 void OutputInt(int outfile, int datum);
+void OutputInt64(int outfile, __int64 datum);
 void OutputConstant(int outfile, const_type c);
 void OutputGotoOffset(int outfile, int source, int destination);
 void OutputBaseExpression(int outfile, expr_type expr);
@@ -47,7 +48,7 @@ void BackpatchGoto(int outfile, int source, int destination);
 void codegen_error(const char *fmt, ...);
 __int64 const_to_int(const_type c);
 __int64 set_source_id(opcode_type *opcode, int sourcenum, expr_type e);
-int set_dest_id(opcode_type *opcode, id_type id);
+__int64 set_dest_id(opcode_type *opcode, id_type id);
 int is_base_level(expr_type e);
 id_type make_temp_var(int idnum);
 int flatten_expr(expr_type e, id_type destvar, int maxlocal);

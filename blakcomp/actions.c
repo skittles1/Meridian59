@@ -223,7 +223,7 @@ static lang_table language_id_table[] = {
 /************************************************************************/
 void initialize_parser(void)
 {
-   int i;
+   __int64 i;
 
    st.globalvars = table_create(TABLESIZE);
    st.classvars = table_create(TABLESIZE);
@@ -1338,7 +1338,7 @@ stmt_type make_call(id_type function_id, list_type args)
       return stmt;
    }
 
-   index = function_id->idnum;  /* index # of function to call */
+   index = (int)function_id->idnum;  /* index # of function to call */
 
    fname = Functions[index].name;
    s->function = Functions[index].opcode;

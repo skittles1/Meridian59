@@ -93,8 +93,8 @@ enum { DBASE = 200, COMPILE = 201 };
 typedef struct {
    const char *name;
    int type;
-   int idnum;
-   int ownernum; /* Id # of thing that contains this identifier in its scope.  e.g. if
+   __int64 idnum;
+   __int64 ownernum; /* Id # of thing that contains this identifier in its scope.  e.g. if
 		    this id is of type message, then this is the class # */
    __int64 source;   /* Whether this id came from the database file (source = DBASE)
 		    or from a source code file (source = COMPILE) */
@@ -274,8 +274,8 @@ typedef struct {
    int maxproperties;    /* # of properties in current class */
    int maxclassvars;     /* # of classvars in current class */
    int maxresources;     /* Highest # resource used so far */
-   int curclass;         /* Current class id # */
-   int curmessage;       /* Current message handler id # */
+   __int64 curclass;         /* Current class id # */
+   __int64 curmessage;       /* Current message handler id # */
    list_type recompile_list; /* List of classes that need to be recompiled */
    list_type constants;  /* List of constants declared in current class */
 

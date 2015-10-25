@@ -20,13 +20,13 @@ static const char *basefile = "kodbase.txt";
 
 int build_superclasses(list_type classes);
 int init_tables(int id_count, int res_count);
-int load_add_class(char *class_name, int class_id, int superclass_id, char *superclass_name);
-int load_add_message(char *message_name, int message_id);
-int load_add_resource(char *resource_name, int resource_id);
-int load_add_parameter(char *parm_name, int);
-int load_add_property(char *prop_name, int);
-int load_add_classvar(char *name, int classvar_id);
-int load_add_external(char *name, int idnum, int type);
+int load_add_class(char *class_name, __int64 class_id, __int64 superclass_id, char *superclass_name);
+int load_add_message(char *message_name, __int64 message_id);
+int load_add_resource(char *resource_name, __int64 resource_id);
+int load_add_parameter(char *parm_name, __int64);
+int load_add_property(char *prop_name, __int64);
+int load_add_classvar(char *name, __int64 classvar_id);
+int load_add_external(char *name, __int64 idnum, int type);
 
 /* current_class holds pointer to class info of class we're currently reading in */
 class_type current_class = NULL;
@@ -213,7 +213,7 @@ int init_tables(int id_count, int res_count)
 }
 /**********************************************************************/
 /* Return False on error, True on success */
-int load_add_class(char *class_name, int class_id, int superclass_id, char *superclass_name)
+int load_add_class(char *class_name, __int64 class_id, __int64 superclass_id, char *superclass_name)
 {
    /* Build up a class data structure for the new class. */
    id_type id = (id_type)SafeMalloc(sizeof(id_struct));
@@ -265,7 +265,7 @@ int load_add_class(char *class_name, int class_id, int superclass_id, char *supe
    else return False;
 }
 /**********************************************************************/
-int load_add_message(char *message_name, int message_id)
+int load_add_message(char *message_name, __int64 message_id)
 {
    id_type id = (id_type) SafeMalloc(sizeof(id_struct));
    message_handler_type m = (message_handler_type) SafeMalloc(sizeof(message_handler_struct));
@@ -297,7 +297,7 @@ int load_add_message(char *message_name, int message_id)
    return True;
 }
 /**********************************************************************/
-int load_add_resource(char *resource_name, int resource_id)
+int load_add_resource(char *resource_name, __int64 resource_id)
 {
    id_type id = (id_type) SafeMalloc(sizeof(id_struct));
    resource_type r = (resource_type) SafeMalloc(sizeof(resource_struct));
@@ -325,7 +325,7 @@ int load_add_resource(char *resource_name, int resource_id)
    return True;
 }
 /**********************************************************************/
-int load_add_parameter(char *parm_name, int parm_id)
+int load_add_parameter(char *parm_name, __int64 parm_id)
 {
    id_type id = (id_type) SafeMalloc(sizeof(id_struct));
    param_type p = (param_type) SafeMalloc(sizeof(param_struct));
@@ -349,7 +349,7 @@ int load_add_parameter(char *parm_name, int parm_id)
    return True;
 }
 /**********************************************************************/
-int load_add_property(char *prop_name, int property_id)
+int load_add_property(char *prop_name, __int64 property_id)
 {
    id_type id = (id_type) SafeMalloc(sizeof(id_struct));
    property_type p = (property_type) SafeMalloc(sizeof(property_struct));
@@ -372,7 +372,7 @@ int load_add_property(char *prop_name, int property_id)
    return True;
 }
 /**********************************************************************/
-int load_add_classvar(char *name, int classvar_id)
+int load_add_classvar(char *name, __int64 classvar_id)
 {
    id_type id = (id_type) SafeMalloc(sizeof(id_struct));
    classvar_type c = (classvar_type) SafeMalloc(sizeof(classvar_struct));
@@ -395,7 +395,7 @@ int load_add_classvar(char *name, int classvar_id)
    return True;
 }
 /**********************************************************************/
-int load_add_external(char *name, int idnum, int type)
+int load_add_external(char *name, __int64 idnum, int type)
 {
    id_type id = (id_type) SafeMalloc(sizeof(id_struct));
 
@@ -419,14 +419,14 @@ int load_add_external(char *name, int idnum, int type)
 int build_superclasses(list_type classes)
 {
    list_type temp, l = classes;
-   int superclass_idnum;
+   __int64 superclass_idnum;
 
    while (l != NULL)
    {
       class_type c = (class_type) l->data;
-      if ( (int) c->superclass != NO_SUPERCLASS)
+      if ((__int64)c->superclass != NO_SUPERCLASS)
       {
-	 superclass_idnum = (int) c->superclass;
+         superclass_idnum = (__int64)c->superclass;
 	 /* Search through classes looking for parent */
 	 temp = classes;
 	 while (temp != NULL)
@@ -477,7 +477,7 @@ int save_externals(FILE *kodbase, list_type l)
 	 tag = 'p';
 	 break;
       }
-      fprintf(kodbase, "%c %s %d\n", tag, id->name, id->idnum);
+      fprintf(kodbase, "%c %s %I64d\n", tag, id->name, id->idnum);
       num++;
    }
    return num;
@@ -501,10 +501,10 @@ void save_class_list(FILE *kodbase, list_type c)
       each_class = (class_type) (c->data);
       /* Print out class info */
       if (each_class->superclass == NULL)
-         fprintf(kodbase, "C %s %d %d\n", each_class->class_id->name,
+         fprintf(kodbase, "C %s %I64d %d\n", each_class->class_id->name,
                  each_class->class_id->idnum,
                  NO_SUPERCLASS);
-      else fprintf(kodbase, "C %s %d %d %s\n", each_class->class_id->name,
+      else fprintf(kodbase, "C %s %I64d %I64d %s\n", each_class->class_id->name,
                    each_class->class_id->idnum,
                    each_class->superclass->class_id->idnum,
                    each_class->superclass->class_id->name);
@@ -513,35 +513,35 @@ void save_class_list(FILE *kodbase, list_type c)
       for (r = each_class->resources; r != NULL; r = r->next)
       {
          resource = (resource_type) r->data;
-         fprintf(kodbase, "R\t%s %d\n", resource->lhs->name, resource->lhs->idnum);
+         fprintf(kodbase, "R\t%s %I64d\n", resource->lhs->name, resource->lhs->idnum);
       }
       
       /* Loop over all classvars */
       for (cv = each_class->classvars; cv != NULL; cv = cv->next)
       {
          classvar = (classvar_type) (cv->data);
-         fprintf(kodbase, "V\t%s %d\n", classvar->id->name, classvar->id->idnum);
+         fprintf(kodbase, "V\t%s %I64d\n", classvar->id->name, classvar->id->idnum);
       }
       
       /* Loop over all properties */
       for (pr = each_class->properties; pr != NULL; pr = pr->next)
       {
          property = (property_type) (pr->data);
-         fprintf(kodbase, "Y\t%s %d\n", property->id->name, property->id->idnum);
+         fprintf(kodbase, "Y\t%s %I64d\n", property->id->name, property->id->idnum);
       }
       
       /* Loop over all message handlers */
       for (m = each_class->messages; m != NULL; m = m->next)
       {
          message = (message_handler_type) (m->data);
-         fprintf(kodbase, "M\t%s %d\n", message->header->message_id->name, 
+         fprintf(kodbase, "M\t%s %I64d\n", message->header->message_id->name, 
                  message->header->message_id->idnum);
          
          /* Loop over all parameters */
          for (p = message->header->params; p != NULL; p = p->next)
          {
             parameter = (param_type) (p->data);
-            fprintf(kodbase, "P\t\t%s %d\n", parameter->lhs->name, parameter->lhs->idnum);
+            fprintf(kodbase, "P\t\t%s %I64d\n", parameter->lhs->name, parameter->lhs->idnum);
          }
       }
    }

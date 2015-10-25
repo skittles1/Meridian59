@@ -168,7 +168,7 @@ void OutputBaseExpression(int outfile, expr_type expr)
       default:
 	 codegen_error("Bad variable type on %s in OutputBaseExpression", id->name);
       }
-      OutputInt(outfile, id->idnum);
+      OutputInt64(outfile, id->idnum);
       break;
 
    case E_CONSTANT:
@@ -207,21 +207,19 @@ void BackpatchGoto(int outfile, int source, int destination)
 __int64 set_source_id(opcode_type *opcode, int sourcenum, expr_type e)
 {
    id_type id;
-   int temp, retval;
+   int temp;
    __int64 retval_high;
-   bool rethigh = False;
 
    switch(e->type)
    {
    case E_CONSTANT:
       temp = CONSTANT;
       retval_high = const_to_int(e->value.constval);
-      rethigh = True;
       break;
       
    case E_IDENTIFIER:
       id = e->value.idval;
-      retval = id->idnum;
+      retval_high = id->idnum;
       switch (id->type)
       {
       case I_LOCAL:
@@ -254,9 +252,7 @@ __int64 set_source_id(opcode_type *opcode, int sourcenum, expr_type e)
    else
       codegen_error("Illegal sourcenum value in set_source_id");
 
-   if (rethigh)
-      return retval_high;
-   return retval;
+   return retval_high;
 }
 /************************************************************************/
 /*
@@ -264,7 +260,7 @@ __int64 set_source_id(opcode_type *opcode, int sourcenum, expr_type e)
  *   depending on type of given id.
  *   Returns id # of given id.
  */
-int set_dest_id(opcode_type *opcode, id_type id)
+__int64 set_dest_id(opcode_type *opcode, id_type id)
 {
    switch (id->type)
    {
@@ -299,7 +295,7 @@ id_type make_temp_var(int idnum)
 {
    id_type id = (id_type) SafeMalloc(sizeof(id_struct));
    id->type = I_LOCAL;
-   id->idnum = idnum;
+   id->idnum = (__int64)idnum;
    return id;
 }
 /************************************************************************/
@@ -313,7 +309,8 @@ int flatten_expr(expr_type e, id_type destvar, int maxlocal)
 {
    opcode_type opcode, sc_opcode;
    expr_type tempexpr;
-   int sourceval1, sourceval2, destval, our_maxlocal = maxlocal, templocals;
+   int our_maxlocal = maxlocal, templocals;
+   __int64 sourceval1, sourceval2, destval;
    int op, gotopos, exitpos;
 
    memset(&opcode, 0, sizeof(opcode));  /* Set opcode to all zeros */
@@ -333,7 +330,7 @@ int flatten_expr(expr_type e, id_type destvar, int maxlocal)
       OutputByte(outfile,  (BYTE) NONE);
       
       /* Destination is var #destval */
-      OutputInt(outfile, destval);
+      OutputInt64(outfile, destval);
 
       /* Source is the constant itself */
       OutputConstant(outfile, e->value.constval);
@@ -352,10 +349,10 @@ int flatten_expr(expr_type e, id_type destvar, int maxlocal)
       OutputByte(outfile,  (BYTE) NONE);
       
       /* Destination is local var #destlocal */
-      OutputInt(outfile, destval);
+      OutputInt64(outfile, destval);
 
       /* Source is the id # of the identifier */
-      OutputInt(outfile, e->value.idval->idnum);
+      OutputInt64(outfile, e->value.idval->idnum);
 
       break;
 
@@ -392,8 +389,8 @@ int flatten_expr(expr_type e, id_type destvar, int maxlocal)
 	 codegen_error("Unknown unary operator type (%d) encountered", 
 		       e->value.unary_opval.op);
       }      
-      OutputInt(outfile, destval);       /* Destination is local var #destlocal */
-      OutputInt(outfile, sourceval1);       
+      OutputInt64(outfile, destval);       /* Destination is local var #destlocal */
+      OutputInt64(outfile, sourceval1);       
 
       break;
 
@@ -429,7 +426,7 @@ int flatten_expr(expr_type e, id_type destvar, int maxlocal)
          OutputOpcode(outfile, sc_opcode);
          gotopos = FileCurPos(outfile);
          OutputInt(outfile, 0);    /* Leave room for destination address */
-         OutputInt(outfile, sourceval1);  /* Same as lhs source value above */
+         OutputInt64(outfile, sourceval1);  /* Same as lhs source value above */
          
          /* Short-circuit code: value of expression is known to be true or false */
          flatten_expr(make_expr_from_constant(make_numeric_constant( (op == AND_OP)
@@ -484,9 +481,9 @@ int flatten_expr(expr_type e, id_type destvar, int maxlocal)
       default:
 	 codegen_error("Unknown unary operator type (%d) encountered", op);
       }      
-      OutputInt(outfile, destval);         /* Destination is local var #destlocal */
-      OutputInt(outfile, sourceval1);      /* Source is variable id # or constant */
-      OutputInt(outfile, sourceval2);
+      OutputInt64(outfile, destval);         /* Destination is local var #destlocal */
+      OutputInt64(outfile, sourceval1);      /* Source is variable id # or constant */
+      OutputInt64(outfile, sourceval2);
       
       /* If there was short circuit code, fill in the short-circuiting goto */
       if (exitpos != 0)

@@ -63,7 +63,7 @@ void codegen_classes(void)
    for (i=0; i < numclasses; i++)
    {
       /* Leave space for class id # */
-      OutputInt(outfile, 0);
+      OutputInt64(outfile, 0);
       
       /* Leave space for class offset */
       OutputInt(outfile, 0);
@@ -77,7 +77,7 @@ void codegen_classes(void)
       /* Backpatch in class id # and offset of current class */
       endpos = FileCurPos(outfile);
       FileGoto(outfile, classpos); 
-      OutputInt(outfile, each_class->class_id->idnum);
+      OutputInt64(outfile, each_class->class_id->idnum);
       OutputInt(outfile, endpos);
       classpos = FileCurPos(outfile);  /* Move to next entry */
       FileGotoEnd(outfile);
@@ -219,7 +219,7 @@ int codegen_call(call_stmt_type c, id_type destvar, int maxlocal)
 
    /* Place to store result, if any */
    if (opcode.source1 != CALL_NO_ASSIGN)
-      OutputInt(outfile, destvar->idnum);
+      OutputInt64(outfile, destvar->idnum);
 
    /* Count # of "normal" arguments, i.e. all those
     * except for settings. */
@@ -264,7 +264,7 @@ int codegen_call(call_stmt_type c, id_type destvar, int maxlocal)
       {
 	 id = arg->value.setting_val->id;
 	 /* Write out parameter #, then rhs of assignment */
-	 OutputInt(outfile, id->idnum);
+	 OutputInt64(outfile, id->idnum);
 
 	 OutputBaseExpression(outfile, arg->value.setting_val->expr);
       }
@@ -281,7 +281,8 @@ int codegen_call(call_stmt_type c, id_type destvar, int maxlocal)
 int codegen_return(expr_type expr, int maxlocal)
 {
    opcode_type opcode;
-   int our_maxlocal = maxlocal, sourceval;
+   int our_maxlocal = maxlocal;
+   __int64 sourceval;
 
    /* If expression is complicated, place in temp variable first */
    our_maxlocal = simplify_expr(expr, maxlocal);
@@ -294,7 +295,7 @@ int codegen_return(expr_type expr, int maxlocal)
    OutputOpcode(outfile, opcode);
    
    /* Write out return value (whether a constant or a variable) */
-   OutputInt(outfile, sourceval);
+   OutputInt64(outfile, sourceval);
    return our_maxlocal;
 }
 /************************************************************************/
@@ -306,7 +307,8 @@ int codegen_return(expr_type expr, int maxlocal)
 int codegen_if(if_stmt_type s, int numlocals)
 {
    opcode_type opcode;
-   int our_maxlocal = numlocals, numtemps, sourceval;
+   int our_maxlocal = numlocals, numtemps;
+   __int64 sourceval;
    long gotopos, thenpos;
    list_type p;
 
@@ -324,7 +326,7 @@ int codegen_if(if_stmt_type s, int numlocals)
    gotopos = FileCurPos(outfile);
    OutputInt(outfile, 0);
 
-   OutputInt(outfile, sourceval);
+   OutputInt64(outfile, sourceval);
 
    /* Write code for then clause */
    for (p = s->then_clause; p != NULL; p = p->next)
@@ -382,7 +384,8 @@ int codegen_if(if_stmt_type s, int numlocals)
 int codegen_switch(switch_stmt_type s, int numlocals)
 {
    opcode_type opcode;
-   int our_maxlocal = numlocals, numtemps, sourceval;
+   int our_maxlocal = numlocals, numtemps;
+   __int64 sourceval;
    long toppos, endpos, casepos[1024], defaultpos; // Keep track of file positions.
    list_type case_list, case_list2; // List of cases for the switch.
    list_type q; // The code statements in each case.
@@ -502,7 +505,7 @@ int codegen_switch(switch_stmt_type s, int numlocals)
       casepos[numCase] = FileCurPos(outfile);
       numCase++;
       OutputInt(outfile, 0);
-      OutputInt(outfile, sourceval);
+      OutputInt64(outfile, sourceval);
    }
 
    // Put the goto statement for the default case last.
@@ -618,7 +621,8 @@ void codegen_exit_loop(void)
 int codegen_while(while_stmt_type s, int numlocals)
 {
    opcode_type opcode;
-   int our_maxlocal = numlocals, numtemps, sourceval;
+   int our_maxlocal = numlocals, numtemps;
+   __int64 sourceval;
    long toppos;
    list_type p;
 
@@ -639,7 +643,7 @@ int codegen_while(while_stmt_type s, int numlocals)
    current_loop->break_list = 
       list_add_item(current_loop->break_list, (void *) FileCurPos(outfile));
    OutputInt(outfile, 0);
-   OutputInt(outfile, sourceval);
+   OutputInt64(outfile, sourceval);
 
    /* Write code for loop body */
    for (p = s->body; p != NULL; p = p->next)
@@ -669,7 +673,8 @@ int codegen_while(while_stmt_type s, int numlocals)
 int codegen_dowhile(while_stmt_type s, int numlocals)
 {
    opcode_type opcode;
-   int our_maxlocal = numlocals, numtemps, sourceval;
+   int our_maxlocal = numlocals, numtemps;
+   __int64 sourceval;
    long toppos;
    list_type p;
 
@@ -702,7 +707,7 @@ int codegen_dowhile(while_stmt_type s, int numlocals)
    current_loop->break_list =
       list_add_item(current_loop->break_list, (void *)FileCurPos(outfile));
    OutputInt(outfile, 0);
-   OutputInt(outfile, sourceval);
+   OutputInt64(outfile, sourceval);
 
    /* Goto top of loop is last statement of while loop */
    opcode.source1 = 0;
@@ -728,7 +733,8 @@ int codegen_dowhile(while_stmt_type s, int numlocals)
 int codegen_for(for_stmt_type s, int numlocals)
 {
    opcode_type opcode;
-   int our_maxlocal = numlocals, numtemps = 0, sourceval;
+   int our_maxlocal = numlocals, numtemps = 0;
+   __int64 sourceval;
    long toppos;
    list_type p;
    stmt_type assign_stmt;
@@ -762,7 +768,7 @@ int codegen_for(for_stmt_type s, int numlocals)
    current_loop->break_list =
       list_add_item(current_loop->break_list, (void *)FileCurPos(outfile));
    OutputInt(outfile, 0);
-   OutputInt(outfile, sourceval);
+   OutputInt64(outfile, sourceval);
 
    /* Step 3: Carry out loop. */
    /* Write code for loop body */
@@ -879,7 +885,7 @@ int codegen_foreach(foreach_stmt_type s, int numlocals)
    current_loop->break_list = 
       list_add_item(current_loop->break_list, (void *) FileCurPos(outfile));
    OutputInt(outfile, 0);
-   OutputInt(outfile, temp2_id->idnum);   /* Jump if temp2 = TRUE */ 
+   OutputInt64(outfile, temp2_id->idnum);   /* Jump if temp2 = TRUE */ 
 
    /**** Statement #3:    i = First(temp) ****/
    temp_expr->type = E_IDENTIFIER;
@@ -1032,7 +1038,7 @@ int codegen_statement(stmt_type s, int numlocals)
 void codegen_parameter(param_type p)
 {
    /* Write out parameter's id # */
-   OutputInt(outfile, p->lhs->idnum);
+   OutputInt64(outfile, p->lhs->idnum);
 
    /* Write out parameter's default value */
    OutputConstant(outfile, p->rhs);   
@@ -1044,7 +1050,7 @@ void codegen_parameter(param_type p)
 void codegen_classvar(classvar_type c)
 {
    /* Write out # of classvar */
-   OutputInt(outfile, c->id->idnum);
+   OutputInt64(outfile, c->id->idnum);
 
    /* Write out value of classvar */
    OutputConstant(outfile, c->rhs);
@@ -1056,7 +1062,7 @@ void codegen_classvar(classvar_type c)
 void codegen_property(property_type p)
 {
    /* Write out # of property */
-   OutputInt(outfile, p->id->idnum);
+   OutputInt64(outfile, p->id->idnum);
 
    /* Write out value of property */
    OutputConstant(outfile, p->rhs);
@@ -1119,8 +1125,8 @@ void codegen_class(class_type c)
    
    /* Write out superclass class id */
    if (c->superclass == NULL)
-      OutputInt(outfile, NO_SUPERCLASS);
-   else OutputInt(outfile, c->superclass->class_id->idnum);
+      OutputInt64(outfile, NO_SUPERCLASS);
+   else OutputInt64(outfile, c->superclass->class_id->idnum);
 
    /* Save current file position for backpatching */
    propertypos = FileCurPos(outfile);
@@ -1173,11 +1179,11 @@ void codegen_class(class_type c)
    for (i=0; i < nummessages; i++)
    {
       /* Leave space for each message id # */
-      OutputInt(outfile, 0);
+      OutputInt64(outfile, 0);
       /* Leave space for each message handler's offset */
       OutputInt(outfile, 0);
       /* Leave space for each message handler's comment string */
-      OutputInt(outfile, 0);
+      OutputInt64(outfile, 0);
    }
 
    /* Now spew code for each message */
@@ -1190,11 +1196,11 @@ void codegen_class(class_type c)
       FileGoto(outfile, messagepos);
 
       /* Write out message id #, then handler offset */
-      OutputInt(outfile, handler->header->message_id->idnum);
+      OutputInt64(outfile, handler->header->message_id->idnum);
       OutputInt(outfile, endpos); 
       if (handler->comment == NULL)
-	      OutputInt(outfile, -1);
-      else OutputInt(outfile, (int)handler->comment->value.numval);
+	      OutputInt64(outfile, -1);
+      else OutputInt64(outfile, (int)handler->comment->value.numval);
 
       messagepos = FileCurPos(outfile);  /* Move to next entry */
       FileGotoEnd(outfile);
