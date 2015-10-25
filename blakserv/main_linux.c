@@ -20,110 +20,142 @@
 
 #include "blakserv.h"
 
-void MainServer()
+int MainServer(int argc, char** argv)
 {
-    InitMsgQueue();
+   char c;
+   bool iFaceFlag = false;
 
-	InitInterfaceLocks(); 
+   InitMsgQueue();
+
+   InitInterfaceLocks(); 
+
+   while ((c = getopt(argc,argv,"dhi")) != -1)
+   {
+      switch (c)
+      {
+      case 'i':
+         iFaceFlag = true;
+         break;
+
+      case 'h':
+         // TODO: Display Help
+         break;
+
+      case '?':
+         if (isprint (optopt))
+           fprintf (stderr, "Unknown option `-%c'.\n", optopt);
+         else
+           fprintf (stderr,
+                   "Unknown option character `\\x%x'.\n",
+                    optopt);
+         return false;
+
+      default:
+         return false;;
+      }
+   }
+
+   if (iFaceFlag)
+   {
+      InitInterface();
+   }
 	
-	InitInterface(); /* starts a thread with the window */
-
-	InitMemory(); /* memory needs channels in general, but need to start before config,
+   InitMemory(); /* memory needs channels in general, but need to start before config,
 	so just be careful. */
 	
-	InitConfig();
-	LoadConfig();		/* must be nearly first since channels use it */
+   InitConfig();
+   LoadConfig();		/* must be nearly first since channels use it */
 
-	InitDebug();
+   InitDebug();
 	
-	InitChannelBuffer();
+   InitChannelBuffer();
 	
-	OpenDefaultChannels();
+   OpenDefaultChannels();
 
-	lprintf("Starting %s\n",BlakServLongVersionString());
+   lprintf("Starting %s\n",BlakServLongVersionString());
 
-	InitClass();
-	InitMessage();
-	InitObject();
-	InitList();
-	InitTimer();
-	InitSession();
-	InitResource();
-	InitRooms();
-	InitString();
-	InitUser();
-	InitAccount();
-	InitNameID();
-	InitDLlist();   
-	InitSysTimer();
-	InitMotd();
-	InitLoadBof();
-	InitTime();
-	InitGameLock();
-	InitBkodInterpret();
-	InitBufferPool();
-	InitTables();
-	AddBuiltInDLlist();
-	LoadMotd();
-	LoadBof();
-	LoadRsc();
-	LoadKodbase();
-	LoadAdminConstants();
-	PauseTimers();
+   InitClass();
+   InitMessage();
+   InitObject();
+   InitList();
+   InitTimer();
+   InitSession();
+   InitResource();
+   InitRooms();
+   InitString();
+   InitUser();
+   InitAccount();
+   InitNameID();
+   InitDLlist();   
+   InitSysTimer();
+   InitMotd();
+   InitLoadBof();
+   InitTime();
+   InitGameLock();
+   InitBkodInterpret();
+   InitBufferPool();
+   InitTables();
+   AddBuiltInDLlist();
+   LoadMotd();
+   LoadBof();
+   LoadRsc();
+   LoadKodbase();
+   LoadAdminConstants();
+   PauseTimers();
 	
-    FlushDefaultChannels(); // TODO: Remove Me
+   FlushDefaultChannels(); // TODO: Remove Me
 
-	if (LoadAll() == True)
-	{
+   if (LoadAll() == True)
+   {
 	/* this loaded_game_msg tells it to disconnect all blakod info about sessions,
 		* that were logged on when we saved */
-		SendTopLevelBlakodMessage(GetSystemObjectID(),LOADED_GAME_MSG,0,NULL);
-		DoneLoadAccounts();
-	}
+       SendTopLevelBlakodMessage(GetSystemObjectID(),LOADED_GAME_MSG,0,NULL);
+	   DoneLoadAccounts();
+   }
 	
-	/* these must be after LoadAll and ClearList */
-	InitCommCli(); 
-	InitParseClient(); 
-	InitProfiling();
-	InitAsyncConnections();
-	UpdateSecurityRedbook();
-	UnpauseTimers();
-	ServiceTimers(); /* returns if server termiated */
+   /* these must be after LoadAll and ClearList */
+   InitCommCli(); 
+   InitParseClient(); 
+   InitProfiling();
+   InitAsyncConnections();
+   UpdateSecurityRedbook();
+   UnpauseTimers();
+   ServiceTimers(); /* returns if server termiated */
 
-	MainExitServer();
+   MainExitServer();
 }
 
 void MainExitServer()
 {
-	lprintf("ExitServer terminating server\n");
+   lprintf("ExitServer terminating server\n");
 	
-	ExitAsyncConnections();
+   ExitAsyncConnections();
 	
-	CloseAllSessions(); /* gotta do this before anything, cause it uses kod, accounts */
+   CloseAllSessions(); /* gotta do this before anything, cause it uses kod, accounts */
 	
-	CloseDefaultChannels();
+   CloseDefaultChannels();
 	
-	ResetLoadMotd();
-	ResetLoadBof();
+   ResetLoadMotd();
+   ResetLoadBof();
 	
-	ResetTables();
-	ResetBufferPool();
-	ResetSysTimer();
-	ResetDLlist();
-	ResetNameID();
-	ResetAccount();
-	ResetUser();
-	ResetString();
-	// ExitRooms calls ResetRooms in addition to clearing the array memory.
-	ExitRooms();
-	ResetResource();
-	ResetTimer();
-	ResetList();
-	ResetObject();
-	ResetMessage();
-	ResetClass();
+   ResetTables();
+   ResetBufferPool();
+   ResetSysTimer();
+   ResetDLlist();
+   ResetNameID();
+   ResetAccount();
+   ResetUser();
+   ResetString();
+   // ExitRooms calls ResetRooms in addition to clearing the array memory.
+   ExitRooms();
+   ResetResource();
+   ResetTimer();
+   ResetList();
+   ResetObject();
+   ResetMessage();
+   ResetClass();
 
-	ResetConfig();
+   ResetConfig();
 	
-	DeleteAllBlocks();
+   DeleteAllBlocks();
 }

@@ -1,7 +1,7 @@
 #ifndef MAIN_LINUX_H
 #define MAIN_LINUX_H
 
- void MainServer();
+ int MainServer(int argc, char** argv);
  void MainExitServer();
 
 #endif

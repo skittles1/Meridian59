@@ -43,8 +43,8 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrev_instance,char *command_li
 int main(int argc, char **argv)
 {
     main_thread_id = pthread_self();
-	MainServer();
-	return 0;
+
+    return MainServer(argc,argv);
 }
 
 #endif

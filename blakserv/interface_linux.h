@@ -4,6 +4,7 @@
 #define FatalError(a) FatalErrorShow(__FILE__,__LINE__,a)
 
 void InitInterface(void);
+void* InterfaceMainLoop(void*);
 
 void StartupPrintf(const char *fmt,...);
 void StartupComplete(void);
