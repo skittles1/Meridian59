@@ -15,12 +15,14 @@ OUTDIR=debug
 BLAKINCLUDEDIR = $(TOPDIR)/include
 BLAKSERVRUNDIR = $(TOPDIR)/run/server
 
+# -g generate debug info for gdb
+# -m32 compile as 32-bit
 # -Wno-write-strings: turns off deprecated warning for const char*
 #   strings passed as char* (Should be properly fixed)
-CFLAGS = -I $(BLAKINCLUDEDIR) -g -x c++ -DBLAK_PLATFORM_LINUX -Wno-write-strings
+CFLAGS = -m32 -I $(BLAKINCLUDEDIR) -g -x c++ -DBLAK_PLATFORM_LINUX -Wno-write-strings
 
 
-BLAKSERVLINKFLAGS = -lpthread -lrt
+BLAKSERVLINKFLAGS = -m32 -lpthread -lrt
 
 SOURCEDIR = .
 
