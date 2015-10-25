@@ -28,8 +28,8 @@ typedef struct
 
 typedef struct
 {
-   int class_id;
-   int message_id;
+   __int64 class_id;
+   __int64 message_id;
    int propagate_depth;
    int num_parms;
    parm_node parms[MAX_NAME_PARMS];
@@ -48,13 +48,13 @@ typedef struct
    double interpreting_time;
    int interpreting_time_highest;
    int interpreting_time_over_second;
-   int interpreting_time_message_id;
-   int interpreting_time_object_id;
+   __int64 interpreting_time_message_id;
+   __int64 interpreting_time_object_id;
    int interpreting_time_posts;
    int message_depth_highest;
 
    /* while interpreting stuff, this is valid */
-   int interpreting_class;
+   __int64 interpreting_class;
 
    // True if we time calls.
    bool debugtime;
@@ -71,8 +71,8 @@ typedef struct
 
 typedef struct
 {
-   int object_id;
-   int message_id;
+   __int64 object_id;
+   __int64 message_id;
    int num_parms;
    parm_node parms[MAX_NAME_PARMS];
 } post_node;
@@ -92,17 +92,17 @@ kod_statistics * GetKodStats(void);
 char * GetBkodPtr(void);
 Bool IsInterpreting(void);
 
-void PostBlakodMessage(int object_id,int message_id,int num_parms,parm_node parms[]);
+void PostBlakodMessage(__int64 object_id, __int64 message_id, int num_parms, parm_node parms[]);
 
-int SendTopLevelBlakodMessage(int object_id,int message_id,int num_parms,parm_node parms[]);
-int SendBlakodMessage(int object_id,int message_id,int num_parms,parm_node parms[]);
-int SendBlakodClassMessage(int class_id,int message_id,int num_params,parm_node parm[]);
+__int64 SendTopLevelBlakodMessage(__int64 object_id, __int64 message_id, int num_parms, parm_node parms[]);
+__int64 SendBlakodMessage(__int64 object_id, __int64 message_id, int num_parms, parm_node parms[]);
+__int64 SendBlakodClassMessage(__int64 class_id, __int64 message_id, int num_params, parm_node parm[]);
 char *BlakodDebugInfo(void);
 char *BlakodStackInfo(void);
 
 /* this function used in sendmsg.c and ccode.c, but called all the time! */
 
-val_type __inline RetrieveValue(int object_id,local_var_type *local_vars,int data_type,int data)
+val_type __inline RetrieveValue(__int64 object_id, local_var_type *local_vars, int data_type, __int64 data)
 {
    object_node *o;
    class_node *c;
@@ -135,7 +135,7 @@ val_type __inline RetrieveValue(int object_id,local_var_type *local_vars,int dat
       o = GetObjectByID(object_id);
       if (o == NULL)
       {
-         eprintf("[%s] RetrieveValue class var can't find OBJECT %i\n",
+         eprintf("[%s] RetrieveValue class var can't find OBJECT %I64d\n",
             BlakodDebugInfo(),object_id);
          ret_val.int_val = NIL;
          return ret_val;
@@ -144,14 +144,14 @@ val_type __inline RetrieveValue(int object_id,local_var_type *local_vars,int dat
       c = GetClassByID(o->class_id);
       if (c == NULL)
       {
-         eprintf("[%s] RetrieveValue can't find CLASS %i for OBJECT %i\n",
+         eprintf("[%s] RetrieveValue can't find CLASS %I64d for OBJECT %I64d\n",
             BlakodDebugInfo(),o->class_id,object_id);
          ret_val.int_val = NIL;
          return ret_val;
       }
       if (data >= c->num_vars || data < 0)
       {
-         eprintf("[%s] RetrieveValue can't retrieve invalid class var %i in OBJECT %i CLASS %s (%i)\n",
+         eprintf("[%s] RetrieveValue can't retrieve invalid class var %i in OBJECT %I64d CLASS %s (%I64d)\n",
             BlakodDebugInfo(),data,object_id,c->class_name,c->class_id);
          ret_val.int_val = NIL;
          return ret_val;

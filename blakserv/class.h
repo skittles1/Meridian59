@@ -15,20 +15,20 @@
 
 typedef struct
 {
-   int id;
+   __int64 id;
    val_type val;
 } prop_default_type;
 
 typedef struct
 {
-   int id;
+   __int64 id;
    val_type val;
 } var_default_type;
 
 typedef struct class_struct
 {
-   int class_id;
-   int super_id;
+   __int64 class_id;
+   __int64 super_id;
 
    message_node **messages;
    char *fname;
@@ -59,8 +59,8 @@ typedef struct class_struct
 } class_node;
 
 /* two functions from message.c that need class_node */
-message_node *GetMessageByID(int class_id,int message_id,class_node **found_class);
-message_node *GetMessageByName(int class_id,char *message_name,class_node **found_class);
+message_node *GetMessageByID(__int64 class_id, __int64 message_id, class_node **found_class);
+message_node *GetMessageByName(__int64 class_id, char *message_name, class_node **found_class);
 
 
 /* the 629 is just a number to mult by to get reasonable hash results */
@@ -70,22 +70,22 @@ message_node *GetMessageByName(int class_id,char *message_name,class_node **foun
 
 void InitClass(void);
 void ResetClass(void);
-void AddClass(int id,bof_class_header *class_data,char *fname,char *string_base,
+void AddClass(__int64 id, bof_class_header *class_data, char *fname, char *string_base,
 	      bof_dstring *dstrs,bof_line_table *line_table,bof_class_props *props);
-void SetClassName(int id,char *name);
+void SetClassName(__int64 id, char *name);
 void SetClassesSuperPtr(void);
 void SetClassVariables(void);
-void AddClassPropertyName(class_node *c,char *property_name,int property_id);
+void AddClassPropertyName(class_node *c, char *property_name, __int64 property_id);
 void SetClassPropertyNames();
 class_node * GetClassByName(const char *class_name);
-class_node * GetClassByID(int class_id);
-const char * GetPropertyNameByID(class_node *c,int property_id);
-int GetPropertyIDByName(class_node *c,const char *property_name);
-char *GetClassVarNameByID(class_node *c,int classvar_id);
-int GetClassVarIDByName(class_node *c,const char *classvar_name);
+class_node * GetClassByID(__int64 class_id);
+const char * GetPropertyNameByID(class_node *c, __int64 property_id);
+__int64 GetPropertyIDByName(class_node *c, const char *property_name);
+char *GetClassVarNameByID(class_node *c, __int64 classvar_id);
+__int64 GetClassVarIDByName(class_node *c, const char *classvar_name);
 
 void ForEachClass(void (*callback_func)(class_node *c));
-const char * GetClassDebugStr(class_node *c,int dstr_id);
+const char * GetClassDebugStr(class_node *c, __int64 dstr_id);
 int GetSourceLine(class_node *c,char *bkod_ptr);
 
 

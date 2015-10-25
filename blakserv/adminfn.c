@@ -51,7 +51,7 @@ typedef UINT64 admin_parm_type;
 
 typedef struct admin_table_struct
 {
-	void (*admin_func)(int session_id, admin_parm_type parms[],
+	void (*admin_func)(__int64 session_id, admin_parm_type parms[],
                       int num_blak_parm, parm_node blak_parms[]);
 	int parm_type[MAX_ADMIN_PARM];
 	Bool has_blak_parm;
@@ -66,259 +66,259 @@ void AdminSendBufferList(void);
 void SendAdminBuffer(char *buf,int len_buf);
 
 void DoAdminCommand(char *admin_command);
-void AdminTable(int len_admin_table,admin_table_type command_table[],int session_id,
+void AdminTable(int len_admin_table,admin_table_type command_table[],__int64 session_id,
 				char *command);
 Bool AdminIsValidBlakParm(val_type check_val);
 
-void AdminHelp(int session_id,int len_command_table,admin_table_type command_table[]);
+void AdminHelp(__int64 session_id,int len_command_table,admin_table_type command_table[]);
 
-void AdminGarbage(int session_id,admin_parm_type parms[],
+void AdminGarbage(__int64 session_id,admin_parm_type parms[],
                   int num_blak_parm,parm_node blak_parm[]);
-void AdminSaveGame(int session_id,admin_parm_type parms[],
+void AdminSaveGame(__int64 session_id,admin_parm_type parms[],
                    int num_blak_parm,parm_node blak_parm[]);
-void AdminSaveConfiguration(int session_id,admin_parm_type parms[],
+void AdminSaveConfiguration(__int64 session_id,admin_parm_type parms[],
                             int num_blak_parm,parm_node blak_parm[]);
 void AdminSaveOneConfigNode(config_node *c,const char *config_name,const char *default_str);
-void AdminWho(int session_id,admin_parm_type parms[],
+void AdminWho(__int64 session_id,admin_parm_type parms[],
               int num_blak_parm,parm_node blak_parm[]);
 void AdminWhoEachSession(session_node *s);
-void AdminLock(int session_id,admin_parm_type parms[],
+void AdminLock(__int64 session_id,admin_parm_type parms[],
                int num_blak_parm,parm_node blak_parm[]);
-void AdminUnlock(int session_id,admin_parm_type parms[],
+void AdminUnlock(__int64 session_id,admin_parm_type parms[],
                  int num_blak_parm,parm_node blak_parm[]);
-void AdminMail(int session_id,admin_parm_type parms[],
+void AdminMail(__int64 session_id,admin_parm_type parms[],
                int num_blak_parm,parm_node blak_parm[]);
-void AdminPage(int session_id,admin_parm_type parms[],
+void AdminPage(__int64 session_id,admin_parm_type parms[],
                int num_blak_parm,parm_node blak_parm[]);
 
-void AdminShowStatus(int session_id,admin_parm_type parms[],
+void AdminShowStatus(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[]);
-void AdminShowMemory(int session_id,admin_parm_type parms[],
+void AdminShowMemory(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[]);
-void AdminShowCalled(int session_id,admin_parm_type parms[],
+void AdminShowCalled(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[]);
 void AdminShowCalledClass(class_node *c);
-void AdminShowRoomTable(int session_id, admin_parm_type parms[],
+void AdminShowRoomTable(__int64 session_id, admin_parm_type parms[],
                         int num_blak_parm, parm_node blak_parm[]);
-void AdminShowBlockers(int session_id,admin_parm_type parms[],
+void AdminShowBlockers(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[]);
-void AdminShowObject(int session_id,admin_parm_type parms[],
+void AdminShowObject(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[]);
-void AdminShowObjects(int session_id,admin_parm_type parms[],
+void AdminShowObjects(__int64 session_id,admin_parm_type parms[],
                       int num_blak_parm,parm_node blak_parm[]);
-void AdminShowListNode(int session_id,admin_parm_type parms[],
+void AdminShowListNode(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[]);
-void AdminShowList(int session_id,admin_parm_type parms[],
+void AdminShowList(__int64 session_id,admin_parm_type parms[],
                    int num_blak_parm,parm_node blak_parm[]);
-void AdminShowListParen(int session_id, int list_id);
-void AdminShowUsers(int session_id,admin_parm_type parms[],
+void AdminShowListParen(__int64 session_id, __int64 list_id);
+void AdminShowUsers(__int64 session_id,admin_parm_type parms[],
                     int num_blak_parm,parm_node blak_parm[]);
-void AdminShowUser(int session_id,admin_parm_type parms[],
+void AdminShowUser(__int64 session_id,admin_parm_type parms[],
                    int num_blak_parm,parm_node blak_parm[]);
-void AdminShowUsage(int session_id,admin_parm_type parms[],
+void AdminShowUsage(__int64 session_id,admin_parm_type parms[],
                     int num_blak_parm,parm_node blak_parm[]);
 void AdminShowUserHeader(void);
 void AdminShowOneUser(user_node *u);
-void AdminShowAccounts(int session_id,admin_parm_type parms[],
+void AdminShowAccounts(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[]);
-void AdminShowAccount(int session_id,admin_parm_type parms[],
+void AdminShowAccount(__int64 session_id,admin_parm_type parms[],
                       int num_blak_parm,parm_node blak_parm[]);
 void AdminShowAccountHeader(void);
 void AdminShowOneAccount(account_node *a);
 void AdminShowOneAccountIfSuspended(account_node *a);
-void AdminDeleteUnusedAccounts(int session_id, admin_parm_type parms[],
+void AdminDeleteUnusedAccounts(__int64 session_id, admin_parm_type parms[],
                                int num_blak_parm, parm_node blak_parm[]);
-void AdminShowResource(int session_id,admin_parm_type parms[],
+void AdminShowResource(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[]);
 void AdminPrintResource(resource_node *r);
-void AdminShowDynamicResources(int session_id,admin_parm_type parms[],
+void AdminShowDynamicResources(__int64 session_id,admin_parm_type parms[],
                                int num_blak_parm,parm_node blak_parm[]);
-void AdminShowTimers(int session_id,admin_parm_type parms[],
+void AdminShowTimers(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[]);
-void AdminShowTimer(int session_id,admin_parm_type parms[],
+void AdminShowTimer(__int64 session_id,admin_parm_type parms[],
                     int num_blak_parm,parm_node blak_parm[]);
-void AdminShowTime(int session_id,admin_parm_type parms[],
+void AdminShowTime(__int64 session_id,admin_parm_type parms[],
                    int num_blak_parm,parm_node blak_parm[]);
 void AdminShowOneTimer(timer_node *t);
-void AdminShowConfiguration(int session_id,admin_parm_type parms[],
+void AdminShowConfiguration(__int64 session_id,admin_parm_type parms[],
                             int num_blak_parm,parm_node blak_parm[]);
 void AdminShowOneConfigNode(config_node *c, const char *config_name,
                             const char *default_str);
-void AdminShowString(int session_id,admin_parm_type parms[],
+void AdminShowString(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[]);
-void AdminShowSuspended(int session_id, admin_parm_type parms[],
+void AdminShowSuspended(__int64 session_id, admin_parm_type parms[],
                         int num_blak_parm, parm_node blak_parm[]);
-void AdminShowSysTimers(int session_id,admin_parm_type parms[],
+void AdminShowSysTimers(__int64 session_id,admin_parm_type parms[],
                         int num_blak_parm,parm_node blak_parm[]);
 void AdminShowEachSysTimer(systimer_node *st);
-void AdminShowCalls(int session_id,admin_parm_type parms[],
+void AdminShowCalls(__int64 session_id,admin_parm_type parms[],
                     int num_blak_parm,parm_node blak_parm[]);
-void AdminShowMessage(int session_id,admin_parm_type parms[],
+void AdminShowMessage(__int64 session_id,admin_parm_type parms[],
                       int num_blak_parm,parm_node blak_parm[]);
-void AdminShowClass(int session_id,admin_parm_type parms[],
+void AdminShowClass(__int64 session_id,admin_parm_type parms[],
                     int num_blak_parm,parm_node blak_parm[]);
-void AdminShowPackages(int session_id,admin_parm_type parms[],
+void AdminShowPackages(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[]);
 void AdminShowOnePackage(dllist_node *dl);
-void AdminShowConstant(int session_id,admin_parm_type parms[],
+void AdminShowConstant(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[]);
-void AdminShowTransmitted(int session_id,admin_parm_type parms[],
+void AdminShowTransmitted(__int64 session_id,admin_parm_type parms[],
                           int num_blak_parm,parm_node blak_parm[]);
-void AdminShowTable(int session_id,admin_parm_type parms[],
+void AdminShowTable(__int64 session_id,admin_parm_type parms[],
                     int num_blak_parm,parm_node blak_parm[]);
-void AdminShowName(int session_id,admin_parm_type parms[],
+void AdminShowName(__int64 session_id,admin_parm_type parms[],
                    int num_blak_parm,parm_node blak_parm[]);
-void AdminShowNameIDs(int session_id, admin_parm_type parms[],
+void AdminShowNameIDs(__int64 session_id, admin_parm_type parms[],
                       int num_blak_parm, parm_node blak_parm[]);
 void AdminPrintNameID(nameid_node *n);
-void AdminShowReferences(int session_id,admin_parm_type parms[],
+void AdminShowReferences(__int64 session_id,admin_parm_type parms[],
                          int num_blak_parm,parm_node blak_parm[]);
 void AdminShowReferencesEachObject(object_node *o);
-void AdminShowReferencesEachList(int list_id, int parent_id);
-void AdminShowReferencesEachTable(int table_id, int parent_id);
-void AdminShowInstances(int session_id,admin_parm_type parms[],
+void AdminShowReferencesEachList(__int64 list_id, __int64 parent_id);
+void AdminShowReferencesEachTable(__int64 table_id, __int64 parent_id);
+void AdminShowInstances(__int64 session_id,admin_parm_type parms[],
                         int num_blak_parm,parm_node blak_parm[]);
-void AdminShowMatches(int session_id,admin_parm_type parms[],
+void AdminShowMatches(__int64 session_id,admin_parm_type parms[],
                       int num_blak_parm,parm_node blak_parm[]);
-void AdminShowProtocol(int session_id,admin_parm_type parms[],
+void AdminShowProtocol(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[]);
 
 
-void AdminSetClass(int session_id,admin_parm_type parms[],
+void AdminSetClass(__int64 session_id,admin_parm_type parms[],
                    int num_blak_parm,parm_node blak_parm[]);
-void AdminSetObject(int session_id,admin_parm_type parms[],
+void AdminSetObject(__int64 session_id,admin_parm_type parms[],
                     int num_blak_parm,parm_node blak_parm[]);
-void AdminSetAccountName(int session_id,admin_parm_type parms[],
+void AdminSetAccountName(__int64 session_id,admin_parm_type parms[],
                          int num_blak_parm,parm_node blak_parm[]);
-void AdminSetAccountPassword(int session_id,admin_parm_type parms[],
+void AdminSetAccountPassword(__int64 session_id,admin_parm_type parms[],
                              int num_blak_parm,parm_node blak_parm[]);
-void AdminSetAccountCredits(int session_id,admin_parm_type parms[],
+void AdminSetAccountCredits(__int64 session_id,admin_parm_type parms[],
                             int num_blak_parm,parm_node blak_parm[]);
-void AdminSetAccountObject(int session_id,admin_parm_type parms[],
+void AdminSetAccountObject(__int64 session_id,admin_parm_type parms[],
                            int num_blak_parm,parm_node blak_parm[]);
-/*void AdminSetResource(int session_id,admin_parm_type parms[]);*/
-void AdminSetConfigInt(int session_id,admin_parm_type parms[],
+/*void AdminSetResource(__int64 session_id,admin_parm_type parms[]);*/
+void AdminSetConfigInt(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[]);
-void AdminSetConfigBool(int session_id,admin_parm_type parms[],
+void AdminSetConfigBool(__int64 session_id,admin_parm_type parms[],
                         int num_blak_parm,parm_node blak_parm[]);
-void AdminSetConfigStr(int session_id,admin_parm_type parms[],
+void AdminSetConfigStr(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[]);
 
-void AdminSuspendUser(int session_id,admin_parm_type parms[],
+void AdminSuspendUser(__int64 session_id,admin_parm_type parms[],
                       int num_blak_parm,parm_node blak_parm[]);
-void AdminSuspendAccount(int session_id,admin_parm_type parms[],
+void AdminSuspendAccount(__int64 session_id,admin_parm_type parms[],
                          int num_blak_parm,parm_node blak_parm[]);
-void AdminUnsuspendUser(int session_id,admin_parm_type parms[],
+void AdminUnsuspendUser(__int64 session_id,admin_parm_type parms[],
                         int num_blak_parm,parm_node blak_parm[]);
-void AdminUnsuspendAccount(int session_id,admin_parm_type parms[],
+void AdminUnsuspendAccount(__int64 session_id,admin_parm_type parms[],
                            int num_blak_parm,parm_node blak_parm[]);
 
-void AdminCheckTimerHeap(int session_id, admin_parm_type parms[],
+void AdminCheckTimerHeap(__int64 session_id, admin_parm_type parms[],
                          int num_blak_parm, parm_node blak_parm[]);
 
-void AdminCreateAccount(int session_id,admin_parm_type parms[],
+void AdminCreateAccount(__int64 session_id,admin_parm_type parms[],
                         int num_blak_parm,parm_node blak_parm[]);
-void AdminCreateAutomated(int session_id,admin_parm_type parms[],
+void AdminCreateAutomated(__int64 session_id,admin_parm_type parms[],
                           int num_blak_parm,parm_node blak_parm[]);
-void AdminRecreateAutomated(int session_id,admin_parm_type parms[],
+void AdminRecreateAutomated(__int64 session_id,admin_parm_type parms[],
                             int num_blak_parm,parm_node blak_parm[]);
-void AdminResetHighestTimed(int session_id, admin_parm_type parms[],
+void AdminResetHighestTimed(__int64 session_id, admin_parm_type parms[],
                             int num_blak_parm, parm_node blak_parm[]);
-void AdminAddUserToEachAccount(int session_id,admin_parm_type parms[],
+void AdminAddUserToEachAccount(__int64 session_id,admin_parm_type parms[],
 							   int num_blak_parm,parm_node blak_parm[]);
-void AdminCreateUser(int session_id,admin_parm_type parms[],
+void AdminCreateUser(__int64 session_id,admin_parm_type parms[],
                         int num_blak_parm, parm_node blak_parm[]);
-void AdminCreateEscapedConvict(int session_id, admin_parm_type parms[],
+void AdminCreateEscapedConvict(__int64 session_id, admin_parm_type parms[],
                         int num_blak_parm, parm_node blak_parm[]); 
-void AdminCreateAdmin(int session_id,admin_parm_type parms[],
+void AdminCreateAdmin(__int64 session_id,admin_parm_type parms[],
                       int num_blak_parm,parm_node blak_parm[]);
-void AdminCreateDM(int session_id,admin_parm_type parms[],
+void AdminCreateDM(__int64 session_id,admin_parm_type parms[],
                    int num_blak_parm,parm_node blak_parm[]);
-void AdminCreateObject(int session_id,admin_parm_type parms[],
+void AdminCreateObject(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[]);
-void AdminCreateListNode(int session_id,admin_parm_type parms[],
+void AdminCreateListNode(__int64 session_id,admin_parm_type parms[],
                          int num_blak_parm,parm_node blak_parm[]);
-void AdminCreateTable(int session_id, admin_parm_type parms[],
+void AdminCreateTable(__int64 session_id, admin_parm_type parms[],
                       int num_blak_parm, parm_node blak_parm[]);
-void AdminCreateTimer(int session_id,admin_parm_type parms[],
+void AdminCreateTimer(__int64 session_id,admin_parm_type parms[],
                       int num_blak_parm,parm_node blak_parm[]);
-void AdminCreateResource(int session_id,admin_parm_type parms[],
+void AdminCreateResource(__int64 session_id,admin_parm_type parms[],
                          int num_blak_parm,parm_node blak_parm[]);
 
-void AdminDeleteTimer(int session_id,admin_parm_type parms[],
+void AdminDeleteTimer(__int64 session_id,admin_parm_type parms[],
                       int num_blak_parm,parm_node blak_parm[]);
-void AdminDeleteAccount(int session_id,admin_parm_type parms[],
+void AdminDeleteAccount(__int64 session_id,admin_parm_type parms[],
                         int num_blak_parm,parm_node blak_parm[]);
-void AdminDeleteUser(int session_id,admin_parm_type parms[],
+void AdminDeleteUser(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[]);
 void AdminCheckUserLoggedOn(session_node *s);
-void AdminSendInt(int session_id, admin_parm_type parms[],
+void AdminSendInt(__int64 session_id, admin_parm_type parms[],
                   int num_blak_parm, parm_node blak_parm[]);
-void AdminSendObject(int session_id,admin_parm_type parms[],
+void AdminSendObject(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[]);
-void AdminSendList(int session_id, admin_parm_type parms[],
+void AdminSendList(__int64 session_id, admin_parm_type parms[],
                    int num_blak_parm, parm_node blak_parm[]);
-void AdminSendUsers(int session_id,admin_parm_type parms[],
+void AdminSendUsers(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[]);
-void AdminSendClass(int session_id,admin_parm_type parms[],
+void AdminSendClass(__int64 session_id,admin_parm_type parms[],
                     int num_blak_parm,parm_node blak_parm[]);
 
-void AdminTraceOnMessage(int session_id,admin_parm_type parms[],
+void AdminTraceOnMessage(__int64 session_id,admin_parm_type parms[],
                          int num_blak_parm,parm_node blak_parm[]);
-void AdminTraceOffMessage(int session_id,admin_parm_type parms[],
+void AdminTraceOffMessage(__int64 session_id,admin_parm_type parms[],
                           int num_blak_parm,parm_node blak_parm[]);
 
-void AdminAddCredits(int session_id,admin_parm_type parms[],
+void AdminAddCredits(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[]);
 
-void AdminKickoffAll(int session_id,admin_parm_type parms[],
+void AdminKickoffAll(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[]);
 void AdminKickoffEachSession(session_node *s);
-void AdminKickoffAccount(int session_id,admin_parm_type parms[],
+void AdminKickoffAccount(__int64 session_id,admin_parm_type parms[],
                          int num_blak_parm,parm_node blak_parm[]);
 
-void AdminHangupAll(int session_id,admin_parm_type parms[],
+void AdminHangupAll(__int64 session_id,admin_parm_type parms[],
                     int num_blak_parm,parm_node blak_parm[]);
 void AdminHangupEachSession(session_node *s);
-void AdminHangupUser(int session_id,admin_parm_type parms[],
+void AdminHangupUser(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[]);
-void AdminHangupAccount(int session_id,admin_parm_type parms[],
+void AdminHangupAccount(__int64 session_id,admin_parm_type parms[],
                         int num_blak_parm,parm_node blak_parm[]);
-void AdminHangupSession(int admin_session_id,admin_parm_type parms[],
+void AdminHangupSession(__int64 admin_session_id, admin_parm_type parms[],
                         int num_blak_parm,parm_node blak_parm[]);
 
-void AdminBlockIP(int session_id,admin_parm_type parms[],
+void AdminBlockIP(__int64 session_id,admin_parm_type parms[],
                   int num_blak_parm,parm_node blak_parm[]);
 
-void AdminReloadSystem(int session_id,admin_parm_type parms[],
+void AdminReloadSystem(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[]);
-void AdminReloadGame(int session_id,admin_parm_type parms[],
+void AdminReloadGame(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[]);
 void AdminReloadGameEachSession(session_node *s);
-void AdminReloadMotd(int session_id,admin_parm_type parms[],
+void AdminReloadMotd(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[]);
-void AdminReloadPackages(int session_id,admin_parm_type parms[],
+void AdminReloadPackages(__int64 session_id,admin_parm_type parms[],
                          int num_blak_parm,parm_node blak_parm[]);
 
-void AdminDisableSysTimer(int session_id,admin_parm_type parms[],
+void AdminDisableSysTimer(__int64 session_id,admin_parm_type parms[],
                           int num_blak_parm,parm_node blak_parm[]);
 
-void AdminEnableSysTimer(int session_id,admin_parm_type parms[],
+void AdminEnableSysTimer(__int64 session_id,admin_parm_type parms[],
                          int num_blak_parm,parm_node blak_parm[]);
 
-void AdminTerminateNoSave(int session_id,admin_parm_type parms[],
+void AdminTerminateNoSave(__int64 session_id,admin_parm_type parms[],
                           int num_blak_parm,parm_node blak_parm[]);
-void AdminTerminateSave(int session_id,admin_parm_type parms[],
+void AdminTerminateSave(__int64 session_id,admin_parm_type parms[],
                         int num_blak_parm,parm_node blak_parm[]);
 
-void AdminSay(int session_id,admin_parm_type parms[],
+void AdminSay(__int64 session_id,admin_parm_type parms[],
               int num_blak_parm,parm_node blak_parm[]);
 void AdminSayEachAdminSession(session_node *s);
 
-void AdminRead(int session_id,admin_parm_type parms[],
+void AdminRead(__int64 session_id,admin_parm_type parms[],
                int num_blak_parm,parm_node blak_parm[]);
 
-void AdminMark(int session_id,admin_parm_type parms[],
+void AdminMark(__int64 session_id,admin_parm_type parms[],
                int num_blak_parm,parm_node blak_parm[]);
 
 admin_table_type admin_show_table[] =
@@ -580,7 +580,7 @@ admin_table_type admin_main_table[] =
 
 #define LEN_ADMIN_MAIN_TABLE (sizeof(admin_main_table)/sizeof(admin_table_type))
 
-int admin_session_id; /* set by TryAdminCommand each time */
+__int64 admin_session_id; /* set by TryAdminCommand each time */
 static buffer_node *blist; /* same */
 
 char *to_lowercase(char *s)
@@ -674,9 +674,9 @@ void SendAdminBuffer(char *buf,int len_buf)
 /* SendSessionAdminText
 This can be called from any module to asynchronously send
 admin text. Currently only used for trace info and say. */
-void SendSessionAdminText(int session_id,const char *fmt,...)
+void SendSessionAdminText(__int64 session_id,const char *fmt,...)
 {
-	int prev_admin_session_id;
+   __int64 prev_admin_session_id;
 	
 	char s[BUFFER_SIZE];
 	va_list marker;
@@ -694,7 +694,7 @@ void SendSessionAdminText(int session_id,const char *fmt,...)
 	admin_session_id = prev_admin_session_id;
 }
 
-void TryAdminCommand(int session_id,char *admin_command)
+void TryAdminCommand(__int64 session_id,char *admin_command)
 {
 	session_node *s;
 	
@@ -736,10 +736,11 @@ void DoAdminCommand(char *admin_command)
 	
 }
 
-void AdminTable(int len_command_table,admin_table_type command_table[],int session_id,
+void AdminTable(int len_command_table,admin_table_type command_table[],__int64 session_id,
 				char *command)
 {
-	int mode_type,i,index,num_parms,num,num_blak_parm;
+	int mode_type,i,index,num_parms,num_blak_parm;
+   __int64 num;
 	char *parm_str = NULL,*prev_tok;
 	admin_parm_type admin_parm[MAX_ADMIN_PARM];
 	parm_node blak_parm[MAX_ADMIN_BLAK_PARM];
@@ -1003,7 +1004,7 @@ Bool AdminIsValidBlakParm(val_type check_val)
 	return True;
 }
 
-void AdminHelp(int session_id,int len_command_table,admin_table_type command_table[])
+void AdminHelp(__int64 session_id,int len_command_table,admin_table_type command_table[])
 {
 	int i,j;
 	Bool done_parm;
@@ -1035,7 +1036,7 @@ void AdminHelp(int session_id,int len_command_table,admin_table_type command_tab
 	}
 }
 
-void AdminTerminateNoSave(int session_id,admin_parm_type parms[],
+void AdminTerminateNoSave(__int64 session_id,admin_parm_type parms[],
                           int num_blak_parm,parm_node blak_parm[])
 {
 	aprintf("Terminating server. All connections, "
@@ -1044,7 +1045,7 @@ void AdminTerminateNoSave(int session_id,admin_parm_type parms[],
 	SetQuit();
 }
 
-void AdminTerminateSave(int session_id,admin_parm_type parms[],
+void AdminTerminateSave(__int64 session_id,admin_parm_type parms[],
                         int num_blak_parm,parm_node blak_parm[])                        
 {
 	lprintf("AdminTerminateSave saving\n");
@@ -1065,7 +1066,7 @@ void AdminTerminateSave(int session_id,admin_parm_type parms[],
 	SetQuit();
 }
 
-void AdminGarbage(int session_id,admin_parm_type parms[],
+void AdminGarbage(__int64 session_id,admin_parm_type parms[],
                   int num_blak_parm,parm_node blak_parm[])                  
 {
 	lprintf("AdminGarbage garbage collecting\n");
@@ -1085,7 +1086,7 @@ void AdminGarbage(int session_id,admin_parm_type parms[],
 	ResetBufferPool();
 }
 
-void AdminSaveGame(int session_id,admin_parm_type parms[],
+void AdminSaveGame(__int64 session_id,admin_parm_type parms[],
                    int num_blak_parm,parm_node blak_parm[])
 {
 	int save_time;
@@ -1110,7 +1111,7 @@ void AdminSaveGame(int session_id,admin_parm_type parms[],
 
 /* data for ForEachConfigNode */
 static FILE *configfile;
-void AdminSaveConfiguration(int session_id,admin_parm_type parms[],
+void AdminSaveConfiguration(__int64 session_id,admin_parm_type parms[],
                             int num_blak_parm,parm_node blak_parm[])
 {
 	
@@ -1184,7 +1185,7 @@ void AdminSaveOneConfigNode(config_node *c,const char *config_name,const char *d
 }
 
 static int admin_who_count;
-void AdminWho(int session_id,admin_parm_type parms[],
+void AdminWho(__int64 session_id,admin_parm_type parms[],
               int num_blak_parm,parm_node blak_parm[])
 {
 	aprintf("\n");
@@ -1255,7 +1256,7 @@ void AdminWhoEachSession(session_node *s)
 	
 }
 
-void AdminLock(int session_id,admin_parm_type parms[],
+void AdminLock(__int64 session_id,admin_parm_type parms[],
                int num_blak_parm,parm_node blak_parm[])               
 {
 	char *ptr = NULL;
@@ -1282,7 +1283,7 @@ void AdminLock(int session_id,admin_parm_type parms[],
 	InterfaceUpdate();
 }
 
-void AdminUnlock(int session_id,admin_parm_type parms[],
+void AdminUnlock(__int64 session_id,admin_parm_type parms[],
                  int num_blak_parm,parm_node blak_parm[])
 {
 	if (!IsGameLocked())
@@ -1297,7 +1298,7 @@ void AdminUnlock(int session_id,admin_parm_type parms[],
 	InterfaceUpdate();
 }
 
-void AdminMail(int session_id,admin_parm_type parms[],
+void AdminMail(__int64 session_id,admin_parm_type parms[],
                int num_blak_parm,parm_node blak_parm[])
 {
 	enum { MAIL_BUFSIZE = 400 }; /* because we aprintf this buffer, keep small */
@@ -1325,7 +1326,7 @@ void AdminMail(int session_id,admin_parm_type parms[],
 	close(infile);
 }
 
-void AdminPage(int session_id,admin_parm_type parms[],
+void AdminPage(__int64 session_id,admin_parm_type parms[],
                int num_blak_parm,parm_node blak_parm[])
 {
 #ifdef BLAK_PLATFORM_WINDOWS
@@ -1343,7 +1344,7 @@ void AdminPage(int session_id,admin_parm_type parms[],
 }
 
 
-void AdminShowStatus(int session_id,admin_parm_type parms[],
+void AdminShowStatus(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[])
 {
 	kod_statistics *kstat;
@@ -1411,7 +1412,7 @@ void AdminShowStatus(int session_id,admin_parm_type parms[],
 	aprintf("-------------------------------------------\n");
 }
 
-void AdminShowMemory(int session_id,admin_parm_type parms[],
+void AdminShowMemory(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[])
 {
 	int i,total;
@@ -1435,14 +1436,14 @@ void AdminShowMemory(int session_id,admin_parm_type parms[],
 }
 
 static int show_messages_ignore_count;
-static int show_messages_ignore_id;
+static __int64 show_messages_ignore_id;
 static int show_messages_timed_count;
 static int show_messages_untimed_count;
 static int show_messages_total_count;
 static double show_messages_time;
-static int show_messages_message_id;
+static __int64 show_messages_message_id;
 static class_node * show_messages_class;
-void AdminShowCalled(int session_id,admin_parm_type parms[],
+void AdminShowCalled(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[])
 {
    int i;
@@ -1515,14 +1516,14 @@ void AdminShowCalledClass(class_node *c)
    }
 }
 
-void AdminShowRoomTable(int session_id, admin_parm_type parms[],
+void AdminShowRoomTable(__int64 session_id, admin_parm_type parms[],
                         int num_blak_parm, parm_node blak_parm[])
 {
    PrintRoomTable();
 }
 
-void AdminShowBlockers(int session_id,admin_parm_type parms[],
-                      int num_blak_parm,parm_node blak_parm[])
+void AdminShowBlockers(__int64 session_id,admin_parm_type parms[],
+                       int num_blak_parm,parm_node blak_parm[])
 {
    room_node *room;
    BlockerNode *b;
@@ -1549,14 +1550,14 @@ void AdminShowBlockers(int session_id,admin_parm_type parms[],
    }
 }
 
-void AdminShowObjects(int session_id,admin_parm_type parms[],
+void AdminShowObjects(__int64 session_id,admin_parm_type parms[],
                       int num_blak_parm,parm_node blak_parm[])
 {
 	object_node *o;
 	class_node *c;
-	int object_id;
+   __int64 object_id;
 	int howManyObjects ;
-	int propId,propObjId ;
+   __int64 propId, propObjId;
 	int i;
 	admin_parm_type lparm[MAX_ADMIN_PARM];
 
@@ -1596,7 +1597,7 @@ void AdminShowObjects(int session_id,admin_parm_type parms[],
 
 }
 
-void AdminShowObject(int session_id,admin_parm_type parms[],
+void AdminShowObject(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[])                     
 {
 	object_node *o;
@@ -1605,7 +1606,7 @@ void AdminShowObject(int session_id,admin_parm_type parms[],
 	const char *prop_name;
 	char buf[200];
 	
-	int object_id;
+	__int64 object_id;
 	object_id = (int)parms[0];
 	
 	if (IsObjectByID(object_id) == False)
@@ -1649,12 +1650,12 @@ void AdminShowObject(int session_id,admin_parm_type parms[],
 	return;
 }
 
-void AdminShowListNode(int session_id,admin_parm_type parms[],
+void AdminShowListNode(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[])
 {
 	list_node *l;
 	
-	int list_id;
+	__int64 list_id;
 	list_id = (int)parms[0];
 	
 	l = GetListNodeByID(list_id);
@@ -1671,10 +1672,10 @@ void AdminShowListNode(int session_id,admin_parm_type parms[],
 	aprintf(":>\n");
 }
 
-void AdminShowList(int session_id,admin_parm_type parms[],
+void AdminShowList(__int64 session_id,admin_parm_type parms[],
                    int num_blak_parm,parm_node blak_parm[])
 {
-   int list_id;
+   __int64 list_id;
    list_id = (int)parms[0];
 
    aprintf(":<\n");
@@ -1682,7 +1683,7 @@ void AdminShowList(int session_id,admin_parm_type parms[],
    aprintf(":>\n");
 }
 
-void AdminShowListParen(int session_id,int list_id)
+void AdminShowListParen(__int64 session_id, __int64 list_id)
 {
    list_node *l;
    int count = 0;
@@ -1733,7 +1734,7 @@ void AdminShowListParen(int session_id,int list_id)
    aprintf(": ] length %i\n", count);
 }
 
-void AdminShowUsers(int session_id,admin_parm_type parms[],
+void AdminShowUsers(__int64 session_id,admin_parm_type parms[],
                     int num_blak_parm,parm_node blak_parm[])
 {
 	AdminShowUserHeader();
@@ -1764,7 +1765,7 @@ void AdminShowOneUser(user_node *u)
 	if (!c)
 		return;
 	
-	aprintf("%4i %7i %-7s ",u->account_id,u->object_id,c->class_name);
+	aprintf("%4i %7I64d %-7s ",u->account_id,u->object_id,c->class_name);
 	
 	name_val.int_val = SendTopLevelBlakodMessage(u->object_id,USER_NAME_MSG,0,NULL);
 	if (name_val.v.tag == TAG_RESOURCE)
@@ -1780,7 +1781,7 @@ void AdminShowOneUser(user_node *u)
 	aprintf("\n");
 }
 
-void AdminShowUser(int session_id,admin_parm_type parms[],
+void AdminShowUser(__int64 session_id,admin_parm_type parms[],
                    int num_blak_parm,parm_node blak_parm[])                   
 {
 	user_node *u;
@@ -1820,7 +1821,7 @@ void AdminShowUser(int session_id,admin_parm_type parms[],
 	AdminShowOneUser(u);
 }
 
-void AdminShowUsage(int session_id,admin_parm_type parms[],
+void AdminShowUsage(__int64 session_id,admin_parm_type parms[],
                     int num_blak_parm,parm_node blak_parm[])
 {
 	int s, g;
@@ -1832,14 +1833,14 @@ void AdminShowUsage(int session_id,admin_parm_type parms[],
 	aprintf(":>\n");
 }
 
-void AdminShowAccounts(int session_id,admin_parm_type parms[],
+void AdminShowAccounts(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[])
 {
 	AdminShowAccountHeader();
 	ForEachAccount(AdminShowOneAccount);
 }
 
-void AdminShowAccount(int session_id,admin_parm_type parms[],
+void AdminShowAccount(__int64 session_id,admin_parm_type parms[],
                       int num_blak_parm,parm_node blak_parm[])                      
 {
 	account_node *a;
@@ -1923,8 +1924,8 @@ void AdminShowOneAccount(account_node *a)
         buff, a->credits/100,a->credits%100,TimeStr(a->last_login_time));
 }
 
-void AdminShowSuspended(int session_id, admin_parm_type parms[],
-   int num_blak_parm, parm_node blak_parm[])
+void AdminShowSuspended(__int64 session_id, admin_parm_type parms[],
+                        int num_blak_parm, parm_node blak_parm[])
 {
    AdminShowAccountHeader();
    ForEachAccount(AdminShowOneAccountIfSuspended);
@@ -1959,7 +1960,7 @@ void AdminShowOneAccountIfSuspended(account_node *a)
       buff, a->credits / 100, a->credits % 100, TimeStr(a->last_login_time));
 }
 
-void AdminShowResource(int session_id,admin_parm_type parms[],
+void AdminShowResource(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[])
 {
 	int rsc_id;
@@ -2001,7 +2002,7 @@ void AdminPrintResource(resource_node *r)
 	}
 }
 
-void AdminShowDynamicResources(int session_id,admin_parm_type parms[],
+void AdminShowDynamicResources(__int64 session_id,admin_parm_type parms[],
                                int num_blak_parm,parm_node blak_parm[])                               
 {
 	aprintf("%-7s %s\n","ID","Name = Value");
@@ -2010,7 +2011,7 @@ void AdminShowDynamicResources(int session_id,admin_parm_type parms[],
 
 // Check the validity of the timer min binary heap.
 // Prints the result.
-void AdminCheckTimerHeap(int session_id, admin_parm_type parms[],
+void AdminCheckTimerHeap(__int64 session_id, admin_parm_type parms[],
                          int num_blak_parm, parm_node blak_parm[])
 {
    double startTime = GetMicroCountDouble();
@@ -2027,7 +2028,8 @@ void AdminCheckTimerHeap(int session_id, admin_parm_type parms[],
       aprintf("Timer heap is NOT valid.\n");
 }
 
-void AdminShowTimers(int session_id,admin_parm_type parms[],
+
+void AdminShowTimers(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[])
 {
 	aprintf("%-7s%-14s%-8s%-20s\n","Timer","Remaining ms","Object",
@@ -2035,7 +2037,7 @@ void AdminShowTimers(int session_id,admin_parm_type parms[],
 	ForEachTimer(AdminShowOneTimer);
 }
 
-void AdminShowTimer(int session_id,admin_parm_type parms[],
+void AdminShowTimer(__int64 session_id,admin_parm_type parms[],
                     int num_blak_parm,parm_node blak_parm[])                    
 {
 	timer_node *t;
@@ -2073,7 +2075,7 @@ void AdminShowOneTimer(timer_node *t)
 		t->object_id,GetNameByID(t->message_id));
 }
 
-void AdminShowTime(int session_id,admin_parm_type parms[],
+void AdminShowTime(__int64 session_id,admin_parm_type parms[],
                    int num_blak_parm,parm_node blak_parm[])
 {
 	int now = GetTime();
@@ -2081,7 +2083,7 @@ void AdminShowTime(int session_id,admin_parm_type parms[],
 	aprintf("Current server clock reads %i (%s).\n", now, TimeStr(now));
 }
 
-void AdminShowConfiguration(int session_id,admin_parm_type parms[],
+void AdminShowConfiguration(__int64 session_id,admin_parm_type parms[],
                             int num_blak_parm,parm_node blak_parm[])
 {
 	ForEachConfigNode(AdminShowOneConfigNode);
@@ -2122,12 +2124,12 @@ void AdminShowOneConfigNode(config_node *c,const char *config_name,const char *d
 	}   
 }
 
-void AdminShowString(int session_id,admin_parm_type parms[],
+void AdminShowString(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[])
 {
 	string_node *snod;
 	
-	int string_id;
+	__int64 string_id;
 	string_id = (int)parms[0];
 	
 	if (IsStringByID(string_id) == False)
@@ -2150,7 +2152,7 @@ void AdminShowString(int session_id,admin_parm_type parms[],
 	aprintf("\n-------------------------------------------\n");
 }
 
-void AdminShowSysTimers(int session_id,admin_parm_type parms[],
+void AdminShowSysTimers(__int64 session_id,admin_parm_type parms[],
                         int num_blak_parm,parm_node blak_parm[])
 {
 	aprintf("%s %-18s %-15s %-15s %-22s\n","#","System Timer type","Period","On the",
@@ -2182,7 +2184,7 @@ void AdminShowEachSysTimer(systimer_node *st)
 	aprintf("\n");
 }
 
-void AdminShowCalls(int session_id,admin_parm_type parms[],
+void AdminShowCalls(__int64 session_id,admin_parm_type parms[],
                     int num_blak_parm,parm_node blak_parm[])                    
 {
    int i, count, ignore_val, max_index, totalCalls;
@@ -2318,7 +2320,7 @@ void AdminShowCalls(int session_id,admin_parm_type parms[],
 	}
 }
 
-void AdminShowMessage(int session_id,admin_parm_type parms[],
+void AdminShowMessage(__int64 session_id,admin_parm_type parms[],
                       int num_blak_parm,parm_node blak_parm[])                      
 {
 	class_node *c,*found_class;
@@ -2397,7 +2399,7 @@ void AdminShowMessage(int session_id,admin_parm_type parms[],
 	aprintf("--------------------------------------------------------------\n");
 }
 
-void AdminShowClass(int session_id,admin_parm_type parms[],
+void AdminShowClass(__int64 session_id,admin_parm_type parms[],
                     int num_blak_parm,parm_node blak_parm[])                    
 {
 	int i;
@@ -2451,7 +2453,7 @@ void AdminShowClass(int session_id,admin_parm_type parms[],
    aprintf(":>\n");
 }
 
-void AdminShowInstances(int session_id,admin_parm_type parms[],
+void AdminShowInstances(__int64 session_id,admin_parm_type parms[],
                         int num_blak_parm,parm_node blak_parm[])                        
 {
 	int i, m;
@@ -2489,7 +2491,7 @@ void AdminShowInstances(int session_id,admin_parm_type parms[],
 	aprintf("\n:>\n");
 }
 
-void AdminShowMatches(int session_id,admin_parm_type parms[],
+void AdminShowMatches(__int64 session_id,admin_parm_type parms[],
                       int num_blak_parm,parm_node blak_parm[])
 {
 	int i, m;
@@ -2501,9 +2503,9 @@ void AdminShowMatches(int session_id,admin_parm_type parms[],
 	char* tag_str;
 	char* data_str;
 	char* walk;
-	int tag_int;
-	int data_int;
-	int property_id;
+   __int64 tag_int;
+   __int64 data_int;
+   __int64 property_id;
 	extern object_node* objects;
 	extern int num_objects;
 	enum { none=0,isequal=1,isgreater=2,isless=4,sametag=8,difftag=16 };
@@ -2684,7 +2686,7 @@ void AdminShowMatches(int session_id,admin_parm_type parms[],
 	aprintf("Time to run: %.3f microseconds\n", GetMicroCountDouble() - startTime);
 }
 
-void AdminShowPackages(int session_id,admin_parm_type parms[],
+void AdminShowPackages(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[])
 {
 	aprintf("%-35s %-4s %-9s\n","Filename","Type","Date/Time/Sequence");
@@ -2696,10 +2698,10 @@ void AdminShowOnePackage(dllist_node *dl)
 	aprintf("%-35s %-4i %-9i\n",dl->fname,dl->file_type,dl->last_mod_time);
 }
 
-void AdminShowConstant(int session_id,admin_parm_type parms[],
+void AdminShowConstant(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[])                       
 {
-	int value;
+	__int64 value;
 	
 	char *name;
 	name = (char *)parms[0];
@@ -2710,22 +2712,22 @@ void AdminShowConstant(int session_id,admin_parm_type parms[],
 		aprintf("There is no value for %s\n",name);
 }
 
-void AdminShowTransmitted(int session_id,admin_parm_type parms[],
+void AdminShowTransmitted(__int64 session_id,admin_parm_type parms[],
                           int num_blak_parm,parm_node blak_parm[])
 {
 	aprintf("In most recent transmission period, server has transmitted %i bytes.\n",
 		GetTransmittedBytes());
 }
 
-void AdminShowTable(int session_id,admin_parm_type parms[],
+void AdminShowTable(__int64 session_id,admin_parm_type parms[],
                     int num_blak_parm,parm_node blak_parm[])                    
 {
 	table_node *tn;
 	hash_node *hn;
 	int i;
 	
-	int table_id;
-	table_id = (int)parms[0];
+   __int64 table_id;
+   table_id = (__int64)parms[0];
 	
 	tn = GetTableByID(table_id);
 	if (tn == NULL)
@@ -2759,7 +2761,7 @@ void AdminShowTable(int session_id,admin_parm_type parms[],
 }
 
 int nameid_count;
-void AdminShowNameIDs(int session_id, admin_parm_type parms[],
+void AdminShowNameIDs(__int64 session_id, admin_parm_type parms[],
                       int num_blak_parm, parm_node blak_parm[])
 {
    nameid_count = 0;
@@ -2776,7 +2778,7 @@ void AdminPrintNameID(nameid_node *n)
    }
 }
 
-void AdminShowName(int session_id,admin_parm_type parms[],
+void AdminShowName(__int64 session_id,admin_parm_type parms[],
                    int num_blak_parm,parm_node blak_parm[])                   
 {
 	char *username = (char *)parms[0];
@@ -2796,10 +2798,10 @@ static val_type admin_show_references_value;
 static const char *admin_show_references_tag_str;
 static const char *admin_show_references_data_str;
 static int admin_show_references_count;
-void AdminShowReferences(int session_id,admin_parm_type parms[],
+void AdminShowReferences(__int64 session_id,admin_parm_type parms[],
                          int num_blak_parm,parm_node blak_parm[])                         
 {
-	int tag_int,data_int;
+   __int64 tag_int, data_int;
 	
 	admin_show_references_tag_str = (char *)parms[0];
 	admin_show_references_data_str = (char *)parms[1];
@@ -2854,7 +2856,7 @@ void AdminShowReferences(int session_id,admin_parm_type parms[],
 	aprintf(":>\n");
 }
 
-static int admin_show_references_current_object;
+static __int64 admin_show_references_current_object;
 static const char * admin_show_references_current_prop;
 static class_node* admin_show_references_current_class;
 void AdminShowReferencesEachObject(object_node *o)
@@ -2893,7 +2895,7 @@ void AdminShowReferencesEachObject(object_node *o)
 	}
 }
 
-void AdminShowReferencesEachList(int list_id, int parent_id)
+void AdminShowReferencesEachList(__int64 list_id, __int64 parent_id)
 {
 	list_node *l;
 
@@ -2932,7 +2934,7 @@ void AdminShowReferencesEachList(int list_id, int parent_id)
 	}
 }
 
-void AdminShowReferencesEachTable(int table_id, int parent_id)
+void AdminShowReferencesEachTable(__int64 table_id, __int64 parent_id)
 {
    table_node *t;
    hash_node *hn;
@@ -2974,7 +2976,7 @@ void AdminShowReferencesEachTable(int table_id, int parent_id)
 /* in parsecli.c */
 extern client_table_node *user_table,*system_table,*usercommand_table;
 
-void AdminShowProtocol(int session_id,admin_parm_type parms[],
+void AdminShowProtocol(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[])
 {
 	int i;
@@ -3008,13 +3010,13 @@ void AdminShowProtocol(int session_id,admin_parm_type parms[],
 		i+3*QT,usercommand_table[i+3*QT].call_count);
 }
 
-void AdminSetClass(int session_id,admin_parm_type parms[],
+void AdminSetClass(__int64 session_id,admin_parm_type parms[],
                    int num_blak_parm,parm_node blak_parm[])                   
 {
    // Note that setting a class var is only temporary until the server restarts.
 	class_node *c;
 	char *class_name, *var_name, *tag_str, *data_str;
-   int var_id, tag_int, data_int;
+   __int64 var_id, tag_int, data_int;
 	val_type val;
    
 	class_name = (char *)parms[0];
@@ -3071,17 +3073,17 @@ void AdminSetClass(int session_id,admin_parm_type parms[],
    c->vars[var_id].val = val;
 }
 
-void AdminSetObject(int session_id,admin_parm_type parms[],
+void AdminSetObject(__int64 session_id,admin_parm_type parms[],
                     int num_blak_parm,parm_node blak_parm[])                    
 {
 	object_node *o;
 	class_node *c;
-	int property_id,tag_int,data_int;
+   __int64 property_id, tag_int, data_int;
 	val_type val;
-	int object_id;
+   __int64 object_id;
 	char *property_str,*tag_str,*data_str;
 	
-	object_id = (int)parms[0];
+   object_id = (__int64)parms[0];
 	property_str = (char *)parms[1];
 	tag_str = (char *)parms[2];
 	data_str = (char *)parms[3];
@@ -3144,7 +3146,7 @@ void AdminSetObject(int session_id,admin_parm_type parms[],
 	o->p[property_id].val = val;
 }
 
-void AdminSetAccountName(int session_id,admin_parm_type parms[],
+void AdminSetAccountName(__int64 session_id,admin_parm_type parms[],
                          int num_blak_parm,parm_node blak_parm[])                         
 {
 	account_node *a;
@@ -3178,7 +3180,7 @@ void AdminSetAccountName(int session_id,admin_parm_type parms[],
 	SetAccountName(a,name);
 }
 
-void AdminSetAccountPassword(int session_id,admin_parm_type parms[],
+void AdminSetAccountPassword(__int64 session_id,admin_parm_type parms[],
                              int num_blak_parm,parm_node blak_parm[])                             
 {
 	account_node *a;
@@ -3200,7 +3202,7 @@ void AdminSetAccountPassword(int session_id,admin_parm_type parms[],
 	aprintf("Set password for account %i (%s).\n",a->account_id,a->name);
 }
 
-void AdminSetAccountCredits(int session_id,admin_parm_type parms[],
+void AdminSetAccountCredits(__int64 session_id,admin_parm_type parms[],
                             int num_blak_parm,parm_node blak_parm[])
 {
 	account_node *a;
@@ -3219,7 +3221,7 @@ void AdminSetAccountCredits(int session_id,admin_parm_type parms[],
 	a->credits = 100*credits + 5;
 }
 
-void AdminSetAccountObject(int session_id,admin_parm_type parms[],
+void AdminSetAccountObject(__int64 session_id,admin_parm_type parms[],
                            int num_blak_parm,parm_node blak_parm[])
 {
 	int account_id,object_id;
@@ -3263,7 +3265,7 @@ void AdminSetAccountObject(int session_id,admin_parm_type parms[],
 }
 
 /*
-void AdminSetResource(int session_id,admin_parm_type parms[])
+void AdminSetResource(__int64 session_id,admin_parm_type parms[])
 {
 resource_node *r;
 
@@ -3291,7 +3293,7 @@ resource_node *r;
 		  AdminPrintResource(r);
 		  }
 */
-void AdminSetConfigInt(int session_id,admin_parm_type parms[],
+void AdminSetConfigInt(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[])                       
 {
 	int config_id;
@@ -3338,7 +3340,7 @@ void AdminSetConfigInt(int session_id,admin_parm_type parms[],
 	
 }
 
-void AdminSetConfigBool(int session_id,admin_parm_type parms[],
+void AdminSetConfigBool(__int64 session_id,admin_parm_type parms[],
                         int num_blak_parm,parm_node blak_parm[])                        
 {
 	int config_id;
@@ -3403,7 +3405,7 @@ void AdminSetConfigBool(int session_id,admin_parm_type parms[],
 		group,name,new_value);
 }
 
-void AdminSetConfigStr(int session_id,admin_parm_type parms[],
+void AdminSetConfigStr(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[])                       
 {
 	int config_id;
@@ -3450,7 +3452,7 @@ void AdminSetConfigStr(int session_id,admin_parm_type parms[],
 	
 }
 
-void AdminSuspendUser(int session_id,admin_parm_type parms[],
+void AdminSuspendUser(__int64 session_id,admin_parm_type parms[],
                       int num_blak_parm,parm_node blak_parm[])                      
 {
 	user_node *u;
@@ -3524,7 +3526,7 @@ void AdminSuspendUser(int session_id,admin_parm_type parms[],
 	}
 }
 
-void AdminSuspendAccount(int session_id,admin_parm_type parms[],
+void AdminSuspendAccount(__int64 session_id,admin_parm_type parms[],
                          int num_blak_parm,parm_node blak_parm[])                         
 {
 	account_node *a;
@@ -3588,7 +3590,7 @@ void AdminSuspendAccount(int session_id,admin_parm_type parms[],
 	}
 }
 
-void AdminUnsuspendUser(int session_id,admin_parm_type parms[],
+void AdminUnsuspendUser(__int64 session_id,admin_parm_type parms[],
                         int num_blak_parm,parm_node blak_parm[])                        
 {
 	user_node *u;
@@ -3651,7 +3653,7 @@ void AdminUnsuspendUser(int session_id,admin_parm_type parms[],
 		a->account_id, a->name);
 }
 
-void AdminUnsuspendAccount(int session_id,admin_parm_type parms[],
+void AdminUnsuspendAccount(__int64 session_id,admin_parm_type parms[],
                            int num_blak_parm,parm_node blak_parm[])                           
 {
 	account_node *a;
@@ -3704,7 +3706,7 @@ void AdminUnsuspendAccount(int session_id,admin_parm_type parms[],
 		a->account_id, a->name);
 }
 
-void AdminCreateAccount(int session_id,admin_parm_type parms[],
+void AdminCreateAccount(__int64 session_id,admin_parm_type parms[],
                         int num_blak_parm,parm_node blak_parm[])                        
 {
 	int account_id;
@@ -3781,7 +3783,7 @@ void AdminCreateAccount(int session_id,admin_parm_type parms[],
 	aprintf("Created ACCOUNT %i.\n",account_id);
 }
 
-void AdminCreateAutomated(int session_id,admin_parm_type parms[],
+void AdminCreateAutomated(__int64 session_id,admin_parm_type parms[],
                           int num_blak_parm,parm_node blak_parm[])                          
 {
 	/* create account and 1 user for it */
@@ -3814,7 +3816,7 @@ void AdminCreateAutomated(int session_id,admin_parm_type parms[],
 	
 }
 
-void AdminRecreateAutomated(int session_id,admin_parm_type parms[],
+void AdminRecreateAutomated(__int64 session_id,admin_parm_type parms[],
                             int num_blak_parm,parm_node blak_parm[])                            
 {
 	/* create account and 1 user for it */
@@ -3851,7 +3853,7 @@ void AdminRecreateAutomated(int session_id,admin_parm_type parms[],
 }
 
 // Prints out the highest timed blakod message and resets the values.
-void AdminResetHighestTimed(int session_id, admin_parm_type parms[],
+void AdminResetHighestTimed(__int64 session_id, admin_parm_type parms[],
    int num_blak_parm, parm_node blak_parm[])
 {
    kod_statistics *kod_stat = GetKodStats();
@@ -3880,14 +3882,14 @@ void AdminResetHighestTimed(int session_id, admin_parm_type parms[],
    aprintf("Highest timed message reset.\n");
 }
 
-void AdminAddUserToEachAccount(int session_id,admin_parm_type parms[],
+void AdminAddUserToEachAccount(__int64 session_id,admin_parm_type parms[],
 							   int num_blak_parm,parm_node blak_parm[])                         
 {
 	ForEachAccount(CreateUseronAccount);
 	aprintf("Added one user to each account.\n");
 }
 
-void AdminCreateUser(int session_id,admin_parm_type parms[],
+void AdminCreateUser(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[])
 {
 	user_node *u;
@@ -3906,7 +3908,7 @@ void AdminCreateUser(int session_id,admin_parm_type parms[],
 	AdminShowOneUser(u);
 }
 
-void AdminCreateEscapedConvict(int session_id, admin_parm_type parms[],
+void AdminCreateEscapedConvict(__int64 session_id, admin_parm_type parms[],
                               int num_blak_parm, parm_node blak_parm[])
 {
    user_node *u;
@@ -3925,7 +3927,7 @@ void AdminCreateEscapedConvict(int session_id, admin_parm_type parms[],
    AdminShowOneUser(u);
 }
 
-void AdminCreateAdmin(int session_id,admin_parm_type parms[],
+void AdminCreateAdmin(__int64 session_id,admin_parm_type parms[],
                       int num_blak_parm,parm_node blak_parm[])                      
 {
 	user_node *u;
@@ -3944,7 +3946,7 @@ void AdminCreateAdmin(int session_id,admin_parm_type parms[],
 	AdminShowOneUser(u);
 }
 
-void AdminCreateDM(int session_id,admin_parm_type parms[],
+void AdminCreateDM(__int64 session_id,admin_parm_type parms[],
                    int num_blak_parm,parm_node blak_parm[])                   
 {
 	user_node *u;
@@ -3964,11 +3966,11 @@ void AdminCreateDM(int session_id,admin_parm_type parms[],
 }
 
 
-void AdminCreateObject(int session_id,admin_parm_type parms[],
+void AdminCreateObject(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[])
 {
 	class_node *c;
-	int new_object_id;
+   __int64 new_object_id;
 	val_type system_id_const;
 	
 	char *class_name;
@@ -3996,10 +3998,10 @@ void AdminCreateObject(int session_id,admin_parm_type parms[],
 	aprintf("Created object %i.\n",new_object_id);
 }
 
-void AdminCreateListNode(int session_id,admin_parm_type parms[],
+void AdminCreateListNode(__int64 session_id,admin_parm_type parms[],
                          int num_blak_parm,parm_node blak_parm[])                         
 {
-	int num,list_id;
+   __int64 num, list_id;
 	val_type first_val,rest_val;
 	
 	char *first_tag,*first_data,*rest_tag,*rest_data;
@@ -4048,10 +4050,10 @@ void AdminCreateListNode(int session_id,admin_parm_type parms[],
 	
 }
 
-void AdminCreateTable(int session_id, admin_parm_type parms[],
+void AdminCreateTable(__int64 session_id, admin_parm_type parms[],
                       int num_blak_parm, parm_node blak_parm[])
 {
-   int table_id, table_size;
+   __int64 table_id, table_size;
    table_node *t;
 
    table_size = (int)parms[0];
@@ -4063,14 +4065,14 @@ void AdminCreateTable(int session_id, admin_parm_type parms[],
       aprintf("Created table %i, expected size %i, actual size %i.\n", table_id, table_size, t->size);
 }
 
-void AdminCreateTimer(int session_id,admin_parm_type parms[],
+void AdminCreateTimer(__int64 session_id,admin_parm_type parms[],
                       int num_blak_parm,parm_node blak_parm[])
 {
-	int message_id,timer_id;
+   __int64 message_id, timer_id, object_id;
 	
-	int object_id,milliseconds;
+   int milliseconds;
 	char *message_name;
-	object_id = (int)parms[0];
+   object_id = (__int64)parms[0];
 	message_name = (char *)parms[1];
 	milliseconds = (int)parms[2];
 	
@@ -4085,10 +4087,10 @@ void AdminCreateTimer(int session_id,admin_parm_type parms[],
 	aprintf("Created timer %i.\n",timer_id);
 }
 
-void AdminCreateResource(int session_id,admin_parm_type parms[],
+void AdminCreateResource(__int64 session_id,admin_parm_type parms[],
                          int num_blak_parm,parm_node blak_parm[])                         
 {
-	int rsc_id;
+   __int64 rsc_id;
 	resource_node *r;
 	
 	char *resource_value;
@@ -4107,7 +4109,7 @@ void AdminCreateResource(int session_id,admin_parm_type parms[],
    aprintf("Failure to do so will result in player's new name not being added to user table.\n");
 }
 
-void AdminDeleteTimer(int session_id,admin_parm_type parms[],
+void AdminDeleteTimer(__int64 session_id,admin_parm_type parms[],
                       int num_blak_parm,parm_node blak_parm[])                      
 {
 	timer_node *t;
@@ -4128,7 +4130,7 @@ void AdminDeleteTimer(int session_id,admin_parm_type parms[],
 	
 }
 
-void AdminDeleteAccount(int session_id,admin_parm_type parms[],
+void AdminDeleteAccount(__int64 session_id,admin_parm_type parms[],
                         int num_blak_parm,parm_node blak_parm[])                        
 {
 	account_node *a;
@@ -4166,15 +4168,15 @@ void AdminDeleteEachUserObject(user_node *u)
 	ret_val.int_val = SendTopLevelBlakodMessage(u->object_id,DELETE_MSG,0,NULL);
 }
 
-static int admin_check_user;
+static __int64 admin_check_user;
 static Bool admin_user_is_logged_in;
-void AdminDeleteUser(int session_id,admin_parm_type parms[],
+void AdminDeleteUser(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[])                     
 {
 	user_node *u;
 	
-	int object_id;
-	object_id = (int)parms[0];
+   __int64 object_id;
+   object_id = (__int64)parms[0];
 	
 	u = GetUserByObjectID(object_id);
 	if (u == NULL)
@@ -4203,7 +4205,7 @@ void AdminCheckUserLoggedOn(session_node *s)
 		admin_user_is_logged_in = True;
 }
 
-void AdminSendInt(int session_id,admin_parm_type parms[],
+void AdminSendInt(__int64 session_id,admin_parm_type parms[],
                   int num_blak_parm,parm_node blak_parm[])
 {
    if (parms[0] >= 0 && parms[0] <= MAX_BUILTIN_OBJECT)
@@ -4217,10 +4219,10 @@ void AdminSendInt(int session_id,admin_parm_type parms[],
    }
 }
 
-void AdminSendList(int session_id, admin_parm_type parms[],
+void AdminSendList(__int64 session_id, admin_parm_type parms[],
                   int num_blak_parm, parm_node blak_parm[])
 {
-   int list_id, message_id;
+   __int64 list_id, message_id;
    const char *message_name;
    list_node *l;
 
@@ -4264,19 +4266,19 @@ void AdminSendList(int session_id, admin_parm_type parms[],
       GetMicroCountDouble() - startTime);
 }
 
-void AdminSendObject(int session_id,admin_parm_type parms[],
+void AdminSendObject(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[])
 {
-	int message_id;
+   __int64 message_id;
 	val_type blak_val;
 	object_node *o;
 	message_node *m;
 	const char* tag;
 	const char* data;
 	
-	int object_id;
+   __int64 object_id;
 	const char *message_name;
-	object_id = (int)parms[0];
+   object_id = (__int64)parms[0];
 	message_name = (char *)parms[1];
 	
 	DoneLoadAccounts();
@@ -4377,7 +4379,7 @@ void AdminSendObject(int session_id,admin_parm_type parms[],
 	aprintf(":>\n");
 }
 
-void AdminSendUsers(int session_id,admin_parm_type parms[],
+void AdminSendUsers(__int64 session_id,admin_parm_type parms[],
                     int num_blak_parm,parm_node blak_parm_unused[])
 {
 	val_type str_val;
@@ -4400,13 +4402,13 @@ void AdminSendUsers(int session_id,admin_parm_type parms[],
 	aprintf("Sent to gamers: '%s'.\n",text);
 }
 
-void AdminSendClass(int session_id,admin_parm_type parms[],
+void AdminSendClass(__int64 session_id,admin_parm_type parms[],
                     int num_blak_parm,parm_node blak_parm[])
 {
-	int message_id;
+   __int64 message_id;
 	message_node *m;
 	class_node *c;
-	int executed;
+   __int64 executed;
 	
 	char *class_name,*message_name;
 	class_name = (char *)parms[0];
@@ -4446,11 +4448,11 @@ void AdminSendClass(int session_id,admin_parm_type parms[],
 	aprintf(":< %i instance(s) sent MESSAGE %i %s\n:>\n", executed, message_id, message_name);
 }
 
-void AdminTraceOnMessage(int session_id,admin_parm_type parms[],
+void AdminTraceOnMessage(__int64 session_id,admin_parm_type parms[],
                          int num_blak_parm,parm_node blak_parm[])                         
 {
 	class_node *c;
-	int message_id;
+   __int64 message_id;
 	message_node *m;
 	
 	char *class_name,*message_name;
@@ -4484,11 +4486,11 @@ void AdminTraceOnMessage(int session_id,admin_parm_type parms[],
 	
 }
 
-void AdminTraceOffMessage(int session_id,admin_parm_type parms[],
+void AdminTraceOffMessage(__int64 session_id,admin_parm_type parms[],
                           int num_blak_parm,parm_node blak_parm[])                          
 {
 	class_node *c;
-	int message_id;
+   __int64 message_id;
 	message_node *m;
 	
 	char *class_name,*message_name;
@@ -4521,7 +4523,7 @@ void AdminTraceOffMessage(int session_id,admin_parm_type parms[],
 	m->trace_session_id = INVALID_ID;
 }
 
-void AdminAddCredits(int session_id,admin_parm_type parms[],
+void AdminAddCredits(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[])                     
 {
 	account_node *a;
@@ -4541,7 +4543,7 @@ void AdminAddCredits(int session_id,admin_parm_type parms[],
 	a->credits += 100*credits;
 }
 
-void AdminKickoffAll(int session_id,admin_parm_type parms[],
+void AdminKickoffAll(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[])
 {
 	lprintf("AdminKickoffAll kicking everyone out of the game\n");
@@ -4560,7 +4562,7 @@ void AdminKickoffEachSession(session_node *s)
 	SetSessionState(s,STATE_SYNCHED);
 }
 
-void AdminKickoffAccount(int session_id,admin_parm_type parms[],
+void AdminKickoffAccount(__int64 session_id,admin_parm_type parms[],
                          int num_blak_parm,parm_node blak_parm[])                         
 {
 	account_node *a;
@@ -4594,7 +4596,7 @@ void AdminKickoffAccount(int session_id,admin_parm_type parms[],
 	SetSessionState(kickoff_session,STATE_SYNCHED);
 }
 
-void AdminHangupAll(int session_id,admin_parm_type parms[],
+void AdminHangupAll(__int64 session_id,admin_parm_type parms[],
                     int num_blak_parm,parm_node blak_parm[])
 {
 	lprintf("AdminHangupAll hanging up everyone\n");
@@ -4606,7 +4608,7 @@ void AdminHangupEachSession(session_node *s)
 	HangupSession(s);
 }
 
-void AdminHangupUser(int session_id,admin_parm_type parms[],
+void AdminHangupUser(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[])                     
 {
 	user_node *u;
@@ -4689,7 +4691,7 @@ extern block_node* FindBlock(struct in6_addr* piaPeer);
  * AdminBlockIP - Block an IP address from accessing this server
  */
 
-void AdminBlockIP(int session_id,admin_parm_type parms[],
+void AdminBlockIP(__int64 session_id,admin_parm_type parms[],
                   int num_blak_parm,parm_node blak_parm[])                  
 {
 	struct in6_addr blocktoAdd;
@@ -4712,7 +4714,7 @@ void AdminBlockIP(int session_id,admin_parm_type parms[],
 	}
 }
 
-void AdminHangupAccount(int session_id,admin_parm_type parms[],
+void AdminHangupAccount(__int64 session_id,admin_parm_type parms[],
                         int num_blak_parm,parm_node blak_parm[])
 {
 	account_node *a;
@@ -4779,12 +4781,12 @@ void AdminHangupAccount(int session_id,admin_parm_type parms[],
 	HangupSession(hangup_session);
 }
 
-void AdminHangupSession(int admin_session_id,admin_parm_type parms[],
+void AdminHangupSession(__int64 admin_session_id, admin_parm_type parms[],
                         int num_blak_parm,parm_node blak_parm[])                        
 {
 	session_node *s;
 	
-	int session_id;
+	__int64 session_id;
 	session_id = (int)parms[0];
 	
 	s = GetSessionByID(session_id);
@@ -4811,7 +4813,7 @@ void AdminHangupSession(int admin_session_id,admin_parm_type parms[],
 	HangupSession(s);
 }
 
-void AdminReloadSystem(int session_id,admin_parm_type parms[],
+void AdminReloadSystem(__int64 session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[])
 {
 	lprintf("AdminReloadSystem reloading system\n");
@@ -4852,7 +4854,7 @@ void AdminReloadSystem(int session_id,admin_parm_type parms[],
 
 /* stuff for foreachsession */
 int accounts_in_game;
-void AdminReloadGame(int session_id,admin_parm_type parms[],
+void AdminReloadGame(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[])                     
 {
 	int save_time;
@@ -4908,7 +4910,7 @@ void AdminReloadGame(int session_id,admin_parm_type parms[],
 }
 
 // Uses the accounts_in_game global.
-void AdminDeleteUnusedAccounts(int session_id, admin_parm_type parms[],
+void AdminDeleteUnusedAccounts(__int64 session_id, admin_parm_type parms[],
    int num_blak_parm, parm_node blak_parm[])
 {
    // Make sure no one in game, because after deleting accounts
@@ -4940,7 +4942,7 @@ void AdminReloadGameEachSession(session_node *s)
 		accounts_in_game++;
 }
 
-void AdminReloadMotd(int session_id,admin_parm_type parms[],
+void AdminReloadMotd(__int64 session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[])
 {
 	lprintf("AdminReloadMotd reloading message of the day\n");
@@ -4954,7 +4956,7 @@ void AdminReloadMotd(int session_id,admin_parm_type parms[],
 	aprintf("done.\n");
 }
 
-void AdminReloadPackages(int session_id,admin_parm_type parms[],
+void AdminReloadPackages(__int64 session_id,admin_parm_type parms[],
                          int num_blak_parm,parm_node blak_parm[])
 {
 	aprintf("Reloading packages... ");
@@ -4965,7 +4967,7 @@ void AdminReloadPackages(int session_id,admin_parm_type parms[],
 	aprintf("done.\n");
 }
 
-void AdminDisableSysTimer(int session_id,admin_parm_type parms[],
+void AdminDisableSysTimer(__int64 session_id,admin_parm_type parms[],
                           int num_blak_parm,parm_node blak_parm[])
 {
 	
@@ -4979,7 +4981,7 @@ void AdminDisableSysTimer(int session_id,admin_parm_type parms[],
 	
 }
 
-void AdminEnableSysTimer(int session_id,admin_parm_type parms[],
+void AdminEnableSysTimer(__int64 session_id,admin_parm_type parms[],
                          int num_blak_parm,parm_node blak_parm[])                         
 {
 	
@@ -4994,8 +4996,8 @@ void AdminEnableSysTimer(int session_id,admin_parm_type parms[],
 }
 
 static char *say_admin_text;
-static int say_admin_session_id;
-void AdminSay(int session_id,admin_parm_type parms[],
+static __int64 say_admin_session_id;
+void AdminSay(__int64 session_id,admin_parm_type parms[],
               int num_blak_parm,parm_node blak_parm[])              
 {
 	char *text;
@@ -5041,7 +5043,7 @@ void AdminSayEachAdminSession(session_node *s)
 	}
 }
 
-void AdminRead(int session_id,admin_parm_type parms[],
+void AdminRead(__int64 session_id,admin_parm_type parms[],
                int num_blak_parm,parm_node blak_parm[])               
 {
 	FILE *fptr;
@@ -5089,7 +5091,7 @@ void AdminRead(int session_id,admin_parm_type parms[],
 	admin_in_read = False;
 }
 
-void AdminMark(int session_id,admin_parm_type parms[],
+void AdminMark(__int64 session_id,admin_parm_type parms[],
                int num_blak_parm,parm_node blak_parm[])               
 {
 	lprintf("-------------------------------------------------------------------------------------\n");

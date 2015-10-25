@@ -60,7 +60,7 @@ typedef struct
 
 typedef struct
 {
-   int session_id;
+   __int64 session_id;
    connection_node conn;
    Bool active;			/* False if we're gonna hang 'em up
 				   because too many people online */
@@ -172,22 +172,22 @@ session_node * GetSessionBySocket(SOCKET sock);
 void ForEachSession(void (*callback_func)(session_node *s));
 int GetUsedSessions(void);
 const char * GetStateName(session_node *s);
-session_node *GetSessionByID(int session_id);
+session_node *GetSessionByID(__int64 session_id);
 void SetSessionState(session_node *s,int state);
 void SetSessionTimer(session_node *s,int seconds);
 void ClearSessionTimer(session_node *s);
 int GetSessionReadBytes(session_node *s);
 Bool ReadSessionBytes(session_node *s,int num_bytes,void *buf);
 Bool PeekSessionBytes(session_node *s,int num_bytes,void *buf);
-void SendClientStr(int session_id,char *str);
-void SendClient(int session_id,char *data,unsigned short len_data);
-void SendClientBufferList(int session_id,buffer_node *blist);
+void SendClientStr(__int64 session_id,char *str);
+void SendClient(__int64 session_id,char *data,unsigned short len_data);
+void SendClientBufferList(__int64 session_id,buffer_node *blist);
 void HangupSessionNow(session_node *s);
 void HangupSession(session_node *s);
 void CloseAllSessions(void);
 void PollSessions(void);
-void PollSession(int session_id);
-void VerifiedLoginSession(int session_id);
+void PollSession(__int64 session_id);
+void VerifiedLoginSession(__int64 session_id);
 
 
 unsigned int __inline GetCRC16(char *buf,int len_buf)

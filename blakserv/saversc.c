@@ -34,7 +34,7 @@ void SaveEachDynamicRsc(resource_node *r);
 
 // Functions for writing to the save rsc buffer.
 void SaveRscCopyByteBuffer(char byte_buffer);
-void SaveRscCopyIntBuffer(int int_buffer);
+void SaveRscCopyIntBuffer(__int64 int_buffer);
 void SaveRscCopyStringBuffer(const char *string_buffer);
 // Used to flush the buffer and write to file.
 void SaveRscFlushBuffer();
@@ -115,10 +115,10 @@ void SaveEachDynamicRsc(resource_node *r)
 }
 
 // Write 4 bytes to buffer.
-void SaveRscCopyIntBuffer(int int_buffer)
+void SaveRscCopyIntBuffer(__int64 int_buffer)
 {
-   memcpy(&(buffer[buffer_position]), &int_buffer, 4);
-   buffer_position += 4;
+   memcpy(&(buffer[buffer_position]), &int_buffer, 8);
+   buffer_position += 8;
 
    // Flush buffer at 80%.
    if (buffer_position > buffer_warning_size)

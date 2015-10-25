@@ -107,7 +107,7 @@ void ResetClass(void)
 *
 * This adds a new class to the class hash table.
 */
-void AddClass(int id,bof_class_header *class_data,char *fname,char *bof_base,
+void AddClass(__int64 id, bof_class_header *class_data, char *fname, char *bof_base,
 			  bof_dstring *dstrs,bof_line_table *line_table,bof_class_props *props)
 {
 	int i,hash_num;
@@ -135,7 +135,7 @@ void AddClass(int id,bof_class_header *class_data,char *fname,char *bof_base,
 	for (i=0;i<new_node->num_prop_defaults;i++)
 	{
 		new_node->prop_default[i].id = prop_values[i].id;
-		new_node->prop_default[i].val.int_val = prop_values[i].offset; 
+      new_node->prop_default[i].val.int_val = (__int64)prop_values[i].offset;
 	}
 	new_node->fname = fname;
 	new_node->class_name = NULL;
@@ -165,7 +165,7 @@ void AddClass(int id,bof_class_header *class_data,char *fname,char *bof_base,
 	for (i=0;i<new_node->num_var_defaults;i++)
 	{
 		new_node->var_default[i].id = classvar_values[i].id;
-		new_node->var_default[i].val.int_val = classvar_values[i].offset; 
+		new_node->var_default[i].val.int_val = (__int64)classvar_values[i].offset; 
 	}
 	
 	new_node->vars = NULL;
@@ -176,7 +176,7 @@ void AddClass(int id,bof_class_header *class_data,char *fname,char *bof_base,
 	classes[hash_num] = new_node;
 }
 
-void SetClassName(int id,char *name)
+void SetClassName(__int64 id, char *name)
 {
 	class_node *current_class;
 
@@ -190,7 +190,7 @@ void SetClassName(int id,char *name)
    current_class->class_name = (char *)AllocateMemory(MALLOC_ID_KODBASE,strlen(name)+1);
    strcpy(current_class->class_name,name);
 
-	SIHashInsert(class_name_map,name,id);
+	SIHashInsert(class_name_map,name,(int)id);
 }
 
 /* SetClassesSuperPtr
@@ -280,7 +280,7 @@ void SetOneClassVariables(class_node *c,class_node *setvar_class)
 	
 }
 
-void AddClassPropertyName(class_node *c,char *property_name,int property_id)
+void AddClassPropertyName(class_node *c, char *property_name, __int64 property_id)
 {
    property_name_node *new_prop;
 
@@ -327,14 +327,14 @@ void SetOneClassPropertyNames(class_node *c)
 			// if we have this property name already, don't need to add again
 			int value;
 			if (SIHashFind(c->property_names,prop->name,&value) == False)
-				SIHashInsert(c->property_names,prop->name,prop->id);
+				SIHashInsert(c->property_names,prop->name,(int)prop->id);
 			prop = prop->next;
 		}
 		ancestor = ancestor->super_ptr;
 	}
 }
 
-class_node * GetClassByID(int class_id)
+class_node * GetClassByID(__int64 class_id)
 {
 	class_node *c;
 	
@@ -356,17 +356,17 @@ class_node * GetClassByName(const char *class_name)
 
 	found = SIHashFind(class_name_map,class_name,&class_id);
 	if (found)
-		return GetClassByID(class_id);
+      return GetClassByID((__int64)class_id);
 
 	return NULL;
 }
 
-const char * GetPropertyNameByID(class_node *c,int property_id)
+const char * GetPropertyNameByID(class_node *c, __int64 property_id)
 {
-	return SIHashFindByValue(c->property_names,property_id);
+	return SIHashFindByValue(c->property_names,(int)property_id);
 }
 
-int GetPropertyIDByName(class_node *c,const char *property_name)
+__int64 GetPropertyIDByName(class_node *c, const char *property_name)
 {
 	int id;
 
@@ -374,7 +374,7 @@ int GetPropertyIDByName(class_node *c,const char *property_name)
 		return INVALID_PROPERTY;
 
 	if (SIHashFind(c->property_names,property_name,&id) == True)
-		return id;
+      return (__int64)id;
 
 	// check ancestor classes
 	if (c->super_ptr != NULL)
@@ -383,7 +383,7 @@ int GetPropertyIDByName(class_node *c,const char *property_name)
 	return INVALID_PROPERTY;
 }
 
-int GetClassVarIDByName(class_node *c, const char *name)
+__int64 GetClassVarIDByName(class_node *c, const char *name)
 {
 	classvar_name_node *cv;
 
@@ -405,7 +405,7 @@ int GetClassVarIDByName(class_node *c, const char *name)
 }
 
 
-char * GetClassVarNameByID(class_node *c,int classvar_id)
+char * GetClassVarNameByID(class_node *c, __int64 classvar_id)
 {
 	classvar_name_node *cv;
 	
@@ -442,11 +442,11 @@ void ForEachClass(void (*callback_func)(class_node *c))
 	}
 }
 
-const char * GetClassDebugStr(class_node *c,int dstr_id)
+const char * GetClassDebugStr(class_node *c, __int64 dstr_id)
 {
 	if (dstr_id > c->dstrs->num_strings || dstr_id < 0)
 	{
-		eprintf("GetClassDebugStr got invalid dstr id, %i %i\n",c->class_id,dstr_id);
+		eprintf("GetClassDebugStr got invalid dstr id, %I64d %I64d\n",c->class_id,dstr_id);
 		return "Invalid DStr";
 	}
 	return c->bof_base + ((int *) &c->dstrs->string_offsets)[dstr_id];

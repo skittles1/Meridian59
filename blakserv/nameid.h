@@ -18,16 +18,16 @@
 typedef struct nameid_struct
 {
    char *name;
-   int id;
+   __int64 id;
    struct nameid_struct *next;
 } nameid_node;
 
 void InitNameID(void);
 void ResetNameID(void);
-void CreateNameID(char *parm_name,int parm_id);
-nameid_node * GetNameIDNode(int id);
-int GetIDByName(const char *name);
-char* GetNameByID(int id);
+void CreateNameID(char *parm_name, __int64 parm_id);
+nameid_node * GetNameIDNode(__int64 id);
+__int64 GetIDByName(const char *name);
+char* GetNameByID(__int64 id);
 int GetMaxNameID(void);
 void ForEachNameID(void(*callback_func)(nameid_node *n));
 

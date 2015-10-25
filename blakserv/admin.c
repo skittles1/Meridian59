@@ -67,7 +67,8 @@ void AdminProcessSessionBuffer(session_node *s)
 
 void AdminInputChar(session_node *s,char ch)
 {
-   int len,session_id;
+   int len;
+   __int64 session_id;
 
    if (ch != CR)
    {

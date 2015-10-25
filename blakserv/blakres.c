@@ -27,7 +27,7 @@
 static resource_node **resources;
 static int resources_table_size;
 
-static int next_dynamic_rsc;
+static __int64 next_dynamic_rsc;
 static sihash_type resource_name_map;
 
 /* local function prototypes */
@@ -82,7 +82,7 @@ void ResetResource(void)
 	resource_name_map = CreateSIHash(ConfigInt(MEMORY_SIZE_RESOURCE_NAME_HASH));
 }
 
-void AddResource(int id, int lang_id, char *str_value)
+void AddResource(__int64 id, int lang_id, char *str_value)
 {
    int hash_num;
    bool new_resource = false;
@@ -121,7 +121,7 @@ void AddResource(int id, int lang_id, char *str_value)
    resources[hash_num] = r;
 }
 
-void SetResourceName(int id,char *name)
+void SetResourceName(__int64 id, char *name)
 {
    resource_node *r;
 
@@ -135,14 +135,14 @@ void SetResourceName(int id,char *name)
    r->resource_name = (char *)AllocateMemory(MALLOC_ID_KODBASE,strlen(name)+1);
    strcpy(r->resource_name,name);
 
-   SIHashInsert(resource_name_map,name,id);
+   SIHashInsert(resource_name_map,name,(int)id);
 }
 
 static resource_node *notify_r;
 
-int AddDynamicResource(char *str_value)
+__int64 AddDynamicResource(char *str_value)
 {
-	int new_rsc_id;
+   __int64 new_rsc_id;
 	resource_node *r;
 	
 	new_rsc_id = next_dynamic_rsc;
@@ -189,13 +189,13 @@ void DynamicResourceChangeNotify(session_node *s)
 	if (s->state == STATE_GAME)
 	{
 		AddByteToPacket(BP_CHANGE_RESOURCE);
-		AddIntToPacket(notify_r->resource_id);
+		AddIntToPacket((int)notify_r->resource_id);
 		AddStringToPacket(strlen(notify_r->resource_val[0]),notify_r->resource_val[0]);
 		SendPacket(s->session_id);
 	}
 }
 
-resource_node * GetResourceByID(int id)
+resource_node * GetResourceByID(__int64 id)
 {
 	resource_node *r;
 
@@ -211,7 +211,7 @@ resource_node * GetResourceByID(int id)
 }
 
 // Returns language string 'lang_id' of resource 'id'.
-char * GetResourceStrByLanguageID(int id, int lang_id)
+char * GetResourceStrByLanguageID(__int64 id, int lang_id)
 {
    resource_node *r;
 
@@ -234,7 +234,7 @@ char * GetResourceStrByLanguageID(int id, int lang_id)
    return NULL;
 }
 
-Bool IsResourceByID(int id)
+Bool IsResourceByID(__int64 id)
 {
 	resource_node *r = GetResourceByID(id);
 	if (r == NULL)
@@ -249,7 +249,7 @@ resource_node * GetResourceByName(const char *resource_name)
 
 	found = SIHashFind(resource_name_map,resource_name,&resource_id);
 	if (found)
-		return GetResourceByID(resource_id);
+		return GetResourceByID((__int64)resource_id);
 
 	return NULL;
 }

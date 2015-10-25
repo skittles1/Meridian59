@@ -17,10 +17,10 @@
 #include "blakserv.h"
 
 object_node *objects;
-int num_objects,max_objects;
+int num_objects, max_objects;
 
 /* local function prototypes */
-void SetObjectProperties(int object_id,class_node *c);
+void SetObjectProperties(__int64 object_id, class_node *c);
 
 void InitObject()
 {
@@ -79,7 +79,7 @@ int GetObjectsUsed()
    return num_objects;
 }
 
-int AllocateObject(int class_id)
+int AllocateObject(__int64 class_id)
 {
    int old_objects;
    class_node *c;
@@ -113,7 +113,7 @@ int AllocateObject(int class_id)
 
 /* charlie:  i dont want the error logs spammed by the object search routines */
 
-object_node * GetObjectByIDQuietly(int object_id)
+object_node * GetObjectByIDQuietly(__int64 object_id)
 {
    if (object_id < 0 || object_id >= num_objects)
    {
@@ -129,11 +129,11 @@ object_node * GetObjectByIDQuietly(int object_id)
    return &objects[object_id];
 }
 
-object_node * GetObjectByID(int object_id)
+object_node * GetObjectByID(__int64 object_id)
 {
    if (object_id < 0 || object_id >= num_objects)
    {
-      eprintf("GetObjectByID can't retrieve invalid object %i\n",object_id);
+      eprintf("GetObjectByID can't retrieve invalid object %I64d\n",object_id);
       return NULL;
    }
    if (objects[object_id].deleted)
@@ -141,15 +141,15 @@ object_node * GetObjectByID(int object_id)
       class_node* c;
       c = GetClassByID(objects[object_id].class_id);
       if (c)
-	 eprintf("GetObjectByID can't retrieve deleted OBJECT %i which was CLASS %s\n",object_id,c->class_name);
+	 eprintf("GetObjectByID can't retrieve deleted OBJECT %I64d which was CLASS %s\n",object_id,c->class_name);
       else
-	 eprintf("GetObjectByID can't retrieve deleted OBJECT %i, unknown or invalid class\n",object_id);
+	 eprintf("GetObjectByID can't retrieve deleted OBJECT %I64d, unknown or invalid class\n",object_id);
       return NULL;
    }
    return &objects[object_id];
 }
 
-Bool IsObjectByID(int object_id)
+Bool IsObjectByID(__int64 object_id)
 {
    if (object_id < 0 || object_id >= num_objects || objects[object_id].deleted)
       return False;
@@ -157,20 +157,20 @@ Bool IsObjectByID(int object_id)
    return True;
 }
 
-object_node * GetObjectByIDEvenDeleted(int object_id)
+object_node * GetObjectByIDEvenDeleted(__int64 object_id)
 {
    /* this is needed for garbage collection to reuse deleted ones */
    if (object_id < 0 || object_id >= num_objects)
    {
-      eprintf("GetObjectByID can't retrieve invalid OBJECT %i\n",object_id);
+      eprintf("GetObjectByID can't retrieve invalid OBJECT %I64d\n",object_id);
       return NULL;
    }
    return &objects[object_id];
 }
 
-int CreateObject(int class_id,int num_parms,parm_node parms[])
+__int64 CreateObject(__int64 class_id, int num_parms, parm_node parms[])
 {
-   int new_object_id;
+   __int64 new_object_id;
    class_node *c;
 
    new_object_id = AllocateObject(class_id);
@@ -186,7 +186,7 @@ int CreateObject(int class_id,int num_parms,parm_node parms[])
    c = GetClassByID(class_id);
    if (c == NULL) /* can't ever be, because AllocateObject checks */
    {
-      eprintf("CreateObject can't find class id %i\n",class_id);
+      eprintf("CreateObject can't find class id %I64d\n",class_id);
       return INVALID_OBJECT;
    }
 
@@ -203,7 +203,7 @@ int CreateObject(int class_id,int num_parms,parm_node parms[])
    return new_object_id;
 }
 
-Bool LoadObject(int object_id,char *class_name)
+Bool LoadObject(__int64 object_id, char *class_name)
 {
    class_node *c;
 
@@ -216,7 +216,7 @@ Bool LoadObject(int object_id,char *class_name)
 
    if (AllocateObject(c->class_id) != object_id)
    {
-      eprintf("LoadObject didn't make object id %i\n",object_id);
+      eprintf("LoadObject didn't make object id %I64d\n",object_id);
       return False;
    }
 
@@ -238,23 +238,23 @@ Bool LoadObject(int object_id,char *class_name)
    return True;
 }
 
-Bool SetObjectPropertyByName(int object_id,char *prop_name,val_type val)
+Bool SetObjectPropertyByName(__int64 object_id, char *prop_name, val_type val)
 {
    object_node *o;
    class_node *c;
-   int property_id;
+   __int64 property_id;
    
    o = GetObjectByID(object_id);
    if (o == NULL)
    {
-      eprintf("SetObjectPropertyByName can't find object %i\n",object_id);
+      eprintf("SetObjectPropertyByName can't find object %I64d\n",object_id);
       return False;
    }
 
    c = GetClassByID(o->class_id);
    if (c == NULL) 
    {
-      eprintf("SetObjectPropertyByName can't find class %i\n",
+      eprintf("SetObjectPropertyByName can't find class %I64d\n",
 	      o->class_id);
       return False;
    }
@@ -262,21 +262,21 @@ Bool SetObjectPropertyByName(int object_id,char *prop_name,val_type val)
    property_id = GetPropertyIDByName(c,prop_name);
    if (property_id == INVALID_PROPERTY)
    {
-      eprintf("SetObjectPropertyByName can't find property %s in class %s (%i)\n",
+      eprintf("SetObjectPropertyByName can't find property %s in class %s (%I64d)\n",
 	      prop_name, c->class_name, c->class_id);
       return False;
    }
 
    if (o->num_props <= property_id)
    {
-      eprintf("SetObjectPropertyByName property index/id %i not in object %i class %s (%i)\n",
+      eprintf("SetObjectPropertyByName property index/id %I64d not in object %I64d class %s (%I64d)\n",
 	      property_id,object_id,c->class_name,c->class_id);
       return False;
    }
    
    if (o->p[property_id].id != property_id)
    {
-      eprintf("SetObjectPropertyByName property index/id mismatch %i %i\n",
+      eprintf("SetObjectPropertyByName property index/id mismatch %I64d %I64d\n",
 	      property_id,o->p[property_id].id);
       return False;
    }
@@ -285,7 +285,7 @@ Bool SetObjectPropertyByName(int object_id,char *prop_name,val_type val)
    return True;
 }
 
-void SetObjectProperties(int object_id,class_node *c)
+void SetObjectProperties(__int64 object_id, class_node *c)
 {
    int i;
 
@@ -296,8 +296,8 @@ void SetObjectProperties(int object_id,class_node *c)
    {
       if (c->prop_default[i].id >= objects[object_id].num_props)
       {
-	 eprintf("SetObjectProperties can't set invalid property %i of "
-		 "OBJECT %i CLASS %s (%i)\n",c->prop_default[i].id,object_id,c->class_name,c->class_id);
+	 eprintf("SetObjectProperties can't set invalid property %I64d of "
+		 "OBJECT %I64d CLASS %s (%I64d)\n",c->prop_default[i].id,object_id,c->class_name,c->class_id);
       }
       else
       {
@@ -308,7 +308,7 @@ void SetObjectProperties(int object_id,class_node *c)
    }
 }
 
-void DeleteBlakodObject(int object_id)
+void DeleteBlakodObject(__int64 object_id)
 {
    class_node *c;
    object_node *o;
@@ -316,14 +316,14 @@ void DeleteBlakodObject(int object_id)
    o = GetObjectByID(object_id);
    if (o == NULL)
    {
-      eprintf("DeleteBlakodObject can't get an object by ID %i!\n",object_id);
+      eprintf("DeleteBlakodObject can't get an object by ID %I64d!\n",object_id);
       return;
    }
 
    c = GetClassByID(o->class_id);
    if (c == NULL)
    {
-      eprintf("DeleteBlakodObject can't find class %i\n",o->class_id);
+      eprintf("DeleteBlakodObject can't find class %I64d\n",o->class_id);
       return;
    }
 
@@ -335,7 +335,7 @@ void DeleteBlakodObject(int object_id)
 
 void ForEachObject(void (*callback_func)(object_node *o))
 {
-   int i;
+   __int64 i;
 
    for (i=0;i<num_objects;i++)
       if (!objects[i].deleted)
@@ -344,14 +344,14 @@ void ForEachObject(void (*callback_func)(object_node *o))
 
 /* these functions are for garbage collecting */
 
-void MoveObject(int dest_id,int source_id)
+void MoveObject(__int64 dest_id, __int64 source_id)
 {
    object_node *source,*dest;
 
    source = GetObjectByID(source_id);
    if (source == NULL)
    {
-      eprintf("MoveObject can't find source %i, total death end game\n",
+      eprintf("MoveObject can't find source %I64d, total death end game\n",
 	      source_id);
       FlushDefaultChannels();
       return;
@@ -360,7 +360,7 @@ void MoveObject(int dest_id,int source_id)
    dest = GetObjectByIDEvenDeleted(dest_id);
    if (dest == NULL)
    {
-      eprintf("MoveListNode can't find dest %i, total death end game\n",
+      eprintf("MoveListNode can't find dest %I64d, total death end game\n",
 	      dest_id);
       FlushDefaultChannels();
       return;
@@ -384,7 +384,7 @@ void SetNumObjects(int new_num_objects)
 }
 
 /*
-void debugobjects(int session_id)
+void debugobjects(__int64 session_id)
 {
    int i;
 

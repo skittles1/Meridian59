@@ -17,7 +17,7 @@ enum { GAME_NORMAL, GAME_BEACON, GAME_FINAL_SYNC };
 
 typedef struct
 {
-   int object_id;
+   __int64 object_id;
    int game_state;
    int game_sync_index;
    int game_last_message_time;

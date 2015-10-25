@@ -16,7 +16,7 @@
 
 #include "blakserv.h"
 
-void cprintf(int session_id,const char *fmt,...)
+void cprintf(__int64 session_id,const char *fmt,...)
 {
    char s[8000];
    va_list marker;
@@ -86,8 +86,8 @@ const char * GetTagName(val_type val)
    case TAG_OVERRIDE : return "OVERRIDE";
    case TAG_EMPTY : return "EMPTY";
    default :
-      eprintf("GetTagName warning, can't identify tag %i\n",val.v.tag);
-      sprintf(s,"%i",val.v.tag);
+      eprintf("GetTagName warning, can't identify tag %I64d\n",val.v.tag);
+      sprintf(s,"%I64d",val.v.tag);
       return s;
    }
 }
@@ -105,12 +105,12 @@ const char * GetDataName(val_type val)
       r = GetResourceByID(val.v.data);
       if (r == NULL)
       {
-         sprintf(s,"%i",val.v.data);
+         sprintf(s,"%I64d",val.v.data);
          return s;
       }
       if (r->resource_name == NULL)
       {
-         sprintf(s,"%i",r->resource_id);
+         sprintf(s,"%I64d",r->resource_id);
          return s;
       }
       return r->resource_name;
@@ -119,8 +119,8 @@ const char * GetDataName(val_type val)
       c = GetClassByID(val.v.data);
       if (c == NULL)
       {
-         eprintf("GetTagData error, can't find class id %i\n",val.v.data);
-         sprintf(s,"%i",val.v.data);
+         eprintf("GetTagData error, can't find class id %I64d\n",val.v.data);
+         sprintf(s,"%I64d",val.v.data);
          return s;
       }
       return c->class_name;
@@ -128,20 +128,20 @@ const char * GetDataName(val_type val)
    case TAG_MESSAGE :
       // Message tag saving *is* supported, however is not advised as message ID
       // numbers can change and any resulting call could have undesired effects.
-      eprintf("GetTagData error, message tag saving not supported %i\n",val.v.data);
+      eprintf("GetTagData error, message tag saving not supported %I64d\n",val.v.data);
 
       /* fall through */
    default :
       /* write as positive int so no problem reading in */
       int_val.v.tag = val.v.tag;
       int_val.v.data = val.v.data;
-      sprintf(s,"%i",int_val.v.data);
+      sprintf(s,"%I64d",int_val.v.data);
       return s;
    }
 }
 
 
-int GetTagNum(const char *tag_str)
+__int64 GetTagNum(const char *tag_str)
 {
    int retval;
    char ch;
@@ -187,11 +187,11 @@ int GetTagNum(const char *tag_str)
    return retval;
 }
 
-int GetDataNum(int tag_val,const char *data_str)
+__int64 GetDataNum(__int64 tag_val, const char *data_str)
 {
    resource_node *r;
    class_node *c;
-   int retval;
+   __int64 retval;
 
    switch (tag_val)
    {

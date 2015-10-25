@@ -24,9 +24,9 @@ static char buf0[LEN_MAX_CLIENT_MSG+1];
 
 /* local function prototypes */
 
-int AllocateTable(void);
+__int64 AllocateTable(void);
 hash_node * AllocateTableEntry(val_type key_val,val_type data_val);
-void ResizeTable(int table_id);
+void ResizeTable(__int64 table_id);
 Bool EqualTableEntry(val_type s1_val,val_type s2_val);
 unsigned int GetTableHash(val_type val);
 
@@ -44,7 +44,7 @@ int GetTablesUsed(void)
    return num_tables;
 }
 
-int AllocateTable(void)
+__int64 AllocateTable(void)
 {
    int old_nodes;
    int hash_size = 0;
@@ -81,10 +81,10 @@ void ResetTables()
       old_nodes * sizeof(table_node), max_num_tables * sizeof(table_node));
 }
 
-int CreateTable(int size)
+__int64 CreateTable(int size)
 {
    table_node *tn;
-   int table_id;
+   __int64 table_id;
 
    table_id = AllocateTable();
    tn = GetTableByID(table_id);
@@ -102,7 +102,7 @@ int CreateTable(int size)
    return table_id;
 }
 
-void DeleteTable(int table_id)
+void DeleteTable(__int64 table_id)
 {
    hash_node *hn,*temp;
    table_node *tn;
@@ -126,7 +126,7 @@ void DeleteTable(int table_id)
    tn->num_entries = 0;
 }
 
-table_node * GetTableByID(int table_id)
+table_node * GetTableByID(__int64 table_id)
 {
    if (table_id < 0 || table_id >= num_tables)
    {
@@ -152,7 +152,7 @@ hash_node * AllocateTableEntry(val_type key_val,val_type data_val)
    return hn;
 }
 
-void ResizeTable(int table_id)
+void ResizeTable(__int64 table_id)
 {
    int new_size, index;
    table_node *tn;
@@ -200,7 +200,7 @@ void ResizeTable(int table_id)
    tn->table = hn_new;
 }
 
-void InsertTable(int table_id,val_type key_val,val_type data_val)
+void InsertTable(__int64 table_id, val_type key_val, val_type data_val)
 {
    table_node *tn;
    hash_node *hn;
@@ -236,7 +236,7 @@ void InsertTable(int table_id,val_type key_val,val_type data_val)
    tn->table[index] = hn;
 }
 
-int GetTableEntry(int table_id,val_type key_val)
+__int64 GetTableEntry(__int64 table_id, val_type key_val)
 {
    table_node *tn;
    hash_node *hn;
@@ -261,7 +261,7 @@ int GetTableEntry(int table_id,val_type key_val)
    return NIL;
 }
 
-void DeleteTableEntry(int table_id,val_type key_val)
+void DeleteTableEntry(__int64 table_id, val_type key_val)
 {
    table_node *tn;
    hash_node *hn,*temp;
@@ -479,7 +479,7 @@ unsigned int GetBufferHash(const char *buf,unsigned int len_buf)
    return h;
 }
 
-void ForEachTable(void (*callback_func)(table_node *t,int table_id))
+void ForEachTable(void(*callback_func)(table_node *t, __int64 table_id))
 {
    int i;
 
@@ -489,7 +489,7 @@ void ForEachTable(void (*callback_func)(table_node *t,int table_id))
 
 // These functions are for garbage collecting.
 
-void MoveTable(int dest_id,int source_id)
+void MoveTable(__int64 dest_id, __int64 source_id)
 {
    table_node *source,*dest;
 

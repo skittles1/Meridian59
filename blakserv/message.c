@@ -63,7 +63,7 @@ void ResetMessageClass(class_node *c)
    c->num_messages = 0;
 }
 
-void SetClassNumMessages(int class_id, int num_messages)
+void SetClassNumMessages(__int64 class_id, int num_messages)
 {
    class_node *c;
 
@@ -89,7 +89,7 @@ void SetClassNumMessages(int class_id, int num_messages)
    // Zero allocated memory so we don't need to set any defaults.
 }
 
-void AddMessage(int class_id,int count,int message_id,char *offset,int dstr_id)
+void AddMessage(__int64 class_id, int count, __int64 message_id, char *offset, __int64 dstr_id)
 {
    class_node *c;
    message_node *m;
@@ -157,7 +157,7 @@ void SetEachClassMessagesPropagate(class_node *c)
    }
 }
 
-message_node *GetMessageByID(int class_id, int message_id, class_node **found_class)
+message_node *GetMessageByID(__int64 class_id, __int64 message_id, class_node **found_class)
 {
    class_node *c;
    message_node *m;
@@ -193,9 +193,9 @@ message_node *GetMessageByID(int class_id, int message_id, class_node **found_cl
    return NULL;
 }
 
-message_node *GetMessageByName(int class_id,char *message_name,class_node **found_class)
+message_node *GetMessageByName(__int64 class_id, char *message_name, class_node **found_class)
 {
-   int message_id;
+   __int64 message_id;
 
    message_id = GetIDByName(message_name);
    if (message_id == INVALID_ID)

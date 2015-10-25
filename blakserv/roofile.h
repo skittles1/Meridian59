@@ -191,15 +191,15 @@ typedef struct BspNode
 
 typedef struct BlockerNode
 {
-   int ObjectID;
+   __int64 ObjectID;
    V2 Position;
    BlockerNode* Next;
 } BlockerNode;
 
 typedef struct room_type
 {
-   int roomdata_id; 
-   int resource_id;
+   __int64 roomdata_id;
+   __int64 resource_id;
    
    int rows;             /* Size of room in grid squares */
    int cols;
@@ -227,17 +227,17 @@ typedef struct room_type
 /*                                          METHODS                                                           */
 /**************************************************************************************************************/
 bool  BSPGetHeight(room_type* Room, V2* P, float* HeightF, float* HeightFWD, float* HeightC, BspLeaf** Leaf);
-bool  BSPCanMoveInRoom(room_type* Room, V2* S, V2* E, int ObjectID, bool moveOutsideBSP, Wall** BlockWall);
-bool  BSPLineOfSightView(V2 *S, V2 *E, int kod_angle);
+bool  BSPLineOfSightView(V2 *S, V2 *E, int kod_angle); // int64?
+bool  BSPCanMoveInRoom(room_type* Room, V2* S, V2* E, __int64 ObjectID, bool moveOutsideBSP, Wall** BlockWall);
 bool  BSPLineOfSight(room_type* Room, V3* S, V3* E);
 void  BSPChangeTexture(room_type* Room, unsigned int ServerID, unsigned short NewTexture, unsigned int Flags);
 void  BSPMoveSector(room_type* Room, unsigned int ServerID, bool Floor, float Height, float Speed);
 bool  BSPGetLocationInfo(room_type* Room, V2* P, unsigned int QueryFlags, unsigned int* ReturnFlags, float* HeightF, float* HeightFWD, float* HeightC, BspLeaf** Leaf);
 bool  BSPGetRandomPoint(room_type* Room, int MaxAttempts, V2* P);
-bool  BSPGetStepTowards(room_type* Room, V2* S, V2* E, V2* P, unsigned int* Flags, int ObjectID);
-bool  BSPBlockerAdd(room_type* Room, int ObjectID, V2* P);
-bool  BSPBlockerMove(room_type* Room, int ObjectID, V2* P);
-bool  BSPBlockerRemove(room_type* Room, int ObjectID);
+bool  BSPGetStepTowards(room_type* Room, V2* S, V2* E, V2* P, unsigned int* Flags, __int64 ObjectID);
+bool  BSPBlockerAdd(room_type* Room, __int64 ObjectID, V2* P);
+bool  BSPBlockerMove(room_type* Room, __int64 ObjectID, V2* P);
+bool  BSPBlockerRemove(room_type* Room, __int64 ObjectID);
 void  BSPBlockerClear(room_type* Room);
 bool  BSPLoadRoom(char *fname, room_type *room);
 void  BSPFreeRoom(room_type *room);

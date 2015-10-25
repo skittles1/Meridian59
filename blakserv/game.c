@@ -405,7 +405,7 @@ void GameEchoPing(session_node *s)
 void GameProtocolParse(session_node *s,client_msg *msg)
 {
    user_node *u;
-   int object_id;
+   __int64 object_id;
    char *ptr;
 
    char password[MAX_LOGIN_PASSWORD+1],new_password[MAX_LOGIN_PASSWORD+1];
@@ -642,7 +642,7 @@ void GameSendEachUserChoice(user_node *u)
    val_type name_val,num_val;
    resource_node *r;
    
-   AddIntToPacket(u->object_id);
+   AddIntToPacket((int)u->object_id); // TODO: convert to 8 bytes
 
    name_val.int_val = SendTopLevelBlakodMessage(u->object_id,USER_NAME_MSG,0,NULL);
    if (name_val.v.tag != TAG_RESOURCE)
@@ -795,7 +795,7 @@ void UpdateSecurityRedbook()
 	 _redbookstring = strdup(r->resource_val[0]);
       else
 	 _redbookstring = old;
-      _redbookid = r->resource_id;
+      _redbookid = (int)r->resource_id; // TODO: convert to 8 bytes.
    }
 
    if (old != _redbookstring)

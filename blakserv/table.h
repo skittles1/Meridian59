@@ -30,22 +30,22 @@ typedef struct table_struct
    int size;
    int num_entries;
    hash_node **table;
-   int garbage_ref;
+   __int64 garbage_ref;
 } table_node;
 
 void InitTables(void);
 int GetTablesUsed(void);
 void ResetTables(void);
-int CreateTable(int size);
-table_node * GetTableByID(int table_id);
-void DeleteTable(int table_id);
-void InsertTable(int table_id,val_type key_val,val_type data_val);
-int GetTableEntry(int table_id,val_type key_val);
-void DeleteTableEntry(int table_id,val_type key_val);
+__int64 CreateTable(int size);
+table_node * GetTableByID(__int64 table_id);
+void DeleteTable(__int64 table_id);
+void InsertTable(__int64 table_id, val_type key_val, val_type data_val);
+__int64 GetTableEntry(__int64 table_id, val_type key_val);
+void DeleteTableEntry(__int64 table_id, val_type key_val);
 
 unsigned int GetBufferHash(const char *buf,unsigned int len_buf);
-void ForEachTable(void (*callback_func)(table_node *t, int table_id));
-void MoveTable(int dest_id,int source_id);
+void ForEachTable(void(*callback_func)(table_node *t, __int64 table_id));
+void MoveTable(__int64 dest_id, __int64 source_id);
 void SetNumTables(int new_num_tables);
 
 #endif

@@ -31,30 +31,30 @@ void GarbageKickoffGamePick(session_node *s);
 void GarbageWarnAdminSession(session_node *s);
 
 /* list node garbage collection */
-void ClearListNodeGarbageRef(list_node *l,int list_id);
+void ClearListNodeGarbageRef(list_node *l,__int64 list_id);
 void MarkObjectListNodesAndTables(object_node *o);
-void MarkTableListNode(int table_id);
-void MarkListNode(int list_id);
-void RenumberListNode(list_node *l,int list_id);
+void MarkTableListNode(__int64 table_id);
+void MarkListNode(__int64 list_id);
+void RenumberListNode(list_node *l,__int64 list_id);
 void RenumberObjectContainerReferences(object_node *o);
-void RenumberTableListNodeReferences(table_node *t, int table_id);
+void RenumberTableListNodeReferences(table_node *t, __int64 table_id);
 void RenumberListNodeReferences(val_type *vlist_ptr);
-void CompactListNode(list_node *l,int list_id);
+void CompactListNode(list_node *l,__int64 list_id);
 
 /* Table garbage collection */
-void ClearTableGarbageRef(table_node *t,int table_id);
-void RenumberTable(table_node *t, int table_id);
-void RenumberListNodeTableReferences(list_node *l, int list_id);
+void ClearTableGarbageRef(table_node *t,__int64 table_id);
+void RenumberTable(table_node *t, __int64 table_id);
+void RenumberListNodeTableReferences(list_node *l, __int64 list_id);
 void RenumberTableReferences(val_type *vtable_ptr);
-void CompactTable(table_node *t, int table_id);
-void DeleteUnreferencedTable(table_node *t, int table_id);
+void CompactTable(table_node *t, __int64 table_id);
+void DeleteUnreferencedTable(table_node *t, __int64 table_id);
 
 /* object garbage collection */
 void ClearObjectGarbageRef(object_node *o);
 void MarkUserObjectNodes(user_node *u);
-void MarkObject(int object_id);
-void MarkListNodeObject(int list_id);
-void MarkTableObject(int list_id);
+void MarkObject(__int64 object_id);
+void MarkListNodeObject(__int64 list_id);
+void MarkTableObject(__int64 list_id);
 void DeleteUnreferencedObject(object_node *o);
 
 void RenumberObject(object_node *o);
@@ -63,8 +63,8 @@ void RenumberObjectReferences(object_node *o);
 void RenumberUserObjectReferences(user_node *u);
 void RenumberSessionObjectReferences(session_node *s);
 void RenumberTimerObjectReferences(timer_node *t);
-void RenumberListNodeObjectReferences(list_node *l,int list_id);
-void RenumberTableObjectReferences(table_node *l, int table_id);
+void RenumberListNodeObjectReferences(list_node *l,__int64 list_id);
+void RenumberTableObjectReferences(table_node *l, __int64 table_id);
 Bool ResetObjectReference(val_type *vobject_ptr);
 void CompactObject(object_node *o);
 
@@ -74,19 +74,19 @@ void ResetTimerReference(val_type *vtimer_ptr);
 void CompactTimer(timer_node *t);
 
 /* string garbage collection */
-void ClearStringGarbageRef(string_node *snod,int string_id);
+void ClearStringGarbageRef(string_node *snod,__int64 string_id);
 void MarkObjectStrings(object_node *o);
-void MarkListNodeStrings(list_node *l,int list_id);
-void MarkTableStrings(table_node *t, int table_id);
-void MarkString(int string_id);
-void RenumberString(string_node *snod,int string_id);
+void MarkListNodeStrings(list_node *l,__int64 list_id);
+void MarkTableStrings(table_node *t, __int64 table_id);
+void MarkString(__int64 string_id);
+void RenumberString(string_node *snod,__int64 string_id);
 void ResetStringReference(val_type *vlist_ptr);
-void CompactString(string_node *snod,int string_id);
+void CompactString(string_node *snod,__int64 string_id);
 
 // Combined timer and string GC
 void RenumberObjectTimerStringReferences(object_node *o);
-void RenumberListNodeTimerStringReferences(list_node *l, int list_id);
-void RenumberTableTimerStringReferences(table_node *t, int table_id);
+void RenumberListNodeTimerStringReferences(list_node *l, __int64 list_id);
+void RenumberTableTimerStringReferences(table_node *t, __int64 table_id);
 
 int next_renumber;
 int next_timer_renumber;
@@ -264,7 +264,7 @@ void GarbageWarnAdminSession(session_node *s)
 // Lists
 /////////////////////////////////////////////////////////////////////////////
 
-void ClearListNodeGarbageRef(list_node *l,int list_id)
+void ClearListNodeGarbageRef(list_node *l,__int64 list_id)
 {
    l->garbage_ref = UNREFERENCED;
 }
@@ -286,7 +286,7 @@ void MarkObjectListNodesAndTables(object_node *o)
    }
 }
 
-void MarkTableListNode(int table_id)
+void MarkTableListNode(__int64 table_id)
 {
    hash_node *hn;
    table_node *t;
@@ -317,7 +317,7 @@ void MarkTableListNode(int table_id)
    }
 }
 
-void MarkListNode(int list_id)
+void MarkListNode(__int64 list_id)
 {
    list_node *l;
 
@@ -347,7 +347,7 @@ void MarkListNode(int list_id)
    }
 }
 
-void RenumberListNode(list_node *l,int list_id)
+void RenumberListNode(list_node *l,__int64 list_id)
 {
    if (l->garbage_ref == REFERENCED)
    {
@@ -368,7 +368,7 @@ void RenumberObjectContainerReferences(object_node *o)
    }
 }
 
-void RenumberTableListNodeReferences(table_node *t, int table_id)
+void RenumberTableListNodeReferences(table_node *t, __int64 table_id)
 {
    hash_node *hn;
 
@@ -424,7 +424,7 @@ void RenumberListNodeReferences(val_type *vlist_ptr)
    }
 }
 
-void CompactListNode(list_node *l,int list_id)
+void CompactListNode(list_node *l,__int64 list_id)
 {
    if (l->garbage_ref != UNREFERENCED)
       MoveListNode(l->garbage_ref & ~VISITED_LIST,list_id);
@@ -434,13 +434,13 @@ void CompactListNode(list_node *l,int list_id)
 // Tables
 /////////////////////////////////////////////////////////////////////////////
 
-void ClearTableGarbageRef(table_node *t,int table_id)
+void ClearTableGarbageRef(table_node *t,__int64 table_id)
 {
    t->garbage_ref = UNREFERENCED;
 }
 
 // Sets the new table id for each referenced table.
-void RenumberTable(table_node *t,int table_id)
+void RenumberTable(table_node *t,__int64 table_id)
 {
    if (t->garbage_ref == REFERENCED)
    {
@@ -449,7 +449,7 @@ void RenumberTable(table_node *t,int table_id)
 }
 
 // Iterate through list nodes, renumber tables.
-void RenumberListNodeTableReferences(list_node *l, int list_id)
+void RenumberListNodeTableReferences(list_node *l, __int64 list_id)
 {
    if (l->first.v.tag == TAG_TABLE)
       RenumberTableReferences(&(l->first));
@@ -501,14 +501,14 @@ void RenumberTableReferences(val_type *vtable_ptr)
 }
 
 // Moves tables to new position.
-void CompactTable(table_node *t, int table_id)
+void CompactTable(table_node *t, __int64 table_id)
 {
    if (t->garbage_ref != UNREFERENCED)
       MoveTable(t->garbage_ref & ~VISITED_LIST, table_id);
 }
 
 // Delete tables that aren't referenced anywhere.
-void DeleteUnreferencedTable(table_node *t, int table_id)
+void DeleteUnreferencedTable(table_node *t, __int64 table_id)
 {
    if (t->garbage_ref == UNREFERENCED)
       DeleteTable(table_id);
@@ -528,7 +528,7 @@ void MarkUserObjectNodes(user_node *u)
    MarkObject(u->object_id);
 }
 
-void MarkObject(int object_id)
+void MarkObject(__int64 object_id)
 {
    int i;
 
@@ -557,7 +557,7 @@ void MarkObject(int object_id)
    }
 }
 
-void MarkListNodeObject(int list_id)
+void MarkListNodeObject(__int64 list_id)
 {
    list_node *l;
 
@@ -588,7 +588,7 @@ void MarkListNodeObject(int list_id)
    }
 }
 
-void MarkTableObject(int table_id)
+void MarkTableObject(__int64 table_id)
 {
    table_node *t;
    hash_node *hn;
@@ -666,7 +666,7 @@ void RenumberObjectReferences(object_node *o)
    }
 }
 
-void RenumberListNodeObjectReferences(list_node *l,int list_id)
+void RenumberListNodeObjectReferences(list_node *l,__int64 list_id)
 {
    if (l->first.v.tag == TAG_OBJECT)
    {
@@ -687,7 +687,7 @@ void RenumberListNodeObjectReferences(list_node *l,int list_id)
       MarkString(l->rest.v.data);
 }
 
-void RenumberTableObjectReferences(table_node *t, int table_id)
+void RenumberTableObjectReferences(table_node *t, __int64 table_id)
 {
    hash_node *hn;
 
@@ -794,7 +794,7 @@ void RenumberObjectTimerStringReferences(object_node *o)
    }
 }
 
-void RenumberListNodeTimerStringReferences(list_node *l, int list_id)
+void RenumberListNodeTimerStringReferences(list_node *l, __int64 list_id)
 {
    if (l->first.v.tag == TAG_TIMER)
       ResetTimerReference(&(l->first));
@@ -807,7 +807,7 @@ void RenumberListNodeTimerStringReferences(list_node *l, int list_id)
       ResetStringReference(&(l->rest));
 }
 
-void RenumberTableTimerStringReferences(table_node *t, int table_id)
+void RenumberTableTimerStringReferences(table_node *t, __int64 table_id)
 {
    hash_node *hn;
 
@@ -858,7 +858,7 @@ void CompactTimer(timer_node *t)
 // Strings
 /////////////////////////////////////////////////////////////////////////////
 
-void ClearStringGarbageRef(string_node *snod,int string_id)
+void ClearStringGarbageRef(string_node *snod,__int64 string_id)
 {
    snod->garbage_ref = UNREFERENCED;
 }
@@ -874,7 +874,7 @@ void MarkObjectStrings(object_node *o)
    }
 }
 
-void MarkListNodeStrings(list_node *l,int list_id)
+void MarkListNodeStrings(list_node *l,__int64 list_id)
 {
    if (l->first.v.tag == TAG_STRING)
       MarkString(l->first.v.data);
@@ -882,7 +882,7 @@ void MarkListNodeStrings(list_node *l,int list_id)
       MarkString(l->rest.v.data);
 }
 
-void MarkTableStrings(table_node *t, int table_id)
+void MarkTableStrings(table_node *t, __int64 table_id)
 {
    hash_node *hn;
 
@@ -898,7 +898,7 @@ void MarkTableStrings(table_node *t, int table_id)
    }
 }
 
-void MarkString(int string_id)
+void MarkString(__int64 string_id)
 {
    string_node *snod;
 
@@ -911,7 +911,7 @@ void MarkString(int string_id)
    snod->garbage_ref = REFERENCED;
 }
 
-void RenumberString(string_node *snod,int string_id)
+void RenumberString(string_node *snod,__int64 string_id)
 {
    if (snod->garbage_ref == REFERENCED)
    {
@@ -940,7 +940,7 @@ void ResetStringReference(val_type *vlist_ptr)
    vlist_ptr->v.data = snod->garbage_ref; /* has the new list node id */
 }
 
-void CompactString(string_node *snod,int string_id)
+void CompactString(string_node *snod, __int64 string_id)
 {
    if (snod->garbage_ref == UNREFERENCED)
       FreeString(string_id);

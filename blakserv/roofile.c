@@ -720,7 +720,7 @@ bool BSPLineOfSight(room_type* Room, V3* S, V3* E)
 /*********************************************************************************************/
 /* BSPCanMoveInRoom:  Checks if you can walk a straight line from (S)tart to (E)nd           */
 /*********************************************************************************************/
-bool BSPCanMoveInRoom(room_type* Room, V2* S, V2* E, int ObjectID, bool moveOutsideBSP, Wall** BlockWall)
+bool BSPCanMoveInRoom(room_type* Room, V2* S, V2* E, __int64 ObjectID, bool moveOutsideBSP, Wall** BlockWall)
 {
    if (!Room || Room->TreeNodesCount == 0 || !S || !E)
       return false;
@@ -1015,7 +1015,7 @@ bool BSPGetRandomPoint(room_type* Room, int MaxAttempts, V2* P)
 /* BSPGetStepTowards:  Returns a location in P param, in a distant of 16 kod fineness units
 /*                     away from S on the way towards E.
 /*********************************************************************************************/
-bool BSPGetStepTowards(room_type* Room, V2* S, V2* E, V2* P, unsigned int* Flags, int ObjectID)
+bool BSPGetStepTowards(room_type* Room, V2* S, V2* E, V2* P, unsigned int* Flags, __int64 ObjectID)
 {
    if (!Room || !S || !E || !P || !Flags)
       return false;
@@ -1328,7 +1328,7 @@ void BSPBlockerClear(room_type* Room)
 /*********************************************************************************************/
 /* BSPBlockerRemove:  Removes a blocked location.                                            */
 /*********************************************************************************************/
-bool BSPBlockerRemove(room_type* Room, int ObjectID)
+bool BSPBlockerRemove(room_type* Room, __int64 ObjectID)
 {
    if (!Room)
       return false;
@@ -1364,7 +1364,7 @@ bool BSPBlockerRemove(room_type* Room, int ObjectID)
 /*********************************************************************************************/
 /* BSPBlockerAdd:     Adds a blocked location in the room.                                   */
 /*********************************************************************************************/
-bool BSPBlockerAdd(room_type* Room, int ObjectID, V2* P)
+bool BSPBlockerAdd(room_type* Room, __int64 ObjectID, V2* P)
 {
    if (!Room || !P)
       return false;
@@ -1396,7 +1396,7 @@ bool BSPBlockerAdd(room_type* Room, int ObjectID, V2* P)
 /*********************************************************************************************/
 /* BSPBlockerMove:    Moves an existing blocked location to somewhere else.                  */
 /*********************************************************************************************/
-bool BSPBlockerMove(room_type* Room, int ObjectID, V2* P)
+bool BSPBlockerMove(room_type* Room, __int64 ObjectID, V2* P)
 {
    if (!Room || !P)
       return false;

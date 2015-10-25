@@ -25,12 +25,12 @@ class_node *current_class;
 
 /* local function prototypes */
 
-void LoadKodbaseClass(char *class_name,int class_id);
-void LoadKodbaseProperty(char *prop_name,int property_id);
-void LoadKodbaseClassVariable(char *classvar_name,int classvar_id);
-void LoadKodbaseMessage(char *message_name,int message_id);
-void LoadKodbaseParameter(char *parm_name,int parm_id);
-void LoadKodbaseResource(char *resource_name,int resource_id);
+void LoadKodbaseClass(char *class_name, __int64 class_id);
+void LoadKodbaseProperty(char *prop_name, __int64 property_id);
+void LoadKodbaseClassVariable(char *classvar_name, __int64 classvar_id);
+void LoadKodbaseMessage(char *message_name, __int64 message_id);
+void LoadKodbaseParameter(char *parm_name, __int64 parm_id);
+void LoadKodbaseResource(char *resource_name, __int64 resource_id);
 
 void LoadKodbase(void)
 {
@@ -145,23 +145,23 @@ void LoadKodbase(void)
 	SetClassPropertyNames();
 }
 
-void LoadKodbaseClass(char *class_name,int class_id)
+void LoadKodbaseClass(char *class_name, __int64 class_id)
 {
    current_class = GetClassByID(class_id);
    if (current_class == NULL)
    {
-      eprintf("LoadKodbaseClass can't find class id %i\n",class_id);
+      eprintf("LoadKodbaseClass can't find class id %I64d\n",class_id);
       return;
    }
 
 	SetClassName(class_id,class_name);
 }
 
-void LoadKodbaseProperty(char *prop_name,int property_id)
+void LoadKodbaseProperty(char *prop_name, __int64 property_id)
 {
    if (current_class == NULL)
    {
-      eprintf("LoadKodbaseProperty has no current class (%s:%d)\n",
+      eprintf("LoadKodbaseProperty has no current class (%s:%I64d)\n",
          prop_name, property_id);
       return;
    }
@@ -175,13 +175,13 @@ void LoadKodbaseProperty(char *prop_name,int property_id)
    return;
 }
 
-void LoadKodbaseClassVariable(char *classvar_name,int classvar_id)
+void LoadKodbaseClassVariable(char *classvar_name, __int64 classvar_id)
 {
    classvar_name_node *new_classvar;
 
    if (current_class == NULL)
    {
-      eprintf("LoadKodbaseClassVariable has no current class (%s:%d)\n",
+      eprintf("LoadKodbaseClassVariable has no current class (%s:%I64d)\n",
          classvar_name, classvar_id);
       return;
    }
@@ -203,17 +203,17 @@ void LoadKodbaseClassVariable(char *classvar_name,int classvar_id)
    return;
 }
 
-void LoadKodbaseMessage(char *message_name,int message_id)
+void LoadKodbaseMessage(char *message_name, __int64 message_id)
 {
    CreateNameID(message_name,message_id);
 }
 
-void LoadKodbaseParameter(char *parm_name,int parm_id)
+void LoadKodbaseParameter(char *parm_name, __int64 parm_id)
 {
    CreateNameID(parm_name,parm_id);
 }
 
-void LoadKodbaseResource(char *resource_name,int resource_id)
+void LoadKodbaseResource(char *resource_name, __int64 resource_id)
 {
 	SetResourceName(resource_id,resource_name);
 }

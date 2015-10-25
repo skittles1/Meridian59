@@ -42,10 +42,10 @@
 
 #include "blakserv.h"
 
-int system_obj_id;
-int settings_obj_id;
-int realtime_obj_id;
-int eventengine_obj_id;
+__int64 system_obj_id;
+__int64 settings_obj_id;
+__int64 realtime_obj_id;
+__int64 eventengine_obj_id;
 
 // Creates all the built-in objects that aren't referenced by other objects
 // in blakod, but can be called by constant (e.g. SYSTEM).
@@ -57,7 +57,7 @@ void CreateBuiltInObjects()
    SetEventEngineObjectID(CreateObject(EVENTENGINE_CLASS, 0, NULL));
 }
 
-int GetBuiltInObjectID(int id)
+__int64 GetBuiltInObjectID(__int64 id)
 {
    switch(id)
    {
@@ -70,7 +70,7 @@ int GetBuiltInObjectID(int id)
    return INVALID_OBJECT;
 }
 
-void SetBuiltInObjectID(int ref_id, int obj_id)
+void SetBuiltInObjectID(__int64 ref_id, __int64 obj_id)
 {
    if (ref_id == SYSTEM_OBJECT)
       system_obj_id = obj_id;
@@ -82,7 +82,7 @@ void SetBuiltInObjectID(int ref_id, int obj_id)
       eventengine_obj_id = obj_id;
 }
 
-void SetBuiltInObjectIDByClass(int ref_id, int obj_id)
+void SetBuiltInObjectIDByClass(__int64 ref_id, __int64 obj_id)
 {
    if (ref_id == SYSTEM_CLASS)
       system_obj_id = obj_id;
@@ -94,42 +94,42 @@ void SetBuiltInObjectIDByClass(int ref_id, int obj_id)
       eventengine_obj_id = obj_id;
 }
 
-int GetSystemObjectID()
+__int64 GetSystemObjectID()
 {
    return system_obj_id;
 }
 
-void SetSystemObjectID(int new_id)
+void SetSystemObjectID(__int64 new_id)
 {
    system_obj_id = new_id;
 }
 
-int GetSettingsObjectID()
+__int64 GetSettingsObjectID()
 {
    return settings_obj_id;
 }
 
-void SetSettingsObjectID(int new_id)
+void SetSettingsObjectID(__int64 new_id)
 {
    settings_obj_id = new_id;
 }
 
-int GetRealTimeObjectID()
+__int64 GetRealTimeObjectID()
 {
    return realtime_obj_id;
 }
 
-void SetRealTimeObjectID(int new_id)
+void SetRealTimeObjectID(__int64 new_id)
 {
    realtime_obj_id = new_id;
 }
 
-int GetEventEngineObjectID()
+__int64 GetEventEngineObjectID()
 {
    return eventengine_obj_id;
 }
 
-void SetEventEngineObjectID(int new_id)
+void SetEventEngineObjectID(__int64 new_id)
 {
    eventengine_obj_id = new_id;
 }

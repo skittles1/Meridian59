@@ -18,10 +18,10 @@
 FILE *strfile;
 
 /* local function prototypes */
-void SaveEachString(string_node *snod,int string_id);
+void SaveEachString(string_node *snod,__int64 string_id);
 
 // Functions for writing to the save game buffer.
-void SaveStrCopyIntBuffer(int int_buffer);
+void SaveStrCopyIntBuffer(__int64 int_buffer);
 void SaveStrCopySnodBuffer(string_node *snod);
 // Used to flush the buffer and write to file.
 void SaveStrFlushBuffer();
@@ -77,7 +77,7 @@ Bool SaveStrings(char *filename)
    return True;
 }
 
-void SaveEachString(string_node *snod, int string_id)
+void SaveEachString(string_node *snod, __int64 string_id)
 {
    // Write string ID
    SaveStrCopyIntBuffer(string_id);
@@ -87,10 +87,10 @@ void SaveEachString(string_node *snod, int string_id)
 }
 
 // Write 4 bytes to buffer.
-void SaveStrCopyIntBuffer(int int_buffer)
+void SaveStrCopyIntBuffer(__int64 int_buffer)
 {
-   memcpy(&(buffer[buffer_position]), &int_buffer, 4);
-   buffer_position += 4;
+   memcpy(&(buffer[buffer_position]), &int_buffer, 8);
+   buffer_position += 8;
 
    // Flush buffer at 80%.
    if (buffer_position > buffer_warning_size)

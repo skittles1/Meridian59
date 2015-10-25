@@ -66,7 +66,8 @@ void MaintenanceProcessSessionBuffer(session_node *s)
 
 void MaintenanceInputChar(session_node *s,char ch)
 {
-   int len,session_id;
+   int len;
+   __int64 session_id;
 
    if (ch != CR)
    {

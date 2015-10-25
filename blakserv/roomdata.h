@@ -24,9 +24,9 @@ typedef struct room_node
 void        InitRooms(void);
 void        ExitRooms(void);
 void        ResetRooms(void);
-int         LoadRoom(int resource_id);
+__int64     LoadRoom(__int64 resource_id);
 void        UnloadRoom(room_node *r);
-room_node*  GetRoomDataByID(int id);
+room_node*  GetRoomDataByID(__int64 id);
 void PrintRoomTable();
 void ForEachRoom(void(*callback_func)(room_node *r));
 

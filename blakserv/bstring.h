@@ -20,20 +20,20 @@ typedef struct
 {
    char *data;
    int len_data;
-   int garbage_ref;
+   __int64 garbage_ref;
 } string_node;
 
 void InitString(void);
 void ResetString(void);
 int GetStringsUsed(void);
-string_node * GetStringByID(int string_id);
-Bool IsStringByID(int string_id);
-int CreateString(const char *new_str);
-int CreateStringWithLen(const char *buf,int len);
-Bool LoadBlakodString(FILE *f,int len_str,int string_id);
-void ForEachString(void (*callback_func)(string_node *snod,int string_id));
-void FreeString(int string_id);
-void MoveStringNode(int dest_id,int source_id);
+string_node * GetStringByID(__int64 string_id);
+Bool IsStringByID(__int64 string_id);
+__int64 CreateString(const char *new_str);
+__int64 CreateStringWithLen(const char *buf, int len);
+Bool LoadBlakodString(FILE *f,int len_str,__int64 string_id);
+void ForEachString(void (*callback_func)(string_node *snod,__int64 string_id));
+void FreeString(__int64 string_id);
+void MoveStringNode(__int64 dest_id, __int64 source_id);
 void SetNumStrings(int new_num_strings);
 int GetNumStrings(void);
 

@@ -36,8 +36,9 @@ enum
 
 void CreateBuiltInAccounts(void)
 {
-	int i, account_id, object_id = INVALID_OBJECT;
-	val_type name_val,system_id_val;
+   int i, account_id;
+   __int64 object_id = INVALID_OBJECT;
+	val_type name_val, system_id_val;
 	parm_node p[2];
 	
 	for (i=0;i<NUM_BUILTIN;i++)

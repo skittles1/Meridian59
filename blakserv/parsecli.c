@@ -33,7 +33,7 @@ client_table_node *user_table,*system_table,*usercommand_table;
 val_type cli_list_nodes[MAX_CLIENT_PARMS];
 
 /* local function prototypes */
-void ParseClientSendBlakod(int session_id,int msg_len,unsigned char *msg_data,int object_id,
+void ParseClientSendBlakod(__int64 session_id,int msg_len,unsigned char *msg_data,__int64 object_id,
 						   client_table_type command_table);
 
 // Handles more common error messages for ParseClientSendBlakod,
@@ -141,7 +141,7 @@ void ClientToBlakodUser(session_node *session,int msg_len,char *msg_data)
 		session->game->object_id,user_table);
 }
 
-void ParseClientSendBlakod(int session_id,int msg_len,unsigned char *msg_data,int object_id,
+void ParseClientSendBlakod(__int64 session_id,int msg_len,unsigned char *msg_data,__int64 object_id,
 						   client_table_type command_table)
 {
 	int i,j,msg_byte_offset,num_parms;

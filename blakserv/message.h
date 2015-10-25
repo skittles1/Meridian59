@@ -22,12 +22,12 @@
 
 typedef struct message_struct
 {
-   int message_id;
-   char *handler;
-   int dstr_id;
-   int trace_session_id;
+   __int64 message_id;
+   __int64 dstr_id;
+   __int64 trace_session_id;
    int untimed_call_count;
    int timed_call_count;
+   char *handler;
    struct message_struct *propagate_message;
    struct class_struct *propagate_class;
    double total_call_time;
@@ -36,8 +36,8 @@ typedef struct message_struct
 
 void InitMessage(void);
 void ResetMessage(void);
-void SetClassNumMessages(int class_id,int num_messages);
-void AddMessage(int class_id,int count,int message_id,char *offset,int dstr_id);
+void SetClassNumMessages(__int64 class_id,int num_messages);
+void AddMessage(__int64 class_id, int count, __int64 message_id, char *offset, __int64 dstr_id);
 void SetMessagesPropagate(void);
 int GetHighestMessageCount(void);
 int GetNumMessageHashCollisions(void);

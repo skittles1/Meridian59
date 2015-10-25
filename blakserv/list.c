@@ -9,7 +9,7 @@
 * list.c
 *
 
-  This module maintains a dynamically sized array with the list nodes
+  This module ma__int64ains a dynamically sized array with the list nodes
   used by the Blakod.  They are like LISP list nodes, keeping values in
   two fields, first and rest.
   
@@ -18,10 +18,10 @@
 #include "blakserv.h"
 
 list_node *list_nodes;
-int num_nodes,max_nodes;
+int num_nodes, max_nodes;
 
 /* local function prototypes */
-int AllocateListNode(void);
+__int64 AllocateListNode(void);
 
 void InitList(void)
 {
@@ -43,7 +43,7 @@ void ResetList(void)
 */
 void ClearList(void)
 {
-	int old_nodes;
+   int old_nodes;
 	
 	old_nodes = max_nodes;
 	
@@ -59,7 +59,7 @@ int GetListNodesUsed(void)
 	return num_nodes;
 }
 
-int AllocateListNode(void)
+__int64 AllocateListNode(void)
 {
 	int old_nodes;
 	
@@ -76,12 +76,12 @@ int AllocateListNode(void)
 	return num_nodes++;
 }
 
-Bool LoadList(int list_id,val_type first,val_type rest)
+Bool LoadList(__int64 list_id,val_type first,val_type rest)
 {
 	if (AllocateListNode() != list_id)
 	{
 		eprintf("LoadList didn't make list id %i\n",list_id);
-		return False;
+		return false;
 	}
 	
 	list_nodes[list_id].first = first;
@@ -90,7 +90,7 @@ Bool LoadList(int list_id,val_type first,val_type rest)
 	return True;
 }
 
-list_node *GetListNodeByID(int list_id)
+list_node *GetListNodeByID(__int64 list_id)
 {
 	if (list_id < 0 || list_id >= num_nodes)
 	{
@@ -100,15 +100,15 @@ list_node *GetListNodeByID(int list_id)
 	return &list_nodes[list_id];
 }
 
-Bool IsListNodeByID(int list_id)
+Bool IsListNodeByID(__int64 list_id)
 {
 	if (list_id < 0 || list_id >= num_nodes)
-		return False;
+		return false;
 	
 	return True;
 }
 
-int First(int list_id)
+__int64 First(__int64 list_id)
 {
 	list_node *l;
 	
@@ -116,7 +116,7 @@ int First(int list_id)
 	return (l? l->first.int_val : NIL);
 }
 
-int Rest(int list_id)
+__int64 Rest(__int64 list_id)
 {
 	list_node *l;
 	
@@ -124,9 +124,9 @@ int Rest(int list_id)
 	return (l? l->rest.int_val : NIL);
 }
 
-int AppendListElem(val_type source, val_type list_val)
+__int64 AppendListElem(val_type source, val_type list_val)
 {
-   int list_id, new_list_id, n = 0, temp_list_id = -1;
+   __int64 list_id, new_list_id, n = 0, temp_list_id = -1;
    list_node *l, *new_node;
 
    if (list_val.v.tag == TAG_NIL)
@@ -185,9 +185,9 @@ int AppendListElem(val_type source, val_type list_val)
    return list_id;
 }
 
-int Cons(val_type source,val_type dest)
+__int64 Cons(val_type source, val_type dest)
 {
-   int list_id, source_id = -1, dest_id = -1;
+   __int64 list_id, source_id = -1, dest_id = -1;
    list_node *new_node;
 
    if (source.v.tag == TAG_LIST)
@@ -221,9 +221,9 @@ int Cons(val_type source,val_type dest)
    return list_id;
 }
 
-int Length(int list_id)
+__int64 Length(__int64 list_id)
 {
-	int len_so_far;
+   __int64 len_so_far;
 	list_node *l;
 	
 	l = GetListNodeByID(list_id);
@@ -239,9 +239,9 @@ int Length(int list_id)
 	return len_so_far;
 }
 
-int Nth(int n,int list_id)
+__int64 Nth(__int64 n, __int64 list_id)
 {
-	int i;
+	__int64 i;
 	list_node *l;
 	
 	l = GetListNodeByID(list_id);
@@ -264,7 +264,7 @@ int Nth(int n,int list_id)
 	return (l? l->first.int_val : NIL);
 }
 
-int IsListMatch(int list_one_id, int list_two_id)
+__int64 IsListMatch(__int64 list_one_id, __int64 list_two_id)
 {
    list_node *l1, *l2;
 
@@ -274,22 +274,22 @@ int IsListMatch(int list_one_id, int list_two_id)
    if (!l1)
    {
       bprintf("IsListMatch had invalid list node at start of list one\n");
-      return False;
+      return false;
    }
    if (!l2)
    {
       bprintf("IsListMatch had invalid list node at start of list two\n");
-      return False;
+      return false;
    }
 
    // If the element is a list, check its contents, else compare int_val.
    if (l1->first.v.tag == TAG_LIST && l2->first.v.tag == TAG_LIST)
    {
       if (!IsListMatch(l1->first.v.data,l2->first.v.data))
-         return False;
+         return false;
    }
    else if (l1->first.int_val != l2->first.int_val)
-      return False;
+      return false;
 
    // Iterate through lists and check each node.
    while (l1->rest.v.tag != TAG_NIL && l2->rest.v.tag != TAG_NIL)
@@ -300,33 +300,33 @@ int IsListMatch(int list_one_id, int list_two_id)
       if (!l1)
       {
          bprintf("IsListMatch had invalid list node somewhere in list one\n");
-         return False;
+         return false;
       }
 
       if (!l2)
       {
          bprintf("IsListMatch had invalid list node somewhere in list two\n");
-         return False;
+         return false;
       }
 
       // If the element is a list, check its contents, else compare int_val.
       if (l1->first.v.tag == TAG_LIST && l2->first.v.tag == TAG_LIST)
       {
          if (!IsListMatch(l1->first.v.data,l2->first.v.data))
-            return False;
+            return false;
       }
       else if (l1->first.int_val != l2->first.int_val)
-         return False;
+         return false;
    }
 
    // Make sure we're at end of both lists.
    if (l1->rest.v.tag != TAG_NIL || l2->rest.v.tag != TAG_NIL)
-      return False;
+      return false;
 
    return True;
 }
 
-int Last(int list_id)
+__int64 Last(__int64 list_id)
 {
    list_node *l;
 
@@ -352,7 +352,7 @@ int Last(int list_id)
    return l->first.int_val;
 }
 
-int SetFirst(int list_id,val_type new_val)
+__int64 SetFirst(__int64 list_id,val_type new_val)
 {
 	list_node *l;
 	
@@ -363,9 +363,9 @@ int SetFirst(int list_id,val_type new_val)
 	return NIL;
 }
 
-int SetNth(int n,int list_id,val_type new_val)
+__int64 SetNth(__int64 n,__int64 list_id,val_type new_val)
 {
-	int i;
+	__int64 i;
 	list_node *l;
 	
 	l = GetListNodeByID(list_id);
@@ -392,7 +392,7 @@ int SetNth(int n,int list_id,val_type new_val)
 	return NIL;
 }
 
-int SwapListElem(int list_id,int elem_one,int elem_two)
+__int64 SwapListElem(__int64 list_id,__int64 elem_one,__int64 elem_two)
 {
    list_node *l, *list_node_one, *list_node_two;
    val_type temp;
@@ -404,7 +404,7 @@ int SwapListElem(int list_id,int elem_one,int elem_two)
    list_node_two = l;
 
    // Start i at 2, since n or m = 1 will be handled by the initialisation.
-   for (int i = 2; i <= elem_one || i <= elem_two; i++)
+   for (__int64 i = 2; i <= elem_one || i <= elem_two; i++)
    {
       if (!l)
       {
@@ -438,9 +438,9 @@ int SwapListElem(int list_id,int elem_one,int elem_two)
    return NIL;
 }
 
-int FindListElem(val_type list_id,val_type list_elem)
+__int64 FindListElem(val_type list_id,val_type list_elem)
 {
-	int i;
+	__int64 i;
 	list_node *l;
 	
 	l = GetListNodeByID(list_id.v.data);
@@ -466,12 +466,12 @@ int FindListElem(val_type list_id,val_type list_elem)
 	return NIL;
 }
 
-int GetAllListNodesByClass(int list_id, int position, int class_id)
+__int64 GetAllListNodesByClass(__int64 list_id, __int64 position, __int64 class_id)
 {
    list_node *l;
    object_node *o;
    class_node *c;
-   int new_list_id = -1, l_list_id;
+   __int64 new_list_id = -1, l_list_id;
    val_type nil_val, obj_val, first_val, rest_val;
    nil_val.int_val = NIL;
    first_val.v.tag = TAG_LIST;
@@ -595,7 +595,7 @@ int GetAllListNodesByClass(int list_id, int position, int class_id)
 }
 
 // Works like FindListElem, but compares the class of the object.
-int GetListElemByClass(val_type list_id, int class_id)
+__int64 GetListElemByClass(val_type list_id, __int64 class_id)
 {
    list_node *l;
    object_node *o;
@@ -665,7 +665,7 @@ int GetListElemByClass(val_type list_id, int class_id)
 }
 
 // Returns the list node that contains list_elem in the position given.
-int GetListNode(val_type list_id, int position, val_type list_elem)
+__int64 GetListNode(val_type list_id, __int64 position, val_type list_elem)
 {
    list_node *l;
 
@@ -717,11 +717,11 @@ int GetListNode(val_type list_id, int position, val_type list_elem)
 // here are invalidated. As a result, this function is structured so that
 // no old list_nodes are accessed after an allocation or recursive ListCopy
 // call. This adds overhead, but is still the fastest safe way to copy a list.
-int ListCopy(int list_id)
+__int64 ListCopy(__int64 list_id)
 {
    list_node *l, *new_node, *new_next;
-   int new_list_id, first_list_id, rest_list_id, l_list_id;
-   int temp;
+   __int64 new_list_id, first_list_id, rest_list_id, l_list_id;
+   __int64 temp;
 
    // Allocate first so a resize doesn't clobber references.
    new_list_id = first_list_id = AllocateListNode();
@@ -831,9 +831,9 @@ int ListCopy(int list_id)
    return new_list_id;
 }
 
-int InsertListElem(int n,int list_id,val_type new_val)
+__int64 InsertListElem(__int64 n,__int64 list_id,val_type new_val)
 {
-   int new_list_id, temp_list_id = -1;
+   __int64 new_list_id, temp_list_id = -1;
    list_node *l, *prev = NULL, *new_node;
 
    if (n == 0)
@@ -860,7 +860,7 @@ int InsertListElem(int n,int list_id,val_type new_val)
    l = GetListNodeByID(list_id);
 
    // Start at i = 2, n = 1 handled already.
-   for (int i = 2; i <= n; i++)
+   for (__int64 i = 2; i <= n; i++)
    {
       if (!l)
       {
@@ -883,7 +883,7 @@ int InsertListElem(int n,int list_id,val_type new_val)
          else
             new_node->first.int_val = new_val.int_val;
 
-         // Previous node points to this one.
+         // Previous node po__int64s to this one.
          l->rest.v.tag = TAG_LIST;
          l->rest.v.data = new_list_id;
          return list_id;
@@ -900,7 +900,7 @@ int InsertListElem(int n,int list_id,val_type new_val)
    }
 
    // This node is inserted in position of the existing one, so use its rest data.
-   // Points to the old node.
+   // Po__int64s to the old node.
    new_node->rest.v.data = prev->rest.v.data;
    new_node->rest.v.tag = TAG_LIST;
 
@@ -914,13 +914,13 @@ int InsertListElem(int n,int list_id,val_type new_val)
    else
       new_node->first.int_val = new_val.int_val;
 
-   // Previous node points to this one.
+   // Previous node po__int64s to this one.
    prev->rest.v.data = new_list_id;
 
    return list_id;
 }
 
-int DelListElem(val_type list_id,val_type list_elem)
+__int64 DelListElem(val_type list_id,val_type list_elem)
 {
 	list_node *l,*prev;
 	
@@ -954,11 +954,11 @@ int DelListElem(val_type list_id,val_type list_elem)
 // Next 6 functions deal with sending a message to objects in a list.
 
 // ret_false is True if we return on a single false return from SendBlakodMessage.
-int SendListMessage(int list_id, bool ret_false, int message_id,
+__int64 SendListMessage(__int64 list_id, bool ret_false, __int64 message_id,
                     int num_parms, parm_node parms[])
 {
    list_node *l;
-   int obj_id = INVALID_OBJECT, return_int = True;
+   __int64 obj_id = INVALID_OBJECT, return_int = True;
    val_type ret_val;
 
    l = GetListNodeByID(list_id);
@@ -971,11 +971,11 @@ int SendListMessage(int list_id, bool ret_false, int message_id,
    if (l->first.v.tag == TAG_OBJECT)
    {
       ret_val.int_val = SendBlakodMessage(l->first.v.data, message_id, num_parms, parms);
-      if (ret_val.v.tag == TAG_INT && ret_val.v.data == False)
+      if (ret_val.v.tag == TAG_INT && ret_val.v.data == false)
       {
          if (ret_false)
-            return False;
-         return_int = False;
+            return false;
+         return_int = false;
       }
    }
    /* Sending to built-in objects in a list disabled for now.
@@ -986,11 +986,11 @@ int SendListMessage(int list_id, bool ret_false, int message_id,
       if (obj_id > INVALID_OBJECT)
       {
          ret_val.int_val = SendBlakodMessage(obj_id, message_id, num_parms, parms);
-         if (ret_val.v.tag == TAG_INT && ret_val.v.data == False)
+         if (ret_val.v.tag == TAG_INT && ret_val.v.data == false)
          {
             if (ret_false)
-               return False;
-            return_int = False;
+               return false;
+            return_int = false;
          }
       }
    }*/
@@ -1008,11 +1008,11 @@ int SendListMessage(int list_id, bool ret_false, int message_id,
       if (l->first.v.tag == TAG_OBJECT)
       {
          ret_val.int_val = SendBlakodMessage(l->first.v.data, message_id, num_parms, parms);
-         if (ret_val.v.tag == TAG_INT && ret_val.v.data == False)
+         if (ret_val.v.tag == TAG_INT && ret_val.v.data == false)
          {
             if (ret_false)
-               return False;
-            return_int = False;
+               return false;
+            return_int = false;
          }
       }
       /* Sending to built-in objects in a list disabled for now.
@@ -1023,11 +1023,11 @@ int SendListMessage(int list_id, bool ret_false, int message_id,
          if (obj_id > INVALID_OBJECT)
          {
             ret_val.int_val = SendBlakodMessage(obj_id, message_id, num_parms, parms);
-            if (ret_val.v.tag == TAG_INT && ret_val.v.data == False)
+            if (ret_val.v.tag == TAG_INT && ret_val.v.data == false)
             {
                if (ret_false)
-                  return False;
-               return_int = False;
+                  return false;
+               return_int = false;
             }
          }
       }*/
@@ -1037,11 +1037,11 @@ int SendListMessage(int list_id, bool ret_false, int message_id,
 }
 
 // ret_false is True if we return on a single false return from SendBlakodMessage.
-int SendFirstListMessage(int list_id, bool ret_false, int message_id,
+__int64 SendFirstListMessage(__int64 list_id, bool ret_false, __int64 message_id,
                          int num_parms, parm_node parms[])
 {
    list_node *l, *first;
-   int return_int = True, obj_id = INVALID_OBJECT;
+   __int64 return_int = True, obj_id = INVALID_OBJECT;
    val_type ret_val;
 
    l = GetListNodeByID(list_id);
@@ -1063,11 +1063,11 @@ int SendFirstListMessage(int list_id, bool ret_false, int message_id,
       else if (first->first.v.tag == TAG_OBJECT)
       {
          ret_val.int_val = SendBlakodMessage(first->first.v.data, message_id, num_parms, parms);
-         if (ret_val.v.tag == TAG_INT && ret_val.v.data == False)
+         if (ret_val.v.tag == TAG_INT && ret_val.v.data == false)
          {
             if (ret_false)
-               return False;
-            return_int = False;
+               return false;
+            return_int = false;
          }
       }
       /* Sending to built-in objects in a list disabled for now.
@@ -1078,11 +1078,11 @@ int SendFirstListMessage(int list_id, bool ret_false, int message_id,
          if (obj_id > INVALID_OBJECT)
          {
             ret_val.int_val = SendBlakodMessage(obj_id, message_id, num_parms, parms);
-            if (ret_val.v.tag == TAG_INT && ret_val.v.data == False)
+            if (ret_val.v.tag == TAG_INT && ret_val.v.data == false)
             {
                if (ret_false)
-                  return False;
-               return_int = False;
+                  return false;
+               return_int = false;
             }
          }
       }*/
@@ -1114,11 +1114,11 @@ int SendFirstListMessage(int list_id, bool ret_false, int message_id,
          if (first->first.v.tag == TAG_OBJECT)
          {
             ret_val.int_val = SendBlakodMessage(first->first.v.data, message_id, num_parms, parms);
-            if (ret_val.v.tag == TAG_INT && ret_val.v.data == False)
+            if (ret_val.v.tag == TAG_INT && ret_val.v.data == false)
             {
                if (ret_false)
-                  return False;
-               return_int = False;
+                  return false;
+               return_int = false;
             }
          }
          /* Sending to built-in objects in a list disabled for now.
@@ -1129,11 +1129,11 @@ int SendFirstListMessage(int list_id, bool ret_false, int message_id,
             if (obj_id > INVALID_OBJECT)
             {
                ret_val.int_val = SendBlakodMessage(obj_id, message_id, num_parms, parms);
-               if (ret_val.v.tag == TAG_INT && ret_val.v.data == False)
+               if (ret_val.v.tag == TAG_INT && ret_val.v.data == false)
                {
                   if (ret_false)
-                     return False;
-                  return_int = False;
+                     return false;
+                  return_int = false;
                }
             }
          }*/
@@ -1144,11 +1144,11 @@ int SendFirstListMessage(int list_id, bool ret_false, int message_id,
 }
 
 // ret_false is True if we return on a single false return from SendBlakodMessage.
-int SendNthListMessage(int list_id, int position, bool ret_false,
-                       int message_id, int num_parms, parm_node parms[])
+__int64 SendNthListMessage(__int64 list_id, __int64 position, bool ret_false,
+                       __int64 message_id, int num_parms, parm_node parms[])
 {
    list_node *l;
-   int obj_id = INVALID_OBJECT, return_int = True;
+   __int64 obj_id = INVALID_OBJECT, return_int = True;
    val_type obj_val, ret_val;
 
    l = GetListNodeByID(list_id);
@@ -1167,11 +1167,11 @@ int SendNthListMessage(int list_id, int position, bool ret_false,
       if (obj_val.v.tag == TAG_OBJECT)
       {
          ret_val.int_val = SendBlakodMessage(obj_val.v.data, message_id, num_parms, parms);
-         if (ret_val.v.tag == TAG_INT && ret_val.v.data == False)
+         if (ret_val.v.tag == TAG_INT && ret_val.v.data == false)
          {
             if (ret_false)
-               return False;
-            return_int = False;
+               return false;
+            return_int = false;
          }
       }
       /* Sending to built-in objects in a list disabled for now.
@@ -1182,11 +1182,11 @@ int SendNthListMessage(int list_id, int position, bool ret_false,
          if (obj_id > INVALID_OBJECT)
          {
             ret_val.int_val = SendBlakodMessage(obj_id, message_id, num_parms, parms);
-            if (ret_val.v.tag == TAG_INT && ret_val.v.data == False)
+            if (ret_val.v.tag == TAG_INT && ret_val.v.data == false)
             {
                if (ret_false)
-                  return False;
-               return_int = False;
+                  return false;
+               return_int = false;
             }
          }
       }*/
@@ -1212,11 +1212,11 @@ int SendNthListMessage(int list_id, int position, bool ret_false,
       if (obj_val.v.tag == TAG_OBJECT)
       {
          ret_val.int_val = SendBlakodMessage(obj_val.v.data, message_id, num_parms, parms);
-         if (ret_val.v.tag == TAG_INT && ret_val.v.data == False)
+         if (ret_val.v.tag == TAG_INT && ret_val.v.data == false)
          {
             if (ret_false)
-               return False;
-            return_int = False;
+               return false;
+            return_int = false;
          }
       }
       /* Sending to built-in objects in a list disabled for now.
@@ -1227,11 +1227,11 @@ int SendNthListMessage(int list_id, int position, bool ret_false,
          if (obj_id > INVALID_OBJECT)
          {
             ret_val.int_val = SendBlakodMessage(obj_id, message_id, num_parms, parms);
-            if (ret_val.v.tag == TAG_INT && ret_val.v.data == False)
+            if (ret_val.v.tag == TAG_INT && ret_val.v.data == false)
             {
                if (ret_false)
-                  return False;
-               return_int = False;
+                  return false;
+               return_int = false;
             }
          }
       }*/
@@ -1241,11 +1241,11 @@ int SendNthListMessage(int list_id, int position, bool ret_false,
 }
 
 // ret_false is True if we return on a single false return from SendBlakodMessage.
-int SendListMessageByClass(int list_id, int class_id, bool ret_false,
-                           int message_id, int num_parms, parm_node parms[])
+__int64 SendListMessageByClass(__int64 list_id, __int64 class_id, bool ret_false,
+                           __int64 message_id, int num_parms, parm_node parms[])
 {
    list_node *l;
-   int obj_id = INVALID_OBJECT, return_int = True;
+   __int64 obj_id = INVALID_OBJECT, return_int = True;
    val_type ret_val;
    object_node *o = NULL;
    class_node *c;
@@ -1284,11 +1284,11 @@ int SendListMessageByClass(int list_id, int class_id, bool ret_false,
          {
             ret_val.int_val = SendBlakodMessage(o->object_id, message_id, num_parms, parms);
             o = NULL;
-            if (ret_val.v.tag == TAG_INT && ret_val.v.data == False)
+            if (ret_val.v.tag == TAG_INT && ret_val.v.data == false)
             {
                if (ret_false)
-                  return False;
-               return_int = False;
+                  return false;
+               return_int = false;
             }
             break;
          }
@@ -1334,11 +1334,11 @@ int SendListMessageByClass(int list_id, int class_id, bool ret_false,
          {
             ret_val.int_val = SendBlakodMessage(o->object_id, message_id, num_parms, parms);
             o = NULL;
-            if (ret_val.v.tag == TAG_INT && ret_val.v.data == False)
+            if (ret_val.v.tag == TAG_INT && ret_val.v.data == false)
             {
                if (ret_false)
-                  return False;
-               return_int = False;
+                  return false;
+               return_int = false;
             }
             break;
          }
@@ -1350,11 +1350,11 @@ int SendListMessageByClass(int list_id, int class_id, bool ret_false,
 }
 
 // ret_false is True if we return on a single false return from SendBlakodMessage.
-int SendFirstListMessageByClass(int list_id, int class_id, bool ret_false,
-                                int message_id, int num_parms, parm_node parms[])
+__int64 SendFirstListMessageByClass(__int64 list_id, __int64 class_id, bool ret_false,
+                                __int64 message_id, int num_parms, parm_node parms[])
 {
    list_node *l, *first;
-   int obj_id = INVALID_OBJECT, return_int = True;
+   __int64 obj_id = INVALID_OBJECT, return_int = True;
    val_type ret_val;
    object_node *o = NULL;
    class_node *c;
@@ -1406,11 +1406,11 @@ int SendFirstListMessageByClass(int list_id, int class_id, bool ret_false,
             {
                ret_val.int_val = SendBlakodMessage(o->object_id, message_id, num_parms, parms);
                o = NULL;
-               if (ret_val.v.tag == TAG_INT && ret_val.v.data == False)
+               if (ret_val.v.tag == TAG_INT && ret_val.v.data == false)
                {
                   if (ret_false)
-                     return False;
-                  return_int = False;
+                     return false;
+                  return_int = false;
                }
                break;
             }
@@ -1472,11 +1472,11 @@ int SendFirstListMessageByClass(int list_id, int class_id, bool ret_false,
          {
             ret_val.int_val = SendBlakodMessage(o->object_id, message_id, num_parms, parms);
             o = NULL;
-            if (ret_val.v.tag == TAG_INT && ret_val.v.data == False)
+            if (ret_val.v.tag == TAG_INT && ret_val.v.data == false)
             {
                if (ret_false)
-                  return False;
-               return_int = False;
+                  return false;
+               return_int = false;
             }
             break;
          }
@@ -1488,11 +1488,11 @@ int SendFirstListMessageByClass(int list_id, int class_id, bool ret_false,
 }
 
 // ret_false is True if we return on a single false return from SendBlakodMessage.
-int SendNthListMessageByClass(int list_id, int position, int class_id, bool ret_false,
-                              int message_id, int num_parms, parm_node parms[])
+__int64 SendNthListMessageByClass(__int64 list_id, __int64 position, __int64 class_id, bool ret_false,
+                              __int64 message_id, int num_parms, parm_node parms[])
 {
    list_node *l;
-   int obj_id = INVALID_OBJECT, return_int = True;
+   __int64 obj_id = INVALID_OBJECT, return_int = True;
    val_type ret_val, obj_val;
    object_node *o = NULL;
    class_node *c;
@@ -1540,11 +1540,11 @@ int SendNthListMessageByClass(int list_id, int position, int class_id, bool ret_
             {
                ret_val.int_val = SendBlakodMessage(o->object_id, message_id, num_parms, parms);
                o = NULL;
-               if (ret_val.v.tag == TAG_INT && ret_val.v.data == False)
+               if (ret_val.v.tag == TAG_INT && ret_val.v.data == false)
                {
                   if (ret_false)
-                     return False;
-                  return_int = False;
+                     return false;
+                  return_int = false;
                }
                break;
             }
@@ -1599,11 +1599,11 @@ int SendNthListMessageByClass(int list_id, int position, int class_id, bool ret_
          {
             ret_val.int_val = SendBlakodMessage(o->object_id, message_id, num_parms, parms);
             o = NULL;
-            if (ret_val.v.tag == TAG_INT && ret_val.v.data == False)
+            if (ret_val.v.tag == TAG_INT && ret_val.v.data == false)
             {
                if (ret_false)
-                  return False;
-               return_int = False;
+                  return false;
+               return_int = false;
             }
             break;
          }
@@ -1614,9 +1614,9 @@ int SendNthListMessageByClass(int list_id, int position, int class_id, bool ret_
    return return_int;
 }
 
-void ForEachListNode(void (*callback_func)(list_node *l,int list_id))
+void ForEachListNode(void (*callback_func)(list_node *l,__int64 list_id))
 {
-	int i;
+	__int64 i;
 	
 	for (i=0;i<num_nodes;i++)
 		callback_func(&list_nodes[i],i);
@@ -1624,7 +1624,7 @@ void ForEachListNode(void (*callback_func)(list_node *l,int list_id))
 
 /* these functions are for garbage collecting */
 
-void MoveListNode(int dest_id,int source_id)
+void MoveListNode(__int64 dest_id,__int64 source_id)
 {
 	list_node *source,*dest;
 	

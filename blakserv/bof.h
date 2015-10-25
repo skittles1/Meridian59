@@ -16,16 +16,16 @@
 /* util struct */
 typedef struct
 {
-   int id;
+   __int64 id;
    int offset;
 } bof_list_elem;
 
 /* util struct for message table */
 typedef struct
 {
-   int id;
+   __int64 id;
    int offset;
-   int dstr_id;
+   __int64 dstr_id;
 } bof_dispatch_list_elem;
 
 /* struct at beginning of file */
@@ -43,7 +43,7 @@ typedef struct
 /* struct at beginning of each class */
 typedef struct
 {
-   int superclass;
+   __int64 superclass;
    int offset_properties;
    int offset_dispatch;
    int num_classvars;

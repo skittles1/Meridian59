@@ -22,6 +22,6 @@ void LeaveServerLock(void);
 void SetQuit(void);
 Bool GetQuit(void);
 
-void SignalSession(int session_id);
+void SignalSession(__int64 session_id);
 
 #endif

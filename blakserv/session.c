@@ -32,7 +32,7 @@ CRITICAL_SECTION csSessions; /* need to add/remove or search through list of ses
 /* local function prototypes */
 session_node *AllocateSession(void);
 
-void CloseSession(int session_id);
+void CloseSession(__int64 session_id);
 void CloseConnection(connection_node conn);
 
 void ProcessSessionTimer(session_node *s);
@@ -155,7 +155,7 @@ session_node *AllocateSession(void)
 	return &sessions[i];
 }
 
-session_node * GetSessionByID(int session_id)
+session_node * GetSessionByID(__int64 session_id)
 {
 	if (session_id < 0 || session_id >= num_sessions)
 		return NULL;
@@ -402,7 +402,7 @@ void CloseConnection(connection_node conn)
 		closesocket(conn.socket);
 }
 
-void CloseSession(int session_id)
+void CloseSession(__int64 session_id)
 {
 	session_node *s;
 	
@@ -546,7 +546,7 @@ void PollSessions()
 	}
 }
 
-void PollSession(int session_id)
+void PollSession(__int64 session_id)
 {
 	session_node *s;
 	
@@ -596,7 +596,7 @@ void PollSession(int session_id)
 	}
 }
 
-void VerifiedLoginSession(int session_id)
+void VerifiedLoginSession(__int64 session_id)
 {
 	session_node *s;
 	
@@ -795,12 +795,12 @@ Bool PeekSessionBytes(session_node *s,int num_bytes,void *buf)
 	return True;
 }
 
-void SendClientStr(int session_id,char *str)
+void SendClientStr(__int64 session_id,char *str)
 {
 	SendClient(session_id,str,(unsigned short)strlen(str));
 }
 
-void SendClient(int session_id,char *data,unsigned short len_data)
+void SendClient(__int64 session_id,char *data,unsigned short len_data)
 {
 	session_node *s;
 	
@@ -902,7 +902,7 @@ void SendBytes(session_node *s,char *buf,int len_buf)
 /*------------ above here is junk-o byte buffer sending */
 /*------------ below here is nice buffer-list sending */
 
-void SendClientBufferList(int session_id,buffer_node *blist)
+void SendClientBufferList(__int64 session_id,buffer_node *blist)
 {
 	session_node *s;
 	

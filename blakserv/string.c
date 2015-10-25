@@ -18,13 +18,13 @@
 #include "blakserv.h"
 
 string_node *strings;
-int num_strings,max_strings;
+int num_strings, max_strings;
 
 /* this is for say commands, which are not saved */
 string_node temp_str;
 
 /* local function prototypes */
-int AllocateString();
+__int64 AllocateString();
 
 void InitString()
 {
@@ -40,7 +40,7 @@ void InitString()
 
 void ResetString()
 {
-   int i,old_strings;
+   int i, old_strings;
 
    for (i=0;i<num_strings;i++)
       if (strings[i].data)
@@ -59,7 +59,7 @@ int GetStringsUsed()
    return num_strings;
 }
 
-int AllocateString()
+__int64 AllocateString()
 {
    int old_strings;
 
@@ -79,7 +79,7 @@ int AllocateString()
    return num_strings++;
 }
 
-string_node *GetStringByID(int string_id)
+string_node *GetStringByID(__int64 string_id)
 {
    if (string_id < 0 || string_id >= num_strings)
    {
@@ -89,7 +89,7 @@ string_node *GetStringByID(int string_id)
    return &strings[string_id];
 }
 
-Bool IsStringByID(int string_id)
+Bool IsStringByID(__int64 string_id)
 {
    if (string_id < 0 || string_id >= num_strings)
       return False;
@@ -97,14 +97,14 @@ Bool IsStringByID(int string_id)
    return True;
 }
 
-int CreateString(const char *new_str)
+__int64 CreateString(const char *new_str)
 {
    return CreateStringWithLen(new_str,strlen(new_str));
 }
 
-int CreateStringWithLen(const char *buf,int len)
+__int64 CreateStringWithLen(const char *buf, int len)
 {
-   int string_id;
+   __int64 string_id;
    string_node *snod;
    
    /* note:  new_str is NOT null-terminated */
@@ -119,7 +119,7 @@ int CreateStringWithLen(const char *buf,int len)
    return string_id;
 }
 
-Bool LoadBlakodString(FILE *f,int len_str,int string_id)
+Bool LoadBlakodString(FILE *f,int len_str,__int64 string_id)
 {
    string_node *snod;
 
@@ -148,7 +148,7 @@ Bool LoadBlakodString(FILE *f,int len_str,int string_id)
    return True;
 }
 
-void ForEachString(void (*callback_func)(string_node *snod,int string_id))
+void ForEachString(void (*callback_func)(string_node *snod,__int64 string_id))
 {
    int i;
 
@@ -156,7 +156,7 @@ void ForEachString(void (*callback_func)(string_node *snod,int string_id))
       callback_func(&strings[i],i);
 }
 
-void FreeString(int string_id) /* for garbage collection */
+void FreeString(__int64 string_id) /* for garbage collection */
 {
    string_node *snod;
 
@@ -181,7 +181,7 @@ void FreeString(int string_id) /* for garbage collection */
    snod->len_data = 0;
 }
 
-void MoveStringNode(int dest_id,int source_id) /* for garbage collection */
+void MoveStringNode(__int64 dest_id, __int64 source_id) /* for garbage collection */
 {
    string_node *source,*dest;
    

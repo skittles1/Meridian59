@@ -57,7 +57,7 @@ void OutputInt(int outfile, int datum)
 void OutputInt64(int outfile, __int64 datum)
 {
    /* Write out a 8 byte # */
-   write(outfile, &datum, sizeof(datum));
+   write(outfile, &datum, 8);
 }
 /************************************************************************/
 /*
@@ -136,7 +136,7 @@ __int64 const_to_int(const_type c)
 void OutputConstant(int outfile, const_type c)
 {
    __int64 outnum = const_to_int(c);
-   write(outfile, &outnum, sizeof(outnum));
+   write(outfile, &outnum, 8);
 }
 /************************************************************************/
 /*
@@ -291,11 +291,11 @@ int is_base_level(expr_type e)
 /*
  * make_temp_var: Create & return an id for a local variable with the given id #.
  */
-id_type make_temp_var(int idnum)
+id_type make_temp_var(__int64 idnum)
 {
    id_type id = (id_type) SafeMalloc(sizeof(id_struct));
    id->type = I_LOCAL;
-   id->idnum = (__int64)idnum;
+   id->idnum = idnum;
    return id;
 }
 /************************************************************************/

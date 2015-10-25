@@ -58,7 +58,7 @@ void ResetNameID()
    FreeSIHash(nameid_name_map);
 }
 
-void CreateNameID(char *name, int id)
+void CreateNameID(char *name, __int64 id)
 {
    int hash_num;
    bool new_nameid = false;
@@ -111,11 +111,11 @@ void CreateNameID(char *name, int id)
    if (new_nameid)
       n->next = nameids[hash_num];
    nameids[hash_num] = n;
-   SIHashInsert(nameid_name_map, name, id);
+   SIHashInsert(nameid_name_map, name, (int)id);
    ++num_nameids;
 }
 
-nameid_node * GetNameIDNode(int id)
+nameid_node * GetNameIDNode(__int64 id)
 {
    nameid_node *n;
 
@@ -130,7 +130,7 @@ nameid_node * GetNameIDNode(int id)
    return NULL;
 }
 
-int GetIDByName(const char *name)
+__int64 GetIDByName(const char *name)
 {
    int name_id;
    Bool found;

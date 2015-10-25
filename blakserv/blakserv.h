@@ -178,14 +178,14 @@ enum
 #include "md5.h"
 typedef union 
 {
-   int int_val;
+   __int64 int_val;
    constant_type v;
 } val_type;
 
 typedef struct
 {
-   int value;
-   int name_id; /* for call-by-name parm list only */
+   __int64 value;
+   __int64 name_id; /* for call-by-name parm list only */
    char type; /* for normal c parms (not call by name) only */
 } parm_node;
 

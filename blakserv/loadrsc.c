@@ -18,7 +18,7 @@
 #include "blakserv.h"
 
 /* local function prototypes */
-bool EachLoadRsc(char *filename, int resource_num, int lang_id, char *string);
+bool EachLoadRsc(char *filename, __int64 resource_num, int lang_id, char *string);
 Bool LoadDynamicRscName(char *filename);
 
 void LoadRsc(void)
@@ -46,7 +46,7 @@ void LoadRsc(void)
 	*/
 }
 
-bool EachLoadRsc(char *filename, int resource_num, int lang_id, char *string)
+bool EachLoadRsc(char *filename, __int64 resource_num, int lang_id, char *string)
 {
 	AddResource(resource_num,lang_id,string);
 	return true;
@@ -86,12 +86,12 @@ Bool LoadDynamicRscName(char *filename)
 
 	for (i=0;i<num_resources;i++)
 	{
-		int resource_id;
+      __int64 resource_id;
 		int resource_type;
 		unsigned int len_data;
 		char resource_value[500];
 
-		fread(&resource_id,4,1,fh);
+		fread(&resource_id,8,1,fh);
 		fread(&resource_type,4,1,fh);
 		fread(&len_data,4,1,fh);
 

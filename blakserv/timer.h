@@ -18,10 +18,10 @@
 typedef struct timer_struct
 {
    UINT64 time;
-   int timer_id;
-   int object_id;
-   int message_id;
-   int garbage_ref;
+   __int64 timer_id;
+   __int64 object_id;
+   __int64 message_id;
+   __int64 garbage_ref;
    int heap_index;
 } timer_node;
 
@@ -31,15 +31,15 @@ void ResetTimer(void);
 void ClearTimer(void);
 void PauseTimers(void);
 void UnpauseTimers(void);
-int CreateTimer(int object_id,int message_id,int milliseconds);
-Bool LoadTimer(int timer_id,int object_id,char *message_name,int milliseconds);
-Bool DeleteTimer(int timer_id);
+__int64 CreateTimer(__int64 object_id, __int64 message_id, int milliseconds);
+Bool LoadTimer(__int64 timer_id, __int64 object_id, char *message_name, int milliseconds);
+Bool DeleteTimer(__int64 timer_id);
 void ServiceTimers(void);
 void QuitTimerLoop(void);
-timer_node * GetTimerByID(int timer_id);
+timer_node * GetTimerByID(__int64 timer_id);
 void ForEachTimer(void (*callback_func)(timer_node *t));
-void SetNumTimers(int new_next_timer_num);
+void SetNumTimers(__int64 new_next_timer_num);
 Bool InMainLoop(void);
-int  GetNumActiveTimers(void);
+__int64  GetNumActiveTimers(void);
 
 #endif

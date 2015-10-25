@@ -14,16 +14,16 @@
 #define _SYSTEM_H
 
 void CreateBuiltInObjects();
-int GetBuiltInObjectID(int id);
-void SetBuiltInObjectID(int ref_id, int obj_id);
-void SetBuiltInObjectIDByClass(int ref_id, int obj_id);
-int GetSystemObjectID(void);
-void SetSystemObjectID(int new_id);
-int GetSettingsObjectID();
-void SetSettingsObjectID(int new_id);
-int GetRealTimeObjectID();
-void SetRealTimeObjectID(int new_id);
-int GetEventEngineObjectID();
-void SetEventEngineObjectID(int new_id);
+__int64 GetBuiltInObjectID(__int64 id);
+void SetBuiltInObjectID(__int64 ref_id, __int64 obj_id);
+void SetBuiltInObjectIDByClass(__int64 ref_id, __int64 obj_id);
+__int64 GetSystemObjectID(void);
+void SetSystemObjectID(__int64 new_id);
+__int64 GetSettingsObjectID();
+void SetSettingsObjectID(__int64 new_id);
+__int64 GetRealTimeObjectID();
+void SetRealTimeObjectID(__int64 new_id);
+__int64 GetEventEngineObjectID();
+void SetEventEngineObjectID(__int64 new_id);
 
 #endif

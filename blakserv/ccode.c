@@ -45,7 +45,7 @@ const char* stristr(const char* pSource, const char* pSearch)
 }
 
 
-int C_Invalid(int object_id,local_var_type *local_vars,
+__int64 C_Invalid(__int64 object_id,local_var_type *local_vars,
 			  int num_normal_parms,parm_node normal_parm_array[],
 			  int num_name_parms,parm_node name_parm_array[])
 {
@@ -60,7 +60,7 @@ int C_Invalid(int object_id,local_var_type *local_vars,
  *    control passes back to the calling message. Returns a blakod string
  *    containing the time of the saved game if successful.
  */
-int C_SaveGame(int object_id,local_var_type *local_vars,
+__int64 C_SaveGame(__int64 object_id,local_var_type *local_vars,
                int num_normal_parms,parm_node normal_parm_array[],
                int num_name_parms,parm_node name_parm_array[])
 {
@@ -107,7 +107,7 @@ int C_SaveGame(int object_id,local_var_type *local_vars,
  *    a load game, using the save game time value sent in the message. All
  *    users are disconnected when the game reload triggers.
  */
-int C_LoadGame(int object_id, local_var_type *local_vars,
+__int64 C_LoadGame(__int64 object_id, local_var_type *local_vars,
                int num_normal_parms, parm_node normal_parm_array[],
                int num_name_parms, parm_node name_parm_array[])
 {
@@ -148,7 +148,7 @@ int C_LoadGame(int object_id, local_var_type *local_vars,
    return NIL;
 }
 
-int C_AddPacket(int object_id,local_var_type *local_vars,
+__int64 C_AddPacket(__int64 object_id,local_var_type *local_vars,
 				int num_normal_parms,parm_node normal_parm_array[],
 				int num_name_parms,parm_node name_parm_array[])
 {
@@ -176,7 +176,7 @@ int C_AddPacket(int object_id,local_var_type *local_vars,
 	return NIL;
 }
 
-int C_SendPacket(int object_id,local_var_type *local_vars,
+__int64 C_SendPacket(__int64 object_id,local_var_type *local_vars,
 				 int num_normal_parms,parm_node normal_parm_array[],
 				 int num_name_parms,parm_node name_parm_array[])
 {
@@ -196,7 +196,7 @@ int C_SendPacket(int object_id,local_var_type *local_vars,
 	return NIL;
 }
 
-int C_SendCopyPacket(int object_id,local_var_type *local_vars,
+__int64 C_SendCopyPacket(__int64 object_id,local_var_type *local_vars,
 					 int num_normal_parms,parm_node normal_parm_array[],
 					 int num_name_parms,parm_node name_parm_array[])
 {
@@ -216,7 +216,7 @@ int C_SendCopyPacket(int object_id,local_var_type *local_vars,
 	return NIL;
 }
 
-int C_ClearPacket(int object_id,local_var_type *local_vars,
+__int64 C_ClearPacket(__int64 object_id,local_var_type *local_vars,
 				  int num_normal_parms,parm_node normal_parm_array[],
 				  int num_name_parms,parm_node name_parm_array[])
 {
@@ -225,7 +225,7 @@ int C_ClearPacket(int object_id,local_var_type *local_vars,
 	return NIL;
 }
 
-int C_GodLog(int object_id,local_var_type *local_vars,
+__int64 C_GodLog(__int64 object_id,local_var_type *local_vars,
 			int num_normal_parms,parm_node normal_parm_array[],
 			int num_name_parms,parm_node name_parm_array[])
 {
@@ -369,7 +369,7 @@ int C_GodLog(int object_id,local_var_type *local_vars,
    return NIL;
 }
 
-int C_Debug(int object_id,local_var_type *local_vars,
+__int64 C_Debug(__int64 object_id,local_var_type *local_vars,
 			int num_normal_parms,parm_node normal_parm_array[],
 			int num_name_parms,parm_node name_parm_array[])
 {
@@ -516,7 +516,7 @@ int C_Debug(int object_id,local_var_type *local_vars,
    return NIL;
 }
 
-int C_GetInactiveTime(int object_id,local_var_type *local_vars,
+__int64 C_GetInactiveTime(__int64 object_id,local_var_type *local_vars,
 					  int num_normal_parms,parm_node normal_parm_array[],
 					  int num_name_parms,parm_node name_parm_array[])
 {
@@ -552,7 +552,7 @@ int C_GetInactiveTime(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;   
 }
 
-int C_DumpStack(int object_id,local_var_type *local_vars,
+__int64 C_DumpStack(__int64 object_id,local_var_type *local_vars,
 					  int num_normal_parms,parm_node normal_parm_array[],
 					  int num_name_parms,parm_node name_parm_array[])
 {
@@ -564,7 +564,7 @@ int C_DumpStack(int object_id,local_var_type *local_vars,
 	return NIL;
 }
 
-int C_SendMessage(int object_id,local_var_type *local_vars,
+__int64 C_SendMessage(__int64 object_id,local_var_type *local_vars,
             int num_normal_parms,parm_node normal_parm_array[],
             int num_name_parms,parm_node name_parm_array[])
 {
@@ -623,7 +623,7 @@ int C_SendMessage(int object_id,local_var_type *local_vars,
    return NIL;
 }
 
-int C_PostMessage(int object_id,local_var_type *local_vars,
+__int64 C_PostMessage(__int64 object_id,local_var_type *local_vars,
             int num_normal_parms,parm_node normal_parm_array[],
             int num_name_parms,parm_node name_parm_array[])
 {
@@ -703,7 +703,7 @@ int C_PostMessage(int object_id,local_var_type *local_vars,
 *   object returns FALSE. Rationale is that a call to multiple objects would
 *   be looking for a FALSE condition, not a TRUE one.
 */
-int C_SendListMessage(int object_id,local_var_type *local_vars,
+__int64 C_SendListMessage(__int64 object_id,local_var_type *local_vars,
             int num_normal_parms,parm_node normal_parm_array[],
             int num_name_parms,parm_node name_parm_array[])
 {
@@ -782,7 +782,7 @@ int C_SendListMessage(int object_id,local_var_type *local_vars,
 *   speed up algorithms that rely on calling every object in a list
 *   until reaching a FALSE return.
 */
-int C_SendListMessageBreak(int object_id, local_var_type *local_vars,
+__int64 C_SendListMessageBreak(__int64 object_id, local_var_type *local_vars,
             int num_normal_parms, parm_node normal_parm_array[],
             int num_name_parms, parm_node name_parm_array[])
 {
@@ -844,13 +844,13 @@ int C_SendListMessageBreak(int object_id, local_var_type *local_vars,
    // as first element of sublist, objects as nth element of sublist.
    if (pos_val.v.data == 0)
       ret_val.v.data = SendListMessage(list_val.v.data, True, message_val.v.data,
-      num_name_parms, name_parm_array);
+         num_name_parms, name_parm_array);
    else if (pos_val.v.data == 1)
       ret_val.v.data = SendFirstListMessage(list_val.v.data, True, message_val.v.data,
-      num_name_parms, name_parm_array);
+         num_name_parms, name_parm_array);
    else
       ret_val.v.data = SendNthListMessage(list_val.v.data, pos_val.v.data, True,
-      message_val.v.data, num_name_parms, name_parm_array);
+         message_val.v.data, num_name_parms, name_parm_array);
 
    return ret_val.int_val;
 }
@@ -860,7 +860,7 @@ int C_SendListMessageBreak(int object_id, local_var_type *local_vars,
 *   message and message parameters. Works the same as C_SendListMessage,
 *   except the message is only sent to objects of the given class.
 */
-int C_SendListMessageByClass(int object_id, local_var_type *local_vars,
+__int64 C_SendListMessageByClass(__int64 object_id, local_var_type *local_vars,
             int num_normal_parms, parm_node normal_parm_array[],
             int num_name_parms, parm_node name_parm_array[])
 {
@@ -949,7 +949,7 @@ int C_SendListMessageByClass(int object_id, local_var_type *local_vars,
 *   speed up algorithms that rely on calling every object in a list until
 *   reaching a FALSE return.
 */
-int C_SendListMessageByClassBreak(int object_id, local_var_type *local_vars,
+__int64 C_SendListMessageByClassBreak(__int64 object_id, local_var_type *local_vars,
    int num_normal_parms, parm_node normal_parm_array[],
    int num_name_parms, parm_node name_parm_array[])
 {
@@ -1032,7 +1032,7 @@ int C_SendListMessageByClassBreak(int object_id, local_var_type *local_vars,
    return ret_val.int_val;
 }
 
-int C_CreateObject(int object_id,local_var_type *local_vars,
+__int64 C_CreateObject(__int64 object_id,local_var_type *local_vars,
 				   int num_normal_parms,parm_node normal_parm_array[],
 				   int num_name_parms,parm_node name_parm_array[])
 {
@@ -1052,7 +1052,7 @@ int C_CreateObject(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_IsClass(int object_id,local_var_type *local_vars,
+__int64 C_IsClass(__int64 object_id,local_var_type *local_vars,
 			  int num_normal_parms,parm_node normal_parm_array[],
 			  int num_name_parms,parm_node name_parm_array[])
 {
@@ -1109,7 +1109,7 @@ int C_IsClass(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_GetClass(int object_id,local_var_type *local_vars,
+__int64 C_GetClass(__int64 object_id,local_var_type *local_vars,
 			   int num_normal_parms,parm_node normal_parm_array[],
 			   int num_name_parms,parm_node name_parm_array[])
 {
@@ -1209,7 +1209,7 @@ bool LookupString(val_type val, const char *function_name, const char **str, int
 }
 
 
-int C_StringEqual(int object_id,local_var_type *local_vars,
+__int64 C_StringEqual(__int64 object_id,local_var_type *local_vars,
 				  int num_normal_parms,parm_node normal_parm_array[],
 				  int num_name_parms,parm_node name_parm_array[])
 {
@@ -1400,7 +1400,7 @@ bool FuzzyBufferEqual(const char *s1,int len1,const char *s2,int len2)
 //	Blakod parameters; string0, string1, string2
 //	Substitute first occurrence of string1 in string0 with string2
 //	Returns 1 if substituted, 0 if not found, NIL if error
-int C_StringSubstitute(int object_id,local_var_type *local_vars,
+__int64 C_StringSubstitute(__int64 object_id,local_var_type *local_vars,
 					   int num_normal_parms,parm_node normal_parm_array[],
 					   int num_name_parms,parm_node name_parm_array[])
 {
@@ -1569,7 +1569,7 @@ int C_StringSubstitute(int object_id,local_var_type *local_vars,
 	return r_val.int_val;
 }
 
-int C_StringContain(int object_id,local_var_type *local_vars,
+__int64 C_StringContain(__int64 object_id,local_var_type *local_vars,
                int num_normal_parms,parm_node normal_parm_array[],
                int num_name_parms,parm_node name_parm_array[])
 {
@@ -1726,7 +1726,7 @@ bool FuzzyBufferContain(const char *s1,int len_s1,const char *s2,int len_s2)
 	return (NULL != strstr(buf0, buf1));
 }
 
-int C_SetResource(int object_id,local_var_type *local_vars,
+__int64 C_SetResource(__int64 object_id,local_var_type *local_vars,
 				  int num_normal_parms,parm_node normal_parm_array[],
 				  int num_name_parms,parm_node name_parm_array[])
 {
@@ -1804,7 +1804,7 @@ int C_SetResource(int object_id,local_var_type *local_vars,
 	return NIL;
 }
 
-int C_ParseString(int object_id,local_var_type *local_vars,
+__int64 C_ParseString(__int64 object_id,local_var_type *local_vars,
 				  int num_normal_parms,parm_node normal_parm_array[],
 				  int num_name_parms,parm_node name_parm_array[])
 {
@@ -1888,7 +1888,7 @@ int C_ParseString(int object_id,local_var_type *local_vars,
 	return NIL;
 }
 
-int C_SetString(int object_id,local_var_type *local_vars,
+__int64 C_SetString(__int64 object_id,local_var_type *local_vars,
             int num_normal_parms,parm_node normal_parm_array[],
             int num_name_parms,parm_node name_parm_array[])
 {
@@ -2004,7 +2004,7 @@ int C_SetString(int object_id,local_var_type *local_vars,
    return s1_val.int_val;
 }
 
-int C_ClearTempString(int object_id,local_var_type *local_vars,
+__int64 C_ClearTempString(__int64 object_id,local_var_type *local_vars,
 					  int num_normal_parms,parm_node normal_parm_array[],
 					  int num_name_parms,parm_node name_parm_array[])
 {
@@ -2017,7 +2017,7 @@ int C_ClearTempString(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_GetTempString(int object_id,local_var_type *local_vars,
+__int64 C_GetTempString(__int64 object_id,local_var_type *local_vars,
 					int num_normal_parms,parm_node normal_parm_array[],
 					int num_name_parms,parm_node name_parm_array[])
 {
@@ -2028,7 +2028,7 @@ int C_GetTempString(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_AppendTempString(int object_id,local_var_type *local_vars,
+__int64 C_AppendTempString(__int64 object_id,local_var_type *local_vars,
 					   int num_normal_parms,parm_node normal_parm_array[],
 					   int num_name_parms,parm_node name_parm_array[])
 {
@@ -2108,7 +2108,7 @@ int C_AppendTempString(int object_id,local_var_type *local_vars,
 	return NIL;
 }
 
-int C_CreateString(int object_id,local_var_type *local_vars,
+__int64 C_CreateString(__int64 object_id,local_var_type *local_vars,
 				   int num_normal_parms,parm_node normal_parm_array[],
 				   int num_name_parms,parm_node name_parm_array[])
 {
@@ -2120,7 +2120,7 @@ int C_CreateString(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_IsString(int object_id,local_var_type *local_vars,
+__int64 C_IsString(__int64 object_id,local_var_type *local_vars,
          int num_normal_parms,parm_node normal_parm_array[],
          int num_name_parms,parm_node name_parm_array[])
 {
@@ -2138,7 +2138,7 @@ int C_IsString(int object_id,local_var_type *local_vars,
    return ret_val.int_val;
 }
 
-int C_StringLength(int object_id,local_var_type *local_vars,
+__int64 C_StringLength(__int64 object_id,local_var_type *local_vars,
 				   int num_normal_parms,parm_node normal_parm_array[],
 				   int num_name_parms,parm_node name_parm_array[])
 {
@@ -2157,7 +2157,7 @@ int C_StringLength(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_StringConsistsOf(int object_id,local_var_type *local_vars,
+__int64 C_StringConsistsOf(__int64 object_id,local_var_type *local_vars,
                        int num_normal_parms,parm_node normal_parm_array[],
                        int num_name_parms,parm_node name_parm_array[])
 {
@@ -2192,7 +2192,7 @@ int C_StringConsistsOf(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_CreateTimer(int object_id,local_var_type *local_vars,
+__int64 C_CreateTimer(__int64 object_id,local_var_type *local_vars,
 				  int num_normal_parms,parm_node normal_parm_array[],
 				  int num_name_parms,parm_node name_parm_array[])
 {
@@ -2248,7 +2248,7 @@ int C_CreateTimer(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_DeleteTimer(int object_id,local_var_type *local_vars,
+__int64 C_DeleteTimer(__int64 object_id,local_var_type *local_vars,
 				  int num_normal_parms,parm_node normal_parm_array[],
 				  int num_name_parms,parm_node name_parm_array[])
 {
@@ -2268,7 +2268,7 @@ int C_DeleteTimer(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_GetTimeRemaining(int object_id,local_var_type *local_vars,
+__int64 C_GetTimeRemaining(__int64 object_id,local_var_type *local_vars,
 					   int num_normal_parms,parm_node normal_parm_array[],
 					   int num_name_parms,parm_node name_parm_array[])
 {
@@ -2300,7 +2300,7 @@ int C_GetTimeRemaining(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_IsTimer(int object_id,local_var_type *local_vars,
+__int64 C_IsTimer(__int64 object_id,local_var_type *local_vars,
 			 int num_normal_parms,parm_node normal_parm_array[],
 			 int num_name_parms,parm_node name_parm_array[])
 {
@@ -2326,7 +2326,7 @@ int C_IsTimer(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_LoadRoom(int object_id,local_var_type *local_vars,
+__int64 C_LoadRoom(__int64 object_id,local_var_type *local_vars,
 			   int num_normal_parms,parm_node normal_parm_array[],
 			   int num_name_parms,parm_node name_parm_array[])
 {
@@ -2349,7 +2349,7 @@ int C_LoadRoom(int object_id,local_var_type *local_vars,
  *             room from the server's list of rooms. Frees the memory
  *             associated with the room.
  */
-int C_FreeRoom(int object_id,local_var_type *local_vars,
+__int64 C_FreeRoom(__int64 object_id,local_var_type *local_vars,
             int num_normal_parms,parm_node normal_parm_array[],
             int num_name_parms,parm_node name_parm_array[])
 {
@@ -2377,7 +2377,7 @@ int C_FreeRoom(int object_id,local_var_type *local_vars,
    return NIL;
 }
 
-int C_RoomData(int object_id,local_var_type *local_vars,
+__int64 C_RoomData(__int64 object_id,local_var_type *local_vars,
 			   int num_normal_parms,parm_node normal_parm_array[],
 			   int num_name_parms,parm_node name_parm_array[])
 {
@@ -2431,7 +2431,7 @@ int C_RoomData(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_GetLocationInfoBSP(int object_id, local_var_type *local_vars,
+__int64 C_GetLocationInfoBSP(__int64 object_id, local_var_type *local_vars,
 	int num_normal_parms, parm_node normal_parm_array[],
 	int num_name_parms, parm_node name_parm_array[])
 {
@@ -2585,7 +2585,7 @@ int C_GetLocationInfoBSP(int object_id, local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_CanMoveInRoomBSP(int object_id, local_var_type *local_vars,
+__int64 C_CanMoveInRoomBSP(__int64 object_id, local_var_type *local_vars,
 	int num_normal_parms, parm_node normal_parm_array[],
 	int num_name_parms, parm_node name_parm_array[])
 {
@@ -2724,9 +2724,9 @@ int C_CanMoveInRoomBSP(int object_id, local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_LineOfSightView(int object_id, local_var_type *local_vars,
-   int num_normal_parms, parm_node normal_parm_array[],
-   int num_name_parms, parm_node name_parm_array[])
+__int64 C_LineOfSightView(__int64 object_id, local_var_type *local_vars,
+                          int num_normal_parms, parm_node normal_parm_array[],
+                          int num_name_parms, parm_node name_parm_array[])
 {
    val_type ret_val, angle_val;
    val_type row_source, col_source, finerow_source, finecol_source;
@@ -2831,7 +2831,7 @@ int C_LineOfSightView(int object_id, local_var_type *local_vars,
    return ret_val.int_val;
 }
 
-int C_LineOfSightBSP(int object_id, local_var_type *local_vars,
+__int64 C_LineOfSightBSP(__int64 object_id, local_var_type *local_vars,
 	int num_normal_parms, parm_node normal_parm_array[],
 	int num_name_parms, parm_node name_parm_array[])
 {
@@ -2964,7 +2964,7 @@ int C_LineOfSightBSP(int object_id, local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_ChangeTextureBSP(int object_id, local_var_type *local_vars,
+__int64 C_ChangeTextureBSP(__int64 object_id, local_var_type *local_vars,
     int num_normal_parms, parm_node normal_parm_array[],
     int num_name_parms, parm_node name_parm_array[])
 {
@@ -3024,7 +3024,7 @@ int C_ChangeTextureBSP(int object_id, local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_MoveSectorBSP(int object_id, local_var_type *local_vars,
+__int64 C_MoveSectorBSP(__int64 object_id, local_var_type *local_vars,
 	int num_normal_parms, parm_node normal_parm_array[],
 	int num_name_parms, parm_node name_parm_array[])
 {
@@ -3096,7 +3096,7 @@ int C_MoveSectorBSP(int object_id, local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_BlockerAddBSP(int object_id, local_var_type *local_vars,
+__int64 C_BlockerAddBSP(__int64 object_id, local_var_type *local_vars,
 	int num_normal_parms, parm_node normal_parm_array[],
 	int num_name_parms, parm_node name_parm_array[])
 {
@@ -3179,7 +3179,7 @@ int C_BlockerAddBSP(int object_id, local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_BlockerMoveBSP(int object_id, local_var_type *local_vars,
+__int64 C_BlockerMoveBSP(__int64 object_id, local_var_type *local_vars,
 	int num_normal_parms, parm_node normal_parm_array[],
 	int num_name_parms, parm_node name_parm_array[])
 {
@@ -3262,7 +3262,7 @@ int C_BlockerMoveBSP(int object_id, local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_BlockerRemoveBSP(int object_id, local_var_type *local_vars,
+__int64 C_BlockerRemoveBSP(__int64 object_id, local_var_type *local_vars,
 	int num_normal_parms, parm_node normal_parm_array[],
 	int num_name_parms, parm_node name_parm_array[])
 {
@@ -3305,7 +3305,7 @@ int C_BlockerRemoveBSP(int object_id, local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_BlockerClearBSP(int object_id, local_var_type *local_vars,
+__int64 C_BlockerClearBSP(__int64 object_id, local_var_type *local_vars,
 	int num_normal_parms, parm_node normal_parm_array[],
 	int num_name_parms, parm_node name_parm_array[])
 {
@@ -3338,7 +3338,7 @@ int C_BlockerClearBSP(int object_id, local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_GetRandomPointBSP(int object_id, local_var_type *local_vars,
+__int64 C_GetRandomPointBSP(__int64 object_id, local_var_type *local_vars,
 	int num_normal_parms, parm_node normal_parm_array[],
 	int num_name_parms, parm_node name_parm_array[])
 {
@@ -3439,7 +3439,7 @@ int C_GetRandomPointBSP(int object_id, local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_GetStepTowardsBSP(int object_id, local_var_type *local_vars,
+__int64 C_GetStepTowardsBSP(__int64 object_id, local_var_type *local_vars,
 	int num_normal_parms, parm_node normal_parm_array[],
 	int num_name_parms, parm_node name_parm_array[])
 {
@@ -3599,7 +3599,7 @@ int C_GetStepTowardsBSP(int object_id, local_var_type *local_vars,
  *    appends the item to the end of the list. Returns the original list
  *    with the item appended to the end.
  */
-int C_AppendListElem(int object_id,local_var_type *local_vars,
+__int64 C_AppendListElem(__int64 object_id,local_var_type *local_vars,
          int num_normal_parms,parm_node normal_parm_array[],
          int num_name_parms,parm_node name_parm_array[])
 {
@@ -3625,7 +3625,7 @@ int C_AppendListElem(int object_id,local_var_type *local_vars,
    return ret_val.int_val;
 }
 
-int C_Cons(int object_id,local_var_type *local_vars,
+__int64 C_Cons(__int64 object_id,local_var_type *local_vars,
          int num_normal_parms,parm_node normal_parm_array[],
          int num_name_parms,parm_node name_parm_array[])
 {
@@ -3651,7 +3651,7 @@ int C_Cons(int object_id,local_var_type *local_vars,
    return ret_val.int_val;
 }
 
-int C_First(int object_id,local_var_type *local_vars,
+__int64 C_First(__int64 object_id,local_var_type *local_vars,
 			int num_normal_parms,parm_node normal_parm_array[],
 			int num_name_parms,parm_node name_parm_array[])
 {
@@ -3674,7 +3674,7 @@ int C_First(int object_id,local_var_type *local_vars,
 	return First(list_val.v.data);
 }
 
-int C_Rest(int object_id,local_var_type *local_vars,
+__int64 C_Rest(__int64 object_id,local_var_type *local_vars,
 		   int num_normal_parms,parm_node normal_parm_array[],
 		   int num_name_parms,parm_node name_parm_array[])
 {
@@ -3697,7 +3697,7 @@ int C_Rest(int object_id,local_var_type *local_vars,
 	return Rest(list_val.v.data);
 }
 
-int C_Length(int object_id,local_var_type *local_vars,
+__int64 C_Length(__int64 object_id,local_var_type *local_vars,
 			 int num_normal_parms,parm_node normal_parm_array[],
 			 int num_name_parms,parm_node name_parm_array[])
 {
@@ -3724,7 +3724,7 @@ int C_Length(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_Last(int object_id,local_var_type *local_vars,
+__int64 C_Last(__int64 object_id,local_var_type *local_vars,
          int num_normal_parms,parm_node normal_parm_array[],
          int num_name_parms,parm_node name_parm_array[])
 {
@@ -3743,7 +3743,7 @@ int C_Last(int object_id,local_var_type *local_vars,
    return Last(list_val.v.data);
 }
 
-int C_Nth(int object_id,local_var_type *local_vars,
+__int64 C_Nth(__int64 object_id,local_var_type *local_vars,
 		  int num_normal_parms,parm_node normal_parm_array[],
 		  int num_name_parms,parm_node name_parm_array[])
 {
@@ -3784,7 +3784,7 @@ int C_Nth(int object_id,local_var_type *local_vars,
  *    the list contents must be identical but the list node number does not
  *    need to be.
  */
-int C_IsListMatch(int object_id,local_var_type *local_vars,
+__int64 C_IsListMatch(__int64 object_id,local_var_type *local_vars,
             int num_normal_parms,parm_node normal_parm_array[],
             int num_name_parms,parm_node name_parm_array[])
 {
@@ -3814,7 +3814,7 @@ int C_IsListMatch(int object_id,local_var_type *local_vars,
    return ret_val.int_val;
 }
 
-int C_List(int object_id,local_var_type *local_vars,
+__int64 C_List(__int64 object_id,local_var_type *local_vars,
 		   int num_normal_parms,parm_node normal_parm_array[],
 		   int num_name_parms,parm_node name_parm_array[])
 {
@@ -3836,7 +3836,7 @@ int C_List(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_IsList(int object_id,local_var_type *local_vars,
+__int64 C_IsList(__int64 object_id,local_var_type *local_vars,
 			 int num_normal_parms,parm_node normal_parm_array[],
 			 int num_name_parms,parm_node name_parm_array[])
 {
@@ -3854,7 +3854,7 @@ int C_IsList(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_SetFirst(int object_id,local_var_type *local_vars,
+__int64 C_SetFirst(__int64 object_id,local_var_type *local_vars,
 			   int num_normal_parms,parm_node normal_parm_array[],
 			   int num_name_parms,parm_node name_parm_array[])
 {
@@ -3875,7 +3875,7 @@ int C_SetFirst(int object_id,local_var_type *local_vars,
 	return SetFirst(list_val.v.data,set_val);
 }
 
-int C_SetNth(int object_id,local_var_type *local_vars,
+__int64 C_SetNth(__int64 object_id,local_var_type *local_vars,
 			 int num_normal_parms,parm_node normal_parm_array[],
 			 int num_name_parms,parm_node name_parm_array[])
 {
@@ -3910,7 +3910,7 @@ int C_SetNth(int object_id,local_var_type *local_vars,
  *    list, it is added to the end. If list position 0 is sent, just returns
  *    the initial list, otherwise returns the altered list.
  */
-int C_InsertListElem(int object_id,local_var_type *local_vars,
+__int64 C_InsertListElem(__int64 object_id,local_var_type *local_vars,
          int num_normal_parms,parm_node normal_parm_array[],
          int num_name_parms,parm_node name_parm_array[])
 {
@@ -3956,7 +3956,7 @@ int C_InsertListElem(int object_id,local_var_type *local_vars,
  *                 in the list, swaps the data in the two elements.
  *                 Returns NIL.
  */
-int C_SwapListElem(int object_id,local_var_type *local_vars,
+__int64 C_SwapListElem(__int64 object_id,local_var_type *local_vars,
          int num_normal_parms,parm_node normal_parm_array[],
          int num_name_parms,parm_node name_parm_array[])
 {
@@ -3999,7 +3999,7 @@ int C_SwapListElem(int object_id,local_var_type *local_vars,
    return SwapListElem(list_val.v.data,n_val.v.data,m_val.v.data);
 }
 
-int C_DelListElem(int object_id,local_var_type *local_vars,
+__int64 C_DelListElem(__int64 object_id,local_var_type *local_vars,
 				  int num_normal_parms,parm_node normal_parm_array[],
 				  int num_name_parms,parm_node name_parm_array[])
 {
@@ -4022,7 +4022,7 @@ int C_DelListElem(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_FindListElem(int object_id,local_var_type *local_vars,
+__int64 C_FindListElem(__int64 object_id,local_var_type *local_vars,
 				   int num_normal_parms,parm_node normal_parm_array[],
 				   int num_name_parms,parm_node name_parm_array[])
 {
@@ -4062,7 +4062,7 @@ int C_FindListElem(int object_id,local_var_type *local_vars,
  *                the position, adds it to a new list. Returns the new list or
  *                NIL.
  */
-int C_GetAllListNodesByClass(int object_id,local_var_type *local_vars,
+__int64 C_GetAllListNodesByClass(__int64 object_id,local_var_type *local_vars,
          int num_normal_parms,parm_node normal_parm_array[],
          int num_name_parms,parm_node name_parm_array[])
 {
@@ -4108,7 +4108,7 @@ int C_GetAllListNodesByClass(int object_id,local_var_type *local_vars,
  *                containing the object at that position. Returns NIL if the
  *                object wasn't found in any sub-lists.
  */
-int C_GetListNode(int object_id,local_var_type *local_vars,
+__int64 C_GetListNode(__int64 object_id,local_var_type *local_vars,
          int num_normal_parms,parm_node normal_parm_array[],
          int num_name_parms,parm_node name_parm_array[])
 {
@@ -4152,7 +4152,7 @@ int C_GetListNode(int object_id,local_var_type *local_vars,
  * C_GetListElemByClass: takes a list and a class, returns the element of the
  *                        list with that class if found, NIL otherwise.
  */
-int C_GetListElemByClass(int object_id,local_var_type *local_vars,
+__int64 C_GetListElemByClass(__int64 object_id,local_var_type *local_vars,
          int num_normal_parms,parm_node normal_parm_array[],
          int num_name_parms,parm_node name_parm_array[])
 {
@@ -4185,7 +4185,7 @@ int C_GetListElemByClass(int object_id,local_var_type *local_vars,
 /*
  * C_ListCopy: takes a list, makes a copy and returns the copy.
  */
-int C_ListCopy(int object_id,local_var_type *local_vars,
+__int64 C_ListCopy(__int64 object_id,local_var_type *local_vars,
          int num_normal_parms,parm_node normal_parm_array[],
          int num_name_parms,parm_node name_parm_array[])
 {
@@ -4214,7 +4214,7 @@ int C_ListCopy(int object_id,local_var_type *local_vars,
  *                      to local time to equal UTC. Conversely, subtracting
  *                      this number from UTC (GetTime()) equals local time.
  */
-int C_GetTimeZoneOffset(int object_id,local_var_type *local_vars,
+__int64 C_GetTimeZoneOffset(__int64 object_id,local_var_type *local_vars,
             int num_normal_parms,parm_node normal_parm_array[],
             int num_name_parms,parm_node name_parm_array[])
 {
@@ -4226,7 +4226,7 @@ int C_GetTimeZoneOffset(int object_id,local_var_type *local_vars,
    return ret_val.int_val;
 }
 
-int C_GetTime(int object_id,local_var_type *local_vars,
+__int64 C_GetTime(__int64 object_id,local_var_type *local_vars,
 			  int num_normal_parms,parm_node normal_parm_array[],
 			  int num_name_parms,parm_node name_parm_array[])
 {
@@ -4247,7 +4247,7 @@ int C_GetTime(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_GetTickCount(int object_id,local_var_type *local_vars,
+__int64 C_GetTickCount(__int64 object_id,local_var_type *local_vars,
 			  int num_normal_parms,parm_node normal_parm_array[],
 			  int num_name_parms,parm_node name_parm_array[])
 {
@@ -4280,7 +4280,7 @@ int C_GetTickCount(int object_id,local_var_type *local_vars,
 }
 
 
-int C_Random(int object_id,local_var_type *local_vars,
+__int64 C_Random(__int64 object_id,local_var_type *local_vars,
 			 int num_normal_parms,parm_node normal_parm_array[],
 			 int num_name_parms,parm_node name_parm_array[])
 {
@@ -4321,7 +4321,7 @@ int C_Random(int object_id,local_var_type *local_vars,
 	
 }
 
-int C_Abs(int object_id,local_var_type *local_vars,
+__int64 C_Abs(__int64 object_id,local_var_type *local_vars,
 		  int num_normal_parms,parm_node normal_parm_array[],
 		  int num_name_parms,parm_node name_parm_array[])
 {
@@ -4344,7 +4344,7 @@ int C_Abs(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;  
 }
 
-int C_Sqrt(int object_id,local_var_type *local_vars,
+__int64 C_Sqrt(__int64 object_id,local_var_type *local_vars,
 		   int num_normal_parms,parm_node normal_parm_array[],
 		   int num_name_parms,parm_node name_parm_array[])
 {
@@ -4369,7 +4369,7 @@ int C_Sqrt(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;  
 }
 
-int C_Bound(int object_id,local_var_type *local_vars,
+__int64 C_Bound(__int64 object_id,local_var_type *local_vars,
 			int num_normal_parms,parm_node normal_parm_array[],
 			int num_name_parms,parm_node name_parm_array[])
 {
@@ -4412,7 +4412,7 @@ int C_Bound(int object_id,local_var_type *local_vars,
 	return int_val.int_val;
 }
 
-int C_CreateTable(int object_id,local_var_type *local_vars,
+__int64 C_CreateTable(__int64 object_id,local_var_type *local_vars,
                   int num_normal_parms,parm_node normal_parm_array[],
                   int num_name_parms,parm_node name_parm_array[])
 {
@@ -4438,7 +4438,7 @@ int C_CreateTable(int object_id,local_var_type *local_vars,
    return ret_val.int_val;
 }
 
-int C_AddTableEntry(int object_id,local_var_type *local_vars,
+__int64 C_AddTableEntry(__int64 object_id,local_var_type *local_vars,
 					int num_normal_parms,parm_node normal_parm_array[],
 					int num_name_parms,parm_node name_parm_array[])
 {
@@ -4474,7 +4474,7 @@ int C_AddTableEntry(int object_id,local_var_type *local_vars,
 	return NIL;
 }
 
-int C_GetTableEntry(int object_id,local_var_type *local_vars,
+__int64 C_GetTableEntry(__int64 object_id,local_var_type *local_vars,
 					int num_normal_parms,parm_node normal_parm_array[],
 					int num_name_parms,parm_node name_parm_array[])
 {
@@ -4496,7 +4496,7 @@ int C_GetTableEntry(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_DeleteTableEntry(int object_id,local_var_type *local_vars,
+__int64 C_DeleteTableEntry(__int64 object_id,local_var_type *local_vars,
 					   int num_normal_parms,parm_node normal_parm_array[],
 					   int num_name_parms,parm_node name_parm_array[])
 {
@@ -4518,7 +4518,7 @@ int C_DeleteTableEntry(int object_id,local_var_type *local_vars,
 	return NIL;
 }
 
-int C_DeleteTable(int object_id,local_var_type *local_vars,
+__int64 C_DeleteTable(__int64 object_id,local_var_type *local_vars,
 				  int num_normal_parms,parm_node normal_parm_array[],
 				  int num_name_parms,parm_node name_parm_array[])
 {
@@ -4536,7 +4536,7 @@ int C_DeleteTable(int object_id,local_var_type *local_vars,
 	return NIL;
 }
 
-int C_IsTable(int object_id,local_var_type *local_vars,
+__int64 C_IsTable(__int64 object_id,local_var_type *local_vars,
             int num_normal_parms,parm_node normal_parm_array[],
             int num_name_parms,parm_node name_parm_array[])
 {
@@ -4555,7 +4555,7 @@ int C_IsTable(int object_id,local_var_type *local_vars,
    return ret_val.int_val;
 }
 
-int C_RecycleUser(int object_id,local_var_type *local_vars,
+__int64 C_RecycleUser(__int64 object_id,local_var_type *local_vars,
 				  int num_normal_parms,parm_node normal_parm_array[],
 				  int num_name_parms,parm_node name_parm_array[])
 {
@@ -4604,7 +4604,7 @@ int C_RecycleUser(int object_id,local_var_type *local_vars,
 	return object_val.int_val;
 }
 
-int C_IsObject(int object_id,local_var_type *local_vars,
+__int64 C_IsObject(__int64 object_id,local_var_type *local_vars,
 			   int num_normal_parms,parm_node normal_parm_array[],
 			   int num_name_parms,parm_node name_parm_array[])
 {
@@ -4622,7 +4622,7 @@ int C_IsObject(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_MinigameNumberToString(int object_id,local_var_type *local_vars,
+__int64 C_MinigameNumberToString(__int64 object_id,local_var_type *local_vars,
 				int num_normal_parms,parm_node normal_parm_array[],
 				int num_name_parms,parm_node name_parm_array[])
 {
@@ -4681,7 +4681,7 @@ int C_MinigameNumberToString(int object_id,local_var_type *local_vars,
 	return NIL;
 }
 
-int C_MinigameStringToNumber(int object_id,local_var_type *local_vars,
+__int64 C_MinigameStringToNumber(__int64 object_id,local_var_type *local_vars,
 				int num_normal_parms,parm_node normal_parm_array[],
 				int num_name_parms,parm_node name_parm_array[])
 {
@@ -4727,7 +4727,7 @@ int C_MinigameStringToNumber(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_RecordStat(int object_id,local_var_type *local_vars,
+__int64 C_RecordStat(__int64 object_id,local_var_type *local_vars,
 				int num_normal_parms,parm_node normal_parm_array[],
 				int num_name_parms,parm_node name_parm_array[])
 {
@@ -5112,7 +5112,7 @@ int C_RecordStat(int object_id,local_var_type *local_vars,
 	return NIL;
 }
 
-int C_GetSessionIP(int object_id,local_var_type *local_vars,
+__int64 C_GetSessionIP(__int64 object_id,local_var_type *local_vars,
             int num_normal_parms,parm_node normal_parm_array[],
             int num_name_parms,parm_node name_parm_array[])
 {
@@ -5155,7 +5155,7 @@ int C_GetSessionIP(int object_id,local_var_type *local_vars,
    return ret_val.int_val;
 }
 
-int C_SetClassVar(int object_id,local_var_type *local_vars,
+__int64 C_SetClassVar(__int64 object_id,local_var_type *local_vars,
             int num_normal_parms,parm_node normal_parm_array[],
             int num_name_parms,parm_node name_parm_array[])
 {
@@ -5163,7 +5163,7 @@ int C_SetClassVar(int object_id,local_var_type *local_vars,
    class_node *c;
    object_node *o;
    val_type ret_val, class_val, data_str, var_name;
-   int var_id;
+   __int64 var_id;
    const char *pStrConst;
 
    ret_val.v.tag = TAG_INT;

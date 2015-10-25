@@ -50,7 +50,7 @@ __int64 const_to_int(const_type c);
 __int64 set_source_id(opcode_type *opcode, int sourcenum, expr_type e);
 __int64 set_dest_id(opcode_type *opcode, id_type id);
 int is_base_level(expr_type e);
-id_type make_temp_var(int idnum);
+id_type make_temp_var(__int64 idnum);
 int flatten_expr(expr_type e, id_type destvar, int maxlocal);
 int simplify_expr(expr_type expr, int maxlocal);
 

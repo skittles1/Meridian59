@@ -15,14 +15,14 @@
 
 typedef struct property_name_struct
 {
-   int id;
+   __int64 id;
    char *name;
    struct property_name_struct *next;
 } property_name_node;
 
 typedef struct classvar_name_struct
 {
-   int id;
+   __int64 id;
    char *name;
    struct classvar_name_struct *next;
 } classvar_name_node;

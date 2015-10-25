@@ -31,7 +31,7 @@ typedef struct load_game_prop_struct
 
 typedef struct load_game_class_struct
 {
-	int class_old_id;
+   __int64 class_old_id;
 	char *class_name;
 	
 	int num_props;
@@ -47,8 +47,8 @@ typedef struct loaded_file_struct
 } loaded_file_node;
 loaded_file_node loadfile;
 
-int current_object_id;
-int current_object_class_id;
+__int64 current_object_id;
+__int64 current_object_class_id;
 
 // hash table of classes by name
 int load_game_classes_table_size;
@@ -68,6 +68,7 @@ ishash_type load_game_resources;
 
 #define LoadGameReadInt(buf) LoadGameRead(buf,4)
 #define LoadGameReadChar(buf) LoadGameRead(buf,1)
+#define LoadGameReadLong(buf) LoadGameRead(buf,8)
 
 #define LoadGameReadString(buf,max_len) \
 { \
@@ -107,15 +108,15 @@ Bool LoadGameTables(void);
 Bool LoadGameTimer(void);
 Bool LoadGameUser(void);
 Bool LoadGameClass(void);
-void LoadAddPropertyName(load_game_class_node *lgc,int prop_old_id,char *prop_name);
+void LoadAddPropertyName(load_game_class_node *lgc, __int64 prop_old_id, char *prop_name);
 Bool LoadGameResource(void);
 
-load_game_class_node * CreateLoadGameClass(int class_old_id,char *class_name,int num_props);
-void CreateLoadGameResource(int resource_old_id,char *resource_name);
+load_game_class_node * CreateLoadGameClass(__int64 class_old_id, char *class_name, int num_props);
+void CreateLoadGameResource(__int64 resource_old_id, char *resource_name);
 
-load_game_class_node * GetLoadGameClassByID(int class_old_id);
-char * GetLoadGamePropertyNameByID(load_game_class_node *lgc,int prop_old_id);
-const char * GetLoadGameResourceByID(int resource_old_id);
+load_game_class_node * GetLoadGameClassByID(__int64 class_old_id);
+char * GetLoadGamePropertyNameByID(load_game_class_node *lgc, __int64 prop_old_id);
+const char * GetLoadGameResourceByID(__int64 resource_old_id);
 
 void LoadGameTranslateVal(val_type *pval);
 
@@ -305,7 +306,7 @@ Bool LoadGameBuiltInObjects()
 
 Bool LoadGameObject(void)
 {
-	int object_id,class_old_id,num_props,i;
+	__int64 object_id,class_old_id,num_props,i;
 	val_type prop_val;
 	char *property_str;
 	load_game_class_node *lgc;
@@ -381,7 +382,8 @@ Bool LoadGameListNodes(void)
 
 Bool LoadGameTables(void)
 {
-   int num_tables, size, num_entries, table_id;
+   int num_tables, size, num_entries;
+   __int64 table_id;
    val_type key_val, data_val;
    table_node *t;
 
@@ -449,7 +451,8 @@ Bool LoadGameTimer(void)
 
 Bool LoadGameUser(void)
 {   
-	int object_id,account_id;
+   __int64 object_id;
+   int account_id;
 	
 	LoadGameReadInt(&account_id);
 	LoadGameReadInt(&object_id);
@@ -480,7 +483,7 @@ Bool LoadGameClass(void)
 }
 
 
-void LoadAddPropertyName(load_game_class_node *lgc,int prop_old_id,char *prop_name)
+void LoadAddPropertyName(load_game_class_node *lgc, __int64 prop_old_id, char *prop_name)
 {
 	load_game_prop_node *lgp;
 	
@@ -507,7 +510,7 @@ Bool LoadGameResource(void)
 }
 
 
-load_game_class_node * CreateLoadGameClass(int class_old_id,char *class_name,int num_props)
+load_game_class_node * CreateLoadGameClass(__int64 class_old_id, char *class_name, int num_props)
 {
 	load_game_class_node *lgc;
 	unsigned int hash_value;
@@ -532,12 +535,12 @@ load_game_class_node * CreateLoadGameClass(int class_old_id,char *class_name,int
 	return lgc;
 }
 
-void CreateLoadGameResource(int resource_old_id,char *resource_name)
+void CreateLoadGameResource(__int64 resource_old_id, char *resource_name)
 {
-	ISHashInsert(load_game_resources,resource_old_id,resource_name);
+	ISHashInsert(load_game_resources,(int)resource_old_id,resource_name);
 }
 
-load_game_class_node * GetLoadGameClassByID(int class_old_id)
+load_game_class_node * GetLoadGameClassByID(__int64 class_old_id)
 {
 	load_game_class_node *lgc;
 	unsigned int hash_value;
@@ -553,7 +556,7 @@ load_game_class_node * GetLoadGameClassByID(int class_old_id)
 	return NULL;
 }
 
-char * GetLoadGamePropertyNameByID(load_game_class_node *lgc,int prop_old_id)
+char * GetLoadGamePropertyNameByID(load_game_class_node *lgc, __int64 prop_old_id)
 {
 	if (prop_old_id < 1 || prop_old_id > lgc->num_props)
 		return NULL;
@@ -561,9 +564,9 @@ char * GetLoadGamePropertyNameByID(load_game_class_node *lgc,int prop_old_id)
 	return lgc->props[prop_old_id-1].prop_name;
 }
 
-const char * GetLoadGameResourceByID(int resource_old_id)
+const char * GetLoadGameResourceByID(__int64 resource_old_id)
 {
-	return ISHashFind(load_game_resources,resource_old_id);
+	return ISHashFind(load_game_resources,(int)resource_old_id);
 }
 
 

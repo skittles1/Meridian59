@@ -44,7 +44,7 @@ void ResetAdminConstants(void)
 	
 }
 
-void AddAdminConstant(char *name,int value)
+void AddAdminConstant(char *name, int value)
 {
 	admin_constant_node *ac;
 	
@@ -54,7 +54,7 @@ void AddAdminConstant(char *name,int value)
 	ac->name = (char *)AllocateMemory(MALLOC_ID_ADMIN_CONSTANTS,
 		strlen(name)+1);
 	strcpy(ac->name,name);
-	ac->value = value;
+	ac->value = (__int64)value;
 	ac->next = admin_constants;
 	
 	admin_constants = ac;
@@ -114,7 +114,7 @@ void LoadAdminConstants(void)
 	fclose(constantsfile);
 }
 
-Bool LookupAdminConstant(const char *name,int *ret_ptr)
+Bool LookupAdminConstant(const char *name, __int64 *ret_ptr)
 {
 	admin_constant_node *ac;
 	

@@ -416,14 +416,14 @@ int add_identifier(id_type id, int type)
    {
    case I_CLASS:
       if (table_insert(st.globalvars, (void *) id, id_hash, id_compare) == 0)
-	 id->idnum = ++st.maxid;
+         id->idnum = (__int64)++st.maxid;
       else return 1;
 
       break;
 
    case I_MESSAGE:
       if (table_insert(st.globalvars, (void *) id, id_hash, id_compare) == 0)
-	 id->idnum = ++st.maxid;
+         id->idnum = (__int64)++st.maxid;
       else return 1;
       break;
 
@@ -435,39 +435,39 @@ int add_identifier(id_type id, int type)
       
    case I_RESOURCE:
       if (table_insert(st.globalvars, (void *) id, id_hash, id_compare) == 0)
-	 id->idnum = ++st.maxresources;
+         id->idnum = (__int64)++st.maxresources;
       else return 1;
       break;
 
    case I_CLASSVAR:
       if (table_insert(st.classvars, (void *) id, id_hash, id_compare) == 0)
-	 id->idnum = ++st.maxclassvars;
+         id->idnum = (__int64)++st.maxclassvars;
       else return 1;
       break;
 
    case I_PROPERTY:
       if (table_insert(st.classvars, (void *) id, id_hash, id_compare) == 0)
-	 id->idnum = ++st.maxproperties;
+         id->idnum = (__int64)++st.maxproperties;
       else return 1;
       break;
 
    case I_LOCAL:
       if (table_insert(st.localvars, (void *) id, id_hash, id_compare) == 0)
-	 id->idnum = ++st.maxlocals;
+         id->idnum = (__int64)++st.maxlocals;
       else return 1;
 
       break;
 
    case I_PARAMETER:
       if (table_insert(st.globalvars, (void *) id, id_hash, id_compare) == 0)
-	 id->idnum = ++st.maxid;
+         id->idnum = (__int64)++st.maxid;
       else return 1;
 
       break;
 
    case I_MISSING:
       if (table_insert(st.missingvars, (void *) id, id_hash, id_compare) == 0)
-	 id->idnum = ++st.maxid;
+         id->idnum = (__int64)++st.maxid;
       else return 1;
       break;
 
@@ -483,7 +483,7 @@ int add_identifier(id_type id, int type)
 /* Action procedures */
 
 /************************************************************************/
-const_type make_numeric_constant(int num)
+const_type make_numeric_constant(__int64 num)
 {
    const_type c = (const_type) SafeMalloc(sizeof(const_struct));
 
@@ -535,7 +535,7 @@ const_type make_string_constant(char *str)
 
    c->type = C_STRING;
    /* Add string to symbol table, and remember index */
-   c->value.numval = st.num_strings++;
+   c->value.numval = (__int64)st.num_strings++;
    st.strings = list_add_item(st.strings, str);
 
    return c;

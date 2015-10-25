@@ -16,14 +16,14 @@
 typedef struct admin_constant_struct
 {
    char *name;
-   int value;
+   __int64 value;
    struct admin_constant_struct *next;
 } admin_constant_node;
 
 void InitAdminConstants(void);
 void ResetAdminConstants(void);
 void LoadAdminConstants(void);
-Bool LookupAdminConstant(const char *name,int *ret_ptr);
+Bool LookupAdminConstant(const char *name,__int64 *ret_ptr);
 
 
 #endif

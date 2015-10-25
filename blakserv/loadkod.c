@@ -32,7 +32,7 @@ loaded_bof_node *mem_files;
 Bool LoadBofName(char *fname);
 void AddFileMem(char *fname,char *ptr,int size);
 void FindClasses(char *fmem,char *fname);
-void FindMessages(char *fmem,int class_id,bof_dispatch *dispatch);
+void FindMessages(char *fmem,__int64 class_id,bof_dispatch *dispatch);
 
 void InitLoadBof(void)
 {
@@ -190,7 +190,9 @@ void AddFileMem(char *fname,char *ptr,int size)
 void FindClasses(char *fmem,char *fname)
 {
 	int dstring_offset;
-	int classes_in_file,class_id,class_offset;
+   int classes_in_file;
+   __int64 class_offset;
+   __int64 class_id;
 	bof_class_header *class_data;
 	bof_dispatch *dispatch_section;
 	bof_dstring *dstring_data;
@@ -226,7 +228,7 @@ void FindClasses(char *fmem,char *fname)
 	}
 }
 
-void FindMessages(char *fmem,int class_id,bof_dispatch *dispatch)
+void FindMessages(char *fmem,__int64 class_id,bof_dispatch *dispatch)
 {
 	int i;
    bof_dispatch_list_elem *messages;

@@ -20,7 +20,7 @@
 #define PARENT(x) ((x-1)/2)
 
 static Bool in_main_loop = False;
-static int numActiveTimers = 0;
+static __int64 numActiveTimers = 0;
 
 // Min binary heap array of pointers of timer_node.
 timer_node **timer_heap;
@@ -28,7 +28,7 @@ timer_node **timer_heap;
 int num_timer_nodes;
 
 // Next available timer ID.
-int next_timer_num;
+__int64 next_timer_num;
 
 // If we pause timers during a save, keep track of the time here.
 int pause_time;
@@ -38,7 +38,7 @@ void ReallocTimerNodes(void);
 void TimerAddNode(timer_node *t);
 void ResetLastMessageTimes(session_node *s);
 
-int GetNumActiveTimers(void)
+__int64 GetNumActiveTimers(void)
 {
    return numActiveTimers;
 }
@@ -242,7 +242,7 @@ void ResetLastMessageTimes(session_node *s)
    s->game->game_last_message_time = GetTime();
 }
 
-int CreateTimer(int object_id,int message_id,int milliseconds)
+__int64 CreateTimer(__int64 object_id, __int64 message_id, int milliseconds)
 {
    timer_node *t;
 
@@ -260,7 +260,7 @@ int CreateTimer(int object_id,int message_id,int milliseconds)
    return next_timer_num - 1;
 }
 
-Bool LoadTimer(int timer_id,int object_id,char *message_name,int milliseconds)
+Bool LoadTimer(__int64 timer_id, __int64 object_id, char *message_name, int milliseconds)
 {
    object_node *o;
    timer_node *t;
@@ -269,7 +269,7 @@ Bool LoadTimer(int timer_id,int object_id,char *message_name,int milliseconds)
    o = GetObjectByID(object_id);
    if (o == NULL)
    {
-      eprintf("LoadTimer can't find object %i\n",object_id);
+      eprintf("LoadTimer can't find object %I64d\n",object_id);
       return False;
    }
 
@@ -300,8 +300,9 @@ Bool LoadTimer(int timer_id,int object_id,char *message_name,int milliseconds)
    return True;
 }
 
+
 // Get timer by ID and remove it from heap by heap_index.
-Bool DeleteTimer(int timer_id)
+Bool DeleteTimer(__int64 timer_id)
 {
    timer_node *t;
 
@@ -331,7 +332,7 @@ Bool DeleteTimer(int timer_id)
 /* activate the 1st timer, if it is time */
 void TimerActivate()
 {
-   int object_id,message_id;
+   __int64 object_id, message_id;
    UINT64 now;
    val_type timer_val;
    parm_node p[1];
@@ -468,7 +469,7 @@ void ServiceTimers(void)
 }
 
 // Iterate through timer_heap array and compare timer_id.
-timer_node * GetTimerByID(int timer_id)
+timer_node * GetTimerByID(__int64 timer_id)
 {
    if (numActiveTimers == 0)
       return NULL;
@@ -492,7 +493,7 @@ void ForEachTimer(void (*callback_func)(timer_node *t))
 
 /* functions for garbage collection */
 
-void SetNumTimers(int new_next_timer_num)
+void SetNumTimers(__int64 new_next_timer_num)
 {
    next_timer_num = new_next_timer_num;
 }

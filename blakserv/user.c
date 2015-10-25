@@ -45,7 +45,7 @@ void ClearUser(void)
    users = NULL;
 }
 
-user_node * CreateNewUser(int account_id,int class_id)
+user_node * CreateNewUser(int account_id,__int64 class_id)
 {   
    user_node *u;
 
@@ -86,7 +86,7 @@ void CreateUseronAccount(account_node *a)
 	CreateNewUser(a->account_id,USER_CLASS);
 }
 
-user_node * CreateNewUserByName(int account_id,int class_id,char*buf)
+user_node * CreateNewUserByName(int account_id,__int64 class_id,char*buf)
 {   
    user_node *u;
 
@@ -120,7 +120,7 @@ user_node * CreateNewUserByName(int account_id,int class_id,char*buf)
    return u;
 }
 
-Bool AssociateUser(int account_id,int object_id)
+Bool AssociateUser(int account_id, __int64 object_id)
 {
    user_node *u;
 
@@ -142,7 +142,7 @@ Bool AssociateUser(int account_id,int object_id)
    return True;
 }
 
-void LoadUser(int account_id,int object_id)
+void LoadUser(int account_id,__int64 object_id)
 {
    AssociateUser(account_id,object_id);
 }
@@ -196,7 +196,7 @@ int DeleteUserByAccountID(int account_id)
    return count;
 }
 
-int DeleteUserByObjectID(int object_id)
+int DeleteUserByObjectID(__int64 object_id)
 {
    user_node *u,*temp;
    int count;
@@ -248,7 +248,7 @@ int CountUserByAccountID(int account_id)
    return count;
 }
 
-user_node * GetUserByObjectID(int object_id)
+user_node * GetUserByObjectID(__int64 object_id)
 {
    user_node *u;
 

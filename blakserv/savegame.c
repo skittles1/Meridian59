@@ -72,9 +72,9 @@ void SaveBuiltInObjects(void);
 void SaveObjects(void);
 void SaveEachObject(object_node *o);
 void SaveListNodes(void);
-void SaveEachListNode(list_node *l,int list_id);
+void SaveEachListNode(list_node *l,__int64 list_id);
 void SaveTables(void);
-void SaveEachTable(table_node *t,int table_id);
+void SaveEachTable(table_node *t,__int64 table_id);
 void SaveTimers(void);
 void SaveEachTimer(timer_node *t);
 void SaveUsers(void);
@@ -83,6 +83,7 @@ void SaveEachUser(user_node *u);
 // Functions for writing to the save game buffer.
 void SaveGameCopyByteBuffer(char byte_buffer);
 void SaveGameCopyIntBuffer(int int_buffer);
+void SaveGameCopyLongBuffer(__int64 int_buffer);
 void SaveGameCopyStringBuffer(const char *string_buffer);
 // Used to flush the buffer and write to file.
 void SaveGameFlushBuffer();
@@ -150,6 +151,17 @@ void SaveGameCopyIntBuffer(int int_buffer)
       SaveGameFlushBuffer();
 }
 
+// Write 8 bytes to buffer.
+void SaveGameCopyLongBuffer(__int64 int_buffer)
+{
+   memcpy(&(buffer[buffer_position]), &int_buffer, 8);
+   buffer_position += 8;
+
+   // Flush buffer at 90%.
+   if (buffer_position > buffer_warning_size)
+      SaveGameFlushBuffer();
+}
+
 // Write 1 byte to buffer.
 void SaveGameCopyByteBuffer(char byte_buffer)
 {
@@ -209,7 +221,7 @@ void SaveClasses(void)
 
 void SaveEachClass(class_node *c)
 {
-   int i;
+   __int64 i;
 
    if ((GetClassByID(c->class_id) != c) ||
       (c->super_id != NO_SUPERCLASS && GetClassByID(c->super_id) == NULL) ||
@@ -220,7 +232,7 @@ void SaveEachClass(class_node *c)
    }
 
    SaveGameCopyByteBuffer(SAVE_GAME_CLASS);
-   SaveGameCopyIntBuffer(c->class_id);
+   SaveGameCopyLongBuffer(c->class_id);
    SaveGameCopyStringBuffer(c->class_name);
    SaveGameCopyIntBuffer(c->num_properties);
 
@@ -250,7 +262,7 @@ void SaveEachResource(resource_node *r)
    }
 
    SaveGameCopyByteBuffer(SAVE_GAME_RESOURCE);
-   SaveGameCopyIntBuffer(r->resource_id);
+   SaveGameCopyLongBuffer(r->resource_id);
    SaveGameCopyStringBuffer(r->resource_name);
 }
 
@@ -261,13 +273,13 @@ void SaveBuiltInObjects(void)
    SaveGameCopyByteBuffer(SAVE_GAME_BUILTINOBJ);
    SaveGameCopyIntBuffer(NUM_BUILTIN_OBJECTS);
    SaveGameCopyIntBuffer(SYSTEM_OBJECT);
-   SaveGameCopyIntBuffer(GetSystemObjectID());
+   SaveGameCopyLongBuffer(GetSystemObjectID());
    SaveGameCopyIntBuffer(SETTINGS_OBJECT);
-   SaveGameCopyIntBuffer(GetSettingsObjectID());
+   SaveGameCopyLongBuffer(GetSettingsObjectID());
    SaveGameCopyIntBuffer(REALTIME_OBJECT);
-   SaveGameCopyIntBuffer(GetRealTimeObjectID());
+   SaveGameCopyLongBuffer(GetRealTimeObjectID());
    SaveGameCopyIntBuffer(EVENTENGINE_OBJECT);
-   SaveGameCopyIntBuffer(GetEventEngineObjectID());
+   SaveGameCopyLongBuffer(GetEventEngineObjectID());
 }
 
 void SaveObjects(void)
@@ -288,8 +300,8 @@ void SaveEachObject(object_node *o)
    }
 
    SaveGameCopyByteBuffer(SAVE_GAME_OBJECT);
-   SaveGameCopyIntBuffer(o->object_id);
-   SaveGameCopyIntBuffer(o->class_id);
+   SaveGameCopyLongBuffer(o->object_id);
+   SaveGameCopyLongBuffer(o->class_id);
    SaveGameCopyIntBuffer(c->num_properties);
 
    /* remember, don't save self (p[0]) because no name for it!
@@ -297,7 +309,7 @@ void SaveEachObject(object_node *o)
     */
    /* equal to num_properties is ok, because self = prop 0 */
    for (i = 1; i <= c->num_properties; ++i)
-      SaveGameCopyIntBuffer(o->p[i].val.int_val);
+      SaveGameCopyLongBuffer(o->p[i].val.int_val);
 }
 
 void SaveListNodes(void)
@@ -307,10 +319,10 @@ void SaveListNodes(void)
    ForEachListNode(SaveEachListNode);
 }
 
-void SaveEachListNode(list_node *l,int list_id)
+void SaveEachListNode(list_node *l,__int64 list_id)
 {
-   SaveGameCopyIntBuffer(l->first.int_val);
-   SaveGameCopyIntBuffer(l->rest.int_val);
+   SaveGameCopyLongBuffer(l->first.int_val);
+   SaveGameCopyLongBuffer(l->rest.int_val);
 }
 
 void SaveTables(void)
@@ -320,7 +332,7 @@ void SaveTables(void)
    ForEachTable(SaveEachTable);
 }
 
-void SaveEachTable(table_node *t,int table_id)
+void SaveEachTable(table_node *t,__int64 table_id)
 {
    hash_node *hn;
 
@@ -332,8 +344,8 @@ void SaveEachTable(table_node *t,int table_id)
       hn = t->table[i];
       while (hn != NULL)
       {
-         SaveGameCopyIntBuffer(hn->key_val.int_val);
-         SaveGameCopyIntBuffer(hn->data_val.int_val);
+         SaveGameCopyLongBuffer(hn->key_val.int_val);
+         SaveGameCopyLongBuffer(hn->data_val.int_val);
          hn = hn->next;
       }
    }
@@ -365,8 +377,8 @@ void SaveEachTimer(timer_node *t)
    }
 
    SaveGameCopyByteBuffer(SAVE_GAME_TIMER);
-   SaveGameCopyIntBuffer(t->timer_id);
-   SaveGameCopyIntBuffer(t->object_id);
+   SaveGameCopyLongBuffer(t->timer_id);
+   SaveGameCopyLongBuffer(t->object_id);
    SaveGameCopyStringBuffer(GetNameByID(t->message_id));
 
    save_time = (int)(t->time - GetMilliCount());
@@ -384,5 +396,5 @@ void SaveEachUser(user_node *u)
 {
    SaveGameCopyByteBuffer(SAVE_GAME_USER);
    SaveGameCopyIntBuffer(u->account_id);
-   SaveGameCopyIntBuffer(u->object_id);
+   SaveGameCopyLongBuffer(u->object_id);
 }

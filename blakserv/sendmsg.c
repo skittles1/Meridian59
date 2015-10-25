@@ -28,7 +28,7 @@ kod_statistics kod_stat;      /* actual statistics */
 char *bkod;
 int num_interpreted = 0; /* number of instructions in this top level call */
 
-int trace_session_id = INVALID_ID;
+__int64 trace_session_id = INVALID_ID;
 
 post_queue_type post_q;
 
@@ -57,25 +57,24 @@ enum
 };
 
 /* table of pointers to functions to call for ccode functions */
-
-typedef int (*ccall_proc)(int object_id,local_var_type *local_vars,
-                    int num_normal_parms,parm_node normal_parm_array[],
-                    int num_name_parms,parm_node name_parm_array[]);
+typedef __int64(*ccall_proc)(__int64 object_id, local_var_type *local_vars,
+                             int num_normal_parms, parm_node normal_parm_array[],
+                             int num_name_parms, parm_node name_parm_array[]);
 
 ccall_proc ccall_table[MAX_C_FUNCTION];
 
 int done;
 
 /* local function prototypes */
-int InterpretAtMessage(int object_id,class_node* c,message_node* m,
-                  int num_sent_parms,parm_node sent_parms[],
-                  val_type *ret_val);
-__inline void StoreValue(int object_id,local_var_type *local_vars,int data_type,int data,
-                   val_type new_data);
-void InterpretUnaryAssign(int object_id,local_var_type *local_vars,opcode_type opcode);
-void InterpretBinaryAssign(int object_id,local_var_type *local_vars,opcode_type opcode);
-void InterpretGoto(int object_id, local_var_type *local_vars, opcode_type opcode);
-void InterpretCall(int object_id,local_var_type *local_vars,opcode_type opcode);
+int InterpretAtMessage(__int64 object_id,class_node* c,message_node* m,
+                       int num_sent_parms,parm_node sent_parms[],
+                       val_type *ret_val);
+__inline void StoreValue(__int64 object_id, local_var_type *local_vars,
+                         int data_type, int data, val_type new_data);
+void InterpretUnaryAssign(__int64 object_id,local_var_type *local_vars,opcode_type opcode);
+void InterpretBinaryAssign(__int64 object_id,local_var_type *local_vars,opcode_type opcode);
+void InterpretGoto(__int64 object_id,local_var_type *local_vars, opcode_type opcode);
+void InterpretCall(__int64 object_id,local_var_type *local_vars,opcode_type opcode);
 
 void InitProfiling(void)
 {
@@ -265,8 +264,8 @@ Bool IsInterpreting(void)
    return bkod != NULL;
 }
 
-void TraceInfo(int session_id,char *class_name,int message_id,int num_parms,
-               parm_node parms[])
+void TraceInfo(__int64 session_id, char *class_name, __int64 message_id,
+               int num_parms, parm_node parms[])
 {
    int i;
    val_type val;
@@ -307,7 +306,7 @@ void TraceInfo(int session_id,char *class_name,int message_id,int num_parms,
    SendSessionAdminText(session_id, buf_ptr);
 }
 
-void PostBlakodMessage(int object_id,int message_id,int num_parms,parm_node parms[])
+void PostBlakodMessage(__int64 object_id, __int64 message_id, int num_parms, parm_node parms[])
 {
    int i, new_next;
 
@@ -329,9 +328,10 @@ void PostBlakodMessage(int object_id,int message_id,int num_parms,parm_node parm
 }
 
 /* returns the return value of the blakod */
-int SendTopLevelBlakodMessage(int object_id,int message_id,int num_parms,parm_node parms[])
+__int64 SendTopLevelBlakodMessage(__int64 object_id, __int64 message_id,
+                                  int num_parms, parm_node parms[])
 {
-   int ret_val = 0;
+   __int64 ret_val = 0;
    double start_time = 0;
    double interp_time = 0;
    int posts = 0;
@@ -414,8 +414,8 @@ int SendTopLevelBlakodMessage(int object_id,int message_id,int num_parms,parm_no
 }
 
 typedef struct {
-   int class_id;
-   int message_id;
+   __int64 class_id;
+   __int64 message_id;
    int num_params;
    parm_node *parm;
 } ClassMessage, *PClassMessage;
@@ -439,7 +439,7 @@ void SendClassMessage(object_node *object)
    } while (c != NULL);
 }
 
-int SendBlakodClassMessage(int class_id,int message_id,int num_params,parm_node parm[])
+__int64 SendBlakodClassMessage(__int64 class_id, __int64 message_id, int num_params, parm_node parm[])
 {
    numExecuted = 0;
    classMsg.class_id = class_id;
@@ -451,14 +451,15 @@ int SendBlakodClassMessage(int class_id,int message_id,int num_params,parm_node 
 }
 
 /* returns the return value of the blakod */
-int SendBlakodMessage(int object_id,int message_id,int num_parms,parm_node parms[])
+__int64 SendBlakodMessage(__int64 object_id, __int64 message_id, int num_parms,
+                          parm_node parms[])
 {
    object_node *o;
    class_node *c,*propagate_class;
    message_node *m;
    val_type message_ret;
    
-   int prev_interpreting_class;
+   __int64 prev_interpreting_class;
    char *prev_bkod;
 
    int propagate_depth = 0;
@@ -606,9 +607,9 @@ __inline unsigned int get_int()
 /* returns either RETURN_PROPAGATE or RETURN_NO_PROPAGATE.  If no propagate,
 * then the return value in ret_val is good.
 */
-int InterpretAtMessage(int object_id,class_node* c,message_node* m,
-                  int num_sent_parms,
-                  parm_node sent_parms[],val_type *ret_val)
+int InterpretAtMessage(__int64 object_id,class_node* c,message_node* m,
+                       int num_sent_parms,
+                       parm_node sent_parms[],val_type *ret_val)
 {
    int parm_id;
    int i, j;
@@ -752,7 +753,7 @@ int InterpretAtMessage(int object_id,class_node* c,message_node* m,
 /* RetrieveValue used to be here, but is inline, and used in ccode.c too, so it's
 in sendmsg.h now */
 
-__inline void StoreValue(int object_id, local_var_type *local_vars,
+__inline void StoreValue(__int64 object_id, local_var_type *local_vars,
                          int data_type, int data, val_type new_data)
 {
    object_node *o;
@@ -794,7 +795,7 @@ __inline void StoreValue(int object_id, local_var_type *local_vars,
    }
 }
 
-void InterpretUnaryAssign(int object_id,local_var_type *local_vars,opcode_type opcode)
+void InterpretUnaryAssign(__int64 object_id,local_var_type *local_vars,opcode_type opcode)
 {
    char info = get_byte();
    unopdata_node *opnode = (unopdata_node*)((bkod += sizeof(unopdata_node))
@@ -891,7 +892,7 @@ void InterpretUnaryAssign(int object_id,local_var_type *local_vars,opcode_type o
    StoreValue(object_id, local_vars, opcode.dest, opnode->dest, source_data);
 }
 
-void InterpretBinaryAssign(int object_id,local_var_type *local_vars,opcode_type opcode)
+void InterpretBinaryAssign(__int64 object_id,local_var_type *local_vars,opcode_type opcode)
 {
    val_type source1_data,source2_data;
    char info = get_byte();
@@ -1097,7 +1098,7 @@ void InterpretBinaryAssign(int object_id,local_var_type *local_vars,opcode_type 
    StoreValue(object_id, local_vars, opcode.dest, opnode->dest, source1_data);
 }
 
-void InterpretGoto(int object_id, local_var_type *local_vars, opcode_type opcode)
+void InterpretGoto(__int64 object_id, local_var_type *local_vars, opcode_type opcode)
 {
    int dest_addr;
    int var_check;
@@ -1126,7 +1127,7 @@ void InterpretGoto(int object_id, local_var_type *local_vars, opcode_type opcode
       bkod = inst_start + dest_addr;
 }
 
-void InterpretCall(int object_id,local_var_type *local_vars,opcode_type opcode)
+void InterpretCall(__int64 object_id,local_var_type *local_vars,opcode_type opcode)
 {
    parm_node normal_parm_array[MAX_C_PARMS], name_parm_array[MAX_NAME_PARMS]; 
    unsigned char info, num_normal_parms, num_name_parms, initial_type;

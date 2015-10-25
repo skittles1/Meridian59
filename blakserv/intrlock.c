@@ -66,7 +66,7 @@ Bool GetQuit()
    return copy_quit;
 }
 
-void SignalSession(int session_id)
+void SignalSession(__int64 session_id)
 {
-   MessagePost(main_thread_id,WM_BLAK_MAIN_READ,0,session_id);
+   MessagePost(main_thread_id,WM_BLAK_MAIN_READ,0,(int)session_id);
 }

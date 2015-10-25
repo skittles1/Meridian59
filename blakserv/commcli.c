@@ -85,7 +85,7 @@ void AddBlakodToPacket(val_type obj_size,val_type obj_data)
       case NUMBER_OBJECT :
          temp_val.int_val = obj_data.int_val;
          temp_val.v.tag = CLIENT_TAG_NUMBER;
-         byte4 = temp_val.int_val;
+         byte4 = (int)temp_val.int_val; // TODO: convert to 8 bytes
          AddIntToPacket(byte4);
          break;
       case STRING_RESOURCE :
@@ -137,7 +137,7 @@ void AddStringToPacket(int int_len,const char *ptr)
    blist = AddToBufferList(blist,(void *) ptr,int_len);
 }
 
-void SecurePacketBufferList(int session_id, buffer_node *bl)
+void SecurePacketBufferList(__int64 session_id, buffer_node *bl)
 {
    session_node *s = GetSessionByID(session_id);
    char* pRedbook;
@@ -179,7 +179,7 @@ void SecurePacketBufferList(int session_id, buffer_node *bl)
    }
 }
 
-void SendPacket(int session_id)
+void SendPacket(__int64 session_id)
 {
 /*
    int i;
@@ -195,7 +195,7 @@ void SendPacket(int session_id)
    blist = NULL;
 }
 
-void SendCopyPacket(int session_id)
+void SendCopyPacket(__int64 session_id)
 {
    buffer_node *bl = CopyBufferList(blist);
 //   dprintf("SendCopyPacket msg %u", (unsigned char)bl->buf[0]);

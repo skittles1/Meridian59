@@ -297,7 +297,7 @@ void include_file(char *filename);
 
 
 /* action handlers */
-const_type make_numeric_constant(int);
+const_type make_numeric_constant(__int64);
 const_type make_nil_constant(void);
 const_type make_string_constant(char *);
 const_type make_string_resource(char *);

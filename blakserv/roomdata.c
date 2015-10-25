@@ -24,7 +24,7 @@
 #include "blakserv.h"
 
 // Next available room ID.
-int           idcounter = 0;
+__int64           idcounter = 0;
 // Array of pointers for room data storage.
 room_node     **rooms;
 
@@ -45,7 +45,7 @@ void ResetRooms()
 {
    room_node *room, *temp;
 
-   for (int i = 0; i < INIT_ROOMTABLE_SIZE; ++i)
+   for (__int64 i = 0; i < INIT_ROOMTABLE_SIZE; ++i)
    {
       if (rooms)
       {
@@ -65,7 +65,7 @@ void ResetRooms()
    idcounter = 0;
 }
 
-int LoadRoom(int resource_id)
+__int64 LoadRoom(__int64 resource_id)
 {
    val_type ret_val;
    resource_node* r;
@@ -175,7 +175,7 @@ void UnloadRoom(room_node *r)
    return;
 }
 
-room_node * GetRoomDataByID(int id)
+room_node * GetRoomDataByID(__int64 id)
 {
    room_node *room;
 
@@ -221,7 +221,7 @@ void ForEachRoom(void(*callback_func)(room_node *r))
 {
    room_node *node;
 
-   for (int i = 0; i < INIT_ROOMTABLE_SIZE; i++)
+   for (__int64 i = 0; i < INIT_ROOMTABLE_SIZE; i++)
    {
       node = rooms[i];
       while (node)

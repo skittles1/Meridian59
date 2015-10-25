@@ -90,7 +90,7 @@ Bool is_timer_pending;
 char admin_response_buf[ADMIN_RESPONSE_SIZE+1];
 int len_admin_response_buf;
 
-int console_session_id;
+__int64 console_session_id;
 
 int sessions_logged_on;
 
@@ -119,9 +119,9 @@ void InterfaceTabPageCommand(HWND hwnd,int id, HWND hwndCtl, UINT codeNotify);
 long CALLBACK InterfaceAdminInputProc(HWND hwnd, UINT message, UINT wParam, LONG lParam);
 long CALLBACK InterfaceAdminResponseProc(HWND hwnd, UINT message, UINT wParam, LONG lParam);
 void InterfaceAddAdminBuffer(char *buf,int len_buf);
-void InterfaceAddList(int session_id);
-void InterfaceRemoveList(int session_id);
-void InterfaceUpdateList(int session_id);
+void InterfaceAddList(__int64 session_id);
+void InterfaceRemoveList(__int64 session_id);
+void InterfaceUpdateList(__int64 session_id);
 void InterfaceUpdateAdmin(void);
 
 void InitInterface(void)
@@ -359,7 +359,7 @@ long WINAPI InterfaceWindowProc(HWND hwnd,UINT message,UINT wParam,LONG lParam)
    return TRUE;
 }
 
-void InterfaceAddList(int session_id)
+void InterfaceAddList(__int64 session_id)
 {
 	session_node *s;
 	LV_ITEM lvi;
@@ -384,7 +384,7 @@ void InterfaceAddList(int session_id)
 	
 	lvi.iItem = index;
 	lvi.iSubItem = 0; 
-	lvi.lParam = session_id;
+	lvi.lParam = (int)session_id;
 	
 	ListView_InsertItem(hwndLV,&lvi); 
 	
@@ -403,13 +403,13 @@ void InterfaceAddList(int session_id)
 	LeaveServerLock();
 }
 
-void InterfaceRemoveList(int session_id)
+void InterfaceRemoveList(__int64 session_id)
 {
 	LV_FINDINFO lvf;
 	int index;
 	
 	lvf.flags = LVFI_PARAM;
-	lvf.lParam = session_id;
+	lvf.lParam = (int)session_id;
 	index = ListView_FindItem(hwndLV,-1,&lvf);
 	
 	if (index >= 0)
@@ -418,7 +418,7 @@ void InterfaceRemoveList(int session_id)
 	}
 }
 
-void InterfaceUpdateList(int session_id)
+void InterfaceUpdateList(__int64 session_id)
 {
 	session_node *s;
 	char buf[20];
@@ -434,7 +434,7 @@ void InterfaceUpdateList(int session_id)
 	}
 	
 	lvf.flags = LVFI_PARAM;
-	lvf.lParam = session_id;
+	lvf.lParam = (int)session_id;
 	index = ListView_FindItem(hwndLV,-1,&lvf);
 	
 	if (index >= 0)
@@ -912,10 +912,10 @@ void InterfaceDrawText(HWND hwnd)
 		else
 			SetDlgItemText(hwndMain,IDC_GAME_LOCKED,"");
 		
-		SetDlgItemInt(HWND_STATUS,IDC_OBJECTS_VALUE,GetObjectsUsed(),FALSE);
-		SetDlgItemInt(HWND_STATUS,IDC_LISTNODES_VALUE,GetListNodesUsed(),FALSE);
-		SetDlgItemInt(HWND_STATUS,IDC_STRINGS_VALUE,GetStringsUsed(),FALSE);
-		SetDlgItemInt(HWND_STATUS,IDC_TIMERS_VALUE,GetNumActiveTimers(),FALSE);
+		SetDlgItemInt(HWND_STATUS,IDC_OBJECTS_VALUE,(UINT)GetObjectsUsed(),FALSE);
+		SetDlgItemInt(HWND_STATUS,IDC_LISTNODES_VALUE,(UINT)GetListNodesUsed(),FALSE);
+		SetDlgItemInt(HWND_STATUS,IDC_STRINGS_VALUE,(UINT)GetStringsUsed(),FALSE);
+		SetDlgItemInt(HWND_STATUS,IDC_TIMERS_VALUE,(UINT)GetNumActiveTimers(),FALSE);
 		
 		LeaveServerLock();
 	}

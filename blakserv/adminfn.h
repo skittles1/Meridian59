@@ -13,8 +13,8 @@
 #ifndef _ADMINFN_H
 #define _ADMINFN_H
 
-void SendSessionAdminText(int session_id,const char *fmt,...);
-void TryAdminCommand(int session_id,char *admin_command);
+void SendSessionAdminText(__int64 session_id,const char *fmt,...);
+void TryAdminCommand(__int64 session_id,char *admin_command);
 
 void AdminBufferSend(char *buf,int len_buf);
 
