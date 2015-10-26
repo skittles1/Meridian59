@@ -91,7 +91,7 @@ Bool LoadDynamicRscName(char *filename)
 		unsigned int len_data;
 		char resource_value[500];
 
-		fread(&resource_id,8,1,fh);
+		fread(&resource_id,4,1,fh);
 		fread(&resource_type,4,1,fh);
 		fread(&len_data,4,1,fh);
 

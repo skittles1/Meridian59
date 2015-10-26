@@ -117,8 +117,9 @@ bool SaveRscFile(char *filename)
       {
          if (r->string[j])
          {
+            int rsc_num = (int)r->number;
             // Write out id #
-            fwrite(&r->number, 4, 1, f);
+            fwrite(&rsc_num, 4, 1, f);
 
             // Write language id.
             fwrite(&j,4,1,f);
@@ -136,7 +137,7 @@ bool SaveRscFile(char *filename)
 /*
  * EachRscCallback:  Called for each resource that's loaded.
  */
-bool EachRscCallback(char *filename, int rsc, int lang_id, char *string)
+bool EachRscCallback(char *filename, __int64 rsc, int lang_id, char *string)
 {
    Resource *r;
 

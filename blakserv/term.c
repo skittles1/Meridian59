@@ -233,7 +233,7 @@ __int64 GetDataNum(__int64 tag_val, const char *data_str)
       break;
 
    default :
-      if (sscanf(data_str,"%i",&retval) != 1)
+      if (sscanf(data_str,"%I64d",&retval) != 1)
          retval = INVALID_DATA;
    }
 

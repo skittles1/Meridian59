@@ -68,7 +68,7 @@ ishash_type load_game_resources;
 
 #define LoadGameReadInt(buf) LoadGameRead(buf,4)
 #define LoadGameReadChar(buf) LoadGameRead(buf,1)
-#define LoadGameReadLong(buf) LoadGameRead(buf,8)
+#define LoadGameReadLong(buf) if (savegame_version < 2) LoadGameRead(buf,4) else LoadGameRead(buf,8)
 
 #define LoadGameReadString(buf,max_len) \
 { \
@@ -279,12 +279,13 @@ Bool LoadGameVersion(void)
 
 Bool LoadGameBuiltInObjects()
 {
-   int obj_id, num_builtins, obj_constant;
+   int num_builtins;
+   __int64 obj_id, obj_constant;
 
    // Old save games just had system built-in object.
    if (savegame_version == 0)
    {
-      LoadGameReadInt(&obj_id);
+      LoadGameReadLong(&obj_id);
       SetSystemObjectID(obj_id);
       return True;
    }
@@ -295,8 +296,8 @@ Bool LoadGameBuiltInObjects()
       LoadGameReadInt(&num_builtins);
       for (int i = 0; i < num_builtins; ++i)
       {
-         LoadGameReadInt(&obj_constant);
-         LoadGameReadInt(&obj_id);
+         LoadGameReadLong(&obj_constant);
+         LoadGameReadLong(&obj_id);
          SetBuiltInObjectID(obj_constant, obj_id);
       }
    }
@@ -306,13 +307,14 @@ Bool LoadGameBuiltInObjects()
 
 Bool LoadGameObject(void)
 {
-	__int64 object_id,class_old_id,num_props,i;
+   __int64 object_id, class_old_id;
+   int num_props, i;
 	val_type prop_val;
 	char *property_str;
 	load_game_class_node *lgc;
 	
-	LoadGameReadInt(&object_id);
-	LoadGameReadInt(&class_old_id);
+   LoadGameReadLong(&object_id);
+   LoadGameReadLong(&class_old_id);
 	LoadGameReadInt(&num_props);
 	
 	lgc = GetLoadGameClassByID(class_old_id);
@@ -332,7 +334,7 @@ Bool LoadGameObject(void)
 
 	for (i=1;i<=num_props;i++)
 	{
-		LoadGameReadInt(&prop_val);
+      LoadGameReadLong(&prop_val);
 		// eprintf("loading object %i\n",object_id);
 
 		LoadGameTranslateVal(&prop_val);
@@ -364,8 +366,8 @@ Bool LoadGameListNodes(void)
 	
 	for (i=0;i<num_list_nodes;i++)
 	{
-		LoadGameReadInt(&first_val.int_val);
-		LoadGameReadInt(&rest_val.int_val);
+      LoadGameReadLong(&first_val.int_val);
+      LoadGameReadLong(&rest_val.int_val);
 		
 		LoadGameTranslateVal(&first_val);
 		LoadGameTranslateVal(&rest_val);
@@ -418,8 +420,8 @@ Bool LoadGameTables(void)
 
       for (int j = 0; j < num_entries; ++j)
       {
-         LoadGameReadInt(&key_val.int_val);
-         LoadGameReadInt(&data_val.int_val);
+         LoadGameReadLong(&key_val.int_val);
+         LoadGameReadLong(&data_val.int_val);
 
          LoadGameTranslateVal(&key_val);
          LoadGameTranslateVal(&data_val);
@@ -433,11 +435,12 @@ Bool LoadGameTables(void)
 
 Bool LoadGameTimer(void)
 {
-	int timer_id,object_id,milliseconds;
+   __int64 timer_id, object_id;
+   int milliseconds;
 	char buf[100];
 	
-	LoadGameReadInt(&timer_id);
-	LoadGameReadInt(&object_id);
+   LoadGameReadLong(&timer_id);
+   LoadGameReadLong(&object_id);
 	LoadGameReadString(buf,sizeof(buf));
 	LoadGameReadInt(&milliseconds);
 	
@@ -455,7 +458,7 @@ Bool LoadGameUser(void)
    int account_id;
 	
 	LoadGameReadInt(&account_id);
-	LoadGameReadInt(&object_id);
+   LoadGameReadLong(&object_id);
 	
 	LoadUser(account_id,object_id);
 	return True;
@@ -463,11 +466,12 @@ Bool LoadGameUser(void)
 
 Bool LoadGameClass(void)
 {
-	int class_old_id,num_props,i;
+	int num_props,i;
+   __int64 class_old_id;
 	char buf[100];
 	load_game_class_node *lgc;
 	
-	LoadGameReadInt(&class_old_id);
+   LoadGameReadLong(&class_old_id);
 	LoadGameReadString(buf,sizeof(buf));
 	LoadGameReadInt(&num_props);
 	
@@ -499,10 +503,10 @@ void LoadAddPropertyName(load_game_class_node *lgc, __int64 prop_old_id, char *p
 
 Bool LoadGameResource(void)
 {
-	int resource_old_id;
+	__int64 resource_old_id;
 	char buf[100];
 	
-	LoadGameReadInt(&resource_old_id);
+   LoadGameReadLong(&resource_old_id);
 	LoadGameReadString(buf,sizeof(buf));
 	
 	CreateLoadGameResource(resource_old_id,buf);

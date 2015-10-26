@@ -191,7 +191,7 @@ void FindClasses(char *fmem,char *fname)
 {
 	int dstring_offset;
    int classes_in_file;
-   __int64 class_offset;
+   int class_offset;
    __int64 class_id;
 	bof_class_header *class_data;
 	bof_dispatch *dispatch_section;
@@ -199,7 +199,7 @@ void FindClasses(char *fmem,char *fname)
 	int line_table_offset;
 	bof_line_table *line_table;
 	bof_class_props *props;
-   bof_list_elem *classes;
+   bof_class_elem *classes;
 	int i;
 	
 	dstring_offset = ((bof_file_header *)fmem)->dstring_offset;
@@ -223,7 +223,7 @@ void FindClasses(char *fmem,char *fname)
 		
 		dispatch_section = (bof_dispatch *)(fmem + class_data->offset_dispatch);
 		AddClass(class_id,class_data,fname,fmem,dstring_data,line_table,props);
-		SetClassNumMessages(class_id,dispatch_section->num_messages);
+		SetClassNumMessages(class_id,(int)dispatch_section->num_messages);
 		FindMessages(fmem,class_id,dispatch_section);
 	}
 }

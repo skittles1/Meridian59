@@ -848,7 +848,7 @@ void AdminTable(int len_command_table,admin_table_type command_table[],__int64 s
 			admin_parm[i] = (admin_parm_type)parm_str;
 			break;
 		case I :
-			if (sscanf(parm_str,"%d",&num) != 1)
+			if (sscanf(parm_str,"%I64d",&num) != 1)
 			{
 				aprintf("Parameter %d should be an int, not '%s'.\n",
 					i+1,parm_str);

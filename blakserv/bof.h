@@ -17,14 +17,20 @@
 typedef struct
 {
    __int64 id;
-   int offset;
+   __int64 offset;
 } bof_list_elem;
+
+typedef struct
+{
+   __int64 id;
+   int offset;
+} bof_class_elem;
 
 /* util struct for message table */
 typedef struct
 {
    __int64 id;
-   int offset;
+   __int64 offset;
    __int64 dstr_id;
 } bof_dispatch_list_elem;
 
@@ -37,7 +43,7 @@ typedef struct
    int dstring_offset;
    int line_table_offset; /* for source line number info */
    int num_classes;
-   bof_list_elem classes;
+   bof_class_elem classes;
 } bof_file_header;
 
 /* struct at beginning of each class */
@@ -63,7 +69,7 @@ typedef struct
 /* struct at beginning of message section for each class */
 typedef struct
 {
-   int num_messages;
+   __int64 num_messages;
    bof_dispatch_list_elem messages;
 } bof_dispatch;
 

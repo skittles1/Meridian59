@@ -38,7 +38,8 @@ bool RscFileLoad(char *fname, RscCallbackProc callback)
  */
 bool RscFileRead(char *fname, FILE *f, RscCallbackProc callback)
 {
-   int i, num_resources, version, rsc_num, lang_id;
+   int i, num_resources, version, lang_id;
+   __int64 rsc_num;
    unsigned char byte;
    
    // Check magic number and version
@@ -55,7 +56,7 @@ bool RscFileRead(char *fname, FILE *f, RscCallbackProc callback)
    // Read each resource
    for (i=0; i < num_resources; i++)
    {
-      if (fread(&rsc_num, 1, 4, f) != 4)
+      if (fread(&rsc_num, 1, 8, f) != 8)
          return false;
 
       // each resource has a language number and a string

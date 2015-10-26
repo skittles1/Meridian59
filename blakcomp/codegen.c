@@ -1170,7 +1170,7 @@ void codegen_class(class_type c)
 
    /* Write out # of message handlers */
    nummessages = list_length(c->messages);
-   OutputInt(outfile, nummessages);
+   OutputInt64(outfile, (__int64)nummessages);
 
    /* Save away position of message dispatch table */
    messagepos = FileCurPos(outfile);
@@ -1181,7 +1181,7 @@ void codegen_class(class_type c)
       /* Leave space for each message id # */
       OutputInt64(outfile, 0);
       /* Leave space for each message handler's offset */
-      OutputInt(outfile, 0);
+      OutputInt64(outfile, 0);
       /* Leave space for each message handler's comment string */
       OutputInt64(outfile, 0);
    }
@@ -1197,10 +1197,10 @@ void codegen_class(class_type c)
 
       /* Write out message id #, then handler offset */
       OutputInt64(outfile, handler->header->message_id->idnum);
-      OutputInt(outfile, endpos); 
-      if (handler->comment == NULL)
+      OutputInt64(outfile, endpos);
+      //if (handler->comment == NULL)
 	      OutputInt64(outfile, -1);
-      else OutputInt64(outfile, (int)handler->comment->value.numval);
+      //else OutputInt64(outfile, handler->comment->value.numval);
 
       messagepos = FileCurPos(outfile);  /* Move to next entry */
       FileGotoEnd(outfile);

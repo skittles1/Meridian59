@@ -135,7 +135,7 @@ void AddClass(__int64 id, bof_class_header *class_data, char *fname, char *bof_b
 	for (i=0;i<new_node->num_prop_defaults;i++)
 	{
 		new_node->prop_default[i].id = prop_values[i].id;
-      new_node->prop_default[i].val.int_val = (__int64)prop_values[i].offset;
+      new_node->prop_default[i].val.int_val = prop_values[i].offset;
 	}
 	new_node->fname = fname;
 	new_node->class_name = NULL;

@@ -70,7 +70,7 @@ int InterpretAtMessage(__int64 object_id,class_node* c,message_node* m,
                        int num_sent_parms,parm_node sent_parms[],
                        val_type *ret_val);
 __inline void StoreValue(__int64 object_id, local_var_type *local_vars,
-                         int data_type, int data, val_type new_data);
+                         int data_type, __int64 data, val_type new_data);
 void InterpretUnaryAssign(__int64 object_id,local_var_type *local_vars,opcode_type opcode);
 void InterpretBinaryAssign(__int64 object_id,local_var_type *local_vars,opcode_type opcode);
 void InterpretGoto(__int64 object_id,local_var_type *local_vars, opcode_type opcode);
@@ -602,6 +602,12 @@ __inline unsigned int get_int()
    return *((unsigned int *)(bkod-4));
 }
 
+__inline unsigned __int64 get_int64()
+{
+   bkod += 8;
+   return *((unsigned __int64 *)(bkod - 8));
+}
+
 /* before calling this, you MUST set bkod to point to valid bkod. */
 
 /* returns either RETURN_PROPAGATE or RETURN_NO_PROPAGATE.  If no propagate,
@@ -611,7 +617,7 @@ int InterpretAtMessage(__int64 object_id,class_node* c,message_node* m,
                        int num_sent_parms,
                        parm_node sent_parms[],val_type *ret_val)
 {
-   int parm_id;
+   __int64 parm_id;
    int i, j;
    double startTime;
    val_type parm_init_value;
@@ -754,7 +760,7 @@ int InterpretAtMessage(__int64 object_id,class_node* c,message_node* m,
 in sendmsg.h now */
 
 __inline void StoreValue(__int64 object_id, local_var_type *local_vars,
-                         int data_type, int data, val_type new_data)
+                         int data_type, __int64 data, val_type new_data)
 {
    object_node *o;
 
@@ -1101,7 +1107,7 @@ void InterpretBinaryAssign(__int64 object_id,local_var_type *local_vars,opcode_t
 void InterpretGoto(__int64 object_id, local_var_type *local_vars, opcode_type opcode)
 {
    int dest_addr;
-   int var_check;
+   __int64 var_check;
    val_type check_data;
 
    /* we've read one byte of instruction so far */
@@ -1131,9 +1137,9 @@ void InterpretCall(__int64 object_id,local_var_type *local_vars,opcode_type opco
 {
    parm_node normal_parm_array[MAX_C_PARMS], name_parm_array[MAX_NAME_PARMS]; 
    unsigned char info, num_normal_parms, num_name_parms, initial_type;
-   int initial_value;
+   __int64 initial_value;
    val_type call_return, name_val;
-   int assign_index;
+   __int64 assign_index;
    int i;
 
    info = get_byte(); /* get function id */
