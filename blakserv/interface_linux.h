@@ -20,10 +20,6 @@ void InterfaceUpdateChannel(void);
 void InterfaceSendBufferList(buffer_node *blist);
 void InterfaceSendBytes(char *buf,int len_buf);
 
-void StartAsyncSocketAccept(SOCKET sock,int connection_type);
-HANDLE StartAsyncNameLookup(char *peer_addr,char *buf);
-void StartAsyncSession(session_node *s);
-
 void FatalErrorShow(const char *filename,int line,const char *str);
 
 #endif

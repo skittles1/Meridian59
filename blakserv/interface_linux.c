@@ -27,7 +27,7 @@ void InitInterface(void)
    }
 }
 
-void* InterfaceMainLoop(void*)
+void* InterfaceMainLoop(void* arg)
 {
    char *line = (char*) malloc(200);
    size_t size;
@@ -164,22 +164,6 @@ void InterfaceAddAdminBuffer(char *buf,int len_buf)
    // are going to clobber each others output.  there is probably a better
    // way but for now output is sent directly to stdout
    printf(admin_response_buf);
-}
-
-void StartAsyncSocketAccept(SOCKET sock,int connection_type)
-{
-    // TODO: stub
-}
-
-HANDLE StartAsyncNameLookup(char *peer_addr,char *buf)
-{
-    // TODO: stub
-    return 0;
-}
-
-void StartAsyncSession(session_node *s)
-{
-    // TODO: stub
 }
 
 void FatalErrorShow(const char *filename,int line,const char *str)

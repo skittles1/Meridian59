@@ -287,6 +287,13 @@ char * GetLastErrorStr();
 #include "adminfn.h"
 
 #include "async.h"
+
+#ifdef BLAK_PLATFORM_WINDOWS
+#include "async_windows.h"
+#else
+#include "async_linux.h"
+#endif
+
 #include "debug.h"
 
 #include "admincons.h"
