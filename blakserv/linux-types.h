@@ -11,6 +11,7 @@
 #include <sys/time.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
+#include <sys/epoll.h>
 
 #define MAX_PATH PATH_MAX
 #define O_BINARY 0
@@ -84,9 +85,6 @@ typedef struct WSAData {
 } WSADATA, *LPWSADATA;
 
 #define MAXGETHOSTSTRUCT 64
-
-inline int WSAStartup( WORD wVersionRequested, LPWSADATA lpWSAData){return 0;}
-inline int WSACleanup(){return 0;}
 
 #include "linux-critical_section.h"
 #include "mutex_linux.h"

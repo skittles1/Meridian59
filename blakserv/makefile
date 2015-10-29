@@ -61,6 +61,7 @@ OBJS =  \
     $(OUTDIR)\commcli.obj \
     $(OUTDIR)\string.obj \
     $(OUTDIR)\async.obj \
+    $(OUTDIR)\async_windows.obj \
     $(OUTDIR)\loadgame.obj \
     $(OUTDIR)\game.obj \
     $(OUTDIR)\term.obj \

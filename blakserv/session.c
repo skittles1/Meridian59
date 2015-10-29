@@ -399,11 +399,7 @@ session_node * CreateSession(connection_node conn)
 void CloseConnection(connection_node conn)
 {
 	if (conn.type == CONN_SOCKET)
-#ifdef BLAK_PLATFORM_WINDOWS
 		closesocket(conn.socket);
-#else
-        close(conn.socket);
-#endif
 }
 
 void CloseSession(int session_id)
