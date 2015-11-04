@@ -5,10 +5,6 @@
 // the LICENSE file that accompanies it.
 //
 // Meridian is a registered trademark.
-/*
- * async.h
- *
- */
 
 #include "blakserv.h"
 

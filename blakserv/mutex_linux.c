@@ -23,6 +23,7 @@ bool MutexAcquire(Mutex mutex) {
 bool MutexAcquireWithTimeout(Mutex mutex, int ms) {
 
    timespec ts;
+   int retVal;
 
    clock_gettime(CLOCK_REALTIME, &ts);
    ts.tv_sec += (ms / 1000L);
@@ -35,7 +36,15 @@ bool MutexAcquireWithTimeout(Mutex mutex, int ms) {
       ts.tv_sec += 1;
    }
 
-   return pthread_mutex_timedlock(&mutex->mutex, &ts);
+   retVal =  pthread_mutex_timedlock(&mutex->mutex, &ts);
+
+   if (retVal != 0)
+   {
+      eprintf("MutexAcquireWithTimeout error %d",retVal);
+      return false;
+   }
+
+   return true;
 }
 
 bool MutexRelease(Mutex mutex) {
