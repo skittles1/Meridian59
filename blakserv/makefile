@@ -110,7 +110,7 @@ OBJS =  \
     $(OUTDIR)\intstringhash.obj \
     $(OUTDIR)\files.obj \
     $(OUTDIR)\sprocket.obj \
-	$(OUTDIR)\mutex_windows.obj \
+    $(OUTDIR)\mutex_windows.obj \
     $(OUTDIR)\thdmsgqueue_windows.obj \
     $(OUTDIR)\database.obj \
 

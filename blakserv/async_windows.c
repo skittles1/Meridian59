@@ -5,16 +5,6 @@
 // the LICENSE file that accompanies it.
 //
 // Meridian is a registered trademark.
-/*
-* async.c
-*
-
-  This module contains functions to handle asynchronous socket events
-  (i.e. new connections, reading/writing, and closing.
-  
-	Every function here is called from the interface thread!
-	
-*/
 
 #include "blakserv.h"
 
