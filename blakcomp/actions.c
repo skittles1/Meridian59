@@ -360,6 +360,7 @@ id_type lookup_id(id_type id)
       id->idnum = record->idnum;
       id->ownernum = record->ownernum;
       id->source = record->source;
+      id->used = record->used;
       return record;
    }
 
@@ -566,6 +567,8 @@ id_type make_identifier(char *name)
    id->type = I_UNDEFINED;   /* Type is undefined until it's looked up */
    id->name = name;
    id->source = COMPILE;     /* Id came from a newly compiled file */
+   id->used = 0;
+
    return id;
 }
 /************************************************************************/
@@ -1400,7 +1403,8 @@ stmt_type make_call(id_type function_id, list_type args)
       return stmt;
    }
 
-   index = function_id->idnum;  /* index # of function to call */
+   /* index # of function to call */
+   index = optimize_call(function_id, &args);
 
    fname = Functions[index].name;
    s->function = Functions[index].opcode;
@@ -1608,7 +1612,7 @@ message_handler_type make_message_handler(message_header_type header, char *comm
    
    h->header  = header;
    h->locals  = locals;
-   h->body    = stmts;
+   h->body = optimize_message_statements(stmts);
    if (comment == NULL)
       h->comment = NULL;
    else h->comment = make_string_constant(comment);
