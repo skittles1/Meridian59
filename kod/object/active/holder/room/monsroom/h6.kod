@@ -91,5 +91,64 @@ messages:
       propagate;
    }
 
+   StartSnow(bOnGround=TRUE)
+   {
+      % Check if we can have weather effects here.
+      if NOT pbWeatherEffects
+      {
+         return;
+      }
+
+      if bOnGround
+      {
+         if pbSnowGroundTexture
+         {
+            % Add snow to special sections.
+            Send(self,@ChangeTexture,#id=30,#new_texture=61015,
+                  #flags=CTF_FLOOR);
+         }
+      }
+
+      propagate;
+   }
+
+   EndSnow(override=FALSE)
+   {
+      if pbSnowGroundTexture
+         OR override
+      {
+         % Remove snow from special sections.
+         Send(self,@RemoveTextureChange,#id=30);
+      }
+
+      propagate;
+   }
+
+   StartRain()
+   {
+      % Check if we can have weather effects here.
+      if NOT pbWeatherEffects
+      {
+         return;
+      }
+
+      % Add water to special sections.
+      Send(self,@ChangeTexture,#id=30,#new_texture=08912,#flags=CTF_FLOOR);
+      Send(self,@SetSectorFlags,#sector=30,#depth=SF_DEPTH1,
+            #scrollSpeed=SCROLL_NONE);
+
+      propagate;
+   }
+
+   EndRain()
+   {
+      % Remove water from special sections.
+      Send(self,@RemoveTextureChange,#id=30);
+      % Reset sector flag changes to sludge water.
+      Send(self,@RemoveSectorFlagChange,#id=30);
+
+      propagate;
+   }
+
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
