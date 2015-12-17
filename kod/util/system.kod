@@ -3279,6 +3279,7 @@ messages:
       Send(self,@CreateOneSpellIfNew,#num=SID_SUMMON_APPARITION,#class=&SummonApparition);
       Send(self,@CreateOneSpellIfNew,#num=SID_FORGET,#class=&ForgetSpell);
       Send(self,@CreateOneSpellIfNew,#num=SID_SEDUCE,#class=&Seduce);
+      Send(self,@CreateOneSpellIfNew,#num=SID_CHARM,#class=&Charm);
 
       Send(self,@CreateOneSpellIfNew,#num=SID_STRENGTH_BOON,#class=&StrengthBoon);
       Send(self,@CreateOneSpellIfNew,#num=SID_AGILITY_BOON,#class=&AgilityBoon);
