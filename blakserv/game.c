@@ -307,6 +307,7 @@ void GameSyncInputChar(session_node *s,char ch)
       break;
    default :
       eprintf("GameSyncInputChar can't get here\n");
+      return;
    }
 
    if (ch == sync_buf[s->game->game_sync_index])
@@ -690,8 +691,10 @@ void GameDMCommand(session_node *s,int type,char *str)
    int acctype;
 
    acctype = ACCOUNT_NORMAL;
-   if (s && s->account)
-      acctype = s->account->type;
+   if (!s || !s->account)
+      return;
+
+   acctype = s->account->type;
 
 //   dprintf("DM command %i by session %i account %i acctype %i; string is \"%s\".\n",
 //      type, s->session_id, s->account->account_id, acctype, str);

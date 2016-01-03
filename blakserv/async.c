@@ -133,7 +133,7 @@ void AcceptSocketConnections(int socket_port,int connection_type)
 		}
 	}
 	
-	memset(&sin,sizeof sin,0);
+	memset(&sin, 0, sizeof(sin));
 	sin.sin6_family = AF_INET6;
 	sin.sin6_addr = in6addr_any;
 	sin.sin6_flowinfo = 0;

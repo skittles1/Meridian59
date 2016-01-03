@@ -730,7 +730,7 @@ int LoadConfigLine(char *line,int lineno,const char *filename,int current_group)
       }
    }
    
-   if (i == LEN_CONFIG_TABLE || config_table[i].config_type == CONFIG_GROUP)
+   if (i >= LEN_CONFIG_TABLE || config_table[i].config_type == CONFIG_GROUP)
       StartupPrintf("LoadConfig can't match value %s (%i)\n",filename,lineno);
 
    return current_group;
