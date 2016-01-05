@@ -142,6 +142,11 @@ strline  (([^\"\n\\]|\\.)*\")[ \t\r]*
    /* Otherwise just delete comment part of line */
 "//".* ;
 
+   /* Region folding, disallow = and ; in region name to avoid */
+   /* conflict with # parameter names */
+^[ \t\r]*"#region"[^\=;\n]*\n lineno++;
+^[ \t\r]*"#endregion"[^\=;\n]*\n lineno++;
+
 	/* reserved words */
 and		{ return AND; }
 break		{ return BREAK; }
