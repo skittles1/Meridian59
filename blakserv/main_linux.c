@@ -29,7 +29,7 @@ int MainServer(int argc, char** argv)
 
    InitInterfaceLocks(); 
 
-   while ((c = getopt(argc,argv,"dhi")) != -1)
+   while ((c = getopt(argc,argv,"hi")) != -1)
    {
       switch (c)
       {
@@ -55,9 +55,14 @@ int MainServer(int argc, char** argv)
       }
    }
 
+   // launch interface or daamonize if desired
    if (iFaceFlag)
    {
       InitInterface();
+   }
+   else
+   {
+      Daemonize();
    }
 	
    InitMemory(); /* memory needs channels in general, but need to start before config,
@@ -103,8 +108,6 @@ int MainServer(int argc, char** argv)
    LoadAdminConstants();
    PauseTimers();
 	
-   FlushDefaultChannels(); // TODO: Remove Me
-
    if (LoadAll() == True)
    {
 	/* this loaded_game_msg tells it to disconnect all blakod info about sessions,
@@ -123,6 +126,44 @@ int MainServer(int argc, char** argv)
    ServiceTimers(); /* returns if server termiated */
 
    MainExitServer();
+}
+
+void Daemonize()
+{
+   pid_t pid, sid;
+   int fd;
+
+   pid = fork();
+
+   if (pid < 0)
+   {
+      // failed to fork, exit with error
+      eprintf("Error white trying to fork to the background, failed to fork!");
+      exit(-1);
+   }
+
+   sid = setsid();
+
+   if (sid < 0)
+   {
+      // failed to set sid, exit with error
+      eprintf("Error white trying to fork to the background, failed to set sid!");
+      exit(-1);
+   }
+
+   fd = open("/dev/null",O_RDWR, 0);  
+  
+   if (fd != -1)  
+   {  
+      dup2(fd, STDIN_FILENO);  
+      dup2(fd, STDOUT_FILENO);  
+      dup2(fd, STDERR_FILENO);  
+  
+      if (fd > 2)  
+      {  
+         close(fd);  
+      }  
+   }  
 }
 
 void MainExitServer()

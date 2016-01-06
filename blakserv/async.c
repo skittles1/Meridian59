@@ -262,6 +262,16 @@ void AsyncSocketRead(SOCKET sock)
          eprintf("File %s line %i release of non-owned mutex\n",__FILE__,__LINE__);
    }
 
+   if (bytes == 0)
+   {
+      if (!MutexRelease(s->muxReceive))
+         eprintf("File %s line %i release of non-owned mutex\n",__FILE__,__LINE__);
+
+      HangupSession(s);
+
+      return;
+   } 
+
    if (bytes < 0 || bytes > bn->size_buf - bn->len_buf)
    {
       eprintf("AsyncSocketRead got %i bytes from recv() when asked to stop at %i\n",bytes,bn->size_buf - bn->len_buf);
@@ -271,20 +281,6 @@ void AsyncSocketRead(SOCKET sock)
 
    bn->len_buf += bytes;
 	
-   /*
-   dprintf("read %i bytes sess %i from %i\n",bytes,s->session_id,s->num_receiving,
-        s->num_receiving-bytes);
-
-      if (s->num_receiving > 0)
-      {
-         int i;
-         dprintf("read got in %s\n",GetStateName(s));
-         for (i=s->num_receiving-bytes;i<s->num_receiving;i++)
-         dprintf("%5u",s->receiving_buf[i]);
-         dprintf("\n");
-      }
-   */
-
    if (!MutexRelease(s->muxReceive))
       eprintf("File %s line %i release of non-owned mutex\n",__FILE__,__LINE__);  
 	
