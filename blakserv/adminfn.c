@@ -1315,6 +1315,7 @@ void AdminMail(int session_id,admin_parm_type parms[],
 void AdminPage(int session_id,admin_parm_type parms[],
                int num_blak_parm,parm_node blak_parm[])
 {
+#ifdef BLAK_PLATFORM_WINDOWS
 	session_node *s;
 	
 	s = GetSessionByID(session_id);
@@ -1325,6 +1326,7 @@ void AdminPage(int session_id,admin_parm_type parms[],
 			lprintf("AdminPage %s paged the console\n",s->account->name);
 		
 		InterfaceSignalConsole();
+#endif
 }
 
 
@@ -1504,7 +1506,7 @@ void AdminShowBlockers(int session_id,admin_parm_type parms[],
                       int num_blak_parm,parm_node blak_parm[])
 {
    room_node *room;
-   Blocker *b;
+   BlockerNode *b;
    int row, col, finerow, finecol;
 
    room = GetRoomDataByID((int)parms[0]);
