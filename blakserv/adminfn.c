@@ -1506,7 +1506,7 @@ void AdminShowBlockers(int session_id,admin_parm_type parms[],
                       int num_blak_parm,parm_node blak_parm[])
 {
    room_node *room;
-   Blocker *b;
+   BlockerNode *b;
    int row, col, finerow, finecol;
 
    room = GetRoomDataByID((int)parms[0]);
