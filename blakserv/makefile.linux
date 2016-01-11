@@ -122,7 +122,7 @@ $(OUTDIR)/blakserv: $(OBJS)
 
 #!include $(TOPDIR)/rules.mak
 makedirs:
-	-$(MKDIR) $(OUTDIR)
+	-$(MKDIR) -p $(OUTDIR)
 
 $(OUTDIR)/%.obj : %.c
 	$(CC) $(CFLAGS) -o $@ -c $<
