@@ -16,32 +16,103 @@
 
 #include "blakserv.h"
 
+#define LCHILD(x) (2 * x + 1)
+#define RCHILD(x) (2 * x + 2)
+#define PARENT(x) ((x-1)/2)
+
 static Bool in_main_loop = False;
 static int numActiveTimers = 0;
 
-timer_node *timers;
+timer_node **timer_heap; // heap
 int next_timer_num;
-
-timer_node *deleted_timers;
 
 int pause_time;
 
 /* local function prototypes */
 void AddTimerNode(timer_node *t);
-void StoreDeletedTimer(timer_node *t);
 void ResetLastMessageTimes(session_node *s);
 
-int  GetNumActiveTimers(void)
+int GetNumActiveTimers(void)
 {
    return numActiveTimers;
 }
 
+/*
+ * Timer heap code
+ */
+
+__forceinline static void TimerSwapIndex(int i1, int i2)
+{
+   timer_node temp;
+
+   temp.message_id = timer_heap[i1]->message_id;
+   temp.object_id = timer_heap[i1]->object_id;
+   temp.time = timer_heap[i1]->time;
+   temp.timer_id = timer_heap[i1]->timer_id;
+
+   timer_heap[i1]->message_id = timer_heap[i2]->message_id;
+   timer_heap[i1]->object_id = timer_heap[i2]->object_id;
+   timer_heap[i1]->time = timer_heap[i2]->time;
+   timer_heap[i1]->timer_id = timer_heap[i2]->timer_id;
+
+   timer_heap[i2]->message_id = temp.message_id;
+   timer_heap[i2]->object_id = temp.object_id;
+   timer_heap[i2]->time = temp.time;
+   timer_heap[i2]->timer_id = temp.timer_id;
+}
+
+__inline void TimerHeapHeapify(int Index)
+{
+   int i = Index;
+   while (i > 0 && timer_heap[i]->time < timer_heap[PARENT(i)]->time)
+   {
+      TimerSwapIndex(i, PARENT(i));
+      i = PARENT(i);
+   }
+   do
+   {
+      int min = i;
+      if (LCHILD(i) <= numActiveTimers - 1 && timer_heap[LCHILD(i)]->time <= timer_heap[min]->time)
+         min = LCHILD(i);
+      if (RCHILD(i) <= numActiveTimers - 1 && timer_heap[RCHILD(i)]->time < timer_heap[min]->time)
+         min = RCHILD(i);
+      if (min == i)
+         break;
+      TimerSwapIndex(i, min);
+      i = min;
+   } while (true);
+}
+
+void TimerHeapRemove(int index)
+{
+   // Decrement heap size.
+   --numActiveTimers;
+
+   if (index == numActiveTimers)
+   {
+      // Node was a leaf, return.
+      if (numActiveTimers <= 0)
+      {
+         numActiveTimers = 0;
+      }
+      return;
+   }
+
+   // Swap it with leaf.
+   TimerSwapIndex(index, numActiveTimers);
+
+   // Needs to be pushed down.
+   TimerHeapHeapify(index);
+}
+
 void InitTimer(void)
 {
-   timers = NULL;
+   // Init timer heap
+   timer_heap = (timer_node **)AllocateMemory(MALLOC_ID_TIMER, sizeof(timer_node *) * 20000); // 20k timers
+   for (int i = 0; i < 20000; ++i)
+      timer_heap[i] = (timer_node *)AllocateMemory(MALLOC_ID_TIMER, sizeof(timer_node));
    next_timer_num = 0;
-   numActiveTimers = 0;
-   deleted_timers = NULL;
+   numActiveTimers = 0; // Keeps track of timers in heap
    
    pause_time = 0;
 }
@@ -53,27 +124,8 @@ void ResetTimer(void)
 
 void ClearTimer(void)
 {
-   timer_node *t,*temp;
-
-   t = timers;
-   while (t != NULL)
-   {
-      temp = t;
-      t = t->next;
-      FreeMemory(MALLOC_ID_TIMER,temp,sizeof(timer_node));
-   }
-   timers = NULL;
    next_timer_num = 0;
    numActiveTimers = 0;
-
-   t = deleted_timers;
-   while (t != NULL)
-   {
-      temp = t;
-      t = t->next;
-      FreeMemory(MALLOC_ID_TIMER,temp,sizeof(timer_node));
-   }
-   deleted_timers = NULL;
 }
 
 void PauseTimers(void)
@@ -89,8 +141,7 @@ void PauseTimers(void)
 void UnpauseTimers(void)
 {
    int add_time;
-   timer_node *t;
-   
+
    if (pause_time == 0)
    {
       eprintf("UnpauseTimers called when they were not paused\n");
@@ -98,12 +149,8 @@ void UnpauseTimers(void)
    }
    add_time = 1000*(GetTime() - pause_time);
 
-   t = timers;
-   while (t != NULL)
-   {
-      t->time += add_time;
-      t = t->next;
-   }
+   for (int i = 0; i < numActiveTimers; ++i)
+      timer_heap[i]->time += add_time;
 
    pause_time = 0;
    
@@ -111,7 +158,6 @@ void UnpauseTimers(void)
       so they aren't logged because of what seems to be lag */
 
    ForEachSession(ResetLastMessageTimes);
-
 }
 
 void ResetLastMessageTimes(session_node *s)
@@ -124,57 +170,38 @@ void ResetLastMessageTimes(session_node *s)
 
 void AddTimerNode(timer_node *t)
 {
-   timer_node *temp,*prev;
-
-   /* insert in sorted increasing order by time */
-
-   if (timers == NULL || timers->time > t->time)
+   if (numActiveTimers == 0 || timer_heap[0]->time > t->time)
    {
-      t->next = timers; /* order is important! do this FIRST */
-      timers = t;
-
-      /* we're making a new first-timer, so the time main loop should wait might
-	 have changed, so have it break out of loop and recalibrate */
-
+      // We're making a new first-timer, so the time main loop should wait might
+      // have changed, so have it break out of loop and recalibrate
       MessagePost(main_thread_id,WM_BLAK_MAIN_RECALIBRATE,0,0);
-
-      return;
    }
 
-   temp = timers;
-   do
-   {
-      prev = temp;
-      temp = temp->next;
-   } while (temp != NULL && temp->time <= t->time);
-   
-   t->next = temp;
-   prev->next = t;
+   // Start node off at end of heap.
+   int i = numActiveTimers++;
+   timer_heap[i]->heap_index = i;
 
+   // Push node up if necessary.
+   while (i > 0 && timer_heap[i]->time < timer_heap[PARENT(i)]->time)
+   {
+      TimerSwapIndex(i, PARENT(i));
+      i = PARENT(i);
+   }
 }
 
 int CreateTimer(int object_id,int message_id,int milliseconds)
 {
    timer_node *t;
 
-   if (deleted_timers == NULL)
-      t = (timer_node *)AllocateMemory(MALLOC_ID_TIMER,sizeof(timer_node));
-   else
-   {
-      /* dprintf("recovering former timer id %i\n",deleted_timers->timer_id); */
-      t = deleted_timers;
-      deleted_timers = deleted_timers->next;
-   }
-      
+   t = timer_heap[numActiveTimers];
    t->timer_id = next_timer_num++;
    t->object_id = object_id;
    t->message_id = message_id;
    t->time = GetMilliCount() + milliseconds;
 
    AddTimerNode(t);
-   numActiveTimers++;
 
-   return t->timer_id;
+   return next_timer_num - 1;
 }
 
 Bool LoadTimer(int timer_id,int object_id,char *message_name,int milliseconds)
@@ -197,14 +224,13 @@ Bool LoadTimer(int timer_id,int object_id,char *message_name,int milliseconds)
       return False;
    }
 
-   t = (timer_node *)AllocateMemory(MALLOC_ID_TIMER,sizeof(timer_node));
+   t = timer_heap[numActiveTimers];
    t->timer_id = timer_id;
    t->object_id = object_id;
    t->message_id = m->message_id;
    t->time = GetMilliCount() + milliseconds;
 
    AddTimerNode(t);
-   numActiveTimers++;
 
    /* the timers weren't saved in numerical order, but they were
     * compacted to first x non-negative integers
@@ -215,79 +241,46 @@ Bool LoadTimer(int timer_id,int object_id,char *message_name,int milliseconds)
    return True;
 }
 
-void StoreDeletedTimer(timer_node *t)
-{
-   t->next = deleted_timers;
-   deleted_timers = t;
-   numActiveTimers--;
-   /* dprintf("storing timer id %i\n",deleted_timers->timer_id); */
-}
-
 Bool DeleteTimer(int timer_id)
 {
-   timer_node *t,*prev;
+   timer_node *t;
 
-   if (timers == NULL)
-      return False;
+   t = GetTimerByID(timer_id);
    
-   if (timers->timer_id == timer_id)
+   if (t)
    {
-      t = timers->next;
+      TimerHeapRemove(t->heap_index);
 
-      /* put deleted timer on deleted_timer list */
-      StoreDeletedTimer(timers);
-
-      timers = t;
-      return True;
+      return true;
    }
 
-   prev = timers;
-   t = timers->next;
-   while (t != NULL)
-   {
-      if (t->timer_id == timer_id)
-      {
-         prev->next = t->next;
-
-         /* put deleted timer on deleted_timer list */
-         StoreDeletedTimer(t);
-
-         return True;
-      }
-      prev = t;
-      t = t->next;
-   }
-
-   bprintf("DeleteTimer can't find timer %i\n",timer_id);
+   eprintf("DeleteTimer can't find timer %i\n", timer_id);
 
 #if 0
    // list the active timers.
-   t = timers;
-   while (t != NULL)
+   for (int i = 0; i < numActiveTimers; ++i)
    {
-      dprintf("%i ",t->timer_id);
-      t = t->next;
+      dprintf("%i ",timer_heap[i]->timer_id);
    }
    dprintf("\n");
 #endif
 
-   return False;
+   return false;
 }
 
 /* activate the 1st timer, if it is time */
 void TimerActivate()
 {
-   timer_node *temp;
    int object_id,message_id;
    UINT64 now;
    val_type timer_val;
    parm_node p[1];
    
-   if (timers == NULL)
+   if (numActiveTimers == 0)
       return;
    
    now = GetMilliCount();
-   if (now > timers->time)
+   if (now >= timer_heap[0]->time)
    {
    /*
      if (now - timers->time > TIMER_DELAY_WARN)
@@ -295,22 +288,18 @@ void TimerActivate()
          (now-timers->time)/1000,(now-timers->time)%1000);
    */
 
-      object_id = timers->object_id;
-      message_id = timers->message_id;
+      object_id = timer_heap[0]->object_id;
+      message_id = timer_heap[0]->message_id;
       
       timer_val.v.tag = TAG_TIMER;
-      timer_val.v.data = timers->timer_id;
+      timer_val.v.data = timer_heap[0]->timer_id;
       
       p[0].type = CONSTANT;
       p[0].value = timer_val.int_val;
       p[0].name_id = TIMER_PARM;
-      
-      temp = timers;
-      timers = timers->next;
-      
-      /* put deleted timer on deleted_timer list */
-      StoreDeletedTimer(temp);
-      
+
+      TimerHeapRemove(0);
+
       SendTopLevelBlakodMessage(object_id,message_id,1,p);
    }
 }
@@ -345,11 +334,11 @@ void ServiceTimers(void)
 
    for(;;)
    {
-      if (timers == NULL)
+      if (numActiveTimers == 0)
          ms = 500;
       else
       {
-         ms = timers->time - GetMilliCount();
+         ms = timer_heap[0]->time - GetMilliCount();
          if (ms <= 0)
             ms = 0;
 
@@ -420,28 +409,24 @@ void ServiceTimers(void)
 
 timer_node * GetTimerByID(int timer_id)
 {
-   timer_node *t;
+   if (numActiveTimers == 0)
+      return NULL;
 
-   t = timers;
-   while (t != NULL)
+   for (int i = 0; i < numActiveTimers; ++i)
    {
-      if (t->timer_id == timer_id)
-	 return t;
-      t = t->next;
+      if (timer_heap[i]->timer_id == timer_id)
+         return timer_heap[i];
    }
    return NULL;
 }
 
 void ForEachTimer(void (*callback_func)(timer_node *t))
 {
-   timer_node *t;
+   if (numActiveTimers == 0)
+      return;
 
-   t = timers;
-   while (t != NULL)
-   {
-      callback_func(t);
-      t = t->next;
-   }
+   for (int i = 0; i < numActiveTimers; ++i)
+      callback_func(timer_heap[i]);
 }
 
 /* functions for garbage collection */
