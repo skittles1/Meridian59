@@ -19,9 +19,11 @@ typedef struct timer_struct
    int object_id;
    int message_id;
    UINT64 time;
+
    int garbage_ref;
-   struct timer_struct *next;
+   int heap_index;
 } timer_node;
+
 
 void InitTimer(void);
 void ResetTimer(void);
