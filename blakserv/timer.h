@@ -15,10 +15,15 @@
 
 typedef struct timer_struct
 {
-   int timer_id;
-   int object_id;
-   int message_id;
-   UINT64 time;
+   union{
+      struct{
+         int timer_id;
+         int object_id;
+         int message_id;
+         UINT64 time;
+      };
+      char data[20];
+   };
 
    int garbage_ref;
    int heap_index;
