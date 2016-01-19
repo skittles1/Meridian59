@@ -8,14 +8,13 @@
 /*
  * timer.c
  *
-
- This module maintains a linked list of timers for the Blakod.  It
- also contains the main loop of the program.
-
+ This module maintains the min binary heap containing the Blakod timers.
+ It also comtains the main loop of the program.
  */
 
 #include "blakserv.h"
 
+// Macros for accessing heap elements.
 #define LCHILD(x) (2 * x + 1)
 #define RCHILD(x) (2 * x + 2)
 #define PARENT(x) ((x-1)/2)
@@ -23,13 +22,17 @@
 static Bool in_main_loop = False;
 static int numActiveTimers = 0;
 
-timer_node **timer_heap; // heap
+// Min binary heap array of pointers of timer_node.
+timer_node **timer_heap;
+
+// Next available timer ID.
 int next_timer_num;
 
+// If we pause timers during a save, keep track of the time here.
 int pause_time;
 
 /* local function prototypes */
-void AddTimerNode(timer_node *t);
+void TimerAddNode(timer_node *t);
 void ResetLastMessageTimes(session_node *s);
 
 int GetNumActiveTimers(void)
@@ -37,10 +40,9 @@ int GetNumActiveTimers(void)
    return numActiveTimers;
 }
 
-/*
- * Timer heap code
- */
+#pragma region Timer Heap
 
+// Swaps two timers (ID, obj ID, msg ID, firing time) by heap index.
 __forceinline static void TimerSwapIndex(int i1, int i2)
 {
    timer_node temp;
@@ -50,9 +52,10 @@ __forceinline static void TimerSwapIndex(int i1, int i2)
    memcpy(timer_heap[i2]->data, temp.data, sizeof(temp.data));
 }
 
-__inline void TimerHeapHeapify(int Index)
+// Fixes the heap after a timer has been deleted or modified.
+__inline void TimerHeapHeapify(int index)
 {
-   int i = Index;
+   int i = index;
    while (i > 0 && timer_heap[i]->time < timer_heap[PARENT(i)]->time)
    {
       TimerSwapIndex(i, PARENT(i));
@@ -72,6 +75,7 @@ __inline void TimerHeapHeapify(int Index)
    } while (true);
 }
 
+// Removes a timer from the heap.
 void TimerHeapRemove(int index)
 {
    // Decrement heap size.
@@ -93,6 +97,31 @@ void TimerHeapRemove(int index)
    // Needs to be pushed down.
    TimerHeapHeapify(index);
 }
+
+// Adds a timer to the heap, using timer_node data. Passed
+// timer_node is first unused element in timer_heap array.
+__inline void TimerAddNode(timer_node *t)
+{
+   if (numActiveTimers == 0 || timer_heap[0]->time > t->time)
+   {
+      // We're making a new first-timer, so the time main loop should wait might
+      // have changed, so have it break out of loop and recalibrate
+      MessagePost(main_thread_id, WM_BLAK_MAIN_RECALIBRATE, 0, 0);
+   }
+
+   // Start node off at end of heap.
+   int i = numActiveTimers++;
+   timer_heap[i]->heap_index = i;
+
+   // Push node up if necessary.
+   while (i > 0 && timer_heap[i]->time < timer_heap[PARENT(i)]->time)
+   {
+      TimerSwapIndex(i, PARENT(i));
+      i = PARENT(i);
+   }
+}
+
+#pragma endregion
 
 void InitTimer(void)
 {
@@ -157,27 +186,6 @@ void ResetLastMessageTimes(session_node *s)
    s->game->game_last_message_time = GetTime();
 }
 
-void AddTimerNode(timer_node *t)
-{
-   if (numActiveTimers == 0 || timer_heap[0]->time > t->time)
-   {
-      // We're making a new first-timer, so the time main loop should wait might
-      // have changed, so have it break out of loop and recalibrate
-      MessagePost(main_thread_id,WM_BLAK_MAIN_RECALIBRATE,0,0);
-   }
-
-   // Start node off at end of heap.
-   int i = numActiveTimers++;
-   timer_heap[i]->heap_index = i;
-
-   // Push node up if necessary.
-   while (i > 0 && timer_heap[i]->time < timer_heap[PARENT(i)]->time)
-   {
-      TimerSwapIndex(i, PARENT(i));
-      i = PARENT(i);
-   }
-}
-
 int CreateTimer(int object_id,int message_id,int milliseconds)
 {
    timer_node *t;
@@ -188,7 +196,7 @@ int CreateTimer(int object_id,int message_id,int milliseconds)
    t->message_id = message_id;
    t->time = GetMilliCount() + milliseconds;
 
-   AddTimerNode(t);
+   TimerAddNode(t);
 
    return next_timer_num - 1;
 }
@@ -219,7 +227,7 @@ Bool LoadTimer(int timer_id,int object_id,char *message_name,int milliseconds)
    t->message_id = m->message_id;
    t->time = GetMilliCount() + milliseconds;
 
-   AddTimerNode(t);
+   TimerAddNode(t);
 
    /* the timers weren't saved in numerical order, but they were
     * compacted to first x non-negative integers
@@ -230,6 +238,7 @@ Bool LoadTimer(int timer_id,int object_id,char *message_name,int milliseconds)
    return True;
 }
 
+// Get timer by ID and remove it from heap by heap_index.
 Bool DeleteTimer(int timer_id)
 {
    timer_node *t;
@@ -396,6 +405,7 @@ void ServiceTimers(void)
    }
 }
 
+// Iterate through timer_heap array and compare timer_id.
 timer_node * GetTimerByID(int timer_id)
 {
    if (numActiveTimers == 0)
