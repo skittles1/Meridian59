@@ -24,6 +24,8 @@ static int numActiveTimers = 0;
 
 // Min binary heap array of pointers of timer_node.
 timer_node **timer_heap;
+// Number of allocated timer nodes in timer_heap.
+int num_timer_nodes;
 
 // Next available timer ID.
 int next_timer_num;
@@ -32,6 +34,7 @@ int next_timer_num;
 int pause_time;
 
 /* local function prototypes */
+void ReallocTimerNodes(void);
 void TimerAddNode(timer_node *t);
 void ResetLastMessageTimes(session_node *s);
 
@@ -64,9 +67,9 @@ __inline void TimerHeapHeapify(int index)
    do
    {
       int min = i;
-      if (LCHILD(i) <= numActiveTimers - 1 && timer_heap[LCHILD(i)]->time <= timer_heap[min]->time)
+      if (LCHILD(i) < numActiveTimers && timer_heap[LCHILD(i)]->time <= timer_heap[min]->time)
          min = LCHILD(i);
-      if (RCHILD(i) <= numActiveTimers - 1 && timer_heap[RCHILD(i)]->time < timer_heap[min]->time)
+      if (RCHILD(i) < numActiveTimers && timer_heap[RCHILD(i)]->time < timer_heap[min]->time)
          min = RCHILD(i);
       if (min == i)
          break;
@@ -121,18 +124,60 @@ __inline void TimerAddNode(timer_node *t)
    }
 }
 
+// Traverses the timer heap and returns false if the heap is invalid at any point.
+bool TimerHeapCheck(int i, int level)
+{
+   if (i >= numActiveTimers)
+      return true;
+
+   if (LCHILD(i) < numActiveTimers && timer_heap[LCHILD(i)]->time < timer_heap[i]->time)
+   {
+      dprintf("TimerHeapCheck error on level %i", level);
+      return false;
+   }
+   if (RCHILD(i) < numActiveTimers && timer_heap[RCHILD(i)]->time < timer_heap[i]->time)
+   {
+      dprintf("TimerHeapCheck error on level %i", level);
+      return false;
+   }
+
+   bool retval = TimerHeapCheck(LCHILD(i), ++level);
+   if (!retval)
+      return false;
+
+   return TimerHeapCheck(RCHILD(i), level);
+}
+
 #pragma endregion
 
+// InitTimer should only be called during server startup (MainServer()) as
+// this memory is not freed until the server exits.
 void InitTimer(void)
 {
    // Init timer heap
-   timer_heap = (timer_node **)AllocateMemory(MALLOC_ID_TIMER, sizeof(timer_node *) * 20000); // 20k timers
-   for (int i = 0; i < 20000; ++i)
+   num_timer_nodes = INIT_TIMER_NODES;
+   timer_heap = (timer_node **)AllocateMemory(MALLOC_ID_TIMER,
+      sizeof(timer_node *) * num_timer_nodes);
+   for (int i = 0; i < num_timer_nodes; ++i)
       timer_heap[i] = (timer_node *)AllocateMemory(MALLOC_ID_TIMER, sizeof(timer_node));
    next_timer_num = 0;
    numActiveTimers = 0; // Keeps track of timers in heap
    
    pause_time = 0;
+}
+
+// Reallocates the timer heap memory if there is not enough space to create
+// the next timer. Allocates timer_node memory at each new timer_heap element.
+void ReallocTimerNodes(void)
+{
+   int old_timer_nodes = num_timer_nodes;
+
+   num_timer_nodes = num_timer_nodes * 2;
+   timer_heap = (timer_node **)ResizeMemory(MALLOC_ID_TIMER, timer_heap,
+      old_timer_nodes * sizeof(timer_node *), num_timer_nodes * sizeof(timer_node *));
+   lprintf("ReallocTimerNodes resized to %i timer nodes\n", num_timer_nodes);
+   for (int i = old_timer_nodes; i < num_timer_nodes; ++i)
+      timer_heap[i] = (timer_node *)AllocateMemory(MALLOC_ID_TIMER, sizeof(timer_node));
 }
 
 void ResetTimer(void)
@@ -190,6 +235,9 @@ int CreateTimer(int object_id,int message_id,int milliseconds)
 {
    timer_node *t;
 
+   if (numActiveTimers == num_timer_nodes)
+      ReallocTimerNodes();
+
    t = timer_heap[numActiveTimers];
    t->timer_id = next_timer_num++;
    t->object_id = object_id;
@@ -220,6 +268,9 @@ Bool LoadTimer(int timer_id,int object_id,char *message_name,int milliseconds)
       eprintf("LoadTimer can't find message name %s\n",message_name);
       return False;
    }
+
+   if (numActiveTimers == num_timer_nodes)
+      ReallocTimerNodes();
 
    t = timer_heap[numActiveTimers];
    t->timer_id = timer_id;

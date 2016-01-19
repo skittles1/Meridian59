@@ -13,6 +13,8 @@
 #ifndef _TIMER_H
 #define _TIMER_H
 
+#define INIT_TIMER_NODES (2000)
+
 typedef struct timer_struct
 {
    union{
@@ -29,7 +31,7 @@ typedef struct timer_struct
    int heap_index;
 } timer_node;
 
-
+bool TimerHeapCheck(int i, int level);
 void InitTimer(void);
 void ResetTimer(void);
 void ClearTimer(void);
