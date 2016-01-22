@@ -17,16 +17,10 @@
 
 typedef struct timer_struct
 {
-   union{
-      struct{
-         int timer_id;
-         int object_id;
-         int message_id;
-         UINT64 time;
-      };
-      char data[20];
-   };
-
+   UINT64 time;
+   int timer_id;
+   int object_id;
+   int message_id;
    int garbage_ref;
    int heap_index;
 } timer_node;
