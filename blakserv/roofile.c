@@ -441,9 +441,9 @@ bool BSPCanMoveInRoomTree(const BspNode* Node, const V2* S, const V2* E, Wall** 
           ((distS < 0.0f) && (distE > 0.0f)))
       {
          // intersect finite move-line SE with infinite splitter line
-		 // q stores possible intersection point
+         // q stores possible intersection point
          V2 q;
-		 if (BSPIntersectLineSplitter(Node, S, E, &q))
+         if (BSPIntersectLineSplitter(Node, S, E, &q))
          {
             // iterate finite segments (walls) in this splitter
             Wall* wall = Node->u.internal.FirstWall;
