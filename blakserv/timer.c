@@ -50,9 +50,20 @@ __forceinline static void TimerSwapIndex(int i1, int i2)
 {
    timer_node temp;
 
-   memcpy(temp.data, timer_heap[i1]->data, sizeof(temp.data));
-   memcpy(timer_heap[i1]->data, timer_heap[i2]->data, sizeof(temp.data));
-   memcpy(timer_heap[i2]->data, temp.data, sizeof(temp.data));
+   temp.time = timer_heap[i1]->time;
+   temp.timer_id = timer_heap[i1]->timer_id;
+   temp.object_id = timer_heap[i1]->object_id;
+   temp.message_id = timer_heap[i1]->message_id;
+
+   timer_heap[i1]->time = timer_heap[i2]->time;
+   timer_heap[i1]->timer_id = timer_heap[i2]->timer_id;
+   timer_heap[i1]->object_id = timer_heap[i2]->object_id;
+   timer_heap[i1]->message_id = timer_heap[i2]->message_id;
+
+   timer_heap[i2]->time = temp.time;
+   timer_heap[i2]->timer_id = temp.timer_id;
+   timer_heap[i2]->object_id = temp.object_id;
+   timer_heap[i2]->message_id = temp.message_id;
 }
 
 // Fixes the heap after a timer has been deleted or modified.
