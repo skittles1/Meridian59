@@ -1130,76 +1130,19 @@ bool BSPGetStepTowards(room_type* Room, V2* S, V2* E, V2* P, unsigned int* Flags
       {
          V2 v = se;
 
-         // try 22.5° left
-         V2ROTATE(&v, 0.5f * (float)-M_PI_4);
-         V2ADD(&stepend, S, &v);
-         V2ROUNDROOTOKODFINENESS(&stepend);
-         if (BSPCanMoveInRoom(Room, S, &stepend, ObjectID, moveOutsideBSP, &blockWall))
-		 {
-            *P = stepend;
-            *Flags |= ESTATE_AVOIDING;
-            *Flags |= ESTATE_CLOCKWISE;
-            return true;
-         }
-
-         // try 45° left
-         V2ROTATE(&v, 0.5f * (float)-M_PI_4);
-         V2ADD(&stepend, S, &v);
-         V2ROUNDROOTOKODFINENESS(&stepend);
-         if (BSPCanMoveInRoom(Room, S, &stepend, ObjectID, moveOutsideBSP, &blockWall))
+         // try rotating move left in 6 steps of 22.5° up to 135°
+         for (int j = 0; j < 6; j++)
          {
-            *P = stepend;
-            *Flags |= ESTATE_AVOIDING;
-            *Flags |= ESTATE_CLOCKWISE;
-            return true;
-         }
-
-         // try 67.5° left
-         V2ROTATE(&v, 0.5f * (float)-M_PI_4);
-         V2ADD(&stepend, S, &v);
-         V2ROUNDROOTOKODFINENESS(&stepend);
-         if (BSPCanMoveInRoom(Room, S, &stepend, ObjectID, moveOutsideBSP, &blockWall))
-         {
-            *P = stepend;
-            *Flags |= ESTATE_AVOIDING;
-            *Flags |= ESTATE_CLOCKWISE;
-            return true;
-		 }
-
-         // try 90° left
-         V2ROTATE(&v, 0.5f * (float)-M_PI_4);
-         V2ADD(&stepend, S, &v);
-         V2ROUNDROOTOKODFINENESS(&stepend);
-         if (BSPCanMoveInRoom(Room, S, &stepend, ObjectID, moveOutsideBSP, &blockWall))
-         {
-            *P = stepend;
-            *Flags |= ESTATE_AVOIDING;
-            *Flags |= ESTATE_CLOCKWISE;
-            return true;
-         }
-
-         // try 112.5° left
-         V2ROTATE(&v, 0.5f * (float)-M_PI_4);
-         V2ADD(&stepend, S, &v);
-         V2ROUNDROOTOKODFINENESS(&stepend);
-         if (BSPCanMoveInRoom(Room, S, &stepend, ObjectID, moveOutsideBSP, &blockWall))
-         {
-            *P = stepend;
-            *Flags |= ESTATE_AVOIDING;
-            *Flags |= ESTATE_CLOCKWISE;
-            return true;
-         }
-
-         // try 135° left
-         V2ROTATE(&v, (float)-M_PI_4);
-         V2ADD(&stepend, S, &v);
-         V2ROUNDROOTOKODFINENESS(&stepend);
-         if (BSPCanMoveInRoom(Room, S, &stepend, ObjectID, moveOutsideBSP, &blockWall))
-         {
-            *P = stepend;
-            *Flags |= ESTATE_AVOIDING;
-            *Flags |= ESTATE_CLOCKWISE;
-            return true;
+            V2ROTATE(&v, 0.5f * (float)-M_PI_4);
+            V2ADD(&stepend, S, &v);
+            V2ROUNDROOTOKODFINENESS(&stepend);
+            if (BSPCanMoveInRoom(Room, S, &stepend, ObjectID, moveOutsideBSP, &blockWall))
+            {
+               *P = stepend;
+               *Flags |= ESTATE_AVOIDING;
+               *Flags |= ESTATE_CLOCKWISE;
+               return true;
+            }
          }
 
          // failed to circumvent by going left, switch to right
@@ -1211,76 +1154,19 @@ bool BSPGetStepTowards(room_type* Room, V2* S, V2* E, V2* P, unsigned int* Flags
       {
          V2 v = se;
 
-         // try 22.5° right
-         V2ROTATE(&v, 0.5f * (float)M_PI_4);
-         V2ADD(&stepend, S, &v);
-         V2ROUNDROOTOKODFINENESS(&stepend);
-         if (BSPCanMoveInRoom(Room, S, &stepend, ObjectID, moveOutsideBSP, &blockWall))
+         // try rotating move right in 6 steps of 22.5° up to 135°
+         for (int j = 0; j < 6; j++)
          {
-            *P = stepend;
-            *Flags |= ESTATE_AVOIDING;
-            *Flags &= ~ESTATE_CLOCKWISE;
-            return true;
-         }
-
-         // try 45° right
-         V2ROTATE(&v, 0.5f * (float)M_PI_4);
-         V2ADD(&stepend, S, &v);
-         V2ROUNDROOTOKODFINENESS(&stepend);
-         if (BSPCanMoveInRoom(Room, S, &stepend, ObjectID, moveOutsideBSP, &blockWall))
-         {
-            *P = stepend;
-            *Flags |= ESTATE_AVOIDING;
-            *Flags &= ~ESTATE_CLOCKWISE;
-            return true;
-         }
-
-         // try 67.5° right
-         V2ROTATE(&v, 0.5f * (float)M_PI_4);
-         V2ADD(&stepend, S, &v);
-         V2ROUNDROOTOKODFINENESS(&stepend);
-         if (BSPCanMoveInRoom(Room, S, &stepend, ObjectID, moveOutsideBSP, &blockWall))
-         {
-            *P = stepend;
-            *Flags |= ESTATE_AVOIDING;
-            *Flags &= ~ESTATE_CLOCKWISE;
-            return true;
-		 }
-
-         // try 90° right
-         V2ROTATE(&v, 0.5f * (float)M_PI_4);
-         V2ADD(&stepend, S, &v);
-         V2ROUNDROOTOKODFINENESS(&stepend);
-         if (BSPCanMoveInRoom(Room, S, &stepend, ObjectID, moveOutsideBSP, &blockWall))
-         {
-            *P = stepend;
-            *Flags |= ESTATE_AVOIDING;
-            *Flags &= ~ESTATE_CLOCKWISE;
-            return true;
-         }
-
-         // try 112.5° right
-         V2ROTATE(&v, 0.5f * (float)M_PI_4);
-         V2ADD(&stepend, S, &v);
-         V2ROUNDROOTOKODFINENESS(&stepend);
-         if (BSPCanMoveInRoom(Room, S, &stepend, ObjectID, moveOutsideBSP, &blockWall))
-         {
-            *P = stepend;
-            *Flags |= ESTATE_AVOIDING;
-            *Flags &= ~ESTATE_CLOCKWISE;
-            return true;
-         }
-
-         // try 135° right
-         V2ROTATE(&v, 0.5f * (float)M_PI_4);
-         V2ADD(&stepend, S, &v);
-         V2ROUNDROOTOKODFINENESS(&stepend);
-         if (BSPCanMoveInRoom(Room, S, &stepend, ObjectID, moveOutsideBSP, &blockWall))
-         {
-            *P = stepend;
-            *Flags |= ESTATE_AVOIDING;
-            *Flags &= ~ESTATE_CLOCKWISE;
-            return true;
+            V2ROTATE(&v, 0.5f * (float)M_PI_4);
+            V2ADD(&stepend, S, &v);
+            V2ROUNDROOTOKODFINENESS(&stepend);
+            if (BSPCanMoveInRoom(Room, S, &stepend, ObjectID, moveOutsideBSP, &blockWall))
+            {
+               *P = stepend;
+               *Flags |= ESTATE_AVOIDING;
+               *Flags &= ~ESTATE_CLOCKWISE;
+               return true;
+            }
          }
 
          // failed to circumvent by going right, switch to left
