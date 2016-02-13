@@ -9,5 +9,3 @@ Purge_not_enchanted = de "%s%s ist nicht mit Personenzaubern belegt"
 Purge_spell_intro = de \
    "Shal'ill Level 5: Streift hilfreiche persönliche Verzauberungen vom Ziel "
    "ab"
-purge_break_rod_active = de \
-   "Dein Zauberspruch wird durch eine Energie verhindert!"

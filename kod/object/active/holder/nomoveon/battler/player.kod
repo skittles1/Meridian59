@@ -5418,8 +5418,7 @@ messages:
       precision=FALSE)
    {
       local i, j, iResistance, oSoldierShield, gainchance, color_rsc,
-            iDuration, oSpell, oGort,iLimit, origdamage, oWeapon, shrunken,
-            bAttackerEmpowered, bShielded;
+            iDuration, oSpell, oGort,iLimit, origdamage, oWeapon, shrunken;
 
       if NOT precision
       {
@@ -5578,49 +5577,6 @@ messages:
             RecordStat(STAT_ASSESS_DAM,Send(self,@GetTrueName),
                Send(what,@GetTrueName),aspell,atype,damage/100,origdamage,
                player_no_weapon_string);
-         }
-      }
-
-      % Increase final damage by 35 percent if attacker damage rod is active
-      bAttackerEmpowered = FALSE;
-      if what <> $
-         AND IsClass(what,&Player)
-      {
-         foreach i in Send(what,@GetHolderPassive)
-         {
-            if IsClass(i,&DamageRod)
-               AND Send(i,@IsActive)
-            {
-               bAttackerEmpowered = TRUE;
-            }
-         }
-      }
-      
-      if bAttackerEmpowered
-      {
-         damage = damage * 135 / 100;
-      }
-
-      % Look for active shield rods in inventory, reduce final damage to 1 if any active
-      bShielded = FALSE;
-      foreach i in plPassive
-      {
-         if IsClass(i,&ShieldRod)
-            AND Send(i,@IsActive)
-         {
-            bShielded = TRUE;
-         }
-      }
-
-      if bShielded
-      {
-         if precision
-         {
-            damage = 100;
-         }
-         else
-         {
-            damage = 1;
          }
       }
 
