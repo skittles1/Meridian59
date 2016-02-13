@@ -2063,12 +2063,11 @@ messages:
       return viSpell_modifier;
    }
 
-   GetSpellModifier(oSpell=$,lTargets=$)
+   GetSpellModifier(oSpell=$)
    {
       local oItemAtt, iModifier, i, iNum, oObjectAttribute;
 
-      iModifier = Send(self,@GetBaseSpellModifier,#oSpell=oSpell,
-                        #lTargets=lTargets);
+      iModifier = Send(self,@GetBaseSpellModifier,#oSpell=oSpell);
       foreach i in plItem_Attributes
       {
          iNum = Send(self,@GetNumFromCompound,#compound=First(i));

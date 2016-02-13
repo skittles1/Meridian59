@@ -4565,8 +4565,7 @@ messages:
             AND oEnemyGuild <> $
             AND Send(poGuild,@IsMutualEnemy,#otherguild=oEnemyGuild))
          OR (oSoldierShield <> $
-            AND Send(oSoldierShield,@IsEnemyAttack,#who=victim,#what=self,
-                      #damage=FALSE))
+            AND Send(oSoldierShield,@IsEnemyAttack,#what=victim))
       {
          % Okay, attack is against a player, so record the time
          if actual = TRUE
@@ -5550,10 +5549,9 @@ messages:
       % Faction enemies an extra 15% damage to each other, above caps.
       if what <> $ AND IsClass(what,&Player)
       {
-         oSoldierShield = Send(what,@FindUsing,#class=&SoldierShield);
+         oSoldierShield = Send(what,@FindUsing,#class=&SoldierShield,#damage=TRUE);
          if oSoldierShield <> $
-            AND Send(oSoldierShield,@IsEnemyAttack,#who=self,#what=what,
-                      #damage=TRUE)
+            AND Send(oSoldierShield,@IsEnemyAttack,#what=self,#damage=TRUE)
          {
             damage = (damage * 115)/100;
          }
@@ -5928,8 +5926,8 @@ messages:
                    OR oEnemyGuild = $
                    OR NOT Send(poGuild,@IsMutualEnemy,#otherguild=oEnemyGuild))
                   AND (oSoldierShield = $
-                       OR NOT Send(oSoldierShield,@IsEnemyAttack,#who=what,
-                                    #what=self,#damage=TRUE))
+                       OR NOT Send(oSoldierShield,@IsEnemyAttack,
+                                    #what=what,#damage=TRUE))
                {
                   % SUBTLE BUG: Somehow, the faction check is missed when you
                   % kill something. We check it here, but only for players.
