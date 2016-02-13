@@ -62,13 +62,13 @@ classvars:
 
 properties:
 
-   piBaseDuration = 5000 % Recommended value 4000.
-   piSpellPowerModifier = 151 % Recommended value 60.
-   piDeviation = 50 % Recommended value 10%.
+   piBaseDuration = 4000 // 103 value 5000
+   piSpellPowerModifier = 60 // 103 value 151
+   piDeviation = 10 // 103 value 50%
 
-   % Min and max values for Dazzle duration.
-   piMinBlind = 3000 % Recommended value 4000.
-   piMaxBlind = 20000 % Recommended value 12000.
+   // Min and max values for Blind duration.
+   piMinBlind = 4000 // 103 value 3000
+   piMaxBlind = 12000// 103 value 20000
 
 messages:
 

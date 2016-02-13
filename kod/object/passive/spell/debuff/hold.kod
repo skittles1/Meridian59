@@ -56,15 +56,15 @@ classvars:
 
    viFlash = FLASH_BAD
 
-   % In seconds, since it works off GetTime()
-   viPostCast_time = 2 % Recommended value 1.
+   // In seconds, since it works off GetTime()
+   viPostCast_time = 1 // 103 value 2.
 
 properties:
 
-   piBaseDuration = 2000 % Recommended value 2000.
-   piSpellPowerModifier = 40 % Recommended value 30.
-   piDeviation = 50 % Recommended value 10%.
-   viCast_time = 0 % Recommended value 600 (milliseconds).
+   piBaseDuration = 2000 // 103 value 2000.
+   piSpellPowerModifier = 30 // 103 value 40.
+   piDeviation = 10 // 103 value 50%.
+   viCast_time = 600 // 103 value 0 (milliseconds).
 
 messages:
 
