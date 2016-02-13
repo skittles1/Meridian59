@@ -59,17 +59,17 @@ classvars:
 
 properties:
 
-   piSpellPowerMultiplier = 70 % Recommended value 40.
-   piKarmaPowerMultiplier = 50 % Recommended value 10.
-   piBaseDuration = 1000 % Recommended value 3000.
-   piDeviation = 0 % Recommended value 10%.
+   piSpellPowerMultiplier = 40 //103 value 70
+   piKarmaPowerMultiplier = 10 // 103 value 50
+   piBaseDuration = 3000 // 103 value 3000
+   piDeviation = 10 // 103 value 0
 
-   % Min and max values for Dazzle duration.
+   // Min and max values for Dazzle duration.
    piMinDazzle = 3000
-   piMaxDazzle = 15000
+   piMaxDazzle = 10000
 
-   % Duration of the red pain effect after spell wears off.
-   piPainDuration = 8000 % Recommended value 1000
+   // Duration of the red pain effect after spell wears off.
+   piPainDuration = 1000 // 103 value 8000
 
 messages:
 
