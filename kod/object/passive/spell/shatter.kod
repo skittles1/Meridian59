@@ -70,6 +70,9 @@ properties:
    % to get the HP back.
    piMinHitPoints = 40
 
+   pbAccessible = FALSE
+   pbEnabled = FALSE
+
 messages:
 
    ResetReagents()
