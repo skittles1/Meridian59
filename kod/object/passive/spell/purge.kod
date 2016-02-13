@@ -35,9 +35,6 @@ resources:
    Purge_spell_intro = \
       "Shal'ille Lv. 5: Removes helpful personal enchantments on the target."
 
-   purge_break_rod_active = \
-      "Interlocking energies dissipate your spell before you even begin!"
-
 classvars:
 
    vrName = Purge_name_rsc
@@ -129,34 +126,6 @@ messages:
                #parm1=Send(oTarget,@GetDef),#parm2=Send(oTarget,@GetName));
 
          return FALSE;
-      }
-
-      if IsClass(oTarget,&User)
-      {
-         foreach i in Send(oTarget,@GetHolderPassive)
-         {
-            if IsClass(i,&BreakRodPurge)
-               AND Send(i,@IsActive)
-            {
-               Send(who,@MsgSendUser,#message_rsc=purge_break_rod_active);
-
-               return FALSE;
-            }
-         }
-      }
-
-      if IsClass(who,&User)
-      {
-         foreach i in Send(who,@GetHolderPassive)
-         {
-            if IsClass(i,&BreakRodPurge)
-               AND Send(i,@IsSecondaryActive)
-            {
-               Send(who,@MsgSendUser,#message_rsc=purge_break_rod_active);
-
-               return FALSE;
-            }
-         }
       }
 
       propagate;

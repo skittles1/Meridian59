@@ -29,11 +29,10 @@ messages:
    {
       plTreasure = [ [ &MeatPie, 1],
                      [ &GoldShield, 8 ],
-                     [ &Gauntlet, 7 ],
+                     [ &Gauntlet, 8 ],
                      [ &Longsword, 1],
-                     [ &HealWand, 7 ],
-                     [ &Sapphire, 6],
-                     [ &Diamond, 6],
+                     [ &Sapphire, 5],
+                     [ &Diamond, 5],
                      [ &BlueMushroom, 15 ],
                      [ &RingofLethargy, 5],
                      [ &AcidRing, 5],
@@ -42,8 +41,8 @@ messages:
                      [ &ShockRing, 4],
                      [ &ScaleArmor, 9 ],
                      [ &VampireWand, 3 ],
-                     [ &Scepter, 3 ],
-                     [ &DarkAngelFeather, 3 ],
+                     [ &Scepter, 4 ],
+                     [ &DarkAngelFeather, 5 ],
                      [ &BlueDragonScale, 10 ],
                      [ &FreeActionPotion, 3]
                    ];

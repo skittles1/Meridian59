@@ -10,5 +10,3 @@ blind_on = de \
    "Etwas brennt in Deinen Augen und Du kannst um dich herum nichts mehr "
    "sehen. "
 blind_off = de "Deine Augen sind wieder in der Lage alles normal zu sehen."
-blind_break_rod_active = de \
-   "Leuchtende Energien verhindern deinen Zauberspruch!"
