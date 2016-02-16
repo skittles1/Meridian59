@@ -27,7 +27,9 @@ resources:
       "darker edge to the shield that you can't place your finger on, and "
       "one wonders if this device has some hidden attribute."
 
-   orcshield_cant = "You try to grab the handle of the shield, but it insistently slips out of your fingers."
+   orcshield_cant = \
+      "You try to grab the handle of the shield, but it insistently "
+      "slips out of your fingers."
 
    OrcShield_window_overlay_rsc = povosh.bgf
 
@@ -58,14 +60,14 @@ classvars:
 properties:
 
 messages:
-   
+
    ReqUse()
    {
-      if send(poOwner,@GetKarma) > -50  
-      { 
-         send(poOwner,@MsgSendUser,#message_rsc=orcshield_cant);
-         
-         return FALSE; 
+      if Send(poOwner,@GetKarma) > -50
+      {
+         Send(poOwner,@MsgSendUser,#message_rsc=orcshield_cant);
+
+         return FALSE;
       }
       
       propagate;
@@ -73,12 +75,12 @@ messages:
 
    GetBaseSpellModifier(oSpell=$)
    {
-      if send(oSpell,@GetSchool) = SS_SHALILLE
+      if Send(oSpell,@GetSchool) = SS_SHALILLE
       {
          return -15;
       }
-      
-      if send(oSpell,@GetSchool) = SS_QOR
+
+      if Send(oSpell,@GetSchool) = SS_QOR
       {
          return 15;
       }
@@ -88,9 +90,16 @@ messages:
 
    GetResistanceModifiers()
    {
-      return [ [ATCK_WEAP_PIERCE,15],
+      return [ [ATCK_WEAP_PIERCE,10],
+               [ATCK_WEAP_SLASH,10],
+               [ATCK_WEAP_THRUST,5],
                [-ATCK_SPELL_HOLY,-20]
              ];
+   }
+
+   GetHeatDamage()
+   {
+      return 1;
    }
 
    SendOverlayAnimation(animation = $)
@@ -102,8 +111,7 @@ messages:
       }
 
       return;
-   }   
-
+   }
 
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
