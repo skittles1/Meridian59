@@ -55,8 +55,8 @@ classvars:
    viKarma = -70
    viDefault_behavior = \
       AI_FIGHT_AGGRESSIVE | AI_FIGHT_SWITCHALOT | AI_MOVE_FLEE_FRIGHTENERS
-   viCashmin = 100
-   viCashmax = 320
+   viCashmin = 50
+   viCashmax = 280
    vrSound_miss = BatteredSkeleton_sound_miss
    vrSound_aware = BatteredSkeleton_sound_aware
    vrSound_death = BatteredSkeleton_sound_death
