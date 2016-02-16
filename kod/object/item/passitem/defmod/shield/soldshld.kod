@@ -618,6 +618,11 @@ messages:
       return damage - iDamageReduce;
    }
 
+   GetHeatDamage()
+   {
+      return 2;
+   }
+
    GetBaseSpellModifier(oSpell=$)
    {
       return 0;
