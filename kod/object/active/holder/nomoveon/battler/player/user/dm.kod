@@ -1979,7 +1979,7 @@ messages:
                if StringContain(string,Send(i,@GetTrueName))
                   AND NOT Send(i,@IsItemType,#type=ITEMTYPE_SPECIAL)
                {
-                  Send(self,@NewHold,#what=create(GetClass(i)));
+                  Send(self,@NewHold,#what=Create(GetClass(i),#oDMCreator=self));
                   if NOT pbStealth
                   {
                      Send(poOwner,@SomeoneSaid,#what=self,#type=SAY_MESSAGE,
@@ -2570,7 +2570,8 @@ messages:
          if Send(i,@IsItemType,#type=type)
             AND NOT Send(i,@IsItemType,#type=ITEMTYPE_SPECIAL)
          {
-            Send(self,@NewHold,#what=create(GetClass(i),#number=iNumber));
+            Send(self,@NewHold,#what=Create(GetClass(i),#number=iNumber,
+                                          #oDMCreator=self));
          }
       }
 

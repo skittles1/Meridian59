@@ -1863,6 +1863,7 @@
    IA_BONDED               = 18
    IA_MADE                 = 19
    IA_MADE_TRANSCENDANT    = 20
+   IA_DM_CREATED           = 21
 
    % Weapon Attributes.  These are attributes only applied to weapons.
    WA_TRAINING             = 51
