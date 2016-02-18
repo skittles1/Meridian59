@@ -36,7 +36,7 @@ resources:
       "Requires the blood of a magic-casting beast and a tooth "
       "from a fierce fighting monster."
 
-   curseweapon_sound = qcurweap.wav
+   curseweapon_sound = qcurweap.ogg
 
 classvars:
 

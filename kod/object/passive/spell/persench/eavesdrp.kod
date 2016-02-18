@@ -31,7 +31,7 @@ resources:
    Eavesdrop_no_rooms = "There seem to be no nearby rooms you can listen to."
    Eavesdrop_Success_rsc = "You grant %s%s the ability to eavesdrop."
 
-   Eavesdrop_sound = riija.wav
+   Eavesdrop_sound = riija.ogg
 
 classvars:
 

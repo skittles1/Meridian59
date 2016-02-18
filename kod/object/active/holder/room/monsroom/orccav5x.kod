@@ -24,7 +24,7 @@ resources:
    OrcCave5Ext_music = orcpit.ogg
    
    OrcCave5Ext_drink = "You drink from the life-giving waters, and feel refreshed!"
-   OrcCave5Ext_drink_sound =  drink.wav
+   OrcCave5Ext_drink_sound =  drink.ogg
 
 classvars:
 

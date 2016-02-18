@@ -36,7 +36,7 @@ resources:
    room_name_rsc = "Room"
 
    room_door_is_locked = "This door is locked."
-   room_sound_locked = doorlck.wav
+   room_sound_locked = doorlck.ogg
 
    room_move_req_no = "You're unable to change rooms."
 
@@ -76,90 +76,90 @@ resources:
    % Unlike the rest of these, this is actually a stormy sky.
    background_stormy_sky = 3sky.bgf
 
-   creaky_door_sound = doropen1.wav
+   creaky_door_sound = doropen1.ogg
 
-   water_wading_sound = splash.wav
+   water_wading_sound = splash.ogg
 
-   room_jungle_sound1 = jungle01.wav
-   room_jungle_sound2 = jungle02.wav
-   room_jungle_sound3 = jungle03.wav
-   room_jungle_sound4 = jungle04.wav
-   room_jungle_sound5 = jungle05.wav
-   room_jungle_sound6 = jungle06.wav
-   room_jungle_sound7 = jungle07.wav
-   room_jungle_sound8 = jungle08.wav
-   room_jungle_sound9 = jungle09.wav
-   room_jungle_sound10 = jungle10.wav
-   room_jungle_sound11 = jungle11.wav
-   room_jungle_sound12 = jungle12.wav
-   room_jungle_sound13 = jungle13.wav
-   room_jungle_sound14 = jungle14.wav
-   room_jungle_sound15 = jungle15.wav
-   room_jungle_sound16 = jungle16.wav
-   room_jungle_sound17 = jungle17.wav
-   room_jungle_sound18 = jungle18.wav
-   room_jungle_sound19 = jungle19.wav
-   room_jungle_sound20 = jungle20.wav
-   room_jungle_sound21 = jungle21.wav
-   room_jungle_sound22 = jungle22.wav
-   room_jungle_sound23 = jungle23.wav
-   room_jungle_sound24 = jungle24.wav
-   room_jungle_sound25 = jungle25.wav
+   room_jungle_sound1 = jungle01.ogg
+   room_jungle_sound2 = jungle02.ogg
+   room_jungle_sound3 = jungle03.ogg
+   room_jungle_sound4 = jungle04.ogg
+   room_jungle_sound5 = jungle05.ogg
+   room_jungle_sound6 = jungle06.ogg
+   room_jungle_sound7 = jungle07.ogg
+   room_jungle_sound8 = jungle08.ogg
+   room_jungle_sound9 = jungle09.ogg
+   room_jungle_sound10 = jungle10.ogg
+   room_jungle_sound11 = jungle11.ogg
+   room_jungle_sound12 = jungle12.ogg
+   room_jungle_sound13 = jungle13.ogg
+   room_jungle_sound14 = jungle14.ogg
+   room_jungle_sound15 = jungle15.ogg
+   room_jungle_sound16 = jungle16.ogg
+   room_jungle_sound17 = jungle17.ogg
+   room_jungle_sound18 = jungle18.ogg
+   room_jungle_sound19 = jungle19.ogg
+   room_jungle_sound20 = jungle20.ogg
+   room_jungle_sound21 = jungle21.ogg
+   room_jungle_sound22 = jungle22.ogg
+   room_jungle_sound23 = jungle23.ogg
+   room_jungle_sound24 = jungle24.ogg
+   room_jungle_sound25 = jungle25.ogg
 
-   room_sewer_sound1 = sewer03.wav
-   room_sewer_sound2 = sewer04.wav
-   room_sewer_sound3 = drips.wav
-   room_sewer_sound4 = sngldrip.wav
+   room_sewer_sound1 = sewer03.ogg
+   room_sewer_sound2 = sewer04.ogg
+   room_sewer_sound3 = drips.ogg
+   room_sewer_sound4 = sngldrip.ogg
    % Not included for now.  Kinda stupid rat sound.
-   room_sewer_sound5 = sewer01.wav
+   room_sewer_sound5 = sewer01.ogg
 
-   room_badmount_sound1 = ice04.wav
-   room_badmount_sound2 = ice03.wav
-   room_badmount_sound3 = sws_wind.wav
-   room_badmount_sound4 = rs_wind.wav
-   room_badmount_sound5 = eagle.wav
+   room_badmount_sound1 = ice04.ogg
+   room_badmount_sound2 = ice03.ogg
+   room_badmount_sound3 = sws_wind.ogg
+   room_badmount_sound4 = rs_wind.ogg
+   room_badmount_sound5 = eagle.ogg
 
-   room_beach_sound1 = sws_wind.wav
-   room_beach_sound2 = beach.wav
-   room_beach_sound3 = gulls.wav
-   room_beach_sound4 = wave1.wav
-   room_beach_sound5 = wave2.wav
-   room_beach_sound6 = wave3.wav
-   room_beach_sound7 = wave4.wav
+   room_beach_sound1 = sws_wind.ogg
+   room_beach_sound2 = beach.ogg
+   room_beach_sound3 = gulls.ogg
+   room_beach_sound4 = wave1.ogg
+   room_beach_sound5 = wave2.ogg
+   room_beach_sound6 = wave3.ogg
+   room_beach_sound7 = wave4.ogg
 
-   room_waterfront_sound1 = wfront03.wav
-   room_waterfront_sound2 = wfront05.wav
+   room_waterfront_sound1 = wfront03.ogg
+   room_waterfront_sound2 = wfront05.ogg
 
-   room_cave_sound1 = drop.wav
+   room_cave_sound1 = drop.ogg
 
-   room_forest_sound1 = rs_for01.wav
-   room_forest_sound2 = rs_for02.wav
-   room_forest_sound3 = rs_for03.wav
-   room_forest_sound4 = rs_for05.wav
-   room_forest_sound5 = rs_for14.wav
-   room_forest_sound6 = rs_for18.wav
-   room_forest_sound7 = rs_for20.wav
+   room_forest_sound1 = rs_for01.ogg
+   room_forest_sound2 = rs_for02.ogg
+   room_forest_sound3 = rs_for03.ogg
+   room_forest_sound4 = rs_for05.ogg
+   room_forest_sound5 = rs_for14.ogg
+   room_forest_sound6 = rs_for18.ogg
+   room_forest_sound7 = rs_for20.ogg
 
-   room_necropolis_sound1 = necro01.wav
-   room_necropolis_sound2 = necro02.wav
-   room_necropolis_sound3 = necro03.wav
-   room_necropolis_sound4 = necro04.wav
-   room_necropolis_sound5 = necro05.wav
-   room_necropolis_sound6 = necro06.wav
-   room_necropolis_sound7 = necro07.wav
-   room_necropolis_sound8 = necro08.wav
-   room_necropolis_sound9 = necro09.wav
+   room_necropolis_sound1 = necro01.ogg
+   room_necropolis_sound2 = necro02.ogg
+   room_necropolis_sound3 = necro03.ogg
+   room_necropolis_sound4 = necro04.ogg
+   room_necropolis_sound5 = necro05.ogg
+   room_necropolis_sound6 = necro06.ogg
+   room_necropolis_sound7 = necro07.ogg
+   room_necropolis_sound8 = necro08.ogg
+   room_necropolis_sound9 = necro09.ogg
 
-   room_jungle_sound = jungle.wav
-   room_sewer_sound = seweramb.wav
-   room_cave_sound = ambcave.wav
-   room_badmount_sound = icecave.wav
-   room_lava_sound = lavaflow.wav
-   room_forest_sound = ambcntry.wav
-   room_necro_sound = necloop2.wav
-   room_beach_sound = ocean.wav
+   room_jungle_sound = jungle.ogg
+   room_sewer_sound = seweramb.ogg
+   room_cave_sound = ambcave.ogg
+   room_badmount_sound = icecave.ogg
+   room_lava_sound = lavaflow.ogg
+   room_forest_sound = ambcntry.ogg
+   room_necro_sound = necloop2.ogg
+   room_beach_sound = ocean.ogg
 
-   room_rain_sound = rain.wav
+   room_rain_sound = rain.ogg
 
    no_use_jig = \
       "You can't wield that - it would interfere with your funky moves!"

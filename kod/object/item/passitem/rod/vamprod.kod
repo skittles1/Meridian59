@@ -25,7 +25,7 @@ resources:
    "draw in all of the life force around it. "
    "You sense that this wand cannot be charged by places of safety, and is "
    "instead fed by the energy of good souls slain in battle."
-   vampireRod_success_wav_rsc = vamp_wand.wav
+   vampireRod_success_wav_rsc = vamp_wand.ogg
 
    vampireRod_success_rsc = \
    "You shiver uncontrollably as you gleefully consume slivers of raw soul "

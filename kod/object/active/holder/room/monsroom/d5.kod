@@ -22,7 +22,7 @@ resources:
    room_OutdoorsD5 = d5.roo
    OutdoorsD5_music = forest.ogg
 
-   waterfall_soundd5 = wfall2.wav
+   waterfall_soundd5 = wfall2.ogg
 
 classvars:
 

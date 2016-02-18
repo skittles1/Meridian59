@@ -30,7 +30,7 @@ resources:
    Necropolis3_locked_door = \
       "The massive stone door won't budge, no matter how hard you push it."
 
-   Necropolis3_loop = necloop4.wav
+   Necropolis3_loop = necloop4.ogg
 
    Necropolis3_no_rift = "Casting shadow rift here would be pointless."
 

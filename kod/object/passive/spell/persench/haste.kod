@@ -38,7 +38,7 @@ resources:
    Haste_spell_intro = \
       "Kraanan Lv. 2: Allows you to use less stamina as you run."
 
-   Haste_sound = khaste.wav
+   Haste_sound = khaste.ogg
 
 classvars:
 

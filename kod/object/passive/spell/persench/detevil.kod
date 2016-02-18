@@ -31,7 +31,7 @@ resources:
    DetectEvil_already_enchanted_rsc = "You can already see the vile."
    DetectEvil_Success_rsc = "You grant %s%s the ability to sense evil."
 
-   DetectEvil_sound = sdevil.wav
+   DetectEvil_sound = sdevil.ogg
 
    DetectEvil_spell_intro = \
       "Shal'ille Lv. 1: Allows you to detect evil people and monsters."

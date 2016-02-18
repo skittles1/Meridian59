@@ -26,7 +26,7 @@ resources:
    ringinvisibility_desc_rsc = "This ring bears strange markings and seems to shimmer, making it difficult to see clearly."
 
    ringinvisibility_use = "Your physical form shimmers and then disappears altogether."
-   ringinvisibility_use_wav_rsc = invis_ring.wav
+   ringinvisibility_use_wav_rsc = invis_ring.ogg
 
    ringinvisibility_dead_rsc = "Your ring of invisibility goes cold, having expended its magical energy."
 

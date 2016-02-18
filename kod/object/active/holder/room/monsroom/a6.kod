@@ -22,7 +22,7 @@ resources:
    room_name_OutdoorsA6 ="The Hills"
    OutdoorsA6_music = forest.ogg
 
-   waterfall_sounda6 = wfall2.wav
+   waterfall_sounda6 = wfall2.ogg
 
    
 classvars:

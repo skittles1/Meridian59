@@ -22,7 +22,7 @@ resources:
    room_Necropolis2 = necarea2.roo
    Necropolis2_music = nec01.ogg
 
-   Necropolis2_loop = necloop1.wav
+   Necropolis2_loop = necloop1.ogg
 
 classvars:
 

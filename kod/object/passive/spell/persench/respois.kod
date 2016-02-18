@@ -35,7 +35,7 @@ resources:
    ResistPoison_success_rsc = \
       "Your magic increases %s%s's resistance to poison."
 
-   resistpoison_sound = kresistp.wav
+   resistpoison_sound = kresistp.ogg
 
 classvars:
 

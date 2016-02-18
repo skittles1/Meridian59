@@ -32,7 +32,7 @@ resources:
    Cloak_already_enchanted_rsc = "You are already cloaked."
    Cloak_Succeed_rsc = "You wrap a magical cloak around %s%s."
 
-   Cloak_sound = qcloak.wav
+   Cloak_sound = qcloak.ogg
 
 classvars:
 

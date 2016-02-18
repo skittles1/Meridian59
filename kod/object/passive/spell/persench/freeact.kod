@@ -41,7 +41,7 @@ resources:
    FreeAction_evade_caster = \
       "Kraanan's magic prevents you from hindering the free flow of battle."
 
-   FreeAction_sound = kfreeact.wav
+   FreeAction_sound = kfreeact.ogg
 
 classvars:
 

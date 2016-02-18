@@ -31,7 +31,7 @@ resources:
    staffofjolting_jolt = "You tap the staff on the ground three times."
    staffofjolting_used = "You tap the staff against the ground, but nothing happens."
 
-   staffofjolting_sound = woodstaf.wav
+   staffofjolting_sound = woodstaf.ogg
 
 classvars:
 

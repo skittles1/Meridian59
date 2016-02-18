@@ -40,7 +40,7 @@ resources:
       "This place is lost to civility and those that enter are likely to "
       "die.  No pity shall be given to those that cross this order. "
   
-   MarionCrypt2_door_sound = stoneup2.wav
+   MarionCrypt2_door_sound = stoneup2.ogg
 
 classvars:
 

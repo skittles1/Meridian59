@@ -35,7 +35,7 @@ resources:
    shadowform_on = "You melt into your shadow."
    shadowform_off = "You fade back to your own colors."
 
-   shadowform_wave_rsc = shadI11m.wav
+   shadowform_wave_rsc = shadI11m.ogg
 
 classvars:
 

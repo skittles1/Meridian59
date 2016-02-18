@@ -55,7 +55,7 @@ resources:
    MarionCrypt1_corpse_desc = \
       "The spectral mummies that haunt this crypt were once simple mummified corpses like this one."
 
-   MarionCrypt1_door1_rsc = down2.wav
+   MarionCrypt1_door1_rsc = down2.ogg
 
    MarionCrtyp1_martyr_on = \
       "The good ancestral spirits of this place call upon the gods to protect the innocent."

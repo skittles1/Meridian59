@@ -25,7 +25,7 @@ resources:
    room_name_barsew2 = "The Sewers of Barloque"
    barsew2_music = cave.ogg
 
-   waterfall_soundbsew2 = wfall2.wav
+   waterfall_soundbsew2 = wfall2.ogg
 
 classvars:
 

@@ -25,7 +25,7 @@ resources:
    room_jassew2 = jassew2.roo
    jassew2_music = cave.ogg
 
-   waterfall_soundjsew2 = wfall2.wav
+   waterfall_soundjsew2 = wfall2.ogg
 
 classvars:
 

@@ -30,7 +30,7 @@ resources:
       "There is too much summoning magic focused here to create a ring of "
       "flames." 
 
-   RingOfFlames_sound = frngfir.wav
+   RingOfFlames_sound = frngfir.ogg
 
 classvars:
 

@@ -107,7 +107,7 @@ resources:
    spectator_only_msg = \
       "Combat has already begun. You may spectate until all participants "
       "have died."
-   round_begin_wav = gong.wav
+   round_begin_wav = gong.ogg
 
 classvars:
 

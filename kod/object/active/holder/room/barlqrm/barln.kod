@@ -29,7 +29,7 @@ resources:
    room_barloquenorth = barln.roo
    barloquenorth_music = corloth.ogg
 
-   barloquenorth_sound_rsc = down2.wav
+   barloquenorth_sound_rsc = down2.ogg
 
 classvars:
 

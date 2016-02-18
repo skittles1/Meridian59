@@ -34,7 +34,7 @@ resources:
    Rescue_depart_to_destination = \
       "%s vanishes in a burst of protective light!"
    
-   rescue_sound = srescue.wav
+   rescue_sound = srescue.ogg
 
 classvars:
 

@@ -202,7 +202,7 @@ resources:
       "~I~BYou feel your guardian angel has departed once more."
 
    player_improved = "~I~BYou have improved in the art of %s."
-   player_improved_wav_rsc = imp.wav
+   player_improved_wav_rsc = imp.ogg
    player_aggressor = "Shal'ille frowns upon your unprovoked attack."
    player_aggressor_minion = \
       "Shal'ille frowns upon your unprovoked attack on %s%s's minion."
@@ -221,8 +221,8 @@ resources:
       "~kRoq tells you, \"~IA new Assassin's Circle shall be initiated "
       "shortly.\""
 
-   player_tougher_wav_rsc = tougher.wav
-   player_missed_something_wave_rsc = swordmis.wav
+   player_tougher_wav_rsc = tougher.ogg
+   player_missed_something_wave_rsc = swordmis.ogg
    player_killed_something = "You killed %s%s."
    player_killed_player = \
       "You have killed another player and have been branded a murderer."
@@ -302,7 +302,7 @@ resources:
 
    player_cant_apply = "You can't use %s%s on other things."
    
-   player_wave_hit = hit.wav
+   player_wave_hit = hit.ogg
    
    player_level_music = perc2.ogg
    
@@ -392,8 +392,8 @@ resources:
    player_dead_male_name_rsc = "dead male body"
    player_dead_female_name_rsc = "dead female body"
    
-   playerm_death_wav = pdeath.wav
-   playerf_death_wav = pdeathf.wav
+   playerm_death_wav = pdeath.ogg
+   playerf_death_wav = pdeathf.ogg
 
    player_token_death = \
       "As you die, the token pulsates, and you feel an odd sensation..."
@@ -438,7 +438,7 @@ resources:
    % hair for Rob
    player_toupee_q_rsc = ptq.bgf
 
-   player_sound_learn_spell = splearn.wav
+   player_sound_learn_spell = splearn.ogg
 
    player_angel = "Your guardian angel"
    intrigue_ambassador = "Baron Springer of Cor Noth Township"
@@ -714,36 +714,36 @@ resources:
    player_Debug_nokarma = "%s cannot learn %s due to karma restrictions."
    player_Debug_noway = "It is impossible for %s to ever get the %s spell."
 
-   player_sound_sword1 = sword1.wav
-   player_sound_sword2 = sword2.wav
-   player_sound_sword3 = sword3.wav
+   player_sound_sword1 = sword1.ogg
+   player_sound_sword2 = sword2.ogg
+   player_sound_sword3 = sword3.ogg
 
-   player_sound_metal1 = swrdmtl1.wav
-   player_sound_metal2 = swrdmtl2.wav
-   player_sound_metal3 = swrdmtl3.wav
+   player_sound_metal1 = swrdmtl1.ogg
+   player_sound_metal2 = swrdmtl2.ogg
+   player_sound_metal3 = swrdmtl3.ogg
 
-   player_sound_hit_monster_flesh1 = fhit1b.wav
-   player_sound_hit_monster_flesh2 = fhit2b.wav
-   player_sound_hit_monster_flesh3 = fhit3b.wav
+   player_sound_hit_monster_flesh1 = fhit1b.ogg
+   player_sound_hit_monster_flesh2 = fhit2b.ogg
+   player_sound_hit_monster_flesh3 = fhit3b.ogg
 
-   player_sound_hit_monster_leather1 = lhit1b.wav
-   player_sound_hit_monster_leather2 = lhit2b.wav
-   player_sound_hit_monster_leather3 = lhit3b.wav
+   player_sound_hit_monster_leather1 = lhit1b.ogg
+   player_sound_hit_monster_leather2 = lhit2b.ogg
+   player_sound_hit_monster_leather3 = lhit3b.ogg
 
-   player_sound_hit_monster_metal1 = mhit1b.wav
-   player_sound_hit_monster_metal2 = mhit2b.wav
-   player_sound_hit_monster_metal3 = mhit3b.wav
+   player_sound_hit_monster_metal1 = mhit1b.ogg
+   player_sound_hit_monster_metal2 = mhit2b.ogg
+   player_sound_hit_monster_metal3 = mhit3b.ogg
 
    % in increasing order of agony
-   player_sound_male_ouch1 = ouchm1.wav
-   player_sound_male_ouch2 = ouchm2.wav
-   player_sound_male_ouch3 = ouchm3.wav
-   player_sound_male_ouch4 = ouchm4.wav
+   player_sound_male_ouch1 = ouchm1.ogg
+   player_sound_male_ouch2 = ouchm2.ogg
+   player_sound_male_ouch3 = ouchm3.ogg
+   player_sound_male_ouch4 = ouchm4.ogg
 
-   player_sound_female_ouch1 = ouchf1.wav
-   player_sound_female_ouch2 = ouchf2.wav
-   player_sound_female_ouch3 = ouchf3.wav
-   player_sound_female_ouch4 = ouchf4.wav
+   player_sound_female_ouch1 = ouchf1.ogg
+   player_sound_female_ouch2 = ouchf2.ogg
+   player_sound_female_ouch3 = ouchf3.ogg
+   player_sound_female_ouch4 = ouchf4.ogg
 
    player_eavesdrop_login_str = "~B~g[~n%s has logged in.~B~g]"
    player_eavesdrop_str = "~B~g[~n%s tells %s, \"%q~n\"~B~g]"
@@ -756,8 +756,8 @@ resources:
    player_admin_modified_skill = "Skill modified."
    player_admin_removed_skill = "Skill removed."
 
-   player_logged_on_wav_rsc = player_login_or_out.wav
-   player_logged_off_wav_rsc = player_logout2.wav
+   player_logged_on_wav_rsc = player_login_or_out.ogg
+   player_logged_off_wav_rsc = player_logout2.ogg
 
    death_rift_stayed_too_long = \
       "Having lingered too long while still alive, you find "
@@ -803,7 +803,7 @@ resources:
       "Your hindered line of sight makes a successful hit more difficult."
 
       
-   pvp_notify_wav = gong.wav
+   pvp_notify_wav = gong.ogg
 
 classvars:
 

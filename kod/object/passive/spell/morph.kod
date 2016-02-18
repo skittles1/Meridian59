@@ -20,7 +20,7 @@ resources:
 
    include morph.lkod
 
-   morph_scream_wav = pdeath.wav
+   morph_scream_wav = pdeath.ogg
 
    morph_name_rsc = "morph"
    morph_icon_rsc = imorph.bgf
@@ -42,7 +42,7 @@ resources:
       "towns, but you will take the appropriate penalties for attacking other "
       "innocents."
 
-   morph_sound = rmorph.wav
+   morph_sound = rmorph.ogg
    
 classvars:
 

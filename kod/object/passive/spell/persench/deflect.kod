@@ -38,7 +38,7 @@ resources:
       "Kraanan Level 4: Forms a magical barrier around the target, protecting"
       "them from harm of magics that damage directly."
 
-   Deflect_sound = kdeflect.wav
+   Deflect_sound = kdeflect.ogg
 
    Deflect_success_to_victim = \
       "Your deflect enchantment bounces %s's spell back onto its caster!"

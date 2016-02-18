@@ -41,7 +41,7 @@ resources:
       "%s%s lets out a cry of pain as ice shards pierce %s skin "
       "for ~k~B%i~n damage."
 
-   icenova_sound = fshatter.wav
+   icenova_sound = fshatter.ogg
 
 classvars:
 

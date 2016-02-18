@@ -23,7 +23,7 @@ resources:
    BowmakerHut_music = avarwar.ogg
 
    BowmakerHut_locked = "~kHanla zax'Ta says, \"You may not go back there.\""
-   fire_sound_bowmakerhut = fireplac.wav
+   fire_sound_bowmakerhut = fireplac.ogg
 
 classvars:
 

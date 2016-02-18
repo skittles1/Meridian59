@@ -32,9 +32,9 @@ resources:
    TuskedSkeleton_dead_icon_rsc = skelX.bgf
    TuskedSkeleton_dead_name_rsc = "pile of bones"
 
-   TuskedSkeleton_sound_miss = skl3_atk.wav
-   TuskedSkeleton_sound_death = skl3_die.wav
-   TuskedSkeleton_sound_aware = skl3_awr.wav
+   TuskedSkeleton_sound_miss = skl3_atk.ogg
+   TuskedSkeleton_sound_death = skl3_die.ogg
+   TuskedSkeleton_sound_aware = skl3_awr.ogg
 
 classvars:
 

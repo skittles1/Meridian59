@@ -24,7 +24,7 @@ resources:
    room_guest2 = guest2.roo
    guest2_music = login.ogg
 
-   guest2_wading_sound = weatstp1.wav
+   guest2_wading_sound = weatstp1.ogg
 
    guest2_signname = "getting around"
    guest2_sign = \

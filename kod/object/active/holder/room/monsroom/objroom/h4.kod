@@ -23,7 +23,7 @@ resources:
    OutdoorsH4_music = forest.ogg
 
    waterfall_msg1 = "You aren't daring enough to take ~BTHAT~n plunge!"
-   waterfall_soundH4 = wfall2.wav
+   waterfall_soundH4 = wfall2.ogg
    
 classvars:
 

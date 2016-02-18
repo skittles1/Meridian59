@@ -128,7 +128,7 @@ resources:
       "This pile of bones is no doubt the result of a dead body that has been decomposing "
       "for dozens of Meridian years."
 
-   guest6_door1_rsc = down2.wav
+   guest6_door1_rsc = down2.ogg
    
 classvars:
 

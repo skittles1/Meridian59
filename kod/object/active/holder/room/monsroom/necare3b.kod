@@ -22,7 +22,7 @@ resources:
    room_name_Necropolis3b = "Ancient Building"
 
    Necropolis3b_music = nec02.ogg
-   Necropolis3b_loop = necloop4.wav
+   Necropolis3b_loop = necloop4.ogg
 
 classvars:
 

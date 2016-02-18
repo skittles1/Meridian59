@@ -31,7 +31,7 @@ resources:
       "of vision."
    blind_off = "Your eyes begin to function again."
 
-   blind_sound = qblind.wav
+   blind_sound = qblind.ogg
 
 classvars:
 

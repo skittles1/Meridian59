@@ -25,7 +25,7 @@ resources:
       "the inventory of the target.  "
       "Requires three red and three purple mushrooms to cast."
 
-   shatter_sound = fshatter.wav
+   shatter_sound = fshatter.ogg
 
    shatter_cast_rsc = "Your %s frosts, trembles, and shatters!"
    shatter_cast_plural_rsc = "Your %s frost, tremble, and shatter!"

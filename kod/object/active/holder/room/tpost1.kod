@@ -26,8 +26,8 @@ resources:
    TradingPost_locked_2 = "Wulfgang keeps his quarters locked."
    TradingPost_locked_3 = "The attic door is locked."
 
-   fire_sound_tradingpost = fireplac.wav
-   frying_sound_tradingpost = frying.wav
+   fire_sound_tradingpost = fireplac.ogg
+   frying_sound_tradingpost = frying.ogg
 
 classvars:
 

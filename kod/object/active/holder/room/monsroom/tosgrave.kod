@@ -22,8 +22,8 @@ resources:
    room_name_TosGraveyard = "The Graveyard of Tos"
 
    tosgraveyard_music = marion.ogg
-   wind_sound_tosgrave = ambcntry.wav
-   wind1_sound_tosgrave = rs_wind.wav
+   wind_sound_tosgrave = ambcntry.ogg
+   wind1_sound_tosgrave = rs_wind.ogg
 
 classvars:
 

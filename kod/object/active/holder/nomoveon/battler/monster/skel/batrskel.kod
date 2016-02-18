@@ -32,9 +32,9 @@ resources:
    BatteredSkeleton_dead_icon_rsc = skelX.bgf
    BatteredSkeleton_dead_name_rsc = "pile of bones"
 
-   BatteredSkeleton_sound_miss = skl2_atk.wav
-   BatteredSkeleton_sound_death = skl2_die.wav
-   BatteredSkeleton_sound_aware = skl2_awr.wav
+   BatteredSkeleton_sound_miss = skl2_atk.ogg
+   BatteredSkeleton_sound_death = skl2_die.ogg
+   BatteredSkeleton_sound_aware = skl2_awr.ogg
 
 classvars:
 

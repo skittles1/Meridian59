@@ -30,7 +30,7 @@ resources:
    "strength, slowly sapping away at your strength, your health, "
    "and your will to live.  "
 
-   poison_sound = poisoned.wav
+   poison_sound = poisoned.ogg
 
 classvars:
 

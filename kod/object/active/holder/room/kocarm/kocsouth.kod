@@ -38,7 +38,7 @@ resources:
       "As you touch the door, you hear the bolt mechanism slide home, "
       "locking itself.  Apparently, this door is magically safeguarded "
       "against guild non-members such as yourself."
-   kocatansouth_guild_sound_locked = doorlck.wav
+   kocatansouth_guild_sound_locked = doorlck.ogg
 
 classvars:
 

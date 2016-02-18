@@ -39,7 +39,7 @@ resources:
    Truce_enter = "A numbing calm settles upon your mind. You find yourself unable to lift a weapon."
    Truce_leave = "The calm that had gripped your mind departs.  You feel ready for battle once more."
 
-   truce_sound = shalille.wav
+   truce_sound = shalille.ogg
 
 classvars:
 

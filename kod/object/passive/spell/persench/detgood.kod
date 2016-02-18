@@ -32,7 +32,7 @@ resources:
    DetectGood_already_enchanted_rsc = "You can already see the pure."
    DetectGood_Success_rsc = "%s%s can now see the pure."
 
-   DetectGood_sound = qdetgood.wav
+   DetectGood_sound = qdetgood.ogg
 
    DetectGood_spell_intro = \
       "Qor Lv. 1: Allows you to detect good people and monsters."
