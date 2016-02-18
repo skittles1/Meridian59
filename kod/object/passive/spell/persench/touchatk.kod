@@ -33,11 +33,11 @@ resources:
    touchattack_enchantment_rsc = \
       "\n\nYour current %s enchantment will deal %i - %i base %s damage."
 
-   TouchAttack_missed1_sound = swswish1.wav
-   TouchAttack_missed2_sound = swswish2.wav
-   TouchAttack_missed3_sound = swswish3.wav
+   TouchAttack_missed1_sound = swswish1.ogg
+   TouchAttack_missed2_sound = swswish2.ogg
+   TouchAttack_missed3_sound = swswish3.ogg
 
-   TouchAttack_hit_sound = patk.wav
+   TouchAttack_hit_sound = patk.ogg
 
 classvars:
 

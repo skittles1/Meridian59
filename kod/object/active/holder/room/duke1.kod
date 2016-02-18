@@ -25,7 +25,7 @@ resources:
    room_Duke1 = duke1.roo
    Duke1_music = area01.ogg
 
-   fountain_soundDuke1 = fountain.wav
+   fountain_soundDuke1 = fountain.ogg
 
 classvars:
 

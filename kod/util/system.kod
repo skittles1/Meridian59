@@ -321,7 +321,7 @@ resources:
    inventory_scroll_class_name = "scrolls"
    inventory_ring_class_name = "rings"
    
-   system_message_sound = system.wav
+   system_message_sound = system.ogg
    
 classvars:
 

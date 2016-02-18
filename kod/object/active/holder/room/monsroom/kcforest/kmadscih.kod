@@ -21,7 +21,7 @@ resources:
    room_MadScientistHut = kc5a.roo
    MadScientistHut_music = madsci.ogg
 
-   fire_sound_madscientist = fireplac.wav
+   fire_sound_madscientist = fireplac.ogg
 
 classvars:
 

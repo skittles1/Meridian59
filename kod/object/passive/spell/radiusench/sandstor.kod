@@ -53,7 +53,7 @@ resources:
    Sandstorm_enter = "Swirling dust begins to needle into your skin, making it very difficult to breathe."
    Sandstorm_leave = "The air around you clears."
    
-   sandstorm_sound = fheat.wav
+   sandstorm_sound = fheat.ogg
 
 classvars:
 

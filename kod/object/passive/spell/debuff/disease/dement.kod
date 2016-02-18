@@ -25,7 +25,7 @@ resources:
       "thoughts, making spell casting more difficult for several minutes.  "
       "Requires two vials of solagh and an uncut seraphym to cast."
 
-   dement_sound = rdement.wav
+   dement_sound = rdement.ogg
 
    dement_cast_rsc = "You sense an unsavory presence."
    dement_already_enchanted = "That poor soul is already demented."

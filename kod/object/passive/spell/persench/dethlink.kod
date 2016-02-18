@@ -38,7 +38,7 @@ resources:
    deathlink_off_rsc = "Your link to death dissipates."
    deathlink_feed_rsc = "You feed on the life force of the fallen."
 
-   deathlink_sound = qdeathlk.wav
+   deathlink_sound = qdeathlk.ogg
 
 classvars:
 

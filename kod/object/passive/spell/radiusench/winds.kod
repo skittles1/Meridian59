@@ -46,7 +46,7 @@ resources:
    Winds_enter = "Violent winds sweep the area and buffet your limbs."
    Winds_leave = "The winds slow and then cease."
    
-   winds_sound = fwinds.wav
+   winds_sound = fwinds.ogg
 
 classvars:
 

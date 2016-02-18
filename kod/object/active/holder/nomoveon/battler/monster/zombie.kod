@@ -30,10 +30,10 @@ resources:
    zombie_dead_icon_rsc = zombieX.bgf
    zombie_dead_name_rsc = "dead zombie"
 
-   zombie_sound_hit = zmb_atkh.wav
-   zombie_sound_miss = zmb_atkm.wav
-   zombie_sound_death = zmb_dth.wav
-   zombie_sound_aware = zmb_awr.wav
+   zombie_sound_hit = zmb_atkh.ogg
+   zombie_sound_miss = zmb_atkm.ogg
+   zombie_sound_death = zmb_dth.ogg
+   zombie_sound_aware = zmb_awr.ogg
 
 classvars:
 

@@ -40,7 +40,7 @@ resources:
 
    paralyze_no_soul = "You can't detect a soul in %s%s to turn to stone!"
 
-   paralyze_sound= qparalyz.wav
+   paralyze_sound= qparalyz.ogg
 
 classvars:
 

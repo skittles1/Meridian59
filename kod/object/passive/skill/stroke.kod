@@ -27,16 +27,16 @@ resources:
 
    stroke_miss_attacker = "%sYour %s misses %s%s."
    stroke_miss_defender = "%s%s misses you."
-   stroke_miss_sound = swordmis.wav
+   stroke_miss_sound = swordmis.ogg
 
    stroke_hit_attacker = "%sYour %s hits %s%s."
    stroke_hit_defender = "%s%s hits you."
 
-   stroke_hit_sound = patk.wav
+   stroke_hit_sound = patk.ogg
 
-   stroke_swish1 = swswish1.wav
-   stroke_swish2 = swswish2.wav
-   stroke_swish3 = swswish3.wav
+   stroke_swish1 = swswish1.ogg
+   stroke_swish2 = swswish2.ogg
+   stroke_swish3 = swswish3.ogg
 
 classvars:
 

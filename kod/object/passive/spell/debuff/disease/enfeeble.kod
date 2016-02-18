@@ -30,7 +30,7 @@ resources:
       "The effect lasts a few minutes.  "
       "Requires a single orc tooth to cast."
 
-   enfeeble_sound = qenfeebl.wav
+   enfeeble_sound = qenfeebl.ogg
 
 classvars:
 

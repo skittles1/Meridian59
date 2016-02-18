@@ -30,7 +30,7 @@ resources:
       "transgressors against you when you are anonymous.  "
       "Requires two rainbow ferns and one firesand to cast."
 
-   anonymity_sound = ranonym.wav
+   anonymity_sound = ranonym.ogg
 
 classvars:
 

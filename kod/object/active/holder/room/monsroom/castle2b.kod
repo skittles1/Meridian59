@@ -23,7 +23,7 @@ resources:
    room_castle2b = castle2b.roo
    castle2b_music = castle.ogg
 
-   fountain_soundcastle2b = fountain.wav
+   fountain_soundcastle2b = fountain.ogg
 
 classvars:
 

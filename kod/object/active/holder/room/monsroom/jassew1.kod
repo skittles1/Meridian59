@@ -22,7 +22,7 @@ resources:
    room_jassew1 = jassew1.roo
    jassew1_music = cave.ogg
 
-   waterfall_soundjsew1 = wfall2.wav
+   waterfall_soundjsew1 = wfall2.ogg
 
    jassewer1_book_name = "The Smuggler's Crossing"
    jassewer1_book_text = \

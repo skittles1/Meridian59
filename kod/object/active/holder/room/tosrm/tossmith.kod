@@ -22,7 +22,7 @@ resources:
    room_tossmith = tossmith.roo
    tossmith_music = smithy.ogg
 
-   TosSmithy_forge_sound = fireplac.wav
+   TosSmithy_forge_sound = fireplac.ogg
 
 classvars:
 

@@ -85,7 +85,7 @@ resources:
 
    spell_silenced_rsc = "Your words catch in your throat and you cannot speak."
 
-   spell_fail_wav = spelfail.wav
+   spell_fail_wav = spelfail.ogg
    spell_desc_rsc = "SCHOOL : %s         LEVEL : %i \n\n%s%s%s%r%r%r"
    spell_school_riija = "Riija"
    spell_school_shalille = "Shal'ille"
@@ -95,13 +95,13 @@ resources:
    spell_school_jala = "Jala"
    spell_intro_rsc = "One of the many mystical spells."
 
-   spell_sound_jala = lute_equip.wav
-   spell_sound_shalille = shalille.wav
-   spell_sound_qor = qor.wav
-   spell_sound_kraanan = kraanan.wav
-   spell_sound_faren = faren.wav
-   spell_sound_riija = riija.wav
-   spell_sound_dm_command = tranport.wav
+   spell_sound_jala = lute_equip.ogg
+   spell_sound_shalille = shalille.ogg
+   spell_sound_qor = qor.ogg
+   spell_sound_kraanan = kraanan.ogg
+   spell_sound_faren = faren.ogg
+   spell_sound_riija = riija.ogg
+   spell_sound_dm_command = tranport.ogg
 
    spell_gesture_third = \
       "%s%s murmurs something under %s breath and makes a mystical gesture."
@@ -122,7 +122,7 @@ resources:
    spell_trance_begin = "You focus your whole will on casting %s."
    spell_trance_break = \
       "Your concentration is broken and the %s spell fizzles."
-   spell_trance_break_sound = spelfail.wav
+   spell_trance_break_sound = spelfail.ogg
 
    spell_disabled = \
       "~g~BAn unseen force rips the words of the spell from your throat "

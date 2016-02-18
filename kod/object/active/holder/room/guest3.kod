@@ -22,7 +22,7 @@ resources:
    room_guest3 = guest3.roo
    guest3_music = smithy.ogg
 
-   fire_sound_guest3 = fireplac.wav
+   fire_sound_guest3 = fireplac.ogg
 
    guest3_signname = "buying items"   
    guest3_sign = \

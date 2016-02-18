@@ -29,7 +29,7 @@ resources:
       "prism.  The item to be bonded must be targetted.  Once the casting "
       "is complete the item will follow its owner to hell itself."
    
-   Bond_sound = sbond.wav
+   Bond_sound = sbond.ogg
 
    bond_bad_target = "You may only bond items to a player."
    bond_no_prism = "The magic energies of the prism do not allow it to be bonded."

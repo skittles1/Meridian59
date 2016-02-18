@@ -35,7 +35,7 @@ resources:
    reflection_cannot_cast_here = \
       "You are not allowed to create a reflection here."
 
-   summonreflection_sound = rmirrimg.wav
+   summonreflection_sound = rmirrimg.ogg
 
 classvars:
 

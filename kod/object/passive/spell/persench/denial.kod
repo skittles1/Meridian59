@@ -32,7 +32,7 @@ resources:
       "least not at the same time."
 
    denial_off_rsc = "Ouch - you are reminded of your previous weariness."
-   denial_sound = rdenial.wav
+   denial_sound = rdenial.ogg
 
 classvars:
 

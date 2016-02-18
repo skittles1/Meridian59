@@ -28,7 +28,7 @@ resources:
    room_OutdoorsF8 = f8.roo
    OutdoorsF8_music = walk7.ogg
 
-   waterfall_soundF8 = wfall2.wav
+   waterfall_soundF8 = wfall2.ogg
 
    OutdoorsF8_muffled = "You can barely hear the sound of someone talking in the distance."
    OutdoorsF8_PasswordDoorUnlocked = "You hear a loud click as the door unlocks."

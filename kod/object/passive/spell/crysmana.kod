@@ -48,7 +48,7 @@ resources:
    CrystalizeMana_surge = \
       "Incredible energies roar through you!"
 
-   Surge_sound = wscndwnd.wav
+   Surge_sound = wscndwnd.ogg
 
 classvars:
 

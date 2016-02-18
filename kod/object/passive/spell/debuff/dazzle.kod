@@ -28,7 +28,7 @@ resources:
    Dazzle_on = "The world is washed away in a flood of pure light."
    Dazzle_off = "Your vision begins to clear."
 
-   Dazzle_sound = sDazzle.wav
+   Dazzle_sound = sDazzle.ogg
 
 classvars:
 

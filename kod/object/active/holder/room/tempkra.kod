@@ -29,7 +29,7 @@ resources:
    room_templekra = tempkra.roo
    templekra_music = temple.ogg
 
-   templekra_sound = down2.wav
+   templekra_sound = down2.ogg
 
    tempkra_scimitar_name = "scimitar"
    tempkra_scimitar_icon = scimitar.bgf

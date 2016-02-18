@@ -43,7 +43,7 @@ resources:
    AntiMagicAura_enter = "The mana field around you begins to fluctuate."
    AntiMagicAura_leave = "The mana field around you returns to normal."
 
-   AntiMagicAura_sound = kantimag.wav
+   AntiMagicAura_sound = kantimag.ogg
 
 classvars:
 

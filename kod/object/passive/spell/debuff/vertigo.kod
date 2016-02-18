@@ -33,7 +33,7 @@ resources:
       "someone hit you on the head with a very large hammer."
    Vertigo_off = "You recover from that terrible feeling."
 
-   Vertigo_sound = rvertigo.wav
+   Vertigo_sound = rvertigo.ogg
 
 classvars:
 

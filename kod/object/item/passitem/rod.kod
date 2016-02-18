@@ -31,8 +31,8 @@ resources:
    rod_charges_left_rsc = \
       "\n\nThis rod has %i charges remaining, and can hold a maximum "
       "of %i charges."
-   rod_success_wav_default_rsc = healwand.wav
-   rod_fail_wav_default_rsc = spelfail.wav
+   rod_success_wav_default_rsc = healwand.ogg
+   rod_fail_wav_default_rsc = spelfail.ogg
 
    rod_cannot_hold_more_rsc = \
       "If you held another rod, their competing magics would all "
