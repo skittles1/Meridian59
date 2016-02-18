@@ -57,8 +57,8 @@ messages:
    {
       local oSign;
 
-      Send(self,@NewHold,#what=Create(&NewbPortal),#new_row=15,#new_col=11,
-            #fine_row=0,#fine_col=32,#new_angle=ANGLE_SOUTH);
+      Send(self,@NewHold,#what=Create(&NewbPortal),#new_row=14,#new_col=11,
+            #fine_row=56,#fine_col=36,#new_angle=ANGLE_NORTH);
 
       oSign = Create(&Sign,#name=newbie8_signname,
                      #desc=newbie8_sign,#newbie=TRUE);
