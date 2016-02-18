@@ -554,7 +554,7 @@ messages:
 
       piMood = 0;
 
-      iStatPoints = (viDifficulty + 1) * 10;
+      iStatPoints = Bound((viDifficulty + 1) * 10,20,100);
 
       if iStatPoints - 1 > 50
       {
