@@ -7601,7 +7601,10 @@ messages:
                piLastSafeRoom = Send(poOwner,@GetRoomNum);
 
                % Recharge user's rods.
-               Send(self,@RechargeAllRods);
+               if (Send(SETTINGS_OBJECT,@CanInnsRechargeRods))
+               {
+                  Send(self,@RechargeAllRods);
+               }
             }
 
             % If this player has created any evil twins, delete them.

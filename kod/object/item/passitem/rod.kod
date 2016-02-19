@@ -14,8 +14,6 @@ constants:
 
    include blakston.khd
 
-   ROD_HOLD_MAX = 5
-
 resources:
 
    include rod.lkod
@@ -96,7 +94,7 @@ messages:
             }
          }
 
-         if iRodCount >= ROD_HOLD_MAX
+         if iRodCount >= Send(SETTINGS_OBJECT,@GetMaxNumRods)
          {
             Send(what,@MsgSendUser,#message_rsc=rod_cannot_hold_more_rsc);
 
