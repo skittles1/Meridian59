@@ -163,7 +163,9 @@ properties:
 
    prMusic = guest6_music
 
-   piMonster_count_max = 25
+   piInit_count_min = 12
+   piInit_count_max = 15
+   piMonster_count_max = 35
 
    piPit_Monsters = 0        % Number of monsters currently in the pit area
 
