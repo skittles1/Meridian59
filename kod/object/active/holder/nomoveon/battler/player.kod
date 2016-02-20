@@ -778,7 +778,7 @@ resources:
    rod_gained_charge_msg = \
       "You sense that at least one of your magic items gained a "
       "charge from the released energy of your kill."
-   rods_fully_recharged_by_safe_place_msg = \
+   rods_recharged_by_safe_place_msg = \
       "This place of safety has recharged your magical rods."
 
    player_truced = "Shal'ille's magic compels you to respect the truce."
@@ -14532,7 +14532,7 @@ messages:
 
       if bGainedCharges
       {
-         Send(self,@MsgSendUser,#message_rsc=rods_fully_recharged_by_safe_place_msg);
+         Send(self,@MsgSendUser,#message_rsc=rods_recharged_by_safe_place_msg);
       }
 
       return;

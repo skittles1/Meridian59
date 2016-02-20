@@ -255,6 +255,12 @@ properties:
    % Setting to allow users to remove their own posts.
    pbCanUserRemoveOwnPosts = TRUE
 
+   % How many rods can be picked up at one time.
+   piRodMax = 5
+
+   % Do safe rooms recharge rods?
+   pbInnsRechargeRods = FALSE
+
 messages:
 
    Constructor()
@@ -663,6 +669,16 @@ messages:
    CanUsersRemoveOwnPosts()
    {
       return pbCanUserRemoveOwnPosts;
+   }
+
+   GetMaxNumRods()
+   {
+      return piRodMax;
+   }
+
+   CanInnsRechargeRods()
+   {
+      return pbInnsRechargeRods;
    }
 
 end

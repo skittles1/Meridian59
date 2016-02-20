@@ -478,7 +478,7 @@ group_experience_rsc = de \
 rod_gained_charge_msg = de \
    "Du bemerkst, dass eine deiner magischen Gegenständen durch den Kill wieder "
    "etwas aufgeladen wurde."
-rods_fully_recharged_by_safe_place_msg = de \
+rods_recharged_by_safe_place_msg = de \
    "Dieser sichere Ort lässt deinen Zauberstab wieder zu Kräften kommen."
 player_truced = de "Shal'ills Magie zwingt dich dazu Waffenruhe einzuhalten."
 Jig_cannot_attack = de \
