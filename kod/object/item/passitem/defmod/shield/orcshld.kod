@@ -69,7 +69,7 @@ messages:
 
          return FALSE;
       }
-      
+
       propagate;
    }
 
@@ -100,17 +100,6 @@ messages:
    GetHeatDamage()
    {
       return 1;
-   }
-
-   SendOverlayAnimation(animation = $)
-   {
-      AddPacket(1,ANIMATE_NONE,2,2);
-      if (piItem_flags & ITEM_PALETTE_MASK) <> 0
-      {
-         AddPacket(1,ANIMATE_TRANSLATION,1,piItem_flags & ITEM_PALETTE_MASK);
-      }
-
-      return;
    }
 
 end
