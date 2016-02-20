@@ -146,8 +146,6 @@ config_table_type config_table[] =
 { MEMORY_SIZE_PROPERTIES_NAME_HASH,F,"SizePropertiesNameHash", CONFIG_INT,   "499" },
 
 { AUTO_GROUP,             F, "[Auto]",        CONFIG_GROUP, "" },
-{ AUTO_GARBAGE_TIME,      F, "GarbageTime",   CONFIG_INT,   "90", }, /* minutes */
-{ AUTO_GARBAGE_PERIOD,    F, "GarbagePeriod", CONFIG_INT,   "180", }, /* minutes */
 { AUTO_SAVE_TIME,         F, "SaveTime",      CONFIG_INT,   "0", }, /* minutes */
 { AUTO_SAVE_PERIOD,       F, "SavePeriod",    CONFIG_INT,   "180", }, /* minutes */
 { AUTO_KOD_TIME,          F, "KodTime",       CONFIG_INT,   "0", },
@@ -158,15 +156,6 @@ config_table_type config_table[] =
 { AUTO_RESET_POOL_TIME,   F, "ResetPoolTime", CONFIG_INT,   "0", },
 { AUTO_RESET_POOL_PERIOD, F, "ResetPoolPeriod",CONFIG_INT,  "60", },
 
-{ EMAIL_GROUP,            F, "[Email]",       CONFIG_GROUP, "" },
-{ EMAIL_LISTEN,           F, "Listen",        CONFIG_BOOL,  "No" },
-{ EMAIL_PORT,             F, "Port",          CONFIG_INT,   "25" },
-{ EMAIL_ACCOUNT_CREATE_NAME, F, "AccountCreateName", CONFIG_STR, "account-create" },
-{ EMAIL_ACCOUNT_DELETE_NAME, F, "AccountDeleteName", CONFIG_STR, "account-delete" },
-{ EMAIL_LOCAL_MACHINE_NAME, T, "LocalMachineName", CONFIG_STR, "unknown" },
-{ EMAIL_HOST,			  F, "MailServer",    CONFIG_STR,	   "ms-camaro" },
-{ EMAIL_NAME,			  F, "PageAddress",    CONFIG_STR,	   "nobody@dev.null" },
-   
 { UPDATE_GROUP,           F, "[Update]",      CONFIG_GROUP, "" },
 { UPDATE_CLIENT_MACHINE,  T, "ClientMachine", CONFIG_STR,   "unknown" },
 { UPDATE_CLIENT_FILE,     T, "ClientFilename",CONFIG_STR,   "unknown" },
@@ -179,6 +168,7 @@ config_table_type config_table[] =
 { CONSOLE_GROUP,          F, "[Console]",     CONFIG_GROUP, "" },
 { CONSOLE_ADMINISTRATOR,  F, "Administrator", CONFIG_STR,   "Administrator" },
 { CONSOLE_CAPTION,        F, "Caption",       CONFIG_STR,   "BlakSton Server" },
+{ CONSOLE_LOCAL_MACHINE_NAME, T, "LocalMachineName", CONFIG_STR, "unknown" },
 
 { RIGHTS_GROUP,           F, "[Rights]",      CONFIG_GROUP, "" },
 { RIGHTS_GOROOM,          T, "GoRoom",        CONFIG_INT,   "2" },

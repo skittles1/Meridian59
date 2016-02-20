@@ -1354,7 +1354,7 @@ void AdminShowStatus(int session_id,admin_parm_type parms[],
 	
 	aprintf("System Status -----------------------------\n");
 	
-	aprintf("%s on %s\n",BlakServLongVersionString(),LockConfigStr(EMAIL_LOCAL_MACHINE_NAME));
+	aprintf("%s on %s\n",BlakServLongVersionString(),LockConfigStr(CONSOLE_LOCAL_MACHINE_NAME));
 	UnlockConfigStr();
 	
 	kstat = GetKodStats();
