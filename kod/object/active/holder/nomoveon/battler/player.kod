@@ -9006,7 +9006,7 @@ messages:
    "FALSE otherwise.  The iLevel parameter has the player's base max HP "
    "taken from it, then divided by 5 before being bound between 1 and 10."
    {
-      local iRandom, iNumber, oShrunken;
+      local iRandom, iNumber, oShrunken, iApparentStamina;
 
       if iLevel = $
       {
@@ -9050,6 +9050,24 @@ messages:
             {
                Send(oShrunken,@Tougher,#hp=pibase_max_health);
             }
+         }
+
+         // If they are at max HP, award some training points instead.
+         // Awards the TP when the player hits max HP also (reward!).
+         if (piStaminaMod >= 0)
+         {
+            iApparentStamina = Send(self,@GetStamina);
+         }
+         else
+         {
+            iApparentStamina = Send(self,@GetRawStamina);
+         }
+
+         if (piBase_max_health = 100 + iApparentStamina
+            OR piBase_max_health >= 150)
+         {
+            Send(self,@AddTrainingPoints,#points=piBase_max_health * 3,
+                  #bCap=FALSE);
          }
 
          piGain_chance = -(piBase_Max_health / 2);
