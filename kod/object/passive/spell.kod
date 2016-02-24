@@ -1230,6 +1230,13 @@ messages:
       return lGoodTargets;
    }
 
+   CanEnchantUser()
+   "Called by Room to check if a user can be enchanted by this spell."
+   "Room enchantments that shouldn't affect everyone can override this."
+   {
+      return TRUE;
+   }
+
    SpellFailed(who=$,iSpellpower=0)
    "Different spells can have different penalties for spell failure."
    "Standard penalty - half of spell's mana cost and half of exertion cost."
@@ -2384,20 +2391,25 @@ messages:
 
       iSpellPower = iPrimaryBonus + iSecondaryBonus + iPowerBonus + iBase;
 
-      lRadiusState = Send(who,@GetMostPowerfulRadiusEnchantmentState,#byClass=&AntiMagicAura);
-      if lRadiusState <> $
+      if Send(oRoom,@CheckRoomFlag,#flag=ROOM_ANTI_MAGIC)
       {
-         iSpellPower = Send(Nth(lRadiusState,1),@ModifySpellpower,#who=who,#oSpell=self,#state=lRadiusState,#iSpellPower=iSpellPower);
+         oModifierSpell = Send(SYS,@FindSpellByNum,#num=SID_ANTIMAGIC_AURA);
+         iSpellPower = Send(oModifierSpell,@ModifySpellPower,
+                              #who=who,#oRoom=oRoom,#oSpell=self,
+                              #iSpellPower=iSpellPower);
       }
 
-      lRadiusState = Send(who,@GetMostPowerfulRadiusEnchantmentState,#byClass=&ManaConvergence);
+      lRadiusState = Send(who,@GetMostPowerfulRadiusEnchantmentState,
+                           #byClass=&ManaConvergence);
       if lRadiusState <> $
       {
-         iSpellPower = Send(Nth(lRadiusState,1),@ModifySpellpower,#who=who,#oSpell=self,#state=lRadiusState,#iSpellPower=iSpellPower);
+         iSpellPower = Send(First(lRadiusState),@ModifySpellpower,#who=who,
+                              #oSpell=self,#state=lRadiusState,
+                              #iSpellPower=iSpellPower);
       }
 
       % Bound the lower end so that the stuff that follows is truly a bonus.
-      iSpellPower = bound(iSpellPower,0,$);
+      iSpellPower = Bound(iSpellPower,0,$);
 
       % This number is based on the number of shrines this god controls.
       iShrines = Send(SYS,@GetShrineBonus,#school=viSchool);
@@ -2595,6 +2607,15 @@ messages:
    {
       % Spells can overwrite this to change resistances temporarily.
       return resistance_list;
+   }
+
+   HasConditionalEffect()
+   "Used by RoomEnchantment. Conditional effects are those applied by room "
+   "enchantments differently based on safety or other status of the room's "
+   "occupants which may need to be recalculated if any occupant has a change "
+   "in status."
+   {
+      return FALSE;
    }
 
 end

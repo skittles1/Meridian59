@@ -14,16 +14,3 @@ winds_miss_rsc = de "Der heftige Wind bläst deinen Schuss fort."
 winds_spell_intro = de \
    "Faren Level 3: Ruft kraftvolle Winde hervor, die Angriffe aus der Ferne "
    "für einige Minuten erschweren. "
-Winds_cast = de \
-   "Heftige Winde erscheinen plötzlich in der Gegend und werfen sich gegen "
-   "deine Gliedmaßen."
-Winds_starts = de "%s fordert die Stürme von Faren!"
-Winds_ends = de "Der Wind wird weniger bis er verschwindet."
-Winds_caster_ends = de "Der Wind wird weniger bis er verschwindet."
-Winds_caster_enter = de \
-   "Heftige Winde erscheinen plötzlich in der Gegend und werfen sich gegen "
-   "deine Gliedmaßen."
-Winds_enter = de \
-   "Heftige Winde erscheinen plötzlich in der Gegend und werfen sich gegen "
-   "deine Gliedmaßen."
-Winds_leave = de "Der Wind wird weniger bis er verschwindet."
