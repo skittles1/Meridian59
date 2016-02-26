@@ -1,8 +1,8 @@
 truce_name_rsc = de "Waffenruhe"
 truce_desc_rsc = de \
-   "Der Geist von Sha-Lill legt sich auf die Umgebung, beruhigt alle anwesenden "
-   "Gemüter und verhindert so für mehrere Minuten den Kampf. Der Zauber benötigt "
-   "Smaragde und ein Yrxl Harz."
+   "Der Geist von Sha-Lill legt sich auf die Umgebung, beruhigt alle "
+   "anwesenden Gemüter und verhindert so für mehrere Minuten den Kampf. "
+   "Der Zauber benötigt einen Smaragd und ein Yrxl Harz."
 truce_unnecessary = de "Kampf mit Monstern ist hier schon unmöglich."
 truce_on = de \
    "Eine betäubende Ruhe setzt sich in denen Geist. Du findest dich nicht "

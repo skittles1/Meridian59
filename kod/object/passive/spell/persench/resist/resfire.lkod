@@ -1,8 +1,8 @@
 resistfire_name_rsc = de "Feuer Widerstehen"
 resistfire_desc_rsc = de \
-   "Dein Körper füllt sich mit kühler magischer Energie, die den Schaden "
-   "von Feuerangriffen für mehrere Minuten verringert. Der Zauber benötigt "
-   "gewöhnliche und rote Pilze.."
+   "Dein Körper füllt sich mit kühler magischer Energie, "
+   "die den Schaden von Feuerangriffen für mehrere Minuten verringert. "
+   "Der Zauber benötigt rote Pilze."
 resistfire_already_enchanted = de "Du widerstehst Feuer bereits."
 resistfire_success = de "Du badest %s%s in magischer Sicherheit des Feuers."
 resistfire_on = de "Kalte magische Energie zieht durch deinen Körper."
