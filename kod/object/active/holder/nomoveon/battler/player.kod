@@ -1001,8 +1001,8 @@ properties:
 
    prHead = charinfo_head_ax_icon
    prEyes = charinfo_eyes_ax_icon
-   prMouth = charinfo_nose_ax_icon
-   prNose = charinfo_mouth_ax_icon
+   prMouth = charinfo_mouth_ax_icon
+   prNose = charinfo_nose_ax_icon
    prToupee = charinfo_hair_cd_icon
 
    % Animation type.  If none, then use piAction
@@ -14857,6 +14857,19 @@ messages:
       }
 
       propagate;
+   }
+
+   FixDefaultResources()
+   "Temporary message to clear up some issues with default resources."
+   {
+      if (prMouth = charinfo_nose_ax_icon
+         OR prNose = charinfo_mouth_ax_icon)
+      {
+         prNose = charinfo_nose_ax_icon;
+         prMouth = charinfo_mouth_ax_icon;
+      }
+
+      return;
    }
 
 end
