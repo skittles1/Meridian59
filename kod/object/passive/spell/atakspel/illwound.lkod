@@ -3,8 +3,6 @@ illusionarywounds_desc_rsc = de \
    "Läßt den Betroffenen vermeintliche Wunden sehen, "
    "doch die Einbildung gibt dem echten Verstand immer nach, "
    "vorausgesetzt, man lebt so lange. Zutaten: Solagh und Feuersand. "
-   "Die Anwendung dieses Zaubers kann dazu führen, dass Du zum "
-   "Gesetzlosen erklärt wirst."
 illusionarywounds_cast = de "Deine Illusion bekommt die Form von %s."
 illusionarywounds_off = de \
-   "Hey!  Manche dieser Wunden scheinen nicht echt zu sein!"
+   "Hey! Manche dieser Wunden scheinen nicht echt zu sein!"

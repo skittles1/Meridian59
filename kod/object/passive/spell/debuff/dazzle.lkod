@@ -1,8 +1,7 @@
 Dazzle_name_rsc = de "Lichtblendung"
 Dazzle_desc_rsc = de \
-   "Das Ziel wird durch die gütige Kraft Sha-Lills geblendet. Dieser Zauber "
-   "benötigt Smaragde und Lila Pilze. Die Anwendung dieses Zaubers kann dazu "
-   "führen, dass Du zum Gesetzlosen erklärt wirst."
+   "Das Ziel wird durch die gütige Kraft Sha-Lills geblendet. "
+   "Dieser Zauber benötigt Smaragde und Lila Pilze. "
 Dazzle_caster = de "%s%s wird durch Sha-Lills Kraft geblendet."
 Dazzle_already_enchanted = de \
    "%s%s ist bereits durch Sha-Lills Kraft geblendet."

@@ -2,8 +2,7 @@ manabomb_name_rsc = de "Magische Bombe"
 manabomb_desc_rsc = de \
    "Zündet eine weiße, heiße Explosion, welche die gesamte magische Kraft "
    "des Zaubernden und die Hälfte der Kraft aller anderen im Raum verbrennt. "
-   "Der Zauber benötigt Saphire. Die Anwendung dieses Zaubers kann dazu führen, "
-   "dass Du zum Gesetzlosen erklärt wirst."
+   "Der Zauber benötigt Saphire. "
 manabomb_cast = de "%s%ss Mana detoniert schmerzhaft!"
 manabomb_hit_some = de \
    "Du fühlst, wie sich dein Geist aus deinem Körper reißt und du verlierst "
