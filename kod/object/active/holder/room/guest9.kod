@@ -17,7 +17,7 @@ constants:
 resources:
 
    room_name_guest9 = "The Adventurer's Hall of Hazar"
-   room_guest9 = guest9.roo
+   room_guest9 = razahall.roo
    guest9_music = login.ogg
 
 classvars:

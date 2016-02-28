@@ -21,7 +21,7 @@ resources:
    include guest2.lkod
 
    room_name_guest2 = "Hazar"
-   room_guest2 = guest2.roo
+   room_guest2 = raza.roo
    guest2_music = login.ogg
 
    guest2_wading_sound = weatstp1.ogg

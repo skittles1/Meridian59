@@ -105,10 +105,12 @@ messages:
       plExits = Cons([ 16, 18, RID_CASTLE1C, 4, 43, ROTATE_90 ],plExits);
       plExits = Cons([ 16, 19, RID_CASTLE1C, 4, 43, ROTATE_90 ],plExits);
 
+      /* Exits to new castle room, disabled until complete.
       plExits = Cons([ 12, 1, RID_CASTLE1D, 7, 15, ROTATE_NONE ],plExits);
       plExits = Cons([ 12, 2, RID_CASTLE1D, 7, 15, ROTATE_NONE ],plExits);
       plExits = Cons([ 13, 1, RID_CASTLE1D, 7, 15, ROTATE_NONE ],plExits);
       plExits = Cons([ 13, 2, RID_CASTLE1D, 7, 15, ROTATE_NONE ],plExits);
+      */
 
       plExits = Cons([ 9, 4, RID_CASTLE1,  7, 4, ROTATE_NONE ],plExits);
       plExits = Cons([ 8, 4, RID_CASTLE1, 10, 4, ROTATE_NONE ],plExits);
