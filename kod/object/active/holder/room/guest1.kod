@@ -19,7 +19,7 @@ resources:
    include guest1.lkod
 
    room_name_guest1 = "The Inn of Hazar"
-   room_guest1 = guest1.roo
+   room_guest1 = razainn.roo
    guest1_music = login.ogg
 
    Guest1_Back_Door = "The back door is locked."

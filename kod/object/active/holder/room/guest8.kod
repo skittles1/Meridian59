@@ -19,7 +19,7 @@ resources:
    include guest8.lkod
 
    room_name_guest8 = "The Grand Museum of Hazar"
-   room_guest8 = guest8.roo
+   room_guest8 = razamuseum.roo
    guest8_music = login.ogg
 
    guest8_signname_1 = "Welcome"
