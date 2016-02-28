@@ -337,9 +337,9 @@ resources:
    user_doesnt_know_spell = "You have not yet learned the spell '%s'!"
 
    user_wave_welcome = welcome.ogg
-   user_wave_killed = killed.ogg
+   user_wave_killed = killed1.ogg
 
-   user_midi_killed = killed.ogg
+   user_midi_killed = killed1.ogg
 
    user_interface_module = merintr.dll
    user_mailnews_module = mailnews.dll
