@@ -8978,6 +8978,8 @@ messages:
 
    WeatherChanged()
    {
+      local oSpell;
+
       if pbLogged_on
       {
          % First clear whichever effect we have.
@@ -8986,8 +8988,8 @@ messages:
 
          % If we came from a room with a sandstorm weather effect we
          % clear it here, unless we're affected by the Sandstorm spell.
-         if NOT Send(self,@IsAffectedByRadiusEnchantment,
-                     #byClass=&Sandstorm)
+         oSpell = Send(SYS,@FindSpellByNum,#num=SID_SANDSTORM);
+         if (Send(poOwner,@GetEnchantedState,#what=oSpell) = $)
          {
             AddPacket(1,BP_EFFECT,2,EFFECT_CLEARSAND);
             SendPacket(poSession);

@@ -1728,19 +1728,28 @@ messages:
 
    RangedAttackChance(base=0)
    {
+      local oSpell, state;
+
       if Send(self,@IsEnchanted,#byClass=&Vertigo)
       {
          base = base + 18;
       }
 
-      if Send(self,@IsAffectedByRadiusEnchantment,#byClass=&Winds)
+      if (poOwner <> $)
       {
-         base = base + 24;
-      }
+         oSpell = Send(SYS,@FindSpellByNum,#num=SID_WINDS);
+         state = Send(poOwner,@GetEnchantmentState,#what=oSpell);
+         if (state <> $)
+         {
+            base = base + 24;
+         }
 
-      if Send(self,@IsAffectedByRadiusEnchantment,#byClass=&Sandstorm)
-      {
-         base = base + 30;
+         oSpell = Send(SYS,@FindSpellByNum,#num=SID_SANDSTORM);
+         state = Send(poOwner,@GetEnchantmentState,#what=oSpell);
+         if (state <> $)
+         {
+            base = base + 30;
+         }
       }
 
       return base;

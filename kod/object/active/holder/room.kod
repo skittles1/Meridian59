@@ -1320,17 +1320,17 @@ messages:
    ReqSomethingAttack(what = $,victim = $, use_weapon = $, stroke_obj = $,
                       report = TRUE)
    {
-      local oWatcher, i, each_obj;
+      local oWatcher, i, each_obj, oSpell;
 
       if what <> $
-         AND IsClass(what,&Player)
+         AND IsClass(what,&User)
          AND Send(what,@IsInCannotInteractMode)
       {
          return FALSE;
       }
       
       if victim <> $
-         AND IsClass(victim,&Player)
+         AND IsClass(victim,&User)
          AND Send(victim,@IsInCannotInteractMode)
       {
          return FALSE;
@@ -1369,20 +1369,12 @@ messages:
          AND (IsClass(what,&Monster)
          OR IsClass(victim,&Monster))
       {
-         if IsClass(what,&User)
+         if report
+            AND IsClass(what,&User)
          {
-            if report
-            {
-               Send(what,@MsgSendUser,#message_rsc=room_no_mob_attack);
-            }
+            Send(what,@MsgSendUser,#message_rsc=room_no_mob_attack);
          }
-         return FALSE;
-      }
 
-      if IsClass(what,&Monster)
-         AND (IsClass(victim,&User)
-              AND Send(victim,@IsAffectedByRadiusEnchantment,#byClass=&Truce))
-      {
          return FALSE;
       }
 
@@ -3416,10 +3408,71 @@ messages:
       foreach i in plActive
       {
          each_obj = First(i);
-         if IsClass(each_obj,&Player)
+         if IsClass(each_obj,&User)
          {
             Send(what,@StartEnchantment,#who=each_obj,
-                 #iSpellPower=iSpellPower,#state=state);
+                  #iSpellPower=iSpellPower,#state=state);
+         }
+      }
+
+      return;
+   }
+
+   EnchantPlayerStatusChanged(who=$)
+   "Called when there's change in status of a player. Any enchantments they "
+   "cast should re-check to see if they now affect any other players, and "
+   "other enchantments should check if they now affect the player."
+   {
+      local i, state, oSpell, lObj, oUser;
+
+      foreach i in plEnchantments
+      {
+         oSpell = Nth(i,2);
+         state = Nth(i,3);
+
+         // Only applies to spells that come with conditional effects,
+         // e.g. winds lowers aim on players the caster can attack.
+         if (state = $
+            OR NOT Send(oSpell,@HasConditionalEffect))
+         {
+            continue;
+         }
+
+         if (Nth(state,2) = who)
+         {
+            // If 'who' cast the spell, check everyone.
+            foreach lObj in plActive
+            {
+               oUser = First(lObj);
+               if IsClass(oUser,&User)
+               {
+                  if (Send(oUser,@IsEnchanted,#what=oSpell))
+                  {
+                     if (NOT Send(oSpell,@CanEnchantUser,#who=oUser,#state=state))
+                     {
+                        Send(oSpell,@RemoveEnchantment,#who=oUser);
+                     }
+                  }
+                  else if (Send(oSpell,@CanEnchantUser,#who=oUser,#state=state))
+                  {
+                     Send(oSpell,@StartEnchantment,#who=oUser,#state=state);
+                  }
+               }
+            }
+         }
+         else if (Send(who,@IsEnchanted,#what=oSpell))
+         {
+            if (NOT Send(oSpell,@CanEnchantUser,#who=who,#state=state))
+            {
+               // Should no longer be affected by this spell.
+               // e.g. deguilded, lost a faction shield.
+               Send(oSpell,@RemoveEnchantment,#who=who);
+            }
+         }
+         else if (Send(oSpell,@CanEnchantUser,#who=who,#state=state))
+         {
+            // Should be affected, e.g. turned outlaw.
+            Send(oSpell,@StartEnchantment,#who=who,#state=state);
          }
       }
 
@@ -3432,8 +3485,8 @@ messages:
 
       foreach i in plActive
       {
-         each_obj = Send(self,@HolderExtractObject,#data=i);
-         if IsClass(each_obj,&Player)
+         each_obj = First(i);
+         if IsClass(each_obj,&User)
          {
             Send(what,@EndRoomEnchantment,#who=each_obj,#state=state);
          }
@@ -3456,7 +3509,7 @@ messages:
       foreach i in plActive
       {
          each_obj = Send(self,@HolderExtractObject,#data=i);
-         if IsClass(each_obj, &Player)
+         if IsClass(each_obj,&User)
             OR (monsters and IsClass(each_obj, &Monster))
          {
             iRowDiff = iRowCenter - Send(each_obj,@GetRow);
@@ -3514,14 +3567,7 @@ messages:
 
       if what = $
       {
-         if plEnchantments
-         {
-            return TRUE;
-         }
-         else
-         {
-            return FALSE;
-         }
+         return plEnchantments <> $;
       }
 
       return GetListNode(plEnchantments, 2, what) <> $;
@@ -3994,19 +4040,21 @@ messages:
 
    EndSandstorm()
    {
-      local i, each_obj;
+      local i, each_obj, oSpell, state;
 
       if Send(self,@CheckRoomFlag,#flag=ROOM_SANDSTORM)
       {
          Send(self,@SetRoomFlag,#flag=ROOM_SANDSTORM,#value=FALSE);
 
-         foreach i in plActive
+         // Only clear the effect if sandstorm spell not active.
+         oSpell = Send(SYS,@FindSpellByNum,#num=SID_SANDSTORM);
+         state = Send(self,@GetEnchantmentState,#what=oSpell);
+         if (state = $)
          {
-            each_obj = Send(self,@HolderExtractObject,#data=i);
-            if IsClass(each_obj,&User)
+            foreach i in plActive
             {
-               if NOT Send(each_obj,@IsAffectedByRadiusEnchantment,
-                           #byClass=&Sandstorm)
+               each_obj = Send(self,@HolderExtractObject,#data=i);
+               if IsClass(each_obj,&User)
                {
                   Send(each_obj,@EffectSendUser,#what=each_obj,
                         #effect=EFFECT_CLEARSAND);
@@ -4201,16 +4249,13 @@ messages:
          }
       }
 
-      if IsClass(self,&Room)
+      foreach i in plActive
       {
-         foreach i in plActive
+         each_obj = First(i);
+         if IsClass(each_obj,&Battler)
          {
-            each_obj = Send(self,@HolderExtractObject,#data=i);
-            if IsClass(each_obj,&Battler)
-            {
-               Send(each_obj,@RemoveSchoolEnchantments,#school=school,
-                    #report=report);
-            }
+            Send(each_obj,@RemoveSchoolEnchantments,#school=school,
+                 #report=report);
          }
       }
 
@@ -4233,7 +4278,7 @@ messages:
 
       foreach i in plActive
       {
-         each_obj = Send(self,@HolderExtractObject,#data=i);
+         each_obj = First(i);
          if IsClass(each_obj,&Battler)
             AND who <> $
             AND Send(self,@ReqSomethingAttack,#what=who,#victim=each_obj)

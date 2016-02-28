@@ -1001,8 +1001,8 @@ properties:
 
    prHead = charinfo_head_ax_icon
    prEyes = charinfo_eyes_ax_icon
-   prMouth = charinfo_nose_ax_icon
-   prNose = charinfo_mouth_ax_icon
+   prMouth = charinfo_mouth_ax_icon
+   prNose = charinfo_nose_ax_icon
    prToupee = charinfo_hair_cd_icon
 
    % Animation type.  If none, then use piAction
@@ -4168,7 +4168,7 @@ messages:
    "Will not let a person attack someone who isn't pkill_enabled."
    "Will not let a person who isn't pkill_enabled attack another person."
    {
-      local oRoom, oGuild, oVictimGuild;
+      local oRoom, oGuild, oSpell, oVictimGuild;
 
       % Default location to check is where we are.
       oRoom = poOwner;
@@ -4197,12 +4197,6 @@ messages:
 
       % Can always attack Escaped Convict regardless of room
       if IsClass(victim,&EscapedConvict)
-      {
-         return TRUE;
-      }
-
-      % But Escaped Convict can also fight back!
-      if IsClass(self,&EscapedConvict)
       {
          return TRUE;
       }
@@ -4330,6 +4324,17 @@ messages:
 
       if IsClass(victim,&Monster)
       {
+         /*oSpell = Send(SYS,@FindSpellByNum,#num=SID_TRUCE);
+         if (Send(oRoom,@GetEnchantedState,#what=oSpell) <> $)
+         {
+            if report
+            {
+               Send(self,@MsgSendUser,#message_rsc=player_truced);
+            }
+
+            return FALSE;
+         }*/
+
          if IsClass(victim,&Reflection)
             OR IsClass(victim,&EvilTwin)
             OR Send(victim,@GetMaster) <> $
@@ -4463,34 +4468,6 @@ messages:
       if IsClass(oRoom,&GuildHall)
       {
          return TRUE;
-      }
-
-      % Truce itself returns TRUE, not counting as an attack. 
-      % Truce will only block actual attacks between two players who 
-      % are both Truced.
-      if stroke_obj <> $
-         AND IsClass(stroke_obj,&Truce)
-      {
-         return TRUE;
-      }
-      else
-      {
-         if (Send(self,@IsAffectedByRadiusEnchantment,#byClass=&Truce))
-         {
-            if (IsClass(victim,&Monster)
-               OR (IsClass(victim,&User)
-                  AND Send(victim,@IsAffectedByRadiusEnchantment,
-                           #byClass=&Truce)))
-               AND actual
-            {
-               if report
-               {
-                  Send(self,@MsgSendUser,#message_rsc=player_truced);
-               }
-
-               return FALSE;
-            }
-         }
       }
 
       % Finally, check status and safety.
@@ -4744,7 +4721,7 @@ messages:
 
    TryAttack(what = $,use_weapon = $,stroke_obj=$)
    {
-      local i, iRange, lWindsState, lSandstormState;
+      local i, iRange, oSpell, state;
 
       % Can't target self.
       if what = self
@@ -4889,21 +4866,18 @@ messages:
       %  Do this after paying the costs so that the arrow is used.
       if use_weapon <> $ AND IsClass(use_weapon,&RangedWeapon)
       {
-         lWindsState = Send(self,@GetMostPowerfulRadiusEnchantmentState,
-                              #byClass=&Winds);
-         lSandStormState = Send(self,@GetMostPowerfulRadiusEnchantmentState,
-                                 #byClass=&SandStorm);
-
-         if lWindsState <> $
-            AND Send(Nth(lWindsState,1),@TryRuinShot,#who=self,
-                     #iSpellPower=Nth(lWindsState,2))
+         oSpell = Send(SYS,@FindSpellByNum,#num=SID_WINDS);
+         state = Send(poOwner,@GetEnchantedState,#what=oSpell);
+         if (state <> $
+            AND Send(oSpell,@TryRuinShot,#who=self,#state=state))
          {
             return FALSE;
          }
 
-         if lSandStormState <> $
-            AND Send(Nth(lSandStormState,1),@TryRuinShot,#who=self,
-                     #iSpellPower=Nth(lSandStormState,2))
+         oSpell = Send(SYS,@FindSpellByNum,#num=SID_SANDSTORM);
+         state = Send(poOwner,@GetEnchantedState,#what=oSpell);
+         if (state <> $
+            AND Send(oSpell,@TryRuinShot,#who=self,#state=state))
          {
             return FALSE;
          }
@@ -11600,7 +11574,6 @@ messages:
       foreach i in plRadiusEnchantments
       {
          if Nth(i,3) = self
-            AND NOT Send(First(i),@GetOldAreaEnchStyle)
          {
             piDrawEffectFlag = piDrawEffectFlag | OF_FLICKERING;
 
@@ -12483,6 +12456,12 @@ messages:
       if (piFlags & PFLAG_PKILL_LOCK)
       {
          return FALSE;
+      }
+
+      // Tell the room that our status changed, recalc enchantments.
+      if (poOwner <> $)
+      {
+         Post(poOwner,@EnchantPlayerStatusChanged,#who=self);
       }
 
       if (piFlags & PFLAG_PKILL_ENABLE)
@@ -14198,10 +14177,6 @@ messages:
          if Nth(i,3) = self
          {
             oLightObject = First(i);
-            if Send(oLightObject,@GetOldAreaEnchStyle)
-            {
-               continue;
-            }
 
             if Send(oLightObject,@GetLightIntensity) >= iIntensity
             {
@@ -14882,6 +14857,19 @@ messages:
       }
 
       propagate;
+   }
+
+   FixDefaultResources()
+   "Temporary message to clear up some issues with default resources."
+   {
+      if (prMouth = charinfo_nose_ax_icon
+         OR prNose = charinfo_mouth_ax_icon)
+      {
+         prNose = charinfo_nose_ax_icon;
+         prMouth = charinfo_mouth_ax_icon;
+      }
+
+      return;
    }
 
 end
