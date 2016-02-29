@@ -244,6 +244,19 @@
 #define IDS_MENU_WRY                    243
 #define IDB_SBUTTON5_LEFT               244
 #define IDS_DOCAST                      245
+#define IDS_ALIAS_HELP                  246
+#define IDS_ALIAS_REST                  247
+#define IDS_ALIAS_STAND                 248
+#define IDS_ALIAS_NEUTRAL               249
+#define IDS_ALIAS_HAPPY                 250
+#define IDS_ALIAS_SAD                   251
+#define IDS_ALIAS_WRY                   252
+#define IDS_ALIAS_WAVE                  253
+#define IDS_ALIAS_POINT                 254
+#define IDS_ALIAS_ADDGRP                255
+#define IDS_ALIAS_MAIL                  256
+#define IDS_ALIAS_QUIT                  257
+#define IDS_VERB_ALIAS                  258
 #define IDC_ALIASF1                     1000
 #define IDC_ALIASF2                     1001
 #define IDC_DEFINE                      1001
@@ -373,7 +386,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        246
+#define _APS_NEXT_RESOURCE_VALUE        259
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1267
 #define _APS_NEXT_SYMED_VALUE           112
