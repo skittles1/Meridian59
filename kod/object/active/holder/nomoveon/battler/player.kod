@@ -5351,7 +5351,7 @@ messages:
       return Send(oWeapon,@GetAttackSpell);
    }
 
-   AssessHit(what = $, stroke_obj = $, damage = $)
+   AssessHit(what = $, stroke_obj = $, damage = $, use_weapon = $)
    {
       local oMonster;
 
@@ -5370,7 +5370,9 @@ messages:
          Send(oMonster,@HitSideEffect,#what=what,#who=self);
       }
 
-      Send(self,@DoHitMessageSound,#what=what,#damage=damage,#stroke_obj=stroke_obj);
+      
+      Send(self,@DoHitMessageSound,#what=what,#damage=damage,
+            #stroke_obj=stroke_obj,#use_weapon=use_weapon);
 
       propagate;
    }
@@ -6124,12 +6126,21 @@ messages:
       return oChance;
    }
 
-   DoHitMessageSound(what = $,damage = 0,stroke_obj = $)
+   DoHitMessageSound(what = $,damage = 0,stroke_obj = $, use_weapon = $)
    {
       local iRoll,rSound;
 
       if (stroke_obj = $)
       {
+         // Play a hurt sound for attack spells.
+         if (use_weapon <> $
+            AND IsClass(use_weapon,&AttackSpell)
+            AND IsClass(what,&User))
+         {
+            Send(poOwner,@SomethingWaveRoom,#what=what,
+                  #wave_rsc=Send(what,@GetOuchSound));
+         }
+
          return;
       }
 
@@ -6137,7 +6148,7 @@ messages:
       {
          rSound = Send(stroke_obj,@GetHitSound);
          Send(poOwner,@SomethingWaveRoom,#what=self,#wave_rsc=rSound);
-         if IsClass(what,&Player)
+         if IsClass(what,&User)
          {
             Send(poOwner,@SomethingWaveRoom,#what=what,
                   #wave_rsc=Send(what,@GetOuchSound));
