@@ -150,7 +150,7 @@ messages:
             SID_ZAP, SID_SWEEP,
             SID_MYSTIC_TOUCH,
             SID_LIGHT,
-            SID_SUMMON_FOG,
+            SID_FOG,
             SID_SUPERSTRENGTH,
             SID_RESIST_POISON,
             SID_HASTE, 

@@ -630,11 +630,11 @@ messages:
 
       oLib = Send(SYS,@GetLibrary);
       % Use old quest engine to select a few random NPCs for default list.
-      plDefaultNPCList = [ Send(oLib,@SelectQuester),
-                           Send(oLib,@SelectQuester),
-                           Send(oLib,@SelectQuester),
-                           Send(oLib,@SelectQuester),
-                           Send(oLib,@SelectQuester) ];
+      plDefaultNPCList = [ Send(oLib,@SelectRandomNPC),
+                           Send(oLib,@SelectRandomNPC),
+                           Send(oLib,@SelectRandomNPC),
+                           Send(oLib,@SelectRandomNPC),
+                           Send(oLib,@SelectRandomNPC) ];
 
       piDefaultNPCModifier = QN_NPCMOD_NONE;
       % Default quest node type is to activate just by showing up.

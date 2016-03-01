@@ -490,9 +490,8 @@
    RID_BAR_SEWER3 = 112
    RID_BAR_SMITHY = 113
    RID_BAR_VAULT = 114
-
-   RID_BAR_COURT = 970
-   RID_BAR_JAIL =  971
+   RID_BAR_COURT = 115
+   RID_BAR_JAIL =  116
 
    % Cor Noth 150-199
    RID_CORNOTH = 150
@@ -727,35 +726,26 @@
    % Same as KE1, must be in kocatan zone
    RID_TEMPLE_RIIJA = 2151
 
+   % Brax RIDs
    RID_BRAX_START = 825
-   RID_NECROPOLIS = 828
-   RID_NEC_CAVES = 826
-   RID_NEC_GRAVEYARD = 827
-   RID_NEC_ALTAR1 = 831
-   RID_NEC_ALTAR2 = 832
-   RID_NEC_PASSAGE1 = 829
-   RID_NEC_PASSAGE2 = 830
    RID_LICH_MAZE = 825
-   RID_BRAX = 828
-   RID_BRAX_CAVES = 826
-   RID_BRAX_GRAVE = 827
-   RID_BRAX_GRAVEYARD = 827
-   RID_BRAX_BUILDING1 = 831
-   RID_BRAX_BUILDING2 = 832
-   RID_BRAX_CASTLE1 = 829
-   RID_BRAX_CASTLE2 = 830
    RID_BRAX_MAZE = 825
+   RID_NECROAREA1 = 826
+   RID_BRAX_CAVES = 826
+   RID_NECROAREA2 = 827
+   RID_BRAX_GRAVEYARD = 827
+   RID_NECROAREA3 = 828
+   RID_BRAX = 828
+   RID_NECROAREA4 = 829
+   RID_BRAX_CASTLE1 = 829
+   RID_NECROAREA5 = 830
+   RID_BRAX_CASTLE2 = 830
+   RID_NECROAREA3A = 831
+   RID_BRAX_BUILDING1 = 831
+   RID_NECROAREA3B = 832
+   RID_BRAX_BUILDING2 = 832
    RID_BRAX_ARENA = 833
    RID_BRAX_END = 833
-
-   % Old RIDS for NECROPOLIS area
-   RID_NECROAREA1 = 826
-   RID_NECROAREA2 = 827
-   RID_NECROAREA3 = 828
-   RID_NECROAREA3A = 831
-   RID_NECROAREA3B = 832
-   RID_NECROAREA4 = 829
-   RID_NECROAREA5 = 830
 
    RID_BOURGEOIS = 850
    RID_CASTLE2A = 850
@@ -771,6 +761,7 @@
    RID_UNIVERSITY = 902
    RID_GALLERY = 903
 
+   % Duke castle
    RID_BLACKSTONE = 950
    RID_DUKE1 = 950
    RID_DUKE2 = 951
@@ -979,8 +970,8 @@
    RID_BARLSEW3 = 112
    RID_BARSMITH = 113
    RID_BARVAULT = 114
-   RID_BARCOURT = 970
-   RID_BARJAIL =  971
+   RID_BARCOURT = 115
+   RID_BARJAIL =  116
 
    % Cor Noth
    RID_CORGROC = 151
@@ -1498,8 +1489,6 @@
    LIBACT_MONSTER_ADVICE   = 27
    LIBACT_CONDITIONAL      = 28
    LIBACT_LEARN            = 29
-   LIBACT_QST_SAY_OBJD     = 40
-   LIBACT_QST_OBJI_LIST    = 41
    LIBACT_RUMOR_TOKEN_LOC  = 50
    LIBACT_RUMOR_COURT_STATE= 51
    LIBACT_COUNCILOR_REPORT = 52
@@ -1571,7 +1560,7 @@
    MOB_KARMA_AG         = 0x04000   % Wont attack players of like karma
    MOB_FULL_TALK        = 0x08000   % Isnt affected by the say ranges
    MOB_COND_SELLER      = 0x10000   % Has things that must be asked for
-   MOB_PERM_QUESTER     = 0x20000   % is a perm questor
+
    MOB_LAWFUL           = 0x40000   % Won't publicly do business with murderers
    MOB_VAULTMAN         = 0x80000   % Can be a vaultkeeper (set Vault ID!!!)
    MOB_NOQUEST          = 0x100000  % Prohibited from participating in quests
@@ -2223,21 +2212,13 @@
 
    % Depreciated spell IDs
    SID_LIGHTNING = 1                   % use SID_LIGHTNING_BOLT
-   SID_HEAL = 2                        % use SID_MINOR_HEAL
    SID_NIGHTVISION = 4                 % use SID_NIGHT_VISION
    SID_MAGICSHIELD = 12                % use SID_MAGIC_SHIELD
    SID_SUPERSTRENGTH = 17              % use SID_SUPER_STRENGTH
-   SID_VAMPIRIC_TOUCH = 22             % use SID_VAMPIRIC_DRAIN
    SID_FORCESOFLIGHT = 27              % use SID_FORCES_OF_LIGHT
    SID_RESISTFIRE = 29                 % use SID_RESIST_FIRE
    SID_REMOVECURSE = 31                % use SID_REMOVE_CURSE
-   SID_RESIST_GOOD = 35                % use SID_UNHOLY_RESOLVE
-   SID_CREATE_MACE = 56                % use SID_CREATE_WEAPON
-   SID_RESIST_EVIL = 62                % use SID_HOLY_RESOLVE
-   SID_CANNIBALIZE = 73                % use SID_NODEBURST
    SID_SAND_STORM = 75                 % use SID_SANDSTORM
-   SID_SUMMON_REFLECTION = 99          % use SID_REFLECTION
-   SID_CREATE_SPIRITUAL_HAMMER = 100   % use SID_SPIRITUAL_HAMMER
    SID_SUMMON_APPARITION = 101         % use SID_APPARITION
    SID_DEATHLINK = 111                 % use SID_DEATH_LINK
    SID_SHALBANE = 118                  % use SID_SHALLILEBANE
@@ -2245,12 +2226,8 @@
    SID_DETECT_INVIS = 123              % use SID_DETECT_INVISIBILITY
    SID_PARALYZE = 127                  % use SID_GAZE_OF_THE_BASILISK
    SID_SUMMON_WEB = 136                % use SID_SPIDER_WEB
-   SID_REFLECT = 138                   % use SID_DEFECT
    SID_LIGHTNINGWALL = 140             % use SID_LIGHTNING_WALL
    SID_BRAMBLEWALL = 141               % use SID_BRAMBLE_WALL
-   SID_SUMMON_POISON_FOG = 144         % use SID_POISON_FOG
-   SID_DEATHS_DOOR = 147               % use SID_SHADOW_RIFT
-   SID_SUMMON_FOG = 150                % use SID_FOG
    SID_GLOW_WEAPON = 153               % use SID_GLOW
 
    % Boons
@@ -2520,6 +2497,7 @@
    %%% Hot spot definitions
 
    HS_HEAD = 1
+   HS_HELM = 2
    HS_EYES = 11
    HS_MOUTH = 12
    HS_TOUPEE = 13
@@ -2607,8 +2585,6 @@
    INTRIGUE_ENABLE_HP = 50
    INTRIGUE_ENABLE_SPELL = 40 
 
-   % One hour, in seconds.
-   FACTION_MIN_REVISIT_TIME   = 3600
    % 48 hours, in seconds.
    FACTION_RESIGN_TIME        = 172800
    % 44 hours, in seconds.
@@ -2722,59 +2698,6 @@
    UA_WAVE   = 8
    UA_POINT  = 9
    UA_DANCE  = 10
-
-   %%% Admin security
-
-   % These bits are always:
-   %     0/OFF/FALSE for "mortal" behavior, or
-   %     1/ON/TRUE   for powers beyond what "mortals" can do
-
-   SECURITY_TELEPORT             = 0x8000000 % goplayer, goroom
-   SECURITY_TELEPORT_PLAYERS     = 0x4000000 % damn, deliver, getplayer
-   SECURITY_ATTACK_PROOF         = 0x2000000 % can't be attacked, cursed
-   SECURITY_ATTACK_PLAYERS       = 0x1000000 % can attack, curse players
-   SECURITY_ATTACK_MONSTERS      = 0x0800000 % can attack monsters
-   SECURITY_ATTRACT_MONSTERS     = 0x0400000 % monsters ignore
-   SECURITY_KILL_PROOF           = 0x0200000 % can't be killed
-   SECURITY_COST_PROOF           = 0x0100000 % uses no mana, no vigor, no carry limit
-   SECURITY_INVENTORY_CONTROL    = 0x0080000 % make items, can't be swapped/shattered
-   SECURITY_SKILL_SPELL_CONTROL  = 0x0040000 % get spells, get skills, clear abilities
-   SECURITY_DYNSTAT_CONTROL      = 0x0020000 % karma, hp, mana, vigor control
-   SECURITY_MONSTER_CONTROL      = 0x0010000 % make monsters
-   SECURITY_MINOR_EVENT_CONTROLS = 0x0008000 % can echo, stealth on/off, totems, lotto
-   SECURITY_MAJOR_EVENT_CONTROLS = 0x0004000 % can wecho, anonymous, changename, blank
-   SECURITY_POWERSPELLS          = 0x0002000 % can cast hangup, reset, etc. at players
-   SECURITY_INSPECT_PLAYER       = 0x0001000 % can get private info on player stats
-   SECURITY_INSPECT_USER         = 0x0000800 % can get private info on user information
-   SECURITY_INSPECT_SERVER       = 0x0000400 % can get private info on server/game status
-   SECURITY_SEND_GCHANNEL        = 0x0000200 % can log to the gchannel
-   SECURITY_HEAR_GCHANNEL        = 0x0000100 % hears new logs to the gchannel
-   SECURITY_HEAR_PLAYER_APPEAL   = 0x0000080 % hears appeals from non-guests
-   SECURITY_HEAR_GUEST_APPEAL    = 0x0000040 % hears appeals from guests
-   SECURITY_SEND_911             = 0x0000020 % can send 911 inter-server messages
-   SECURITY_HEAR_911             = 0x0000010 % hears 911 inter-server messages
-
-   SECURITY_UBER_SEE_SECURITY       = 0x0000008 % show all security flags
-   SECURITY_UBER_GRANT_POWER        = 0x0000004 % change security flags
-   SECURITY_UBER_REVOKE_POWER       = 0x0000002 % individual dm goes back to security set
-   SECURITY_UBER_RESET_ALL_SECURITY = 0x0000001 % all dms go back to root security set
-
-   SECURITY_SET_PREFERENCES    = 0x0000000 % flags that user can toggle at will
-
-   SECURITY_SET_EXCREATOR      = 0x0000000
-   SECURITY_SET_EXDESIGNER     = 0x0000000
-   SECURITY_SET_CREATOR        = 0x0000000
-   SECURITY_SET_DESIGNER       = 0x0000000
-   SECURITY_SET_LOREMASTER     = 0x0000000
-   SECURITY_SET_GUARDIAN2      = 0x0000000
-   SECURITY_SET_GUARDIAN       = 0x0000000
-   SECURITY_SET_TESTER2        = 0x0000000
-   SECURITY_SET_TESTER         = 0x0000000
-   SECURITY_SET_GUIDE2         = 0x0000000
-   SECURITY_SET_GUIDE          = 0x0000000
-   SECURITY_SET_BARD2          = 0x0000000
-   SECURITY_SET_BARD           = 0x0000000
-   SECURITY_SET_PLAYER         = 0x0000000
 
    %%% Remote view flags
 
@@ -2989,31 +2912,7 @@
 
    SERVER_FLAG_DISABLE_FACTION_LOSS = 0x0001
 
-   %%% OLD Quests
-
-   % Are these even still needed?
-
-   % Quest constants
-   QST_START_NUM       = 0
-   QST_RNDM_PERCENT    = 5
-   QST_LOW_MONEY       = 500
-   QST_HIGH_MONEY      = 2500
-   QST_MAX_ITEMS       = 2
-
-   % Quest flags
-   QST_PERM            = 1
-   QST_PERM_OBJECT     = 1
-   QST_PERM_PHRASE     = 2
-
-   QST_TEMP_OBJECT     = 51
-   QST_TEMP_PHRASE     = 52
-
-   QST_REWARD_ID       = 105
-   QST_REWARD_ITEMLIST = 106
-   QST_REWARD_MONEY    = 107
-   QST_REWARD_SERVICE  = 108
-
-   %%% NEW Quests
+   %%% Quests
 
    QUEST_MAX_NUM_PLAYERS = 5
    QUEST_MAX_MAX_ACTIVE = 100
