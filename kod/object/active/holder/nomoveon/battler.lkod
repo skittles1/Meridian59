@@ -5,6 +5,12 @@ battler_attacker_slay = de "%s%s tötet %s$0%s%q."
 battler_attacker_miss = de "%sDer Angriff%s, und verfehlt deinen Gegner %s%q."
 battler_attacker_fail = de \
    "%s%s verursacht nicht wirklich Angst bei deinem Gegner, und %s$0%s$0%q$0kratzt ihn lediglich ein wenig an!"
+battler_attacker_hit_mob = de "%s%s%s$0 verwundet %s%s und verursacht ~k~B%i~B%s Schaden."
+battler_attacker_slay_mob = de "%s%s tötet %s$0%s%s."
+battler_attacker_miss_mob = de "%sDer Angriff%s, und verfehlt deinen Gegner %s%s."
+battler_attacker_fail_mob = de \
+   "%s%s verursacht nicht wirklich Angst bei deinem Gegner, und %s$0%s$0%s$0kratzt ihn lediglich ein wenig an!"
+
 battler_defender_hit = de \
    "%s%s%q hat dich mit %s %s, und Du erleidest ~r~B%i~B%s Schaden."
 battler_defender_slay = de "%s%s%q%s%s hat dich getötet."
@@ -12,7 +18,14 @@ battler_defender_miss = de "%s%sDer Angriff von %q%s."
 battler_defender_fail = de \
    "%s%s%q greift dich mit %s %s an, aber verbreitet damit nicht wirklich viel "
    "Angst."
-   
+battler_defender_hit_mob = de \
+   "%s%s%s hat dich mit %s %s, und Du erleidest ~r~B%i~B%s Schaden."
+battler_defender_slay_mob = de "%s%s%s%s%s hat dich getötet."
+battler_defender_miss_mob = de "%s%sDer Angriff von %s%s."
+battler_defender_fail_mob = de \
+   "%s%s%s greift dich mit %s %s an, aber verbreitet damit nicht wirklich viel "
+   "Angst."
+
 battler_punch = de "Das Boxen"
 battler_attack = de "Die Attacke"
 battler_blocked = de " wird geblockt"
