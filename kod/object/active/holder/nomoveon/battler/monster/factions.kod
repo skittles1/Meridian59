@@ -34,24 +34,6 @@ classvars:
 
 messages:
 
-   InitPermQuest()
-   {
-      if viQuestID<> 0
-      {
-         Post(Send(SYS,@GetLibrary),@CreateQuest,#type=QST_PERM,#quester=self,
-               #reward= [QST_REWARD_SERVICE,viQuestID]);
-      }
-
-      return;
-   }
-
-   Constructor()
-   {
-      Send(self,@InitPermQuest);
-      
-      propagate;
-   }
-
    Delete()
    {
       Send(Send(SYS,@GetParliament),@LiegeDeleted,#what=self);

@@ -1189,7 +1189,6 @@ messages:
       }
 
       Send(SYS,@SystemRemoveFromChampionLists,#oldchamp = self);
-      Send(Send(SYS,@GetLibrary),@DeleteCompletedQuest,#who=self,#id=-1);
       Send(&QuestX,@CancelQuester,#quester=self);
       Send(self,@ClearQuestHistory);
 
@@ -2835,7 +2834,6 @@ messages:
 
       piNodelist = 0;
 
-      Send(Send(SYS,@GetLibrary),@DeleteCompletedQuest,#who=self,#id=-1);
       Send(&QuestX,@CancelQuester,#quester=self);
       Send(self,@ClearQuestHistory);
       Send(Send(SYS,@GetLore),@PlayerSuicides,#who=self);
@@ -7968,7 +7966,7 @@ messages:
 %  (which clearly doesn't belong in player; should be in the spell itself) to
 %  make it buyable.  - ARK 10/26/2010
 %
-%      if num = SID_DEATHS_DOOR
+%      if num = SID_SHADOW_RIFT
 %          AND ((NOT Send(self, @IsUsingA,#class=&NecromancerAmulet))
 %               AND (NOT IsClass(self,&Admin)))
 %      {

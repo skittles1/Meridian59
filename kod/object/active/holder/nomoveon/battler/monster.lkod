@@ -56,12 +56,6 @@ LS_Signet_returned = de \
 LS_Signet_wrong = de \
    "Bestimmt ein Erbstück. Du solltest es selbst zu %s%s bringen. Es ist "
    "sehr wahrscheinlich, dass es für seine Rückgabe eine Belohnung gibt."
-LS_already_done_permquest = de \
-   "Du hast mir bereits einen Gefallen getan und musst nicht weiter Dein "
-   "Glück versuchen."
-LS_unwanted_oldquest = de \
-   "Das hat mir schon jemand anderes gegeben. Tut mir leid, dass Du Dich "
-   "so bemüht hast."
 LS_wanted_keep = de \
    "Vielen Dank, ich werde mich dafür irgendwann erkenntlich zeigen."
 LS_unwanted_keep = de \

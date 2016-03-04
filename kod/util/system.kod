@@ -2401,8 +2401,8 @@ messages:
       Send(self,@CreateOneRoomIfNew,#num=RID_KOC_GUARDTOWER_EAST,#class=&KocatanGuardtowerEast);
 
       Send(self,@CreateOneRoomIfNew,#num=RID_JUNGLE_BOWMAKER_HUT,#class=&BowmakerHut);
-      Send(self,@CreateOneRoomIfNew,#num=RID_JUNGLE_TRADING_Post,#class=&TradingPost);
-      Send(self,@CreateOneRoomIfNew,#num=RID_JUNGLE_TRADING_Post_CELLAR,#class=&TradingPostCellar);
+      Send(self,@CreateOneRoomIfNew,#num=RID_JUNGLE_TRADING_POST,#class=&TradingPost);
+      Send(self,@CreateOneRoomIfNew,#num=RID_JUNGLE_TRADING_POST_CELLAR,#class=&TradingPostCellar);
       Send(self,@CreateOneRoomIfNew,#num=RID_MAD_SCIENTIST_HUT,#class=&MadScientistHut);
 
       Send(self,@CreateOneRoomIfNew,#num=RID_KA1,#class=&OutdoorsKA1);
@@ -2581,8 +2581,8 @@ messages:
       Send(self,@CreateOneRoomIfNew,#num=RID_NECROAREA1,#class=&Necropolis1);
       Send(self,@CreateOneRoomIfNew,#num=RID_NECROAREA2,#class=&Necropolis2);
       Send(self,@CreateOneRoomIfNew,#num=RID_NECROAREA3,#class=&Necropolis3);
-      Send(self,@CreateOneRoomIfNew,#num=RID_NECROAREA3a,#class=&Necropolis3a);
-      Send(self,@CreateOneRoomIfNew,#num=RID_NECROAREA3b,#class=&Necropolis3b);
+      Send(self,@CreateOneRoomIfNew,#num=RID_NECROAREA3A,#class=&Necropolis3a);
+      Send(self,@CreateOneRoomIfNew,#num=RID_NECROAREA3B,#class=&Necropolis3b);
       Send(self,@CreateOneRoomIfNew,#num=RID_NECROAREA4,#class=&Necropolis4);
       Send(self,@CreateOneRoomIfNew,#num=RID_NECROAREA5,#class=&Necropolis5);
       Send(self,@CreateOneRoomIfNew,#num=RID_LICH_MAZE,#class=&LichMaze);
@@ -3327,12 +3327,12 @@ messages:
       Send(self,@CreateOneSpellIfNew,#num=SID_SHATTERLOCK,#class=&Shatterlock);
       Send(self,@CreateOneSpellIfNew,#num=SID_LIGHTNING_WALL,#class=&Lightningwall);
       Send(self,@CreateOneSpellIfNew,#num=SID_BRAMBLE_WALL,#class=&bramblewall);
-      Send(self,@CreateOneSpellIfNew,#num=SID_SUMMON_POISON_FOG,#class=&SummonPoisonFog);
+      Send(self,@CreateOneSpellIfNew,#num=SID_POISON_FOG,#class=&SummonPoisonFog);
       Send(self,@CreateOneSpellIfNew,#num=SID_FEIGN_DEATH,#class=&FeignDeath);
       Send(self,@CreateOneSpellIfNew,#num=SID_EVIL_TWIN,#class=&SummonEvilTwin);
       Send(self,@CreateOneSpellIfNew,#num=SID_BOND,#class=&Bond);
       Send(self,@CreateOneSpellIfNew,#num=SID_BLOOD_INHERITANCE,#class=&BloodInheritance);
-      Send(self,@CreateOneSpellIfNew,#num=SID_DEATHS_DOOR,#class=&DeathsDoor);
+      Send(self,@CreateOneSpellIfNew,#num=SID_SHADOW_RIFT,#class=&DeathsDoor);
 
       Send(self,@CreateOneSpellIfNew,#num=SID_BREATH_OF_LIFE,#class=&BreathOfLife);
       Send(self,@CreateOneSpellIfNew,#num=SID_RESIST_ACID,#class=&ResistAcid);
