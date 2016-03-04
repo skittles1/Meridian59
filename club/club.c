@@ -156,7 +156,7 @@ void RestartClient()
    STARTUPINFO si;
    PROCESS_INFORMATION pi;
 
-   memset(&si,sizeof(si),0);
+   memset(&si, 0, sizeof(si));
    si.cb = sizeof(si);
    GetStartupInfo(&si); /* shouldn't need to do this.  very weird */
 
