@@ -334,6 +334,7 @@ properties:
    plUsers = $
    plUsers_logged_on = $
    plSpells = $
+   plNewCharSpells = $
    plSkills = $
    plItem_Attributes = $
    plItemAttTreasure = $
@@ -2150,7 +2151,7 @@ messages:
 
    SendCharInfo(session_id = $)
    {
-      local i,count;
+      local i, iCount;
 
       AddPacket(1,BP_CHARINFO);
 
@@ -2172,27 +2173,10 @@ messages:
       Send(self, @AddFaceIconsToPacket, #iGender = GENDER_FEMALE);
 
       %%% Spells
-      count=0;
-      foreach i in plSpells
-      {
-         % Don't Send non-spells (poison, diseases).
-         % Only offer 4 main spell schools to chars
-         if IsClass(i,&Spell)
-            AND Send(i,@OfferToNewCharacters)
-         {
-            count=count + 1;
-         }
-      }
+      AddPacket(4,Length(plNewCharSpells));
 
-      AddPacket(4,count);
-      foreach i in plSpells
+      foreach i in plNewCharSpells
       {
-         if (NOT IsClass(i,&Spell))
-            OR NOT Send(i,@OfferToNewCharacters)
-         {
-            continue;
-         }
-
          AddPacket(4,Send(i,@GetSpellNum));
          AddPacket(4,Send(i,@GetName));
          AddPacket(4,Send(i,@GetIntro));
@@ -2210,17 +2194,17 @@ messages:
          AddPacket(1, Send(i, @GetSchool));
       }
 
-      count=0;
+      iCount = 0;
       foreach i in plSkills
       {
          if Send(i,@GetLevel) <= 2
          {
-            count = count + 1;
+            iCount = iCount + 1;
          }
       }
 
       %%%%% Skills
-      AddPacket(4,count);
+      AddPacket(4,iCount);
 
       foreach i in plSkills
       {
@@ -3149,7 +3133,7 @@ messages:
 
    CreateOneSpellIfNew(num = $,class = $)
    {
-      local oSpell;
+      local oSpell, iSchool;
 
       if Send(self,@FindSpellByNum,#num=num) = $
       {
@@ -3162,7 +3146,19 @@ messages:
 
          AddTableEntry(phSpells,Send(oSpell,@GetSpellNum),oSpell);
          plSpells = Cons(oSpell,plSpells);
+
+         // Check if we should add this spell to new char spells list.
+         if (IsClass(oSpell,&Spell)
+            AND Send(oSpell,@OfferToNewCharacters))
+         {
+            iSchool = Send(oSpell,@GetSchool);
+            if (iSchool >= SS_SHALILLE AND iSchool <= SS_JALA)
+            {
+               plNewCharSpells = Cons(oSpell,plNewCharSpells);
+            }
+         }
       }
+
       return;
    }
 
@@ -3703,6 +3699,9 @@ messages:
          plSpells = $;
       }
 
+      // Clear new char spells. Spell objects already deleted above.
+      plNewCharSpells = $;
+
       Send(self,@CreateSpellTable);
 
       Send(self,@CreateAllSpellsIfNew);
@@ -3723,8 +3722,6 @@ messages:
    DeleteSpell(what = $)
    "Called by the spell when it is deleted, so we can remove it from our list of spells."
    {
-      local i;
-
       % any time a spell is deleted, clear its enchantment on all logged in users
       % just in case they have an enchantment of this spell
 
@@ -3734,14 +3731,18 @@ messages:
 %         Send(i,@RemoveEnchantment,#what=what);
 %      }
 
-      foreach i in plSpells
+      if (plNewCharSpells <> $
+         AND FindListElem(plNewCharSpells,what))
       {
-         if what = i
-         {
-            plSpells = DelListElem(plSpells,i);
+         plNewCharSpells = DelListElem(plNewCharSpells,what);
+      }
 
-            return;
-         }
+      if (plSpells <> $
+         AND FindListElem(plSpells,what))
+      {
+         plSpells = DelListElem(plSpells,what);
+
+         return;
       }
 
       Debug("Tried to delete spell that is not in plSpells:",

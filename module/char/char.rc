@@ -192,6 +192,20 @@ BEGIN
     22                      "<unbekannt>"
 END
 
+STRINGTABLE
+BEGIN
+    256                     "Shal'ill"
+    257                     "Qor"
+    258                     "Kraanan"
+    259                     "Faren"
+    260                     "Riija"
+    261                     "Jala"
+    262                     "DMSchool"
+    263                     "Waffenfertigkeit"
+    264                     "Ringen"
+    265                     "Diebstahl"
+END
+
 #endif    // German resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -463,6 +477,20 @@ BEGIN
     IDS_CHARSTATS           "Statistics"
     IDS_DIALOGTITLE         "Customize your character"
     IDS_NEWCHARACTER        "<New character>"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_SHALILLE            "Shal'ille"
+    IDS_QOR                 "Qor"
+    IDS_KRAANAN             "Kraanan"
+    IDS_FAREN               "Faren"
+    IDS_RIIJA               "Riija"
+    IDS_JALA                "Jala"
+    IDS_DMSCHOOL            "DMSchool"
+    IDS_FENCING             "Weaponcraft"
+    IDS_BRAWLING            "Brawling"
+    IDS_THIEVERY            "Thievery"
 END
 
 STRINGTABLE

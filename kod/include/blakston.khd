@@ -2278,8 +2278,7 @@
    % We may use skill an spell schools in the same routines, thus no overlap.
    SKS_FENCING = 10
    SKS_BRAWLING = 11
-   SKS_TELEPATHY = 12
-   SKS_THIEVERY = 13
+   SKS_THIEVERY = 12
 
    % Enchantment icon showing
    ENCHANTMENT_SHOW_NONE = 0
