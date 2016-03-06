@@ -463,6 +463,32 @@ typedef enum {
 #define CF_REAGENTBAG    0x0020  // Player automatically puts items into reagent bag
 #define CF_SPELLPOWER    0x0040  // Player gets spellpower readout from cast spells
 
+// Lighting constants, used by D3D renderer for dynamic lighting
+// Bright colors, 100% saturation
+#define LIGHT_BWHITE  0x7FFF
+#define LIGHT_BRED    0x7C00
+#define LIGHT_BORANGE 0x7E40
+#define LIGHT_BYELLOW 0x7FE0
+#define LIGHT_BGREEN  0x03E0
+#define LIGHT_BBLUE   0x001F
+#define LIGHT_BPURPLE 0x481F
+// Average colors, 66% saturation
+#define LIGHT_WHITE   0x5294
+#define LIGHT_RED     0x5000
+#define LIGHT_ORANGE  0x5180
+#define LIGHT_YELLOW  0x5280
+#define LIGHT_GREEN   0x0280
+#define LIGHT_BLUE    0x0014
+#define LIGHT_PURPLE  0x3014
+// Dull colors, 33% saturation
+#define LIGHT_DWHITE  0x294A
+#define LIGHT_DRED    0x2800
+#define LIGHT_DORANGE 0x28C0
+#define LIGHT_DYELLOW 0x2940
+#define LIGHT_DGREEN  0x0140
+#define LIGHT_DBLUE   0x000A
+#define LIGHT_DPURPLE 0x180A
+
 /* Effect codes */
 enum {
    EFFECT_INVERT        = 1,   // Invert screen
@@ -578,5 +604,6 @@ enum {
 #define LIGHT_FLAG_ON		0x0001
 #define LIGHT_FLAG_DYNAMIC	0x0002
 #define LIGHT_FLAG_WAVERING	0x0004
+#define LIGHT_FLAG_HIGHLIGHT 0x0008
 
 #endif /* #ifndef _PROTO_H */

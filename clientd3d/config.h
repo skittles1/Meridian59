@@ -27,6 +27,13 @@
 extern "C" {
 #endif
 
+// Color the user has selected for target halo/light.
+enum TargetColor {
+   TARGET_COLOR_RED = 0,
+   TARGET_COLOR_BLUE = 1,
+   TARGET_COLOR_GREEN = 2,
+};
+
 // Communication settings
 typedef struct {
    WORD  timeout;                 /* # of seconds to wait before redialing */

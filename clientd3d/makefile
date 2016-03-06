@@ -126,6 +126,7 @@ OBJS = \
     $(OUTDIR)\fixed.obj \
     $(OUTDIR)\d3dcache.obj \
     $(OUTDIR)\d3ddriver.obj \
+    $(OUTDIR)\d3dlighting.obj \
     $(OUTDIR)\d3dparticle.obj \
     $(OUTDIR)\d3drender.obj \
     $(OUTDIR)\matrix.obj

@@ -54,8 +54,8 @@ classvars:
    vrName = room_name_guest1
 
    viTeleport_row = 3
-   viTeleport_col = 7
-   viTeleport_angle = ANGLE_EAST
+   viTeleport_col = 8
+   viTeleport_angle = ANGLE_WSW
 
    viPermanent_flags = ROOM_NO_COMBAT | ROOM_SANCTUARY \
                | ROOM_HOMETOWN | ROOM_GUEST_AREA | ROOM_SAFELOGOFF
