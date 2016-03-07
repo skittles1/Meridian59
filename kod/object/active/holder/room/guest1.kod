@@ -35,18 +35,19 @@ resources:
       "in a moment.\n\n"
       "Also, you should note that you can right-click on many of the "
       "things you see in the world. These signs are a good example, "
-      "as is the innkeeper. You can even view yourself "
+      "as is Marcus, the innkeeper. You can even view yourself "
       "by right-clicking on the head on the upper-right corner of the "
       "screen.\n\n"
       "If you wish to activate 'mouselook' you can do so at this time "
       "by pressing the C key. If you wish to deactivate it, you can do "
       "so by pressing the C key again.\n\n"
-      "Lastly, you can go through doors by pressing the space bar.\n "
-      "-------------------\n"             
+      "Lastly, you can go through doors by pressing the space bar.\n\n"
+      "-------------------\n\n"
       "When you're ready to proceed, walk to the exit door (forward and to your left), "
       "hit the space bar, and then read the next sign which will be in plain sight."
 
-   guest1_welcome = "~kMarcus says, \"Welcome to Meridian 59, %s!  Please enjoy your stay.\""
+   guest1_welcome = \
+      "~kMarcus says, \"Welcome to Meridian 59, %s!  Please enjoy your stay.\""
 
 classvars:
 

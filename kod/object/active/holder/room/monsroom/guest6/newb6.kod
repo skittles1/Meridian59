@@ -19,7 +19,7 @@ resources:
    include newb6.lkod
 
    room_name_newb6 = "Mausoleum"
-   newb6_signname = "looking around"
+   newb6_signname = "Looking around"
    newb6_signtext = \
       "If a monster isn't chasing you, now's a good time "
       "to learn another handy interface ability.  By pressing PAGEUP "
@@ -68,19 +68,19 @@ messages:
    {
       local oMoney;
 
-      oMoney = Create(&Elderberry,#number=random(5,10));
+      oMoney = Create(&Elderberry,#number=Random(5,10));
       Send(self,@NewHold,#what=oMoney,#new_row=34,#new_col=4,
             #fine_row=48,#fine_col=48);
 
-      oMoney = Create(&Herbs,#number=random(10,15));
+      oMoney = Create(&Herbs,#number=Random(10,15));
       Send(self,@NewHold,#what=oMoney,#new_row=34,#new_col=5,
             #fine_row=48,#fine_col=16);
 
-      oMoney = Create(&Mushroom,#number=random(10,15));
+      oMoney = Create(&Mushroom,#number=Random(10,15));
       Send(self,@NewHold,#what=oMoney,#new_row=35,#new_col=4,
             #fine_row=16,#fine_col=48);
 
-      oMoney = Create(&Money,#number=(random(45,55)*10));
+      oMoney = Create(&Money,#number=(Random(45,55)*10));
       Send(self,@NewHold,#what=oMoney,#new_row=35,#new_col=5,
             #fine_row=16,#fine_col=16);
 

@@ -18,11 +18,11 @@ resources:
 
    include newb1.lkod
 
-   room_name_newb1 = "Raza Inn"
+   room_name_newb1 = "The Inn of Raza"
 
    Newbie1_god_name = "Designers' News"
    Newbie1_god_desc = \
-         "Check here for information from the game administrators."
+      "Check here for information from the game administrators."
 
 classvars:
 

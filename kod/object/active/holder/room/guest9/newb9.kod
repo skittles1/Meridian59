@@ -21,17 +21,18 @@ resources:
    news_raza_hall = "General News"
    news_raza_hall_desc = "Find out the latest gossip around Meridian."
 
-   newb9_signname = "news globes"
+   newb9_signname = "News Globes"
    newb9_sign = \
       "This object on the platform beside the sign is a News Globe.  "
       "General News Globes can be found in Adventurer's Halls in "
       "each city in Meridian, while Designer's News Globes can be "
-      "found in Inns.  Players can post on the General News globe, like "
+      "found in Inns.  \n\nPlayers can post on the General News globe, like "
       "the one here and you can use this medium to ask questions of other "
-      "players, post messages asking for a guild, etc.  Use the Post "
+      "players, post messages asking for a guild, etc.  \n\nUse the Post "
       "button to make a post, Reply to post in the same thread as a "
       "previous post, or Mail Author to send a private mail to the "
-      "author of a post."
+      "author of a post. \n\nFor a short time after posting, users can delete "
+      "their own posts."
 
 classvars:
 

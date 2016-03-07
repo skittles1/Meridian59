@@ -26,20 +26,25 @@ resources:
 
    guest2_wading_sound = weatstp1.ogg
 
-   guest2_signname = "getting around"
+   guest2_signname = "Getting around"
    guest2_sign = \
       "Now that you're outside, you can really practice moving "
       "around.  Autorun is on by default, but if you wish to slow down a "
       "bit use the SHIFT key to walk while you move.  Also, you can use "
       "the A and D keys to slide sideways (or 'strafe').  The END key is "
       "good for turning around 180 degrees in a hurry.\n\n"
-      "It's also a good time to learn about the map. "
+      "It's also a good time to learn about the map, to the right of the "
+      "graphics window.  The blue line shows your position on the map.  "
+      "Depending on the size of the map, this may look like a blue dot but "
+      "you can use the + and - keys to zoom in/out.  Other players will show "
+      "up as blue dots, monsters as red dots, and NPCs as black dots.  "
       "You can add comments to the map by RIGHT CLICKING on the map, and then "
-      "entering your reminder to yourself.\n"
-      "-------------------\n"             
-      "After you experiment a bit, you should "
-      "head towards the blacksmith's shop, which is housed in "
-      "the north wing of the stone building at the west end of the pond."
+      "entering your reminder to yourself.\n\n"
+      "-------------------\n\n"
+      "After you experiment a bit, you should head towards the blacksmith's "
+      "shop, which is housed in the south wing of the stone building at the "
+      "east end of the pond. The shop has the hammer and anvil sign next to "
+      "the door."
 
    guest2_locked_farm = \
       "The door to the farmhouse is firmly bolted from the inside."
