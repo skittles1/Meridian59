@@ -94,12 +94,12 @@ resources:
       "that wands require a target - be it one of your foes, your allies "
       "or even yourself."
 
-   guest6_signname3 = "Targetting"
+   guest6_signname3 = "Targeting"
    guest6_sign3 = \
       "Now that you are familiar with fighting and spellcasting, you're "
-      "ready to try out the advanced targetting feature.\n\n"
+      "ready to try out the advanced targeting feature.\n\n"
       "Press the '[' or ']' keys while facing a monster or player to activate "
-      "the targetting system.  You should see your target outlined in color "
+      "the targeting system.  You should see your target outlined in color "
       "(you can set the color in your Preferences from the Game option in the "
       "top menu bar).  As long as a target is outlined, the game will assume "
       "that all attacks or spells are to be directed at that target.  Note "
@@ -108,7 +108,7 @@ resources:
       "Pressing '[' or ']' will cycle through your available targets, and "
       "pressing ESC will clear your current target and return you to the "
       "default attack/spell mode.\n\n"
-      "With a little practise, you'll see how useful targetting can be, "
+      "With a little practise, you'll see how useful targeting can be, "
       "especially when casting spells.  Just set up a hotkey to the spell "
       "of your choice, highlight a target and fire away!"
 
