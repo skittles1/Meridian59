@@ -40,7 +40,7 @@ resources:
       "likely beg to differ), Tos is home to the Arena as well as one of the friendliest "
       "bars in Meridian, Familiars."
 
-   guest8_signname_4 = "The Vale of Sorrow"
+   guest8_signname_4 = "The Vale of Sorrows"
    guest8_sign_4 = \
       "Legend has it that this secluded vale tucked away in the forests of Meridian is "
       "home to the Fey Elhai and the Fey Dirhai, two races of fairies eternally locked "
@@ -124,34 +124,34 @@ messages:
       Send(self,@NewHold,#what=oSign,#new_row=9,#new_col=11,#fine_row=0,#fine_col=32,
            #new_angle=ANGLE_SOUTH);
       oSign = Create(&Sign,#name=guest8_signname_2,#desc=guest8_sign_2,#newbie=TRUE);
-      Send(self,@NewHold,#what=oSign,#new_row=9,#new_col=20,#fine_row=0,#fine_col=16,
+      Send(self,@NewHold,#what=oSign,#new_row=9,#new_col=20,#fine_row=4,#fine_col=30,
            #new_angle=ANGLE_SOUTH);
       oSign = Create(&Sign,#name=guest8_signname_3,#desc=guest8_sign_3,#newbie=TRUE);
       Send(self,@NewHold,#what=oSign,#new_row=3,#new_col=20,#fine_row=0,#fine_col=16,
            #new_angle=ANGLE_SOUTH);
       oSign = Create(&Sign,#name=guest8_signname_4,#desc=guest8_sign_4,#newbie=TRUE);
-      Send(self,@NewHold,#what=oSign,#new_row=9,#new_col=16,#fine_row=16,#fine_col=48,
+      Send(self,@NewHold,#what=oSign,#new_row=9,#new_col=17,#fine_row=16,#fine_col=8,
            #new_angle=ANGLE_SOUTH);
       oSign = Create(&Sign,#name=guest8_signname_5,#desc=guest8_sign_5,#newbie=TRUE);
-      Send(self,@NewHold,#what=oSign,#new_row=6,#new_col=6,#fine_row=16,#fine_col=0,
+      Send(self,@NewHold,#what=oSign,#new_row=6,#new_col=5,#fine_row=16,#fine_col=52,
            #new_angle=ANGLE_SOUTH);
       oSign = Create(&Sign,#name=guest8_signname_6,#desc=guest8_sign_6,#newbie=TRUE);
-      Send(self,@NewHold,#what=oSign,#new_row=9,#new_col=3,#fine_row=0,#fine_col=0,
+      Send(self,@NewHold,#what=oSign,#new_row=9,#new_col=2,#fine_row=16,#fine_col=36,
            #new_angle=ANGLE_SOUTH);
       oSign = Create(&Sign,#name=guest8_signname_7,#desc=guest8_sign_7,#newbie=TRUE);
-      Send(self,@NewHold,#what=oSign,#new_row=3,#new_col=3,#fine_row=16,#fine_col=0,
+      Send(self,@NewHold,#what=oSign,#new_row=3,#new_col=2,#fine_row=8,#fine_col=48,
            #new_angle=ANGLE_SOUTH);
 
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_WAND),
            #new_row=8,#new_col=18,#fine_row=16,#fine_col=32,#new_angle=ANGLE_NORTH);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_THRONE),
-           #new_row=7,#new_col=19,#fine_row=16,#fine_col=32,#new_angle=ANGLE_SOUTH);
+           #new_row=7,#new_col=19,#fine_row=16,#fine_col=32,#new_angle=ANGLE_NORTH);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_SPIDER),
-           #new_row=8,#new_col=3,#fine_row=16,#fine_col=40,#new_angle=ANGLE_NORTH);
+           #new_row=8,#new_col=3,#fine_row=16,#fine_col=40,#new_angle=ANGLE_SOUTH);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_FEY),
-           #new_row=13,#new_col=2,#fine_row=40,#fine_col=32,#new_angle=ANGLE_WEST);
+           #new_row=13,#new_col=2,#fine_row=40,#fine_col=32,#new_angle=ANGLE_EAST);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_LUPOGG),
-           #new_row=14,#new_col=5,#fine_row=48,#fine_col=32,#new_angle=ANGLE_SOUTH);
+           #new_row=14,#new_col=5,#fine_row=48,#fine_col=32,#new_angle=ANGLE_NORTH);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_LUTE),
            #new_row=14,#new_col=16,#fine_row=48,#fine_col=0,#new_angle=ANGLE_SOUTH);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_PLATEARMOR),
@@ -163,15 +163,15 @@ messages:
       Send(self,@NewHold,#what=Create(&ModelNode),#new_row=4,#new_col=15,
            #fine_row=0,#fine_col=16,#new_angle=ANGLE_WEST);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_FUNGUSBEAST),
-           #new_row=14,#new_col=7,#fine_row=48,#fine_col=0,#new_angle=ANGLE_SOUTH);
+           #new_row=14,#new_col=7,#fine_row=48,#fine_col=0,#new_angle=ANGLE_NORTH);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_AVAR),
-           #new_row=14,#new_col=4,#fine_row=48,#fine_col=0,#new_angle=ANGLE_SOUTH);
+           #new_row=14,#new_col=4,#fine_row=48,#fine_col=0,#new_angle=ANGLE_NORTH);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_ORC),
-           #new_row=14,#new_col=2,#fine_row=48,#fine_col=32,#new_angle=ANGLE_SOUTH_WEST);
+           #new_row=14,#new_col=2,#fine_row=48,#fine_col=32,#new_angle=ANGLE_NORTH_EAST);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_CENTIPEDE),
-           #new_row=8,#new_col=2,#fine_row=16,#fine_col=48,#new_angle=ANGLE_NORTH);
+           #new_row=8,#new_col=2,#fine_row=16,#fine_col=48,#new_angle=ANGLE_SOUTH);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_ANT),
-           #new_row=8,#new_col=4,#fine_row=16,#fine_col=32,#new_angle=ANGLE_NORTH);
+           #new_row=8,#new_col=4,#fine_row=16,#fine_col=32,#new_angle=ANGLE_SOUTH);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_HAMMER),
            #new_row=7,#new_col=4,#fine_row=16,#fine_col=32,#new_angle=ANGLE_SOUTH);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_SHORTSWORD),
