@@ -26,12 +26,16 @@ resources:
 
 classvars:
 
+   viObject_flags = OF_SIGN
+
 properties:
 
    vrName = sign_name_rsc
    vrIcon = sign_icon_rsc
    vrDesc = sign_desc_rsc
    vrInsc = sign_insc_rsc
+
+   piNameColor = NC_DM
 
 messages:
 

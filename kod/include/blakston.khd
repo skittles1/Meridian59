@@ -55,6 +55,7 @@
    MOVEON_NOTIFY     = 3
 
    % Object flags for client.
+   OF_SIGN           = 0x00000002
    OF_PLAYER         = 0x00000004
    OF_ATTACKABLE     = 0x00000008
    OF_GETTABLE       = 0x00000010
