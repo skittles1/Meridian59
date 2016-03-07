@@ -3954,19 +3954,28 @@ void D3DRenderNamesDraw3D(d3d_render_cache_system *pCacheSystem, d3d_render_pool
 		if (pRNode->obj.id == player.id)
 			continue;
 
-		if (!(pRNode->obj.flags & OF_PLAYER) || (pRNode->obj.drawingtype == DRAWFX_INVISIBLE))
+		if (!(pRNode->obj.flags & OF_PLAYER || pRNode->obj.flags & OF_SIGN)
+			|| (pRNode->obj.drawingtype == DRAWFX_INVISIBLE))
 			continue;
 
-		vector.x = pRNode->motion.x - player.x;
-		vector.y = pRNode->motion.y - player.y;
+      vector.x = pRNode->motion.x - player.x;
+      vector.y = pRNode->motion.y - player.y;
 
-		distance = (vector.x * vector.x) + (vector.y * vector.y);
-		distance = (float)sqrt((double)distance);
-		if (distance <= 0)
-			distance = 1;
+      distance = (vector.x * vector.x) + (vector.y * vector.y);
+      distance = (float)sqrt((double)distance);
+      if (pRNode->obj.flags & OF_SIGN)
+      {
+         distance = max(distance, 2 * FINENESS);
+         distance = min(distance, 4 * FINENESS);
+      }
+      else
+      {
+         if (distance <= 0)
+            distance = 1;
 
-		if (distance >= MAX_NAME_DISTANCE)
-			continue;
+         if (distance >= MAX_NAME_DISTANCE)
+            continue;
+      }
 
 		pDib = GetObjectPdib(pRNode->obj.icon_res, 0, pRNode->obj.animate->group);
 
@@ -3988,9 +3997,7 @@ void D3DRenderNamesDraw3D(d3d_render_cache_system *pCacheSystem, d3d_render_pool
 
 		/* Make sure that object is above the floor. */
 		if (!GetRoomHeight(room->tree, &top, &bottom, &sector_flags, pRNode->motion.x, pRNode->motion.y))
-		{
 			continue;
-		}
 
 		// Set object depth based on "depth" sector flags
 		depth = sector_depths[SectorDepth(sector_flags)];
@@ -4001,21 +4008,15 @@ void D3DRenderNamesDraw3D(d3d_render_cache_system *pCacheSystem, d3d_render_pool
 			{
 			case SF_DEPTH1:
 				if (ROOM_OVERRIDE_DEPTH1 & GetRoomFlags())
-				{
 					depth = GetOverrideRoomDepth(SF_DEPTH1);
-				}
 			break;
 			case SF_DEPTH2:
 				if (ROOM_OVERRIDE_DEPTH2 & GetRoomFlags())
-				{
 					depth = GetOverrideRoomDepth(SF_DEPTH2);
-				}
 			break;
 			case SF_DEPTH3:
 				if (ROOM_OVERRIDE_DEPTH3 & GetRoomFlags())
-				{
 					depth = GetOverrideRoomDepth(SF_DEPTH3);
-				}
 			break;
 			}
 		}

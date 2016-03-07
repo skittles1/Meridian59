@@ -22,11 +22,10 @@ resources:
    room_guest4 = razaapoth.roo
    guest4_music = login.ogg
 
-   guest4_signname = "selling items"
+   guest4_signname = "Selling items"
    guest4_sign = \
-      "Occasionally, you will find quests where a shopkeeper "
-      "or other townsman desires you to bring him a certain item "
-      "or peform some errand.  "
+      "Occasionally, you will find quests where a shopkeeper or other NPC "
+      "desires you to bring him a certain item or peform some errand.  "
       "More frequently, after killing a monster you will find items "
       "that you yourself have no need for but that you can sell to get "
       "the weapons and other equipment that you do need.  For example, "
@@ -34,14 +33,16 @@ resources:
       "Use the OFFER command, or press the CONTROL key and O to offer "
       "these to Ravi, the apothecary.\n\n"
       "It should be noted that not every NPC wants every item.  Ravi, for "
-      "example, has no interest in purchasing weapons so if you offer them to him, "
-      "it will confuse him.  He may even think that it's a gift, and take it "
-      "from your astonished hands.  If you SAY 'buy' or 'sell', you should get "
-      "a good idea of what any shopkeeper is willing to take off your hands.\n"
-      "--------------------\n"
+      "example, has no interest in purchasing weapons so if you offer them "
+      "to him, it will confuse him.  He may even think that it's a gift, "
+      "and take it from your astonished hands.  If you SAY 'buy' or 'sell', "
+      "you should get a good idea of what any shopkeeper is willing to "
+      "take off your hands.\n\n"
+      "--------------------\n\n"
       "This is the end of your tutorial.  Feel free to explore around a bit "
-      "and try new things.  You may wish to pay a visit to the Grand Museum, which "
-      "houses a number of exhibits about the wonders found in Meridian proper."
+      "and try new things.  You may wish to pay a visit to the Grand Museum, "
+      "which houses a number of exhibits about the wonders found in Meridian "
+      "proper."
 
 classvars:
 
