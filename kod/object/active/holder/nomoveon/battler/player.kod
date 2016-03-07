@@ -5741,7 +5741,7 @@ messages:
    "Called when the player killed something."
    {
       local bReflection, i, oSoldierShield, monstkarma, iChance, oEnemyGuild,
-      shrunken, oVictimRoom;
+            oVictimRoom, oObject;
 
       % If we killed someone or something, we did damage.
       Send(self,@SetPlayerFlag,#flag=PFLAG_DID_DAMAGE,#value=TRUE);
@@ -5767,13 +5767,10 @@ messages:
                     #parm1=Send(what,@GetDef),#parm2=Send(what,@GetName));
             }
          }
-         else
+         else if self <> what
          {
-            if self <> what
-            {
-               Send(self,@MsgSendUser,#message_rsc=player_killed_something,
-                    #parm1=Send(what,@GetDef),#parm2=Send(what,@GetName));
-            }
+            Send(self,@MsgSendUser,#message_rsc=player_killed_something,
+                 #parm1=Send(what,@GetDef),#parm2=Send(what,@GetName));
          }
       }
 
@@ -5799,6 +5796,13 @@ messages:
          Send(oSoldierShield,@KilledSomething,#what=what);
       }
 
+      % Let JOF know we killed something.
+      oObject = Send(self,@FindUsing,#class=&JewelOfFroz);
+      if oObject <> $
+      {
+         Send(oObject,@KilledSomething,#what=what);
+      }
+
       if IsClass(what,&User)
          AND what <> self
       {
@@ -5816,12 +5820,12 @@ messages:
             if Send(what,@CheckPlayerFlag,#flag=PFLAG_OUTLAW)
                OR Send(what,@CheckPlayerFlag,#flag=PFLAG_MURDERER)
             {
-               piJustified_kill_count = piJustified_kill_count + 1;
+               ++piJustified_kill_count;
             }
             else
             {
-               piKill_count = piKill_count + 1;
-               piKill_count_decay = piKill_count_decay + 1;
+               ++piKill_count;
+               ++piKill_count_decay;
             }
 
             if NOT bReflection
@@ -5923,10 +5927,10 @@ messages:
       Send(self,@DrawHPChance);
 
       % Report to shrunken head
-      shrunken = Send(self,@FindHolding,#class=&ShrunkenHead);
-      if shrunken <> $
+      oObject = Send(self,@FindHolding,#class=&ShrunkenHead);
+      if oObject <> $
       {
-         Send(shrunken,@OpponentKilled,#what=what,#stroke_obj=stroke_obj);
+         Send(oObject,@OpponentKilled,#what=what,#stroke_obj=stroke_obj);
       }
 
       return;
