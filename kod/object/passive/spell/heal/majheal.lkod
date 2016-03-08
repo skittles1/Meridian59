@@ -8,5 +8,3 @@ majorheal_cast_rsc = de \
    "%s%ss Zauber stellt bei dir ~g~B%i~B~n Lebenspunkte wieder herr."
 majorheal_cast_self = de \
    "Shal'illes Zauber stellt be dir ~g~B%i~B~n Lebenspunkte wieder her."
-majorheal_cast_on_other = de "Du heilst %s%s um ~g~B%i~B~n Lebenspunkte."
-majorheal_unnecessary_rsc = de "%s%s ist bester Gesundheit."

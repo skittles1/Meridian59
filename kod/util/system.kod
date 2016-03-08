@@ -3167,7 +3167,7 @@ messages:
    "Call this to create any spells in this function that don't currently exist."
    {
       Send(self,@CreateOneSpellIfNew,#num=SID_LIGHTNING_BOLT,#class=&Lightning);
-      Send(self,@CreateOneSpellIfNew,#num=SID_MINOR_HEAL,#class=&Heal);
+      Send(self,@CreateOneSpellIfNew,#num=SID_MINOR_HEAL,#class=&MinorHeal);
       Send(self,@CreateOneSpellIfNew,#num=SID_NIGHT_VISION,#class=&NightVision);
       Send(self,@CreateOneSpellIfNew,#num=SID_FIREBALL,#class=&Fireball);
       Send(self,@CreateOneSpellIfNew,#num=SID_DMRESCUE,#class=&DMRescue);
