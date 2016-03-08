@@ -1315,17 +1315,17 @@ messages:
    ModifyDefensePower(defense_power = 0)
    "Gives the defensive bonus"
    {
-      return defense_power;            
+      return defense_power;
    }
 
    DefendingHit(who = $,what = $)
    {
       % Set to 75% currently
-      if random(1,100) < ARMOR_TAKE_DAMAGE_PCT   
+      if Random(1,100) < ARMOR_TAKE_DAMAGE_PCT
       {
-         piHits = piHits - 1;
+         --piHits;
       }
-      
+
       if piHits <= 0
       {
          Send(self,@ItemBrokenInBattle);

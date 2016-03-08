@@ -127,7 +127,10 @@ properties:
 
    % If true, spellpower and duration are displayed for all spells cast.
    pbDisplaySpellData = FALSE
-   
+
+   % If true, JoF regains hits when players kill mobs.
+   pbFrozRechargeOnKill = TRUE
+
    %
    % Guild hall settings
    %
@@ -475,6 +478,11 @@ messages:
    DisplaySpellData()
    {
       return pbDisplaySpellData;
+   }
+
+   CanFrozRechargeOnKill()
+   {
+      return pbFrozRechargeOnKill;
    }
 
    %
