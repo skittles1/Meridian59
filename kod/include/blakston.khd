@@ -55,6 +55,7 @@
    MOVEON_NOTIFY     = 3
 
    % Object flags for client.
+   OF_DISPLAY_NAME   = 0x00000001
    OF_SIGN           = 0x00000002
    OF_PLAYER         = 0x00000004
    OF_ATTACKABLE     = 0x00000008
@@ -114,6 +115,7 @@
    MM_TEMPSAFE             = 0x00000200
    MM_MINIBOSS             = 0x00000400
    MM_BOSS                 = 0x00000800
+   MM_RARE_ITEM            = 0x00001000
 
    % Player name color sent as hex RGB value. Define constants
    % for ease of use as needed. Requires OF_PLAYER boolean flag

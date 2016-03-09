@@ -26,7 +26,7 @@ resources:
 
 classvars:
 
-   viObject_flags = OF_SIGN
+   viObject_flags = OF_SIGN | OF_DISPLAY_NAME
 
 properties:
 
