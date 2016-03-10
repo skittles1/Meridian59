@@ -116,9 +116,9 @@ typedef struct font_3d
 	long				texWidth;
 	long				texHeight;
 	float				texScale;
-	custom_st			texST[128 - 32][2];
+	custom_st			texST[257 - 32][2];
   // Deal with underhanging and overhanging characters
-  ABC         abc[128 - 32];
+	ABC         abc[257 - 32];
 } font_3d;
 
 extern LPDIRECT3D9				gpD3D;

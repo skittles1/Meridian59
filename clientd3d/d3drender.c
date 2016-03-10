@@ -3930,7 +3930,7 @@ void D3DRenderNamesDraw3D(d3d_render_cache_system *pCacheSystem, d3d_render_pool
 	custom_bgra			bgra;
 	float				lastDistance, width, height, x, z, depth, distance;
 	char				*pName, *ptr;
-	TCHAR				c;
+	TBYTE				c;
 	COLORREF			fg_color;
 	Color				color;
 	BYTE				*palette;
@@ -5632,8 +5632,8 @@ void D3DRenderFontInit(font_3d *pFont, HFONT hFont)
 	BITMAPINFO		bmi;
 	long			x = 0;
 	long			y = 0;
-	TCHAR			str[2] = _T("x");
-	TCHAR			c;
+	TBYTE			str[2] = _T("x");
+	TBYTE			c;
 	SIZE			size;
 	D3DLOCKED_RECT	d3dlr;
 	BYTE			*pDstRow;
@@ -5700,13 +5700,13 @@ void D3DRenderFontInit(font_3d *pFont, HFONT hFont)
 	SetBkColor(hDC, 0);
 	SetTextAlign(hDC, TA_TOP);
    
-	for(c = 32; c < 127; c++ )
+	for(c = 32; c < 256 && c > 31; c++ )
 	{
 		BOOL	temp;
 		int left_offset, right_offset;
-      
+
 		str[0] = c;
-		GetTextExtentPoint32(hDC, str, 1, &size);
+		GetTextExtentPoint32(hDC, (LPCSTR)str, 1, &size);
       
 		if (!GetCharABCWidths(hDC, c, c, &pFont->abc[c-32])) 
 		{
@@ -5727,7 +5727,7 @@ void D3DRenderFontInit(font_3d *pFont, HFONT hFont)
 			y += size.cy + 1;
 		}
 
-		temp = ExtTextOut(hDC, x + left_offset, y + 0, ETO_OPAQUE, NULL, str, 1, NULL);
+		temp = ExtTextOut(hDC, x + left_offset, y + 0, ETO_OPAQUE, NULL, (LPCSTR)str, 1, NULL);
 
 		pFont->texST[c-32][0].s = ((FLOAT)(x+0)) / pFont->texWidth;
 		pFont->texST[c-32][0].t = ((FLOAT)(y+0)) / pFont->texHeight;
