@@ -15,12 +15,14 @@ constants:
    include blakston.khd
 
 classvars:
-   
+
    viDefinite = ARTICLE_NONE
    viIndefinite = ARTICLE_NONE
 
    % Mob doesn't move and cannot be attacked.
    viDefault_behavior = AI_NPC | AI_NOMOVE
+
+   viObject_flags = OF_ATTACKABLE | OF_DISPLAY_NAME
 
    viSpeed = SPEED_SLOW
    viQuestID = 0
@@ -31,6 +33,10 @@ classvars:
    viMyAngle = ANGLE_NORTH
    viMyFR = 32
    viMyFC = 32
+
+properties:
+
+   piNameColor = NC_NPC
 
 messages:
 

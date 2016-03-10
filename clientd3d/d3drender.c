@@ -1079,12 +1079,12 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
 			IDirect3DDevice9_SetVertexShader(gpD3DDevice, NULL);
 			IDirect3DDevice9_SetVertexDeclaration(gpD3DDevice, decl1dc);
 
-			IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
-			IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
-					
+			IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+			IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+
 			D3DRENDER_SET_ALPHATEST_STATE(gpD3DDevice, TRUE, TEMP_ALPHA_REF, D3DCMP_GREATEREQUAL);
-			D3DRENDER_SET_ALPHABLEND_STATE(gpD3DDevice, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_INVSRCALPHA);
-		
+			D3DRENDER_SET_ALPHABLEND_STATE(gpD3DDevice, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_SRCCOLOR);
+
 			MatrixIdentity(&identity);
 
 			D3DRenderPoolReset(&gObjectPool, &D3DMaterialObjectPool);
@@ -5719,20 +5719,22 @@ void D3DRenderFontInit(font_3d *pFont, HFONT hFont)
 		right_offset = abs(pFont->abc[c-32].abcC);
 		size.cx = abs(pFont->abc[c-32].abcA) + pFont->abc[c-32].abcB + abs(pFont->abc[c-32].abcC);
       
-		if (x + size.cx + 1 > pFont->texWidth)
+		// Not spacing these out enough causes artefacts in the name graphics.
+		// Add 2 pixels after each letter, used to be one.
+		if (x + size.cx + 2 > pFont->texWidth) // old method: size.cx + 1
 		{
 			x  = 0;
 			y += size.cy + 1;
 		}
-      
-		temp = ExtTextOut(hDC, x + left_offset, y+0, ETO_OPAQUE, NULL, str, 1, NULL);
-      
+
+		temp = ExtTextOut(hDC, x + left_offset, y + 0, ETO_OPAQUE, NULL, str, 1, NULL);
+
 		pFont->texST[c-32][0].s = ((FLOAT)(x+0)) / pFont->texWidth;
 		pFont->texST[c-32][0].t = ((FLOAT)(y+0)) / pFont->texHeight;
 		pFont->texST[c-32][1].s = ((FLOAT)(x+0 + size.cx)) / pFont->texWidth;
 		pFont->texST[c-32][1].t = ((FLOAT)(y+0 + size.cy)) / pFont->texHeight;
-      
-		x += size.cx+1;
+
+		x += size.cx + 2; // old method: size.cx + 1
 	}
    
 	hr = IDirect3DTexture9_LockRect(pFont->pTexture, 0, &d3dlr, 0, 0);

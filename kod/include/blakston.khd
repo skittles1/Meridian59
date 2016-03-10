@@ -130,6 +130,7 @@
    NC_MODERATOR    = 0x0078FF   % Set if object is a "moderator".
    NC_EVENTCHAR    = 0xFF00FF   % Set if object is an event character.
    NC_DAENKS       = 0xB300B3   % Purple name color for Daenks.
+   NC_NPC          = 0xC8C8C8   % Grey for NPCs
    NC_COLOR_MAX    = 0xFFFFFF   % Max color, defined for clarity.
 
    % Object type enum. Used in the client for differentiating objects.
