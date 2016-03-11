@@ -95,11 +95,11 @@ messages:
    RemoveStats()
    {
       if poOwner <> $
-         AND IsClass(poOwner,&Player)
+         AND IsClass(poOwner,&User)
       {
          % Reset owner's stats
-         send(poOwner,@AddStamina,#points=-piStaminaChange);
-         send(poOwner,@AddAgility,#points=-piAgilityChange);
+         Send(poOwner,@AddStamina,#points=-piStaminaChange);
+         Send(poOwner,@AddAgility,#points=-piAgilityChange);
          piStaminaChange = 0;
          piAgilityChange = 0;
       }
@@ -113,7 +113,7 @@ messages:
       local iStatAdjustment, iNewAdjustment;
 
       if poOwner = $
-         OR NOT IsClass(poOwner,&Player)
+         OR NOT IsClass(poOwner,&User)
       {
          return;
       }
@@ -122,16 +122,13 @@ messages:
       {
          iStatAdjustment = 0;
       }
+      else if piFactionRank <= 6
+      {
+         iStatAdjustment = 3;
+      }
       else
       {
-         if piFactionRank <= 6
-         {
-            iStatAdjustment = 3;
-         }
-         else
-         {
-            iStatAdjustment = 5;
-         }
+         iStatAdjustment = 5;
       }
 
       % In the following:
@@ -139,13 +136,15 @@ messages:
       %  pi(stat)Change is the cumulative change to that stat.
       if iStatAdjustment <> piAgilityChange
       {
-         iNewAdjustment = send(poOwner,@AddAgility,#points=(iStatAdjustment-piAgilityChange));
+         iNewAdjustment = Send(poOwner,@AddAgility,
+                                 #points=(iStatAdjustment-piAgilityChange));
          piAgilityChange = piAgilityChange + iNewAdjustment;
       }
 
       if iStatAdjustment <> piStaminaChange
       {
-         iNewAdjustment = send(poOwner,@AddStamina,#points=(iStatAdjustment-piStaminaChange));
+         iNewAdjustment = Send(poOwner,@AddStamina,
+                                 #points=(iStatAdjustment-piStaminaChange));
          piStaminaChange = piStaminaChange + iNewAdjustment;
       }
 
@@ -160,7 +159,6 @@ messages:
 
       return iModifier;
    }
-
 
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
