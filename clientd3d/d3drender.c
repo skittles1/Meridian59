@@ -1058,7 +1058,7 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
 		
 		/************************** NAMES *********************************/
 		
-		if (config.draw_names)
+		if (config.draw_player_names || config.draw_sign_names || config.draw_npc_names)
 		{
 			IDirect3DDevice9_SetVertexShader(gpD3DDevice, NULL);
 			IDirect3DDevice9_SetVertexDeclaration(gpD3DDevice, decl1dc);
@@ -3167,14 +3167,16 @@ void D3DRenderNamesDraw3D(d3d_render_cache_system *pCacheSystem, d3d_render_pool
 	for (list = room->contents; list != NULL; list = list->next)
 	{
       float glyph_scale = 255;
-      
-		pRNode = (room_contents_node *)list->data;
 
-		if (pRNode->obj.id == player.id)
-			continue;
+      pRNode = (room_contents_node *)list->data;
 
-		if (!(pRNode->obj.flags & OF_DISPLAY_NAME) || (pRNode->obj.drawingtype == DRAWFX_INVISIBLE))
-			continue;
+      if (pRNode->obj.id == player.id
+         || !(pRNode->obj.flags & OF_DISPLAY_NAME)
+         || (pRNode->obj.drawingtype == DRAWFX_INVISIBLE)
+         || !config.draw_player_names && (pRNode->obj.flags & OF_PLAYER)
+         || !config.draw_npc_names && (pRNode->obj.flags & OF_NPC)
+         || !config.draw_sign_names && (pRNode->obj.flags & OF_SIGN))
+         continue;
 
       vector.x = pRNode->motion.x - player.x;
       vector.y = pRNode->motion.y - player.y;

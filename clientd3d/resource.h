@@ -337,6 +337,7 @@
 #define IDC_PAIN                        1146
 #define IDC_TOOLTIPS                    1147
 #define IDC_INVNUM                      1148
+#define IDC_DRAWSIGNNAMES               1149
 #define IDC_SERVERNUM                   1150
 #define IDC_MUSIC                       1150
 #define IDC_SOUNDFX                     1151
@@ -348,7 +349,9 @@
 #define IDC_BROWSER                     1155
 #define IDC_AGE                         1155
 #define IDC_URL                         1156
+#define IDC_DRAWNPCNAMES                1156
 #define IDC_URLBUTTON                   1157
+#define IDC_TARGETLIGHT                 1157
 #define IDC_URLLABEL                    1158
 #define IDC_ADMIN                       1159
 #define IDC_ANNOTATE                    1160
