@@ -613,7 +613,7 @@ void ConfigMenuLaunch(void)
 
 	sprintf(command_line, "%s", "m59bind.exe");
 
-	memset(&si, sizeof(si), 0);
+	memset(&si, 0, sizeof(si));
 	si.cb = sizeof(si);
 	GetStartupInfo(&si); /* shouldn't need to do this.  very weird */
 

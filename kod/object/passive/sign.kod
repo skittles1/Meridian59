@@ -91,5 +91,14 @@ messages:
       return FALSE;
    }
 
+   SendLightingInformation()
+   {
+      AddPacket(2,(LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC | LIGHT_FLAG_HIGHLIGHT));
+      AddPacket(1,255);
+      AddPacket(2,LIGHT_BWHITE);
+
+      return;
+   }
+
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

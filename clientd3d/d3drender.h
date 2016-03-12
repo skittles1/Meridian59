@@ -13,8 +13,6 @@ inline DWORD F2DW( FLOAT f ) { return *((DWORD*)&f); }
 #define DEGREES_TO_RADIANS(_x)	((float)_x * PITWICE / 360.0f)
 #define RADIANS_TO_DEGREES(_x)	((float)_x * 360.0f / PITWICE)
 
-#define DLIGHT_SCALE(_x)		((_x * 14000 / 255) + 4000)
-
 #define D3DRENDER_CLIP(_x, _w)	((_x > -fabs(_w)) && (_x < fabs(_w)) ? 1 : 0)
 
 #define ZBIAS_UNDERUNDER		1
@@ -87,25 +85,6 @@ inline DWORD F2DW( FLOAT f ) { return *((DWORD*)&f); }
 		IDirect3DDevice9_SetStreamSource(_pDevice, _i++, NULL, 0, 0);	\
 	IDirect3DDevice9_SetIndices(_pDevice, NULL);
 
-typedef struct d_light
-{
-	custom_xyz	xyz;
-   // Max and min x,y values for how far
-   // the light reaches.
-   float maxX, maxY, minX, minY;
-	custom_xyz	xyzScale;
-	custom_xyz	invXYZScale;
-	custom_xyz	invXYZScaleHalf;
-	custom_bgra	color;
-	ID			objID;
-} d_light;
-
-typedef struct d_light_cache
-{
-	int		numLights;
-	d_light	dLights[MAX_DLIGHTS];
-} d_light_cache;
-
 typedef struct font_3d
 {
 	TCHAR				strFontName[80];
@@ -143,7 +122,6 @@ LPDIRECT3DTEXTURE9	D3DRenderTextureCreateFromBGF(PDIB pDib, BYTE xLat0, BYTE xLa
 LPDIRECT3DTEXTURE9	D3DRenderTextureCreateFromBGFSwizzled(PDIB pDib, BYTE xLat0, BYTE xLat1,
 												  BYTE effect);
 void				D3DRenderPaletteSet(UINT xlatID0, UINT xlatID1, BYTE flags);
-int					D3DRenderObjectGetLight(BSPnode *tree, room_contents_node *pRNode);
 void				D3DRenderBackgroundSet(ID background);
 void				D3DRenderBackgroundSet2(ID background);
 d3d_render_packet_new *D3DRenderPacketFindMatch(d3d_render_pool_new *pPool, LPDIRECT3DTEXTURE9 pTexture,
@@ -199,5 +177,10 @@ Bool D3DMaterialParticleChunk(d3d_render_chunk_new *pChunk);
 // Use this function to determine if the bounding box is out of the player's
 //view. Useful for not adding stuff to draw that the player can't see.
 Bool IsHidden(Draw3DParams *params, long x0, long y0, long x1, long y1);
+
+inline static int DistanceGet(int x, int y)
+{
+   return (int)sqrt((double)(x * x) + (double)(y * y));;
+}
 
 #endif	// __D3DRENDER_H__

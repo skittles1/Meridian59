@@ -312,6 +312,9 @@
     <ClInclude Include="audio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="d3dlighting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="about.c">
@@ -600,6 +603,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="audio.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="d3dlighting.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
