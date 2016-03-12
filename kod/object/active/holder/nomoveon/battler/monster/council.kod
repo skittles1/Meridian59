@@ -41,7 +41,7 @@ classvars:
    vrIcon = Councilor_icon_rsc
    viAttributes = MOB_LISTEN | MOB_RANDOM | MOB_RECEIVE
 
-   viObject_flags = OF_ATTACKABLE | OF_DISPLAY_NAME
+   viObject_flags = OF_ATTACKABLE | OF_DISPLAY_NAME | OF_NPC
 
    % Mob doesn't move and cannot be attacked.
    viDefault_behavior = AI_NPC | AI_NOMOVE
