@@ -131,6 +131,9 @@ properties:
    % If true, JoF regains hits when players kill mobs.
    pbFrozRechargeOnKill = TRUE
 
+   // Spell items cost this much compared to casting the actual spell.
+   piItemManaCostPct = 75
+
    %
    % Guild hall settings
    %
@@ -483,6 +486,11 @@ messages:
    CanFrozRechargeOnKill()
    {
       return pbFrozRechargeOnKill;
+   }
+
+   GetItemManaCostPct()
+   {
+      return piItemManaCostPct;
    }
 
    %

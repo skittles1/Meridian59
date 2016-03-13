@@ -849,12 +849,12 @@ messages:
 
       if NOT bItemCast
       {
-         piCast_attempts = piCast_attempts + 1;
+         ++piCast_attempts;
          foreach i in lTargets
          {
             if IsClass(i,&User)
             {
-               piCast_attempts_at_players = piCast_attempts_at_players + 1;
+               ++piCast_attempts_at_players;
 
                break;
             }
@@ -922,26 +922,22 @@ messages:
                }
             }
          }
-         else
+         else if oTarget <> who AND IsClass(oTarget,&User)
          {
-            if oTarget <> who AND IsClass(oTarget,&User)
+            if viNoNewbieOffense
             {
-               if viNoNewbieOffense
-               {
-                  Send(who,@MsgSendUser,#message_rsc=spell_guardian);
+               Send(who,@MsgSendUser,#message_rsc=spell_guardian);
 
-                  return FALSE;
-               }
+               return FALSE;
+            }
 
-               if NOT Send(oTarget,@CanHelpPlayer)
-                  AND oTarget <> who
-               {
-                  Send(who,@MsgSendUser,#message_rsc=spell_cant_help,
-                        #parm1=Send(oTarget,@GetDef),
-                        #parm2=Send(oTarget,@GetName));
+            if NOT Send(oTarget,@CanHelpPlayer)
+            {
+               Send(who,@MsgSendUser,#message_rsc=spell_cant_help,
+                     #parm1=Send(oTarget,@GetDef),
+                     #parm2=Send(oTarget,@GetName));
 
-                  return FALSE;
-               }
+               return FALSE;
             }
          }
       }
@@ -1303,42 +1299,32 @@ messages:
 
       if lTargets <> $
          AND Send(self,@GetNumSpellTargets) = 1
-         AND IsClass(first(lTargets),&Battler)
+         AND IsClass(First(lTargets),&Battler)
          AND NOT Send(Send(who,@GetOwner),@LineOfSight,#obj1=who,
-                      #obj2=first(lTargets))
+                      #obj2=First(lTargets))
          AND NOT(IsClass(who,&DM) AND Send(who,@PlayerIsImmortal))
       {
          Send(who,@MsgSendUser,#message_rsc=no_line_of_sight);
-         
-         oTarget = first(lTargets);
-         
+
+         oTarget = First(lTargets);
+
          iDistance = Send(who,@SquaredDistanceTo,#what=oTarget);
 
          iDistance = iDistance / 4;
-         
+
          if iDistance > num / 2
          {
             num = num / 2;
          }
-         else
+         else if iDistance < num / 2
          {
-            if iDistance < num / 2
-            {
-               num = num - iDistance;
-            }
+            num = num - iDistance;
          }
       }
 
-      if random(1,100) > num
+      if Random(1,100) > num
+         AND (oRing = $ OR NOT Send(oRing,@InUse))
       {
-         if oRing <> $
-         {
-            if Send(oRing,@InUse)
-            {
-               return TRUE;
-            }
-         }
-         
          return FALSE;
       }
 
@@ -1352,8 +1338,8 @@ messages:
       local num, iAbility, lReagent, cReagentClass, iLists, lItems,
             iNumNeeded, oUserObject, oRoom;
       
-      oRoom = Send(who,@GetOwner);	  
-      if NOT IsClass(who,&Player)
+      oRoom = Send(who,@GetOwner);
+      if NOT IsClass(who,&User)
       {
          return TRUE;
       }
@@ -1706,7 +1692,7 @@ messages:
       return $;
    }
 
-   GetManaCost(who=$,iSpellPower=0)
+   GetManaCost(who=$,iSpellPower=0,bItemCast=FALSE)
    "Returns number of magic points needed to cast spell"
    {
       local iCost, oPrincessShield;
@@ -1715,25 +1701,32 @@ messages:
       {
          Debug("Bad iSpellpower passed to GetManaCost");
       }
-      
-      iCost = viMana;
-      
+
+      if (bItemCast)
+      {
+         iCost = viMana * Send(SETTINGS_OBJECT,@GetItemManaCostPct) / 100;
+      }
+      else
+      {
+         iCost = viMana;
+      }
+
       % don't take anything below 1 unless it already is.
       if iCost = 0
       {
          return 0;
-      }   
+      }
 
       % -1 mana cost for spellpower over 40
       if iSpellPower > 40
       {
-         iCost = iCost - 1;
+         --iCost;
       }
-      
+
       % -2 mana cost for spellpowers over 80
       if iSpellPower > 80
       {
-         iCost = iCost - 1;
+         --iCost;
       }
 
       % Up to -2 for being a Princess soldier
@@ -1742,7 +1735,7 @@ messages:
       {
          iCost = iCost - Send(oPrincessShield,@GetSpellManaReduction);
       }
-      
+
       return bound(iCost,1,$);
    }
 
