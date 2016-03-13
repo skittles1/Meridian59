@@ -363,6 +363,7 @@ void D3DLMapsStaticGet(room_type *room)
       // using the same color as the user's selected target halo.
       if (pRNode->obj.id != INVALID_ID
          && pRNode->obj.id != player.id
+         && config.target_highlight
          && pRNode->obj.id == GetUserTargetID()
          && pRNode->obj.drawingtype != DRAWFX_INVISIBLE
          && gDLightCacheDynamic.numLights < MAX_NUM_DLIGHTS)

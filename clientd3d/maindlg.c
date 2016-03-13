@@ -174,7 +174,10 @@ BOOL CALLBACK PreferencesDialogProc(HWND hDlg, UINT message, UINT wParam, LONG l
       SetWindowText(hBrowser, config.browser);
 
       CheckDlgButton(hDlg, IDC_SCROLLLOCK, config.scroll_lock);
-      CheckDlgButton(hDlg, IDC_DRAWNAMES, config.draw_names);
+      CheckDlgButton(hDlg, IDC_DRAWNAMES, config.draw_player_names);
+      CheckDlgButton(hDlg, IDC_DRAWNPCNAMES, config.draw_npc_names);
+      CheckDlgButton(hDlg, IDC_DRAWSIGNNAMES, config.draw_sign_names);
+      CheckDlgButton(hDlg, IDC_TARGETLIGHT, config.target_highlight);
       CheckDlgButton(hDlg, IDC_TOOLTIPS, config.tooltips);
       CheckDlgButton(hDlg, IDC_PAIN, config.pain);
       CheckDlgButton(hDlg, IDC_INVNUM, config.inventory_num);
@@ -266,11 +269,14 @@ BOOL CALLBACK PreferencesDialogProc(HWND hDlg, UINT message, UINT wParam, LONG l
          if (browser_changed)
             config.default_browser = False;
          
-         config.scroll_lock   = IsDlgButtonChecked(hDlg, IDC_SCROLLLOCK);
-         config.draw_names    = IsDlgButtonChecked(hDlg, IDC_DRAWNAMES);
-         config.tooltips      = IsDlgButtonChecked(hDlg, IDC_TOOLTIPS);
-         config.pain          = IsDlgButtonChecked(hDlg, IDC_PAIN);
-         config.inventory_num = IsDlgButtonChecked(hDlg, IDC_INVNUM);
+         config.scroll_lock       = IsDlgButtonChecked(hDlg, IDC_SCROLLLOCK);
+         config.draw_player_names = IsDlgButtonChecked(hDlg, IDC_DRAWNAMES);
+         config.draw_npc_names    = IsDlgButtonChecked(hDlg, IDC_DRAWNPCNAMES);
+         config.draw_sign_names   = IsDlgButtonChecked(hDlg, IDC_DRAWSIGNNAMES);
+         config.target_highlight  = IsDlgButtonChecked(hDlg, IDC_TARGETLIGHT);
+         config.tooltips          = IsDlgButtonChecked(hDlg, IDC_TOOLTIPS);
+         config.pain              = IsDlgButtonChecked(hDlg, IDC_PAIN);
+         config.inventory_num     = IsDlgButtonChecked(hDlg, IDC_INVNUM);
 
          if (IsDlgButtonChecked(hDlg, IDC_SAFETY))
             config.preferences |= CF_SAFETY_OFF;

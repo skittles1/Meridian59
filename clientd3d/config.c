@@ -95,7 +95,10 @@ static char INIServerNum[]   = "ServerNumber";
 static char INIDomainFormat[] = "Domain";
 
 static char users_section[]  = "Users";  /* Section for dealing with other users */
-static char INIDrawNames[]   = "DrawNames";
+static char INIDrawPlayerNames[] = "DrawPlayerNames";
+static char INIDrawNPCNames[] = "DrawNPCNames";
+static char INIDrawSignNames[] = "DrawSignNames";
+static char INIShowTargetHighlight[] = "ShowTargetHighlight";
 static char INIIgnoreAll[]   = "IgnoreAll";
 static char ININoBroadcast[] = "NoBroadcast";
 static char INIIgnoreList[]  = "IgnoreList";
@@ -204,8 +207,11 @@ void ConfigLoad(void)
    GetPrivateProfileString(misc_section, INIBrowser, "", 
 			   config.browser, MAX_PATH, ini_file); 
    
-   config.draw_names   = GetConfigInt(users_section, INIDrawNames, True, ini_file);
-   config.ignore_all   = GetConfigInt(users_section, INIIgnoreAll, False, ini_file);
+   config.draw_player_names = GetConfigInt(users_section, INIDrawPlayerNames, True, ini_file);
+   config.draw_npc_names = GetConfigInt(users_section, INIDrawNPCNames, True, ini_file);
+   config.draw_sign_names = GetConfigInt(users_section, INIDrawSignNames, True, ini_file);
+   config.target_highlight = GetConfigInt(users_section, INIShowTargetHighlight, True, ini_file);
+   config.ignore_all = GetConfigInt(users_section, INIIgnoreAll, False, ini_file);
    config.no_broadcast = GetConfigInt(users_section, ININoBroadcast, False, ini_file);
 
    GetPrivateProfileString(users_section, INIIgnoreList, "", 
@@ -314,7 +320,10 @@ void ConfigSave(void)
    WriteConfigInt(misc_section, INIObjectCacheMin, config.ObjectCacheMin, ini_file);
    WriteConfigInt(misc_section, INIGridCacheMin, config.GridCacheMin, ini_file);
 
-   WriteConfigInt(users_section, INIDrawNames, config.draw_names, ini_file);
+   WriteConfigInt(users_section, INIDrawPlayerNames, config.draw_player_names, ini_file);
+   WriteConfigInt(users_section, INIDrawNPCNames, config.draw_npc_names, ini_file);
+   WriteConfigInt(users_section, INIDrawSignNames, config.draw_sign_names, ini_file);
+   WriteConfigInt(users_section, INIShowTargetHighlight, config.target_highlight, ini_file);
    WriteConfigInt(users_section, INIIgnoreAll, config.ignore_all, ini_file);
    WriteConfigInt(users_section, ININoBroadcast, config.no_broadcast, ini_file);
 
