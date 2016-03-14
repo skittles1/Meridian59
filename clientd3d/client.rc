@@ -357,19 +357,21 @@ BEGIN
     GROUPBOX        "Spezialeffekte",IDC_STATIC,118,6,247,72,WS_GROUP
     CONTROL         "Schrittschwankungen anzeigen",1163,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,19,118,9
     CONTROL         "Schmerzen bei Treffern anzeigen",1146,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,31,118,9
-    CONTROL         "Show targeting light effect",1157,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,43,99,9
+    CONTROL         "Lichteffekt beim Markieren anzeigen",1157,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,129,43,136,9
     CONTROL         "Stapelgröße bei Gegenständen anzeigen",1148,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,129,55,114,18
-    CONTROL         "Spielernamen anzeigen",1143,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,256,19,91,9
-    CONTROL         "Show NPC names",1156,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,256,31,91,9
-    CONTROL         "Show sign names",1149,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,256,43,91,9
+    CONTROL         "Spielernamen anzeigen",1143,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,259,19,91,9
+    CONTROL         "Namen der NPC anzeigen",1156,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,259,31,101,9
+    CONTROL         "Namen der Schilder anzeigen",1149,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,259,43,104,9
     GROUPBOX        "Partikeleffekte",IDC_STATIC,6,79,359,35,WS_GROUP
     CONTROL         "Wettereffekte anzeigen",1208,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_GROUP | WS_TABSTOP,17,94,93,9
     LTEXT           "Partikeldichte %",IDC_STATIC,118,94,58,10
     CONTROL         "",IDC_PARTICLENUM,"msctls_trackbar32",TBS_BOTH | TBS_TOOLTIPS | WS_TABSTOP,169,86,192,22
     GROUPBOX        "Spieloptionen",IDC_STATIC,5,116,360,56,WS_GROUP
     CONTROL         "Vorübergehender PvP-Schutz nach Tod",1209,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,13,129,140,9
-    CONTROL         "Autoaufnahme stapelbarer Gegenstände von Kills",1212,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,13,141,177,9
-    CONTROL         "Verstaue Reagenzien automatisch in den Reagenzienbeutel",1214,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,13,153,210,9
+    CONTROL         "Autoaufnahme stapelbarer Gegenstände von Kills",1212,
+                    "Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,13,141,177,9
+    CONTROL         "Verstaue Reagenzien automatisch in den Reagenzienbeutel",1214,
+                    "Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,13,153,210,9
     CONTROL         "An Gruppenbildung teilnehmen",1210,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,223,129,109,9
     CONTROL         "Gegenstände automatisch kombinieren",1213,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,223,141,136,9
     CONTROL         "Zeige Zaubermacht beim zaubern",1215,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,223,153,125,9
