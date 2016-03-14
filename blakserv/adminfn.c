@@ -121,6 +121,9 @@ void AdminShowUserHeader(void);
 void AdminShowOneUser(user_node *u);
 void AdminShowAccounts(int session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[]);
+void AdminShowAccByEmail(int session_id, admin_parm_type parms[],
+                         int num_blak_parm, parm_node blak_parm[]);
+void AdminPrintAccountByEmail(account_node *a, char *email);
 void AdminShowAccount(int session_id,admin_parm_type parms[],
                       int num_blak_parm,parm_node blak_parm[]);
 void AdminShowAccountHeader(void);
@@ -192,6 +195,8 @@ void AdminSetAccountName(int session_id,admin_parm_type parms[],
                          int num_blak_parm,parm_node blak_parm[]);
 void AdminSetAccountPassword(int session_id,admin_parm_type parms[],
                              int num_blak_parm,parm_node blak_parm[]);
+void AdminSetAccountEmail(int session_id, admin_parm_type parms[],
+                          int num_blak_parm, parm_node blak_parm[]);
 void AdminSetAccountCredits(int session_id,admin_parm_type parms[],
                             int num_blak_parm,parm_node blak_parm[]);
 void AdminSetAccountObject(int session_id,admin_parm_type parms[],
@@ -334,6 +339,7 @@ admin_table_type admin_show_table[] =
 	{ AdminShowConfiguration, {N},   F, A|M, NULL, 0, "config",        "Show configuration values" },
 	{ AdminShowConstant,      {S,N}, F,A|M, NULL, 0, "constant",       "Show value of admin constant" },
 	{ AdminShowDynamicResources,{N}, F, A|M, NULL, 0, "dynamic",       "Show all dynamic resources" },
+   { AdminShowAccByEmail,    {S,N}, F, A|M, NULL, 0, "email",         "Show all accounts with a given email address" },
 	{ AdminShowInstances,     {S,N}, F, A|M, NULL, 0, "instances",     "Show all instances of class" },
 	{ AdminShowList,          {I,N}, F, A|M, NULL, 0, "list",          "Traverse & show a list" },
 	{ AdminShowListNode,      {I,N}, F, A|M, NULL, 0, "listnode",      "Show one list node by id" },
@@ -373,6 +379,8 @@ admin_table_type admin_setacco_table[] =
 	"Set an object to be the game object for an account, i.e., a character" },
 	{ AdminSetAccountPassword, {I,S,N}, F,A|M, NULL, 0, "password", 
 	"Set password by account number and password" },
+   { AdminSetAccountEmail, { I, S, N }, F, A | M, NULL, 0, "email",
+   "Set email by account number and email" },
 };
 #define LEN_ADMIN_SETACCO_TABLE (sizeof(admin_setacco_table)/sizeof(admin_table_type))
 
@@ -429,11 +437,11 @@ admin_table_type admin_set_table[] =
 
 admin_table_type admin_create_table[] =
 {
-	{ AdminCreateAccount, {S,S,S,N}, F,A|M,NULL, 0, "account", 
-		"Create account by type (user/admin/dm/guest), name, password" },
+	{ AdminCreateAccount, {S,S,S,S,N}, F,A|M,NULL, 0, "account", 
+		"Create account by type (user/admin/dm/guest), name, password and email" },
 	{ AdminCreateAdmin,   {I,N},   F, A|M, NULL, 0, "admin",   "Create admin object by account id" },
-	{ AdminCreateAutomated,{S,S,N},F, A|M,NULL, 0, "automated",
-	"Create account and user by name, password" },
+	{ AdminCreateAutomated,{S,S,S,N},F, A|M,NULL, 0, "automated",
+	"Create account and user by name, password and email" },
 	{ AdminCreateDM,      {I,N},   F, A|M, NULL, 0, "dm",      "Create DM object by account id" },
    { AdminCreateEscapedConvict, { I, N }, F, A | M, NULL, 0, "ec", "Create escaped convict object by account id" },
 	{ AdminCreateListNode,{S,S,S,S,N},F, A|M, NULL, 0, "listnode","Create list node" },
@@ -508,8 +516,8 @@ admin_table_type admin_reload_table[] =
 
 admin_table_type admin_recreate_table[] =
 {
-	{ AdminRecreateAutomated,{I,S,S,N},F,A|M,NULL, 0, "automated",
-		"Create specific account and user by name, password" },
+	{ AdminRecreateAutomated,{I,S,S,S,N},F,A|M,NULL, 0, "automated",
+		"Create specific account and user by name, password and email" },
 };
 #define LEN_ADMIN_RECREATE_TABLE (sizeof(admin_recreate_table)/sizeof(admin_recreate_table))
 
@@ -1839,6 +1847,27 @@ void AdminShowAccounts(int session_id,admin_parm_type parms[],
 	ForEachAccount(AdminShowOneAccount);
 }
 
+void AdminShowAccByEmail(int session_id, admin_parm_type parms[],
+                         int num_blak_parm, parm_node blak_parm[])
+{
+   char *email;
+   email = (char *)parms[0];
+
+   if (!email)
+      return;
+
+   AdminShowAccountHeader();
+   ForEachAccountWithString(AdminPrintAccountByEmail, email);
+}
+
+void AdminPrintAccountByEmail(account_node *a, char *email)
+{
+   if (strcmp(a->email, email) != 0)
+      return;
+
+   AdminShowOneAccount(a);
+}
+
 void AdminShowAccount(int session_id,admin_parm_type parms[],
                       int num_blak_parm,parm_node blak_parm[])                      
 {
@@ -1890,7 +1919,7 @@ void AdminShowAccount(int session_id,admin_parm_type parms[],
 
 void AdminShowAccountHeader()
 {
-	aprintf("%-6s%-23s%-10s%-8s%-30s\n","Acct","Name","Suspended","Credits",
+	aprintf("%-6s%-23s%-23s%-10s%-8s%-30s\n","Acct","Name","Email","Suspended","Credits",
 		"Last login");
 }
 
@@ -1919,7 +1948,7 @@ void AdminShowOneAccount(account_node *a)
       sprintf(buff,"");
    }
 	
-	aprintf("%4i%c %-24s%8s %4i.%02i %-30s\n",a->account_id,ch,a->name,
+	aprintf("%4i%c %-23s%-23s%8s %4i.%02i %-30s\n",a->account_id,ch,a->name,a->email,
         buff, a->credits/100,a->credits%100,TimeStr(a->last_login_time));
 }
 
@@ -1932,31 +1961,11 @@ void AdminShowSuspended(int session_id, admin_parm_type parms[],
 
 void AdminShowOneAccountIfSuspended(account_node *a)
 {
-   char ch = ' ';
-   static const char* types = " ADG"; // see enum ACCOUNT_* in account.h
-   char buff[9];
-
-   if (a->type >= 0 && a->type <= (int)strlen(types))
-      ch = types[a->type];
-
    // Check the suspend time.  Only printing suspended accounts.
    if (a->suspend_time <= GetTime())
-   {
       return;
-   }
 
-   if (a->suspend_time > 0)
-   {
-      // Print suspended time left in hours.
-      sprintf(buff, "%7.1fh", (a->suspend_time - GetTime()) / (60.0*60.0));
-   }
-   else
-   {
-      sprintf(buff, "");
-   }
-
-   aprintf("%4i%c %-24s%8s %4i.%02i %-30s\n", a->account_id, ch, a->name,
-      buff, a->credits / 100, a->credits % 100, TimeStr(a->last_login_time));
+   AdminShowOneAccount(a);
 }
 
 void AdminShowResource(int session_id,admin_parm_type parms[],
@@ -3200,6 +3209,43 @@ void AdminSetAccountPassword(int session_id,admin_parm_type parms[],
 	aprintf("Set password for account %i (%s).\n",a->account_id,a->name);
 }
 
+void AdminSetAccountEmail(int session_id, admin_parm_type parms[],
+                          int num_blak_parm, parm_node blak_parm[])
+{
+   account_node *a;
+
+   int account_id;
+   char *email;
+   account_id = (int)parms[0];
+   email = (char *)parms[1];
+   if (!email || !*email)
+   {
+      aprintf("Missing parameter 2: new account email.\n");
+      return;
+   }
+
+   if (!AccountValidateEmail(email))
+   {
+      aprintf("Invalid email address.\n");
+
+      return;
+   }
+
+   a = GetAccountByID(account_id);
+   if (a == NULL)
+   {
+      aprintf("Cannot find account %i.\n", account_id);
+
+      return;
+   }
+
+   lprintf("AdminSetAccountEmail changing name of account %i from %s to %s\n",
+      a->account_id, a->email, email);
+   aprintf("Changing name of account %i from '%s' to '%s'.\n",
+      a->account_id, a->email, email);
+   SetAccountEmail(a, email);
+}
+
 void AdminSetAccountCredits(int session_id,admin_parm_type parms[],
                             int num_blak_parm,parm_node blak_parm[])
 {
@@ -3705,15 +3751,16 @@ void AdminUnsuspendAccount(int session_id,admin_parm_type parms[],
 }
 
 void AdminCreateAccount(int session_id,admin_parm_type parms[],
-                        int num_blak_parm,parm_node blak_parm[])                        
+                        int num_blak_parm,parm_node blak_parm[])
 {
 	int account_id;
 	user_node *u;
 	
-	char *name,*password,*type;
+   char *name, *password, *email, *type;
 	type = (char *)parms[0];
 	name = (char *)parms[1];
 	password = (char *)parms[2];
+   email = (char *)parms[3];
 	
 	if (0 == stricmp(type, "AUTO"))
 	{
@@ -3736,7 +3783,7 @@ void AdminCreateAccount(int session_id,admin_parm_type parms[],
 	switch (toupper(type[0]))
 	{
 	case 'A':
-		if (CreateAccount(name,password,ACCOUNT_ADMIN,&account_id) == False)
+		if (CreateAccount(name,password,email,ACCOUNT_ADMIN,&account_id) == False)
 		{
 			aprintf("Account name %s already exists\n",name);
 			return;
@@ -3744,7 +3791,7 @@ void AdminCreateAccount(int session_id,admin_parm_type parms[],
 		break;
 		
 	case 'D':
-		if (CreateAccount(name,password,ACCOUNT_DM,&account_id) == False)
+      if (CreateAccount(name, password, email,ACCOUNT_DM, &account_id) == False)
 		{
 			aprintf("Account name %s already exists\n",name);
 			return;
@@ -3753,7 +3800,7 @@ void AdminCreateAccount(int session_id,admin_parm_type parms[],
 		
 	case 'G':
 		/* create account and 1 guest user, because there's no point in anything else */
-		if (CreateAccount(name,password,ACCOUNT_GUEST,&account_id) == False)
+		if (CreateAccount(name,password,email,ACCOUNT_GUEST,&account_id) == False)
 		{
 			aprintf("Account name %s already exists\n",name);
 			return;
@@ -3770,7 +3817,7 @@ void AdminCreateAccount(int session_id,admin_parm_type parms[],
 		break;
 		
 	default :
-		if (CreateAccount(name,password,ACCOUNT_NORMAL,&account_id) == False)
+		if (CreateAccount(name,password,email,ACCOUNT_NORMAL,&account_id) == False)
 		{
 			aprintf("Account name %s already exists\n",name);
 			return;
@@ -3789,12 +3836,13 @@ void AdminCreateAutomated(int session_id,admin_parm_type parms[],
 	int account_id;
 	user_node *u;
 	
-	char *name,*password;
+	char *name,*password,*email;
 	
 	name = (char *)parms[0];
 	password = (char *)parms[1];
+   email = (char *)parms[2];
 	
-	if (CreateAccount(name,password,ACCOUNT_NORMAL,&account_id) == False)
+	if (CreateAccount(name,password,email,ACCOUNT_NORMAL,&account_id) == False)
 	{
 		aprintf("Account name %s already exists\n",name);
 		return;
@@ -3822,13 +3870,14 @@ void AdminRecreateAutomated(int session_id,admin_parm_type parms[],
 	int account_id, acct;
 	user_node *u;
 	
-	char *name,*password;
+	char *name,*password,*email;
 	
 	account_id = (int)parms[0];
 	name = (char *)parms[1];
 	password = (char *)parms[2];
+   email = (char *)parms[3];
 	
-	acct = RecreateAccountSecurePassword(account_id,name,password,ACCOUNT_NORMAL);
+	acct = RecreateAccountSecurePassword(account_id,name,password,email,ACCOUNT_NORMAL);
 	if (acct >= 0)
 	{
 		aprintf("Created account %i.\n",acct);
@@ -4927,7 +4976,7 @@ void AdminDeleteUnusedAccounts(int session_id, admin_parm_type parms[],
    int beforeAcct = GetActiveAccountCount();
 
    aprintf("Number of accounts before is: %i.\n", beforeAcct);
-   ForEachAccount(DeleteAccountIfUnused);
+   DeleteAccountsIfUnused();
    CompactAccounts();
    int afterAcct = GetActiveAccountCount();
    aprintf("Number of accounts after is: %i, deleted %i accounts.\n",

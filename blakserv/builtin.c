@@ -20,13 +20,14 @@ typedef struct
 {
 	char *name;
 	char *password;
+	char *email;
 	int type;
 	char *game_name;
 } bi_account;
 
 bi_account bi_accounts[] =
 {
-	{ "Daenks",  "somethingnew",  ACCOUNT_ADMIN, "Daenks" },
+	{ "Daenks",  "somethingnew", "None", ACCOUNT_ADMIN, "Daenks"},
 };
 
 enum
@@ -49,7 +50,7 @@ void CreateBuiltInAccounts(void)
 			account_id = a->account_id;
 		else
 			account_id = CreateAccountSecurePassword(bi_accounts[i].name,bi_accounts[i].password,
-			bi_accounts[i].type);
+			bi_accounts[i].email,bi_accounts[i].type);
 		
 		if (bi_accounts[i].game_name != NULL)
 		{
