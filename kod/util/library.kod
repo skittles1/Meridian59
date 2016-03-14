@@ -87,6 +87,7 @@ resources:
    LM_monster_really_hard = "%s%s is a fearsome foe.  Attacking would be tantamount to suicide."
    LM_monster_about_right = "%s%s would be a fair fight for you.  You might even pick up a new trick or two."
 
+   LM_haz_hello = "Hail, %s%s!"
    LM_haz_factions = "The Duke and the Princess are always squabbling over who is the rightful something-or-other.  Fortunately, we're far divorced from that here."
    LM_haz_towns = "The five towns are far away from here."
    LM_haz_help = "I'll be what help I can be, but you should really read the signs."
@@ -1181,6 +1182,10 @@ messages:
       %     ]],plSpeechLib);
 
       plSpeechLib = Cons([&HazarTown,[
+         [[LT_hello],0,[LIBACT_SAY_TARG,LM_haz_hello]],
+         [[LT_hi],0,[LIBACT_SAY_TARG,LM_haz_hello]],
+         [[LT_hiya],0,[LIBACT_SAY_TARG,LM_haz_hello]],
+         [[LT_howdy],0,[LIBACT_SAY_TARG,LM_haz_hello]],
          [[LT_akardius,LT_duke,LT_princess,LT_kateriina],0,[LIBACT_SAY,LM_haz_factions]],
          [[LT_cor,LT_jasper,LT_marion,LT_barloque,LT_tos],0,[LIBACT_SAY,LM_haz_towns]],
          [[LT_help],0,[LIBACT_SAY,LM_haz_help]],
