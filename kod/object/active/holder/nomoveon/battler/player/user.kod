@@ -8021,9 +8021,6 @@ messages:
             }
 
             rSay_format = user_send_str;
-
-            % Play a "tell sound" to the recipient
-            Send(self,@WaveSendUser,#what=what,#wave_rsc=user_tell_wav);
          }
          else if type = SAY_GROUP_ONE
          {
@@ -8035,9 +8032,6 @@ messages:
             }
 
             rSay_format = user_send_one_str;
-
-            % Play a "tell sound" to the recipient
-            Send(self,@WaveSendUser,#what=what,#wave_rsc=user_tell_wav);
 
             % this is what the client is expecting to hear
             type = SAY_GROUP;
