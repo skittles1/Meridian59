@@ -372,18 +372,9 @@ void D3DLMapsStaticGet(room_type *room)
             LIGHT_FLAG_DYNAMIC | LIGHT_FLAG_ON | LIGHT_FLAG_HIGHLIGHT;
          gDLightCacheDynamic.dLights[gDLightCacheDynamic.numLights].xyz.x = pRNode->motion.x;
          gDLightCacheDynamic.dLights[gDLightCacheDynamic.numLights].xyz.y = pRNode->motion.y;
-         gDLightCacheDynamic.dLights[gDLightCacheDynamic.numLights].xyz.z = pRNode->motion.z;
-
-         pDib = GetObjectPdib(pRNode->obj.icon_res, 0, 0);
 
          GetRoomHeight(room->tree, &top, &bottom, &sector_flags, pRNode->motion.x, pRNode->motion.y);
-
-         gDLightCacheDynamic.dLights[gDLightCacheDynamic.numLights].xyz.z =
-            max(bottom, pRNode->motion.z);
-
-         if (pDib)
-            gDLightCacheDynamic.dLights[gDLightCacheDynamic.numLights].xyz.z +=
-            ((float)pDib->height / (float)pDib->shrink * 16.0f) - (float)pDib->yoffset * 4.0f;
+         gDLightCacheDynamic.dLights[gDLightCacheDynamic.numLights].xyz.z = bottom;
 
          D3DLightingXYCalc(&gDLightCacheDynamic.dLights[gDLightCacheDynamic.numLights], COLOR_MAX);
 
