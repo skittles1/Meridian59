@@ -443,7 +443,7 @@ resources:
    player_angel = "Your guardian angel"
    intrigue_ambassador = "Baron Springer of Cor Noth Township"
 
-   player_newbie_honor_string = "This soul is new to the lands of Meridian 59."
+   player_newbie_honor_string = "This soul is new to the lands of Meridian 59.\n"
 
    player_newbie_commands = \
       "\n~BBasic Commands for Meridian 59:~B\n"
