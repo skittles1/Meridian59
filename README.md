@@ -72,9 +72,9 @@ Getting Started: Server
 0. After compilation completes, browse to the `.\run\server folder`,
 and double click `blakserv.exe` to start the server.
 0. Go to the `Administration` tab on the server's interface and enter
-the command: `create account admin username password` (with your
-desired username and password). You will see a message saying `Created
-ACCOUNT 4` or similar.
+the command: `create account admin username password email` (with your
+desired username, password and email (email can be "none@none").
+You will see a message saying `Created ACCOUNT 4` or similar.
 0. Then create a character slot on that account with `create admin 4`,
 using whichever number the previous line returned instead of 4.
 0. You'll now be able to log in with this account name and password.
