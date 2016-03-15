@@ -1488,42 +1488,6 @@ messages:
    }
 
    % Override from monster superclass
-   % We drop some of our carried items when we die.
-   CreateTreasure(who = $, corpse = $)
-   {
-      local oUsedItem, oItemAtt;
-
-      oItemAtt = Send(SYS,@FindItemAttByNum,#num=IA_CORPSEPOINTER);
-
-      foreach oUsedItem in plUsing
-      {
-         % Only a percentage chance to drop each item.  Too much stuff otherwise.
-         % Don't drop the shield!  It's a quest/special item!
-         if (Random(1,100) <= EQUIPMENT_DROP_PERCENT)
-            AND NOT pbIllusion
-         {
-            if (oItemAtt <> $) AND Send(oItemAtt,@ReqAddToItem,#oItem=oUsedItem)
-            {
-               Send(oItemAtt,@AddToItem,#oItem=oUsedItem,#state1=corpse);
-            }
-
-            Send(poOwner,@NewHold,#what=oUsedItem,
-                  #new_row=piRow,#new_col=piCol,
-                  #fine_row=piFine_row,#fine_col=piFine_col);
-         }
-         else
-         {
-            Send(oUsedItem,@Delete);
-         }
-      }
-
-      plUsing = $;
-
-      % Don't propagate.  We do everything here.
-      return;
-   }
-
-   % Override from monster superclass
    CreateDeadBody(killer=$)
    {
       return Create(&DeadBody,
