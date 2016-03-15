@@ -221,8 +221,7 @@ messages:
 
       plUsing = $;
 
-      % Don't propagate.  We do everything here.
-      return;
+      propagate;
    }
 
    IsAlly(target = $, regroup = FALSE)
