@@ -238,7 +238,7 @@ void MessageSaid(ID sender_id, ID sender_name, BYTE say_type, char *message)
       DisplayServerMessage(message, GetColor(COLOR_MAINEDITFGD), 0);
 
    // Play a ding sound for tells/sends.
-   if (say_type == SAY_GROUP)
+   if (say_type == SAY_GROUP && sender_id != player.id)
       SoundPlayFile("imp.ogg", 0, 0, 0);
 }
 /*****************************************************************************/
