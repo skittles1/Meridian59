@@ -240,8 +240,8 @@ resources:
    player_logon_bonus = \
       "You have received your daily training bonus of ~B%i~B points!  "
       "Come back tomorrow for more!"
-   player_experience_gained = "You have gained ~B%i~B experience points!"
-   player_experience_lost = "You have lost ~B~r%i~B experience points!"
+   player_experience_gained = "You have gained ~B~s%i~v~B XP."
+   player_experience_lost = "You have lost ~B~r%i~B XP!"
 
    player_health_gain_maxed = "Your health cannot increase any further."
 
@@ -833,7 +833,7 @@ properties:
 
    % This is used to determine raises in hit points only.
    poKill_target = $
-   piGain_chance = 0
+   piXP_total = 0
 
    % This keeps track of training points that players accumulate when 
    % killing mobs.
@@ -1692,7 +1692,7 @@ messages:
 
    NewOwner(what = $)
    {
-      local iBasePhaseTime;
+      local iBasePhaseTime, iMaxHealth;
 
       Send(self,@ResetGainFlags);
 
@@ -1708,11 +1708,11 @@ messages:
          % Don't create the revenant if we're in a safe location.
          if (piFlags & PFLAG_HAUNTED)
          {
+            iMaxHealth = Send(self,@GetBaseMaxHealth);
             Create(&Revenant,#target=self,#location=poOwner,
-                   #level=bound((((piBase_Max_health*150)/100)+
-                        (5*piKill_Count_decay)),95,215),
-                   #diff=bound(piBase_Max_health/10,4,9),
-                   #karmic=-piKarma/100);
+                   #level=Bound((((iMaxHealth * 150) / 100)
+                              + (5 * piKill_Count_decay)),95,215),
+                   #diff=Bound(iMaxHealth / 10,4,9),#karmic=-piKarma / 100);
          }
       }
 
@@ -3118,6 +3118,25 @@ messages:
    }
 
    GetBaseMaxHealth()
+   {
+      local iApparentStamina;
+
+      if piStaminaMod >= 0
+      {
+         iApparentStamina = Send(self,@GetStamina);
+      }
+      else
+      {
+         iApparentStamina = Send(self,@GetRawStamina);
+      }
+
+      // Bound twice - once for max HP this player can get, once for
+      // max HP allowable by the game.
+      return Bound(Bound(piBase_max_health,MIN_HP,(100 + iApparentStamina)),
+                  MIN_HP,MAX_HP);
+   }
+
+   GetUncappedBaseMaxHealth()
    {
       return piBase_max_health;
    }
@@ -4850,7 +4869,10 @@ messages:
       % will try to find our "kill target" and fail.
       if poKill_target <> what
       {
-         Send(self,@ResetGainFlags);
+         if (poKill_target <> $)
+         {
+            Send(self,@ResetGainFlags);
+         }
          poKill_target = what;
       }
 
@@ -5022,7 +5044,8 @@ messages:
 
          iAim = Send(self,@GetAim);
          iOffense = (iStroke*2) + (iProficiency*2) + (iAim*8) +
-               (200 * piBase_Max_Health)/(100 + Send(self,@GetStamina));
+               (200 * Send(self,@GetBaseMaxHealth))
+               / (100 + Send(self,@GetStamina));
 
          if oWeapon <> $
          {
@@ -5106,7 +5129,7 @@ messages:
          iAgility = Send(self,@GetAgility);
 
          % Bind health between 20-150 for defense calculation.
-         iHealth = Bound(piBase_Max_Health,20,150);
+         iHealth = Send(self,@GetBaseMaxHealth);
 
          iDefense = iParry + iBlock + (iDodge*2) + (iAgility*8)
                      + (200 * iHealth)/(100 + Send(self,@GetStamina));
@@ -5502,14 +5525,15 @@ messages:
       {
          % If we have more health than twice our max, no percent limit on damage.
          % If we are outlaw or murderer, no percent limit on damage.
-         if piHealth < (piBase_Max_Health * 200)
+         if piHealth < (Send(self,@GetBaseMaxHealth) * 200)
             AND ((NOT (piFlags & PFLAG_OUTLAW)
                AND NOT (piFlags & PFLAG_MURDERER))
                OR Send(SETTINGS_OBJECT,@DamageCapProtectionMurderersEnabled))
          {
             % Cap damage to 1/3 of max health (+2 so we "round up")
-            iLimit = ((piBase_Max_Health*100) + (MAX_HEALTH_DAMAGE_FRACTION-1))
-                                             / MAX_HEALTH_DAMAGE_FRACTION;
+            iLimit = ((Send(self,@GetBaseMaxHealth) * 100)
+                        + (MAX_HEALTH_DAMAGE_FRACTION-1))
+                        / MAX_HEALTH_DAMAGE_FRACTION;
             damage = Bound(damage,$,iLimit);
          }
 
@@ -5892,7 +5916,7 @@ messages:
                      % If were twice as strong as them, we get haunted.
                      % If the victim was good, we get haunted.
                      iChance = Send(self,@RevenantChance,#target=what);
-                     if (random(1,100) < iChance) AND NOT Send(SYS,@GetChaosNight)
+                     if (Random(1,100) < iChance) AND NOT Send(SYS,@GetChaosNight)
                      {
                         Send(self,@SetPlayerFlag,#flag=PFLAG_HAUNTED,#value=TRUE);
                         if poOwner <> $
@@ -5901,9 +5925,9 @@ messages:
                                  #parm1=Send(what,@GetCapDef),
                                  #parm2=Send(what,@GetName,#Cap=TRUE));
                            Create(&Revenant,#target=self,#location=poOwner,
-                                 #level=Bound((((piBase_Max_health*110)/100)+
+                                 #level=Bound((((Send(self,@GetBaseMaxHealth)*110)/100)+
                                     (7*piKill_Count_decay)),95,180),
-                                 #diff=bound(piBase_Max_health/12,4,9),
+                                 #diff=bound(Send(self,@GetBaseMaxHealth)/12,4,9),
                                  #karmic=-piKarma/100);
                         }
                      }
@@ -5924,7 +5948,7 @@ messages:
       }
 
       Send(what,@Killed,#what=self,#stroke_obj=stroke_obj);
-      Send(self,@DrawHPChance);
+      Send(self,@DrawXP);
 
       % Report to shrunken head
       oObject = Send(self,@FindHolding,#class=&ShrunkenHead);
@@ -6036,7 +6060,7 @@ messages:
 
    RevenantChance(who=$,target=$)
    {
-      local oChance, oGuild, iFaction, oSpell, oVictimRoom;
+      local iMaxHealth, oChance, oGuild, iFaction, oSpell, oVictimRoom;
 
       oVictimRoom = Send(target,@GetOwner);
 
@@ -6101,17 +6125,19 @@ messages:
             oChance = oChance + 15;
          }
       }
-
+      
+      // Our max health, bound to max HP
+      iMaxHealth = Send(self,@GetBaseMaxHealth);
       % Punish them more if they beat up someone weaker than they are.
-      oChance = oChance + ((10*piBase_Max_Health)/Send(target,@GetBaseMaxHealth));
+      oChance = oChance + ((10 * iMaxHealth) / Send(target,@GetBaseMaxHealth));
 
       % People with greater absolute Karma have a greater chance to produce
       % a revenant.  Being a good person, in general, decreases your chance.
       % Even if you are murderous scum.
-      oChance = oChance + (abs(Send(target,@GetKarma)-piKarma/100))/20;
+      oChance = oChance + (Abs(Send(target,@GetKarma)-piKarma/100))/20;
 
       % Punish them more if they walked away with more health.
-      oChance = oChance + bound(piHealth/(5*piBase_Max_health),0,20);
+      oChance = oChance + bound(piHealth/(5 * iMaxHealth),0,20);
 
       % Bind the number to a reasonable amount, then add in the penalty
       % for being a repeat killer.
@@ -6819,16 +6845,19 @@ messages:
 
    NewHealth()
    {
+      local iMaxHealth;
+
       if piHealth < 0
       {
          piHealth = 0;
       }
 
+      iMaxHealth = Send(self,@GetBaseMaxHealth);
       % Keep health from going above natural max if affected by Mark of Dishonor.
-      if piHealth > piBase_Max_health*100
+      if piHealth > iMaxHealth * 100
          AND Send(self,@IsEnchanted,#byClass=&MarkOfDishonor)
       {
-         piHealth = piBase_Max_health*100;
+         piHealth = iMaxHealth * 100;
       }
 
       if ptHealth = $
@@ -6891,27 +6920,12 @@ messages:
 
    GainBaseMaxHealth(amount = 0)
    {
-      local iPrev_max, iApparentStamina;
+      local iPrev_max;
 
-      iPrev_max = piBase_max_health;
+      iPrev_max = Send(self,@GetBaseMaxHealth);
 
-      % To deal with potential valid HP being stripped if the player has
-      % a temporary negative stamina modifier, we need to check if
-      % piStaminaMod is negative and if so, use just the raw stamina itself.
-      if piStaminaMod >= 0
-      {
-         iApparentStamina = Send(self,@GetStamina);
-      }
-      else
-      {
-         iApparentStamina = Send(self,@GetRawStamina);
-      }
-
-      piBase_max_health = Bound(piBase_max_health + amount, 20,
-                              (100 + iApparentStamina));
-      % Bound ourselves at the top end to 150.
-      piBase_max_health = Bound(piBase_max_health,$,150);
-      amount = piBase_max_health - iPrev_max;
+      piBase_max_health = piBase_max_health + amount;
+      amount = Send(self,@GetBaseMaxHealth) - iPrev_max;
 
       % Give them the "further info" gmail if they've advanced to 25.
       if piBase_Max_health = 25
@@ -6936,7 +6950,7 @@ messages:
       local iPrev_max;
 
       iPrev_max = piMax_health;
-      piMax_health = bound(piMax_health + amount, 20, $);
+      piMax_health = Bound(piMax_health + amount, MIN_HP, $);
 
       %  no longer reset health to max - will need to test for abusability
       %     the motivation for this originated in using a circlet with health > max_health,
@@ -8718,12 +8732,9 @@ messages:
    "their maxhealth to gain a HP.  This number is reduced by the player's"
    "stamina, all the way down to half for those with high staminas."
    {
-      local i, dodgeskill, oSkill, monster_level, gain, gainmult, roll,
-            oWeapon, lBuilderGroup, bGainedHP;
+      local i, iMaxHealth, dodgeskill, oSkill, monster_level, iXP, oWeapon;
 
-      gain = 0;
-      roll = FALSE;
-      bGainedHP = FALSE;
+      iXP = 0;
 
       % Some things just never allow advancement.
       % Can advance in arena if realdeath is on in an arena.
@@ -8754,136 +8765,124 @@ messages:
          {
             foreach i in plPassiveImprovement
             {
-               if Nth(i,2) and random(1,5) = 5
+               if Nth(i,2) AND Random(1,5) = 5
                {
                   Send(First(i),@ImproveAbility,#who=self,#target=what);
                }
             }
          }
 
-         if monster_level > piBase_Max_health
+         iMaxHealth = Send(self,@GetBaseMaxHealth);
+
+         // Determine the base amount of XP awarded:
+         // Full XP for when the player got the kill and dodged or took damage.
+         // 66% XP when the player didn't get the kill (they dodged or took
+         // damage from any source).
+         // 25% XP for any other group member kill.
+         // 25% XP for monsters at the same level as the player.
+         // 10% XP for monsters 1-4HP lower than the player.
+         if monster_level > iMaxHealth
          {
             if killing_blow
                AND ((piFlags & PFLAG_TOOK_DAMAGE)
                   OR (piFlags & PFLAG_DODGED))
             {
-               % Player took damage and landed killing blow
-               gain = 2;
-               roll = TRUE;
+               // Player took damage and landed killing blow
+               iXP = monster_level;
+
+               // Add any item XP bonuses here. Have to get the kill, and
+               // either take damage or dodge to gain bonus XP.
+               foreach i in plUsing
+               {
+                  iXP = iXP + Send(i,@GetItemXPBonus);
+               }
             }
             else
             {
                % Player either did not take damage, but did killing blow (mage),
-               %  or did take damage, did not land killing blow, or
-               %  it's a group member kill.
-               
-               gain = 1;
-
-               % We still roll for a tougher if we killed the monster but
-               % didn't take damage or dodge, if we helped kill the monster,
-               % or if it was a group member kill and the setting for group
-               % member toughers is set to TRUE.
-               if NOT group_member_kill
-                  OR Send(SETTINGS_OBJECT,@GetGroupTougherSetting)
+               % or did take damage, did not land killing blow, or it's a group
+               % member kill.
+               if (poKill_target = what
+                  AND ((piFlags & PFLAG_TOOK_DAMAGE)
+                     OR (piFlags & PFLAG_DODGED)
+                     OR killing_blow))
                {
-                  roll = TRUE;
+                  iXP = monster_level / 3 * 2;
                }
-               
-               % Inform the player that a group kill successfully garnered XP.
+               else
+               {
+                  iXP = monster_level / 4;
+               }
+
                if group_member_kill
                   AND group_member <> $
-                  AND gain = 1
-               {
-                  Send(self,@MsgSendUser,#message_rsc=group_experience_rsc,
-                        #parm1=Send(group_member,@GetName),
-                        #parm2=Send(what,@GetName));
-               }
-               
-               % Give an informative message about non-group
-               % kills that are still shared
-               if NOT killing_blow
-                  AND NOT group_member_kill
-                  AND group_member <> $
+                  AND NOT killing_blow
                {
                   Send(self,@MsgSendUser,#message_rsc=group_experience_rsc,
                         #parm1=Send(group_member,@GetName),
                         #parm2=Send(what,@GetName));
                }
             }
+
+            // Add stamina modifier here.
+            // 1% bonus for 1 stamina, 70% bonus for 70 stamina.
+            iXP = iXP + iXP * Send(self,@GetStamina) / 100;
          }
-         else
-         {
-            % Monster was equal or close to player level.  Small bonus,
-            %  no roll chance.
-            if (monster_level + 5) > piBase_Max_health
-               AND IsClass(what,&monster) AND killing_blow 
+         else if (monster_level + 5) > iMaxHealth
+               AND IsClass(what,&Monster) AND killing_blow
                AND ((piFlags & PFLAG_TOOK_DAMAGE)
                   OR (piFlags & PFLAG_DODGED))
+         {
+            % Monster was equal or close to player level.  Small bonus.
+            if (monster_level = iMaxHealth)
             {
-               gain = 1;
+               iXP = monster_level / 4;
             }
             else
             {
-               % Monster was too easy for player to kill!
-               if random(1,100) < 30 AND killing_blow
-               {
-                  Send(self,@MsgSendUser,#message_rsc=player_spits);
-               }
+               iXP = monster_level / 10;
             }
+         }
+         else if Random(1,100) < 30 AND killing_blow
+         {
+            % Monster was too easy for player to kill!
+            Send(self,@MsgSendUser,#message_rsc=player_spits);
          }
 
-         % Give newbies a little bonus.
-         if piBase_Max_health < Send(SETTINGS_OBJECT,@GetPKillEnableHP)
+         // Determine XP bonuses on top of the base amount:
+         // Newbies get 10% bonus XP.
+         // 2XP (default) per survival arena level.
+         // Halve XP if player has more than twice their base health.
+         // Multiply total XP by the global XP percent setting.
+         if iMaxHealth < Send(SETTINGS_OBJECT,@GetPKillEnableHP)
          {
-            gain = gain + 1;
+            iXP = iXP * 11 / 10;
          }
-         else
-         {
-            % Give solo pkill-enabled builders a little bonus, for
-            % appropriate monsters. This will roughly equal building 
-            % with one other player in the room. Bonus requires that the 
-            % player is fighting normally (no firewalls / distance killing)
-            lBuilderGroup = Send(poOwner,@GetBuilderGroup);
-            if (lBuilderGroup = $
-                  OR Length(lBuilderGroup) = 1
-                  OR (FindListElem(lBuilderGroup,self) = 0
-                     AND (piPreferences & ~CF_GROUPING)))
-               AND NOT group_member_kill
-               AND killing_blow
-               AND (monster_level + 5) > piBase_Max_health
-               AND ((piFlags & PFLAG_TOOK_DAMAGE)
-                  OR (piFlags & PFLAG_DODGED))
-            {
-               gain = gain + 1;
-            }
-         }
-         
-         % Give a bonus for Survival Rooms
+
          if Send(what,@GetBoostedLevel) > 0
          {
-            gain = gain + (Send(what,@GetBoostedLevel)
-                 / Send(Send(SYS,@GetSurvivalRoomMaintenance),@GetSurvivalXP));
+            iXP = iXP + (Send(what,@GetBoostedLevel)
+                 * Send(Send(SYS,@GetSurvivalRoomMaintenance),@GetSurvivalXP));
          }
 
          % If they're cheesing the situation by fighting wussy monsters
-         % in an altered form, penalize the gain amount.
-         if piMax_health > piBase_Max_health * 2
+         % in an altered form, penalize the XP.
+         if piMax_health > iMaxHealth * 2
             AND monster_level < piMax_health
          {
-            gain = gain / 2;
-            roll = FALSE;
+            iXP = iXP / 2;
          }
 
-         gainmult = Bound(Send(SETTINGS_OBJECT,
-                     @GetHPGainMultiplier),1,500);
-         gain = gain * gainmult;
+         iXP = iXP * 100 / Bound(Send(SETTINGS_OBJECT,@GetXPPercent),1,1000);
 
-         piGain_chance = piGain_chance + gain;
+         // AddXP checks for HP gain and redraws the XP bar.
+         // NOTE: iMaxHealth could be wrong after this point.
+         Send(self,@AddXP,#iAmount=iXP);
 
          % Here, we work out if the player deserves a training point.
          % They qualify if they got at least one gain point from the monster,
          % and also got the killing blow (no double points from single mobs).
-         if gain > 0
+         if iXP > 0
             AND killing_blow
             AND piTraining_points < 1000
          {
@@ -8891,24 +8890,17 @@ messages:
                + (Send(what,@GetBoostedLevel)
                / Send(Send(SYS,@GetSurvivalRoomMaintenance),@GetSurvivalTP));
 
-            if monster_level > 75
+            if monster_level > 150
             {
-               if monster_level <= 121
-               {
-                  piTraining_points = piTraining_points + 1;
-               }
-               else
-               {
-                  if monster_level <= 150
-                  {
-                     piTraining_points = piTraining_points + 2;
-                  }
-                  else
-                  {
-                     piTraining_points = piTraining_points + 3;
-
-                  }
-               }
+               piTraining_points = piTraining_points + 3;
+            }
+            else if monster_level > 120
+            {
+               piTraining_points = piTraining_points + 2;
+            }
+            else if monster_level > 75
+            {
+               ++piTraining_points;
             }
          }
 
@@ -8923,33 +8915,16 @@ messages:
                piInform = FALSE;
             }
          }
-         else
-         {
-            if piTraining_points MOD 100 = 0
+         else if piTraining_points MOD 100 = 0
                AND piTraining_points <> 0
                AND piInform
-            {
-               Send(self,@MsgSendUser,#message_rsc=player_training_inform,
-                     #parm1=piTraining_points);
-            }
+         {
+            Send(self,@MsgSendUser,#message_rsc=player_training_inform,
+                  #parm1=piTraining_points);
          }
 
          % Draw the training points bar.
          Post(self,@DrawTraining);
-
-         % RollForTougher handles the actual tougher check. Will return
-         % TRUE if player gains a HP, FALSE if they don't.
-         if roll
-         {
-            bGainedHP = Send(self,@RollForTougher,#iLevel=monster_level);
-         }
-      }
-
-      % Draw the tougher chance bar. Send this here because RollForTougher
-      % will also draw it, no need to do so twice.
-      if NOT roll
-      {
-         Post(self,@DrawHPChance);
       }
 
       if (piFlags & PFLAG_DODGED)
@@ -8957,11 +8932,11 @@ messages:
       {
          oWeapon = Send(self,@LookupPlayerWeapon);
          if oWeapon <> $
-            AND (not IsClass(oWeapon,&RangedWeapon))
+            AND (NOT IsClass(oWeapon,&RangedWeapon))
             AND Send(self,@HasSkill,#num=SKID_PARRY)
             AND Send(self,@GetSkillAbility,#skill_num=SKID_PARRY) < 99
          {
-            oSkill=Send(SYS,@FindSkillByNum,#num=SKID_PARRY);
+            oSkill = Send(SYS,@FindSkillByNum,#num=SKID_PARRY);
             Send(oSkill,@ImproveAbility,#who=self,#target=poKill_Target);
          }
 
@@ -8969,43 +8944,31 @@ messages:
             AND Send(self,@HasSkill,#num=SKID_BLOCK)
             AND Send(self,@GetSkillAbility,#skill_num=SKID_BLOCK) < 99
          {
-            oSkill=Send(SYS,@FindSkillByNum,#num=SKID_BLOCK);
+            oSkill = Send(SYS,@FindSkillByNum,#num=SKID_BLOCK);
             Send(oSkill,@ImproveAbility,#who=self,#target=poKill_Target);
          }
 
          if Send(self,@HasSkill,#num=SKID_DODGE)
             AND Send(self,@GetSkillAbility,#skill_num=SKID_DODGE) < 99
          {
-            oSkill=Send(SYS,@FindSkillByNum,#num=SKID_DODGE);
+            oSkill = Send(SYS,@FindSkillByNum,#num=SKID_DODGE);
             Send(oSkill,@ImproveAbility,#who=self,#target=poKill_Target);
          }
       }
 
-      % If RollForTougher returned TRUE, we gained a hitpoint.
-      return bGainedHP;
+      return;
    }
 
-   RollForTougher(iLevel=0)
+   TryGainBaseMaxHealth()
    "Handles the roll for tougher based on the player's gain chance plus "
    "the iLevel parameter.  Returns TRUE if the player gaints a hit point, "
    "FALSE otherwise.  The iLevel parameter has the player's base max HP "
    "taken from it, then divided by 5 before being bound between 1 and 10."
    {
-      local iRandom, iNumber, oShrunken, iApparentStamina;
+      local iMaxHealth, oShrunken, iApparentStamina;
 
-      if iLevel = $
-      {
-         iLevel = 0;
-      }
-
-      iRandom = Random(1,Send(self,@GetHighMark));
-      iNumber = piGain_chance + Bound((iLevel-piBase_Max_health)/5,0,10);
-
-      % Draw tougher chance bar.
-      Post(self,@DrawHPChance);
-
-      if iRandom < iNumber
-         AND piBase_Max_health < (101 + Send(self,@GetStamina))
+      if (Send(self,@GetBaseMaxHealth) < (101 + Send(self,@GetStamina))
+         AND Send(self,@GetXPRemainingForNextLevel) <= 0)
       {
          Send(self,@GainBaseMaxHealth,#amount=1);
          if Send(self,@CheckLog)
@@ -9033,7 +8996,7 @@ messages:
             oShrunken = Send(self,@FindHolding,#class=&ShrunkenHead);
             if oShrunken <> $
             {
-               Send(oShrunken,@Tougher,#hp=pibase_max_health);
+               Send(oShrunken,@Tougher,#hp=Send(self,@GetBaseMaxHealth));
             }
          }
 
@@ -9048,24 +9011,12 @@ messages:
             iApparentStamina = Send(self,@GetRawStamina);
          }
 
-         if (piBase_max_health = 100 + iApparentStamina
-            OR piBase_max_health >= 150)
-         {
-            Send(self,@AddTrainingPoints,#points=piBase_max_health * 3,
-                  #bCap=FALSE);
-         }
+         iMaxHealth = Send(self,@GetBaseMaxHealth);
 
-         piGain_chance = -(piBase_Max_health / 2);
-
-         if piBase_max_health > 30
+         if (iMaxHealth >= 100 + iApparentStamina
+            OR iMaxHealth >= MAX_HP)
          {
-            %stam = 50
-            %pigain = pigain - ((50-50)/2) =  pigain - 0
-            %stam = 25 
-            %pigain = pigain - ((50-25)/2) = pigain - 12.5
-            % So, after 30 hps, any stamina less than 50
-            % penalizes you by about 0.5 piGain points
-            piGain_chance = piGain_chance - ((50-Send(self,@GetStamina))/2);
+            Send(self,@AddTrainingPoints,#points=iMaxHealth * 3,#bCap=FALSE);
          }
 
          return TRUE;
@@ -9074,34 +9025,73 @@ messages:
       return FALSE;
    }
 
-   GetGainChance()
+   GetTotalXP()
    {
-      return piGain_chance;
+      return piXP_total;
    }
 
-   AddGainChance(iAmount=$)
+   AddXP(iAmount=0,report=TRUE)
+   "All code that adds or subtracts XP should go through this message. "
+   "Handles resource display and toughers."
    {
-      if iAmount <> $
-         AND iAmount <> 0
+      local iXPNeeded, iXPThisLevel;
+
+      if iAmount = 0
       {
-         piGain_chance = piGain_chance + iAmount;
+         return;
+      }
 
-         if pbLogged_on
+      // Add to total.
+      piXP_total = Bound(piXP_total + iAmount,0,MAX_XP);
+
+      // Get the amount they need for the next HP
+      iXPNeeded = Send(SYS,@GetXPForLevel,#iHP=piBase_Max_health + 1);
+
+      // TryGainBaseMaxHealth checks if player can be awarded a hit point.
+      if (piXP_total >= iXPNeeded)
+      {
+         Send(self,@TryGainBaseMaxHealth);
+      }
+      else if (iAmount < 0)
+      {
+         iXPThisLevel = Send(SYS,@GetXPForLevel,#iHP=piBase_Max_health);
+         if (piXP_total < iXPThisLevel)
          {
-            if iAmount > 0
-            {
-               Send(self,@MsgSendUser,#message_rsc=player_experience_gained,
-                  #parm1=iAmount);
-            }
-            else
-            {
-               Send(self,@MsgSendUser,#message_rsc=player_experience_lost,
-                  #parm1=iAmount);
-            }
-
-            Post(self,@DrawHPChance);
+            Send(self,@GainBaseMaxHealth,#amount=-1);
          }
       }
+
+      if (pbLogged_on AND report)
+      {
+         if iAmount > 0
+         {
+            Send(self,@MsgSendUser,#message_rsc=player_experience_gained,
+                  #parm1=iAmount);
+         }
+         else
+         {
+            Send(self,@MsgSendUser,#message_rsc=player_experience_lost,
+                  #parm1=iAmount);
+         }
+
+         Post(self,@DrawXP);
+      }
+
+      return;
+   }
+
+   GetXPRemainingForNextLevel()
+   {
+      // Use raw base max health here, can go higher than 150.
+      return Send(SYS,@GetXPForLevel,#iHP=piBase_Max_health + 1) - piXP_total;
+   }
+
+   ResetXPToLevel()
+   "Sets the player's total XP to the amount they would have needed to "
+   "get to their current HP. Called if the player's max HP is lowered and "
+   "extra XP needs to be removed to prevent them gaining multiple toughers."
+   {
+      piXP_total = Send(SYS,@GetXPForLevel,#iHP=Send(self,@GetBaseMaxHealth));
 
       return;
    }
@@ -9184,17 +9174,6 @@ messages:
       piReward_timestamp = GetTime();
 
       return;
-      
-   }
-
-   GetHighMark()
-   {
-      local index, highmark;
-
-      index = (piBase_Max_health*(100-Send(self,@GetStamina)))/100;
-      highmark = (index+1)*index;
-
-      return highmark;
    }
 
    %%% Player Killed %
@@ -9434,7 +9413,6 @@ messages:
          }
 
          % Atrophy of skills or learning progress.
-         piGain_chance = piGain_chance/2;
          Send(self,@ResetGainFlags);
          Send(self,@ResetAtrophyFlags);
          if ptAdvancement <> $
@@ -9551,7 +9529,7 @@ messages:
 
    ApplyDeathPenalties()
    {
-      local iAmount, bLostHealth, i, bTempSafe;
+      local iXPLoss, iAmount, i, bTempSafe;
 
       bTempSafe = FALSE;
 
@@ -9577,7 +9555,7 @@ messages:
          return;
       }
 
-      bLostHealth = FALSE;
+      iXPLoss = 0;
 
       % Lose your revenant, satisfied if you took a real death.
       if piDeathCost >= Send(SETTINGS_OBJECT,@GetDefaultDeathCost)
@@ -9607,16 +9585,13 @@ messages:
          }
          else
          {
-            % If you're not new, chance to lose a hp!
-            if Random(1,100) <= piDeathCost
-            {
-               Send(self,@GainBaseMaxHealth,#amount=-1);
-               bLostHealth = TRUE;
-            }
+            iXPLoss = Send(SYS,@GetXPDiffForLevel,#iLevel=piBase_max_health);
+            // Lose piDeathCost% of 20% of current level XP.
+            iXPLoss = Bound((iXPLoss * piDeathCost) / 500,0,MAX_XP_DEATH_LOSS);
+            Send(self,@AddXP,#iAmount=-iXPLoss);
 
             % Under 100HP and killed by a player? Receive a temporary angel.
-            if bLostHealth
-               AND bTempSafe
+            if bTempSafe
                AND piBase_max_health <= 99
                AND NOT ((piFlags & PFLAG_MURDERER)
                   OR (piFlags & PFLAG_OUTLAW))
@@ -9635,10 +9610,11 @@ messages:
 
       if Send(self,@CheckLog)
       {
-         if bLostHealth
+         if iXPLoss
          {
-            Debug("LOG:  ",vrName," died, lost a health point: ",
-                  piMax_health,pibase_max_health,"Death Cost = ",piDeathCost);
+            Debug("LOG:  ",vrName," died, lost XP: ",
+                  iXPLoss,Send(self,@GetBaseMaxHealth),
+                  "Death Cost = ",piDeathCost);
          }
          else
          {
@@ -9668,8 +9644,8 @@ messages:
       foreach i in plSpells
       {
          if Send(self,@DecodeSpellAbility,#compound=i) > 5
-            AND random(1,100) > Send(self,@GetStamina)
-            AND random(1,100) < piDeathCost
+            AND Random(1,100) > Send(self,@GetStamina)
+            AND Random(1,100) < piDeathCost
          {
             Send(self,@ChangeSpellAbility,#spell_num=Send(self,@DecodeSpellNum,
                   #compound=i),#amount=iAmount);
@@ -11825,7 +11801,7 @@ messages:
          Debug("Recalibrating: player",Send(self,@GetTrueName),self,
                "with max health",piMax_health,"did not match Base Max Health",
                piBase_max_health);
-         piMax_health = piBase_max_health;
+         piMax_health = Send(self,@GetBaseMaxHealth);
       }
 
       Send(self,@ComputeMaxMana);

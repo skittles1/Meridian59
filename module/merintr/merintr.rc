@@ -320,6 +320,7 @@ BEGIN
     13                      "Ausdauer"
     14                      "Lächeln"
     15                      "Grimmig"
+    98                      "Gesamt XP"
     245                     "zaubern "
 END
 
@@ -1021,7 +1022,7 @@ BEGIN
     IDS_HEALTH              "Health"
     IDS_MANA                "Mana"
     IDS_VIGOR               "Vigor"
-    IDS_TOUGHER             "Tougher Chance"
+    IDS_XP                  "Total XP"
     IDS_TBSMILE             "Smile"
     IDS_TBFROWN             "Frown"
     IDS_DOCAST              "cast "

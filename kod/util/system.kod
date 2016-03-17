@@ -401,6 +401,8 @@ properties:
    phItemAtts
    % Hash table for treasure types.
    phTresTypes
+   % XP tables
+   phXPTable
 
    poMoney = $
 
@@ -539,15 +541,16 @@ messages:
       Send(self,@RecreateAllSpells,#figure_totals=FALSE);
       Send(self,@RecreateAllSkills,#figure_totals=FALSE);
       Send(self,@RecreateAllItemAttributes);
-      Send(self,@recreateAllGuildCommands);
+      Send(self,@RecreateAllGuildCommands);
       Send(self,@RecreateAllBanks);
       Send(self,@RecreateAllVaults);
 
       Send(self,@RecreateAllTreasureTypes);
       Send(self,@RecreateAllBackgroundObjects);
-      Send(self,@recreateMonsterTemplates);
-      Send(self,@recreateItemTemplates);
+      Send(self,@RecreateMonsterTemplates);
+      Send(self,@RecreateItemTemplates);
       Send(self,@RecreateMoneyTemplates);
+      Send(self,@RecreateXPTables);
 
       Send(self,@RecreateLore);
       Send(self,@RecreateArtArchive);
@@ -696,6 +699,7 @@ messages:
       Send(self,@RecreateAllGuildCommands);
       Send(self,@RecreateAllTreasureTypes);
       Send(self,@RecreateAllBackgroundObjects);
+      Send(self,@RecreateXPTables);
 
       ptRecreateTimer = CreateTimer(self,@RecreateTimerPhaseThree,500);
       piRecreate_state = RECREATE_WAITING;
@@ -1747,12 +1751,12 @@ messages:
          }
 
          %pvp flag set to TRUE
-         RecordStat(STAT_PLAYERDEATH, Send(what,@GetTrueName), Send(killer,@GetTrueName), Send(oRoom,@GetName), oKillingBlow, TRUE);	 
+         RecordStat(STAT_PLAYERDEATH, Send(what,@GetTrueName), Send(killer,@GetTrueName), Send(oRoom,@GetName), oKillingBlow, TRUE);    
       }
       else
-	   {
-		   RecordStat(STAT_PLAYERDEATH,Send(what,@GetTrueName), Send(killer,@GetName), Send(oRoom,@GetName), oKillingBlow, FALSE);
-	   }
+      {
+         RecordStat(STAT_PLAYERDEATH,Send(what,@GetTrueName), Send(killer,@GetName), Send(oRoom,@GetName), oKillingBlow, FALSE);
+      }
 
       Send(Send(self,@FindRoomByNum,#num=RID_TOS_GRAVEYARD),@PlayerKilled,
            #who=what,#killer=killer);
@@ -3416,6 +3420,7 @@ messages:
       Send(self,@CreateOneItemAttIfNew,#num=WA_FACTION,#class=&WeapAttFactionDefender);
       Send(self,@CreateOneItemAttIfNew,#num=WA_CEREMONIAL,#class=&WeapAttCeremonial);
       Send(self,@CreateOneItemAttIfNew,#num=IA_DURABLE,#class=&ItemAttDurable);
+      Send(self,@CreateOneItemAttIfNew,#num=IA_XP_KILL_BONUS,#class=&ItemAttXPKillBonus);
       Send(self,@CreateOneItemAttIfNew,#num=WA_PUNISHER,#class=&WeapAttPunisher);
       Send(self,@CreateOneItemAttIfNew,#num=IA_TRANSCENDANT,#class=&ItemAttTranscendant);
       Send(self,@CreateOneItemAttIfNew,#num=IA_SELL_INFO,#class=&ItemAttSellInfo);
@@ -3673,6 +3678,51 @@ messages:
       plBrains = Cons(Create(&Brain),plBrains);
 
       return;
+   }
+
+   RecreateXPTables()
+   "Pre-calculate XP amounts. Because we track total XP and use set points "
+   "to determine when to gain a HP, precalculate the levels on recreate."
+   {
+      local i, iXP, hTable;
+
+      iXP = 0;
+
+      // Double table size, less collisions.
+      phXPTable = CreateTable((MAX_CALCULATED_HP - MIN_HP) * 2);
+
+      // Add zero entry for starting XP.
+      AddTableEntry(phXPTable, MIN_HP, 0);
+
+      for (i = MIN_HP + 1; i <= MAX_CALCULATED_HP + 1; ++i)
+      {
+         // Cumulative XP is hp * hp per HP.
+         iXP = iXP + i * i;
+         AddTableEntry(phXPTable, i, iXP);
+      }
+
+      return;
+   }
+
+   GetXPForLevel(iHP = 20)
+   "Returns the amount of XP needed to reach iHP, given iStamina."
+   {
+      local iXP;
+
+      iXP = GetTableEntry(phXPTable,iHP);
+
+      if (iXP = $)
+      {
+         return MAX_XP;
+      }
+
+      return iXP;
+   }
+
+   GetXPDiffForLevel(iLevel=20)
+   {
+      return Send(self,@GetXPForLevel,#iHP=iLevel + 1)
+         - Send(self,@GetXPForLevel,#iHP=iLevel);
    }
 
    RecreateAllSpells(figure_totals = TRUE)

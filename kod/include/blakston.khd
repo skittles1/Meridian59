@@ -1863,6 +1863,7 @@
    IA_MADE                 = 19
    IA_MADE_TRANSCENDANT    = 20
    IA_DM_CREATED           = 21
+   IA_XP_KILL_BONUS        = 22
 
    % Weapon Attributes.  These are attributes only applied to weapons.
    WA_TRAINING             = 51
@@ -2343,6 +2344,11 @@
    %%% Player flags
 
    PKILL_ENABLE_HP = 50
+   MIN_HP = 20
+   MAX_HP = 150
+   MAX_CALCULATED_HP = 392
+   MAX_XP = 20000000
+   MAX_XP_DEATH_LOSS = 10000
 
    % First set of flags (in piFlags)
    % A mask of flags that are unaffected by ResetPlayerFlagList

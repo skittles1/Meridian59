@@ -106,7 +106,7 @@
 #define IDS_AHEADER1                    95
 #define IDS_MENU_GROUP                  96
 #define IDS_MENU_ALIAS                  97
-#define IDS_TOUGHER                     98
+#define IDS_XP                          98
 #define IDS_TT_QUEST                    99
 #define IDS_LANGUAGE_MENU               100
 #define IDD_ALIAS                       102

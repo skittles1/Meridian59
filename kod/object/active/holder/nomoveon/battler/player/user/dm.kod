@@ -1730,8 +1730,8 @@ messages:
             piAimMod = 20;
 
             piVigor = 200;
-
             Send(self,@GainBaseMaxHealth,#amount=150-piBase_max_health);
+            Send(self,@ResetXPToLevel);
             Send(self,@NewMaxMana,#amount=200-piMax_mana);
 
             if Send(self,@CheckLog)

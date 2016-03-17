@@ -371,6 +371,7 @@
 #define IDC_AGELABEL2                   1172
 #define IDC_PROFANE                     1173
 #define IDC_RADIO1                      1174
+#define IDC_XP_AS_PERCENT               1174
 #define IDC_RADIO2                      1175
 #define IDC_EDIT1                       1176
 #define IDC_BUTTON1                     1177

@@ -76,6 +76,7 @@ static char INILagbox[]      = "LatencyMeter";
 static char INIHaloColor[]   = "HaloColor";
 static char INIColorCodes[]  = "ColorCodes";
 static char INIMapAnnotations[] = "MapAnnotations";
+static char XPDisplay[]      = "XPDisplay";
 static char INILanguage[]    = "Language";
 static char window_section[] = "Window";         /* Section in INI file for window info */
 static char INILeft[]        = "NormalLeft";
@@ -247,6 +248,7 @@ void ConfigLoad(void)
    config.halocolor    = GetConfigInt(interface_section, INIHaloColor, 0, ini_file);
    config.colorcodes   = GetConfigInt(interface_section, INIColorCodes, True, ini_file);
    config.map_annotations = GetConfigInt(interface_section, INIMapAnnotations, True, ini_file);
+   config.xp_display_percent = GetConfigInt(interface_section, XPDisplay, False, ini_file);
    config.language     = GetConfigInt(interface_section, INILanguage, 0, ini_file);
    config.guest        = GetConfigInt(misc_section, INIGuest, False, ini_file);
    config.server_low   = GetConfigInt(misc_section, INIServerLow, 0, ini_file);
@@ -357,6 +359,7 @@ void ConfigSave(void)
    WriteConfigInt(interface_section, INIHaloColor, config.halocolor, ini_file);
    WriteConfigInt(interface_section, INIColorCodes, config.colorcodes, ini_file);
    WriteConfigInt(interface_section, INIMapAnnotations, config.map_annotations, ini_file);
+   WriteConfigInt(interface_section, XPDisplay, config.xp_display_percent, ini_file);
    WriteConfigInt(interface_section, INILanguage, config.language, ini_file);
 
    // Don't write out "guest" option; user can't set it

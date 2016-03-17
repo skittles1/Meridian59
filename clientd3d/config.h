@@ -107,7 +107,7 @@ typedef struct {
    int  maxFPS;		 /* Slow machine down for rendering to this frames per second */
    Bool drawmap;
    Bool clearCache;
-
+   Bool xp_display_percent; // Display XP as percent
    Bool colorcodes;
    int lastPasswordChange;
 

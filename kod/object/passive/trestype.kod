@@ -185,7 +185,8 @@ messages:
       oItemAtt = Send(SYS,@FindItemAttByNum,#num=iChoice);
 
       % Ask that ItemAtt to generate an item with this attribute.
-      oItem = Send(oItemAtt,@GenerateItemWithAttribute, #who=who);
+      oItem = Send(oItemAtt,@GenerateItemWithAttribute,#who=who,
+                     #diff_seed=diff_seed);
 
       return oItem;
    }
