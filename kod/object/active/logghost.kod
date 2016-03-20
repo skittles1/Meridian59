@@ -507,7 +507,7 @@ messages:
             LossAmount, iNumItemsInventory, numItemsLost, iLoops,
             iStart, lSpells, iSpellAbility, iAbilityNum, numSpellPointsLost,
             lSkills, iSkillAbility, numSkillPointsLost, iEquivDeath,
-            oSoldierShield;
+            oSoldierShield, iXPLoss;
 
       % Sanity check: Are they logged on?
       If Send(poGhostedPlayer,@IsLoggedOn)
@@ -588,12 +588,12 @@ messages:
       iNumItemsInventory = Send(poGhostedPlayer,@GetNumItemsInInventory);
       numItemsLost = numItemsLost - iNumItemsInventory;
 
-      % Lose maxhealth
-      Send(poGhostedPlayer,@GainBaseMaxHealth,
-           #amount=-(penaltyCounter/iEquivDeath));
-      if Random(1,iEquivDeath-1) < penaltyCounter mod iEquivDeath
+      % Lose XP
+      if Random(1,iEquivDeath-1) < penaltyCounter MOD iEquivDeath
       {
-         Send(poGhostedPlayer,@GainBaseMaxHealth,#amount=-1);
+         iXPLoss = Send(SYS,@GetXPDiffForLevel,
+                        #iLevel=Send(poGhostedPlayer,@GetBaseMaxHealth));
+         Send(poGhostedPlayer,@AddXP,#iAmount=-iXPLoss);
       }
 
       % Lose spell ability
@@ -601,7 +601,7 @@ messages:
       if lSpells <> $
       {
          LossCounter = (Length(lSpells) * penaltyCounter) / iEquivDeath;
-         if Random(1,(iEquivDeath - 1)) < (penaltyCounter mod iEquivDeath)
+         if Random(1,(iEquivDeath - 1)) < (penaltyCounter MOD iEquivDeath)
          {
             LossCounter = (LossCounter + 1);
          }

@@ -88,7 +88,7 @@ BOOL AudioInit()
 
    // try to initialize irrKlang
    soundengine = ::irrklang::createIrrKlangDevice(driver, options);
-	
+   
    if (!soundengine)
       return FALSE;
 
@@ -118,7 +118,7 @@ BOOL AudioShutdown()
    // shutdown irrklang
    soundengine->stopAllSounds();
    soundengine->drop();
-	
+   
    // reset pointers
    soundengine   = NULL;
    music         = NULL;
@@ -160,11 +160,11 @@ BOOL AudioPlay2D(char *file, int volume, bool loop, ISound** soundid)
 
    // check if sound is already loaded to irrklang
    ISoundSource* soundsrc = soundengine->getSoundSource(file, false);
-	
+   
    // add it if not
-   if (!soundsrc)	
+   if (!soundsrc)   
       soundsrc = soundengine->addSoundSourceFromFile(file);
-	
+   
    if (!soundsrc)
       return FALSE;
 
@@ -285,10 +285,10 @@ BOOL MusicStop()
 
 BOOL MusicRestart()
 {
-	if (!lastmusicname)
-		return FALSE;
+   if (!lastmusicname)
+      return FALSE;
 
-	return MusicPlayFile(lastmusicname);
+   return MusicPlayFile(lastmusicname);
 }
 
 BOOL MusicPlayFile(char* file)
@@ -354,8 +354,8 @@ BOOL MusicSetVolume()
 __inline int SoundGetFreeIndex()
 {
    if (initialized && sounds)
-      for (int i = 0; i < MAXSOUNDS; i++)	
-         if (sounds[i].id == 0)		
+      for (int i = 0; i < MAXSOUNDS; i++)   
+         if (sounds[i].id == 0)      
             return i;
 
    return -1;
@@ -522,7 +522,7 @@ BOOL SoundSetListenerPosition(int x, int y, int angle)
    // and then to degree (afterwards angle is 0-360°)
    angle %= NUMDEGREES;
    angle = RADIANS_TO_DEGREES(DegToRad(angle));
-	
+   
    // turn the degree into a direction vector
    vec3df dir = vec3df(1, 0, 0);
    dir.rotateXZBy(angle, vec3df(0, 0, 0));

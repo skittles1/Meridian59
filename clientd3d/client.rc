@@ -389,12 +389,13 @@ BEGIN
     CONTROL         "Tooltips anzeigen",1147,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,263,65,9
     CONTROL         "Textfenster beim zurückscrollen einfrieren",1145,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,274,163,9
     CONTROL         "Übertragungsrate anzeigen",147,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,88,252,100,9
-    CONTROL         "Dynamische Karte",1198,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,88,263,79,10
-    CONTROL         "FPS anzeigen",1211,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,189,252,56,9
-    CONTROL         "Kartenanmerkungen",1202,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,189,263,78,9
+    CONTROL         "XP Darstellung in Prozent",1174,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,88,263,97,9
+    CONTROL         "Kartenanmerkungen",1202,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,189,252,78,9
+    CONTROL         "Dynamische Karte",1198,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,189,263,79,10
     CONTROL         "Bunter Text",1199,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,189,274,53,10
-    CONTROL         "Textfilter",1173,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,295,252,45,9
-    PUSHBUTTON      "Filtereinstellungen",1164,281,266,75,12
+    CONTROL         "FPS anzeigen",1211,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,275,252,56,9
+    CONTROL         "Textfilter",1173,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,275,263,45,9
+    PUSHBUTTON      "Filtereinstellungen",1164,273,274,75,12
     GROUPBOX        "Web Browser",IDC_STATIC,5,294,360,31,WS_GROUP
     LTEXT           "Programm:",IDC_STATIC,13,307,45,8
     EDITTEXT        1155,59,306,242,12,ES_AUTOHSCROLL
@@ -1000,18 +1001,19 @@ BEGIN
     CONTROL         "",IDC_SOUND_VOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,173,176,178,15
     LTEXT           "Music volume",IDC_STATIC,117,202,53,10
     CONTROL         "",IDC_MUSIC_VOLUME,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,173,198,178,15
-    GROUPBOX        "Interface Features",IDC_STATIC,6,225,364,47,WS_GROUP
+    GROUPBOX        "Interface Features",IDC_STATIC,6,225,364,49,WS_GROUP
     CONTROL         "Show toolbar",IDC_TOOLBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,236,62,9
-    CONTROL         "Show tooltips",IDC_TOOLTIPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,246,62,9
+    CONTROL         "Show tooltips",IDC_TOOLTIPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,247,62,9
     CONTROL         "Lock text window in place when scrolling back",IDC_SCROLLLOCK,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,257,159,9
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,258,159,9
     CONTROL         "Show latency meter",IDS_LATENCY0,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,91,236,77,9
-    CONTROL         "Show dynamic map",IDC_DRAWMAP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,91,246,79,10
+    CONTROL         "Show dynamic map",IDC_DRAWMAP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,91,247,79,10
     CONTROL         "Show colored text",IDC_COLORCODES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,179,236,69,10
-    CONTROL         "Map annotations",IDC_MAP_ANNOTATIONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,179,246,72,10
-    CONTROL         "Show FPS",IDC_SHOWFPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,179,257,50,9
-    CONTROL         "Filter text profanity",IDC_PROFANE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,267,236,77,9
-    PUSHBUTTON      "&Profanity Options and Policy...",IDC_PROFANESETTINGS,251,250,110,12
+    CONTROL         "Map annotations",IDC_MAP_ANNOTATIONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,179,247,72,10
+    CONTROL         "Show FPS",IDC_SHOWFPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,179,258,50,9
+    CONTROL         "Filter text profanity",IDC_PROFANE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,254,247,77,9
+    CONTROL         "Display XP as percent",IDC_XP_AS_PERCENT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,254,236,87,9
+    PUSHBUTTON      "&Profanity Options and Policy...",IDC_PROFANESETTINGS,253,258,110,12
     GROUPBOX        "Web Browser",IDC_STATIC,6,276,364,28,WS_GROUP
     LTEXT           "Application:",IDC_STATIC,15,288,40,8
     EDITTEXT        IDC_BROWSER,61,286,244,12,ES_AUTOHSCROLL

@@ -34,9 +34,11 @@ properties:
    piGuildSurvivalEnabled = TRUE
 
    % At what level multiple do these increase?
-   piSurvivalXPIncreaseLevel = 8
    piSurvivalTPIncreaseLevel = 8
    piSurvivalLootIncreaseLevel = 4
+
+   % How much extra XP per level?
+   piSurvivalXPPerLevel = 2
 
    % How much extra cash on each monster kill per level?
    piSurvivalCashPerLevel = 20
@@ -382,7 +384,7 @@ messages:
 
    GetSurvivalXP()
    {
-      return piSurvivalXPIncreaseLevel;
+      return piSurvivalXPPerLevel;
    }
 
    GetSurvivalCash()
