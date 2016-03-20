@@ -213,7 +213,7 @@ void StatsMainMove(void)
    list_type l;
    int count = 0;
    TOOLINFO ti;
-   char buf[13];
+   char buf[21];
 
    ti.cbSize = sizeof(TOOLINFO);
    ti.hwnd   = cinfo->hMain;
