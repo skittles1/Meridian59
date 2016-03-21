@@ -241,7 +241,7 @@ resources:
       "You have received your daily training bonus of ~B%i~B points!  "
       "Come back tomorrow for more!"
    player_experience_gained = "You have gained ~B~s%i~v~B XP."
-   player_experience_lost = "You have lost ~B~r%i~B XP!"
+   player_experience_lost = "You have lost ~B~r%i~B~v XP!"
 
    player_health_gain_maxed = "Your health cannot increase any further."
 
@@ -8965,12 +8965,19 @@ messages:
    "FALSE otherwise.  The iLevel parameter has the player's base max HP "
    "taken from it, then divided by 5 before being bound between 1 and 10."
    {
-      local iMaxHealth, oShrunken, iApparentStamina;
+      local bGainHP, iMaxHealth, oShrunken, iApparentStamina;
 
-      if (Send(self,@GetBaseMaxHealth) < (101 + Send(self,@GetStamina))
+      bGainHP = FALSE;
+
+      while (Send(self,@GetBaseMaxHealth) < (101 + Send(self,@GetStamina))
          AND Send(self,@GetXPRemainingForNextLevel) <= 0)
       {
          Send(self,@GainBaseMaxHealth,#amount=1);
+         bGainHP = TRUE;
+      }
+
+      if (bGainHP)
+      {
          if Send(self,@CheckLog)
          {
             Debug("LOG:  ",vrName," gained a health point: ",
@@ -9034,12 +9041,7 @@ messages:
    "All code that adds or subtracts XP should go through this message. "
    "Handles resource display and toughers."
    {
-      local iXPNeeded, iXPThisLevel;
-
-      if iAmount = 0
-      {
-         return;
-      }
+      local iXPNeeded;
 
       // Add to total.
       piXP_total = Bound(piXP_total + iAmount,0,MAX_XP);
@@ -9052,10 +9054,9 @@ messages:
       {
          Send(self,@TryGainBaseMaxHealth);
       }
-      else if (iAmount < 0)
+      else
       {
-         iXPThisLevel = Send(SYS,@GetXPForLevel,#iHP=piBase_Max_health);
-         if (piXP_total < iXPThisLevel)
+         while (piXP_total < Send(SYS,@GetXPForLevel,#iHP=piBase_Max_health))
          {
             Send(self,@GainBaseMaxHealth,#amount=-1);
          }
@@ -9071,7 +9072,7 @@ messages:
          else
          {
             Send(self,@MsgSendUser,#message_rsc=player_experience_lost,
-                  #parm1=iAmount);
+                  #parm1=Abs(iAmount));
          }
 
          Post(self,@DrawXP);
