@@ -4294,7 +4294,7 @@ messages:
 
    DispelIllusions(who = $, what = $, iChance = 100, bAll = TRUE)
    {
-      local i, each_obj;
+      local i, each_obj, oTarget;
 
       if NOT bAll
       {
@@ -4305,39 +4305,43 @@ messages:
 
       foreach i in plActive
       {
-         each_obj = Send(self,@HolderExtractObject,#data=i);
+         each_obj = First(i);
          if Send(each_obj,@IsIllusion)
             AND Random(1,100) <= iChance
             AND who <> $
          {
-            if (isClass(each_obj,&Reflection)
-               OR isClass(each_obj,&ActiveWallElement)
-               OR isClass(each_obj,&EvilTwin))
+            if (IsClass(each_obj,&Monster))
             {
-               if Send(self,@ReqSomethingAttack,#what=who,#victim=Send(each_obj,@GetCaster))
-                  AND Send(who,@AllowPlayerAttack,#victim=Send(each_obj,@GetCaster))
+               if (Send(self,@ReqSomethingAttack,#what=who,#victim=each_obj)
+                     AND Send(who,@AllowPlayerAttack,#victim=each_obj))
                {
                   Send(each_obj,@Delete);
                }
             }
-            else
+            else if (IsClass(each_obj,&ActiveWallElement))
             {
-               % Delete any unhandled illusions without a safety check
-               Send(each_obj,@Delete);
+               oTarget = Send(each_obj,@GetCaster);
+
+               if (Send(self,@ReqSomethingAttack,#what=who,#victim=oTarget)
+                  AND Send(who,@AllowPlayerAttack,#victim=oTarget))
+               {
+                  Send(each_obj,@Delete);
+               }
             }
          }
       }
 
       foreach i in plPassive
       {
-         each_obj = Send(self,@HolderExtractObject,#data=i);
+         each_obj = First(i);
          if Send(each_obj,@IsIllusion)
             AND Random(1,100) <= iChance
          {
-            if isClass(each_obj,&PassiveWallofFire)
+            if IsClass(each_obj,&PassiveWallofFire)
             {
-               if Send(self,@ReqSomethingAttack,#what=who,#victim=Send(each_obj,@GetCaster))
-                  AND Send(who,@AllowPlayerAttack,#victim=Send(each_obj,@GetCaster))
+               oTarget = Send(each_obj,@GetCaster);
+               if Send(self,@ReqSomethingAttack,#what=who,#victim=oTarget)
+                  AND Send(who,@AllowPlayerAttack,#victim=oTarget)
                {
                   Send(each_obj,@Delete);
                }
