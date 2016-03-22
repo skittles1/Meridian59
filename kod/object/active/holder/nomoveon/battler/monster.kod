@@ -6376,6 +6376,64 @@ messages:
       return;
    }
 
+   GetMaster()
+   "Preferably return poMaster, otherwise check if monster is an apparition."
+   {
+      if (poMaster <> $)
+      {
+         return poMaster;
+      }
+      else if (poApparitionCaster <> $)
+      {
+         return poApparitionCaster;
+      }
+
+      return $;
+   }
+
+   % Evil twin and reflection have an override for this.
+   SetMaster(oMaster=$)
+   {
+      if oMaster = $
+      {
+         if poMaster <> $
+         {
+            Send(poMaster,@RemoveControlledMinion,#what=self);
+
+            % After the honeymoon is over, go after the master!
+            Send(self,@SetBehaviorFlag,#flag=AI_MOVE_FOLLOW_MASTER,
+                  #value=FALSE);
+            Send(self,@TargetSwitch,#what=poMaster,#iHatred=150);
+            poMaster = $;
+
+            Send(self,@EnterStateChase);
+         }
+      }
+      else
+      {
+         poMaster = oMaster;
+
+         % Break target.
+         Send(self,@EnterStateWait);
+
+         % Uncomment this if post-capture attack behavior changes.
+         %if NOT Send(SYS,@IsPKAllowed)
+         %   AND (poTarget <> $
+         %      AND IsClass(poTarget,&Player))
+         %{
+         %   % Forget our target
+         %   Send(self,@EnterStateWait);
+         %}
+      }
+
+      if poOwner <> $
+      {
+         Post(poOwner,@SomethingChanged,#what=self);
+      }
+
+      return;
+   }
+
    CanPlayerAdvanceOnMe()
    {
       return (NOT Send(self,@IsIllusion));
@@ -6604,54 +6662,6 @@ messages:
       }
 
       return FALSE;
-   }
-
-   GetMaster()
-   {
-      return poMaster;
-   }
-
-   % Evil twin and reflection have an override for this.
-   SetMaster(oMaster=$)
-   {
-      if oMaster = $
-      {
-         if poMaster <> $
-         {
-            Send(poMaster,@RemoveControlledMinion,#what=self);
-
-            % After the honeymoon is over, go after the master!
-            Send(self,@SetBehaviorFlag,#flag=AI_MOVE_FOLLOW_MASTER,
-                  #value=FALSE);
-            Send(self,@TargetSwitch,#what=poMaster,#iHatred=150);
-            poMaster = $;
-
-            Send(self,@EnterStateChase);
-         }
-      }
-      else
-      {
-         poMaster = oMaster;
-
-         % Break target.
-         Send(self,@EnterStateWait);
-
-         % Uncomment this if post-capture attack behavior changes.
-         %if NOT Send(SYS,@IsPKAllowed)
-         %   AND (poTarget <> $
-         %      AND IsClass(poTarget,&Player))
-         %{
-         %   % Forget our target
-         %   Send(self,@EnterStateWait);
-         %}
-      }
-
-      if poOwner <> $
-      {
-         Post(poOwner,@SomethingChanged,#what=self);
-      }
-
-      return;
    }
 
    SetBehaviorFlag(flag=0, value = TRUE)
