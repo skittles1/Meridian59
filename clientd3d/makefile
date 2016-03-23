@@ -26,7 +26,7 @@ LIBS = \
     ws2_32.lib comctl32.lib advapi32.lib \
     winmm.lib wininet.lib ole32.lib \
     d3d9.lib dxerr.lib irrklang.lib \
-    rscload.lib libpng.lib zlib.lib libarchive.lib 
+    rscload.lib libpng.lib zlib.lib libarchive.lib jansson.lib
 
 DEFFILE  = $(SOURCEDIR)\client.def
 
@@ -150,7 +150,7 @@ $(OBJS) $(LIBS) -def:$(DEFFILE) $(OUTDIR)\client.res -OUT:$@
 <<
 	$(CP) $(OUTDIR)\meridian.lib $(BLAKLIBDIR)
 	$(CP) $@ $(CLIENTRUNDIR)
-
+   $(CP) $(BLAKBINDIR)\jansson.dll $(CLIENTRUNDIR) >nul
 $(OUTDIR)\maketrig.exe: $(OUTDIR)\maketrig.obj
 	$(LINK) $** -out:$@ $(LINKFLAGSCONSOLE)
 	$(CP) $@ $(BLAKBINDIR) 

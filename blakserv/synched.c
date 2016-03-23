@@ -481,6 +481,7 @@ void SendSynchedMessage(session_node *s,char *str,char logoff)
 
 void VerifyLogin(session_node *s)
 {
+   int cli_vers;
    char *str;
    LogUserData(s);
 
@@ -492,34 +493,86 @@ void VerifyLogin(session_node *s)
 
    /* they're logged in now.  Check their version number, and if old tell 'em
       to update it */
-
-   if (s->version_major * 100 + s->version_minor < ConfigInt(LOGIN_INVALID_VERSION))
+   cli_vers = s->version_major * 100 + s->version_minor;
+   if (cli_vers < ConfigInt(LOGIN_INVALID_VERSION))
    {
       SendSynchedMessage(s,ConfigStr(LOGIN_INVALID_VERSION_STR),LA_LOGOFF);
       HangupSession(s);
       return;
    }
 
-
-   if (s->version_major * 100 + s->version_minor < ConfigInt(LOGIN_MIN_VERSION))
+   if (cli_vers < ConfigInt(LOGIN_MIN_VERSION))
    {
+#if VANILLA_UPDATER
       AddByteToPacket(AP_GETCLIENT);
 
       str = LockConfigStr(UPDATE_CLIENT_MACHINE);
-      AddStringToPacket(strlen(str),str);
+      AddStringToPacket(strlen(str), str);
       UnlockConfigStr();
-      
+
       str = LockConfigStr(UPDATE_CLIENT_FILE);
-      AddStringToPacket(strlen(str),str);
+      AddStringToPacket(strlen(str), str);
       UnlockConfigStr();
 
       SendPacket(s->session_id);
+#else
+      // If they have an old client not capable of self-updating,
+      // give them the old protocol.
+      if (cli_vers <= 5038)
+      {
+         AddByteToPacket(AP_GETCLIENT);
+
+         str = LockConfigStr(UPDATE_CLIENT_MACHINE);
+         AddStringToPacket(strlen(str), str);
+         UnlockConfigStr();
+
+         str = LockConfigStr(UPDATE_CLIENT_FILE);
+         AddStringToPacket(strlen(str), str);
+         UnlockConfigStr();
+
+         SendPacket(s->session_id);
+      }
+      else
+      {
+         // This protocol sends the client details on where to access
+         // a full listing of the client files plus a JSON txt file
+         // containing each file name, its size, relative path and a hash
+         // to compare with local files for changes.
+         AddByteToPacket(AP_CLIENT_PATCH);
+
+         str = LockConfigStr(UPDATE_PATCH_ROOT);
+         AddStringToPacket(strlen(str), str);
+         UnlockConfigStr();
+
+         str = LockConfigStr(UPDATE_PATCH_PATH);
+         AddStringToPacket(strlen(str), str);
+         UnlockConfigStr();
+
+         str = LockConfigStr(UPDATE_PATCH_CACHE_PATH);
+         AddStringToPacket(strlen(str), str);
+         UnlockConfigStr();
+
+         str = LockConfigStr(UPDATE_PATCH_TXT);
+         AddStringToPacket(strlen(str), str);
+         UnlockConfigStr();
+
+         str = LockConfigStr(UPDATE_DOWNLOAD_REASON);
+         AddStringToPacket(strlen(str), str);
+         UnlockConfigStr();
+
+         SendPacket(s->session_id);
+
+         InterfaceUpdateSession(s);
+
+         /* set timeout real long, since they're downloading */
+         SetSessionTimer(s, 60 * ConfigInt(INACTIVE_TRANSFER));
+      }
+#endif
    }
    else
    {
       SynchedDoMenu(s);
    }
- 
 }
 
 void LogUserData(session_node *s)

@@ -44,6 +44,7 @@ static handler_struct login_handler_table[] = {
 { AP_DELETEALLRSC,      HandleDeleteAllRsc },
 { AP_NOCHARACTERS,      HandleNoCharacters },
 { AP_GUEST,             HandleGuest },
+{ AP_CLIENT_PATCH,      HandleClientPatch },
 { 0, NULL},   // must end table this way
 }; 
 
@@ -2026,6 +2027,30 @@ Bool HandleGetClient(char *ptr, long len)
    debug(("server = %s, filename = %s\n", hostname, filename));
 
    DownloadNewClient(hostname, filename);
+
+   return True;
+}
+/********************************************************************/
+Bool HandleClientPatch(char *ptr, long len)
+{
+   char patchhost[MAXMESSAGE], patchcachepath[MAXMESSAGE], patchpath[MAXMESSAGE];
+   char filename[MAXMESSAGE], reason[MAXMESSAGE];
+   debug(("Got ClientPatch\n"));
+
+   if ((len = ExtractString(&ptr, len, patchhost, MAXMESSAGE)) == -1)
+      return False;
+   if ((len = ExtractString(&ptr, len, patchpath, MAXMESSAGE)) == -1)
+      return False;
+   if ((len = ExtractString(&ptr, len, patchcachepath, MAXMESSAGE)) == -1)
+      return False;
+   if ((len = ExtractString(&ptr, len, filename, MAXMESSAGE)) == -1)
+      return False;
+   if ((len = ExtractString(&ptr, len, reason, MAXMESSAGE)) == -1)
+      return False;
+
+   debug(("server = %s, cache = %s, filename = %s\n", patchhost, patchpath, filename));
+
+   DownloadClientPatch(patchhost, patchpath, patchcachepath, filename, reason);
 
    return True;
 }

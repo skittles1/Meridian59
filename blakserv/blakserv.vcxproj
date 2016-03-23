@@ -94,7 +94,8 @@
     <PostBuildEvent>
       <Command>copy $(OutDir)$(TargetName).exe $(SolutionDir)run\server
 copy $(SolutionDir)lib\libmysql.dll $(SolutionDir)run\server
-copy $(SolutionDir)bin\libcurl.dll $(SolutionDir)run\server</Command>
+copy $(SolutionDir)bin\libcurl.dll $(SolutionDir)run\server
+copy $(SolutionDir)bin\jansson.dll $(SolutionDir)run\server</Command>
     </PostBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -164,7 +165,8 @@ copy $(SolutionDir)bin\libcurl.dll $(SolutionDir)run\server</Command>
     <PostBuildEvent>
       <Command>copy $(OutDir)$(TargetName).exe $(SolutionDir)run\server
 copy $(SolutionDir)lib\libmysql.dll $(SolutionDir)run\server
-copy $(SolutionDir)bin\libcurl.dll $(SolutionDir)run\server</Command>
+copy $(SolutionDir)bin\libcurl.dll $(SolutionDir)run\server
+copy $(SolutionDir)bin\jansson.dll $(SolutionDir)run\server</Command>
     </PostBuildEvent>
     <CustomBuildStep>
       <Command>

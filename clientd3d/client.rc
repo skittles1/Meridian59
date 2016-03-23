@@ -123,21 +123,16 @@ END
 // Dialog
 //
 
-181 DIALOGEX 0, 0, 248, 188
+181 DIALOGEX 0, 0, 249, 113
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Es existiert ein Update von Meridian 59 für Dich"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
-    ICON            IDI_ICON,-1,7,7,20,20
+    ICON            IDI_ICON,-1,7,7,21,20
     EDITTEXT        1191,35,7,206,27,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_STATICEDGE
     GROUPBOX        "Update Download Informationen",-1,35,47,205,55
-    LTEXT           "(ungefähre Größe des Downloads)",1193,44,61,188,8
-    LTEXT           "(geschätzte Zeit 56.6kbps)",1194,44,73,188,8
-    LTEXT           "(geschätzte Zeit 28.8kbps)",1195,44,85,188,8
+    LTEXT           "(ungefähre Größe des Downloads)",1193,44,64,188,8
     DEFPUSHBUTTON   "&Bestätigen",1192,138,94,93,14
-    GROUPBOX        "Vorschau",-1,36,116,205,58
-    LTEXT           "Wenn Du nicht das gesamte Update haben möchtest, findest du auf openmeridian.org eine kleiner Vorschauversion.",-1,44,128,188,34
-    PUSHBUTTON      "Angebot...",1189,138,167,93,14
 END
 
 166 DIALOG 0, 0, 186, 95
@@ -558,6 +553,11 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
+    181, DIALOG
+    BEGIN
+        RIGHTMARGIN, 248
+    END
+
     155, DIALOG
     BEGIN
         BOTTOMMARGIN, 201
@@ -733,6 +733,10 @@ BEGIN
     109                     "Längenprobleme mit der Servernachricht."
     110                     "Es ist kein Spielecharakter ist für diesen Account angelegt. Wende Dich an den Kundenservice."
     111                     "Übertragungsfehler; versuche die Verbindung erneut aufzubauen."
+    192                     "Eine Datei mit einer Größe von %d bytes"
+    193                     "%d Dateien mit einer Größe von %d bytes."
+    194                     "%d Dateien mit einer Größe von %.1f Kb."
+    195                     "%d Dateien mit einer Größe von %.1f Mb"
 END
 
 STRINGTABLE
@@ -765,6 +769,17 @@ END
 
 STRINGTABLE
 BEGIN
+    179                     "Du kannst Dein ausgewähltes Ziel nicht sehen."
+    180                     "Wähle die Gegenstände zum Hinterlegen aus."
+    187                     "Unable to send an HTTP request for the file %s to the server %s."
+    188                     "Unable to get size of file %s from the server %s."
+    189                     "http://openmeridian.org/forums"
+    190                     "http://wiki.openmeridian.org/index.php/Main_Page"
+    191                     "Kann Patchfile nicht laden %s. Fehler: %s."
+END
+
+STRINGTABLE
+BEGIN
     145                     "Ich kann das File %s nicht abspeichern."
     146                     "Ich kann das FTP-File %s nicht lesen."
     147                     "Eine sehr schnelle Verbindung"
@@ -787,16 +802,6 @@ BEGIN
     162                     "~r< Der Textfilter wurde aktiviert >"
     163                     "Die Nachricht wurde gefiltert.\n\nSie enthät Wörter, die im Textfilter eingegeben wurden. Bitte überprüfe Deine Nachricht."
     164                     "https://www.meridiannext.com/"
-END
-
-STRINGTABLE
-BEGIN
-    179                     "Du kannst Dein ausgewähltes Ziel nicht sehen."
-    180                     "Wähle die Gegenstände zum Hinterlegen aus."
-    187                     "Unable to send an HTTP request for the file %s to the server %s."
-    188                     "Unable to get size of file %s from the server %s."
-    189                     "http://openmeridian.org/forums"
-    190                     "http://wiki.openmeridian.org/index.php/Main_Page"
 END
 
 #endif    // German resources
@@ -1328,21 +1333,16 @@ BEGIN
     LTEXT           "Quantity",IDC_STATIC,133,5,28,8
 END
 
-IDD_ASKDOWNLOAD DIALOGEX 0, 0, 248, 188
+IDD_ASKDOWNLOAD DIALOGEX 0, 0, 249, 116
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Meridian 59 has an update for you"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
     ICON            IDI_ICON,IDC_STATIC,7,7,21,20
-    EDITTEXT        IDC_ASK_DOWNLOAD_REASON,36,7,205,35,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_STATICEDGE
-    GROUPBOX        "Update Download Information",IDC_STATIC,36,48,205,56
-    LTEXT           "(estimated size of download)",IDC_SIZE_UPDATE,44,61,188,8
-    LTEXT           "(estimated time 56.6kbps)",IDC_TIME_UPDATE_566,44,73,188,8
-    LTEXT           "(estimated time 28.8kbps)",IDC_TIME_UPDATE_288,44,85,188,8
+    EDITTEXT        IDC_ASK_DOWNLOAD_REASON,37,7,205,35,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP,WS_EX_STATICEDGE
+    GROUPBOX        "Update Download Information",IDC_STATIC,37,48,205,56
+    LTEXT           "(estimated size of download)",IDC_SIZE_UPDATE,43,67,188,8
     DEFPUSHBUTTON   "&Update",IDC_UPDATE,138,97,93,14
-    GROUPBOX        "Preview Edition",IDC_STATIC,36,116,205,58
-    LTEXT           "If you don't want to download the whole update yet, a smaller preview edition is available which can only play with a temporary character.  To download the newest preview edition, visit our website.",IDC_STATIC,44,128,188,34
-    PUSHBUTTON      "Preview Offer...",IDC_BTN_DEMO,138,167,93,14
 END
 
 
@@ -1503,9 +1503,9 @@ BEGIN
     IDD_ASKDOWNLOAD, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 241
+        RIGHTMARGIN, 242
         TOPMARGIN, 7
-        BOTTOMMARGIN, 181
+        BOTTOMMARGIN, 109
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -1628,6 +1628,10 @@ BEGIN
     IDS_TOOMANYLOGINS       "Too many login attempts."
     IDS_TIMEOUT             "Login timed out."
     IDS_CANTRENAME          "Unable to move one or more files from the %s directory to the %s directory.    Make sure the directories exist, and try the download again."
+    IDC_SIZE_UPDATE_ONE_FILE "There is one file %d bytes in size."
+    IDC_SIZE_UPDATE_FILES_BYTES "There are %d files totaling %d bytes in size."
+    IDC_SIZE_UPDATE_FILES_KB "There are %d files totaling %.1f Kb in size."
+    IDC_SIZE_UPDATE_FILES_MB "There are %d files totaling %.1f Mb in size."
 END
 
 STRINGTABLE
@@ -1701,6 +1705,7 @@ BEGIN
     IDS_CANTGETFILESIZE     "Unable to get size of file %s from the server %s."
     IDS_FORUMURL            "http://openmeridian.org/forums"
     IDS_WIKIURL             "http://wiki.openmeridian.org/index.php/Main_Page"
+    IDS_JSONERROR           "Unable to load patch file %s. Error: %s."
 END
 
 STRINGTABLE
