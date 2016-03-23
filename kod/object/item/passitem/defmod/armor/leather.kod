@@ -42,8 +42,7 @@ classvars:
    viWeight = 100
    viBulk = 150
 
-   viSpell_modifier = 0
-
+   viSpell_modifier = 5
 
    vrIcon_male = Leatherarmor_male_icon_rsc
    vrIcon_female = Leatherarmor_female_icon_rsc
@@ -52,7 +51,7 @@ classvars:
    viDamage_base = 0
 
 properties:
-   
+
 messages:
 
    ShowShirt()
@@ -62,7 +61,8 @@ messages:
 
    GetResistanceModifiers()
    {
-      return [ [ATCK_WEAP_ALL,5]
+      return [ [ATCK_WEAP_ALL,5],
+               [-ATCK_SPELL_FIRE,10]
              ];
    }
 

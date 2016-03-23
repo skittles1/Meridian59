@@ -4,3 +4,5 @@ spirithammer_desc_rsc = de \
    "Standardausgabe."
 spirithammer_expires = de \
    "Dein heiliger Hammer verschwindet in einer Rauchwolke!"
+spirithammer_time_header_rsc = de \
+   "\n\nDein Heiliger Hammer verschwindet in %r%r%r%r%r%r%r."

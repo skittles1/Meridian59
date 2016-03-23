@@ -9069,7 +9069,7 @@ messages:
             Send(self,@MsgSendUser,#message_rsc=player_experience_gained,
                   #parm1=iAmount);
          }
-         else
+         else if iAmount < 0
          {
             Send(self,@MsgSendUser,#message_rsc=player_experience_lost,
                   #parm1=Abs(iAmount));
