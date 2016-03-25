@@ -5,6 +5,7 @@ rem Create a shortcut that can connect to localhost.
 call :makeshortcut
 
 echo Post-Build started.
+set foundcli=0
 
 rem Step 1: Try to find 105's resource directory.
 for /F "tokens=1-6 usebackq delims=:" %%a in ("%ProgramW6432%\Open Meridian\settings.txt") do (
@@ -17,7 +18,7 @@ for /F "tokens=1-6 usebackq delims=:" %%a in ("%ProgramW6432%\Open Meridian\sett
       if !servernum! == 105 set foundcli=1
    )
 
-   if defined foundcli if !string! == "ClientFolder" (
+   if !foundcli! == 1 if !string! == "ClientFolder" (
       set m59path=%%b%%c%%d%%e%%f
       set m59path=!m59path:\\=\!
       set m59driveletter=!m59path:~2,1!
@@ -32,8 +33,8 @@ for /F "tokens=1-6 usebackq delims=:" %%a in ("%ProgramW6432%\Open Meridian\sett
          call :copying
          if %ERRORLEVEL% LSS 8 goto found
       )
-      echo Copy failed from !m59path!, trying all profiles.
-      goto searchallprofiles
+      echo Copy failed from !m59path!.
+      set foundcli=0
    )
 )
 
