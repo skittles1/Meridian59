@@ -192,7 +192,8 @@ Bool TransferStart(void)
 Bool TransferStart(void)
 {
    Bool done;
-   const char *mime_types[3] = { "application/octet-stream", "application/x-msdownload", NULL };
+   const char *mime_types[7] = { "application/octet-stream", "application/x-msdownload",
+                                 "video/ogg", "image/png", "text/xml", "video/avi", NULL };
    DWORD index = 0;
    int file_size;
 
@@ -234,6 +235,8 @@ Bool TransferStart(void)
       return False;
    }
 
+   //debug(("machine name %s, path name %s\n", transfer_machine.c_str(), transfer_path.c_str()));
+
    std::string req_file, local_file_path, filename, basepath;
 
    // Successfully loaded patch file, check the update program (club.exe).
@@ -265,6 +268,8 @@ Bool TransferStart(void)
       req_file.append(basepath);
       req_file.append(filename);
       std::replace(req_file.begin(), req_file.end(), '\\', '/');
+
+      //debug(("downloading file %s\n", req_file.c_str()));
 
       // This is the path the file should be saved to locally.
       local_file_path.assign(".");

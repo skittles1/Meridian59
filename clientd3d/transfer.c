@@ -179,7 +179,7 @@ void __cdecl TransferStart(void *download_info)
 #else
       sprintf(local_filename, "%s\\%s", info->files[i].path, info->files[i].filename);
 #endif
-      outfile = open(local_filename, O_BINARY | O_RDWR | O_CREAT, S_IWRITE | S_IREAD);
+      outfile = open(local_filename, O_BINARY | O_RDWR | O_CREAT | O_TRUNC, S_IWRITE | S_IREAD);
       if (outfile <= 0)
       {
          debug(("Couldn't open local file %s for writing\n", local_filename));

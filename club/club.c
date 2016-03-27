@@ -188,11 +188,13 @@ void CloseClient()
    HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPALL, NULL);
    PROCESSENTRY32 pEntry;
    pEntry.dwSize = sizeof(pEntry);
+   DWORD pathRes;
 
-   // Get the full path of the client.
-   char exe_path[MAX_PATH];
+   // Get the full path of the client. Currently club gets passed the full path of
+   // the executable but if that changes, this can be used to find the exe path.
+   // char exe_path[MAX_PATH];
+   // pathRes = GetFullPathName(restart_filename.c_str(), MAX_PATH, exe_path, NULL);
 
-   DWORD pathRes = GetFullPathName(restart_filename.c_str(), MAX_PATH, exe_path, NULL);
    // Path of the process for comparison.
    char test_path[MAX_PATH];
 
@@ -211,7 +213,7 @@ void CloseClient()
             // convert this to drive letter form.
             if (pathRes
                && NormalizeNTPath(test_path, MAX_PATH) == 0
-               && _stricmp(test_path, exe_path) == 0)
+               && _stricmp(test_path, restart_filename.c_str()) == 0)
             {
                TerminateProcess(hProcess, 9);
             }

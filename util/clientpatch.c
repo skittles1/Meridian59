@@ -111,7 +111,7 @@ bool FindMatchingFiles(std::string path, FileList *files)
       else
       {
          // Get the extension, including '.' and check against extension list.
-         strptr = strchr(search_data.cFileName, '.');
+         strptr = strrchr(search_data.cFileName, '.');
          for (ExtList::iterator it = extensions.begin(); it != extensions.end(); ++it)
          {
             // If we match an extension, add to the FileList structure.

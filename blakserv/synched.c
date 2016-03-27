@@ -635,6 +635,7 @@ void LogUserData(session_node *s)
    sprintf(buf+strlen(buf),"%s",LockConfigStr(ADVERTISE_FILE2));
    UnlockConfigStr();
 
+   sprintf(buf + strlen(buf), " client version %i", s->version_major * 100 + s->version_minor);
    strcat(buf,"\n");
 
    lprintf("%s",buf);
