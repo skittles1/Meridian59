@@ -116,7 +116,7 @@ bool FindMatchingFiles(std::string path, FileList *files)
          {
             // If we match an extension, add to the FileList structure.
             // TODO: This could probably be faster.
-            if (strcmp(strptr, it->c_str()) == 0)
+            if (stricmp(strptr, it->c_str()) == 0)
             {
                files->push_back(std::make_tuple(path, basepath_dir, search_data.cFileName));
                break;

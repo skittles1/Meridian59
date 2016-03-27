@@ -423,7 +423,7 @@ void AbortDownloadDialog(void)
 Bool DownloadDone(DownloadFileInfo *file_info)
 {
    download_in_progress = false;
-   return True;
+#if VANILLA_UPDATER
    char zip_name[MAX_PATH + FILENAME_MAX];    // Name of uncompressed file
    char *destination_dir;
 
@@ -491,7 +491,7 @@ Bool DownloadDone(DownloadFileInfo *file_info)
       debug(("Got unknown download command %d\n", DownloadCommand(file_info->flags)));
       break;
    }
-
+#endif
    debug(("Got file successfully\n"));
 
    return True;
@@ -821,6 +821,9 @@ void DownloadClientPatch(char *patchhost, char *patchpath, char *patchcachepath,
       strcpy(dinfo->reason, reason);
       strcpy(dinfo->files[0].filename, filename);
       strcpy(dinfo->files[0].path, download_dir);
+      // Just estimate size, since we don't have patchinfo.txt yet.
+      // Only needed for displaying in a text box to user.
+      dinfo->files[0].size = 600000;
       dinfo->files[0].flags = 0;
 
       json_t *PatchInfo;

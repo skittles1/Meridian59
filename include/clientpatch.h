@@ -124,7 +124,7 @@ json_t * GenerateCacheFile(const char *fullpath, const char *basepath, const cha
    json_object_set(CacheFile, "Filename", json_string(file));
    json_object_set(CacheFile, "Version", json_pack("i", CLIENTPATCH_FILE_VERSION));
 
-   if (strcmp(strrchr(file, '.'), ".zip") == 0)
+   if (stricmp(strrchr(file, '.'), ".zip") == 0)
       json_object_set(CacheFile, "Download", json_pack("b", 0));
    else
       json_object_set(CacheFile, "Download", json_pack("b", 1));

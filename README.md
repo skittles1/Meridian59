@@ -39,8 +39,8 @@ for Meridian 59 must be downloaded using the patcher.
 
 Build Instructions
 --------------
-These build instructions can also be found on the Open Meridian Project
-[wiki](http://wiki.openmeridian.org/index.php/Detailed_Build_Instructions).
+These build instructions can also be found on the Server 105 GitHub
+[wiki](https://github.com/OpenMeridian105/Meridian59/wiki/Build-Instructions).
 
 0. Install [Microsoft Visual Studio 2013](http://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx)
 or greater.
@@ -122,9 +122,9 @@ variables set to use zlib:
 
 Contact Information
 --------------
-For further information please join the #Meridian59 channel on
+For further information please join the #Meridian59de channel on
 irc.esper.net. You can also join us on the
-[forums](http://openmeridian.org/forums)
+[forums](http://openmeridian.org/forums/index.php/board,23.0.html)
 where you can ask any questions about the game or the codebase.
 
 Forked from the [OpenMeridian codebase](https://github.com/OpenMeridian/Meridian59),

@@ -709,7 +709,7 @@ BEGIN
     83                      "Objekt verwenden"
     84                      "Aktivieren"
     85                      "Software\\Classes\\http\\shell\\open\\command"
-    86                      "http://wiki.openmeridian.org/index.php/Gameplay"
+    86                      "http://wiki.meridian59.de/"
     87                      "Was bitte?"
     90                      "Entpacken ..."
     91                      "Meridian 59"
@@ -773,8 +773,8 @@ BEGIN
     180                     "Wähle die Gegenstände zum Hinterlegen aus."
     187                     "Unable to send an HTTP request for the file %s to the server %s."
     188                     "Unable to get size of file %s from the server %s."
-    189                     "http://openmeridian.org/forums"
-    190                     "http://wiki.openmeridian.org/index.php/Main_Page"
+    189                     "http://openmeridian.org/forums/index.php/board,23.0.html"
+    190                     "http://wiki.meridian59.de/"
     191                     "Kann Patchfile nicht laden %s. Fehler: %s."
 END
 
@@ -1687,7 +1687,7 @@ BEGIN
     IDS_APPLY               "Apply object"
     IDS_ACTIVATE            "Activate"
     IDS_HTTPKEY             "Software\\Classes\\http\\shell\\open\\command"
-    IDS_HELPFILE            "http://wiki.openmeridian.org/index.php/Gameplay"
+    IDS_HELPFILE            "http://wiki.meridian59.de/"
     IDS_BADCOMMAND          "What?  (Press F1 or '?' for help.)"
     IDS_DECOMPRESSING       "Decompressing..."
     IDS_APPNAME             "Meridian 59"
@@ -1703,14 +1703,14 @@ BEGIN
     IDS_DEPOSIT_ITEMS       "Select Items to Deposit"
     IDS_CANTSENDREQUEST     "Unable to send an HTTP request for the file %s to the server %s."
     IDS_CANTGETFILESIZE     "Unable to get size of file %s from the server %s."
-    IDS_FORUMURL            "http://openmeridian.org/forums"
-    IDS_WIKIURL             "http://wiki.openmeridian.org/index.php/Main_Page"
+    IDS_FORUMURL            "http://openmeridian.org/forums/index.php/board,23.0.html"
+    IDS_WIKIURL             "http://wiki.meridian59.de/"
     IDS_JSONERROR           "Unable to load patch file %s. Error: %s."
 END
 
 STRINGTABLE
 BEGIN
-    IDS_CANTUPDATE          "Unable to run the patcher to update Meridian 59.\nPlease contact the admins at http://openmeridian.org/forums."
+    IDS_CANTUPDATE          "Unable to run the patcher to update Meridian 59.\nPlease contact the admins at http://openmeridian.org/forums/index.php/board,23.0.html."
     IDS_NEEDNEWVERSION      "You need to get an updated version of Meridian 59.\nDo you want to retrieve it automatically now?"
     IDS_CANTMOVE            "Can't move the downloaded file %s to %s.\n\nTry again?"
     IDS_LONGCMDLINE         "The automatic update program will fail because its command line is too long.\nPlease report the following command line:\n\n%s"
