@@ -9306,8 +9306,10 @@ messages:
       % Reign of Blood Frenzy death?  Newbie death?
       % Don't drop anything or take any penalties.
       if Send(SYS,@GetChaosNight)
-        OR (iRoom >= RID_NEWB_BASE AND iRoom <= RID_NEWB_MAX)
-        OR Send(self,@HasHonorString,#string=player_newbie_honor_string)
+         OR (iRoom >= RID_NEWB_BASE AND iRoom <= RID_NEWB_MAX)
+         OR Send(self,@HasHonorString,#string=player_newbie_honor_string)
+         OR (NOT (piFlags & PFLAG_PKILL_ENABLE)
+            AND NOT Send(SETTINGS_OBJECT,@NewbiesDropLoot))
       {
          bNo_drop_death = TRUE;
          piDeathCost = FALSE;
