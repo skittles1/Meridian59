@@ -1692,6 +1692,16 @@ messages:
       return $;
    }
 
+   GetTrueManaCost()
+   {
+      return viMana;
+   }
+
+   GetTrueExertion()
+   {
+      return viSpellExertion;
+   }
+
    GetManaCost(who=$,iSpellPower=0,bItemCast=FALSE)
    "Returns number of magic points needed to cast spell"
    {

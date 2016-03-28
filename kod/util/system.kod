@@ -7849,6 +7849,71 @@ messages:
       return resistance_list;
    }
 
+   PrintSpellsBySchool()
+   {
+      GodLog("Shal'ille");
+      Send(self,@PrintSpells,#iSchool=SS_SHALILLE);
+      GodLog("Qor");
+      Send(self,@PrintSpells,#iSchool=SS_QOR);
+      GodLog("Kraanan");
+      Send(self,@PrintSpells,#iSchool=SS_KRAANAN);
+      GodLog("Faren");
+      Send(self,@PrintSpells,#iSchool=SS_FAREN);
+      GodLog("Riija");
+      Send(self,@PrintSpells,#iSchool=SS_RIIJA);
+      GodLog("Jala");
+      Send(self,@PrintSpells,#iSchool=SS_JALA);
+
+      return;
+   }
+
+   PrintSpells(iSchool = 1)
+   {
+      local oReg, i, j, lReg, iLen, iLevel;
+
+      iLevel = 0;
+      while (++iLevel < 7)
+      {
+         GodLog("Level ",iLevel,":");
+
+         foreach i in plSpells
+         {
+            if IsClass(i,&Trance)
+               OR NOT (Send(i,@GetSchool) = iSchool)
+               OR Send(i,@GetLevel) <> iLevel
+            {
+               continue;
+            }
+
+            ClearTempString();
+
+            lReg = Send(i,@GetReagents);
+            iLen = Length(lReg);
+            AppendTempString(", Reagents: ");
+            foreach j in lReg
+            {
+               oReg = Send(self,@FindTemplateItemByClass,#cClass=First(j));
+               if oReg <> $
+               {
+                  AppendTempString(Send(oReg,@GetName));
+                  AppendTempString(", ");
+                  AppendTempString(Nth(j,2));
+                  if (--iLen > 0)
+                  {
+                     AppendTempString(", ");
+                  }
+                  oReg = $;
+               }
+            }
+
+            GodLog("Name: ",Send(i,@GetName), ", Mana: ",Send(i,@GetTrueManaCost),
+               ", Vigor: ",Send(i,@GetTrueExertion), GetTempString());
+         }
+      }
+
+      return;
+   }
+
    RemoveAllResistances(resistance_list = $)
    "This clears the resistance list... for if someone's char is really messed "
    "up."
@@ -7857,7 +7922,8 @@ messages:
 
       foreach i in resistance_list
       {
-         resistance_list = Send(self,@RemoveResistance,#what=Nth(i,1),#value=Nth(i,2),#resistance_list=resistance_list);
+         resistance_list = Send(self,@RemoveResistance,#what=First(i),
+                                 #value=Nth(i,2),#resistance_list=resistance_list);
       }
 
       return resistance_list;
@@ -7866,11 +7932,12 @@ messages:
    RemoveResistance(what = $, value = 0, resistance_list = $)
    "Removes a resistance of type (what) and value (value)"
    {
-      resistance_list = Send(self,@AddResistance,#what=what,#value=-value,#resistance_list=resistance_list);
+      resistance_list = Send(self,@AddResistance,#what=what,#value=-value,
+                              #resistance_list=resistance_list);
 
       return resistance_list;
    }
-   
+
    GetUniqueIPs()
    {
       local i, j, lUserIPList, lIP, bFound;
