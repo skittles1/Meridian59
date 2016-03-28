@@ -23,6 +23,7 @@
 #include <fcntl.h>
 #include <sys\stat.h>
 #include <process.h>
+#include <direct.h>
 #include "wininet.h"
 
 #define Bool char
@@ -35,15 +36,16 @@
 #define CM_RETRYABORT (WM_USER + 1004)
 #define CM_FILESIZE   (WM_USER + 1005)
 #define CM_PROGRESS   (WM_USER + 1006)
+#define CM_FILENAME   (WM_USER + 1007)
+
+#define CLUB_NUM_ARGUMENTS 6
 
 #include "resource.h"
+
 #include "clubarchive.h"
 #include "util.h"
 #include "transfer.h"
-
-/* libarchive */
-#include "archive.h"
-#include "archive_entry.h"
+#include <string>
 
 #define sprintf wsprintf
 
@@ -57,10 +59,14 @@ char *GetLastErrorStr();
 
 extern HINSTANCE hInst;
 extern HWND hwndMain;
-extern char *transfer_machine;
-extern char *transfer_filename;
-extern char *transfer_local_filename;
-
+extern std::string transfer_machine;
+#if VANILLA_UPDATER
+extern std::string transfer_filename;
+extern std::string transfer_local_filename;
+#else
+extern std::string transfer_path;
+extern std::string patchinfo_path;
+#endif
 extern Bool success;
 
 #endif

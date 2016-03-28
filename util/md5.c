@@ -302,7 +302,7 @@ void MDString (char *string, unsigned char *digest)
 {
    int i;
    MD5_CTX context;
-   unsigned int len = strlen (string);
+   unsigned int len = strlen(string);
    
    MD5Init (&context);
    MD5Update (&context, (unsigned char *)string, len);
@@ -312,4 +312,15 @@ void MDString (char *string, unsigned char *digest)
    for (i=0; i < ENCRYPT_LEN; i++)
       if (digest[i] == 0)
 	 digest[i] = 1;
+}
+
+/* Digests a string and prints the result.  Digest must be at least 16 bytes long.
+ *   No 0 byte check - used for file hashes, caller will modify this.
+ */
+void MDStringBytes(char *string, unsigned char *digest, unsigned int bytes)
+{
+   MD5_CTX context;
+   MD5Init(&context);
+   MD5Update(&context, (unsigned char *)string, bytes);
+   MD5Final(digest, &context);
 }

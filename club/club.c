@@ -14,6 +14,9 @@
  */
 
 #include "club.h"
+#include <vector>
+#include <Tlhelp32.h>
+#include <Psapi.h>
 
 /* time to wait at program start */
 #define INIT_TIME 3000
@@ -25,24 +28,33 @@ Bool success;
 
 static Bool retry = True;   // True when an error occurs and user asks to retry
 
-char *restart_filename;
+std::string restart_filename;
 
 int transfer_progress = 0;
 int transfer_file_size = 0;
 char string[256];
 char format[256];
+char format_filename[256];
+char filename_string[256];
 
-char *transfer_machine;
-char *transfer_filename;
-char *transfer_local_filename;
+std::string transfer_machine;
+#if VANILLA_UPDATER
+std::string transfer_filename;
+std::string transfer_local_filename;
+#else
+std::string transfer_path;
+std::string patchinfo_path;
+#endif
 
-char *dest_path;
+std::string dest_path;
 
 /* local function prototypes */
-Bool ParseCommandLine();
+Bool ParseCommandLine(const char *args);
 void RestartFilename();
 void StartupError();
 void RestartClient();
+void CloseClient();
+static HRESULT NormalizeNTPath(char *pszPath, size_t nMax);
 void Interface(int how_show);
 long WINAPI InterfaceWindowProc(HWND hwnd,UINT message,UINT wParam,LONG lParam);
 void OnTimer(HWND hwnd,int id);
@@ -57,8 +69,10 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrev_instance,char *command_li
 
    success = False; /* whether the copy compeletely succeeded */
 
-   if (ParseCommandLine())
+   if (ParseCommandLine(command_line))
    {
+      // User might have multiple clients open, close them.
+      CloseClient();
       Interface(how_show);
    }
 
@@ -69,30 +83,79 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrev_instance,char *command_li
       return 1;
    
    return 0;
-}   
+}
 /************************************************************************/
-Bool ParseCommandLine()
+std::vector<std::string> split(const std::string &s, char delim) {
+   std::vector<std::string> args;
+   bool in_quotes = false;
+   std::string::size_type start = 0;
+   for (std::string::size_type i = 0; i < s.size(); ++i)
+   {
+      // Hit end of argument
+      if (s[i] == delim && !in_quotes)
+      {
+         // Leave out delimiter
+         std::string arg = s.substr(start, i - start);
+
+         args.push_back(arg);
+         start = i + 1;
+      }
+
+      // Hit quotes
+      if (s[i] == '"')
+      {
+         in_quotes = !in_quotes;
+      }
+   }
+
+   // Add the last argument
+   if (start < s.size())
+   {
+      args.push_back(s.substr(start, s.size() - start + 1));
+   }
+
+   // The client puts quotes around some of our arguments, which we
+   // need to undo here
+   for (std::vector<std::string>::size_type i = 0; i < args.size(); ++i)
+   {
+      if (args[i][0] == '"')
+         args[i].erase(0, 1);
+      std::string::size_type size = args[i].size();
+      if (size > 0 && args[i][size - 1] == '"')
+         args[i].resize(size - 1);
+   }
+   
+   return args;
+}
+/************************************************************************/
+Bool ParseCommandLine(const char *args)
 {
-   if (__argc != 7) /* six command line parameters, actually. */
+   std::string argstring(args);
+   std::vector<std::string> arguments = split(argstring, ' ');
+
+   if (arguments.size() != CLUB_NUM_ARGUMENTS)
    {
       StartupError();
       return False;
    }
 
-   restart_filename = __argv[1];
-
-   if (strncmp(__argv[2],"UPDATE",6) != 0)
+   if (arguments[1] != "UPDATE")
    {
       StartupError();
       return False;
    }
 
-   transfer_machine = __argv[3];
-   transfer_filename = __argv[4];
+   restart_filename = arguments[0];
+   transfer_machine = arguments[2]; //patchhost
+   dest_path = arguments[5];
 
-   transfer_local_filename = __argv[5];
-
-   dest_path = __argv[6];
+#if VANILLA_UPDATER
+   transfer_filename = arguments[3];
+   transfer_local_filename = arguments[4];
+#else
+   transfer_path = arguments[3];    // patchpath
+   patchinfo_path = arguments[4];   // patchinfo_path
+#endif
 
    return True;
 }
@@ -109,15 +172,95 @@ void RestartClient()
    STARTUPINFO si;
    PROCESS_INFORMATION pi;
 
-   memset(&si,sizeof(si),0);
+   memset(&si, 0, sizeof(si));
    si.cb = sizeof(si);
    GetStartupInfo(&si); /* shouldn't need to do this.  very weird */
 
-   if (!CreateProcess(restart_filename,"",NULL,NULL,FALSE,0,NULL,NULL,&si,&pi))
+   if (!CreateProcess(restart_filename.c_str(),"",NULL,NULL,FALSE,0,NULL,NULL,&si,&pi))
    {
-      sprintf(s,GetString(hInst, IDS_CANTRESTART),GetLastError(),restart_filename);
+      sprintf(s,GetString(hInst, IDS_CANTRESTART),GetLastError(),restart_filename.c_str());
       MessageBox(NULL,s,GetString(hInst, IDS_APPNAME),MB_ICONSTOP);
    }
+}
+/************************************************************************/
+void CloseClient()
+{
+   HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPALL, NULL);
+   PROCESSENTRY32 pEntry;
+   pEntry.dwSize = sizeof(pEntry);
+   DWORD pathRes;
+
+   // Get the full path of the client. Currently club gets passed the full path of
+   // the executable but if that changes, this can be used to find the exe path.
+   // char exe_path[MAX_PATH];
+   // pathRes = GetFullPathName(restart_filename.c_str(), MAX_PATH, exe_path, NULL);
+
+   // Path of the process for comparison.
+   char test_path[MAX_PATH];
+
+   BOOL hRes = Process32First(hSnapShot, &pEntry);
+   while (hRes)
+   {
+      // Test the filename of process before going further.
+      if (_stricmp(pEntry.szExeFile, restart_filename.c_str()) == 0)
+      {
+         HANDLE hProcess = OpenProcess(PROCESS_TERMINATE | PROCESS_QUERY_LIMITED_INFORMATION, 0,
+            (DWORD)pEntry.th32ProcessID);
+         if (hProcess)
+         {
+            pathRes = GetProcessImageFileName(hProcess, test_path, MAX_PATH);
+            // GetProcessImageFileName returns a path in device form,
+            // convert this to drive letter form.
+            if (pathRes
+               && NormalizeNTPath(test_path, MAX_PATH) == 0
+               && _stricmp(test_path, restart_filename.c_str()) == 0)
+            {
+               TerminateProcess(hProcess, 9);
+            }
+            CloseHandle(hProcess);
+         }
+      }
+      hRes = Process32Next(hSnapShot, &pEntry);
+   }
+   CloseHandle(hSnapShot);
+}
+/************************************************************************/
+/*
+ * NormalizeNTPath: Converts pszPath from device form to drive letter form.
+ * Adapted from:
+ * https://social.msdn.microsoft.com/Forums/vstudio/en-US/c48bcfb3-5326-479b-8c95-81dc742292ab/windows-api-to-get-a-full-process-path?forum=vcgeneral
+ */
+#define NUMCHARS(a) (sizeof(a)/sizeof(*a))
+static HRESULT NormalizeNTPath(char *pszPath, size_t nMax)
+// Normalizes the path returned by GetProcessImageFileName
+{
+   char *pszSlash = strchr(&pszPath[1], '\\');
+   if (pszSlash)
+      pszSlash = strchr(pszSlash + 1, '\\');
+   if (!pszSlash)
+      return E_FAIL;
+   char cSave = *pszSlash;
+   *pszSlash = 0;
+
+   char szNTPath[_MAX_PATH];
+   char szDrive[_MAX_PATH] = "A:";
+   // We'll need to query the NT device names for the drives to find a match with pszPath
+   for (char cDrive = 'A'; cDrive < 'Z'; ++cDrive)
+   {
+      szDrive[0] = cDrive;
+      szNTPath[0] = 0;
+      if (0 != QueryDosDevice(szDrive, szNTPath, NUMCHARS(szNTPath)) &&
+         0 == strcmp(szNTPath, pszPath))
+      {
+         // Match
+         strcat_s(szDrive, NUMCHARS(szDrive),"\\");
+         strcat_s(szDrive, NUMCHARS(szDrive), pszSlash + 1);
+         strcpy_s(pszPath, nMax, szDrive);
+         return S_OK;
+      }
+   }
+   *pszSlash = cSave;
+   return E_FAIL;
 }
 /************************************************************************/
 void Interface(int how_show)
@@ -167,6 +310,8 @@ long WINAPI InterfaceWindowProc(HWND hwnd,UINT message,UINT wParam,LONG lParam)
       sprintf(string, format, transfer_progress, transfer_file_size);
       SetDlgItemText(hwnd, IDC_BYTES1, string);
 
+      GetDlgItemText(hwnd, IDS_RETRIEVING, format_filename, sizeof(format_filename));
+      SetDlgItemText(hwnd, IDS_RETRIEVING, "");
       hCtrl = GetDlgItem(hwnd, IDC_ANIMATE1);
       Animate_Open(hCtrl, MAKEINTRESOURCE(IDA_DOWNLOAD));
       break;
@@ -180,7 +325,7 @@ long WINAPI InterfaceWindowProc(HWND hwnd,UINT message,UINT wParam,LONG lParam)
    case CM_RETRYABORT:
       if (retry)
       {
-        Status(GetString(hInst, IDS_CONNECTING), transfer_machine);
+         Status(GetString(hInst, IDS_CONNECTING), transfer_machine.c_str());
         _beginthread((void(*)(void*))TransferStart, 0, NULL);
       }
       else
@@ -190,7 +335,9 @@ long WINAPI InterfaceWindowProc(HWND hwnd,UINT message,UINT wParam,LONG lParam)
       break;
       
    case CM_DEARCHIVE :
-      Dearchive(dest_path, transfer_local_filename);
+#if VANILLA_UPDATER
+      Dearchive(dest_path.c_str(), transfer_local_filename.c_str());
+#endif
       break;
 
    case CM_FILESIZE:
@@ -208,6 +355,11 @@ long WINAPI InterfaceWindowProc(HWND hwnd,UINT message,UINT wParam,LONG lParam)
       sprintf(string, format, transfer_progress, transfer_file_size);
       SetDlgItemText(hwndMain, IDC_BYTES1, string);
       SendDlgItemMessage(hwnd, IDC_PROGRESS, PBM_SETPOS, transfer_progress / 100, 0);
+      break;
+
+   case CM_FILENAME:
+      sprintf(filename_string, format_filename, (LPCSTR)lParam);
+      SetDlgItemText(hwndMain, IDS_RETRIEVING, filename_string);
       break;
 
    case WM_COMMAND:
@@ -302,8 +454,9 @@ char *GetLastErrorStr()
    
    error_str = "No error string"; /* in case the call  fails */
 
-   FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-		 NULL,GetLastError(),MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),
-		 (LPTSTR) &error_str,0,NULL);
+   // This works only for wininet.dll errors
+   FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_HMODULE,
+                 GetModuleHandle("wininet.dll"), GetLastError(), 0,
+                 (LPTSTR) &error_str, 0, NULL);
    return error_str;
 }
