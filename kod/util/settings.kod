@@ -99,6 +99,10 @@ properties:
    % hacked accounts.
    piMaxSuicideHP =  60
 
+   // FALSE if newbies never drop loot, TRUE if they do if they don't have
+   // the "new to the lands" tag.
+   pbNewbiesDropLoot = FALSE
+
    %
    % Spell settings
    %
@@ -452,6 +456,11 @@ messages:
    GetMaxSuicideHP()
    {
       return piMaxSuicideHP;
+   }
+
+   NewbiesDropLoot()
+   {
+      return pbNewbiesDropLoot;
    }
 
    %
