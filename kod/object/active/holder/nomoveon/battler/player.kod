@@ -917,6 +917,16 @@ properties:
    % avoids truncation errors but is not revealed to users in any way.
    piHealth = 2000
    piMax_Health = 20
+
+   // piBase_Max_Health can now go above 150, and is equivalent to
+   // "player level". Max HP is determined by GetBaseMaxHealth, which
+   // is bound to the game's max HP and should be called when this
+   // number is needed. Greater/less/equal comparisons can still be
+   // made directly with piBase_Max_Health, but it may not be an
+   // accurate measure of max HP. Rationale: provide bonuses and room
+   // for expansion over the classical max HP without introducing a
+   // separate "max_level" variable that in the vast majority of cases
+   // would equal piBase_Max_Health.
    piBase_Max_Health = 20
 
    piMax_Mana = 20
@@ -8732,9 +8742,11 @@ messages:
    "their maxhealth to gain a HP.  This number is reduced by the player's"
    "stamina, all the way down to half for those with high staminas."
    {
-      local i, iMaxHealth, dodgeskill, oSkill, monster_level, iXP, oWeapon;
+      local i, iMaxHealth, dodgeskill, oSkill, monster_level, iXP, oWeapon,
+            iItemBonus;
 
       iXP = 0;
+      iItemBonus = 0;
 
       % Some things just never allow advancement.
       % Can advance in arena if realdeath is on in an arena.
@@ -8794,7 +8806,7 @@ messages:
                // either take damage or dodge to gain bonus XP.
                foreach i in plUsing
                {
-                  iXP = iXP + Send(i,@GetItemXPBonus);
+                  iItemBonus = iItemBonus + Send(i,@GetItemXPBonus);
                }
             }
             else
@@ -8874,7 +8886,8 @@ messages:
          }
 
          iXP = iXP * 100 / Bound(Send(SETTINGS_OBJECT,@GetXPPercent),1,1000);
-
+         // Add in XP bonus from items after this.
+         iXP = iXP + iItemBonus;
          // AddXP checks for HP gain and redraws the XP bar.
          // NOTE: iMaxHealth could be wrong after this point.
          Send(self,@AddXP,#iAmount=iXP);
