@@ -150,6 +150,11 @@ void StatsMainChange(Statistic *s)
       if (pinfo.vigor >= MIN_VIGOR && old_vigor < MIN_VIGOR)
 	 SendMessage(s->hControl, GRPH_COLORSET, GRAPHCOLOR_BAR, GetColor(COLOR_BAR1));	 
    }
+   else if (s->num == STAT_XP)
+   {
+      // Update tooltip
+      StatsMainMove();
+   }
 }
 
 /************************************************************************/

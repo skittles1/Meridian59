@@ -10611,6 +10611,10 @@ messages:
          // remove extra invisible 'levels', so players at max HP should
          // not modify their stamina.
          piBase_Max_Health = 100 + piStamina + Bound(piStaminaMod,0,$);
+         Send(self,@NewHealth);
+
+         // Check XP again.
+         Send(self,@ResetXPToLevel);
 
          Debug("HitPoints and XP Adjusted");
       }
