@@ -7914,6 +7914,13 @@ messages:
       return;
    }
 
+   PrintReagents()
+   {
+      SendListByClass(plItemTemplates,0,&NumberItem,@PrintReagent);
+
+      return;
+   }
+
    RemoveAllResistances(resistance_list = $)
    "This clears the resistance list... for if someone's char is really messed "
    "up."
