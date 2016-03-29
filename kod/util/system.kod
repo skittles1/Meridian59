@@ -5226,7 +5226,7 @@ messages:
    GetChaosNight()
    "Return true if there's a chaos night (\"frenzy\") running."
    {
-      return send(EVENTENGINE_OBJECT,@IsChaosNightActive);
+      return Send(EVENTENGINE_OBJECT,@IsChaosNightActive);
    }
 
    ScheduleChaosNight(iMonth=$,iDay=$,iYear=$,
@@ -5809,32 +5809,6 @@ messages:
    GetItemTemplates()
    {
       return plItemTemplates;
-   }
-
-   ReduceAllItemWeightAndBulk(iNumber=1)
-   "Reduces (or increases) the weight and bulk of all items "
-   "to the number given. Default 1. Item has to be in the "
-   "item templates list. Does not affect shillings."
-   {
-      local i;
-
-      % Check for frenzy active first, to avoid running
-      % this accidentally.
-      if (NOT Send(self,@GetChaosNight))
-      {
-         return;
-      }
-
-      foreach i in plItemTemplates
-      {
-         if NOT IsClass(i,&Money)
-         {
-            SetClassVar(i,"viBulk",iNumber);
-            SetClassVar(i,"viWeight",iNumber);
-         }
-      }
-
-      return;
    }
 
    RecreateMoneyTemplates()

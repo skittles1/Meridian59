@@ -277,9 +277,6 @@ messages:
       Send(&HazarInnKeeper,@SetForSaleFrenzy);
       Send(&KocatanInnkeeper,@SetForSaleFrenzy);
 
-      % Reduce the weight and bulk of all items.
-      Send(SYS,@ReduceAllItemWeightAndBulk,#iNumber=1);
-
       return;
    }
 
