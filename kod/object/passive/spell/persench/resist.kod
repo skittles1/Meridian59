@@ -16,6 +16,8 @@ constants:
 
 resources:
 
+   include resist.lkod
+
    resist_enchantment_rsc = \
       "\n\nYour current %s enchantment adds %i%% %s."
 
