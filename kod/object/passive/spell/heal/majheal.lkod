@@ -3,7 +3,7 @@ majorheal_desc_rsc = de \
    "Die mitfühlende Kraft Sha-Lills heilt ernstere Wunden bei dem Anwender "
    "selbst oder bei einem anderen Spieler. Wenn Du diesen mächtigen Zauber "
    "auf missratene Seelen anwendest, reduzierst Du damit Dein eigenes Karma-Niveau. "
-   "Dazu braucht man Kräuter."
+   "Dazu braucht man vier Kräuter."
 majorheal_cast_rsc = de \
    "%s%ss Zauber stellt bei dir ~g~B%i~B~n Lebenspunkte wieder herr."
 majorheal_cast_self = de \

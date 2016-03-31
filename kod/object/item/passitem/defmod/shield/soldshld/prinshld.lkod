@@ -1,7 +1,7 @@
 PrincessShield_name_rsc = de "Ein Schild der Armee der Prinzessin."
 PrincessShield_desc_rsc = de \
    "Dieser Schild identifiziert Dich als stolzes Mitglied der Armee der Prinzessin."
-PrincessShield_ArmyName = de "the Royal army"
+PrincessShield_ArmyName = de "der königlichen Armee"
 PrincessShield_welcome_mail = de \
    "Subject: Welcome to the Royal army.\nGreetings.  I welcome you as a new "
    "ally in our fight to keep the throne from the forces that would see us "

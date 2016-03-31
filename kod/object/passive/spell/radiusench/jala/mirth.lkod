@@ -11,6 +11,6 @@ Mirth_starts = de "%s beginnt ein fröhliches Lied zu spielen."
 Mirth_ends = de "Der fröhliche Lied, gespielt von %s verstummt."
 Mirth_caster_ends = de "Dein fröhliches Lied verstummt."
 Mirth_caster_enter = de "Deine Laune wird ein wenig besser."
-Mirth_enter = de "%ss fröhliches Lied, verbesser deine Laune etwas."
+Mirth_enter = de "%ss fröhliches Lied, verbessert deine Laune etwas."
 Mirth_leave = de \
-   "Du kannst das fröhliches Lied, gesungen von %s nicht mehr hören."
+   "Du kannst das fröhliches Lied, gesungen von %s, nicht mehr hören."

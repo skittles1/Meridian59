@@ -1,2 +1,4 @@
-easterinvasion_start_msg = de "~BDie Invasion der Osterhasen hat begonnen"
-easterinvasion_end_msg = de "~BDie Invasion der Osterhasen ist nun beendet."
+easterinvasion_start_msg = de \
+   "~B~k[Event]~n ~B~v Die Invasion der Osterhasen hat soeben begonnen."
+easterinvasion_end_msg = de \
+   "~B~k[Event]~n ~B~v Die Invasion der Osterhasen wurde beendet."

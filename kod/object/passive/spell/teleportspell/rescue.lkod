@@ -1,7 +1,7 @@
 rescue_name_rsc = de "Retten"
 rescue_desc_rsc = de \
    "Ruft Sha-Lill an, um Dich zurück in Sicherheit zu bringen. Der Zauber "
-   "benötigt Smaragde."
+   "benötigt einen Smaragd."
 Rescue_Start = de "Du startest deine Vorbereitungen zum Retten."
 Rescue_Success = de \
    "Du fühlst, dass eine heilige Kraft dich aus deiner Situation geholt hat."

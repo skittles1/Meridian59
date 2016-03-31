@@ -16,6 +16,8 @@ constants:
 
 resources:
 
+   include newb9.lkod
+
    room_name_newb9 = "The Adventurer's Hall of Raza"
 
    news_raza_hall = "General News"

@@ -4,7 +4,7 @@ Relay_caster_msg_rsc = de "Du gibst einen teil deiner Ausdauer an %s%s."
 Relay_name_rsc = de "Auffrischen"
 Relay_desc_rsc = de \
    "Die Macht Kraanans erlaubt es Dir, einen Teil Deiner Ausdauer an eine "
-   "andere Person zu übertragen. Der Zauber benötigt genießbare Pilze."
+   "andere Person zu übertragen. Der Zauber benötigt einen genießbare Pilz."
 Relay_unnecessary_rsc = de \
    "%s%s kann nicht mehr Ausdauer durch diesen Zauber annehmen."
 Relay_toolow_rsc = de \
