@@ -1706,6 +1706,11 @@ messages:
       return viSpellExertion;
    }
 
+   GetPrimaryImproveChance()
+   {
+      return viChance_To_Increase;
+   }
+
    GetManaCost(who=$,iSpellPower=0,bItemCast=FALSE)
    "Returns number of magic points needed to cast spell"
    {
@@ -2079,6 +2084,11 @@ messages:
       iPercent = 150 - iSpellPower;   
       
       return (viCast_time*iPercent)/100;
+   }
+
+   GetRawTranceTime()
+   {
+      return viCast_time;
    }
 
    GetPostCastDelay()

@@ -7815,7 +7815,7 @@ messages:
 
    PrintSpells(iSchool = 1)
    {
-      local oReg, i, j, lReg, iLen, iLevel;
+      local oReg, i, j, lReg, iLen, iLevel, iFocusTime;
 
       iLevel = 0;
       while (++iLevel < 7)
@@ -7833,8 +7833,17 @@ messages:
 
             ClearTempString();
 
+            iFocusTime = Send(i,@GetRawTranceTime);
+            if (iFocusTime > 0)
+            {
+               AppendTempString(", Focus time: ");
+               AppendTempString(iFocusTime);
+               AppendTempString("ms");
+            }
+
             lReg = Send(i,@GetReagents);
             iLen = Length(lReg);
+            
             AppendTempString(", Reagents: ");
             foreach j in lReg
             {
@@ -7853,7 +7862,9 @@ messages:
             }
 
             GodLog("Name: ",Send(i,@GetName), ", Mana: ",Send(i,@GetTrueManaCost),
-               ", Vigor: ",Send(i,@GetTrueExertion), GetTempString());
+               ", Vigor: ",Send(i,@GetTrueExertion),
+               ", Improve chance: ",Send(i,@GetPrimaryImproveChance),
+               ", TP cost: ", Send(i,@GetMeditateRatio),GetTempString());
          }
       }
 
