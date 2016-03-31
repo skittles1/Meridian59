@@ -8904,7 +8904,7 @@ messages:
             iXP = iXP / 2;
          }
 
-         iXP = iXP * 100 / Bound(Send(SETTINGS_OBJECT,@GetXPPercent),1,1000);
+         iXP = iXP * Bound(Send(SETTINGS_OBJECT,@GetXPPercent),50,500) / 100;
          // Add in XP bonus from items after this.
          iXP = iXP + iItemBonus;
          // AddXP checks for HP gain and redraws the XP bar.
