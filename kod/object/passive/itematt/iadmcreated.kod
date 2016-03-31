@@ -27,9 +27,10 @@ constants:
 
 resources:
 
+   include iadmcreated.lkod
+
    itematt_dmcreated_name = "dm-created %s"
-   itematt_dmcreated_desc = \
-      "  This %s was created by %q."
+   itematt_dmcreated_desc = "  This %s was created by %q."
 
 classvars:
 

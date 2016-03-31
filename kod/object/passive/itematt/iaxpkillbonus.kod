@@ -27,13 +27,14 @@ constants:
 
 resources:
 
-   //include iadurabl.lkod
+   include iaxpkillbonus.lkod
 
    itematt_xpkillbonus_name = "adventuring %s"
    xpkillbonus_dm = "adventuring"
    itematt_xpkillbonus_desc = \
       " This %s is exceptionally well made, and would be of benefit to "
       "any adventurer seeking to gain experience."
+
 classvars:
 
    viItem_Att_Num = IA_XP_KILL_BONUS
