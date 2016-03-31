@@ -79,6 +79,9 @@ classvars:
    viIcon_animation_start = 2
    viIcon_animation_end = 2
 
+   // Maybe one day we'll have cleave or a 2-handed weapon that does area dmg.
+   vbIsAreaEffect = FALSE
+
 properties:
 
    plPrerequisites = $
@@ -587,6 +590,10 @@ messages:
       return TRUE;
    }
 
+   IsAreaEffect()
+   {
+      return vbIsAreaEffect;
+   }
 
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

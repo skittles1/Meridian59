@@ -47,6 +47,8 @@ classvars:
    viHarmful = TRUE
    viNoNewbieOffense = TRUE
 
+   vbIsAreaEffect = TRUE
+
 properties:
 
 messages:

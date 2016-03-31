@@ -59,6 +59,8 @@ classvars:
 
    vrSucceed_wav = manabomb_sound
 
+   vbIsAreaEffect = TRUE
+
 properties:
 
 messages:

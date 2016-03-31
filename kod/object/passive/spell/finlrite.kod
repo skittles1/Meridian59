@@ -64,6 +64,8 @@ classvars:
 
    vrSucceed_wav = FinalRites_sound
 
+   vbIsAreaEffect = TRUE
+
 properties:
 
    viOutlaw = TRUE

@@ -488,9 +488,6 @@ properties:
    %  Take Nth of this list
    vlLevelPoints = $
 
-   % What server-wide flags are we using?
-   piServerFlags = 0
-   
    % A master list of all spell-casting active objects
    plSpellTotems = $
 
@@ -7485,31 +7482,6 @@ messages:
 
       return;
    }
-
-   %%% Server flags
-
-   SetServerFlag(flag=0, value=TRUE)
-   "Sets the flag to value.  Returns the flag value if set, returns 0 if "
-   "the flag was unset."
-   {
-      if value
-      {
-         % Set the flag to true
-         piServerFlags = piServerFlags | flag;
-      }
-      else
-      {
-         piServerFlags = piServerFlags & ~flag;
-      }
-
-      return (piServerFlags & flag);
-   }
-
-   GetServerFlag(flag=0)
-   "Returns the flag value if the flag is set, 0 otherwise."
-   {
-      return (piServerFlags & flag);
-   }      
 
    BitwiseXOR(value1 = 0, value2 = 0)
    "Returns the bitwise XOR of the two values."

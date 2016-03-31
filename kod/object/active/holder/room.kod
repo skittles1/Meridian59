@@ -4262,7 +4262,8 @@ messages:
       return;
    }
 
-   DispelIllusionEnchantments(who = $, report = TRUE, iChance = 100)
+   DispelIllusionEnchantments(who = $, report = TRUE, iChance = 100,
+                              stroke_obj = $)
    {
       local i,pSpell,each_obj,oSpell;
 
@@ -4282,7 +4283,8 @@ messages:
          if IsClass(each_obj,&Battler)
             AND who <> $
             AND Send(self,@ReqSomethingAttack,#what=who,#victim=each_obj)
-            AND Send(who,@AllowPlayerAttack,#victim=each_obj)
+            AND Send(who,@AllowPlayerAttack,#victim=each_obj,
+                     #stroke_obj=stroke_obj)
          {
             Send(each_obj,@DispelIllusionEnchantments,#report=report,
                  #iChance=iChance);
@@ -4292,7 +4294,8 @@ messages:
       return;
    }
 
-   DispelIllusions(who = $, what = $, iChance = 100, bAll = TRUE)
+   DispelIllusions(who = $, what = $, iChance = 100, bAll = TRUE,
+                   stroke_obj = $)
    {
       local i, each_obj, oTarget;
 
@@ -4313,7 +4316,8 @@ messages:
             if (IsClass(each_obj,&Monster))
             {
                if (Send(self,@ReqSomethingAttack,#what=who,#victim=each_obj)
-                     AND Send(who,@AllowPlayerAttack,#victim=each_obj))
+                     AND Send(who,@AllowPlayerAttack,#victim=each_obj,
+                              #stroke_obj=stroke_obj))
                {
                   Send(each_obj,@Delete);
                }
@@ -4323,7 +4327,8 @@ messages:
                oTarget = Send(each_obj,@GetCaster);
 
                if (Send(self,@ReqSomethingAttack,#what=who,#victim=oTarget)
-                  AND Send(who,@AllowPlayerAttack,#victim=oTarget))
+                  AND Send(who,@AllowPlayerAttack,#victim=oTarget,
+                           #stroke_obj=stroke_obj))
                {
                   Send(each_obj,@Delete);
                }
@@ -4341,7 +4346,8 @@ messages:
             {
                oTarget = Send(each_obj,@GetCaster);
                if Send(self,@ReqSomethingAttack,#what=who,#victim=oTarget)
-                  AND Send(who,@AllowPlayerAttack,#victim=oTarget)
+                  AND Send(who,@AllowPlayerAttack,#victim=oTarget,
+                           #stroke_obj=stroke_obj)
                {
                   Send(each_obj,@Delete);
                }

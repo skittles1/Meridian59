@@ -102,6 +102,8 @@ classvars:
    viAffectsItems = FALSE       % If true, will apply effects to items in the room, such as a mace on the ground
                                 % It is possible for an item to be the source of a radius enchantment
 
+   vbIsAreaEffect = TRUE
+
 properties:
 
    plCurrentEnchantments = $    % Each radius spell keeps track of every instance of its own application

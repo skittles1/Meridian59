@@ -46,7 +46,6 @@ classvars:
    viMeditate_ratio = 30
 
    vbIsRangedAttack = FALSE
-   vbIsAreaEffect = FALSE
    vbSelfHarming = FALSE
 
 properties:

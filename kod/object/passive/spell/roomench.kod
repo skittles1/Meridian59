@@ -44,6 +44,8 @@ classvars:
    viAttack_type = 0
    viAttack_spell = ATCK_SPELL_ALL
 
+   vbIsAreaEffect = TRUE
+
 properties:
 
 messages:

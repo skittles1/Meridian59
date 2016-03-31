@@ -73,6 +73,8 @@ classvars:
 
    vrMonster_healing = brambles_monster_healing
 
+   vbIsAreaEffect = TRUE
+
 properties:
 
    piMaxDamage = 0
@@ -201,7 +203,8 @@ messages:
       % If this is harmful, and both caster and victim are players,
       %  then disallow damage if caster's safety is on or if cannot do attack
       if IsClass(poCaster,&Player)
-         AND NOT Send(poCaster,@AllowPlayerAttack,#victim=what,#report=FALSE)
+         AND NOT Send(poCaster,@AllowPlayerAttack,#victim=what,#report=FALSE,
+                        #stroke_obj=self)
       {
          % We've been "affected" for this cycle. This also prevents super-spam.
          plAffected = Cons(what,plAffected);

@@ -363,6 +363,8 @@ classvars:
 
    viFaction = FACTION_NEUTRAL
 
+   vbIsAreaEffect = FALSE
+
 properties:
 
    piVisionDistance
@@ -1987,7 +1989,8 @@ messages:
       {
          % Check the attack here. If it fails, AllowPlayerAttack handles
          % the message sent to the player.
-         if NOT Send(poMaster,@AllowPlayerAttack,#victim=what,#report=FALSE)
+         if NOT Send(poMaster,@AllowPlayerAttack,#victim=what,#report=FALSE,
+                     #stroke_obj=self)
          {
             return FALSE;
          }
@@ -6681,8 +6684,13 @@ messages:
    IsWizard()
    {
       return FALSE;
-   }  
-  
+   }
+
+   IsAreaEffect()
+   {
+      return vbIsAreaEffect;
+   }
+
    GetHatred()
    {
       return piHatred;

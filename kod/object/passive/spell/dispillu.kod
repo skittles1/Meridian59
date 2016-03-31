@@ -46,6 +46,8 @@ classvars:
    viSpellExertion = 3
    viMeditate_ratio = 30
 
+   vbIsAreaEffect = TRUE
+
 properties:
 
 messages:
@@ -87,10 +89,12 @@ messages:
 
       if bAll
       {
-         Send(oRoom,@DispelIllusionEnchantments,#who=who,#iChance=iChance);
+         Send(oRoom,@DispelIllusionEnchantments,#who=who,#iChance=iChance,
+               #stroke_obj=self);
       }
 
-      Send(oRoom,@DispelIllusions,#who=who,#what=self,#iChance=iChance,#bAll=bAll);
+      Send(oRoom,@DispelIllusions,#who=who,#what=self,#iChance=iChance,
+            #bAll=bAll,#stroke_obj=self);
 
       Send(who,@MsgSendUser,#message_rsc=dispelillusion_castermsg_rsc);
 

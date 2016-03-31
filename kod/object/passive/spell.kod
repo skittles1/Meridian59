@@ -199,6 +199,10 @@ classvars:
 
    viPersonal_ench = TRUE
 
+   // Whether the spell does area effects which include room enchantments,
+   // radius enchantments and ranged attack that effect multiple targets.
+   vbIsAreaEffect = FALSE
+
    % If true, newbies cannot target other players with this spell.
    viNoNewbieOffense = FALSE
 
@@ -2619,6 +2623,11 @@ messages:
    "in status."
    {
       return FALSE;
+   }
+
+   IsAreaEffect()
+   {
+      return vbIsAreaEffect;
    }
 
 end

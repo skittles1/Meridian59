@@ -57,6 +57,8 @@ classvars:
 
    vrSucceed_wav = HolySymbol_sound
 
+   vbIsAreaEffect = TRUE
+
 properties:
 
 messages:

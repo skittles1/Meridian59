@@ -2921,10 +2921,6 @@
    SERVER_NORMAL = 0
    SERVER_NO_MURDER = 1
 
-   %%% Server flags
-
-   SERVER_FLAG_DISABLE_FACTION_LOSS = 0x0001
-
    %%% Quests
 
    QUEST_MAX_NUM_PLAYERS = 5

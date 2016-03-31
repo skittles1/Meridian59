@@ -4499,7 +4499,8 @@ messages:
 
       % Finally, check status and safety.
       if NOT Send(self,@CheckStatusAndSafety,#victim=victim,
-                  #report=report,#actual=actual,#minion=minion)
+                  #report=report,#actual=actual,#minion=minion,
+                  #stroke_obj=stroke_obj)
       {
          return FALSE;
       }
@@ -4516,7 +4517,8 @@ messages:
       return TRUE;
    }
 
-   CheckStatusAndSafety(victim=$,report=TRUE,actual=TRUE,minion=FALSE)
+   CheckStatusAndSafety(victim=$,report=TRUE,actual=TRUE,minion=FALSE,
+                        stroke_obj=$)
    "CF_SAFETY_OFF prevents accidental attacks. You can always successfully "
    "hit a murderer or outlaw, though."
    {
@@ -4528,7 +4530,8 @@ messages:
          OR (Send(victim,@FindUsing,#class=&Token) <> $)
       {
          % Unless they're factioned.
-         if NOT Send(self,@CheckFactionAttack,#what=victim,#report=report)
+         if NOT Send(self,@CheckFactionAttack,#what=victim,#report=report,
+                     #stroke_obj=stroke_obj)
          {
             return FALSE;
          }
@@ -4635,7 +4638,8 @@ messages:
 
       % Check for faction loss.  Handles appropriate conditions.
       if actual = TRUE
-         AND NOT Send(self,@CheckFactionAttack,#what=victim,#report=report)
+         AND NOT Send(self,@CheckFactionAttack,#what=victim,#report=report,
+                        #stroke_obj=stroke_obj)
       {
          return FALSE;
       }
@@ -4649,7 +4653,7 @@ messages:
       return TRUE;
    }
 
-   CheckFactionAttack(what=$,report=TRUE)
+   CheckFactionAttack(what=$,stroke_obj=$,report=TRUE)
    "Checks if you are attacking something in the same faction as you are. "
    "Boots you out of your faction if you attack an innocent or a monster. "
    "Safety will catch a bad attack, however."
@@ -4667,14 +4671,28 @@ messages:
          return TRUE;
       }
 
-      bBooted = FALSE;
-
       % If faction loss is disabled, then attacking a user never boots you
-      if Send(SYS, @GetServerFlag, #flag = SERVER_FLAG_DISABLE_FACTION_LOSS)
-         AND IsClass(what, &User) 
+      if NOT Send(SETTINGS_OBJECT,@FactionLossEnabled)
+         AND IsClass(what,&User)
       {
          return TRUE;
       }
+
+      // Area effects (room enchants, radius enchants, EQ, ice nova) are too
+      // hard to use if accidentally being in range of a factioned target can
+      // cause you to lose faction/shield. Let these attacks succeed without
+      // taking faction away. Disallow minion attacks from losing faction for
+      // the same reason. This means a lot of indirect attacks won't cause
+      // faction loss, but also won't cause frustration.
+      if (stroke_obj <> $
+         AND (Send(stroke_obj,@IsAreaEffect)
+            OR (IsClass(stroke_obj,&Monster)
+               AND Send(stroke_obj,@IsMinion))))
+      {
+         return TRUE;
+      }
+
+      bBooted = FALSE;
 
       % Checking for faction alignment. If you attack something of your
       % own faction, you get busted!
@@ -5902,7 +5920,8 @@ messages:
                   % It's a bug, but currently not that vital.
                   
                   % Check to see if the attack was faction-based.
-                  Send(self,@CheckFactionAttack,#what=what);
+                  Send(self,@CheckFactionAttack,#what=what,
+                        #stroke_obj=stroke_obj);
 
                   % Apply penalties for someone NOT holding a token
                   if Send(what,@FindUsing,#class=&Token) = $
@@ -14557,7 +14576,7 @@ messages:
          return;
       }
 
-      if Send(self,@AllowPlayerAttack,#victim=oTarget)
+      if Send(self,@AllowPlayerAttack,#victim=oTarget,#actual=FALSE)
       {
          foreach oActive in plControlledMinions
          {
