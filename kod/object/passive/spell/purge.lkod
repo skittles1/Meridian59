@@ -1,10 +1,10 @@
 Purge_name_rsc = de "Beseitigen"
 Purge_desc_rsc = de \
-   "Streift hilfreiche persönliche Verzauberungen vom Ziel ab. Benötigt Smaragde "
-   "und lila Pilze. "
+   "Streift hilfreiche persönliche Verzauberungen vom Ziel ab. Benötigt fünf Smaragde "
+   "und zwei lila Pilze. "
 Purge_on = de \
    "Ein breites Licht versucht all deine Personenzauber zu beseitigen"
-Purge_not_enchanted = de "%s%s ist nicht mit Personenzaubern belegt"
+Purge_not_enchanted = de "%s%s ist nicht mit Personenzauber belegt."
 Purge_spell_intro = de \
    "Shal'ill Level 5: Streift hilfreiche persönliche Verzauberungen vom Ziel "
    "ab"

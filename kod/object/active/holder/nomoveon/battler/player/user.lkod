@@ -165,10 +165,10 @@ user_guildmate_logon = de "~IBegrüße Dein Gildenmitglied %s!"
 user_guildmate_logoff = de \
    "~IDein Gildenmitglied %s hat sich gerade verabschiedet."
 user_safety_on = de \
-   "~B### Deine Sicherheit ist ~B~gAKTIVIERT~n: Du kannst keine Unschuldigen "
+   "### Deine Sicherung ist ~B~gAKTIVIERT~n: Du kannst keine Unschuldigen "
    "angreifen."
 user_safety_off = de \
-   "~B### Deine Sicherheit ist ~B~rDEAKTIVIERT~n: Sei vorsichtig, Du kannst "
+   "### Deine Sicherung ist ~B~rDEAKTIVIERT~n: Sei vorsichtig, Du kannst "
    "jetzt andere Spieler verletzen!"
 user_temp_safe_on = de \
    "~B~U~k[###]~n ~B~vDu bekommst einen temporären Schutzengel."
@@ -291,7 +291,7 @@ user_spellpower_on = de \
 user_spellpower_off = de \
    "Du siehst nicht länger mit welcher Macht deine Zaubersprüche "
    "gewirkt werden."
-user_logon_delay = de "Du brauchst einen Moment um dich wieder zu fassen"
+user_logon_delay = de "Du brauchst einen Moment um dich wieder zu fassen."
 inventory_sort_cleared = de "Deine Sortierliste wurde gelöscht."
 inventory_class_added = de "Du fügst %s zu Deiner Sortierliste hinzu."
 inventory_sort_no_item = de "Es existiert kein Gegenstand mit diesen Namen."

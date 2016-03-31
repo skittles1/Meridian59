@@ -1,7 +1,7 @@
 mend_name_rsc = de "Reparieren"
 mend_desc_rsc = de \
    "Beseitigt die Spuren vieler Kämpfe von einem Teil der Ausrüstung und "
-   "stellt sie fast völlig wieder her. Der Zauber benötigt Orkzähne und Saphire."
+   "stellt sie fast völlig wieder her. Der Zauber benötigt einen Orkzahn und einen Saphir."
 mend_not_weaponry = de \
    "Du versuchst dich auf %s%s zu fokussieren, aber es scheint nicht zu funktionieren!"
 mend_beyond_hope = de "%s%s ist nicht mehr zu retten."

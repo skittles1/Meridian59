@@ -2,8 +2,7 @@ deathlink_name_rsc = de "Todesbündnis"
 deathlink_desc_rsc = de \
    "Dieser geheimnisvolle Spruch sorgt dafür, dass Du Dich von den Seelen "
    "der armen Kreaturen ernähren kannst, die sich in Deiner Nähe befinden. "
-   "Dafür benötigt man Schamanenblut und die Federn eines schwarzen "
-   "Engels."
+   "Dafür benötigt man ein Schamanenblut und einen polierten Seraphym. "
 deathlink_already_enchanted_rsc = de "Du bist bereits mit dem Tode verbunden."
 deathlink_on_rsc = de \
    "Du bereitest dich darauf vor, die Dunkelheit selbst zu ernähren."

@@ -7,4 +7,4 @@ palsy_stop = de "Du fühlst deine alte Stärke zurückkehren."
 enfeeble_name_rsc = de "Schwächen"
 enfeeble_desc_rsc = de \
    "Entzieht dem Ziel physische Stärke. Der Effekt dauert für einige Minuten an. "
-   "Der Zauber benötigt Zähne eines Orks. "
+   "Der Zauber benötigt einen Zahn des Orks. "
