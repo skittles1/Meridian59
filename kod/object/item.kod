@@ -2774,5 +2774,12 @@ messages:
       return TRUE;
    }
 
+   PrintWeight()
+   {
+      GodLog(Send(self,@GetTrueName)," weight: ",viWeight," bulk: ",viBulk);
+
+      return;
+   }
+
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
