@@ -9124,7 +9124,8 @@ messages:
    "get to their current HP. Called if the player's max HP is lowered and "
    "extra XP needs to be removed to prevent them gaining multiple toughers."
    {
-      piXP_total = Send(SYS,@GetXPForLevel,#iHP=Send(self,@GetBaseMaxHealth));
+      // Use piBase_Max_health directly.
+      piXP_total = Send(SYS,@GetXPForLevel,#iHP=piBase_Max_health);
 
       return;
    }
