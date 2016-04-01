@@ -7871,10 +7871,17 @@ messages:
       return;
    }
 
-   PrintReagents()
+   PrintItemWeights()
    {
-      SendListByClass(plItemTemplates,0,&NumberItem,@PrintReagent);
+      SendListByClass(plItemTemplates,0,&Item,@PrintWeight);
 
+      return;
+   }
+
+   PrintMonsterInfo()
+   {
+      SendList(plMonsterTemplates,0,@PrintInfo);
+      
       return;
    }
 

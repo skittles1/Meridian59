@@ -7031,5 +7031,56 @@ messages:
       return 0;
    }
 
+   PrintInfo()
+   {
+      local i, iTresLen, lTresList, oItem, oTresType;
+
+      ClearTempString();
+
+      oTresType = Send(SYS,@FindTreasureByNum,#num=Send(self,@GetTreasureType));
+
+      if (oTresType <> $)
+      {
+         lTresList = Send(oTresType,@GetTreasureList);
+      }
+
+      iTresLen = Length(lTresList);
+
+      if (iTresLen > 0)
+      {
+         AppendTempString(", Treasure: ");
+      }
+      else
+      {
+         AppendTempString(", No Treasure.");
+      }
+
+      foreach i in lTresList
+      {
+         oItem = Send(SYS,@FindTemplateItemByClass,#cClass=First(i));
+         if (oItem = $)
+         {
+            continue;
+         }
+
+         AppendTempString(Send(oItem,@GetTrueName));
+         AppendTempString(" ");
+         AppendTempString(Nth(i,2));
+         if (--iTresLen > 0)
+         {
+            AppendTempString("\%, ");
+         }
+         else
+         {
+            AppendTempString("\%");
+         }
+      }
+
+      GodLog(Send(self,@GetTrueName)," level: ",viLevel,", karma: ",viKarma,
+         ", speed: ",viSpeed, GetTempString());
+
+      return;
+   }
+
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -559,5 +559,10 @@ messages:
       return;
    }
 
+   GetTreasureList()
+   {
+      return plTreasure;
+   }
+
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

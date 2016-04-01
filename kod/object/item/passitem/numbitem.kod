@@ -387,13 +387,5 @@ messages:
       return (piNumber > 1);
    }
 
-   PrintReagent()
-   {
-      GodLog(Send(self,@GetTrueName)," weight: ",viWeight," bulk: ",viBulk);
-
-      return;
-   }
-
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
