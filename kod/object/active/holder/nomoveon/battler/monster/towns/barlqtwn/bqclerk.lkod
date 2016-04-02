@@ -40,7 +40,7 @@ bq_clerk_tally_no_leader = de \
    "Bisher sind noch keine Stimmen für die Wahl des nächsten Justiziars "
    "gezählt worden."
 bq_clerk_tally_leader = de \
-   "Bisher führt %s die Wahl um den nächsten Justiziar mit %i Stimmen an."
+   "Bisher führt %q die Wahl um den nächsten Justiziar mit %i Stimmen an."
 bq_clerk_tally_tied = de "Bislang sieht es nach einem Unentschieden aus"
 bq_clerk_announce_winner_subject = de "Neu gewählter Justiziar"
 bq_clerk_announce_winner1 = de "Bitte gratuliere "

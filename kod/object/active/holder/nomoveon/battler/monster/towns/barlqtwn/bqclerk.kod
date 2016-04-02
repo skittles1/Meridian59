@@ -363,6 +363,11 @@ properties:
    % Duration of the tiebreaker voting period.  It's one earth day.
    piTiebreakerDuration = 288
 
+   % Alternate Justicar system - buying a pardon with an indulgence
+   % is now possible for a flat fee (initially 1 million).
+   pbIndulgenceActive = TRUE
+   piPardonIndulgenceCost = 1000000
+
 messages:
 
    Recreate()
@@ -452,15 +457,7 @@ messages:
          
          return;
       }
-/*
-      if IsClass(obj,&BallotItem)
-      {
-         Post(poOwner,@SomeoneSaid,#what=self,#string=no_more_ballots,
-               #type=SAY_RESOURCE);
 
-         return;
-      }
-*/
       if Send(self,@CheckForIndulgence,#who=who,#obj=obj)
       {
          return;
@@ -581,6 +578,12 @@ messages:
          return FALSE;
       }
 
+      // Return TRUE, else money gets deleted.
+      if NOT pbIndulgenceActive
+      {
+         return TRUE;
+      }
+
       amount = Send(obj,@GetNumber);
       if amount <= 0
       {
@@ -596,7 +599,7 @@ messages:
 
       if Send(oMoney,@GetValue) < amount
       {
-         return FALSE;
+         return TRUE;
       }
 
       if NOT Send(who,@CheckPlayerFlag,#flag=PFLAG_MURDERER)
@@ -607,7 +610,7 @@ messages:
          return TRUE;
       }
 
-      if amount < Send(SETTINGS_OBJECT,@GetPardonIndulgenceCost)
+      if amount < piPardonIndulgenceCost
       {
          Post(poOwner,@SomeoneSaid,#what=self,#type=SAY_RESOURCE,
                #string=indulgence_not_enough_money);
@@ -615,8 +618,7 @@ messages:
          return TRUE;
       }
 
-      Send(oMoney,@SubtractNumber,
-            #number=Send(SETTINGS_OBJECT,@GetPardonIndulgenceCost));
+      Send(oMoney,@SubtractNumber,#number=piPardonIndulgenceCost);
       Send(self,@PerformIndulgencePardonMurderer,#who=who);
       Post(poOwner,@SomeoneSaid,#what=self,#string=indulgence_success,
             #type=SAY_RESOURCE);
@@ -1802,6 +1804,26 @@ messages:
    JusticarElectionsActive()
    {
       return piJusticar_State <> STATE_NO_ELECTIONS;
+   }
+
+   SetIndulgenceState(bState=FALSE)
+   "Sets Justicar indulgence (bribe) on or off. Send bState = TRUE to turn "
+   "on, FALSE to turn off.  Resets the Justicar sign if state changes."
+   {
+      if (pbIndulgenceActive <> bState)
+      {
+         pbIndulgenceActive = bState;
+
+         // Recreate the sign.
+         Send(poOwner,@CreateJusticarSign);
+      }
+
+      return;
+   }
+
+   IndulgenceActive()
+   {
+      return pbIndulgenceActive;
    }
 
    ResetBrain()

@@ -232,10 +232,6 @@ properties:
    % Revenant speed setting
    piRevSpeed = 18
 
-   % Alternate Justicar system - buying a pardon with an indulgence
-   % is now possible for a flat fee (initially 1 million).
-   piPardonIndulgenceCost = 1000000
-
    % The divisor for all skill post-softcap imp rates. Higher means harder.
    % One means softcaps don't matter at all.
    piSkillSoftcapPenalty = 5
@@ -648,11 +644,6 @@ messages:
    GetRevenantSpeed()
    {
       return piRevSpeed;
-   }
-
-   GetPardonIndulgenceCost()
-   {
-      return piPardonIndulgenceCost;
    }
 
    GetSkillSoftcapPenalty()
