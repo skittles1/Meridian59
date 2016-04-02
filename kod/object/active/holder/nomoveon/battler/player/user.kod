@@ -1752,7 +1752,7 @@ messages:
    "appropriate. This function will force a suicide and clean up anything, "
    "ignoring game rules."
    {
-      local sName;
+      local oObj, sName;
 
       Send(self,@CancelIfOffer);
 
@@ -1763,7 +1763,14 @@ messages:
          Send(self,@PerformGuildDisband);
       }
 
-      piLast_Restart_time = getTime();
+      oObj = Send(SYS,@GetCaramo);
+      if (Send(oObj,@GetJusticar) = self)
+      {
+         // Justicar must give up office.
+         Send(oObj,@SetJusticar,#who=$);
+      }
+
+      piLast_Restart_time = GetTime();
       piLastLoginTime = 0;
       psUrl = $;
       plHonor = $;
@@ -1804,6 +1811,13 @@ messages:
       if IsClass(poOwner,&OutOfGrace)
       {
          Send(self,@MsgSendUser,#message_rsc=user_cant_suicide_OOG);
+
+         return;
+      }
+
+      if Send(Send(SYS,@GetCaramo),@GetJusticar) = self
+      {
+         Send(self,@MsgSendUser,#message_rsc=user_cant_suicide_justicar);
 
          return;
       }
