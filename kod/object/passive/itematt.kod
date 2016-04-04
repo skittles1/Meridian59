@@ -145,7 +145,7 @@ messages:
          {
             oItem = Create(First(i));
             Send(self,@AddSelfToRandomItem,#oItem=oItem,#who=who,
-                  #iPower=diff_seed);
+                  #diff_seed=diff_seed);
 
             break;
          }
@@ -180,7 +180,7 @@ messages:
       return TRUE;
    }
 
-   AddSelfToRandomItem(oItem=$,who=$,iPower=1)
+   AddSelfToRandomItem(oItem=$,who=$,diff_seed=1)
    {
       if oItem = $
       {
@@ -189,7 +189,7 @@ messages:
 
       if Send(self,@ReqAddToItem,#oItem=oItem)
       {
-         Send(self,@AddToItem,#oItem=oItem,#iPower=iPower);
+         Send(self,@AddToItem,#oItem=oItem,#diff_seed=diff_seed);
       }
 
       return;
@@ -297,7 +297,8 @@ messages:
       return FALSE;
    }
 
-   AddToItem(oItem=$,state1=$,state2=$,state3=$,timer_duration=$,random_gen=TRUE,iPower=$)
+   AddToItem(oItem = $, state1 = $, state2 = $, state3 = $, timer_duration = $,
+             random_gen = TRUE, iPower = $, diff_seed = 1)
    {
       local lData, iValue;
 
@@ -335,8 +336,8 @@ messages:
          lData = Cons(iValue,lData);
       }
 
-      iValue = Send(self,@SetCompound,#random_gen=random_gen,
-                     #oItem=oItem,#iPower=iPower);
+      iValue = Send(self,@SetCompound,#random_gen=random_gen,#oItem=oItem,
+                     #iPower=iPower,#diff_seed=diff_seed);
       lData = Cons(iValue,lData);
 
       Send(self,@AddEffects,#oItem=oItem,#lData=lData,#state1=state1);
@@ -386,13 +387,12 @@ messages:
       return;
    }
 
-   SetCompound(random_gen=TRUE,oItem=$,iPower=$)
-   "The compound is a three part variable.  The first variable "
-   "is a bitflag, which currently contains 1 option (whether or "
-   "not the attribute has been ID'd yet).  The second bit is the "
-   "'power' bit, which is usually a number from 1 to 3."
-   "In the Hundreds/thousands column, we store the WA or IA of the "
-   "attribute, identifying it."
+   SetCompound(random_gen = TRUE, oItem = $, iPower = $, diff_seed = 1)
+   "The compound is a three part variable.  The first variable is a bitflag, "
+   "which currently contains 1 option (whether or not the attribute has been "
+   "ID'd yet).  The second bit is the 'power' bit, which is usually a number "
+   "from 1 to 3.  In the Hundreds/thousands column, we store the WA or IA of "
+   "the attribute, identifying it."
    {
       local bIdent, iCompound;
 
@@ -404,11 +404,11 @@ messages:
 
       if iPower = $
       {
-         %% tens digit = power.  Number from 1 to 10?
-         iPower = Send(self,@InitialPower,#oItem=oItem);
+         %% tens digit = power.  Number from 1 to 9?
+         iPower = Send(self,@InitialPower,#oItem=oItem,#diff_seed=diff_seed);
       }
 
-      iCompound = iCompound + (10 * iPower);
+      iCompound = iCompound + (10 * Bound(iPower,0,9));
 
       %% hundreds, thousands digit = ID constant
       %% starting in WA_ or IA_
