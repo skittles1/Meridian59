@@ -40,7 +40,7 @@ classvars:
    viItem_Att_Num = IA_XP_KILL_BONUS
    vrName = itematt_xpkillbonus_name
    vrDesc = itematt_xpkillbonus_desc
-   viDefault_bonus = 3
+   viDefault_bonus = 2
    viDifficulty = 1
    vrDM_Trigger = xpkillbonus_DM
 
@@ -64,9 +64,15 @@ messages:
       return;
    }
 
+   InitialPower(oItem = $, diff_seed = 1)
+   {
+      return Bound(diff_seed - 1,0,9);
+   }
+
    GetXPBonusFromCompound(iCompound=0)
    {
-      return ((iCompound / 10) MOD 10) * viDefault_bonus;
+      // Ranges from 1 * bonus to 10 * bonus.
+      return ((iCompound / 10) MOD 10) * viDefault_bonus + viDefault_bonus;
    }
 
    AppendDesc(oItem =$)
