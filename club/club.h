@@ -37,6 +37,7 @@
 #define CM_FILESIZE   (WM_USER + 1005)
 #define CM_PROGRESS   (WM_USER + 1006)
 #define CM_FILENAME   (WM_USER + 1007)
+#define CM_SCANNING   (WM_USER + 1008)
 
 #define CLUB_NUM_ARGUMENTS 6
 

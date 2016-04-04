@@ -250,9 +250,6 @@ Bool TransferStart(void)
 
       filename.assign(json_string_value(json_object_get(it, "Filename")));
 
-      // Update main window with filename.
-      SendMessage(hwndMain, CM_FILENAME, 0, (LPARAM) filename.c_str());
-
       // Skip this file if it matches the local one.
       if (CompareCacheToLocalFile(&it))
          continue;
@@ -260,6 +257,9 @@ Bool TransferStart(void)
       // Also skip the updater itself - this is checked by the client.
       if (filename == "club.exe")
          continue;
+
+      // Update main window with filename.
+      SendMessage(hwndMain, CM_FILENAME, 0, (LPARAM) filename.c_str());
 
       basepath.assign(json_string_value(json_object_get(it, "Basepath")));
 
@@ -364,10 +364,14 @@ Bool TransferStart(void)
          {
             close(outfile);
 
-            InternetCloseHandle(hFile);
+            if (hFile)
+               InternetCloseHandle(hFile);
             done = True;
          }
       }
+
+      // Update main window to show scanning state.
+      SendMessage(hwndMain, CM_SCANNING, 0, 0);
    }
 
    TransferCleanup();

@@ -36,6 +36,7 @@ char string[256];
 char format[256];
 char format_filename[256];
 char filename_string[256];
+char scanning_string[256];
 
 std::string transfer_machine;
 #if VANILLA_UPDATER
@@ -61,7 +62,8 @@ void OnTimer(HWND hwnd,int id);
 BOOL CALLBACK ErrorDialogProc(HWND hDlg, UINT message, UINT wParam, LONG lParam);
 
 /************************************************************************/
-int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrev_instance,char *command_line,int how_show)
+int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrev_instance,
+                   _In_ char *command_line, _In_ int how_show)
 {
    hInst = hInstance;
 
@@ -175,6 +177,7 @@ void RestartClient()
    memset(&si, 0, sizeof(si));
    si.cb = sizeof(si);
    GetStartupInfo(&si); /* shouldn't need to do this.  very weird */
+   memset(&pi, 0, sizeof(pi));
 
    if (!CreateProcess(restart_filename.c_str(),"",NULL,NULL,FALSE,0,NULL,NULL,&si,&pi))
    {
@@ -311,7 +314,10 @@ long WINAPI InterfaceWindowProc(HWND hwnd,UINT message,UINT wParam,LONG lParam)
       SetDlgItemText(hwnd, IDC_BYTES1, string);
 
       GetDlgItemText(hwnd, IDS_RETRIEVING, format_filename, sizeof(format_filename));
-      SetDlgItemText(hwnd, IDS_RETRIEVING, "");
+      sprintf(scanning_string, GetString(hInst, IDS_SCANNING));
+      SetDlgItemText(hwnd, IDS_RETRIEVING, scanning_string);
+      
+
       hCtrl = GetDlgItem(hwnd, IDC_ANIMATE1);
       Animate_Open(hCtrl, MAKEINTRESOURCE(IDA_DOWNLOAD));
       break;
@@ -360,6 +366,10 @@ long WINAPI InterfaceWindowProc(HWND hwnd,UINT message,UINT wParam,LONG lParam)
    case CM_FILENAME:
       sprintf(filename_string, format_filename, (LPCSTR)lParam);
       SetDlgItemText(hwndMain, IDS_RETRIEVING, filename_string);
+      break;
+
+   case CM_SCANNING:
+      SetDlgItemText(hwndMain, IDS_RETRIEVING, scanning_string);
       break;
 
    case WM_COMMAND:

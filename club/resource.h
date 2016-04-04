@@ -44,6 +44,7 @@
 #define IDS_CANTSENDREQUEST             138
 #define IDS_CANTGETFILESIZE             139
 #define IDS_JSONERROR                   140
+#define IDS_SCANNING                    141
 #define IDC_STATUS                      1001
 #define IDC_AMOUNT                      1002
 #define IDC_PROGRESS                    1003
