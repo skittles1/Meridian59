@@ -89,7 +89,6 @@
     <PostBuildEvent>
       <Command>copy /y "$(OutDir)$(TargetName).exe" "$(SolutionDir)run\localclient"
 copy /y "$(OutDir)$(TargetName).lib" "$(SolutionDir)lib"
-copy /y "$(SolutionDir)bin\jansson.dll" "$(SolutionDir)run\localclient"
 cd..
 $(SolutionDir)postbuild.bat
 </Command>
@@ -147,7 +146,6 @@ $(SolutionDir)postbuild.bat
     <PostBuildEvent>
       <Command>copy /y "$(OutDir)$(TargetName).exe" "$(SolutionDir)run\localclient"
 copy /y "$(OutDir)$(TargetName).lib" "$(SolutionDir)lib"
-copy /y "$(SolutionDir)bin\jansson.dll" "$(SolutionDir)run\localclient"
 cd..
 $(SolutionDir)postbuild.bat
 </Command>
@@ -364,6 +362,9 @@ $(SolutionDir)postbuild.bat
     <ResourceCompile Include="client.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\libjansson\jansson.vcxproj">
+      <Project>{f61a1cc1-dc47-4407-bfe0-a2221e5eecca}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\resource\resource.vcxproj">
       <Project>{15142a8c-248c-402a-90bf-c4b5c14cd8dc}</Project>
       <Private>false</Private>

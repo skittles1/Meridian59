@@ -150,7 +150,7 @@ $(OBJS) $(LIBS) -def:$(DEFFILE) $(OUTDIR)\client.res -OUT:$@
 <<
 	$(CP) $(OUTDIR)\meridian.lib $(BLAKLIBDIR)
 	$(CP) $@ $(CLIENTRUNDIR)
-   $(CP) $(BLAKBINDIR)\jansson.dll $(CLIENTRUNDIR) >nul
+
 $(OUTDIR)\maketrig.exe: $(OUTDIR)\maketrig.obj
 	$(LINK) $** -out:$@ $(LINKFLAGSCONSOLE)
 	$(CP) $@ $(BLAKBINDIR) 

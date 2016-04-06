@@ -126,6 +126,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "libzlib\zlib.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "clientpatch", "util\clientpatch.vcxproj", "{ED341D80-EB9F-4483-842D-B67F77911614}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jansson", "libjansson\jansson.vcxproj", "{F61A1CC1-DC47-4407-BFE0-A2221E5EECCA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -260,6 +262,10 @@ Global
 		{ED341D80-EB9F-4483-842D-B67F77911614}.Debug|Win32.Build.0 = Debug|Win32
 		{ED341D80-EB9F-4483-842D-B67F77911614}.Release|Win32.ActiveCfg = Release|Win32
 		{ED341D80-EB9F-4483-842D-B67F77911614}.Release|Win32.Build.0 = Release|Win32
+		{F61A1CC1-DC47-4407-BFE0-A2221E5EECCA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F61A1CC1-DC47-4407-BFE0-A2221E5EECCA}.Debug|Win32.Build.0 = Debug|Win32
+		{F61A1CC1-DC47-4407-BFE0-A2221E5EECCA}.Release|Win32.ActiveCfg = Release|Win32
+		{F61A1CC1-DC47-4407-BFE0-A2221E5EECCA}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

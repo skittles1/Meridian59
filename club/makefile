@@ -31,7 +31,6 @@ OBJS = \
 $(OUTDIR)\club.exe : $(OBJS) $(OUTDIR)\club.res 
         $(LINK) $(LINKFLAGS) $** $(LIBS) -out:$@ 
         $(CP) $@ $(CLIENTRUNDIR)
-        $(CP) $(BLAKBINDIR)\jansson.dll $(CLIENTRUNDIR) >nul
 
 $(OUTDIR)\md5.obj : $(TOPDIR)\util\md5.c
 	$(CC) -Fo$(OUTDIR)/ $(CFLAGS) /Fd$(OUTDIR)\vc90.pdb /FpCpch -c $**

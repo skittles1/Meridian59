@@ -113,12 +113,9 @@ icon, next to the 'save game' disk icon.
 
 Third-Party Code
 --------------
-Meridian uses zlib and libarchive.  zlib was installed from binaries.
-libarchive was built from source, with the following cmake environment
-variables set to use zlib:
-
-* `ZLIB_INCLUDE_DIR` points to the include directory
-* `ZLIB_LIBRARY` points to lib/zdll.lib
+Meridian uses the third party libraries zlib, libarchive, libpng and jansson.
+Each of these is built from source which is included in the appropriately-named
+directories (libzlib, libarchive, libpng and libjansson).
 
 Contact Information
 --------------

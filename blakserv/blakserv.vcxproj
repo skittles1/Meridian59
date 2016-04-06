@@ -92,10 +92,9 @@
       <ProfileGuidedDatabase />
     </Link>
     <PostBuildEvent>
-      <Command>copy $(OutDir)$(TargetName).exe $(SolutionDir)run\server
-copy $(SolutionDir)lib\libmysql.dll $(SolutionDir)run\server
-copy $(SolutionDir)bin\libcurl.dll $(SolutionDir)run\server
-copy $(SolutionDir)bin\jansson.dll $(SolutionDir)run\server</Command>
+      <Command>copy "$(OutDir)$(TargetName).exe" "$(SolutionDir)run\server"
+copy "$(SolutionDir)lib\libmysql.dll" "$(SolutionDir)run\server"
+copy "$(SolutionDir)bin\libcurl.dll" "$(SolutionDir)run\server"</Command>
     </PostBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -163,10 +162,9 @@ copy $(SolutionDir)bin\jansson.dll $(SolutionDir)run\server</Command>
       <ProfileGuidedDatabase />
     </Link>
     <PostBuildEvent>
-      <Command>copy $(OutDir)$(TargetName).exe $(SolutionDir)run\server
-copy $(SolutionDir)lib\libmysql.dll $(SolutionDir)run\server
-copy $(SolutionDir)bin\libcurl.dll $(SolutionDir)run\server
-copy $(SolutionDir)bin\jansson.dll $(SolutionDir)run\server</Command>
+      <Command>copy "$(OutDir)$(TargetName).exe" "$(SolutionDir)run\server"
+copy "$(SolutionDir)lib\libmysql.dll" "$(SolutionDir)run\server"
+copy "$(SolutionDir)bin\libcurl.dll" "$(SolutionDir)run\server"</Command>
     </PostBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -343,6 +341,9 @@ copy $(SolutionDir)bin\jansson.dll $(SolutionDir)run\server</Command>
     <None Include="BLAKSERV.HLP" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\libjansson\jansson.vcxproj">
+      <Project>{f61a1cc1-dc47-4407-bfe0-a2221e5eecca}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\resource\resource.vcxproj">
       <Project>{15142a8c-248c-402a-90bf-c4b5c14cd8dc}</Project>
       <Private>false</Private>

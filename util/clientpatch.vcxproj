@@ -133,6 +133,11 @@
     <ClInclude Include="..\include\clientpatch.h" />
     <ClInclude Include="..\include\jansson.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libjansson\jansson.vcxproj">
+      <Project>{f61a1cc1-dc47-4407-bfe0-a2221e5eecca}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

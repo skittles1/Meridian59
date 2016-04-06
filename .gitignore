@@ -18,6 +18,7 @@ rscload.lib
 libpng.lib
 libarchive.lib
 zlib.lib
+jansson.lib
 bc.exe
 bin/bc
 blakdeco.exe
