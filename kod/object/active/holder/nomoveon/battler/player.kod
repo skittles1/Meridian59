@@ -321,7 +321,7 @@ resources:
    player_dot = "."
 
    % Master fixed info resource.
-   player_fixed_info = "%r%r%s%r%s%q%r"
+   player_fixed_info = "%r%r%s%s%r%s%q%r"
 
    % Hometown strings.
    player_hometown_rsc = "%s%s%s%q%s\n"
@@ -345,7 +345,7 @@ resources:
    player_is_wearing = "%s is wearing %s%s.\n"
    player_donation_title = "Noble benefactor of Meridian in %q."
    player_donation_separator = ", "
-   player_is_justicar = "Elected Royal Justicar of the Meridian."
+   player_is_justicar = "Elected Royal Justicar of the Meridian.\n"
 
    player_known_for_mastery = "Known far and wide for mastery of "
    player_and = " and "
@@ -2087,6 +2087,17 @@ messages:
          AddPacket(4,system_blank_resource);
       }
 
+      obj = Send(SYS,@GetCaramo);
+      if (obj <> $
+         AND Send(obj,@GetJusticar) = self)
+      {
+         AddPacket(4, player_is_justicar);
+      }
+      else
+      {
+         AddPacket(4,system_blank_resource);
+      }
+
       %
       % Add visible cargo types. The number of these doesn't really change,
       % but this section has error checking anyway just in case we change it.
@@ -2136,12 +2147,12 @@ messages:
             {
                if IsClass(obj,&Ring)
                {
-                  AddPacket(4,player_is_wearing, 4,Send(self,@GetHeShe,#cap=True),
+                  AddPacket(4,player_is_wearing, 4,Send(self,@GetHeShe,#cap=TRUE),
                             4,Send(obj,@GetIndef), 4,Send(obj,@GetName));
                }
                else
                {
-                  AddPacket(4,player_is_holding, 4,Send(self,@GetHeShe,#cap=True),
+                  AddPacket(4,player_is_holding, 4,Send(self,@GetHeShe,#cap=TRUE),
                             4,Send(obj,@GetIndef), 4,Send(obj,@GetName));
                }
             }
@@ -2253,7 +2264,7 @@ messages:
 
    UserLogonHook()
    {
-      local i, oGame, oParl, iBonus, iDefaultBonus, iTimespan;
+      local i, oObj, iBonus, iDefaultBonus, iTimespan;
 
       SendList(plPassive, 0, @UserLogon);
       SendList(plActive, 0, @UserLogon);
@@ -2264,11 +2275,11 @@ messages:
 
       Send(self,@SendUserAllWindowOverlays);
 
-      oParl = Send(SYS,@GetParliament);
-      if oParl <> $
+      oObj = Send(SYS,@GetParliament);
+      if oObj <> $
       {
          if piFaction <> FACTION_NEUTRAL 
-            AND (NOT Send(oParl,@IsShutdown))
+            AND (NOT Send(oObj,@IsShutdown))
          {
             piFactionTimeUpdated=GetTime();
             Send(self,@FactionServiceTimer);
@@ -2276,17 +2287,23 @@ messages:
 
          if Send(self,@PlayerIsIntriguing)
          {
-            Send(oParl,@UpdateEffects,#who=self); 
+            Send(oObj,@UpdateEffects,#who=self); 
          }
       }
 
-      oGame = Send(SYS,@GetAssassinGame);
-      if oGame <> $
-         AND Send(oGame,@InAcceptMode)
-         AND (NOT Send(oGame,@IsCombatant,#who=self))
-         AND Send(oGame,@IsAdvertised,#who=self)
+      oObj = Send(SYS,@GetAssassinGame);
+      if oObj <> $
+         AND Send(oObj,@InAcceptMode)
+         AND (NOT Send(oObj,@IsCombatant,#who=self))
+         AND Send(oObj,@IsAdvertised,#who=self)
       {
          Send(self,@MsgSendUser,#message_rsc=player_assgame_soon);
+      }
+
+      oObj = Send(SYS,@GetCaramo);
+      if oObj <> $
+      {
+         Send(oObj,@UserLogon,#who=self);
       }
 
       if poGuild <> $
@@ -2333,14 +2350,14 @@ messages:
       % Reward people for logging on by granting them some free training points!
       % We take the absolute value to automatically fix bugs with people
       % mysteriously ending up with a timestamp in the distant future.
-      iTimespan = abs(GetTime() - piReward_timestamp);
+      iTimespan = Abs(GetTime() - piReward_timestamp);
 
       % We restrict the timespan to reasonable limits here since the bonus to
       % training points scales with the time since the last bonus has been
       % received. 36 hours means that players have a decent leeway to log on
       % again before missing out on training points, but are still encouraged
       % to log on daily to cash in maximum points.
-      iTimespan = bound(iTimespan,0,36*60*60);
+      iTimespan = Bound(iTimespan,0,36*60*60);
 
       if iTimespan > 16*60*60
       {
@@ -2351,11 +2368,11 @@ messages:
 
          % Retrieve the daily logon bonus from settings.
          iDefaultBonus = Send(SETTINGS_OBJECT,@GetLogonBonus);
-         
+
          % Scale the logon bonus with the time that has passed since it has last
          % been received for a total bonus of up to 150 percent.
          iBonus = iDefaultBonus * iTimespan / (24*60*60);
-         
+
          Send(self,@MsgSendUser,#message_rsc=player_logon_bonus,#parm1=iBonus);
          Send(self,@AddTrainingPoints,#points=iBonus,#report=FALSE);
 
