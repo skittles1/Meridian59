@@ -1768,6 +1768,8 @@ messages:
       psUrl = $;
       plHonor = $;
       piLogoffPenaltyCount = -1;
+      piXP_total = 0;
+      piTraining_points = 0;
 
       if pbLogged_on
       {
