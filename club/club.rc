@@ -115,6 +115,7 @@ END
 
 STRINGTABLE
 BEGIN
+    IDS_SCANNING            "Scanne Datei..."
     IDS_APPNAME             "Meridian 59 Update"
     IDS_STARTING            "Starting up..."
     IDS_RETRIEVING          "Empfange Datei %s"
@@ -290,6 +291,7 @@ BEGIN
     IDS_RESTARTING          "Restarting main program..."
     IDS_CONNECTING          "Connecting to %s..."
     IDS_READBLOCK           "Received block."
+    IDS_SCANNING            "Scanning files..."
 END
 
 #endif    // English (United States) resources

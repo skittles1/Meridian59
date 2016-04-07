@@ -43,6 +43,7 @@ static bool ExtractArchive(const char *zip_file, const char *out_dir)
    struct archive *output = archive_write_disk_new();
    archive_write_disk_set_options(output, ARCHIVE_EXTRACT_TIME);
    archive_write_disk_set_standard_lookup(output);
+   int hRes;
    const int BLOCK_SIZE = 65536;
    int r = archive_read_open_filename(input, zip_file, BLOCK_SIZE);
 
@@ -55,8 +56,8 @@ static bool ExtractArchive(const char *zip_file, const char *out_dir)
    // libarchive can only extract into the current directory, so we
    // need to set it and restore it.
    char original_dir[MAX_PATH];
-   getcwd(original_dir, sizeof(original_dir));
-   chdir(out_dir);
+   char *cRet = getcwd(original_dir, sizeof(original_dir));
+   hRes = chdir(out_dir);
    
    bool retval = true;
    while (true)
@@ -109,7 +110,7 @@ static bool ExtractArchive(const char *zip_file, const char *out_dir)
    archive_write_free(output);
 
    // Go back to original working directory
-   chdir(original_dir);
+   hRes = chdir(original_dir);
 
    return retval;
 }
