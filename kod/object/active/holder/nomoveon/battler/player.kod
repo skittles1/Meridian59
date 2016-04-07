@@ -3146,21 +3146,13 @@ messages:
 
    GetBaseMaxHealth()
    {
-      local iApparentStamina;
+      local iStamina;
 
-      if piStaminaMod >= 0
-      {
-         iApparentStamina = Send(self,@GetStamina);
-      }
-      else
-      {
-         iApparentStamina = Send(self,@GetRawStamina);
-      }
+      iStamina = Send(self,@GetStamina);
 
       // Bound twice - once for max HP this player can get, once for
       // max HP allowable by the game.
-      return Bound(Bound(piBase_max_health,MIN_HP,(100 + iApparentStamina)),
-                  MIN_HP,MAX_HP);
+      return Bound(Bound(piBase_max_health,MIN_HP,100 + iStamina),MIN_HP,MAX_HP);
    }
 
    GetUncappedBaseMaxHealth()
@@ -9014,7 +9006,7 @@ messages:
    "FALSE otherwise.  The iLevel parameter has the player's base max HP "
    "taken from it, then divided by 5 before being bound between 1 and 10."
    {
-      local bGainHP, iMaxHealth, oShrunken, iApparentStamina;
+      local bGainHP, iMaxHealth, oShrunken, iStamina;
 
       bGainHP = FALSE;
 
@@ -9058,18 +9050,11 @@ messages:
 
          // If they are at max HP, award some training points instead.
          // Awards the TP when the player hits max HP also (reward!).
-         if (piStaminaMod >= 0)
-         {
-            iApparentStamina = Send(self,@GetStamina);
-         }
-         else
-         {
-            iApparentStamina = Send(self,@GetRawStamina);
-         }
+         iStamina = Send(self,@GetStamina);
 
          iMaxHealth = Send(self,@GetBaseMaxHealth);
 
-         if (iMaxHealth >= 100 + iApparentStamina
+         if (iMaxHealth >= 100 + iStamina
             OR iMaxHealth >= MAX_HP)
          {
             Send(self,@AddTrainingPoints,#points=iMaxHealth * 3,#bCap=FALSE);
@@ -11337,7 +11322,7 @@ messages:
 
    AddMight(points = 0, bAbsolute = TRUE)
    "Returns signed change to might (negative means decrease)"
-   "If restore = TRUE, ignore the bounds check and add the amount anyway."
+   "If bAbsolute = TRUE, ignore the bounds check and add the amount anyway."
    {
       local iOrigMight;
 
@@ -11346,7 +11331,7 @@ messages:
 
       if NOT bAbsolute
       {
-         piMightMod = bound(piMightMod,-piMight,(MAXIMUM_STAT-piMight));
+         piMightMod = Bound(piMightMod,-piMight,(MAXIMUM_STAT-piMight));
       }
 
       Send(self,@DrawMight);
@@ -11357,7 +11342,7 @@ messages:
 
    AddIntellect(points = 0, bAbsolute = TRUE)
    "Returns signed change to intellect (negative means decrease)"
-   "If restore = TRUE, ignore the bounds check and add the amount anyway."
+   "If bAbsolute = TRUE, ignore the bounds check and add the amount anyway."
    {
       local iOrigIntellect;
 
@@ -11366,7 +11351,7 @@ messages:
 
       if NOT bAbsolute
       {
-         piIntellectMod = bound(piIntellectMod,-piIntellect,(MAXIMUM_STAT-piIntellect));
+         piIntellectMod = Bound(piIntellectMod,-piIntellect,(MAXIMUM_STAT-piIntellect));
       }
 
       Send(self,@DrawIntellect);
@@ -11376,7 +11361,7 @@ messages:
 
    AddAim(points = 0, bAbsolute = TRUE)
    "Returns signed change to aim (negative means decrease)"
-   "If restore = TRUE, ignore the bounds check and add the amount anyway."
+   "If bAbsolute = TRUE, ignore the bounds check and add the amount anyway."
    {
       local iOrigAim;
 
@@ -11385,7 +11370,7 @@ messages:
 
       if NOT bAbsolute
       {
-         piAimMod = bound(piAimMod,-piAim,(MAXIMUM_STAT-piAim));
+         piAimMod = Bound(piAimMod,-piAim,(MAXIMUM_STAT-piAim));
       }
 
       Send(self,@DrawAim);
@@ -11396,16 +11381,27 @@ messages:
 
    AddStamina(points = 0, bAbsolute = TRUE)
    "Returns signed change to stamina (negative means decrease)"
-   "If restore = TRUE, ignore the bounds check and add the amount anyway."
+   "If bAbsolute = TRUE, ignore the bounds check and add the amount anyway."
    {
-      local iOrigStamina;
+      local iOrigStamina, iMaxHP, iNewMaxHP;
+
+      iMaxHP = Send(self,@GetBaseMaxHealth);
 
       iOrigStamina = piStaminaMod;
       piStaminaMod = piStaminaMod + points;
 
       if NOT bAbsolute
       {
-         piStaminaMod = bound(piStaminaMod,-piStamina,(MAXIMUM_STAT-piStamina));
+         piStaminaMod = Bound(piStaminaMod,-piStamina,(MAXIMUM_STAT-piStamina));
+      }
+
+      iNewMaxHP = Send(self,@GetBaseMaxHealth);
+
+      // Set their max health to the correct level.
+      if (iMaxHP <> iNewMaxHP)
+      {
+         Send(self,@GainMaxHealth,#amount=iNewMaxHP - iMaxHP);
+         Send(self,@NewHealth);
       }
 
       Send(self,@DrawStamina);
@@ -11415,7 +11411,7 @@ messages:
 
    AddAgility(points = 0, bAbsolute = TRUE)
    "Returns signed change to agility (negative means decrease)"
-   "If restore = TRUE, ignore the bounds check and add the amount anyway."
+   "If bAbsolute = TRUE, ignore the bounds check and add the amount anyway."
    {
       local iOrigAgility;
 

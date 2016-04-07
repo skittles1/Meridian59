@@ -10349,10 +10349,9 @@ messages:
                      riija_lvl=0,jala_lvl=0,weaponcraft_lvl=0)
    "Processes a stat change request from the client"
    {
-      local i,lSpellLevels,lSkillLevels,lSpellLevels_new,lSkillLevels_new,
-            totalLevels,totalSchools,totalLvlOnes,iPrimaryStat,
-            oSpell,iSpellAbility,iSpellNum,
-            oSkill,iSkillAbility,iSkillNum;
+      local i, lSpellLevels, lSkillLevels, lSpellLevels_new, lSkillLevels_new,
+            totalLevels, totalSchools, totalLvlOnes, iPrimaryStat, oSpell,
+            iSpellAbility, iSpellNum, oSkill, iSkillAbility, iSkillNum;
 
       % if stats reset is turned off, ignore the request
       if NOT Send(SETTINGS_OBJECT,@GetStatsResetEnabled)
@@ -10603,37 +10602,15 @@ messages:
          piMight, piIntellect, piStamina, piAgility, piMysticism, piAim,
          " to ", might, intellect, stamina, agility, mysticism, aim);
 
-      // Now set the stats. If they are changing stamina, and they have extra
-      // levels (XP) above their max HP, have to reset XP to their current
-      // level.
-      if (piStamina <> stamina
-         AND piBase_Max_Health > Send(self,@GetBaseMaxHealth))
-      {
-         Send(self,@ResetXPToLevel);
-      }
+      // Change stamina and check HP in a separate message, number of
+      // locals is getting too high in this one.
+      Send(self,@UserStatChangeStamina,#stamina=stamina);
 
-      piStamina = stamina;
       piIntellect = intellect;
       piMight = might;
       piAgility = agility;
       piMysticism = mysticism;
       piAim = aim;
-
-      // A change in stamina results in a reduction in hitpoints if the
-      // player's hitpoints will be > 100 + new Stamina
-      if (piBase_Max_Health > 100 + piStamina + Bound(piStaminaMod,0,$))
-      {
-         // If they dropped stamina, set max HP to their max. This can
-         // remove extra invisible 'levels', so players at max HP should
-         // not modify their stamina.
-         piBase_Max_Health = 100 + piStamina + Bound(piStaminaMod,0,$);
-         Send(self,@NewHealth);
-
-         // Check XP again.
-         Send(self,@ResetXPToLevel);
-
-         Debug("HitPoints and XP Adjusted");
-      }
 
       % recalculate mana pool based on nodes and mysticism
       Send(self,@ComputeMaxMana);
@@ -10644,6 +10621,35 @@ messages:
       % Refresh the client screen so they see the new stats
       Send(self, @InvalidateData);
       Debug("Player Updated!");
+
+      return;
+   }
+
+   UserStatChangeStamina(stamina = $)
+   {
+      local iMaxHP, iNewMaxHP;
+
+      if (stamina = $)
+      {
+         Debug("UserStatChangeStamina sent $ stamina for ",self);
+
+         return;
+      }
+
+      // Get the old max HP before adjusting stamina.
+      iMaxHP = Send(self,@GetBaseMaxHealth);
+
+      piStamina = stamina;
+
+      iNewMaxHP = Send(self,@GetBaseMaxHealth);
+
+      // Set their max health to the correct level.
+      if (iMaxHP <> iNewMaxHP)
+      {
+         Send(self,@GainMaxHealth,#amount=iNewMaxHP - iMaxHP);
+         Send(self,@NewHealth);
+         Debug("HP Recalculated");
+      }
 
       return;
    }
