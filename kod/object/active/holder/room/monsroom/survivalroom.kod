@@ -580,7 +580,7 @@ messages:
    {
       if NOT pbSpawnWaves
       {
-         return;
+         return FALSE;
       }
 
       propagate;

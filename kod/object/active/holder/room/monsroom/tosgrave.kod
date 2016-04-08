@@ -68,10 +68,14 @@ messages:
    TryCreateMonster(initroom = FALSE,loadfirst = FALSE)
    {
       local iHour;
-   
+
       iHour = Send(SYS,@GetHour);
-      if iHour < 5 or iHour > 21 { propagate; }
-      return;
+      if iHour < 5 OR iHour > 21
+      {
+         propagate;
+      }
+
+      return FALSE;
    }
 
    AvailableTombstone(what = $)
