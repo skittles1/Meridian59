@@ -8,10 +8,10 @@ dm_dimensionalgate = de "Du öffnest ein Dimensionstor zu %s und gehst hindurch."
 dm_pk_lock = de \
    "Dein PK Status ist jetzt durch natürliche Ereignisse unverändert."
 dm_pk_unlock = de "Dein PK Status ist jetzt der eines normalen Spielers."
-dm_PK_ENABLE = de \
+dm_pk_enable = de \
    "Zur Zeit ist Dein PK Status AN, was bedeutet, dass Du andere Spieler "
    "nach Belieben angreifen kannst."
-dm_PK_DISABLE = de \
+dm_pk_disable = de \
    "Zur Zeit ist Dein PK Status AUS, was bedeutet, dass Du andere Spieler "
    "nicht töten bzw. nicht von ihnen getötet werden kannst."
 dm_appeal_on = de "Du kannst jetzt die Rufe hören."
@@ -161,7 +161,7 @@ dm_admin_help = de \
    "~w[Decke die komplette Karte auf]~n\nHIDEMAP  ~w[Vergisst die Karte]~n\nRESET "
    "~w[Aktualisiert Deinen Client]~n\nGETPLAYER <name> ~w[Holt einen Spieler "
    "zu Dir]~n\nGOPLAYER <name> ~w[Bringt Dich zu einem Spieler]~n\n"
-dm_help_items = de \
+dm_help_all = de \
    "You can place scenery and lights using the \"dm place \" command.\nType "
    "\"dm help lights\" and \"dm help scenery\" to get a list of available objects "
    "to place."
