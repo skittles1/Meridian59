@@ -320,7 +320,9 @@ resources:
    inventory_wand_class_name = "wands"
    inventory_scroll_class_name = "scrolls"
    inventory_ring_class_name = "rings"
-   
+
+   system_guild_rsc = "guild"
+
    system_message_sound = system.ogg
    
 classvars:
@@ -4412,7 +4414,7 @@ messages:
 
       % Pull the string from user.  This is the name we gmail to contact
       %  our own guild.
-      if StringEqual(sName, "guild")
+      if StringEqual(sName, system_guild_rsc)
       {
             return FALSE;
       }
