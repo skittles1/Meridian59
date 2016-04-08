@@ -371,7 +371,6 @@ resources:
    user_news_subject_toobig = \
       "Your newsglobe subject length was too long."
 
-   user_guild_rsc = "guild"
    user_guildofficer_rsc = "guildofficer"
 
    user_default_url = "https://www.meridiannext.com/"
@@ -5742,14 +5741,14 @@ messages:
    {
       local oUser, lNames, oMailingList;
 
-      if StringEqual(string,user_guild_rsc)
+      if StringEqual(string,system_guild_rsc)
          AND poGuild <> $
       {
          AddPacket(4,poGuild);
       }
       else
       {
-         % don't enable mailing lists yet
+         // TODO: enable guild officer mailing lists.
          if FALSE AND StringEqual(string,user_guildofficer_rsc)
             AND poGuild <> $
          {
