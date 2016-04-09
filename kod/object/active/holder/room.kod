@@ -4851,8 +4851,6 @@ messages:
       iMCol = iCol;
       iMRowFine = FINENESS_HALF;
       iMColFine = FINENESS_HALF;
-	  
-      lPatrolPath = $;
 
       if oMonster = $
       {
@@ -4893,6 +4891,7 @@ messages:
                Debug("failed to place monster ",oMonster,Send(oMonster,@GetName),
                      " in room ",self,Send(self,@GetName));
                Send(oMonster,@Delete);
+
                return FALSE;
             }
             else
@@ -4918,27 +4917,28 @@ messages:
       }
 
       % possibly check location (skipped for randompoints)
-	  % active for generators or provided coords in param
+      % active for generators or provided coords in param
       if iCheck = TRUE
       {
          % we want the full info
          iQflags = LIQ_CHECK_OBJECTBLOCK | LIQ_CHECK_THINGSBOX | LIQ_GET_SECTORINFO;
-	  
+
          % query to C function
          if NOT GetLocationInfoBSP(prmRoom, iQflags,
                   iMRow,iMCol,iMRowFine,iMColFine,
                   *iRflags, *iHeightF, *iHeightFWD, *iHeightC, *iServerID)
          {
-            debug("Failed to get location info in ", prmRoom);
+            Debug("Failed to get location info in ", prmRoom);
+
             return FALSE;
          }
       }
       else
-	  {
+      {
          % make sure we pass the test below
          iRflags = LIR_SECTOR_INSIDE | LIR_SECTOR_HASFTEX;
-	  }
-      
+      }
+
       % verify location
       if (iRflags & LIR_SECTOR_INSIDE)
          AND (iRflags & LIR_SECTOR_HASFTEX)
@@ -4961,6 +4961,12 @@ messages:
       }
 
       return TRUE;
+   }
+
+   TryCreateMonster()
+   "Return FALSE for any non-monster generating room."
+   {
+      return FALSE;
    }
 
    CanHavePlayerPortal()
