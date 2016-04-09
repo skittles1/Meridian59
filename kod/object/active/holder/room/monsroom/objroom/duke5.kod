@@ -159,13 +159,12 @@ messages:
    {
       local i, rMusic, each_obj;
 
-      if (NOT IsClass(what,&DM))
-         OR (NOT send(what,@isActor))
-         OR (type <> SAY_DM)
+      if (type <> SAY_DM
+         OR NOT IsClass(what,&DM))
       {
          propagate;
       }
-      
+
       rMusic = $;
 
       % Commands to change the party lights!

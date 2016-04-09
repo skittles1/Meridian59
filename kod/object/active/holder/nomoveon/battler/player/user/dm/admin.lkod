@@ -10,9 +10,7 @@ admin_anonymous = de \
 admin_anonymous_hint = de "(Wiederhole den Befehl, um Deinen Namen zu sichern.)"
 admin_not_anonymous = de "Du bist jetzt wieder mit Deinem Namen %s zu erkennen."
 admin_black = de "Du hast die Form eines Schattens angenommen.."
-admin_currently_in = de \
-   "The ROO for `b%s`n is `k`B%s`n.  The room number is %i."
-admin_create_itematt_command = de "create item attribute"
+admin_create_itematt_command = de "create itematt"
 admin_anonymous_command = de "anonymous"
 admin_shadow_command = de "shadow"
 admin_relic_command = de "relic"

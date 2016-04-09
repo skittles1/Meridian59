@@ -1211,6 +1211,18 @@ messages:
 
    %%% Player flags
 
+   SetDMFlag()
+   {
+      Debug("Tried to set DM flag on player ",Send(self,@GetTrueName));
+
+      return;
+   }
+
+   CheckDMFlag()
+   {
+      return 0;
+   }
+
    SetPlayerFlag(flag=0,value=FALSE,flagset=1)
    "This always requires the POSITIVE flag name."
    {

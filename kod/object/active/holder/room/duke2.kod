@@ -135,7 +135,7 @@ messages:
       if row >= 9 AND row <= 10 AND col = 14
       {
          % If you're an actor, you may actually change the state of pbFeastHall
-         if IsClass(what,&DM) AND Send(what,@IsActor)
+         if IsClass(what,&DM)
          {
             if NOT Send(Send(SYS,@FindRoomByNum,#num=RID_DUKE4),@IsLocked)
             {

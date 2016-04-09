@@ -5063,7 +5063,7 @@ messages:
 
       if type = SAY_MESSAGE
       {
-         if Send(self,@IsActor)
+         if IsClass(self,&DM)
          {
             Send(poOwner,@SomeoneSaidRoom,#what=self,#type=type,
                  #string=user_echo_str,#parm1=string);
@@ -8435,22 +8435,13 @@ messages:
 
    SendStatCapacity()
    {
-      local iCapacity_send, iMaxCapacity_send;
+      local iCapacity_send;
 
       iCapacity_send = Send(self,@GetWeightHold);
 
-      % GetWeightMax returns NIL in dm.kod, 3100 is capacity at 70 might
-      if IsClass(self,&DM)
-      {
-         iMaxCapacity_send = 3100;
-      }
-      else
-      {
-         iMaxCapacity_send = Send(self,@GetWeightMax);
-      }
-
       AddPacket(1,9, 4,user_stat_capacity, 1,STAT_VALUE, 1,STAT_INTEGER,
-                4,iCapacity_send, 4,0, 4,iMaxCapacity_send, 4,iCapacity_send);
+                4,iCapacity_send, 4,0, 4,Send(self,@GetWeightMax),
+                4,iCapacity_send);
 
       return;
    }
@@ -8469,22 +8460,12 @@ messages:
    
    SendStatBulk()
    {
-      local iBulk, iBulkMax;
+      local iBulk;
 
       iBulk = Send(self,@GetBulkHold);
 
-      % GetBulkMax returns NIL in dm.kod, 3100 is capacity at 70 might
-      if IsClass(self,&DM)
-      {
-         iBulkMax = 3100;
-      }
-      else
-      {
-         iBulkMax = Send(self,@GetBulkMax);
-      }
-
       AddPacket(1,10, 4,user_stat_bulk, 1,STAT_VALUE, 1,STAT_INTEGER,
-                4,iBulk, 4,0, 4,iBulkMax, 4,iBulk);
+                4,iBulk, 4,0, 4,Send(self,@GetBulkMax), 4,iBulk);
 
       return;
    }
@@ -9652,11 +9633,6 @@ messages:
       plNew_mail = $;
       
       return;
-   }
-
-   IsActor()
-   {
-      return FALSE;
    }
 
    LeaveNewbieOrGuestRegion()

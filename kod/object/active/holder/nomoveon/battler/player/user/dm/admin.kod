@@ -31,12 +31,7 @@ resources:
    admin_not_anonymous = "You are again known as %s."
    admin_black = "You are now shadowform."
 
-   admin_currently_in = "The ROO for `b%s`n is `k`B%s`n.  The room number is %i."
-   admin_currently_at = \
-      "Your Location is: `bRow: `k`B%i`n `bCol: `k`B%i`n `bfRow: `k`B%i`n "
-      "`bfCol: `k`B%i`n `bHeight: `k`B%i`n."
-
-   admin_create_itematt_command = "create item attribute"
+   admin_create_itematt_command = "create itematt"
    admin_anonymous_command = "anonymous"
    admin_shadow_command = "shadow"
    admin_relic_command = "relic"
@@ -68,14 +63,10 @@ resources:
 
 classvars:
 
-
 properties:
 
    pbCapableAdmin = TRUE
-   pbSay_commands = TRUE
-   pbAdvancement = TRUE
-   pbActor = TRUE
-   pbMonsterMaker = TRUE
+   piDMFlags = DMFLAG_SET_ADMIN
 
    piTour_delay
    ptTour
@@ -141,9 +132,12 @@ messages:
    {
       local oWeapon, i, lObjects, oObject, rRoom, iRow, iCol, iFineRow, iFineCol;
 
-      if type = SAY_DM
-         AND (StringContain(string,admin_create_itematt_command)
-              OR StringContain(string,"create itematt"))
+      if type <> SAY_DM
+      {
+         propagate;
+      }
+
+      if StringContain(string,admin_create_itematt_command)
       {
          % Log the DM command in god.txt, and print it to the debug log.
          GodLog("Admin ",Send(self,@GetTrueName)," used the DM command dm ",string);
@@ -180,8 +174,7 @@ messages:
          return;
       }
 
-      if (StringContain(string,admin_relic_command)
-         OR StringContain(string,"relic"))
+      if (StringContain(string,admin_relic_command))
       {
          % Log to god log.
          GodLog("Admin ",Send(self,@GetTrueName)," used the DM command dm ",string);
@@ -223,7 +216,6 @@ messages:
       }
 
       if StringEqual(string,admin_anonymous_command)
-         OR StringEqual(string,"anonymous")
       {
          % Log to god log.
          GodLog("Admin ",Send(self,@GetTrueName)," used the DM command dm ",string);
@@ -258,7 +250,6 @@ messages:
       }
 
       if StringEqual(string,admin_shadow_command)
-         OR StringEqual(string,"shadow")
       {
          % Log to god log.
          GodLog("Admin ",Send(self,@GetTrueName)," used the DM command dm ",string);
@@ -271,9 +262,7 @@ messages:
          return;
       }
 
-
       if StringEqual(string,admin_start_tour_command)
-         OR StringEqual(string,"start tour")
       {
          Send(self,@StartTour);
 
@@ -281,7 +270,6 @@ messages:
       }
 
       if StringEqual(string,admin_end_tour_command)
-         OR StringEqual(string,"end tour")
       {
          Send(self,@EndTour);
 
@@ -289,7 +277,6 @@ messages:
       }
 
       if StringEqual(string,admin_mortal_command)
-         OR StringEqual(string,"mortal")
       {
          pbImmortal = FALSE;
 
@@ -309,7 +296,6 @@ messages:
       }
 
       if StringEqual(string,admin_immortal_command)
-         OR StringEqual(string,"immortal")
       {
          pbImmortal = pbImmortalSave;
 
@@ -328,30 +314,7 @@ messages:
          return;
       }
 
-      if StringEqual(string,"get roo")
-      {
-         Send(self,@MsgSendUser,#message_rsc=admin_currently_in,
-               #parm1=send(poOwner,@GetName),
-               #parm2=send(poOwner,@GetRoomResource),
-               #parm3=Send(poOwner,@GetRoomNum));
-
-         return;
-      }
-
-      if StringEqual(string,"get coords")
-      {
-         Send(self,@MsgSendUser,#message_rsc=admin_currently_at,
-               #parm1=piRow,
-               #parm2=piCol,
-               #parm3=piFine_Row,
-               #parm4=piFine_Col,
-               #parm5=Send(self, @GetHeightFloorAtObjectBSP));
-
-         return;
-      }
-
       if StringEqual(string,admin_logoffghost_on_command)
-         OR StringEqual(string,"logoffghost on")
       {
          % Log to god log.
          GodLog("Admin ",Send(self,@GetTrueName)," used the DM command dm ",string);
@@ -363,7 +326,6 @@ messages:
       }
 
       if StringEqual(string,admin_logoffghost_off_command)
-         OR StringEqual(string,"logoffghost off")
       {
          % Log to god log.
          GodLog("Admin ",Send(self,@GetTrueName)," used the DM command dm ",string);
@@ -375,7 +337,6 @@ messages:
       }
 
       if StringEqual(string,admin_logoffghost_temp_off_command)
-         OR StringEqual(string,"logoffghost temp off")
       {
          % Log to god log.
          GodLog("Admin ",Send(self,@GetTrueName)," used the DM command dm ",string);

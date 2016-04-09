@@ -648,7 +648,7 @@ messages:
 
    SomeoneSaid(what=$,string=$)
    {
-      if what <> $ AND isClass(what,&DM)
+      if what <> $ AND IsClass(what,&DM)
       {
          if (StringEqual(string,TosArena_booth_command) OR StringEqual(string,"booth"))
          {
@@ -657,7 +657,7 @@ messages:
             return;
          }
 
-         if Send(what,@IsActor)
+         if Send(what,@CheckDMFlag,#flag=DMFLAG_ALLOW_ARENA_CMDS)
             AND (StringEqual(string,TosArena_lock_command) OR StringEqual(string,"lock"))
          {
             if pbLocked
