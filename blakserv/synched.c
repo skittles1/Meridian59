@@ -21,6 +21,9 @@
 /* local function prototypes */
 void SynchedProtocolParse(session_node *s,client_msg *msg);
 void SynchedAcceptLogin(session_node *s,char *name,char *password);
+void SynchedSendGetClient(session_node *s);
+void SynchedSendClientPatchClassic(session_node *s);
+void SynchedSendClientPatchOgre(session_node *s);
 void LogUserData(session_node *s);
 void SynchedSendMenuChoice(session_node *s);
 void SynchedDoMenu(session_node *s);
@@ -220,7 +223,7 @@ void SynchedProtocolParse(session_node *s,client_msg *msg)
       break;
    case AP_REQ_GAME :
 		lprintf("SynchedProtocolParse account %u version %u %u\n",s->account->account_id,s->version_major,s->version_minor);
-      if (s->version_major * 100 + s->version_minor < ConfigInt(LOGIN_MIN_VERSION))
+      if (s->version_major * 100 + s->version_minor < ConfigInt(LOGIN_CLASSIC_MIN_VERSION))
       {
          AddByteToPacket(AP_MESSAGE);
          AddStringToPacket(strlen(ConfigStr(LOGIN_OLD_VERSION_STR)),
@@ -482,7 +485,7 @@ void SendSynchedMessage(session_node *s,char *str,char logoff)
 void VerifyLogin(session_node *s)
 {
    int cli_vers;
-   char *str;
+
    LogUserData(s);
 
    s->login_verified = True;
@@ -501,78 +504,136 @@ void VerifyLogin(session_node *s)
       return;
    }
 
-   if (cli_vers < ConfigInt(LOGIN_MIN_VERSION))
+   if (s->version_major == 50
+      && cli_vers < ConfigInt(LOGIN_CLASSIC_MIN_VERSION))
    {
 #if VANILLA_UPDATER
-      AddByteToPacket(AP_GETCLIENT);
-
-      str = LockConfigStr(UPDATE_CLIENT_MACHINE);
-      AddStringToPacket(strlen(str), str);
-      UnlockConfigStr();
-
-      str = LockConfigStr(UPDATE_CLIENT_FILE);
-      AddStringToPacket(strlen(str), str);
-      UnlockConfigStr();
-
-      SendPacket(s->session_id);
+      SynchedSendGetClient(s);
 #else
       // If they have an old client not capable of self-updating,
       // give them the old protocol.
-      if (cli_vers <= 5038)
-      {
-         AddByteToPacket(AP_GETCLIENT);
-
-         str = LockConfigStr(UPDATE_CLIENT_MACHINE);
-         AddStringToPacket(strlen(str), str);
-         UnlockConfigStr();
-
-         str = LockConfigStr(UPDATE_CLIENT_FILE);
-         AddStringToPacket(strlen(str), str);
-         UnlockConfigStr();
-
-         SendPacket(s->session_id);
-      }
+      if (s->version_minor <= 38)
+         SynchedSendGetClient(s);
       else
-      {
-         // This protocol sends the client details on where to access
-         // a full listing of the client files plus a JSON txt file
-         // containing each file name, its size, relative path and a hash
-         // to compare with local files for changes.
-         AddByteToPacket(AP_CLIENT_PATCH);
-
-         str = LockConfigStr(UPDATE_PATCH_ROOT);
-         AddStringToPacket(strlen(str), str);
-         UnlockConfigStr();
-
-         str = LockConfigStr(UPDATE_PATCH_PATH);
-         AddStringToPacket(strlen(str), str);
-         UnlockConfigStr();
-
-         str = LockConfigStr(UPDATE_PATCH_CACHE_PATH);
-         AddStringToPacket(strlen(str), str);
-         UnlockConfigStr();
-
-         str = LockConfigStr(UPDATE_PATCH_TXT);
-         AddStringToPacket(strlen(str), str);
-         UnlockConfigStr();
-
-         str = LockConfigStr(UPDATE_DOWNLOAD_REASON);
-         AddStringToPacket(strlen(str), str);
-         UnlockConfigStr();
-
-         SendPacket(s->session_id);
-
-         InterfaceUpdateSession(s);
-
-         /* set timeout real long, since they're downloading */
-         SetSessionTimer(s, 60 * ConfigInt(INACTIVE_TRANSFER));
-      }
+         SynchedSendClientPatchClassic(s);
 #endif
+      InterfaceUpdateSession(s);
+
+      /* set timeout real long, since they're downloading */
+      SetSessionTimer(s, 60 * ConfigInt(INACTIVE_TRANSFER));
+   }
+   else if (s->version_major == 90
+           && cli_vers < ConfigInt(LOGIN_OGRE_MIN_VERSION))
+   {
+#if VANILLA_UPDATER
+      SynchedSendGetClient(s);
+#else
+      // If they have an old client not capable of self-updating,
+      // give them the old protocol.
+      if (s->version_minor <= 4)
+         SynchedSendGetClient(s);
+      else
+         SynchedSendClientPatchOgre(s);
+#endif
+      InterfaceUpdateSession(s);
+
+      /* set timeout real long, since they're downloading */
+      SetSessionTimer(s, 60 * ConfigInt(INACTIVE_TRANSFER));
    }
    else
-   {
       SynchedDoMenu(s);
-   }
+}
+
+// Send the AP_GETCLIENT protocol and data to session.
+void SynchedSendGetClient(session_node *s)
+{
+   char *str;
+
+   if (!s)
+      return;
+
+   AddByteToPacket(AP_GETCLIENT);
+
+   str = LockConfigStr(UPDATE_CLIENT_MACHINE);
+   AddStringToPacket(strlen(str), str);
+   UnlockConfigStr();
+
+   str = LockConfigStr(UPDATE_CLIENT_FILE);
+   AddStringToPacket(strlen(str), str);
+   UnlockConfigStr();
+
+   SendPacket(s->session_id);
+}
+
+// The AP_CLIENT_PATCH protocol sends the client details on where to access
+// a full listing of the client files plus a JSON txt file containing each
+// file name, its size, relative path and a hash to compare with local files
+// for changes. Implemented for both Classic (major version 50) and Ogre
+// (major version 90) clients.
+void SynchedSendClientPatchClassic(session_node *s)
+{
+   char *str;
+
+   if (!s)
+      return;
+
+   AddByteToPacket(AP_CLIENT_PATCH);
+
+   str = LockConfigStr(UPDATE_CLASSIC_PATCH_ROOT);
+   AddStringToPacket(strlen(str), str);
+   UnlockConfigStr();
+
+   str = LockConfigStr(UPDATE_CLASSIC_PATCH_PATH);
+   AddStringToPacket(strlen(str), str);
+   UnlockConfigStr();
+
+   str = LockConfigStr(UPDATE_CLASSIC_PATCH_CACHE_PATH);
+   AddStringToPacket(strlen(str), str);
+   UnlockConfigStr();
+
+   str = LockConfigStr(UPDATE_CLASSIC_PATCH_TXT);
+   AddStringToPacket(strlen(str), str);
+   UnlockConfigStr();
+
+   str = LockConfigStr(UPDATE_DOWNLOAD_REASON);
+   AddStringToPacket(strlen(str), str);
+   UnlockConfigStr();
+
+   SendPacket(s->session_id);
+}
+
+// Send the AP_CLIENT_PATCH protocol and data to session.
+// Use ogre client download instructions.
+void SynchedSendClientPatchOgre(session_node *s)
+{
+   char *str;
+
+   if (!s)
+      return;
+
+   AddByteToPacket(AP_CLIENT_PATCH);
+
+   str = LockConfigStr(UPDATE_OGRE_PATCH_ROOT);
+   AddStringToPacket(strlen(str), str);
+   UnlockConfigStr();
+
+   str = LockConfigStr(UPDATE_OGRE_PATCH_PATH);
+   AddStringToPacket(strlen(str), str);
+   UnlockConfigStr();
+
+   str = LockConfigStr(UPDATE_OGRE_PATCH_CACHE_PATH);
+   AddStringToPacket(strlen(str), str);
+   UnlockConfigStr();
+
+   str = LockConfigStr(UPDATE_OGRE_PATCH_TXT);
+   AddStringToPacket(strlen(str), str);
+   UnlockConfigStr();
+
+   str = LockConfigStr(UPDATE_DOWNLOAD_REASON);
+   AddStringToPacket(strlen(str), str);
+   UnlockConfigStr();
+
+   SendPacket(s->session_id);
 }
 
 void LogUserData(session_node *s)
