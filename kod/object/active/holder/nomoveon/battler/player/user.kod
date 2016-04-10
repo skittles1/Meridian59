@@ -3991,27 +3991,27 @@ messages:
 
    UserAppeal(string = $, first_time = FALSE)
    {
-      local i, lUsers;
+      local i;
 
-      lUsers = Send(SYS,@GetUsersLoggedOn);
-      foreach i in lUsers
+      foreach i in Send(SYS,@GetUsersLoggedOn)
       {
-         if IsClass(i,&DM) AND Send(i,@IsAppealOn)
+         if (first_time)
          {
-            if NOT first_time
-            {
-               Send(i,@MsgSendUser,#message_rsc=user_appeal,#parm1=vrName,
-                    #parm2=string);
-            }
-            else
+            if (Send(SETTINGS_OBJECT,@MessageAllForNewUser)
+               OR (IsClass(i,&DM) AND Send(i,@IsAppealOn)))
             {
                Send(i,@MsgSendUser,#message_rsc=user_first_time_appeal,
-                    #parm1=vrName);
+                     #parm1=vrName);
             }
+         }
+         else if (IsClass(i,&DM) AND Send(i,@IsAppealOn))
+         {
+            Send(i,@MsgSendUser,#message_rsc=user_appeal,#parm1=vrName,
+                  #parm2=string);
          }
       }
 
-      if IsClass(self,&DM) OR first_time
+      if first_time OR IsClass(self,&DM)
       {
          % Don't tell DMs and Admins that the appeal was heard,
          %  since this is always true.
