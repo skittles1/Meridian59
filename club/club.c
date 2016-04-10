@@ -15,8 +15,6 @@
 
 #include "club.h"
 #include <vector>
-#include <Tlhelp32.h>
-#include <Psapi.h>
 
 /* time to wait at program start */
 #define INIT_TIME 3000
@@ -54,8 +52,6 @@ Bool ParseCommandLine(const char *args);
 void RestartFilename();
 void StartupError();
 void RestartClient();
-void CloseClient();
-static HRESULT NormalizeNTPath(char *pszPath, size_t nMax);
 void Interface(int how_show);
 long WINAPI InterfaceWindowProc(HWND hwnd,UINT message,UINT wParam,LONG lParam);
 void OnTimer(HWND hwnd,int id);
@@ -72,11 +68,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrev_instance,
    success = False; /* whether the copy compeletely succeeded */
 
    if (ParseCommandLine(command_line))
-   {
-      // User might have multiple clients open, close them.
-      CloseClient();
       Interface(how_show);
-   }
 
    if (success)
       RestartClient();
@@ -179,91 +171,17 @@ void RestartClient()
    GetStartupInfo(&si); /* shouldn't need to do this.  very weird */
    memset(&pi, 0, sizeof(pi));
 
-   if (!CreateProcess(restart_filename.c_str(),"",NULL,NULL,FALSE,0,NULL,NULL,&si,&pi))
+   // Get the working directory we want to restart in.
+   // Could be different from where club was launched.
+   size_t found = restart_filename.find_last_of("/\\");
+   std::string dirPath;
+   dirPath.assign(restart_filename.substr(0, found));
+
+   if (!CreateProcess(restart_filename.c_str(), "", NULL, NULL, FALSE, 0, NULL, dirPath.c_str(), &si, &pi))
    {
       sprintf(s,GetString(hInst, IDS_CANTRESTART),GetLastError(),restart_filename.c_str());
       MessageBox(NULL,s,GetString(hInst, IDS_APPNAME),MB_ICONSTOP);
    }
-}
-/************************************************************************/
-void CloseClient()
-{
-   HANDLE hSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPALL, NULL);
-   PROCESSENTRY32 pEntry;
-   pEntry.dwSize = sizeof(pEntry);
-   DWORD pathRes;
-
-   // Get the full path of the client. Currently club gets passed the full path of
-   // the executable but if that changes, this can be used to find the exe path.
-   // char exe_path[MAX_PATH];
-   // pathRes = GetFullPathName(restart_filename.c_str(), MAX_PATH, exe_path, NULL);
-
-   // Path of the process for comparison.
-   char test_path[MAX_PATH];
-
-   BOOL hRes = Process32First(hSnapShot, &pEntry);
-   while (hRes)
-   {
-      // Test the filename of process before going further.
-      if (_stricmp(pEntry.szExeFile, restart_filename.c_str()) == 0)
-      {
-         HANDLE hProcess = OpenProcess(PROCESS_TERMINATE | PROCESS_QUERY_LIMITED_INFORMATION, 0,
-            (DWORD)pEntry.th32ProcessID);
-         if (hProcess)
-         {
-            pathRes = GetProcessImageFileName(hProcess, test_path, MAX_PATH);
-            // GetProcessImageFileName returns a path in device form,
-            // convert this to drive letter form.
-            if (pathRes
-               && NormalizeNTPath(test_path, MAX_PATH) == 0
-               && _stricmp(test_path, restart_filename.c_str()) == 0)
-            {
-               TerminateProcess(hProcess, 9);
-            }
-            CloseHandle(hProcess);
-         }
-      }
-      hRes = Process32Next(hSnapShot, &pEntry);
-   }
-   CloseHandle(hSnapShot);
-}
-/************************************************************************/
-/*
- * NormalizeNTPath: Converts pszPath from device form to drive letter form.
- * Adapted from:
- * https://social.msdn.microsoft.com/Forums/vstudio/en-US/c48bcfb3-5326-479b-8c95-81dc742292ab/windows-api-to-get-a-full-process-path?forum=vcgeneral
- */
-#define NUMCHARS(a) (sizeof(a)/sizeof(*a))
-static HRESULT NormalizeNTPath(char *pszPath, size_t nMax)
-// Normalizes the path returned by GetProcessImageFileName
-{
-   char *pszSlash = strchr(&pszPath[1], '\\');
-   if (pszSlash)
-      pszSlash = strchr(pszSlash + 1, '\\');
-   if (!pszSlash)
-      return E_FAIL;
-   char cSave = *pszSlash;
-   *pszSlash = 0;
-
-   char szNTPath[_MAX_PATH];
-   char szDrive[_MAX_PATH] = "A:";
-   // We'll need to query the NT device names for the drives to find a match with pszPath
-   for (char cDrive = 'A'; cDrive < 'Z'; ++cDrive)
-   {
-      szDrive[0] = cDrive;
-      szNTPath[0] = 0;
-      if (0 != QueryDosDevice(szDrive, szNTPath, NUMCHARS(szNTPath)) &&
-         0 == strcmp(szNTPath, pszPath))
-      {
-         // Match
-         strcat_s(szDrive, NUMCHARS(szDrive),"\\");
-         strcat_s(szDrive, NUMCHARS(szDrive), pszSlash + 1);
-         strcpy_s(pszPath, nMax, szDrive);
-         return S_OK;
-      }
-   }
-   *pszSlash = cSave;
-   return E_FAIL;
 }
 /************************************************************************/
 void Interface(int how_show)
