@@ -271,6 +271,9 @@ properties:
    // in a way that requires turning safety off.
    pbFactionLoss = FALSE
 
+   // Do all users get "logged on for first time" messages?
+   pbMsgAllForNewUser = FALSE
+
 messages:
 
    Constructor()
@@ -704,6 +707,11 @@ messages:
    FactionLossEnabled()
    {
       return pbFactionLoss;
+   }
+
+   MessageAllForNewUser()
+   {
+      return pbMsgAllForNewUser;
    }
 
 end
