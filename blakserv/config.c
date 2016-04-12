@@ -92,7 +92,8 @@ config_table_type config_table[] =
 
 { LOGIN_GROUP,            F, "[Login]",       CONFIG_GROUP, "" },
 { LOGIN_MAX_ATTEMPTS,     F, "MaxAttempts",   CONFIG_INT,   "3" },
-{ LOGIN_MIN_VERSION,      T, "MinVersion",    CONFIG_INT,   "0" },
+{ LOGIN_CLASSIC_MIN_VERSION, T, "MinClassicVersion", CONFIG_INT,   "0" },
+{ LOGIN_OGRE_MIN_VERSION,    T, "MinOgreVersion", CONFIG_INT,   "0" },
 { LOGIN_OLD_VERSION_STR,  F, "OldVersionStr", CONFIG_STR,   
      "The game software has been upgraded while you have been online. Logoff and "
      "then login again to automatically upgrade your software." },
@@ -164,10 +165,16 @@ config_table_type config_table[] =
 { UPDATE_DOWNLOAD_REASON, T, "DownloadReason",CONFIG_STR,
      "An update of Meridian files is available and required." },
 { UPDATE_DEMO_BUTTON,	  T, "DemoButton"    ,CONFIG_STR,   "" },
-{ UPDATE_PATCH_ROOT,      T, "PatchHost"     ,CONFIG_STR,   "" },
-{ UPDATE_PATCH_PATH,      T, "PatchPath"     ,CONFIG_STR,   "" },
-{ UPDATE_PATCH_CACHE_PATH,T, "PatchCachePath",CONFIG_STR,   "" },
-{ UPDATE_PATCH_TXT,       F, "PatchTxt"      ,CONFIG_STR,   "" },
+
+{ UPDATE_CLASSIC_PATCH_ROOT, T, "ClassicPatchHost" ,CONFIG_STR, "" },
+{ UPDATE_CLASSIC_PATCH_PATH, T, "ClassicPatchPath" ,CONFIG_STR, "" },
+{ UPDATE_CLASSIC_PATCH_CACHE_PATH,T, "ClassicPatchCachePath", CONFIG_STR, "" },
+{ UPDATE_CLASSIC_PATCH_TXT, T, "ClassicPatchTxt" ,CONFIG_STR, "" },
+
+{ UPDATE_OGRE_PATCH_ROOT, T, "OgrePatchHost" ,CONFIG_STR, "" },
+{ UPDATE_OGRE_PATCH_PATH, T, "OgrePatchPath" ,CONFIG_STR, "" },
+{ UPDATE_OGRE_PATCH_CACHE_PATH,T, "OgrePatchCachePath", CONFIG_STR, "" },
+{ UPDATE_OGRE_PATCH_TXT, T, "OgrePatchTxt" ,CONFIG_STR, "" },
 
 { CONSOLE_GROUP,          F, "[Console]",     CONFIG_GROUP, "" },
 { CONSOLE_ADMINISTRATOR,  F, "Administrator", CONFIG_STR,   "Administrator" },
