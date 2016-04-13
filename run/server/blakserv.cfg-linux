@@ -23,6 +23,8 @@ LogDisk              Yes
 
 [Guest]              
 
+[Account]            
+
 [Login]              
 
 [Inactive]           
