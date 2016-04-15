@@ -90,10 +90,13 @@ config_table_type config_table[] =
 { GUEST_TOO_MANY,         F, "TooMany",       CONFIG_STR,   
      "Too many guests are logged on right now; please try again later." },
 
+{ ACCOUNT_GROUP,          T, "[Account]",     CONFIG_GROUP, "" },
+{ ACCOUNT_NUM_SLOTS,      T, "NumSlots",      CONFIG_INT,   "3" },
+
 { LOGIN_GROUP,            F, "[Login]",       CONFIG_GROUP, "" },
 { LOGIN_MAX_ATTEMPTS,     F, "MaxAttempts",   CONFIG_INT,   "3" },
 { LOGIN_CLASSIC_MIN_VERSION, T, "MinClassicVersion", CONFIG_INT,   "0" },
-{ LOGIN_OGRE_MIN_VERSION,    T, "MinOgreVersion", CONFIG_INT,   "0" },
+{ LOGIN_OGRE_MIN_VERSION,    T, "MinOgreVersion",    CONFIG_INT,   "0" },
 { LOGIN_OLD_VERSION_STR,  F, "OldVersionStr", CONFIG_STR,   
      "The game software has been upgraded while you have been online. Logoff and "
      "then login again to automatically upgrade your software." },
@@ -184,8 +187,8 @@ config_table_type config_table[] =
 { RIGHTS_GROUP,           F, "[Rights]",      CONFIG_GROUP, "" },
 { RIGHTS_GOROOM,          T, "GoRoom",        CONFIG_INT,   "2" },
 { RIGHTS_GOROOMBYNUM,     T, "GoRoomByNum",   CONFIG_INT,   "2" },
-{ RIGHTS_GOPLAYER,        T, "GoPlayer",      CONFIG_INT,   "1" },
-{ RIGHTS_GETPLAYER,       T, "GetPlayer",     CONFIG_INT,   "1" },
+{ RIGHTS_GOPLAYER,        T, "GoPlayer",      CONFIG_INT,   "2" },
+{ RIGHTS_GETPLAYER,       T, "GetPlayer",     CONFIG_INT,   "2" },
 
 { CONSTANTS_GROUP,        F, "[Constants]",   CONFIG_GROUP, "" },
 { CONSTANTS_ENABLED,      F, "Enabled",       CONFIG_BOOL,  "No" },

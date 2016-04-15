@@ -3762,7 +3762,8 @@ void AdminCreateAccount(int session_id,admin_parm_type parms[],
 	password = (char *)parms[2];
    email = (char *)parms[3];
 	
-	if (0 == stricmp(type, "AUTO"))
+	if (0 == stricmp(type, "AUTO")
+      || 0 == stricmp(type, "AUTOMATED"))
 	{
 		// Tried "CREATE ACCOUNT AUTO blah blah" for the command "CREATE AUTO blah blah".
 		AdminCreateAutomated(session_id,&parms[1], 0, NULL);
@@ -3829,37 +3830,37 @@ void AdminCreateAccount(int session_id,admin_parm_type parms[],
 }
 
 void AdminCreateAutomated(int session_id,admin_parm_type parms[],
-                          int num_blak_parm,parm_node blak_parm[])                          
+                          int num_blak_parm,parm_node blak_parm[])
 {
-	/* create account and 1 user for it */
-	
-	int account_id;
-	user_node *u;
-	
-	char *name,*password,*email;
-	
-	name = (char *)parms[0];
-	password = (char *)parms[1];
-   email = (char *)parms[2];
-	
-	if (CreateAccount(name,password,email,ACCOUNT_NORMAL,&account_id) == False)
-	{
-		aprintf("Account name %s already exists\n",name);
-		return;
-	}
-	
-	aprintf("Created account %i.\n",account_id);
-	
-	u = CreateNewUser(account_id,USER_CLASS);
-	if (u == NULL)
-	{
-		aprintf("Cannot find just created user for account %i!\n",
-			account_id);
-		return;
-	}
+   /* create account and num_slots users for it */
+   int num_slots;
+   int account_id;
+   user_node *u;
 
-	AdminShowOneUser(u);
-	
+   char *name,*password,*email;
+
+   name = (char *)parms[0];
+   password = (char *)parms[1];
+   email = (char *)parms[2];
+
+   if (CreateAccount(name,password,email,ACCOUNT_NORMAL,&account_id) == False)
+   {
+      aprintf("Account name %s already exists\n",name);
+
+      return;
+   }
+
+   num_slots = ConfigInt(ACCOUNT_NUM_SLOTS);
+
+   // Put an upper limit on number of slots
+   if (num_slots > 10)
+      num_slots = 10;
+
+   // Automated, so don't display users.
+   for (int i = 0; i < num_slots; ++i)
+      u = CreateNewUser(account_id, USER_CLASS);
+
+   aprintf("Created account %i.\n", account_id);
 }
 
 void AdminRecreateAutomated(int session_id,admin_parm_type parms[],
