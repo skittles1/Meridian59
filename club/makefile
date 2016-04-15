@@ -17,7 +17,7 @@ LINKFLAGS = $(LINKFLAGS) /SUBSYSTEM:WINDOWS",5.01"
 SOURCEDIR = $(TOPDIR)\club
 
 LIBS = user32.lib gdi32.lib advapi32.lib libarchive.lib zlib.lib \
-       comctl32.lib wininet.lib jansson.lib Psapi.lib
+       comctl32.lib wininet.lib jansson.lib
 
 all: makedirs $(OUTDIR)\club.exe
 
