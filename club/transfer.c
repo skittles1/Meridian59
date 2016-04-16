@@ -16,6 +16,8 @@
 // Handles to Internet connection, session, and file to transfer
 static HINTERNET hConnection, hSession, hFile;
 
+static Bool DirectoryExists(LPCTSTR szPath);
+static void CreateDirectoryTree(std::string dirPath);
 static void inline TransferCleanup();
 
 #define BUFSIZE 4096
@@ -44,6 +46,31 @@ void _cdecl dprintf(char *fmt, ...)
 
    fputs(s, debug_file);
    fclose(debug_file);
+}
+/************************************************************************/
+static Bool DirectoryExists(LPCTSTR szPath)
+{
+   DWORD dwAttrib = GetFileAttributes(szPath);
+
+   return (dwAttrib != INVALID_FILE_ATTRIBUTES && 
+      (dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
+}
+/************************************************************************/
+static void CreateDirectoryTree(std::string dirPath)
+{
+   std::string createPath;
+
+   // Start from 3rd char in string - skips the .\ at beginning.
+   size_t found = dirPath.find_first_of("/\\", 2);
+
+   while (found != std::string::npos)
+   {
+      // Assign from char 0, i.e. .\dirname
+      createPath.assign(dirPath.substr(0, found));
+      CreateDirectory(createPath.c_str(), NULL);
+      // Look from found + 1
+      found = dirPath.find_first_of("/\\", found + 1);
+   }
 }
 /************************************************************************/
 #if VANILLA_UPDATER
@@ -274,6 +301,10 @@ Bool TransferStart(void)
       // This is the path the file should be saved to locally.
       local_file_path.assign(".");
       local_file_path.append(basepath);
+      
+      if (!DirectoryExists(local_file_path.c_str()))
+         CreateDirectoryTree(local_file_path);
+
       local_file_path.append(filename);
 
       // Request file.
