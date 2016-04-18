@@ -39,6 +39,24 @@ void Usage(void)
    exit(1);
 }
 /***************************************************************************/
+double GetMicroCountDouble()
+{
+   static LARGE_INTEGER microFrequency;
+   LARGE_INTEGER now;
+
+   if (microFrequency.QuadPart == 0)
+      QueryPerformanceFrequency(&microFrequency);
+
+   if (microFrequency.QuadPart == 0)
+   {
+      printf("GetMicroCount can't get frequency\n");
+      return 0;
+   }
+
+   QueryPerformanceCounter(&now);
+   return ((double)now.QuadPart * 1000.0) / (double)microFrequency.QuadPart;
+}
+/***************************************************************************/
 int main(int argc, char **argv)
 {
    FileList files; // Data structure for fullpath, basepath, filename.
@@ -55,6 +73,9 @@ int main(int argc, char **argv)
    if (client_path.back() != '\\')
       client_path.append("\\");
 
+   // Record start time.
+   double startTime = GetMicroCountDouble();
+
    // Get the path length, used to create relative path later.
    base_path_len = client_path.length() - 1;
    printf("Scanning, please wait...\n");
@@ -68,6 +89,7 @@ int main(int argc, char **argv)
       json_dump_file(FileArray, patchinfo_path.c_str(), JSON_INDENT(1));
       printf("Successfully added %i files.\n", files.size());
    }
+   printf("Scanning completed in %.3f ms.\n", GetMicroCountDouble() - startTime);
 }
 
 bool FindMatchingFiles(std::string path, FileList *files)

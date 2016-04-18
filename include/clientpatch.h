@@ -15,11 +15,10 @@
 #include <jansson.h>
 #include <md5.h>
 
-#define MAX_FILE_READ 1536
 #define HASHABLE_BYTES 16
 #define HEX_HASH 33
 
-#define CLIENTPATCH_FILE_VERSION 2
+#define CLIENTPATCH_FILE_VERSION 3
 
 void ClientPatchGetValidBasepath(json_t **CacheFile, char *retpath);
 void ClientPatchGetAbsPath(json_t **CacheFile, char *retpath);
@@ -59,11 +58,11 @@ void ClientPatchGetValidFilepath(json_t **CacheFile, char *retpath)
  */
 bool CompareCacheToLocalFile(json_t **CacheFile)
 {
-   FILE *fp;
-   char buffer[MAX_FILE_READ];
+   HANDLE fp, fileHandle;
+   char *buffer;
    unsigned char hash[HASHABLE_BYTES];
    char myhash[HEX_HASH];
-   unsigned long size, filename_len;
+   unsigned long size;
    const char *file = json_string_value(json_object_get(*CacheFile, "Filename"));
    const char *path = json_string_value(json_object_get(*CacheFile, "Basepath"));
 
@@ -72,38 +71,46 @@ bool CompareCacheToLocalFile(json_t **CacheFile)
    strcat(combine, path);
    strcat(combine, file);
 
-   // Lookup local file
-   if (!(fp = fopen(combine, "rb")))
+   // Lookup local file.
+   fp = CreateFile(combine, GENERIC_READ, FILE_SHARE_READ, NULL,
+      OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
+   if (!fp)
       return false;
 
-   fseek(fp, 0, SEEK_END);
-   size = ftell(fp);
+   size = GetFileSize(fp, NULL);
+
    if (size != json_integer_value(json_object_get(*CacheFile, "Length")))
    {
-      fclose(fp);
+      CloseHandle(fp);
       return false;
    }
 
-   fseek(fp, 0, SEEK_SET);
-   if (size == 0)
+   fileHandle = CreateFileMapping(fp, NULL, PAGE_READONLY, 0, size, NULL);
+   if (!fileHandle)
    {
-      fclose(fp);
+      CloseHandle(fp);
       return false;
    }
-   else if (size > 1024)
-      size = 1024; // Only hash the first 1024 bytes.
 
-   fread(buffer, size, 1, fp);
-   fclose(fp);
-   filename_len = strlen(file);
+   buffer = (char *)MapViewOfFile(fileHandle, FILE_MAP_READ, 0, 0, 0);
+   if (!buffer)
+   {
+      CloseHandle(fp);
+      CloseHandle(fileHandle);
+   }
 
-   for (unsigned long i = size; i < size + filename_len; ++i)
-      buffer[i] = file[i - size];
-   MDStringBytes(buffer, hash, size + filename_len);
+   MDStringBytes(buffer, hash, size);
+   UnmapViewOfFile(buffer);
+   CloseHandle(fp);
+   CloseHandle(fileHandle);
+
+   // Convert to hex.
    for (int i = 0; i < 16; ++i)
       sprintf(myhash + i * 2, "%02X", hash[i]);
 
+   // Null terminate.
    myhash[32] = 0;
+
    if (strcmp(myhash, json_string_value(json_object_get(*CacheFile, "MyHash"))) != 0)
       return false;
    return true;
@@ -140,44 +147,57 @@ json_t * GenerateCacheFile(const char *fullpath, const char *basepath, const cha
  */
 void GenerateCacheMD5(const char *fullpath, const char *file, json_t **CacheFile)
 {
-   FILE *fp;
-   char buffer[MAX_FILE_READ];
+   HANDLE fp, fileHandle;
+   char *buffer;
    unsigned char hash[HASHABLE_BYTES];
    char myhash[HEX_HASH];
-   unsigned long size, filename_len;
+   unsigned long size;
    char combine[MAX_PATH + FILENAME_MAX];
 
    strcpy(combine, fullpath);
    strcat(combine, file);
 
-   if (!(fp = fopen(combine, "rb")))
+   fp = CreateFile(combine, GENERIC_READ, FILE_SHARE_READ, NULL,
+      OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
+   if (!fp)
       return;
 
-   fseek(fp, 0, SEEK_END);
-   size = ftell(fp);
-   json_object_set(*CacheFile, "Length", json_pack("i", size));
-   fseek(fp, 0, SEEK_SET);
-
-   if (size == 0)
+   size = GetFileSize(fp, NULL);
+   if (size == INVALID_FILE_SIZE
+      || !size)
    {
-      fclose(fp);
+      json_object_set(*CacheFile, "Length", json_pack("i", 0));
+      CloseHandle(fp);
+
       return;
    }
-   else if (size > 1024)
-      size = 1024;
 
-   fread(buffer, size, 1, fp);
+   json_object_set(*CacheFile, "Length", json_pack("i", size));
 
-   fclose(fp);
+   fileHandle = CreateFileMapping(fp, NULL, PAGE_READONLY, 0, size, NULL);
+   if (!fileHandle)
+   {
+      CloseHandle(fp);
+      return;
+   }
 
-   filename_len = strlen(file);
+   buffer = (char *)MapViewOfFile(fileHandle, FILE_MAP_READ, 0, 0, 0);
+   if (!buffer)
+   {
+      CloseHandle(fp);
+      CloseHandle(fileHandle);
+   }
 
-   for (unsigned long i = size; i < size + filename_len; ++i)
-      buffer[i] = file[i - size];
-   MDStringBytes(buffer, hash, size + filename_len);
+   MDStringBytes(buffer, hash, size);
+   UnmapViewOfFile(buffer);
+   CloseHandle(fp);
+   CloseHandle(fileHandle);
+
+   // Convert to hex.
    for (int i = 0; i < 16; ++i)
       sprintf(myhash + i * 2, "%02X", hash[i]);
 
+   // Null terminate.
    myhash[32] = 0;
    json_object_set(*CacheFile, "MyHash", json_string(myhash));
 }
