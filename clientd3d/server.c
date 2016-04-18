@@ -2034,7 +2034,7 @@ Bool HandleGetClient(char *ptr, long len)
 Bool HandleClientPatch(char *ptr, long len)
 {
    char patchhost[MAXMESSAGE], patchcachepath[MAXMESSAGE], patchpath[MAXMESSAGE];
-   char filename[MAXMESSAGE], reason[MAXMESSAGE];
+   char cachefile[MAXMESSAGE], clubfile[MAXMESSAGE], reason[MAXMESSAGE];
    debug(("Got ClientPatch\n"));
 
    if ((len = ExtractString(&ptr, len, patchhost, MAXMESSAGE)) == -1)
@@ -2043,14 +2043,15 @@ Bool HandleClientPatch(char *ptr, long len)
       return False;
    if ((len = ExtractString(&ptr, len, patchcachepath, MAXMESSAGE)) == -1)
       return False;
-   if ((len = ExtractString(&ptr, len, filename, MAXMESSAGE)) == -1)
+   if ((len = ExtractString(&ptr, len, cachefile, MAXMESSAGE)) == -1)
+      return False;
+   if ((len = ExtractString(&ptr, len, clubfile, MAXMESSAGE)) == -1)
       return False;
    if ((len = ExtractString(&ptr, len, reason, MAXMESSAGE)) == -1)
       return False;
 
-   debug(("server = %s, cache = %s, filename = %s\n", patchhost, patchpath, filename));
-
-   DownloadClientPatch(patchhost, patchpath, patchcachepath, filename, reason);
+   DownloadClientPatch(patchhost, patchpath, patchcachepath, cachefile,
+      clubfile, reason);
 
    return True;
 }
