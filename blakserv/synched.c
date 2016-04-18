@@ -24,6 +24,7 @@ void SynchedAcceptLogin(session_node *s,char *name,char *password);
 void SynchedSendGetClient(session_node *s);
 void SynchedSendClientPatchClassic(session_node *s);
 void SynchedSendClientPatchOgre(session_node *s);
+void SynchedSendClientPatchOldClassic(session_node *s);
 void LogUserData(session_node *s);
 void SynchedSendMenuChoice(session_node *s);
 void SynchedDoMenu(session_node *s);
@@ -514,6 +515,8 @@ void VerifyLogin(session_node *s)
       // give them the old protocol.
       if (s->version_minor <= 38)
          SynchedSendGetClient(s);
+      else if (s->version_minor <= 40)
+         SynchedSendClientPatchOldClassic(s);
       else
          SynchedSendClientPatchClassic(s);
 #endif
@@ -568,8 +571,9 @@ void SynchedSendGetClient(session_node *s)
 // The AP_CLIENT_PATCH protocol sends the client details on where to access
 // a full listing of the client files plus a JSON txt file containing each
 // file name, its size, relative path and a hash to compare with local files
-// for changes. Implemented for both Classic (major version 50) and Ogre
-// (major version 90) clients.
+// for changes. Also sends the name of the updater file, which is currently
+// always club.exe but could change one day. Implemented for both Classic
+// (major version 50) and Ogre (major version 90) clients.
 void SynchedSendClientPatchClassic(session_node *s)
 {
    char *str;
@@ -592,6 +596,10 @@ void SynchedSendClientPatchClassic(session_node *s)
    UnlockConfigStr();
 
    str = LockConfigStr(UPDATE_CLASSIC_PATCH_TXT);
+   AddStringToPacket(strlen(str), str);
+   UnlockConfigStr();
+
+   str = LockConfigStr(UPDATE_CLASSIC_CLUB_EXE);
    AddStringToPacket(strlen(str), str);
    UnlockConfigStr();
 
@@ -626,6 +634,46 @@ void SynchedSendClientPatchOgre(session_node *s)
    UnlockConfigStr();
 
    str = LockConfigStr(UPDATE_OGRE_PATCH_TXT);
+   AddStringToPacket(strlen(str), str);
+   UnlockConfigStr();
+
+   str = LockConfigStr(UPDATE_OGRE_CLUB_EXE);
+   AddStringToPacket(strlen(str), str);
+   UnlockConfigStr();
+
+   str = LockConfigStr(UPDATE_DOWNLOAD_REASON);
+   AddStringToPacket(strlen(str), str);
+   UnlockConfigStr();
+
+   SendPacket(s->session_id);
+}
+
+// AP_CLIENT_PATCH_OLD protocol is a transitional update protocol
+// that had the client download and parse patchinfo.txt. The old
+// protocol doesn't send the filename for the updater. Used for
+// client versions 5039 and 5040.
+void SynchedSendClientPatchOldClassic(session_node *s)
+{
+   char *str;
+
+   if (!s)
+      return;
+
+   AddByteToPacket(AP_CLIENT_PATCH_OLD);
+
+   str = LockConfigStr(UPDATE_CLASSIC_PATCH_ROOT);
+   AddStringToPacket(strlen(str), str);
+   UnlockConfigStr();
+
+   str = LockConfigStr(UPDATE_CLASSIC_PATCH_PATH);
+   AddStringToPacket(strlen(str), str);
+   UnlockConfigStr();
+
+   str = LockConfigStr(UPDATE_CLASSIC_PATCH_CACHE_PATH);
+   AddStringToPacket(strlen(str), str);
+   UnlockConfigStr();
+
+   str = LockConfigStr(UPDATE_CLASSIC_PATCH_TXT);
    AddStringToPacket(strlen(str), str);
    UnlockConfigStr();
 

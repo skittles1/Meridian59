@@ -173,11 +173,13 @@ config_table_type config_table[] =
 { UPDATE_CLASSIC_PATCH_PATH, T, "ClassicPatchPath" ,CONFIG_STR, "" },
 { UPDATE_CLASSIC_PATCH_CACHE_PATH,T, "ClassicPatchCachePath", CONFIG_STR, "" },
 { UPDATE_CLASSIC_PATCH_TXT, T, "ClassicPatchTxt" ,CONFIG_STR, "" },
+{ UPDATE_CLASSIC_CLUB_EXE, T,  "ClassicClubExe"  ,CONFIG_STR, "" },
 
 { UPDATE_OGRE_PATCH_ROOT, T, "OgrePatchHost" ,CONFIG_STR, "" },
 { UPDATE_OGRE_PATCH_PATH, T, "OgrePatchPath" ,CONFIG_STR, "" },
 { UPDATE_OGRE_PATCH_CACHE_PATH,T, "OgrePatchCachePath", CONFIG_STR, "" },
 { UPDATE_OGRE_PATCH_TXT, T, "OgrePatchTxt" ,CONFIG_STR, "" },
+{ UPDATE_OGRE_CLUB_EXE, T,  "OgreClubExe"  ,CONFIG_STR, "" },
 
 { CONSOLE_GROUP,          F, "[Console]",     CONFIG_GROUP, "" },
 { CONSOLE_ADMINISTRATOR,  F, "Administrator", CONFIG_STR,   "Administrator" },
