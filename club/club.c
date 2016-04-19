@@ -23,7 +23,7 @@ HINSTANCE hInst;
 HWND hwndMain;
 
 Bool success;
-
+Bool get_patchinfo;
 static Bool retry = True;   // True when an error occurs and user asks to retry
 
 std::string restart_filename;
@@ -44,7 +44,7 @@ std::string transfer_local_filename;
 std::string transfer_path;
 std::string patchinfo_path;
 #endif
-
+std::string patchinfo_filename;
 std::string dest_path;
 
 /* local function prototypes */
@@ -65,6 +65,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrev_instance,
 
    InitCommonControls();
 
+   get_patchinfo = False;
    success = False; /* whether the copy compeletely succeeded */
 
    if (ParseCommandLine(command_line))
@@ -75,7 +76,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrev_instance,
 
    if (success == False)
       return 1;
-   
+
    return 0;
 }
 /************************************************************************/
@@ -124,32 +125,68 @@ std::vector<std::string> split(const std::string &s, char delim) {
 /************************************************************************/
 Bool ParseCommandLine(const char *args)
 {
+#if !VANILLA_UPDATER
+   char buf[MAX_CMDLINE + 1];
+   if (strcmp(args, "") == 0)
+   {
+      FILE *fp;
+      fp = fopen("dlinfo.txt", "rb");
+      if (!fp)
+      {
+         StartupError();
+         return False;
+      }
+      fgets(buf, MAX_CMDLINE, fp);
+      fclose(fp);
+      args = buf;
+   }
+#endif
    std::string argstring(args);
    std::vector<std::string> arguments = split(argstring, ' ');
 
-   if (arguments.size() != CLUB_NUM_ARGUMENTS)
+   if (arguments.size() == CLUB_NUM_ARGUMENTS)
    {
-      StartupError();
-      return False;
-   }
+      if (arguments[1] != "UPDATE")
+      {
+         StartupError();
+         return False;
+      }
 
-   if (arguments[1] != "UPDATE")
-   {
-      StartupError();
-      return False;
-   }
-
-   restart_filename = arguments[0];
-   transfer_machine = arguments[2]; //patchhost
-   dest_path = arguments[5];
+      restart_filename = arguments[0];
+      transfer_machine = arguments[2]; //patchhost
+      dest_path = arguments[5];
 
 #if VANILLA_UPDATER
-   transfer_filename = arguments[3];
-   transfer_local_filename = arguments[4];
+      transfer_filename = arguments[3];
+      transfer_local_filename = arguments[4];
 #else
-   transfer_path = arguments[3];    // patchpath
-   patchinfo_path = arguments[4];   // patchinfo_path
+      transfer_path = arguments[3];    // patchpath
+      patchinfo_path = arguments[4];   // patchinfo_path
+   }
+   else if (arguments.size() == CLUB_NEW_NUM_ARGUMENTS)
+   {
+      if (arguments[1] != "UPDATE")
+      {
+         StartupError();
+         return False;
+      }
+      // Set get_patchinfo to True, so we know to download patchinfo file.
+      get_patchinfo = True;
+
+      restart_filename = arguments[0];
+      transfer_machine = arguments[2]; //patchhost
+      transfer_path = arguments[3];    // patchpath
+      patchinfo_path = arguments[4];   // patchinfo_path
+      patchinfo_filename = arguments[5];
+      dest_path = arguments[6];
 #endif
+   }
+   else
+   {
+      StartupError();
+
+      return False;
+   }
 
    return True;
 }
