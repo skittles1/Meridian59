@@ -14,11 +14,19 @@
 #include <algorithm>
 
 // Handles to Internet connection, session, and file to transfer
-static HINTERNET hConnection, hSession, hFile;
+static HINTERNET hConnection, hSession;
+
+#if !VANILLA_UPDATER
+const char *mime_types[8] = { "application/octet-stream", "application/x-msdownload",
+                              "video/ogg", "image/png", "text/xml", "video/avi",
+                              "text/plain", NULL };
+#endif
 
 static Bool DirectoryExists(LPCTSTR szPath);
 static void CreateDirectoryTree(std::string dirPath);
 static void inline TransferCleanup();
+static Bool DownloadOneFile(std::string basepath, std::string req_file,
+                            std::string filename, int file_size);
 
 #define BUFSIZE 4096
 static char buf[BUFSIZE];
@@ -76,6 +84,7 @@ static void CreateDirectoryTree(std::string dirPath)
 #if VANILLA_UPDATER
 Bool TransferStart(void)
 {
+   HINTERNET hFile;
    Bool done;
    const char *mime_types[2] = { "application/x-zip-compressed", NULL };
    char file_size_buf[20];
@@ -218,10 +227,11 @@ Bool TransferStart(void)
 /************************************************************************/
 Bool TransferStart(void)
 {
-   Bool done;
-   const char *mime_types[7] = { "application/octet-stream", "application/x-msdownload",
-                                 "video/ogg", "image/png", "text/xml", "video/avi", NULL };
-   DWORD index = 0;
+   std::string req_file, filename, basepath;
+   json_error_t JsonError;
+   json_t *PatchInfo;
+   json_t *it;
+   size_t array_index = 0;
    int file_size;
 
    hConnection = InternetOpen(GetString(hInst, IDS_APPNAME), INTERNET_OPEN_TYPE_PRECONFIG,
@@ -249,44 +259,61 @@ Bool TransferStart(void)
       }
    }
 
-   // If we successfully downloaded the patch file, we can read it in to
-   // a JSON array and compare our club.exe. File downloads to download_dir.
-   json_t *PatchInfo;
-   json_error_t JsonError;
-   PatchInfo = json_load_file(patchinfo_path.c_str(), 0, &JsonError);
-   if (!PatchInfo)
+   // If get_patchinfo is True, the first file we need is patchinfo (patch cache).
+   if (get_patchinfo)
    {
-      Error(GetString(hInst, IDS_JSONERROR), patchinfo_path.c_str(), JsonError.text);
-      TransferCleanup();
-      PostMessage(hwndMain, WM_DESTROY, 0, 0);
-      return False;
-   }
+      // This is the path (including filename) that we request from the host.
+      req_file.assign(patchinfo_path);
+      req_file.append(patchinfo_filename);
+      // Have to estimate file size.
+      if (!DownloadOneFile("\\", req_file, patchinfo_filename, 600000))
+      {
+         // DownloadOneFile handles error messages/cleanup.
+         return False;
+      }
 
+      // If we successfully downloaded the patch file, we can read it in to
+      // a JSON array and compare our club.exe. File downloads to download_dir.
+      PatchInfo = json_load_file(patchinfo_filename.c_str(), 0, &JsonError);
+      if (!PatchInfo)
+      {
+         Error(GetString(hInst, IDS_JSONERROR), patchinfo_filename.c_str(), JsonError.text);
+         TransferCleanup();
+         PostMessage(hwndMain, CM_RETRYABORT, 0, 0);
+         return False;
+      }
+   }
+   else
+   {
+      // Loading pre-downloaded patchcache - patchinfo_path is the local path
+      // of the file.
+      PatchInfo = json_load_file(patchinfo_path.c_str(), 0, &JsonError);
+      if (!PatchInfo)
+      {
+         Error(GetString(hInst, IDS_JSONERROR), patchinfo_path.c_str(), JsonError.text);
+         TransferCleanup();
+         PostMessage(hwndMain, CM_RETRYABORT, 0, 0);
+         return False;
+      }
+   }
    //debug(("machine name %s, path name %s\n", transfer_machine.c_str(), transfer_path.c_str()));
 
-   std::string req_file, local_file_path, filename, basepath;
-
    // Successfully loaded patch file, check the update program (club.exe).
-   json_t *it;
-   size_t array_index = 0;
    json_array_foreach(PatchInfo, array_index, it)
    {
       // Don't download if patchinfo has file download set to false.
       if (!(json_boolean_value(json_object_get(it, "Download"))))
          continue;
 
-      filename.assign(json_string_value(json_object_get(it, "Filename")));
-
       // Skip this file if it matches the local one.
       if (CompareCacheToLocalFile(&it))
          continue;
 
+      filename.assign(json_string_value(json_object_get(it, "Filename")));
+
       // Also skip the updater itself - this is checked by the client.
       if (filename == "club.exe")
          continue;
-
-      // Update main window with filename.
-      SendMessage(hwndMain, CM_FILENAME, 0, (LPARAM) filename.c_str());
 
       basepath.assign(json_string_value(json_object_get(it, "Basepath")));
 
@@ -296,109 +323,13 @@ Bool TransferStart(void)
       req_file.append(filename);
       std::replace(req_file.begin(), req_file.end(), '\\', '/');
 
-      //debug(("downloading file %s\n", req_file.c_str()));
-
-      // This is the path the file should be saved to locally.
-      local_file_path.assign(".");
-      local_file_path.append(basepath);
-      
-      if (!DirectoryExists(local_file_path.c_str()))
-         CreateDirectoryTree(local_file_path);
-
-      local_file_path.append(filename);
-
-      // Request file.
-      if (!hSession)
-      {
-         TransferCleanup();
-         PostMessage(hwndMain, CM_RETRYABORT, 0, 0);
-         return False;
-      }
-      hFile = HttpOpenRequest(hSession, NULL, req_file.c_str(), NULL, NULL,
-         mime_types, INTERNET_FLAG_NO_UI, 0);
-      if (!hFile)
-      {
-         if (GetLastError() != ERROR_IO_PENDING)
-         {
-            Error(GetString(hInst, IDS_CANTFINDFILE), req_file.c_str(), transfer_machine.c_str(),
-               GetLastError(), GetLastErrorStr());
-            TransferCleanup();
-            PostMessage(hwndMain, CM_RETRYABORT, 0, 0);
-            return False;
-         }
-      }
-      if (!HttpSendRequest(hFile, NULL, 0, NULL, 0))
-      {
-         Error(GetString(hInst, IDS_CANTSENDREQUEST), req_file.c_str(), transfer_machine.c_str(),
-            GetLastError(), GetLastErrorStr());
-         TransferCleanup();
-         PostMessage(hwndMain, CM_RETRYABORT, 0, 0);
-         return False;
-      }
-
       // Use file size from patchinfo.
-      file_size = (int) json_integer_value(json_object_get(it, "Length"));
-      // Update main window with file size.
-      SendMessage(hwndMain, CM_FILESIZE, 0, file_size);
+      file_size = (int)json_integer_value(json_object_get(it, "Length"));
 
-      // Create a local file.
-      outfile = open(local_file_path.c_str(), O_BINARY | O_RDWR | O_CREAT | O_TRUNC,
-         S_IWRITE | S_IREAD);
-      if (outfile < 0)
+      if (!DownloadOneFile(basepath, req_file, filename, file_size))
       {
-         Error(GetString(hInst, IDS_CANTWRITELOCALFILE), local_file_path.c_str(),
-            GetLastError(), GetLastErrorStr());
-         TransferCleanup();
-         PostMessage(hwndMain, CM_RETRYABORT, 0, 0);
+         // DownloadOneFile handles error messages/cleanup.
          return False;
-      }
-
-      // Read first block.
-      done = False;
-      bytes_read = 0;
-      while (!done)
-      {
-         if (!InternetReadFile(hFile, buf, BUFSIZE, &size))
-         {
-            if (GetLastError() != ERROR_IO_PENDING)
-            {
-               Error(GetString(hInst, IDS_CANTREADFTPFILE), req_file.c_str(),
-                  GetLastError(), GetLastErrorStr());
-               close(outfile);
-               TransferCleanup();
-               PostMessage(hwndMain, CM_RETRYABORT, 0, 0);
-               return False;
-            }
-         }
-
-         Status(GetString(hInst, IDS_READBLOCK));
-
-         if (size > 0)
-         {
-            if (write(outfile, buf, size) != size)
-            {
-               Error(GetString(hInst, IDS_CANTWRITELOCALFILE), local_file_path.c_str(),
-                  GetLastError(), GetLastErrorStr());
-               close(outfile);
-               TransferCleanup();
-               PostMessage(hwndMain, CM_RETRYABORT, 0, 0);
-               return False;
-            }
-         }
-
-         // Update graph position.
-         bytes_read += size;
-         SendMessage(hwndMain, CM_PROGRESS, 0, bytes_read);
-
-         // See if done with file.
-         if (size == 0)
-         {
-            close(outfile);
-
-            if (hFile)
-               InternetCloseHandle(hFile);
-            done = True;
-         }
       }
 
       // Update main window to show scanning state.
@@ -412,11 +343,129 @@ Bool TransferStart(void)
 
    return True;
 }
+
+static Bool DownloadOneFile(std::string basepath, std::string req_file,
+                            std::string filename, int file_size)
+{
+   HINTERNET hFile;
+   std::string local_file_path;
+   Bool done;
+
+   // Update main window with filename.
+   SendMessage(hwndMain, CM_FILENAME, 0, (LPARAM)filename.c_str());
+   // Update main window with file size.
+   SendMessage(hwndMain, CM_FILESIZE, 0, file_size);
+
+   //debug(("downloading file %s\n", req_file.c_str()));
+
+   // This is the path the file should be saved to locally.
+   local_file_path.assign(".");
+   local_file_path.append(basepath);
+
+   if (!DirectoryExists(local_file_path.c_str()))
+      CreateDirectoryTree(local_file_path);
+
+   local_file_path.append(filename);
+
+   // Request file.
+   if (!hSession)
+   {
+      TransferCleanup();
+      PostMessage(hwndMain, CM_RETRYABORT, 0, 0);
+      return False;
+   }
+   hFile = HttpOpenRequest(hSession, NULL, req_file.c_str(), NULL, NULL,
+      mime_types, INTERNET_FLAG_NO_UI, 0);
+   if (!hFile)
+   {
+      if (GetLastError() != ERROR_IO_PENDING)
+      {
+         Error(GetString(hInst, IDS_CANTFINDFILE), req_file.c_str(), transfer_machine.c_str(),
+            GetLastError(), GetLastErrorStr());
+         TransferCleanup();
+         PostMessage(hwndMain, CM_RETRYABORT, 0, 0);
+         return False;
+      }
+   }
+   if (!HttpSendRequest(hFile, NULL, 0, NULL, 0))
+   {
+      Error(GetString(hInst, IDS_CANTSENDREQUEST), req_file.c_str(), transfer_machine.c_str(),
+         GetLastError(), GetLastErrorStr());
+      InternetCloseHandle(hFile);
+      TransferCleanup();
+      PostMessage(hwndMain, CM_RETRYABORT, 0, 0);
+      return False;
+   }
+
+   // Create a local file.
+   outfile = open(local_file_path.c_str(), O_BINARY | O_RDWR | O_CREAT | O_TRUNC,
+      S_IWRITE | S_IREAD);
+   if (outfile < 0)
+   {
+      Error(GetString(hInst, IDS_CANTWRITELOCALFILE), local_file_path.c_str(),
+         GetLastError(), GetLastErrorStr());
+      InternetCloseHandle(hFile);
+      TransferCleanup();
+      PostMessage(hwndMain, CM_RETRYABORT, 0, 0);
+      return False;
+   }
+
+   // Read first block.
+   done = False;
+   bytes_read = 0;
+   while (!done)
+   {
+      if (!InternetReadFile(hFile, buf, BUFSIZE, &size))
+      {
+         if (GetLastError() != ERROR_IO_PENDING)
+         {
+            Error(GetString(hInst, IDS_CANTREADFTPFILE), req_file.c_str(),
+               GetLastError(), GetLastErrorStr());
+            close(outfile);
+            InternetCloseHandle(hFile);
+            TransferCleanup();
+            PostMessage(hwndMain, CM_RETRYABORT, 0, 0);
+            return False;
+         }
+      }
+
+      Status(GetString(hInst, IDS_READBLOCK));
+
+      if (size > 0)
+      {
+         if (write(outfile, buf, size) != size)
+         {
+            Error(GetString(hInst, IDS_CANTWRITELOCALFILE), local_file_path.c_str(),
+               GetLastError(), GetLastErrorStr());
+            close(outfile);
+            InternetCloseHandle(hFile);
+            TransferCleanup();
+            PostMessage(hwndMain, CM_RETRYABORT, 0, 0);
+            return False;
+         }
+      }
+
+      // Update graph position.
+      bytes_read += size;
+      SendMessage(hwndMain, CM_PROGRESS, 0, bytes_read);
+
+      // See if done with file.
+      if (size == 0)
+      {
+         close(outfile);
+
+         if (hFile)
+            InternetCloseHandle(hFile);
+         done = True;
+      }
+   }
+
+   return True;
+}
 #endif
 
 static void inline TransferCleanup()
 {
-   InternetCloseHandle(hFile);
    InternetCloseHandle(hSession);
    InternetCloseHandle(hConnection);
 }

@@ -13,8 +13,6 @@
 #include "archive.h"
 #include "archive_entry.h"
 
-#include "clientpatch.h"
-
 static DownloadInfo *info;  // Info on download
 
 static char download_dir[] = "download";
@@ -54,8 +52,8 @@ static Bool DownloadDone(DownloadFileInfo *file_info);
 static Bool DownloadDeleteFile(char *filename);
 static Bool DownloadUnarchiveFile(char *zip_name, char *dir);
 
-static void DownloadCacheList(DownloadInfo *params);
-static void DownloadCacheListFile(DownloadInfo *params);
+static void DownloadUpdater(DownloadInfo *params);
+static void DownloadUpdaterFile(DownloadInfo *params);
 /*****************************************************************************/
 bool FileExists(const char *filename)
 {
@@ -782,23 +780,20 @@ void DownloadNewClient(char *hostname, char *filename)
 /*****************************************************************************/
 /*
  * DownloadClientPatch:  Got version mismatch with the server, so we need to
- *   update. This client patching involves getting a patchinfo.txt (list of
- *   required files with hashes) and comparing our local files to it. Since
- *   the client can't write the exe while it's in use, it will just get the
- *   patch cache list and if necessary, update club.exe. Club will handle
- *   the rest of the update.
+ *   update. The client downloads a new version of the updater (given in
+ *   clubfile), saves the update info and its own filename into a text file
+ *   then runs the updater with the location of the text file.
  */
 void DownloadClientPatch(char *patchhost, char *patchpath, char *patchcachepath,
-                         char *filename, char *reason)
+                         char *cachefile, char *clubfile, char *reason)
 {
+   FILE *fp;
    SHELLEXECUTEINFO shExecInfo;
-   char command_line[MAX_CMDLINE];
+   char dl_info[MAX_CMDLINE];
    char exe_name[MAX_PATH];
    char client_directory[MAX_PATH];
    char update_program_path[MAX_PATH];
-   char patchinfo_path[MAX_PATH];
    char *ptr;
-   SystemInfo sysinfo;
 
    if (AreYouSure(hInst, hMain, YES_BUTTON, IDS_NEEDNEWVERSION))
    {
@@ -816,80 +811,30 @@ void DownloadClientPatch(char *patchhost, char *patchpath, char *patchcachepath,
       dinfo = (DownloadInfo *)ZeroSafeMalloc(sizeof(DownloadInfo));
       dinfo->files = (DownloadFileInfo *)ZeroSafeMalloc(sizeof(DownloadFileInfo));
       dinfo->num_files = 1;
-      strcpy(dinfo->machine, patchhost);
-      strcpy(dinfo->path, patchcachepath);
-      strcpy(dinfo->reason, reason);
-      strcpy(dinfo->files[0].filename, filename);
-      strcpy(dinfo->files[0].path, download_dir);
-      // Just estimate size, since we don't have patchinfo.txt yet.
-      // Only needed for displaying in a text box to user.
-      dinfo->files[0].size = 600000;
-      dinfo->files[0].flags = 0;
+      strcpy(dinfo->machine, patchhost); // Host machine to connect to.
+      strcpy(dinfo->path, patchpath); // Path to get updater.
+      strcpy(dinfo->reason, reason); // Download reason.
+      strcpy(dinfo->files[0].filename, clubfile); // Updater filename.
+      strcpy(dinfo->files[0].path, client_directory); // Download to client dir.
+      dinfo->files[0].size = 0; // Size is updated when file download starts.
+      dinfo->files[0].flags = 0; // Saved to client dir, no flags.
+      DownloadUpdater(dinfo);
 
-      json_t *PatchInfo;
-      sprintf(patchinfo_path, ".\\%s\\%s", download_dir, filename);
-      do
+      // Create strings for updater program and arguments (download info).
+      // Save download info to a file so club can restart a failed download,
+      // but also use these to start the program (in case the file can't be saved).
+
+      sprintf(update_program_path, "%s\\%s", client_directory, update_program);
+      sprintf(dl_info, "\"%s\" UPDATE \"%s\" \"%s\" \"%s\" \"%s\" \"%s\"",
+         exe_name, patchhost, patchpath, patchcachepath, cachefile,
+         client_directory);
+
+      // Save download info to a file.
+      fp = fopen("dlinfo.txt", "w");
+      if (fp)
       {
-         DownloadCacheList(dinfo);
-
-         // If we successfully downloaded the patch file, we can read it in to
-         // a JSON array and compare our club.exe. File downloads to download_dir.
-         // Fill the JSON error struct, the user will be instructed to redownload
-         // anyway but any errors reported could be useful.
-         json_error_t JsonError;
-         PatchInfo = json_load_file(patchinfo_path, 0, &JsonError);
-         if (!PatchInfo)
-         {
-            DownloadError(hMain, GetString(hInst, IDS_JSONERROR), filename, JsonError.text);
-            if (!retry_download)
-            {
-               PostMessage(hMain, WM_DESTROY, 0, 0);
-               return;
-            }
-         }
-      } while (!PatchInfo);
-
-      // Successfully loaded patch file, check the update program (club.exe).
-      json_t *it, *CacheFile = NULL;
-      size_t index = 0;
-      json_array_foreach(PatchInfo, index, it)
-      {
-         if (strcmp(update_program, json_string_value(json_object_get(it, "Filename"))) == 0)
-         {
-            CacheFile = it;
-            break;
-         }
-      }
-
-      if (!CacheFile)
-      {
-         ClientError(hInst, hMain, IDS_MISSINGARCHIVE, "club.exe");
-         PostMessage(hMain, WM_DESTROY, 0, 0);
-
-         return;
-      }
-
-      ClientPatchGetValidBasepath(&CacheFile, update_program_path);
-      if (!CompareCacheToLocalFile(&CacheFile))
-      {
-         strcpy(dinfo->path, patchpath);
-         strcpy(dinfo->files[0].filename, update_program);
-         strcpy(dinfo->files[0].path, update_program_path);
-         dinfo->files[0].size = json_integer_value(json_object_get(it, "Length"));
-         dinfo->num_files = 1;
-         DownloadCacheList(dinfo);
-      }
-
-      sprintf(update_program_path, "%s%s", update_program_path, update_program);
-      sprintf(command_line, "\"%s\" UPDATE \"%s\" \"%s\" \"%s\" \"%s\"", exe_name,
-         patchhost, patchpath, patchinfo_path, client_directory);
-
-      // Using full pathname of client can overrun 128 character DOS command line limit
-      GetSystemStats(&sysinfo);
-      if (strlen(command_line) >= 127 &&
-         (sysinfo.platform == VER_PLATFORM_WIN32_WINDOWS))
-      {
-         ClientError(hInst, hMain, IDS_LONGCMDLINE, command_line);
+         fwrite(dl_info, strlen(dl_info), 1, fp);
+         fclose(fp);
       }
 
       shExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
@@ -897,13 +842,14 @@ void DownloadClientPatch(char *patchhost, char *patchpath, char *patchcachepath,
       shExecInfo.hwnd = NULL;
       shExecInfo.lpVerb = "runas";
       shExecInfo.lpFile = update_program_path;
-      shExecInfo.lpParameters = command_line;
       // Run in parent of resource directory; club will take care of copying
       // exes to Program Files if necessary.
+      // Running club with no parameters will cause it to search for dlinfo.txt.
+      // Use parameters here in case the file couldn't be saved.
+      shExecInfo.lpParameters = dl_info;
       shExecInfo.lpDirectory = NULL;
       shExecInfo.nShow = SW_NORMAL;
       shExecInfo.hInstApp = NULL;
-
       if (!ShellExecuteEx(&shExecInfo))
          ClientError(hInst, hMain, IDS_CANTUPDATE, update_program);
    }
@@ -912,44 +858,27 @@ void DownloadClientPatch(char *patchhost, char *patchpath, char *patchcachepath,
    PostMessage(hMain, WM_DESTROY, 0, 0);
 }
 
-void DownloadCacheList(DownloadInfo *params)
+void DownloadUpdater(DownloadInfo *params)
 {
-   DownloadCacheListFile(params);
+   DownloadUpdaterFile(params);
    while (download_in_progress)
    {
    }
 }
 
-void DownloadCacheListFile(DownloadInfo *params)
+void DownloadUpdaterFile(DownloadInfo *params)
 {
-   int retval, dialog;
+   int retval;
 
    info = params;
    info->current_file = 0;
    MainSetState(STATE_DOWNLOAD);
 
-   dialog = IDD_DOWNLOAD;
+   download_in_progress = true;
+   retval = DialogBox(hInst, MAKEINTRESOURCE(IDD_DOWNLOAD), NULL, DownloadDialogProc);
+   if (retval == IDOK)
+      return;
 
-   if (!config.avoidDownloadAskDialog)
-   {
-      retval = DialogBox(hInst, MAKEINTRESOURCE(IDD_ASKDOWNLOAD), NULL, AskDownloadDialogProc);
-      switch (retval)
-      {
-      case 3: // do the demo button
-         WebLaunchBrowser(info->demoPath);
-         SendMessage(hMain, WM_SYSCOMMAND, SC_CLOSE, 0);
-         return;
-      case IDOK: // proceed with download
-         download_in_progress = true;
-         retval = DialogBox(hInst, MAKEINTRESOURCE(dialog), NULL, DownloadDialogProc);
-         if (retval == IDOK)
-            return;
-         break;
-      case IDCANCEL: // cancel
-      default:
-         break;
-      }
-   }
    download_in_progress = false;
    abort_download = True;
    config.quickstart = FALSE;

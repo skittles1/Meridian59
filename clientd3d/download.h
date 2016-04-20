@@ -52,6 +52,6 @@ Bool DownloadBferHandleMessage(char *ptr, long len);
 
 void DownloadNewClient(char *hostname, char *filename);
 void DownloadClientPatch(char *patchhost, char *patchpath, char *patchcachepath,
-                         char *filename, char *reason);
+                         char *cachefile, char *clubfile, char *reason);
 
 #endif /* #ifndef _DOWNLOAD_H */

@@ -97,6 +97,7 @@ bool CompareCacheToLocalFile(json_t **CacheFile)
    {
       CloseHandle(fp);
       CloseHandle(fileHandle);
+      return false;
    }
 
    MDStringBytes(buffer, hash, size);
@@ -186,6 +187,8 @@ void GenerateCacheMD5(const char *fullpath, const char *file, json_t **CacheFile
    {
       CloseHandle(fp);
       CloseHandle(fileHandle);
+      json_object_set(*CacheFile, "MyHash", json_string(""));
+      return;
    }
 
    MDStringBytes(buffer, hash, size);

@@ -25,7 +25,8 @@ enum {
    AP_GETALL        = 9,
    AP_REQ_MENU      = 10,
    AP_ADMINNOTE     = 11,
-   AP_CLIENT_PATCH  = 12,
+   AP_CLIENT_PATCH_OLD = 12,
+   AP_CLIENT_PATCH  = 13,
 
    AP_GETLOGIN      = 21,
    AP_GETCHOICE     = 22,
