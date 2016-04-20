@@ -177,7 +177,7 @@ messages:
    "at/below 0 spellpower. Returns TRUE if any buffs were lost."
    {
       local i, lEnchantments, iTime, oSpell, iCastPower, iNewPower,
-            bRemovedSomething;
+            bRemovedSomething, iRemove;
 
       // Can't do this to nobody or to non-players.
       if who = $
@@ -218,8 +218,18 @@ messages:
          // location in the list.
          iCastPower = Send(who,@GetCastPower,#what=oSpell);
 
+         // Calculate the amount to remove.
+         iRemove = (iSpellPower * Send(oSpell,@GetPurgeFactor)) / 100;
+
+         // Skip this spell if we aren't removing any spellpower.
+         if (iRemove <= 0
+            AND NOT pbRemoveWithPercentChance)
+         {
+            continue;
+         }
+
          // Calculate the new spellpower and time of the enchantment.
-         iNewPower = iCastPower - (iSpellPower * Send(oSpell,@GetPurgeFactor)) / 100;
+         iNewPower = iCastPower - iRemove;
 
          // If purge removing buffs is turned off, bind the new spellpower at 1
          if pbPurgeNoRemove

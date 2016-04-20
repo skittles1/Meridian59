@@ -112,6 +112,12 @@ messages:
 
       Send(who,@RemoveAttackModifier,#what=self);
 
+      // If we aren't reporting to the player, we shouldn't hold them either.
+      if (NOT report)
+      {
+         propagate;
+      }
+
       % Now, for the side effect.  Hold 'em!
       oHoldSpell = Send(SYS,@FindSpellByNum,#num=SID_HOLD);
       if Send(who,@IsEnchanted,#what=oHoldSpell)
