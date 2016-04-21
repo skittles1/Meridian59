@@ -527,6 +527,10 @@ messages:
 
       Send(EVENTENGINE_OBJECT,@NewDay);
 
+      // Temporary stats reset tokens expire after a set number
+      // of days. Use real days for ease of calculation/less calls.
+      Send(&StatsResetToken,@NewDay);
+
       iDay = Send(self,@GetDay);
       if (iDay = 1)
       {
