@@ -1894,6 +1894,35 @@ messages:
 
 #region Mob Library
 
+   PrintMobConditional(mob=$)
+   "Prints out all the conditional sale items for 'mob'."
+   {
+      local i, j, lAction;
+
+      if (mob = $)
+      {
+         return;
+      }
+
+      foreach i in plMobLib
+      {
+         if (First(i) = mob)
+         {
+            foreach j in Nth(i,2)
+            {
+               lAction = Nth(j,3);
+               if (First(lAction) = LIBACT_CONDITIONAL)
+               {
+                  GodLog("Conditional item: ",Send(Nth(lAction,2),@GetName),
+                     ", Price: ",Nth(lAction,3));
+               }
+            }
+         }
+      }
+
+      return;
+   }
+
    AddToMobLib(mob = $, percent = 0, triggers = $, action = $, id = 0)
    "Add a new trigger/event to the mob library. If the mob already has"
    "entries, we simply add them to that list, otherwise we create a new"

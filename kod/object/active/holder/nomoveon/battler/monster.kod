@@ -7082,5 +7082,30 @@ messages:
       return;
    }
 
+   PrintSellList()
+   "Prints out all the items (not spells/skills) for sale for this mob, "
+   "including any conditional sale items (with prices)."
+   {
+      local i, iPrice;
+
+      if (plFor_sale = $
+         OR First(plFor_sale) = $)
+      {
+         return;
+      }
+
+      GodLog("NPC: ",Send(self,@GetName));
+
+      foreach i in First(plFor_sale)
+      {
+         iPrice = Send(i,@GetInitValue) * (100 + 20 * viMerchant_markup) / 100;
+         GodLog("Item: ",Send(i,@GetName),", Price: ",iPrice);
+      }
+
+      Send(Send(SYS,@GetLibrary),@PrintMobConditional,#mob=self);
+
+      return;
+   }
+
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

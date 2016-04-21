@@ -7793,6 +7793,8 @@ messages:
    }
 
    PrintSpellsBySchool()
+   "Prints all spells with mana, vigor, reagent costs, level, TP cost and "
+   "improve chance.  Spells are printed by school."
    {
       GodLog("Shal'ille");
       Send(self,@PrintSpells,#iSchool=SS_SHALILLE);
@@ -7869,6 +7871,7 @@ messages:
    }
 
    PrintItemWeights()
+   "Prints weight and bulk for all items."
    {
       SendListByClass(plItemTemplates,0,&Item,@PrintWeight);
 
@@ -7876,9 +7879,18 @@ messages:
    }
 
    PrintMonsterInfo()
+   "Prints monster level, karma, speed and treasure list."
    {
       SendList(plMonsterTemplates,0,@PrintInfo);
-      
+
+      return;
+   }
+
+   PrintSellLists()
+   "Prints NPC sell lists, including conditional items."
+   {
+      SendList(Send(Send(SYS,@GetLibrary),@GetNPCs),0,@PrintSellList);
+
       return;
    }
 
