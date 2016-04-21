@@ -236,7 +236,7 @@ messages:
       if IsClass(target,&Player)
       {
          iFaction = Send(target,@GetFaction);
-         if (not regroup) and (iFaction = FACTION_NEUTRAL)
+         if (NOT regroup) AND (iFaction = FACTION_NEUTRAL)
          {
             return TRUE;
          }
@@ -258,7 +258,10 @@ messages:
    {
       local iFaction;
 
-      if IsClass(what,&User) or IsClass(what,&FactionTroop)
+      if (IsClass(what,&User)
+         AND (Send(SETTINGS_OBJECT,@TroopsAttackNonShielded)
+            OR Send(what,@FindUsing,#class=&SoldierShield) <> $))
+         OR IsClass(what,&FactionTroop)
       {
          iFaction = Send(what,@GetFaction);
          if iFaction = viFaction
@@ -266,7 +269,8 @@ messages:
             return -30;
          }
 
-         if (iFaction <> FACTION_NEUTRAL) and (iFaction <> viFaction)
+         if (iFaction <> FACTION_NEUTRAL)
+            AND (iFaction <> viFaction)
          {
             return 30;
          }
