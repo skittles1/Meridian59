@@ -59,7 +59,7 @@ properties:
    pbStatsResetEnabled = TRUE
    piStatsResetPenalty = -2
    piFreeStatsResetCap = 19
-   piStatResetTokenLife = 2
+   piStatResetTokenLife = 40
 
    % Stat reset token has a 1 in (piStatResetTokenDropFactor / monster_level)
    % chance to drop, with monster_level bound between 50 and 150.
