@@ -8777,6 +8777,11 @@ messages:
       return;
    }
 
+   CanPlayerAdvanceOnMe()
+   {
+      return (Send(self,@FindUsing,#class=&Token) = $);
+   }
+
    AdvancementCheck(what=$,killing_blow=TRUE,group_member_kill=FALSE,group_member=$)
    "A player will need, on average, to kill a number of monsters equal to"
    "their maxhealth to gain a HP.  This number is reduced by the player's"

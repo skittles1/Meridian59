@@ -88,9 +88,6 @@ properties:
    %  specific information on what this number means.
    piMaxLearnPoints = 16
 
-   % Do building group member kills allow tougher rolls?
-   pbGroupToughers = FALSE
-
    % The default time for building group membership.
    piDefaultGroupTime = 60000
 
@@ -252,9 +249,6 @@ properties:
    % Percent of mana required/used for broadcasting. Default 0 (no cost).
    piBroadcastManaPercent = 0
 
-   % Jasper vault access
-   pbJasperVault = TRUE
-
    % Chance for stormy weather
    piStormChance = 15
 
@@ -273,6 +267,9 @@ properties:
 
    // Do all users get "logged on for first time" messages?
    pbMsgAllForNewUser = FALSE
+
+   // Do soldiers attack all factioned players?
+   pbTroopsAttackNonShielded = FALSE
 
 messages:
 
@@ -444,11 +441,6 @@ messages:
    GetMaxLearnPoints()
    {
       return piMaxLearnPoints;
-   }
-
-   GetGroupTougherSetting()
-   {
-      return pbGroupToughers;
    }
 
    GetDefaultGroupTime()
@@ -679,11 +671,6 @@ messages:
       return piBroadcastManaPercent;
    }
 
-   JasperVaultOpen()
-   {
-      return pbJasperVault;
-   }
-
    GetStormChance()
    {
       return piStormChance;
@@ -712,6 +699,11 @@ messages:
    MessageAllForNewUser()
    {
       return pbMsgAllForNewUser;
+   }
+
+   TroopsAttackNonShielded()
+   {
+      return pbTroopsAttackNonShielded;
    }
 
 end
