@@ -124,7 +124,7 @@ BEGIN
     IDS_UNARCHIVING         "Entpacke..."
     IDS_RESTARTING          "Starte Meridian neu..."
     IDS_CONNECTING          "Verbinde zu %s..."
-    IDS_READBLOCK           "Kommunikationsfehler!"
+    IDS_READBLOCK           "Erhaltene Pakete."
 END
 
 #endif    // German resources

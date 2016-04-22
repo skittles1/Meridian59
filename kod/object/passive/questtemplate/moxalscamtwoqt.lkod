@@ -11,7 +11,7 @@ moxalscamtwoquest_nodetwo_rsc = de \
    " wird Moxal den Gewinn wie folgt aufteilen 50/50/50."
 
 moxalscamtwoquest_nodethree_rsc = de \
-   "%s%s möchte das Du Moxal mitteilst, dass %s \"nicht interessiert\" nicht an seiner Idee interessiert ist."
+   "%s%s möchte das Du Moxal mitteilst, dass %ser \"nicht interessiert\" an seiner Idee ist."
 
 moxalscamtwoquest_nodefour_rsc = de \
    "Moxal möchte, dass Du es noch einmal probierst - lass %s%s wissen, dass es lukrativ ist, "

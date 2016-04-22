@@ -105,7 +105,7 @@ player_spent_training = de "Du hast ~B%i~B Trainingspunkte benutzt!"
 player_logon_bonus = de \
    "Du hast deinen täglichen Trainingspunkte Bonus in Höhe von ~B%i~B Punkten bekommen. "
    "Komm morgen wieder, um mehr davon zu bekommen!"
-player_experience_gained = de "Du has ~B~s%i~v~B XP erhalten."
+player_experience_gained = de "Du hast ~B~s%i~v~B XP erhalten."
 player_experience_lost = de "Du hast ~B~r%i~B~v XP verloren!"
 player_health_gain_maxed = de \
    "Deine Lebensenergie kann sich nicht weiter erhöhen."
@@ -476,7 +476,7 @@ cannot_attack_ally = de \
 cannot_attack_guildmate = de \
    "Du kannst %s nicht angreifen,%sdu bist sein Gildenmitglied!"
 group_experience_rsc = de \
-   "Du absorbierst eine kleine Menge an Energie von %ss Mord an %s."
+   "%s$1 wurde von %s$0s getötet. Du absorbierst eine kleine Menge an Energie von diesem Mord."
 rod_gained_charge_msg = de \
    "Du bemerkst, dass eine deiner magischen Gegenständen durch den Tod wieder "
    "etwas aufgeladen wurde."
