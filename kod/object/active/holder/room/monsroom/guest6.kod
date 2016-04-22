@@ -122,6 +122,18 @@ resources:
       "one ledge to the next.  If you fail the jump on your first try, you "
       "can go around and try again."
 
+   guest6_signname5 = "Using objects"
+   guest6_sign5 = \
+      "The two levers you see before you will open the wooden gate if both "
+      "are pulled at the same time.  Other objects in this world, mainly "
+      "levers, guild hall switches and light sources, can be interacted with "
+      "to produce some effect.\n\nTo pull the lever, right-click it and click "
+      "\"use\", or type use into the chatbox while standing close to it.\n\n"
+      "You may find you are not quick enough to pull both levers in time to "
+      "open the door.  If so, you can use the \"broadcast\" chat command to "
+      "find another player to help you, or continue killing monsters in the "
+      "rest of the mausoleum (there are only a few behind the gate)."
+
    guest6_door1_rsc = down2.ogg
 
 classvars:
@@ -209,18 +221,21 @@ messages:
    {
       local oSign;
 
-      oSign = Create(&sign,#desc=vrSignText,#newbie=TRUE,#name=vrSignName);
-      send(self,@NewHold,#what=oSign,#new_row=11,#new_col=2,#fine_col=48);
+      oSign = Create(&Sign,#desc=vrSignText,#newbie=TRUE,#name=vrSignName);
+      Send(self,@NewHold,#what=oSign,#new_row=11,#new_col=2,#fine_col=48);
 
-      oSign = Create(&sign,#desc=guest6_sign2,#newbie=TRUE,#name=guest6_signname2);
-      send(self,@NewHold,#what=oSign,#new_row=11,#new_col=14,#fine_row=32,#fine_col=48);
-      
-      oSign = Create(&sign,#desc=guest6_sign3,#newbie=TRUE,#name=guest6_signname3);
-      send(self,@NewHold,#what=oSign,#new_row=11,#new_col=3,#fine_row=32,#fine_col=32);
+      oSign = Create(&Sign,#desc=guest6_sign2,#newbie=TRUE,#name=guest6_signname2);
+      Send(self,@NewHold,#what=oSign,#new_row=11,#new_col=14,#fine_row=32,#fine_col=48);
 
-      oSign = Create(&sign,#desc=guest6_sign4,#newbie=TRUE,#name=guest6_signname4);
-      send(self,@NewHold,#what=oSign,#new_row=29,#new_col=30,#fine_row=0,#fine_col=32);
-      
+      oSign = Create(&Sign,#desc=guest6_sign3,#newbie=TRUE,#name=guest6_signname3);
+      Send(self,@NewHold,#what=oSign,#new_row=11,#new_col=3,#fine_row=32,#fine_col=32);
+
+      oSign = Create(&Sign,#desc=guest6_sign4,#newbie=TRUE,#name=guest6_signname4);
+      Send(self,@NewHold,#what=oSign,#new_row=29,#new_col=30,#fine_row=0,#fine_col=32);
+
+      oSign = Create(&Sign,#desc=guest6_sign5,#newbie=TRUE,#name=guest6_signname5);
+      Send(self,@NewHold,#what=oSign,#new_row=24,#new_col=12,#fine_row=45,#fine_col=14);
+
       oSign = Create(&Skull);
       Send(self,@NewHold,#what=oSign,#new_row=11,#new_col=21,#fine_row=32,#fine_col=40);
 
@@ -280,13 +295,15 @@ messages:
       if poLever1 = $
       {
          poLever1 = Create(&GuestLever);
-         Send(self,@NewHold,#what=poLever1,#new_row=27,#new_col=4);
+         Send(self,@NewHold,#what=poLever1,#new_row=26,#new_col=4,
+               #fine_row=32,#fine_col=40);
       }
       
       if poLever2 = $
       {
          poLever2 = Create(&GuestLever);
-         Send(self,@NewHold,#what=poLever2,#new_row=27,#new_col=9);
+         Send(self,@NewHold,#what=poLever2,#new_row=26,#new_col=9,
+               #fine_row=32,#fine_col=40);
       }
 
       return;
