@@ -1668,7 +1668,6 @@ messages:
       local iTime, i, oEachObj, count, delete_index,
             iLengthDispose, lDisposeItems, j;
 
-      lDisposeItems = $;
       ptDispose = $;
       iTime = piDispose_delay + Random(-5000,5000);
       ptDispose = CreateTimer(self,@DisposeTimer,iTime);
@@ -1679,7 +1678,7 @@ messages:
          %  player's corpse has own delete timer.  Monster corpses
          %  do not trigger this effect.
 
-         oEachObj = Send(self,@HolderExtractObject,#data=i);
+         oEachObj = First(i);
 
          if IsClass(oEachObj,&DeadBody) AND Send(oEachObj,@WasPlayer)
          {
@@ -1694,52 +1693,48 @@ messages:
 
          return;
       }
-      else
+      else if Length(plPassive) > 15
       {
          % If we have more than 15 passive object in room, try to dispose some.
          % This number is large to reduce the amount of times this is run
          % unnecessarily in rooms with lots of passive objects present, or
          % a small amount of items that don't really need disposing.
-         if Length(plPassive) > 15
+         foreach i in plPassive
          {
-            foreach i in plPassive
+            % If the passive object is actually an item, add it to dispose list
+            if IsClass(First(i),&Item)
             {
-               % If the passive object is actually an item, add it to dispose list
-               if IsClass(First(i),&Item)
-               {
-                  lDisposeItems = Cons(First(i),lDisposeItems);
-               }
+               lDisposeItems = Cons(First(i),lDisposeItems);
+            }
+         }
+
+         iLengthDispose = Length(lDisposeItems);
+
+         % If we have more than 11 items on the ground, dispose 25%
+         if iLengthDispose > 11
+         {
+            delete_index = iLengthDispose / 4;
+
+            % In rare cases we can end up with items piling up far too
+            % fast, so we should do a one-off dispose of a larger number
+            % to prevent the screen from crashing
+            if iLengthDispose > 75
+            {
+               delete_index = iLengthDispose / 2;
             }
 
-            iLengthDispose = Length(lDisposeItems);
+            count = 0;
 
-            % If we have more than 11 items on the ground, dispose 25%
-            if iLengthDispose > 11
+            foreach j in lDisposeItems
             {
-               delete_index = iLengthDispose/4;
-
-               % In rare cases we can end up with items piling up far too
-               % fast, so we should do a one-off dispose of a larger number
-               % to prevent the screen from crashing
-               if iLengthDispose > 75
+               if ++count <= delete_index
                {
-                  delete_index = iLengthDispose/2;
+                  Send(j,@DestroyDisposable);
                }
-
-               count = 0;
-
-               foreach j in lDisposeItems
+               else
                {
-                  count = count + 1;
-                  if count <= delete_index
-                  {
-                     Send(j,@DestroyDisposable);
-                  }
-                  else
-                  {
-                     % Deleted all the appropriate items
-                     break;
-                  }
+                  % Deleted all the appropriate items
+                  break;
                }
             }
          }
