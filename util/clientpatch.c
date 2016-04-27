@@ -61,7 +61,11 @@ int main(int argc, char **argv)
 {
    FileList files; // Data structure for fullpath, basepath, filename.
    json_t *FileArray; // Array of JSON objects.
-   FileArray = json_array(); // Init the array.
+   json_t *ExecArray; // Separate array for executables.
+   char *strptr;
+   // Init the arrays.
+   FileArray = json_array();
+   ExecArray = json_array();
 
    if (argc != CPH_NUM_ARGUMENTS)
       Usage();
@@ -79,16 +83,33 @@ int main(int argc, char **argv)
    // Get the path length, used to create relative path later.
    base_path_len = client_path.length() - 1;
    printf("Scanning, please wait...\n");
+
    if (FindMatchingFiles(client_path, &files))
    {
       // Iterate through our found files, create JSON objects and add to array.
       for (FileList::iterator it = files.begin(); it != files.end(); ++it)
-         json_array_append(FileArray, GenerateCacheFile(std::get<0>(*it).c_str(),
-            std::get<1>(*it).c_str(), std::get<2>(*it).c_str()));
+      {
+         // Add executables to a separate array, because we want them
+         // at the end of the JSON array printed to file. Means that
+         // during the update process, the last thing updated are
+         // client executables.
+         strptr = strrchr((char *)std::get<2>(*it).c_str(), '.');
+         if (stricmp(strptr, ".exe") == 0)
+            json_array_append(ExecArray, GenerateCacheFile(std::get<0>(*it).c_str(),
+               std::get<1>(*it).c_str(), std::get<2>(*it).c_str()));
+         else
+            json_array_append(FileArray, GenerateCacheFile(std::get<0>(*it).c_str(),
+               std::get<1>(*it).c_str(), std::get<2>(*it).c_str()));
+      }
+      // Join the arrays
+      if (json_array_size(ExecArray) > 0)
+         json_array_extend(FileArray, ExecArray);
+
       // Print the file to the give patchinfo.txt.
       json_dump_file(FileArray, patchinfo_path.c_str(), JSON_INDENT(1));
       printf("Successfully added %i files.\n", files.size());
    }
+
    printf("Scanning completed in %.3f ms.\n", GetMicroCountDouble() - startTime);
 }
 

@@ -23,7 +23,6 @@
 void ClientPatchGetValidBasepath(json_t **CacheFile, char *retpath);
 void ClientPatchGetAbsPath(json_t **CacheFile, char *retpath);
 bool CompareCacheToLocalFile(json_t **CacheFile);
-static void GenerateCache();
 json_t * GenerateCacheFile(const char *fullpath, const char *basepath, const char *file);
 void GenerateCacheMD5(const char *fullpath, const char *file, json_t **CacheFile);
 

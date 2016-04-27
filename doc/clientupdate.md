@@ -44,8 +44,10 @@ OgreClubExe             Meridian59.Patcher.exe
 ### Update program
 The client will first download the update executable, then run it. The updater
 will update all the client files followed by running the same client that
-launched it. The updater program for the classic Meridian 59 client is
-club.exe, which can be found in the Club project.
+launched it. The updater should download and load the patch cache file and then
+download any missing or outdated files in the order listed in the cache file.
+The updater program for the classic Meridian 59 client is club.exe, which can
+be found in the Club project.
 
 ### Patch cache file/Clientpatch
 The patch cache file contains information about each of the client files to
