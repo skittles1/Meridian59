@@ -440,5 +440,25 @@ messages:
       return;
    }
 
+   PrintMobGenerators()
+   "Prints out monster spawn % and class name."
+   {
+      local i;
+
+      if (plMonsters = $)
+      {
+         return;
+      }
+
+      GodLog(Send(self,@GetName),":");
+
+      foreach i in plMonsters
+      {
+         GodLog(First(i),", ",Nth(i,2),"\%");
+      }
+
+      return;
+   }
+
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

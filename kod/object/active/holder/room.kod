@@ -5239,5 +5239,11 @@ messages:
       return;
    }
 
+   PrintMobGenerators()
+   "Override which prints nothing for non-monsterrooms."
+   {
+      return;
+   }
+
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -7788,6 +7788,8 @@ messages:
       return resistance_list;
    }
 
+#region Print Game Info
+
    PrintSpellsBySchool()
    "Prints all spells with mana, vigor, reagent costs, level, TP cost and "
    "improve chance.  Spells are printed by school."
@@ -7889,6 +7891,16 @@ messages:
 
       return;
    }
+
+   PrintMobGenerators()
+   "Prints out mob generator positions and mob classes for all rooms."
+   {
+      SendList(plRooms,0,@PrintMobGenerators);
+
+      return;
+   }
+
+#endregion Print Game Info
 
    RemoveAllResistances(resistance_list = $)
    "This clears the resistance list... for if someone's char is really messed "
