@@ -2784,7 +2784,7 @@ messages:
 
       % Area list is of the format minrow, maxrow, mincol, maxcol, also
       % using xxyy format. Check player coordinates against these.
-      if iRowDec >= Nth(lArea,1)
+      if iRowDec >= First(lArea)
          AND iRowDec <= Nth(lArea,2)
          AND iColDec >= Nth(lArea,3)
          AND iColDec <= Nth(lArea,4)
@@ -2838,7 +2838,7 @@ messages:
 
          % Area list is of the format minrow, maxrow, mincol, maxcol, also
          % using xxyy format. Check player coordinates against these.
-         if iRowDec >= Nth(lArea,1)
+         if iRowDec >= First(lArea)
             AND iRowDec <= Nth(lArea,2)
             AND iColDec >= Nth(lArea,3)
             AND iColDec <= Nth(lArea,4)
