@@ -177,7 +177,7 @@ messages:
    "at/below 0 spellpower. Returns TRUE if any buffs were lost."
    {
       local i, lEnchantments, iTime, oSpell, iCastPower, iNewPower,
-            bRemovedSomething, iRemove;
+            bRemovedSomething, iRemove, tTimer;
 
       // Can't do this to nobody or to non-players.
       if who = $
@@ -206,13 +206,30 @@ messages:
          if NOT IsClass(oSpell,&PersonalEnchantment)
             OR NOT Send(oSpell,@CanBeRemovedByPlayer)
             OR Send(oSpell,@IsHarmful)
-            OR NOT IsTimer(First(i))
          {
             continue;
          }
 
-         // Get the timer, so we can put it back on later.
-         iTime = GetTimeRemaining(First(i));
+         tTimer = First(i);
+
+         // We either have a timer or $ for the timer. If we have something
+         // else, log it and skip the spell (i.e. don't try to start a new
+         // enchantment with a timer if we didn't have one or $ already).
+         if (tTimer = $)
+         {
+            iTime = tTimer;
+         }
+         else if (IsTimer(tTimer))
+         {
+            iTime = GetTimeRemaining(tTimer);
+         }
+         else
+         {
+            Debug("Purge tried to modify spell",Send(oSpell,@GetName)," with ",
+                  tTimer," for timer! Skipping this spell.");
+
+            continue;
+         }
 
          // Get the cast power from the target, as it checks the right
          // location in the list.
