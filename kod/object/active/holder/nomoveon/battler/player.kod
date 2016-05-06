@@ -9149,6 +9149,17 @@ messages:
       return;
    }
 
+   CheckValidHP()
+   {
+      if (piMax_health > 100 + Send(self,@GetStamina))
+      {
+         Debug(Send(self,@GetTrueName)," has ",piMax_health," HP with ",
+               Send(self,@GetStamina)," stamina.");
+      }
+
+      return;
+   }
+
    GetTrainingPoints()
    {
       return piTraining_points;
