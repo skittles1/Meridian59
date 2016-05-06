@@ -7048,19 +7048,19 @@ messages:
 
       if number = $
       {
-         number = length(nodelist);
+         number = Length(nodelist);
       }
 
       count = 1;
 
-      while nodelist >=1
+      while nodelist >= 1
       {
          if ((nodelist/2)*2) <> nodelist  %we do an "# was odd" operator
          {
             Send(Send(SYS,@FindNodeByNum,#num=count),@UnMeld,#who=self);
          }
-         count = count*2;
-         nodelist = nodelist/2;
+         count = count * 2;
+         nodelist = nodelist / 2;
       }
 
       Send(self,@ResetNodeList);
@@ -7078,7 +7078,6 @@ messages:
          return;
       }
 
-      lNodes = $;
       index = 1;
       bFaerieNode = FALSE;
       bQNode = FALSE;
@@ -7091,16 +7090,13 @@ messages:
             {
                bFaerieNode = TRUE;
             }
+            else if index = NODE_Q
+            {
+               bQNode = TRUE;
+            }
             else
             {
-               if index = NODE_Q
-               {
-                  bQNode = TRUE;
-               }
-               else
-               {
-                  lNodes = cons(index,lNodes);
-               }
+               lNodes = Cons(index,lNodes);
             }
          }
 
@@ -7122,14 +7118,14 @@ messages:
 
       if lNodes
       {
-         index = Nth(lNodes,random(1,length(lNodes)));
+         index = Nth(lNodes,Random(1,Length(lNodes)));
          oNode = Send(SYS,@FindNodeByNum,#num=index);
          Send(oNode,@UnMeld,#who=self);
 
          if report
          {
             Post(self,@MsgSendUser,#message_rsc=player_lose_node,
-                 #parm1=Send(oNode,@GetLocationName));
+                  #parm1=Send(oNode,@GetLocationName));
          }
       }
 
@@ -7140,7 +7136,7 @@ messages:
 
    RemoveNodeFromList(node_num=0)
    {
-      piNodelist=piNodelist & ~node_num ;
+      piNodelist = piNodelist & ~node_num ;
 
       return;
    }
@@ -7148,6 +7144,28 @@ messages:
    ResetNodeList()
    {
       piNodelist = 0;
+
+      return;
+   }
+
+   AddManaNode(node_num=0)
+   "Used for manually adding nodes by node ID."
+   {
+      local oNode;
+
+      if (piNodelist & node_num)
+      {
+         return;
+      }
+
+      oNode = Send(SYS,@FindNodeByNum,#num=node_num);
+
+      if (oNode = $)
+      {
+         return;
+      }
+
+      Send(oNode,@Meld,#who=self);
 
       return;
    }
@@ -7198,7 +7216,7 @@ messages:
             piMax_mana = piMax_mana + Send(oNode,@GetManaAdjust,#who=self);
             iNodelist = iNodelist & ~index;
          }
-         index=index*2;
+         index = index*2;
       }
 
       % Account for any items that may affect max mana
@@ -7251,7 +7269,7 @@ messages:
       {
          if piNodelist & i
          {
-            n = n + 1;
+            ++n;
          }
 
          i = 2 * i;
@@ -7265,7 +7283,6 @@ messages:
    {
       return piNodelist;
    }
-
 
    GetSpellList()
    {
