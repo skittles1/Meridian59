@@ -429,6 +429,7 @@ messages:
       }
 
       if NOT (attributes & MOB_ONE_TREASURE)
+         AND plTreasure <> $
       {
          % No rare item dropped, check loot table.
          oObj = Send(self,@GenerateLootTableTreasure,#who=who,#corpse=corpse);
