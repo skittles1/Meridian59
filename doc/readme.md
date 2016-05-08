@@ -8,7 +8,14 @@ of GitHub-flavored Markdown in .md files. Any current documentation will be
 linked here in the table of contents.
 
 ## Table of Contents
+### Blakod Language
+In addition to these files, read the [Contributing guide](../CONTRIBUTING.md)
+for information on how to style kod.
+
 * [Blakod (kod) language specification](./kodspec.md)
-  * [Kod syntax](./kodsyntax.md)
-  * [Kod resource strings](./kodresource.md)
+* [Kod syntax](./kodsyntax.md)
+* [Kod C calls/standard library](./kodccalls.md)
+* [Kod resource strings](./kodresource.md)
+
+### Client/Server
 * [Client Updating](./clientupdate.md)
