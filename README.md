@@ -8,17 +8,17 @@ All rights reserved.  Meridian is a registered trademark.
 Play Meridian 59
 --------------
 This repository is for the "Server 105" version of Meridian 59.
-You can create an account for this server at the [server 105 website]
-(https://www.meridiannext.com/play/) and download the [client using the launcher/patcher]
-(http://openmeridian.org/patcher). Other servers are available via the patcher
-and elsewhere, and a list of known servers is kept on the
-[105 website](https://www.meridiannext.com/community/).
+You can create an account for this server and download the client on
+the [server 105 website] (https://www.meridiannext.com/play/). Note that this
+repository is for the "classic" version of the client, the Ogre client
+repository is at https://github.com/cyberjunk/meridian59-dotnet. A list of known
+servers is kept on the [105 website](https://www.meridiannext.com/community/).
 
 License
 --------------
 This project is distributed under a license that is described in the
-LICENSE file.  The license does not cover the game content (artwork,
-rooms, audio, etc.), which are not included.
+LICENSE file.  The license does not cover the game content (artwork, audio),
+which are not included.
 
 Note that "Meridian" is a registered trademark and you may not use it
 without the written permission of the owners.
@@ -34,7 +34,7 @@ What's included and not included
 The source to the client, server, game code, Blakod compiler, room
 editor, and all associated tools are included.  The source code to
 the irrKlang audio library is not included, and the graphics and music
-for Meridian 59 must be downloaded using the patcher.
+for Meridian 59 must be downloaded with the game client.
 
 
 Build Instructions
@@ -69,7 +69,7 @@ containing the source code, then enter `nmake debug=1` to compile.
 
 Getting Started: Server
 --------------
-0. After compilation completes, browse to the `.\run\server folder`,
+0. After compilation completes, browse to the `.\run\server` folder,
 and double click `blakserv.exe` to start the server.
 0. Go to the `Administration` tab on the server's interface and enter
 the command: `create account admin username password email` (with your
@@ -84,17 +84,18 @@ account.
 Getting Started: Client
 --------------
 You will need to obtain the client graphics before you can run the
-client locally. To do this, [download the patcher](http://openmeridian.org/patcher)
-and use that program to download a copy of the 105 client.
+client locally, which can be done by installing the server 105 classic client
+from the [105 website] (https://www.meridiannext.com/play/).
 When this is installed, building the client (via makefile or VS
 solution) will automatically copy the needed resources to the
 appropriate directory. If for some reason this isn't done, copy
 the files manually from the 105 client's resource directory to
-your repo's .\run\localclient\resource directory. Running postbuild.bat
+your repo's `.\run\localclient\resource` directory. Running `postbuild.bat`
 from the root directory of the repo will also perform the copy function.
-Resources may differ between versions of Meridian 59; if using the
-[server 103 source](https://www.github.com/OpenMeridian/Meridian59)
-make sure to the 103 client has been downloaded in the patcher.
+Resources may differ between versions of Meridian 59 - if using this
+repository for a different version of the game, make sure you have that
+client downloaded and edit `postbuild.bat` to copy the appropriate
+resources.
 
 0. After compilation completes, the client is located at
 `.\run\localclient`.
