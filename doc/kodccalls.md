@@ -795,19 +795,17 @@ in the string separators.
 ```
 
 #### SetString
-`SetString(string1, text)`
+`SetString(var, text)`
 
-Set the string to the given ASCII text. The 103 codebase allows SetString to
-create its own string, if passed $ for the existing string (first parameter),
-negating the need an initial [CreateString](#createstring)
-call. SetString can also accept a message, in which case it will set the given
-or created string to the name of that message.
-
+Set var to the given text. If passed a kod string, text will be placed in it.
+If passed `$` for var, SetString will create a new kod string to place the text
+into. This negates the need for a prior [CreateString](#createstring) call.
+SetString can accept a message for the second parameter in place of a string,
+in which case it will set the string to the name of that message.
 ```
    if (string = GetTempString())
    {
-      psHonor = CreateString();
-      SetString(psHonor, string);
+      psHonor = SetString($, string);
    }
 ```
 
@@ -822,6 +820,8 @@ or
 ```
 
 #### AppendTempString
+`AppendTempString(data)`
+
 Appends data to a temp string used by Blakserv, which can be used in the future
 by calling GetTempString(). NOTE that this is being deprecated in favor of
 using resources, and unless absolutely necessary no new AppendTempString calls
@@ -842,11 +842,12 @@ will be added.
 ```
 
 #### ClearTempString
+`ClearTempString()`
 
+Clears all data stored in the kod temp string.
 ```
    GetNecromancerRoster()
    {
-      local sRoster;
       ClearTempString();
       Send(&NecromancerAmulet,@NecromancerRosterRequest,#olich=self);
       if StringContain(GetTempString(),lich_comma)
@@ -855,19 +856,19 @@ will be added.
       }
       AppendTempString(psTempRosterString);
       psTempRosterString = $;
-      sRoster = CreateString();
-      SetString(sRoster,GetTempString());
-      return sRoster;
+
+      return SetString($,GetTempString());;
    }
 ```
 
 #### GetTempString
+`GetTempString()`
 
+Get the ID of the kod temp string so it can be used in other C calls, e.g.
+for creating a kod string from the contents of the temp string.
 ```
    GetNecromancerRoster()
    {
-      local sRoster;
-
       ClearTempString();
       Send(&NecromancerAmulet,@NecromancerRosterRequest,#olich=self);
       if StringContain(GetTempString(),lich_comma)
@@ -876,15 +877,13 @@ will be added.
       }
       AppendTempString(psTempRosterString);
       psTempRosterString = $;
-      sRoster = CreateString();
-      SetString(sRoster,GetTempString());
 
-      return sRoster;
+      return SetString($,GetTempString());;
    }
 ```
 
 #### CreateString
-`CreateString( )`
+`CreateString()`
 
 Create a new, empty string. Note: this is somewhat deprecated as
 [SetString](#setstring) can create its own empty string to add to.
@@ -898,20 +897,12 @@ Create a new, empty string. Note: this is somewhat deprecated as
       AppendTempString(barloque_clerk_indulgence_2);
       sString = CreateString();
       SetString(sString,GetTempString());
-
-      ClearTempString();
-      AppendTempString(Send(who,@GetTrueName));
-      AppendTempString(barloque_clerk_indulgence_3);
-      sString2 = CreateString();
-      SetString(sString2,GetTempString());
-
-      oBook = Send(poOwner,@GetBook);
-      Send(oBook,@PostNews,#what=self,#title=sString2,#body=sString);
 ```
 
 #### SetResource
 `SetResource(resource, string)`
 
+Changes the string value of a dynamic resource. Used for changing player names.
 ```
    MakeQ()
    {
@@ -926,7 +917,6 @@ Create a new, empty string. Note: this is somewhat deprecated as
 
 Returns TRUE if string is a valid string with data tag TAG_STRING, FALSE
 otherwise.
-
 ```
    if NOT IsString(message)
    {

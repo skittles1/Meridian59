@@ -13,6 +13,7 @@ In addition to these files, read the [Contributing guide](../CONTRIBUTING.md)
 for information on how to style kod.
 
 * [Blakod (kod) language specification](./kodspec.md)
+* [Kod data types](./koddatatypes.md)
 * [Kod syntax](./kodsyntax.md)
 * [Kod C calls/standard library](./kodccalls.md)
 * [Kod resource strings](./kodresource.md)
