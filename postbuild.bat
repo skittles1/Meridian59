@@ -7,62 +7,21 @@ call :makeshortcut
 echo Post-Build started.
 set foundcli=0
 
-rem Step 1: Try to find 105's resource directory.
-for /F "tokens=1-6 usebackq delims=:" %%a in ("%ProgramW6432%\Open Meridian\settings.txt") do (
-   set string=%%a
-   set string=!string: =!
-   if !string! == "ServerNumber" (
-      set servernum=%%b
-      set servernum=!servernum: =!
-      set servernum=!servernum:~0,-1!
-      if !servernum! == 105 set foundcli=1
-   )
-
-   if !foundcli! == 1 if !string! == "ClientFolder" (
-      set m59path=%%b%%c%%d%%e%%f
-      set m59path=!m59path:\\=\!
-      set m59driveletter=!m59path:~2,1!
-      set m59path=!m59path:~1,-2!
-      set m59path=!m59path:~2,255!
-      set m59path=!m59driveletter!:!m59path!
-
-      rem These two filetypes are the important ones. We could check for the music,
-      rem but I've heard more than one user say they deleted it from their resource
-      rem folder for various reasons.
-      if EXIST "!m59path!\resource\*.bgf" if EXIST "!m59path!\resource\*.bsf" (
-         call :copying
-         if %ERRORLEVEL% LSS 8 goto found
-      )
-      echo Copy failed from !m59path!.
-      set foundcli=0
-   )
+rem Step 1: Try 64-bit Program Files
+if EXIST ("%ProgramW6432%\Open Meridian\Meridian 105") do (
+   set m59path=%ProgramW6432%\Open Meridian\Meridian 105
+   call :copying
+   if %ERRORLEVEL% LSS 8 goto found
 )
 
-:searchallprofiles
-rem Step 2: Failed to find 105's resource directory, try all profiles.
-for /F "tokens=1-6 usebackq delims=:" %%a in ("%ProgramW6432%\Open Meridian\settings.txt") do (
-   set string=%%a
-   set string=!string: =!
-   if !string! == "ClientFolder" (
-      set m59path=%%b%%c%%d%%e%%f
-      set m59path=!m59path:\\=\!
-      set m59driveletter=!m59path:~2,1!
-      set m59path=!m59path:~1,-2!
-      set m59path=!m59path:~2,255!
-      set m59path=!m59driveletter!:!m59path!
-
-      rem These two filetypes are the important ones. We could check for the music,
-      rem but I've heard more than one user say they deleted it from their resource
-      rem folder for various reasons.
-      if EXIST "!m59path!\resource\*.bgf" if EXIST "!m59path!\resource\*.bsf" (
-         call :copying
-         if %ERRORLEVEL% LSS 8 goto found
-      )
-      echo Copy failed from !m59path!, trying next location...
-   )
+rem Step 2: try 32-bit Program Files(x86)
+if EXIST ("%ProgramFiles(x86)%\Open Meridian\Meridian 105") do (
+   set m59path=%ProgramFiles(x86)%\Open Meridian\Meridian 105
+   call :copying
+   if %ERRORLEVEL% LSS 8 goto found
 )
 
-echo No graphics found, Please download the client (and graphics) using the patcher from openmeridian.org.
+echo No graphics found, Please download the classic client from https://www.meridiannext.com/play/.
 exit /b 0
 
 :copying
