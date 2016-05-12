@@ -31,7 +31,7 @@ classvars:
    vrDesc = FactionTroop_desc_rsc
    vrDead_name = FactionTroop_dead_name_rsc
 
-   viTreasure_type = TID_NONE
+   viTreasure_type = TID_EMPTY
 
    viSpeed = SPEED_FASTER
    viAttack_type = ATCK_WEAP_SLASH

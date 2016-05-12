@@ -3851,6 +3851,7 @@ messages:
       phTresTypes = CreateTable(191);
 
       Create(&NoTreasure);
+      Create(&EmptyTreasure);
       Create(&NewbieAreaTreasure);
 
       Create(&WimpyTreasure);

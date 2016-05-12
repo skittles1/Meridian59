@@ -54,8 +54,8 @@ classvars:
 
    vrName = room_name_underworld
 
-   viTeleport_row = 23
-   viTeleport_col = 19
+   viTeleport_row = 24
+   viTeleport_col = 16
 
    viPermanent_flags = ROOM_NO_COMBAT | ROOM_SAFELOGOFF
 
