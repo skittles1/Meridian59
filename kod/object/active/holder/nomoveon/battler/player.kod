@@ -1160,7 +1160,10 @@ messages:
 
       if ptTempSafe <> $
       {
-         DeleteTimer(ptTempSafe);
+         if (IsTimer(ptTempSafe))
+         {
+            DeleteTimer(ptTempSafe);
+         }
          ptTempSafe = $;
       }
 
@@ -2325,8 +2328,7 @@ messages:
 
       if ptTempSafe <> $
       {
-         piFlags = piFlags | PFLAG_TEMPSAFE;
-         Send(self,@MsgSendUser,#message_rsc=player_temp_safe);
+         Send(self,@UnpauseTempSafe);
       }
 
       if piPoisonStrength > 0
@@ -2441,6 +2443,11 @@ messages:
       {
          DeleteTimer(ptReward_timer);
          ptReward_timer = $;
+      }
+
+      if (ptTempSafe <> $)
+      {
+         Send(self,@PauseTempSafe);
       }
 
       Send(self,@CancelRescue);
@@ -6918,13 +6925,10 @@ messages:
             ptHealth = CreateTimer(self,@HealthTimer,Send(self,@CalculateHealthTime));
          }
       }
-      else
+      else if piHealth = piMax_health * 100
       {
-         if piHealth = piMax_health*100
-         {
-            DeleteTimer(ptHealth);
-            ptHealth = $;
-         }
+         DeleteTimer(ptHealth);
+         ptHealth = $;
       }
 
       Send(self,@DrawHealth);
@@ -9738,8 +9742,8 @@ messages:
       foreach i in plSkills
       {
          if Send(self,@DecodeSkillAbility,#compound=i) > 5
-            AND random(1,100) > Send(self,@GetStamina)
-            AND random(1,100) < piDeathCost
+            AND Random(1,100) > Send(self,@GetStamina)
+            AND Random(1,100) < piDeathCost
          {
             Send(self,@ChangeSkillAbility,#skill_num=Send(self,@DecodeSpellNum,
                   #compound=i),#amount=iAmount);
@@ -9854,21 +9858,20 @@ messages:
       {
          return player_dead_male_name_rsc;
       }
-      
-      return player_dead_female_name_rsc;
 
+      return player_dead_female_name_rsc;
    }
-   
+
    GetDeadIcon()
    {
       if piGender = GENDER_MALE
       {
          return player_dead_male_icona_rsc;
       }
- 
+
       return player_dead_female_icona_rsc;
    }
-   
+
    FreeHands()
    "Attempts to remove all items from hands if possible."
    {
@@ -9922,7 +9925,7 @@ messages:
       Send(self,@MsgSendUser,#message_rsc=player_stop_dance);
       Send(self,@SetPlayerFlag,#flag=PFLAG2_DANCING,#value=FALSE,#flagset=2);
       Send(poOwner,@SomethingChanged,#what=self);
-      
+
       return;
    }
 
@@ -12660,7 +12663,10 @@ messages:
 
       if ptTempSafe <> $
       {
-         DeleteTimer(ptTempSafe);
+         if (IsTimer(ptTempSafe))
+         {
+            DeleteTimer(ptTempSafe);
+         }
       }
       ptTempSafe = CreateTimer(self,@EndTempSafe,iTime);
       piFlags = piFlags | PFLAG_TEMPSAFE;
@@ -12679,6 +12685,40 @@ messages:
       }
 
       ptTempSafe = $;
+
+      return;
+   }
+
+   PauseTempSafe()
+   {
+      local iTemp;
+
+      if (NOT IsTimer(ptTempSafe))
+      {
+         return;
+      }
+
+      iTemp = GetTimeRemaining(ptTempSafe);
+      DeleteTimer(ptTempSafe);
+      ptTempSafe = iTemp;
+
+      return;
+   }
+
+   UnpauseTempSafe()
+   {
+      if (ptTempSafe = $)
+      {
+         return;
+      }
+
+      if (NOT IsTimer(ptTempSafe))
+      {
+         ptTempSafe = CreateTimer(self,@EndTempSafe,ptTempSafe);
+      }
+
+      piFlags = piFlags | PFLAG_TEMPSAFE;
+      Send(self,@MsgSendUser,#message_rsc=player_temp_safe);
 
       return;
    }
