@@ -13364,7 +13364,7 @@ messages:
       % the people who attempt to exploit this system for gain.
       if Random(1,100) > 50
       {
-         piKill_count_decay = piKill_count_decay - 1;
+         --piKill_count_decay;
          piKill_count_decay = Bound(piKill_count_decay,0,$);
       }
 
@@ -14857,8 +14857,7 @@ messages:
       
       oPhase = Send(SYS,@FindSpellByNum,#num=SID_PHASE);
       Send(self,@RemoveEnchantment,#what=oPhase);
-      Send(oPhase,@NotifyRoomPenalty,#who=self);
-      Send(oPhase,@InflictFlatPenalties,#who=self);
+      Send(oPhase,@InflictPenalties,#who=self);
 
       Post(self,@AdminGoToLastSafeRoom);
 
@@ -14882,11 +14881,10 @@ messages:
       if (piFlags & PFLAG_MURDERER)
          OR (piFlags & PFLAG_OUTLAW)
       {
-         return Send(SETTINGS_OBJECT,
-               @GetOutlawMurdererLogoffPenaltyGhostTime);
+         return Send(SETTINGS_OBJECT,@GetOutlawMurdererLogPenGhostTime);
       }
 
-      return Send(SETTINGS_OBJECT,@GetLogoffPenaltyGhostTime);
+      return Send(SETTINGS_OBJECT,@GetLogPenGhostTime);
    }
 
    RefreshPhaseTimeToBase()

@@ -429,7 +429,7 @@ properties:
    %  death.
    piLogoffPenaltyEquivDeath = 10
 
-   ptLogoffPenaltyTempDisable = $
+   ptLogPenTempDisable = $
    ptServerPopulationMonitor = $
    piLastServerPopulation = 0
 
@@ -6673,7 +6673,7 @@ messages:
 
    GetLogoffPenaltyEnable()
    {
-      if ptLogoffPenaltyTempDisable = $
+      if ptLogPenTempDisable = $
       {
          return pbLogoffPenaltyEnable;
       }
@@ -6682,10 +6682,10 @@ messages:
 
    SetLogoffPenaltyEnable(enable=TRUE)
    {
-      if enable AND (ptLogoffPenaltyTempDisable <> $)
+      if enable AND (ptLogPenTempDisable <> $)
       {
-         deleteTimer(ptLogoffPenaltyTempDisable);
-         ptLogoffPenaltyTempDisable = $;
+         DeleteTimer(ptLogPenTempDisable);
+         ptLogPenTempDisable = $;
       }
       pbLogoffPenaltyEnable = enable;
 
@@ -6697,42 +6697,39 @@ messages:
       return piLogoffPenaltyEquivDeath;
    }
 
-   GetLogoffPenaltyGhostTime()
-   {
-      return Send(SETTINGS_OBJECT,@GetLogoffPenaltyGhostTime);
-   }
-
    TempDisableLogoffPenalties()
    {
-      local iDisableDuration;
+      local iDuration;
 
-      if ptLogoffPenaltyTempDisable <> $
+      if ptLogPenTempDisable <> $
       {
-         deleteTimer(ptLogoffPenaltyTempDisable);
-         ptLogoffPenaltyTempDisable = $;
+         DeleteTimer(ptLogPenTempDisable);
+         ptLogPenTempDisable = $;
       }
 
-      iDisableDuration = (Send(SETTINGS_OBJECT,@GetLogoffPenaltyGhostTime)*150)/100;
+      iDuration = (Send(SETTINGS_OBJECT,@GetLogPenGhostTime) * 150) / 100;
 
-      ptLogoffPenaltyTempDisable = CreateTimer(self,@LogoffPenaltyTempDisableTrigger,iDisableDuration);
+      ptLogPenTempDisable = CreateTimer(self,@LogPenTempDisableTrigger,iDuration);
 
       return;
    }
 
-   LogoffPenaltyTempDisableTrigger()
+   LogPenTempDisableTrigger()
    {
-      ptLogoffPenaltyTempDisable = $;
+      ptLogPenTempDisable = $;
+
       return;
    }
 
    ServerPopulationMonitor()
    {
       local popDrop;
+
       ptServerPopulationMonitor = $;
 
-      popDrop = (piLastServerPopulation - length(plUsers_logged_on));
+      popDrop = (piLastServerPopulation - Length(plUsers_logged_on));
       if (popDrop > piServerPopDropThreshold)
-         AND ((popDrop*100/piLastServerPopulation)
+         AND ((popDrop * 100 / piLastServerPopulation)
               > piServerPopulationPercentDrop)
       {
          Debug("Server population dropped by more than ",
@@ -6741,7 +6738,7 @@ messages:
          Send(self,@TempDisableLogoffPenalties);
       }
 
-      piLastServerPopulation = length(plUsers_logged_on);
+      piLastServerPopulation = Length(plUsers_logged_on);
       ptServerPopulationMonitor = CreateTimer(self,@ServerPopulationMonitor,
                                               piServerPopMonitorInterval);
 
@@ -6752,6 +6749,7 @@ messages:
    FactionChanged( new_faction = $ )
    {
       local i;
+
       if new_faction = $
       {
          return;
@@ -6761,6 +6759,7 @@ messages:
       {
          Send( i, @FactionChanged, #new_fact = new_faction );
       }
+
       return;
    }
 

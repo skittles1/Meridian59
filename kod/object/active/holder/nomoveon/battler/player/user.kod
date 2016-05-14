@@ -1070,6 +1070,8 @@ messages:
       return;
    }
 
+#region Penalties
+
    DecayLogoffPenaltyCount()
    {
       piLogoffPenaltyCount = Bound(piLogoffPenaltyCount - 1,0,$);
@@ -1106,6 +1108,317 @@ messages:
 
       return;
    }
+
+   CalculatePenalties(what=$)
+   "'what' is the calling object, i.e. logoff ghost, phase spell."
+   {
+      local iPenCount, iEquivDeath, iPointLoss, iItemLoss, oDrop,
+            iXPLoss, iNumItems, iNumSpellPts, iNumSkillPts, oSoldierShield;
+
+      // Add the penalty for repeat logging to the number of recent kills.
+      iPenCount = (Send(self,@GetLogoffPenaltyCount)
+                       + Send(self,@GetDecayedUnjustifiedKills));
+
+      // The point at which iPenCount = same cost as a death.
+      iEquivDeath = (Send(SYS,@GetLogoffPenaltyEquivDeath));
+
+      // Increase the penalty counter due to taking a pen.
+      Send(self,@IncrementLogoffPenaltyCount);
+
+      // Flat pens are just x item, y spell, y skill, with iPenCount set to 0.
+      if Send(SETTINGS_OBJECT,@GetFlatPenaltiesEnable)
+      {
+         iPenCount = 0;
+         iPointLoss = 2;
+         iItemloss = 1;
+      }
+      else
+      {
+         iPointLoss = 0;
+         iItemloss = 0;
+      }
+
+      if (pbLogged_On)
+      {
+         oDrop = self;
+      }
+      else
+      {
+         oDrop = what;
+      }
+
+      // Potentially lose XP
+      iXPLoss = Send(self,@PenaltyLoseXP,#iPenCount=iPenCount,
+                     #iEquivDeath=iEquivDeath);
+      iNumItems = Send(self,@PenaltyDropItems,#iNumDrop=iItemloss,
+                        #iPenCount=iPenCount,#iEquivDeath=iEquivDeath,
+                        #where=oDrop);
+      iNumSpellPts = Send(self,@PenaltyLoseSpellPoints,
+                           #iNumPoints=iPointLoss,#iPenCount=iPenCount,
+                           #iEquivDeath=iEquivDeath);
+      iNumSkillPts = Send(self,@PenaltyLoseSkillPoints,
+                           #iNumPoints=iPointLoss,#iPenCount=iPenCount,
+                           #iEquivDeath=iEquivDeath);
+
+      // Let the faction shield know of this person's naughtiness if we took a
+      // penalty.
+      oSoldierShield = Send(self,@FindUsing,#class=&SoldierShield);
+      if oSoldierShield <> $
+         AND iPenCount > 0
+      {
+         % Treat it like a death.
+         Send(oSoldierShield,@OwnerDied,#logoff=TRUE);
+      }
+
+      // Reset the time to avoid any funny business like potential double
+      // penalties.
+      Send(self,@ResetLogoffPenaltyTime);
+
+      // The calling object will let the user know what the penalties were.
+      Send(what,@SendPenaltyInfo,#who=self,#iXPLost=iXPLoss,
+            #iItemsLost=iNumItems,#iSpellPtLost=iNumSpellPts,
+            #iSkillPtLost=iNumSkillPts);
+
+      return;
+   }
+
+   PenaltyLoseXP(iPenCount=0, iEquivDeath=0)
+   {
+      local iXPLoss;
+
+      if iPenCount < iEquivDeath
+         OR NOT Send(SETTINGS_OBJECT,@LoseXPOnPenalty)
+      {
+         return 0;
+      }
+
+      iXPLoss = Send(SYS,@GetXPDiffForLevel,#iLevel=Send(self,@GetBaseMaxHealth));
+      Send(self,@AddXP,#iAmount=-iXPLoss);
+
+      return iXPLoss;
+   }
+
+   PenaltyDropItems(iPenCount=0, iEquivDeath=0, iNumDrop=0, where=$)
+   {
+      local i, iNumInventory, iNumItemsLeft;
+
+      if (where = $)
+      {
+         return 0;
+      }
+
+      iNumInventory = Send(self,@GetNumItemsInInventory);
+
+      // If there's no parameter sent for the number of items to drop,
+      // calculate it here.
+      if (iNumDrop <= 0)
+      {
+         iNumDrop = iNumInventory * iPenCount / Bound(iEquivDeath, 1, $);
+
+         // Add two items for murderers.
+         if (piFlags & PFLAG_MURDERER)
+         {
+            iNumDrop = iNumDrop + 2;
+         }
+
+      }
+      else if (piFlags & PFLAG_MURDERER)
+      {
+         // Double item drop on flat pens for murderers.
+         iNumDrop = iNumDrop * 2;
+      }
+
+      // Need to drop more items than we have.
+      if iNumDrop >= iNumInventory
+      {
+         iNumDrop = iNumInventory;
+         i = 1;
+         while i <= iNumDrop
+         {
+            if Send(self,@DropItem,#index=i,#targetGhost=where)
+            {
+               --iNumDrop;
+            }
+            else
+            {
+               // If item doesn't drop, increment i.
+               ++i;
+            }
+         }
+         iNumItemsLeft = Send(self,@GetNumItemsInInventory);
+      }
+      else
+      {
+         iNumItemsLeft = iNumInventory;
+         while iNumDrop-- > 0 AND iNumItemsLeft > 0
+         {
+            // Try to drop a random item.
+            i = Random(1,iNumItemsLeft);
+            if Send(self,@DropItem,#index=i,#targetGhost=where)
+            {
+               --iNumItemsLeft;
+            }
+            else
+            {
+               // If the Random drop fails, scan through and drop one.
+               i = 1;
+               while i <= iNumItemsLeft
+                     AND NOT Send(self,@DropItem,#index=i,#targetGhost=where)
+               {
+                  ++i;
+               }
+
+               iNumItemsLeft = Send(self,@GetNumItemsInInventory);
+               // If nothing can be dropped, exit.
+               if i > iNumItemsLeft
+               {
+                  break;
+               }
+            }
+         }
+      }
+
+      // iNumItemsLeft is still accurate here.
+      return iNumInventory - iNumItemsLeft;
+   }
+
+   PenaltyLoseSpellPoints(iPenCount=0, iEquivDeath=0, iNumPoints=0)
+   {
+      local i, iSpellNum, iLoops, bLooped, iLossAmount, iPointsLost, iStart;
+
+      if (plSpells = $)
+      {
+         return 0;
+      }
+
+      iPointsLost = 0;
+
+      // Calculate the number of points to take if not set.
+      if (iNumPoints <= 0)
+      {
+         iNumPoints = (Length(plSpells) * iPenCount) / iEquivDeath;
+         if Random(1,(iEquivDeath - 1)) < (iPenCount MOD iEquivDeath)
+         {
+            ++iNumPoints;
+         }
+      }
+
+      // Double the point loss for murderers.
+      if (piFlags & PFLAG_MURDERER)
+      {
+         iLossAmount = -2;
+      }
+      else
+      {
+         iLossAmount = -1;
+      }
+
+      // Pick random spells to subtract points from.
+      for (iLoops = 0; iNumPoints > 0 AND iLoops < 200; ++iLoops, --iNumPoints)
+      {
+         // Don't iterate more than once through the spell list.
+         bLooped = FALSE;
+
+         // Try to lower a random spell.
+         i = Random(1,Length(plSpells));
+         // Save this index as our starting point.
+         iStart = i;
+         // Iterate through if we couldn't lower this one.
+         while (i <> iStart OR NOT bLooped)
+            AND (Send(self,@DecodeSpellAbility,#compound=Nth(plSpells,i)) < 6)
+         {
+            if ++i > Length(plSpells) AND NOT bLooped
+            {
+               // We get one free reset (since we started in the middle)
+               i = 1;
+               bLooped = TRUE;
+            }
+         }
+
+         // If we got all the way through the spell list without lowering
+         // anything, bail.
+         if i = iStart AND bLooped
+         {
+            break;
+         }
+
+         iSpellNum = Send(self,@DecodeSpellNum,#compound=Nth(plSpells,i));
+         Send(self,@ChangeSpellAbility,#spell_num=iSpellNum,#amount=iLossAmount);
+         iPointsLost = iPointsLost - iLossAmount;
+      }
+
+      return iPointsLost;
+   }
+
+   PenaltyLoseSkillPoints(iPenCount=0, iEquivDeath=0, iNumPoints=0)
+   {
+      local i, iSkillNum, iLoops, bLooped, iLossAmount, iPointsLost, iStart;
+
+      if (plSkills = $)
+      {
+         return 0;
+      }
+
+      iPointsLost = 0;
+
+      // Calculate the number of points to take if not set.
+      if (iNumPoints <= 0)
+      {
+         iNumPoints = (Length(plSkills) * iPenCount) / iEquivDeath;
+         if Random(1,(iEquivDeath - 1)) < (iPenCount MOD iEquivDeath)
+         {
+            ++iNumPoints;
+         }
+      }
+
+      // Double the point loss for murderers.
+      if (piFlags & PFLAG_MURDERER)
+      {
+         iLossAmount = -2;
+      }
+      else
+      {
+         iLossAmount = -1;
+      }
+
+      // Pick random skills to subtract points from.
+      for (iLoops = 0; iNumPoints > 0 AND iLoops < 200; ++iLoops, --iNumPoints)
+      {
+         // Don't iterate more than once through the skill list.
+         bLooped = FALSE;
+
+         // Try to lower a random spell.
+         i = Random(1,Length(plSkills));
+         // Save this index as our starting point.
+         iStart = i;
+         // Iterate through if we couldn't lower this one.
+         while (i <> iStart OR NOT bLooped)
+            AND (Send(self,@DecodeSkillAbility,#compound=Nth(plSkills,i)) < 6)
+         {
+            if ++i > Length(plSkills) AND NOT bLooped
+            {
+               // We get one free reset (since we started in the middle)
+               i = 1;
+               bLooped = TRUE;
+            }
+         }
+
+         // If we got all the way through the skill list without lowering
+         // anything, bail.
+         if i = iStart AND bLooped
+         {
+            break;
+         }
+
+         iSkillNum = Send(self,@DecodeSkillNum,#compound=Nth(plSkills,i));
+         Send(self,@ChangeSkillAbility,#skill_num=iSkillNum,#amount=iLossAmount);
+         iPointsLost = iPointsLost - iLossAmount;
+      }
+
+      return iPointsLost;
+   }
+
+#endregion Penalties
 
    AdminSystemMessage(string = $)
    {

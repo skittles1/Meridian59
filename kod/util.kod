@@ -538,14 +538,10 @@ messages:
 
    IntToString(num=0)
    {
-      local retVal;
-
       ClearTempString();
       AppendTempString(num);
-      retVal = CreateString();
-      SetString(retVal,GetTempString());
 
-      return retVal;
+      return SetString($,GetTempString());
    }
 
    CreateSpellBook(SID=SID_FIREBALL,mana=1)
