@@ -26,7 +26,6 @@ resources:
    RoomEnchantment_killer_rsc = "You killed %s%s with your room enchantment."
    RoomEnchantment_hit_rsc = "The room enchantment damages you."
    RoomEnchantment_not_guilded = "You must be guilded to cast that spell here."
-   room_blank_template = "%q"
 
 classvars:
 
@@ -135,6 +134,12 @@ messages:
 
       if (state = $
          OR oTarget = $)
+      {
+         return;
+      }
+
+      if (IsClass(oTarget,&User)
+         AND Send(oTarget,@IsInCannotInteractMode))
       {
          return;
       }
