@@ -542,7 +542,7 @@ messages:
       if plSenate = $
          OR Send(SYS,@GetChaosNight)
       {
-         return;
+         return FALSE;
       }
 
       foreach i in plSenate
