@@ -52,6 +52,8 @@ user_show_mail = de "%q"
 user_show_nested_mail = de "%s"
 user_logon_one_mail = de "Du hast %i neue Nachricht bekommen."
 user_logon_many_mail = de "Du hast %i neue Nachrichten bekommen."
+user_mail_squelched = de \
+   "Die Möglichkeit eine Nachricht zu schreiben wurde dir genommen."
 user_mail_toobig = de \
    "Sorry, die Nachricht war zu lang, der Kurier ist unterwegs verstorben... "
    "versuch es nocheinmal aber bitte nicht ganz so lang."
@@ -248,6 +250,8 @@ user_first_time_appeal = de \
 user_did_appeal = de \
    "Solltest Du nicht sofort eine Antwort erhalten, sind die Barden und Guides "
    "sicher beschäftigt. Du kannst jedoch versuchen, eine Gamemail zu schreiben.%q$0"
+user_appeal_squelched = de \
+   "Die Möglichkeit eine Beschwerde zu schreiben wurde dir genommen."
 user_kill_zone = de \
    "Dein Schutzengel flüstert Dir zu, \"Ich kann Dich hier nicht verteidigen.\""
 user_angel_rejoins = de "Dein Schutzengel kehrt zu Dir zurück."

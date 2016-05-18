@@ -127,6 +127,7 @@ resources:
    user_show_nested_mail = "%s"
    user_logon_one_mail = "You have %i piece of new mail."
    user_logon_many_mail = "You have %i pieces of new mail."
+   user_mail_squelched = "Your mail posting privileges have been revoked."
    user_mail_toobig = \
       "Sorry, that message was so large the courier died trying to carry it, "
       "delivery failed."
@@ -353,9 +354,10 @@ resources:
    user_cant_balance = "You can't check any balance here!"
 
    user_appeal = "%s appeals, \"%q~n\""
-   user_first_time_appeal = "~B~U~k[###]~n ~B~v%s has just logged on for the first time."
+   user_first_time_appeal = \
+      "~B~U~k[###]~n ~B~v%s has just logged on for the first time."
    user_did_appeal = "You appeal, \"%q~n\""
-
+   user_appeal_squelched = "Your appeal privileges have been revoked."
    user_kill_zone = \
       "Your guardian angel whispers to you, \"I cannot defend you here.\""
    user_angel_rejoins = "Your guardian angel rejoins you."
@@ -3993,6 +3995,14 @@ messages:
    {
       local i;
 
+      // Can't send appeals if squelched.
+      if (NOT first_time
+         AND (piFlags2 & PFLAG2_SQUELCHED_APPEAL))
+      {
+         Send(self,@MsgSendUser,#message_rsc=user_appeal_squelched);
+         return;
+      }
+
       foreach i in Send(SYS,@GetUsersLoggedOn)
       {
          if (first_time)
@@ -5872,6 +5882,14 @@ messages:
       %{
       %   Send(self,@NotifyMonstersOfPresence);
       %}
+
+      // Can't send mail if squelched.
+      if piFlags2 & PFLAG2_SQUELCHED_MAIL
+      {
+         Send(self,@MsgSendUser,#message_rsc=user_mail_squelched);
+
+         return;
+      }
 
       if StringLength(string) > MAIL_MESSAGE_MAX_LENGTH
       {
