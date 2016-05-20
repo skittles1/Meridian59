@@ -174,7 +174,10 @@ outside a loop.
 
 ### switch/case statement
 Kod switch/case statements work as in C. Cases will fallthrough if `break`,
-`continue` or `return` are not specified.
+`continue` or `return` are not specified. Only constant values (numbers, kod
+constants, class IDs, message IDs, resource IDs) may be used for `case`
+expressions, and the `switch` expression can contain any valid kod expression.
+The `default` block is executed if none of the cases provide a match.
 ```
 switch (switch_var)
 {
@@ -189,6 +192,7 @@ switch (switch_var)
       break;
 }
 ```
+
 ### Function calls (message sending and C calls)
 Function calls may appear either as expressions, in which case they evaluate
 to the return value of the function they call, or as statements, in which case

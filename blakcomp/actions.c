@@ -1266,6 +1266,9 @@ stmt_type make_case_stmt(expr_type condition, list_type stmts, bool defaultcase)
    }
    else
    {
+      if (condition->type != E_CONSTANT)
+         action_error("Case expressions can only be constants!");
+
       stmt->type = S_CASE;
       s->condition = condition;
    }
