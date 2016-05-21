@@ -370,6 +370,7 @@ resources:
       "WHOA BUDDY!  Take a breath, that message was WAY too big!"
    user_news_subject_toobig = \
       "Your newsglobe subject length was too long."
+   user_news_los = "You cannot see the newsglobe from here."
 
    user_guildofficer_rsc = "guildofficer"
 
@@ -5594,6 +5595,13 @@ messages:
       if pbLogged_on
          AND (Send(what,@GetNewsPermission,#what=self) & NEWS_PERMISSION_READ)
       {
+         if NOT Send(poOwner,@LineOfSight,#obj1=self,#obj2=what)
+         {
+            Send(self,@MsgSendUser,#message_rsc=user_news_los);
+
+            return FALSE;
+         }
+
          AddPacket(1,BP_LOOK_NEWSGROUP);
          AddPacket(2,Send(what,@GetNewsNum));
          AddPacket(1,Send(what,@GetNewsPermission,#what=self));
