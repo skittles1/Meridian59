@@ -4023,37 +4023,31 @@ int C_DelListElem(int object_id,local_var_type *local_vars,
 }
 
 int C_FindListElem(int object_id,local_var_type *local_vars,
-				   int num_normal_parms,parm_node normal_parm_array[],
-				   int num_name_parms,parm_node name_parm_array[])
+               int num_normal_parms,parm_node normal_parm_array[],
+               int num_name_parms,parm_node name_parm_array[])
 {
-	val_type list_val,list_elem,ret_val;
-	
-	list_val = RetrieveValue(object_id,local_vars,normal_parm_array[0].type,
-		normal_parm_array[0].value);
-	
-	if (list_val.v.tag == TAG_NIL)
-	{
-		return NIL;
-	}
-	
-	if (list_val.v.tag != TAG_LIST)
-	{
-		bprintf("C_FindListElem object %i can't find elem in non-list %i,%i\n",
-			object_id,list_val.v.tag,list_val.v.data);
-		return NIL;
-	}
-	
-	list_elem = RetrieveValue(object_id,local_vars,normal_parm_array[1].type,
-			     normal_parm_array[1].value);
-	
-	ret_val.v.tag = TAG_INT;
-	ret_val.v.data = FindListElem(list_val,list_elem);
-	if (NIL == ret_val.int_val)
-	{
-		return NIL;
-	}
-	
-	return ret_val.int_val;
+   val_type list_val, list_elem, ret_val;
+
+   list_val = RetrieveValue(object_id,local_vars,normal_parm_array[0].type,
+      normal_parm_array[0].value);
+
+   if (list_val.v.tag == TAG_NIL)
+      return KOD_FALSE;
+
+   if (list_val.v.tag != TAG_LIST)
+   {
+      bprintf("C_FindListElem object %i can't find elem in non-list %i,%i\n",
+         object_id,list_val.v.tag,list_val.v.data);
+      return NIL;
+   }
+
+   list_elem = RetrieveValue(object_id,local_vars,normal_parm_array[1].type,
+              normal_parm_array[1].value);
+
+   ret_val.v.tag = TAG_INT;
+   ret_val.v.data = FindListElem(list_val,list_elem);
+
+   return ret_val.int_val;
 }
 
 /*

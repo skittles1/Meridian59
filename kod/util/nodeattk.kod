@@ -288,7 +288,7 @@ messages:
       else
       {
          iIndex = FindListElem(plAttackableNodes,iNode);
-         if iIndex = $
+         if NOT iIndex
          {
             Debug("NodeAttack::DoNodeAttack called with bad iNode");
 
