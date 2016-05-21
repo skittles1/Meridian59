@@ -1058,8 +1058,7 @@ messages:
                AND NOT piPublic
                AND poGuildAssociation = $
             {
-               piLevel = Send(what,@GetBaseMaxHealth) / 25;
-               piLevel = Bound(piLevel,1,$);
+               piLevel = Bound(Send(what,@GetBaseMaxHealth) / 25,1,10);
             }
             Post(what,@MsgSendUser,#message_rsc=welcome_message);
 
