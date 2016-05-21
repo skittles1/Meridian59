@@ -64,12 +64,7 @@ messages:
    {
       if StringEqual(string,JsEl_stat_window_trigger)
       {
-         if Send(what,@FindHolding,#class=&StatsResetToken) <> $
-            OR (Send(what,@GetBaseMaxHealth)
-               <= Send(SETTINGS_OBJECT,@GetFreeStatsResetCap))
-         {
-            Send(what,@SendStatChange);
-         }
+         Send(what,@SendStatChange);
       }
 
       propagate;
