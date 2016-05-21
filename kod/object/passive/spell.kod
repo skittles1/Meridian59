@@ -515,16 +515,17 @@ messages:
 
       iRequisiteStat = Send(self,@GetRequisiteStat,#who=who);
 
-      return bound(random(iRequisiteStat/2,iRequisiteStat)/2,1,25);
+      return Bound(Random(iRequisiteStat/2,iRequisiteStat)/2,1,25);
    }
    
    KarmaCheck(who=$)
    {
       if Send(who,@PlayerIsImmortal)
+         OR IsClass(who,&EscapedConvict)
       {
          return TRUE;
       }
-   
+
       if viSchool = SS_SHALILLE
       {
          if Send(who,@GetKarma) < (10*viSpell_level)
@@ -532,17 +533,14 @@ messages:
             return FALSE;
          }
       }
-      else
+      else if viSchool = SS_QOR
       {
-         if viSchool = SS_QOR
+         if Send(who,@GetKarma) > -(10*viSpell_level)
          {
-            if Send(who,@GetKarma) > -(10*viSpell_level)
-            {
-               return FALSE;
-            }
+            return FALSE;
          }
       }
-      
+
       return TRUE;
    }
 

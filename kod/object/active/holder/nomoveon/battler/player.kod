@@ -8825,7 +8825,8 @@ messages:
 
       if IsClass(what,&User)
       {
-         monster_level = Send(what,@GetBaseMaxHealth);
+         // Set a reasonable upper bound to handle event characters.
+         monster_level = Bound(Send(what,@GetBaseMaxHealth),MIN_HP,1000);
       }
       else
       {

@@ -10064,19 +10064,19 @@ messages:
       {
          piSave_room = rid;
       }
-      
+
       if row <> $
       {
          piSave_row = row;
          piSave_fine_row = FINENESS/2;
       }
-      
+
       if col <> $
       {
          piSave_col = col;
          piSave_fine_col = FINENESS/2;
       }
-      
+
       return;
    }
 
@@ -10086,57 +10086,57 @@ messages:
       {
          return $;
       }
-      
+
       return piSave_room;
    }
-   
+
    GetSaveRow()
    {
       if pbLogged_on
       {
          return $;
       }
-      
+
       return piSave_row;
    }
-   
+
    GetSaveCol()
    {
       if pbLogged_on
       {
          return $;
       }
-      
+
       return piSave_Col;
    }
-   
+
    GetSaveFineRow()
    {
       if pbLogged_on
       {
          return $;
       }
-      
+
       return piSave_Fine_row;
    }
-   
+
    GetSaveFineCol()
    {
       if pbLogged_on
       {
          return $;
       }
-      
+
       return piSave_Fine_Col;
    }
-   
+
    GetSaveAngle()
    {
       if pbLogged_on
       {
          return $;
       }
-      
+
       return piSave_Angle;
    }
 
@@ -10145,7 +10145,6 @@ messages:
       local iCutoff_time, lRecent_mail, lNew_mail, iTime, iRemoved;
 
       iCutoff_time =  GetTime() - (iDays * DAY);
-      lRecent_mail = $;
       iRemoved = 0;
 
       foreach lNew_mail in plNew_mail
@@ -10208,25 +10207,23 @@ messages:
    {
       return GetSessionIP(poSession);
    }
-   
+
    GetIPString()
    "returns ip as a string.  Use this sparingly and only if"
    "you need the human readable string, use the list returned by"
    "GetIP() for comparisons"
    {
       local sReturn, lIP;
-      
+
       lIP = GetSessionIP(poSession);
       if (lIP = $)
       {
          return;
       }
 
-      sReturn = CreateString();
-      
       ClearTempString();
-      
-      AppendTempString(Nth(lIP,1));
+
+      AppendTempString(First(lIP));
       AppendTempString(":");
       AppendTempString(Nth(lIP,2));
       AppendTempString(":");
@@ -10258,10 +10255,7 @@ messages:
       AppendTempString(":");
       AppendTempString(Nth(lIP,16));
 
-      SetString(sReturn,GetTempString());
-      
-      return sReturn;
-   
+      return SetString($,GetTempString());
    }
 
    SendStatChange()
@@ -10274,21 +10268,20 @@ messages:
       {
          return;
       }
-      
+
       % must have a token if over the free stat reset cap
       if Send(self,@FindHolding,#class=&StatsResetToken) = $
          AND (piBase_Max_Health > Send(SETTINGS_OBJECT,@GetFreeStatsResetCap))
       {
          return;
       }
-      
+
       lSpellLevels = Send(self, @GetSpellSchoolLevels);
       lSkillLevels = Send(self, @GetSkillSchoolLevels);
- 
+
       % TODO: don't load module if it is already loaded
-
-
       Send(self,@UserLoadModule,#module=user_statchange_module);
+
       AddPacket(1,BP_STAT_CHANGE, 1,piMight, 1,piIntellect, 1,piStamina,
                 1,piAgility, 1,piMysticism, 1,piAim, 1,First(lSpellLevels),
                 1,Nth(lSpellLevels,2), 1,Nth(lSpellLevels,3),
