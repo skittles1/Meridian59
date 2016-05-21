@@ -16,24 +16,6 @@ CFLAGS = $(CFLAGS) /arch:SSE2 /TP
 # /SUBSYSTEM:WINDOWS",5.01" UI Windows XP (5.01)
 # /STACK  Stacksize in bytes
 # /map    Generate mapfile
-LINKFLAGS = $(LINKFLAGS) /SUBSYSTEM:WINDOWS",6.00" /STACK:0x180000 /map
-
-SOURCEDIR = .
-
-TOPDIR=..
-!include $(TOPDIR)\common.mak
-
-# ----------------------------------------------------------------------
-# Additional compiler flags (see common.mak)
-# /TP           Compile as C++ code
-# /arch:SSE2    Use SSE2 instructions (VS2013+ default to SSE2)
-CFLAGS = $(CFLAGS) /arch:SSE2 /TP
-
-# ----------------------------------------------------------------------
-# Additional linker flags (see common.mak)
-# /SUBSYSTEM:WINDOWS",5.01" UI Windows XP (5.01)
-# /STACK  Stacksize in bytes
-# /map    Generate mapfile
 LINKFLAGS = $(LINKFLAGS) /SUBSYSTEM:WINDOWS",5.01" /STACK:0x180000 /map
 
 SOURCEDIR = .
