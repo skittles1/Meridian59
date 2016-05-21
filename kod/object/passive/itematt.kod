@@ -129,7 +129,7 @@ messages:
          index = index + Nth(i,2);
       }
 
-      jindex = Send(who,@GetBaseMaxhealth)/10;
+      jindex = Bound(Send(who,@GetBaseMaxhealth)/10,2,30);
       if index < jindex + 1
       {
          index = jindex + 1;
