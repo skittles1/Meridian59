@@ -7899,6 +7899,14 @@ messages:
       return;
    }
 
+   PrintNPCRooms()
+   "Uses the Library NPC list to print out all NPC names and owning rooms."
+   {
+      SendList(Send(Send(SYS,@GetLibrary),@GetNPCs),0,@PrintRoom);
+
+      return;
+   }
+
 #endregion Print Game Info
 
    RemoveAllResistances(resistance_list = $)
