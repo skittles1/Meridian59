@@ -164,13 +164,6 @@ messages:
       return viSkill_Exertion;
    }
 
-   CheckSpecial(who=$,victim=$)
-   "Checks to see if there are any special circumstances which prevents"
-   "the target player from performing this skill."
-   {
-      return TRUE;
-   }
-
    CheckWeaponAndDoAnimation(who=$,weapon_used=$,victim=$)
    "Can the user's weapon be used with this weapon stroke?  \n"
    "Default is TRUE unless the player is unarmed."

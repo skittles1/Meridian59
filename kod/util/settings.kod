@@ -185,6 +185,16 @@ properties:
    // before taking a penalty
    piOutlawMurdererLogPenGhostTime = 180 * 1000
 
+   // Seconds for which we consider the player 'active' in PvP. This includes
+   // attacking or being attacked.
+   piRecentPvPTimeSec = 900
+
+   // Booleans for whether we bypass the pen system for players who have not
+   // participated in PvP in piRecentPvPTimeSec seconds. White and red handled
+   // separately, orange players handled as white.
+   pbFreeNoPvPPenActiveWhite = TRUE
+   pbFreeNoPvPPenActiveRed = TRUE
+
    %
    % Miscellaneous
    %
@@ -583,6 +593,21 @@ messages:
    GetOutlawMurdererLogPenGhostTime()
    {
       return piOutlawMurdererLogPenGhostTime;
+   }
+
+   GetRecentPvpTime()
+   {
+      return piRecentPvPTimeSec;
+   }
+
+   GetFreeNoPvPPenActive(flag = 0)
+   {
+      if (flag)
+      {
+         return pbFreeNoPvPPenActiveRed;
+      }
+
+      return pbFreeNoPvPPenActiveWhite;
    }
 
    %

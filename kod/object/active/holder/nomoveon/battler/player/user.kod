@@ -1072,6 +1072,16 @@ messages:
 
 #region Penalties
 
+   IsRecentPvPCombatant()
+   {
+      local iTime, iRecent;
+
+      iTime = GetTime();
+      iRecent = iTime - Send(SETTINGS_OBJECT,@GetRecentPvPTime);
+
+      return (piTimeAttackedByPlayer > iRecent OR piTimeAttackedPlayer > iRecent);
+   }
+
    DecayLogoffPenaltyCount()
    {
       piLogoffPenaltyCount = Bound(piLogoffPenaltyCount - 1,0,$);
@@ -1114,6 +1124,21 @@ messages:
    {
       local iPenCount, iEquivDeath, iPointLoss, iItemLoss, oDrop,
             iXPLoss, iNumItems, iNumSpellPts, iNumSkillPts, oSoldierShield;
+
+      // Check if we're eligible for a free pen.
+      if (Send(SETTINGS_OBJECT,@GetFreeNoPvPPenActive,
+               #flag=piFlags & PFLAG_MURDERER)
+         AND NOT Send(self,@IsRecentPvPCombatant))
+      {
+         // Reset the time to avoid any funny business like potential double
+         // penalties.
+         Send(self,@ResetLogoffPenaltyTime);
+
+         // Calling object still needs to display a message for the free pen.
+         Send(what,@SendPenaltyInfo,#who=self);
+
+         return;
+      }
 
       // Add the penalty for repeat logging to the number of recent kills.
       iPenCount = (Send(self,@GetLogoffPenaltyCount)
