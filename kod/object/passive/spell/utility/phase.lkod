@@ -37,10 +37,10 @@ Phase_caster_in = de \
    "zurückgekehrt."
 Phase_in = de "%s kehrt aus seinem Ausstieg aus der Realität zurück!"
 penalties_inflicted_one_item = de \
-   "Diese qualvolle Erfahrung kostet Dich einen Gegenstand, %i\% in "
+   "Diese qualvolle Erfahrung kostet Dich %i XP, einen Gegenstand, %i\% in "
    "Zaubersprüchen und %i\% in Waffenfertigkeiten."
 penalties_inflicted_plural = de \
-   "Diese qualvolle Erfahrung kostet Dich %i Gegenstände, %i\% in "
+   "Diese qualvolle Erfahrung kostet Dich %i XP, %i Gegenstände, %i\% in "
    "Zaubersprüchen und %i\% in Waffenfertigkeiten."
 no_phasing_in_safe_place_msg = de \
    "Dieser Ort ist sicher und ruhig. Du kannst hier nicht aussteigen."

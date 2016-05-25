@@ -2777,6 +2777,7 @@ messages:
       % Give them a new start on life, so that their newbie
       % friends can buff and heal them.
       piTimeAttackedPlayer = 0;
+      piTimeAttackedByPlayer = 0;
 
       return;
    }
@@ -4624,18 +4625,15 @@ messages:
                   Send(self,@MsgSendUser,#message_rsc=player_guardian_angel,
                        #parm1=Send(victim,@GetDef),#parm2=Send(victim,@GetName));
                }
+               else if minion
+               {
+                  Send(self,@MsgSendUser,#message_rsc=player_safety_caught_minion,
+                        #parm1=Send(victim,@GetDef),#parm2=Send(victim,@GetName));
+               }
                else
                {
-                  if minion
-                  {
-                     Send(self,@MsgSendUser,#message_rsc=player_safety_caught_minion,
-                           #parm1=Send(victim,@GetDef),#parm2=Send(victim,@GetName));
-                  }
-                  else
-                  {
-                     Send(self,@MsgSendUser,#message_rsc=player_safety_caught,
-                           #parm1=Send(victim,@GetDef),#parm2=Send(victim,@GetName));
-                  }
+                  Send(self,@MsgSendUser,#message_rsc=player_safety_caught,
+                        #parm1=Send(victim,@GetDef),#parm2=Send(victim,@GetName));
                }
             }
 
@@ -4836,6 +4834,7 @@ messages:
       if NOT Send(poOwner,@LineOfSight,#obj1=self,#obj2=what)
       {
          Send(self,@MsgSendUser,#message_rsc=player_attack_not_in_view);
+
          return FALSE;
       }
 
@@ -4874,21 +4873,17 @@ messages:
          {
             return FALSE;
          }
-         else
-         {
-            if NOT Send(self,@IsAffectedByRadiusEnchantment,#byClass=&Jig)
-            {
-               % Tell the monster this is a valid attack.
-               Send(what,@ValidAttack,#who=self);
-            }
-            else
-            {
-               Send(self,@MsgSendUser,#message_rsc=Jig_cannot_attack,
-                     #parm1=Send(what,@GetDef),#parm2=Send(what,@GetName));
 
-               return FALSE;
-            }
+         if Send(self,@IsAffectedByRadiusEnchantment,#byClass=&Jig)
+         {
+            Send(self,@MsgSendUser,#message_rsc=Jig_cannot_attack,
+                  #parm1=Send(what,@GetDef),#parm2=Send(what,@GetName));
+
+            return FALSE;
          }
+
+         % Tell the monster this is a valid attack.
+         Send(what,@ValidAttack,#who=self);
       }
 
       % Checking for legal PK attack here.
@@ -4900,17 +4895,9 @@ messages:
 
       % If this attack initiates pvp, notify victim (combatants maybe?) 
       % initially, but then not again until PVP_NOTIFY_DECAY has passed
-      
-      if IsClass(what,&User) 
-         AND Send(what, @GetLastPvpWarned) < GetTime() - PVP_NOTIFY_DECAY
+      if IsClass(what,&User)
       {
          Send(what,@DoPvpNotify);
-      }
-      
-      % Special stroke stuff 
-      if NOT Send(stroke_obj,@CheckSpecial,#who=self,#victim=what)
-      {
-         return FALSE;
       }
 
       % Okay, checking is done, attack is okay.  Do the animation thing.
@@ -13364,7 +13351,7 @@ messages:
       % the people who attempt to exploit this system for gain.
       if Random(1,100) > 50
       {
-         piKill_count_decay = piKill_count_decay - 1;
+         --piKill_count_decay;
          piKill_count_decay = Bound(piKill_count_decay,0,$);
       }
 
@@ -14248,8 +14235,9 @@ messages:
       piLastDeathTime = time;
       piGuildRejoinTimestamp = time;
       piLast_restart_time = time;
-      piTimeLastStomachUpdate = time;
-      piTimeAttackedPlayer = time;
+      piTimeLastStomachUpdate = 0;
+      piTimeAttackedPlayer = 0;
+      piTimeAttackedByPlayer = 0;
 
       return;
    }
@@ -14857,8 +14845,7 @@ messages:
       
       oPhase = Send(SYS,@FindSpellByNum,#num=SID_PHASE);
       Send(self,@RemoveEnchantment,#what=oPhase);
-      Send(oPhase,@NotifyRoomPenalty,#who=self);
-      Send(oPhase,@InflictFlatPenalties,#who=self);
+      Send(oPhase,@InflictPenalties,#who=self);
 
       Post(self,@AdminGoToLastSafeRoom);
 
@@ -14882,11 +14869,10 @@ messages:
       if (piFlags & PFLAG_MURDERER)
          OR (piFlags & PFLAG_OUTLAW)
       {
-         return Send(SETTINGS_OBJECT,
-               @GetOutlawMurdererLogoffPenaltyGhostTime);
+         return Send(SETTINGS_OBJECT,@GetOutlawMurdererLogPenGhostTime);
       }
 
-      return Send(SETTINGS_OBJECT,@GetLogoffPenaltyGhostTime);
+      return Send(SETTINGS_OBJECT,@GetLogPenGhostTime);
    }
 
    RefreshPhaseTimeToBase()
@@ -14940,23 +14926,28 @@ messages:
       return;
    }
 
-   GetLastPvpWarned()
+   GetLastAttackedByPlayerTime()
    {
       return piTimeAttackedByPlayer;
    }
-   
+
    DoPvpNotify()
    {
-      % Don't gong if we are already in pvp
-      if piTimeAttackedPlayer < GetTime() - PVP_NOTIFY_DECAY
+      local iTime, iNotify;
+
+      iTime = GetTime();
+      iNotify = iTime - PVP_NOTIFY_DECAY;
+
+      // Don't gong if we are already in pvp
+      if (piTimeAttackedPlayer < iNotify
+         AND piTimeAttackedByPlayer < iNotify
+         AND poOwner <> $)
       {
-         if poOwner <> $
-         {
-            Send(poOwner,@SomethingWaveRoom,#what=self,
-                  #wave_rsc=pvp_notify_wav);
-            piTimeAttackedByPlayer = GetTime();
-         }
+         Send(poOwner,@SomethingWaveRoom,#what=self,#wave_rsc=pvp_notify_wav);
       }
+
+      // Set our attacked-by time here.
+      piTimeAttackedByPlayer = iTime;
 
       return;
    }
