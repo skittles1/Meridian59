@@ -7107,5 +7107,18 @@ messages:
       return;
    }
 
+   PrintRoom()
+   "Prints out the name of the mob and the room it is in."
+   {
+      if (poOwner = $)
+      {
+         return;
+      }
+
+      GodLog("NPC: ",Send(self,@GetName),", Map: ",Send(poOwner,@GetName));
+
+      return;
+   }
+
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
