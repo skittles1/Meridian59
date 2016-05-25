@@ -304,7 +304,8 @@ messages:
       local rMail;
 
       // Get the correct mail resource.
-      if Send(SETTINGS_OBJECT,@GetFlatPenaltiesEnable)
+      if Send(SETTINGS_OBJECT,@GetFlatPenaltiesEnable,
+            #flag=Send(poGhostedPlayer,@CheckPlayerFlag,#flag=PFLAG_MURDERER))
       {
          rMail = logoffghost_penalty_mail;
       }

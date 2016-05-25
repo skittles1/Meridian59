@@ -1135,7 +1135,10 @@ messages:
          Send(self,@ResetLogoffPenaltyTime);
 
          // Calling object still needs to display a message for the free pen.
-         Send(what,@SendPenaltyInfo,#who=self);
+         if (what <> $)
+         {
+            Send(what,@SendPenaltyInfo,#who=self);
+         }
 
          return;
       }
@@ -1151,7 +1154,8 @@ messages:
       Send(self,@IncrementLogoffPenaltyCount);
 
       // Flat pens are just x item, y spell, y skill, with iPenCount set to 0.
-      if Send(SETTINGS_OBJECT,@GetFlatPenaltiesEnable)
+      if Send(SETTINGS_OBJECT,@GetFlatPenaltiesEnable,
+               #flag=piFlags & PFLAG_MURDERER)
       {
          iPenCount = 0;
          iPointLoss = 2;
@@ -1200,9 +1204,12 @@ messages:
       Send(self,@ResetLogoffPenaltyTime);
 
       // The calling object will let the user know what the penalties were.
-      Send(what,@SendPenaltyInfo,#who=self,#iXPLost=iXPLoss,
-            #iItemsLost=iNumItems,#iSpellPtLost=iNumSpellPts,
-            #iSkillPtLost=iNumSkillPts);
+      if (what <> $)
+      {
+         Send(what,@SendPenaltyInfo,#who=self,#iXPLost=iXPLoss,
+               #iItemsLost=iNumItems,#iSpellPtLost=iNumSpellPts,
+               #iSkillPtLost=iNumSkillPts);
+      }
 
       return;
    }

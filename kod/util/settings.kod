@@ -171,9 +171,11 @@ properties:
    // with pre-buffed characters
    pbLogSafePenaltyEnable = FALSE
 
-   // If enabled, logoff penalties do not rise exponentially, and
-   // instead remain flat.
-   pbFlatPenalties = TRUE
+   // If enabled, logoff penalties do not rise exponentially, and instead
+   // remain flat. Separate booleans for red/white players, orange handled
+   // as white.
+   pbFlatPenaltiesWhite = TRUE
+   pbFlatPenaltiesRed = TRUE
 
    // Possible to lose XP if a penalty is harsh enough?
    pbLoseXPOnPenalty = TRUE
@@ -575,9 +577,14 @@ messages:
       return pbLogSafePenaltyEnable;
    }
 
-   GetFlatPenaltiesEnable()
+   GetFlatPenaltiesEnable(flag = 0)
    {
-      return pbFlatPenalties;
+      if (flag)
+      {
+         return pbFlatPenaltiesRed;
+      }
+
+      return pbFlatPenaltiesWhite;
    }
 
    LoseXPOnPenalty()
