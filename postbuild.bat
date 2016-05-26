@@ -8,15 +8,25 @@ echo Post-Build started.
 set foundcli=0
 
 rem Step 1: Try 64-bit Program Files
-if EXIST ("%ProgramW6432%\Open Meridian\Meridian 105") do (
-   set m59path=%ProgramW6432%\Open Meridian\Meridian 105
+set m59path=%ProgramW6432%\Open Meridian\Meridian 105
+
+if EXIST !m59path! (
    call :copying
    if %ERRORLEVEL% LSS 8 goto found
 )
 
 rem Step 2: try 32-bit Program Files(x86)
-if EXIST ("%ProgramFiles(x86)%\Open Meridian\Meridian 105") do (
-   set m59path=%ProgramFiles(x86)%\Open Meridian\Meridian 105
+set m59path=%ProgramFiles(x86)%\Open Meridian\Meridian 105
+
+if EXIST !m59path! (
+   call :copying
+   if %ERRORLEVEL% LSS 8 goto found
+)
+
+rem Step 3: try AppData\Local
+set m59path=%LocalAppData%\Open Meridian\Meridian 105
+
+if EXIST !m59path! (
    call :copying
    if %ERRORLEVEL% LSS 8 goto found
 )
