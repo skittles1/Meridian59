@@ -24,11 +24,11 @@ all : $(BOFS)
 	@echo Copying kodbase.txt and kod include files
 	-@$(CP) $(KODDIR)\kodbase.txt $(BLAKSERVRUNDIR) 2>&1
 	-@$(CP) $(KODDIR)\include\*.khd $(BLAKSERVRUNDIR) 2>&1
-	@echo Copying .rsc and creating client .rsb file
-	@-$(RM) $(CLIENTRUNDIR)\resource\*.rsc >nul 2>&1
+	@echo Copying .rsc files, creating server and client .rsb files
+	@-$(RM) $(BLAKSERVRUNDIR)\rsc\*.rsb >nul 2>&1
 	@-$(RM) $(CLIENTRUNDIR)\resource\*.rsb >nul 2>&1
-	-@$(RSCMERGE) $(CLIENTRUNDIR)\resource\rsc0000.rsb $(BLAKSERVRUNDIR)\rsc\*.rsc
-
+	-@$(RSCMERGE) $(BLAKSERVRUNDIR)\rsc\rsc0000.rsb $(BLAKSERVRUNDIR)\rsc\*.rsc
+	-@$(CP) $(BLAKSERVRUNDIR)\rsc\rsc0000.rsb $(CLIENTRUNDIR)\resource\ 2>&1
 
 $(BOFS) $(BOFS2) $(BOFS3) $(BOFS4) $(BOFS5) $(BOFS6) $(BOFS7) $(BOFS8): $(DEPEND)
 

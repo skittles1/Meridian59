@@ -126,7 +126,7 @@ void SynchedProcessSessionBuffer(session_node *s)
 
 void SynchedProtocolParse(session_node *s,client_msg *msg)
 {
-   char name[MAX_LOGIN_NAME+1],password[MAX_LOGIN_PASSWORD+1];
+   char name[MAX_LOGIN_NAME + 1], password[MAX_LOGIN_PASSWORD + 1];
    short len;
    int index;
    int last_download_time;
@@ -165,7 +165,7 @@ void SynchedProtocolParse(session_node *s,client_msg *msg)
    {
    case AP_LOGIN : 
       if (msg->len < 39) /* fixed size of AP_LOGIN, before strings */
-	 break;
+         break;
       s->version_major = *(char *)(msg->data+index);
       index++;
       s->version_minor = *(char *)(msg->data+index);
@@ -215,15 +215,31 @@ void SynchedProtocolParse(session_node *s,client_msg *msg)
       memcpy(password, msg->data + index + 2, len);
       password[len] = 0; /* null terminate string */
       index += 2 + len;
-      
+
+      // Set the first byte to 0 in case we don't get a hash.
+      s->rsb_hash[0] = 0;
+
+      // Don't break if this fails, still allow user to connect.
+      if (s->version_major == 50 && s->version_minor > 42
+         || s->version_major == 90 && s->version_minor > 6)
+      {
+         len = *(short *)(msg->data + index);
+         if (index + 2 + len > msg->len)
+            break;
+         if (len >= sizeof(s->rsb_hash))
+            break;
+         memcpy(s->rsb_hash, msg->data + index + 2, len);
+         s->rsb_hash[len] = 0; /* null terminate string */
+      }
+
       SynchedAcceptLogin(s,name,password);
-      
       break;
    case AP_GETCLIENT :
       eprintf("SynchedProtocolParse AP_GETCLIENT no longer supported\n");
       break;
    case AP_REQ_GAME :
-		lprintf("SynchedProtocolParse account %u version %u %u\n",s->account->account_id,s->version_major,s->version_minor);
+      lprintf("SynchedProtocolParse account %u version %u %u\n",
+         s->account->account_id, s->version_major, s->version_minor);
       if (s->version_major * 100 + s->version_minor < ConfigInt(LOGIN_CLASSIC_MIN_VERSION))
       {
          AddByteToPacket(AP_MESSAGE);
@@ -485,6 +501,7 @@ void SendSynchedMessage(session_node *s,char *str,char logoff)
 
 void VerifyLogin(session_node *s)
 {
+   char *str;
    int cli_vers;
 
    LogUserData(s);
@@ -544,7 +561,23 @@ void VerifyLogin(session_node *s)
       SetSessionTimer(s, 60 * ConfigInt(INACTIVE_TRANSFER));
    }
    else
-      SynchedDoMenu(s);
+   {
+      str = GetRsbMD5();
+      if (strcmp(str, "") != 0
+         && strcmp(s->rsb_hash, "") != 0
+         && strcmp(s->rsb_hash, str) != 0)
+      {
+         if (s->version_major == 50)
+            SynchedSendClientPatchClassic(s);
+         else if (s->version_major == 90)
+            SynchedSendClientPatchOgre(s);
+         InterfaceUpdateSession(s);
+         /* set timeout real long, since they're downloading */
+         SetSessionTimer(s, 60 * ConfigInt(INACTIVE_TRANSFER));
+      }
+      else
+         SynchedDoMenu(s);
+   }
 }
 
 // Send the AP_GETCLIENT protocol and data to session.
