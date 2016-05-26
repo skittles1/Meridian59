@@ -35,7 +35,7 @@ int pause_time;
 
 /* local function prototypes */
 void ReallocTimerNodes(void);
-void TimerAddNode(timer_node *t);
+__forceinline void TimerAddNode(timer_node *t);
 void ResetLastMessageTimes(session_node *s);
 
 int GetNumActiveTimers(void)
@@ -114,7 +114,7 @@ void TimerHeapRemove(int index)
 
 // Adds a timer to the heap, using timer_node data. Passed
 // timer_node is first unused element in timer_heap array.
-__inline void TimerAddNode(timer_node *t)
+__forceinline void TimerAddNode(timer_node *t)
 {
    if (numActiveTimers == 0 || timer_heap[0]->time > t->time)
    {

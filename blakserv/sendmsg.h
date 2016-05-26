@@ -102,7 +102,7 @@ char *BlakodStackInfo(void);
 
 /* this function used in sendmsg.c and ccode.c, but called all the time! */
 
-val_type __inline RetrieveValue(int object_id,local_var_type *local_vars,int data_type,int data)
+val_type __forceinline RetrieveValue(int object_id,local_var_type *local_vars,int data_type,int data)
 {
    object_node *o;
    class_node *c;

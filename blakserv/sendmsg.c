@@ -70,7 +70,7 @@ int done;
 int InterpretAtMessage(int object_id,class_node* c,message_node* m,
                   int num_sent_parms,parm_node sent_parms[],
                   val_type *ret_val);
-__inline void StoreValue(int object_id,local_var_type *local_vars,int data_type,int data,
+__forceinline void StoreValue(int object_id,local_var_type *local_vars,int data_type,int data,
                    val_type new_data);
 void InterpretUnaryAssign(int object_id,local_var_type *local_vars,opcode_type opcode);
 void InterpretBinaryAssign(int object_id,local_var_type *local_vars,opcode_type opcode);
@@ -752,7 +752,7 @@ int InterpretAtMessage(int object_id,class_node* c,message_node* m,
 /* RetrieveValue used to be here, but is inline, and used in ccode.c too, so it's
 in sendmsg.h now */
 
-__inline void StoreValue(int object_id, local_var_type *local_vars,
+__forceinline void StoreValue(int object_id, local_var_type *local_vars,
                          int data_type, int data, val_type new_data)
 {
    object_node *o;
