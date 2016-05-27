@@ -67,7 +67,7 @@ messages:
       }
 
       Send(self,@NewHold,#what=oNews,#new_row=16,#new_col=10);
-      send(self,@Newhold,#what=Create(&chest),#new_row=22,#new_col=10);
+      Send(self,@NewHold,#what=Create(&Chest),#new_row=22,#new_col=10);
 
       Send(self,@NewHold,#what=Create(&Minstrel),#new_row=15,#new_col=9);
       Send(self,@NewHold,#what=Create(&Heretic),#new_row=17,#new_col=9);
