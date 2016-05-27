@@ -36,8 +36,8 @@ classvars:
 
    viTerrain_type = TERRAIN_FOREST | TERRAIN_BEACH
 
-   viFlag_row = 36
-   viFlag_col = 51
+   viFlag_row = 63
+   viFlag_col = 5
 
    viWeatherZone = WEATHER_ZONE_BARLOQUE
 
