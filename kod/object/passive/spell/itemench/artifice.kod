@@ -85,17 +85,6 @@ messages:
       propagate;   % Check other things higher up
    }
 
-   IsTargetInRange(who=$,target=$)
-   {
-      if who = Send(target,@GetOwner)
-         OR Send(who,@GetOwner) = Send(target,@GetOwner)
-      {
-         return TRUE;
-      }
-
-      return FALSE;
-   }
-
    CastSpell(who=$,lTargets=$,iSpellPower=0)
    {
       local oItem, oItemAtt;
