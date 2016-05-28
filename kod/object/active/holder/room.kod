@@ -446,13 +446,12 @@ messages:
    {
       local cClass, lUsers, oNewRoom, i;
 
-      lUsers = $;
       cClass = GetClass(self);
       foreach i in plActive
       {
-         if isClass(first(i),&User)
+         if IsClass(First(i),&User)
          {
-            lUsers = Cons(first(i),lUsers);
+            lUsers = Cons(First(i),lUsers);
          }
       }
 
@@ -601,7 +600,7 @@ messages:
          }
       }
 
-      piPeriodic_sounds = bound(piPeriodic_sounds,2000,20000);
+      piPeriodic_sounds = Bound(piPeriodic_sounds,2000,20000);
 
       return;
    }
@@ -630,9 +629,9 @@ messages:
          iSoundY = 0;
          if pbPeriodic_sound_random_location
          {
-            if ( piCols = $ ) OR ( piRows = $ )
+            if (piCols = $ OR piRows = $)
             {
-               debug("Nil rows/cols in RID ",piRoom_num);
+               Debug("Nil rows/cols in RID ",piRoom_num);
 
                return;
             }
@@ -673,7 +672,7 @@ messages:
          {
             iRadius = 0;
             iMaxVol = 0;
-            if length(lLoopSound) > 3
+            if Length(lLoopSound) > 3
             {
                iRadius = Nth(lLoopSound,4);
             }
@@ -704,12 +703,12 @@ messages:
          % Send sound to all players
          iRadius = 0;
          iMaxVol = 0;
-         if length(lSoundData) > 3
+         if Length(lSoundData) > 3
          {
             iRadius = Nth(lSoundData,4);
          }
 
-         if length(lSoundData) > 4
+         if Length(lSoundData) > 4
          {
             iMaxVol = Nth(lSoundData,5);
          }
@@ -851,27 +850,25 @@ messages:
 
       foreach lElement in lObjList
       {
-         if length(lElement) = 3
+         if Length(lElement) = 3
          {
             oObject = Create(&OrnamentalObject,#type=Nth(lElement,3));
             Send(self,@NewHold,#what=oObject,
-                 #new_row=Nth(lElement,1),#new_col=Nth(lElement,2));
+                  #new_row=First(lElement),#new_col=Nth(lElement,2));
+         }
+         else if Length(lElement) = 5
+         {
+            oObject = Create(&OrnamentalObject,#type=Nth(lElement,5));
+            Send(self,@NewHold,#what=oObject,
+                  #new_row=First(lElement),#new_col=Nth(lElement,2),
+                  #fine_row=Nth(lElement,3),#fine_col=Nth(lElement,4));
          }
          else
          {
-            if length(lElement) = 5
-            {
-               oObject = Create(&OrnamentalObject,#type=Nth(lElement,5));
-               Send(self,@NewHold,#what=oObject,
-                    #new_row=Nth(lElement,1),#new_col=Nth(lElement,2),
-                    #fine_row=Nth(lElement,3),#fine_col=Nth(lElement,4));
-            }
-            else
-            {
-               debug("Sent invalid coord list to CreateOrnObjFromList:", first(lObjList));
+            Debug("Sent invalid coord list to CreateOrnObjFromList:",
+                  First(lObjList));
 
-               return;
-            }
+            return;
          }
       }
 
@@ -893,25 +890,22 @@ messages:
 
       foreach lElement in lObjList
       {
-         if length(lElement) = 2
+         if Length(lElement) = 2
          {
             Send(self,@NewHold,#what=Create(oObjectClassName),
-                 #new_row=Nth(lElement,1),#new_col=Nth(lElement,2));
+                 #new_row=First(lElement),#new_col=Nth(lElement,2));
+         }
+         else if Length(lElement) = 4
+         {
+            Send(self,@NewHold,#what=Create(oObjectClassName),
+                 #new_row=First(lElement),#new_col=Nth(lElement,2),
+                 #fine_row=Nth(lElement,3),#fine_col=Nth(lElement,4));
          }
          else
          {
-            if length(lElement) = 4
-            {
-               Send(self,@NewHold,#what=Create(oObjectClassName),
-                    #new_row=Nth(lElement,1),#new_col=Nth(lElement,2),
-                    #fine_row=Nth(lElement,3),#fine_col=Nth(lElement,4));
-            }
-            else
-            {
-               debug("Sent invalid coord list to CreateObjFromList:", first(lObjList));
+            Debug("Sent invalid coord list to CreateObjFromList:", first(lObjList));
 
-               return;
-            }
+            return;
          }
       }
 
@@ -931,27 +925,27 @@ messages:
       % this is ugly to do it here, but was lowest risk to add as an emergency patch
       % change this later by overriding GetRegion() please!
 
-      if (piRoom_num >= RID_GUEST_BASE) and (piRoom_num < RID_NEWB_BASE)
+      if (piRoom_num >= RID_GUEST_BASE) AND (piRoom_num < RID_NEWB_BASE)
       {
          return RID_GUEST_BASE;
       }
 
-      if (piRoom_num >= RID_NEWB_BASE) and (piRoom_num <= RID_NEWB_MAX)
+      if (piRoom_num >= RID_NEWB_BASE) AND (piRoom_num <= RID_NEWB_MAX)
       {
          return RID_NEWB_BASE;
       }
 
-      if (piRoom_num >= RID_KOCATAN) and (piRoom_num <= RID_KOCATAN_END)
+      if (piRoom_num >= RID_KOCATAN) AND (piRoom_num <= RID_KOCATAN_END)
       {
          return RID_KOCATAN;
       }
 
-      if (piRoom_num >= RID_ORC_CAVE1) and (piRoom_num <= RID_ORC_CAVE_END)
+      if (piRoom_num >= RID_ORC_CAVE1) AND (piRoom_num <= RID_ORC_CAVE_END)
       {
          return RID_ORC_CAVE1;
       }
 
-      if (piRoom_num >= RID_BRAX_START) and (piRoom_num <= RID_BRAX_END)
+      if (piRoom_num >= RID_BRAX_START) AND (piRoom_num <= RID_BRAX_END)
       {
          return RID_BRAX;
       }
@@ -1014,7 +1008,7 @@ messages:
                }
             }
 
-            if not bFound and iRID <> piRoom_num
+            if NOT bFound AND iRID <> piRoom_num
             {
                plYell_Zone = Cons(iRID, plYell_Zone);
             }
@@ -1055,7 +1049,7 @@ messages:
 
       foreach lPassiveObject in plPassive
       {
-         Send(first(lPassiveObject),@Delete);
+         Send(First(lPassiveObject),@Delete);
       }
 
       return;
@@ -1067,10 +1061,10 @@ messages:
 
       foreach i in plActive
       {
-         if isClass(first(i),&StorageBox)
+         if IsClass(First(i),&StorageBox)
          {
-            Send(SYS,@AddChestToList,#oChest=first(i));
-            Send(first(i),@EnterLimbo);
+            Send(SYS,@AddChestToList,#oChest=First(i));
+            Send(First(i),@EnterLimbo);
          }
       }
 
@@ -1107,11 +1101,12 @@ messages:
    HustleUsersOutOfRoom(new_rid = $, new_row = $, new_col = $)
    {
       local oNewRoom, i, oUser;
+
       oNewRoom = Send(SYS,@FindRoomByNum,#num=new_rid);
       foreach i in plActive
       {
          oUser = Send(self,@HolderExtractObject,#data=i);
-         if isClass(oUser,&User)
+         if IsClass(oUser,&User)
          {
             if oNewRoom = $
             {
@@ -1120,7 +1115,7 @@ messages:
             else
             {
                Send(SYS,@UtilGoNearSquare,#what=oUser,#where=oNewRoom,
-                    #new_row=new_row,#new_col=new_col);
+                     #new_row=new_row,#new_col=new_col);
             }
          }
       }
@@ -1134,7 +1129,7 @@ messages:
 
       if prRoom = $
       {
-         debug("Problems with",vrName,piRoom_num);
+         Debug("Problems with",vrName,piRoom_num);
       }
 
       prmRoom = LoadRoom(prRoom);
@@ -1326,11 +1321,11 @@ messages:
       foreach i in plActive
       {
          each_obj = Send(self,@HolderExtractObject,#data=i);
-         if isClass(each_obj, class)
+         if IsClass(each_obj, class)
          {
             if (NOT mastered) OR Send(each_obj,@GetMaster) <> $
             {
-               n = n + 1;
+               ++n;
             }
          }
       }
@@ -1462,7 +1457,6 @@ messages:
       }
 
       oSoldierShield = Send(what,@FindUsing,#class=&SoldierShield);
-      oOtherShield = $;
       if victim <> $
       {
          oOtherShield = Send(victim,@FindUsing,#class=&SoldierShield);
@@ -1623,8 +1617,7 @@ messages:
    {
       local iLight;
 
-      iLight = piBaseLight;
-      iLight = iLight + piOutside_factor*(Send(SYS,@SystemGetBrightness)-50)/4;
+      iLight = piBaseLight + piOutside_factor*(Send(SYS,@SystemGetBrightness)-50)/4;
       if iLight < LIGHT_MIN
       {
          iLight = LIGHT_MIN;
@@ -2041,7 +2034,7 @@ messages:
       if new_row = $ OR new_col = $ OR fine_row = $ OR fine_col = $
          OR new_angle = $
       {
-         debug("Tried to NewHold",Send(what,@GetName),"at bad coords.");
+         Debug("Tried to NewHold",Send(what,@GetName),"at bad coords.");
 
          return;
       }
@@ -2422,7 +2415,7 @@ messages:
          }
       }
       else
-      {	  
+      {
          % these are no valid moves inside the room
          % don't validate them later
          server_validate = FALSE;
@@ -2547,7 +2540,7 @@ messages:
       if NOT GetLocationInfoBSP(prmRoom, iQflags, new_row, new_col, fine_row, fine_col,
                 *iRflags, *iHeightF, *iHeightFWD, *iHeightC, *iServerID)
       {
-         debug("Failed to get location info in ", prmRoom);
+         Debug("Failed to get location info in ", prmRoom);
          iRflags = 0;
       }
 
@@ -2763,7 +2756,7 @@ messages:
 
       if (ptPeriodic_sounds <> $)
       {
-         deleteTimer(ptPeriodic_sounds);
+         DeleteTimer(ptPeriodic_sounds);
          ptPeriodic_sounds = $;
       }
 
@@ -2889,7 +2882,7 @@ messages:
 
       foreach i in plSector_changes
       {
-         if First(i) = sector and Nth(i,2) = animation
+         if First(i) = sector AND Nth(i,2) = animation
          {
             SetNth(i,3,height);
 
@@ -2958,7 +2951,7 @@ messages:
 
       foreach i in plSector_flag_changes
       {
-         if (id <> $ AND Nth(i,1) = id)
+         if (id <> $ AND First(i) = id)
          {
             plSector_flag_changes = DelListElem(plSector_flag_changes,i);
          }
@@ -3072,7 +3065,7 @@ messages:
 
       foreach i in plWall_changes
       {
-         if (wall <> $ AND Nth(i,1) = wall)
+         if (wall <> $ AND First(i) = wall)
          {
             plWall_changes = DelListElem(plWall_changes,i);
          }
@@ -3112,7 +3105,7 @@ messages:
       % and store so that new people in room will get the change
       foreach i in plTexture_changes
       {
-         if first(i) = id AND Nth(i,3) = flags
+         if First(i) = id AND Nth(i,3) = flags
          {
             SetNth(i,2,new_texture);
 
@@ -3141,11 +3134,11 @@ messages:
 
       foreach i in plTexture_changes
       {
-         if (id <> $ AND Nth(i,1) = id)
+         if (id <> $ AND First(i) = id)
             OR (flags <> 0 AND Nth(i,3) = flags)
          {
             % reset this texture-change in BSP room data
-            ChangeTextureBSP(prmRoom, Nth(i,1), Nth(i,2), Nth(i,3) | CTF_RESET);
+            ChangeTextureBSP(prmRoom, First(i), Nth(i,2), Nth(i,3) | CTF_RESET);
 
             plTexture_changes = DelListElem(plTexture_changes,i);
          }
@@ -3192,7 +3185,7 @@ messages:
             else
             {
                if Nth(i,6) = ROW_IS_GREATER_THAN
-                  AND Send(what,@getrow) > Nth(i,7)
+                  AND Send(what,@GetRow) > Nth(i,7)
                {
                   iRoom = Nth(i,2);
                   iRow = Nth(i,3);
@@ -3202,7 +3195,7 @@ messages:
                }
 
                if Nth(i,6) = ROW_IS_LESS_THAN
-                  AND Send(what,@getrow) < Nth(i,7)
+                  AND Send(what,@GetRow) < Nth(i,7)
                {
                   iRoom = Nth(i,2);
                   iRow = Nth(i,3);
@@ -3212,7 +3205,7 @@ messages:
                }
 
                if Nth(i,6) = COL_IS_GREATER_THAN
-                  AND Send(what,@getcol) > Nth(i,7)
+                  AND Send(what,@GetCol) > Nth(i,7)
                {
                   iRoom = Nth(i,2);
                   iRow = Nth(i,3);
@@ -3222,7 +3215,7 @@ messages:
                }
 
                if Nth(i,6) = COL_IS_LESS_THAN
-                  AND Send(what,@getcol) < Nth(i,7)
+                  AND Send(what,@GetCol) < Nth(i,7)
                {
                   iRoom = Nth(i,2);
                   iRow = Nth(i,3);
@@ -3301,11 +3294,11 @@ messages:
 
       foreach i in plExits
       {
-         if (row = First(i)) and (col = Nth(i,2))
+         if (row = First(i)) AND (col = Nth(i,2))
          {
             if Nth(i,3) = ROOM_LOCKED_DOOR
             {
-               if length(i) = 4
+               if Length(i) = 4
                {
                   Send(what,@MsgSendUser,#message_rsc=Nth(i,4));
                }
@@ -3495,7 +3488,7 @@ messages:
       return;
    }
 
-   UnenchantAllOccupants( what = $, state = $ )
+   UnenchantAllOccupants(what = $, state = $)
    {
       local i, each_obj;
 
@@ -3518,7 +3511,6 @@ messages:
       local iRange_squared, iRowDiff, iColDiff, iRowCenter, iColCenter,
             lEnchanted, each_obj, i;
 
-      lEnchanted = $ ;
       iRange_squared = range * range ;
       iRowCenter = Send(center,@GetRow);
       iColCenter = Send(center,@GetCol);
@@ -4549,11 +4541,11 @@ messages:
       {
          if Send(First(i),@IsFire)
          {
-            iBonus = iBonus + 1;
+            ++iBonus;
          }
       }
 
-      piFaren_bonus = bound(iBonus,0,30);
+      piFaren_bonus = Bound(iBonus,0,30);
 
       return;
    }
@@ -4590,30 +4582,24 @@ messages:
       %   Send(what,@ResetMonsterChasers);
       %}
 
-      oTarg1 = $;
-      oTarg2 = $;
-      oTarg3 = $;
-      oTarg4 = $;
-      oTarg5 = $;
       iHate1 = 0;
       iHate2 = 0;
       iHate3 = 0;
       iHate4 = 0;
       iHate5 = 0;
-      oBrain = $;
 
       foreach i in plActive
       {
-         if isClass(first(i),&monster)
+         oTarg = First(i);
+         if IsClass(oTarg,&Monster)
          {
             if oBrain = $
             {
-               oBrain = Send(first(i),@GetBrain);
+               oBrain = Send(oTarg,@GetBrain);
             }
 
-            iHate = Send(oBrain,@GetHatred,#what=what,#mob=first(i),
-                         #behavior=Send(first(i),@GetBehavior),#event=6);
-            oTarg = First(i);
+            iHate = Send(oBrain,@GetHatred,#what=what,#mob=oTarg,
+                           #behavior=Send(oTarg,@GetBehavior),#event=6);
 
             if iHate > iHate1
             {
@@ -4723,7 +4709,7 @@ messages:
       foreach i in plActive
       {
          oMonster = First(i);
-         if isClass(oMonster,&Monster)
+         if IsClass(oMonster,&Monster)
          {
             Post(oMonster,@AffectMood,#why=MOODMOD_FACTION_CHANGE,
                  #what=new_fact);
@@ -4746,7 +4732,7 @@ messages:
       foreach i in plActive
       {
          oMonster = First(i);
-         if isClass(oMonster,&Monster)
+         if IsClass(oMonster,&Monster)
          {
             Post(oMonster,@AffectMood,#why=MOODMOD_WANDERER_ENTERED,#what=mob);
          }
@@ -4765,12 +4751,12 @@ messages:
       oTrance = Send(SYS,@FindSpellByNum,#num=SID_TRANCE);
       foreach i in plActive
       {
-         oActive = first(i);
-         if isClass(oActive,&Player)
+         oActive = First(i);
+         if IsClass(oActive,&Player)
          {
             Send(oActive,@EffectSendUserDuration,#effect=EFFECT_SHAKE,
-                 #duration=duration);
-            if random(1,100) < disruption
+                  #duration=duration);
+            if Random(1,100) < disruption
                AND Send(oActive,@IsEnchanted,#what=oTrance)
             {
                % Post this so we don't disrupt Earthquake (which caused this
@@ -4790,7 +4776,7 @@ messages:
       foreach i in plExits
       {
          oObject = Create(&Apple);
-         Send(self,@NewHold,#what=oObject,#new_row=Nth(i,1),#new_col=Nth(i,2));
+         Send(self,@NewHold,#what=oObject,#new_row=First(i),#new_col=Nth(i,2));
       }
 
       return;
@@ -5003,35 +4989,35 @@ messages:
       local num, oNews, i;
       
       % Have to check News and Newslink separately, as the classes aren't related.
-      num = Send(self, @CountHoldingHowMany, #class = &News);
+      num = Send(self,@CountHoldingHowMany,#class=&News);
       i = 1;
       while i <= num
       {
-         oNews = Send(self, @FindHolding, #class = &News, #sequence = i);
-         if Send(oNews, @GetNewsNum) = nid
+         oNews = Send(self,@FindHolding,#class=&News,#sequence=i);
+         if Send(oNews,@GetNewsNum) = nid
          {
             return TRUE;
          }
-         i = i + 1;
+         ++i;
       }
 
-      num = Send(self, @CountHoldingHowMany, #class = &NewsLink);
+      num = Send(self,@CountHoldingHowMany,#class=&NewsLink);
       i = 1;
       while i <= num
       {
-         oNews = Send(self, @FindHolding, #class = &NewsLink, #sequence = i);
+         oNews = Send(self,@FindHolding,#class=&NewsLink,#sequence=i);
          if Send(oNews, @GetNewsNum) = nid
          {
             return TRUE;
          }
-         i = i + 1;
+         ++i;
       }
 
       return FALSE;
    }
 
    DeleteWallsAroundBattler(who=$)
-   "Deletes walls in a small radius around target battler."   
+   "Deletes walls in a small radius around target battler."
    {
       local i, each_obj;
 
@@ -5041,7 +5027,8 @@ messages:
          return;
       }
 
-      % Check each active element, tell the object to delete if it is a wall and too close
+      // Check each active element, tell the object to delete
+      // if it is a wall and too close
       foreach i in plActive
       {
          each_obj = Send(self,@HolderExtractObject,#data=i);
@@ -5050,21 +5037,23 @@ messages:
             AND NOT IsClass(each_obj,&ActiveSporeCloud)
             AND NOT IsClass(each_obj,&Web)
          {
-            if Send(who,@SquaredDistanceTo,#what=each_obj) <= (WALL_DELETE_RADIUS * WALL_DELETE_RADIUS)
+            if Send(who,@SquaredDistanceTo,#what=each_obj)
+               <= (WALL_DELETE_RADIUS * WALL_DELETE_RADIUS)
             {
                Post(each_obj,@Delete);
             }
          }
       }
-      
-      % Separate check through plPassive for passive wall elements
+
+      // Separate check through plPassive for passive wall elements
       foreach i in plPassive
       {
          each_obj = Send(self,@HolderExtractObject,#data=i);
          if IsClass(each_obj,&PassiveWallofFire)
             OR IsClass(each_obj,&PassiveWallofLightning)
          {
-            if Send(who,@SquaredDistanceTo,#what=each_obj) <= (WALL_DELETE_RADIUS * WALL_DELETE_RADIUS)
+            if Send(who,@SquaredDistanceTo,#what=each_obj)
+               <= (WALL_DELETE_RADIUS * WALL_DELETE_RADIUS)
             {
                Post(each_obj,@Delete);
             }
