@@ -4,5 +4,5 @@ WeapAttSpellCaster_desc_target = de \
    "auf dein Ziel zaubern."
 WeapAttSpellCaster_desc_self = de \
    " Mystische Energie umgibt diese Waffe. Diese Waffe wird den %s Zauber "
-   "auf den Besitzer ausÃ¼ben."
+   "auf den Besitzer ausüben."
 WeapAttSpellCaster_dm = de "Zaubernden"
