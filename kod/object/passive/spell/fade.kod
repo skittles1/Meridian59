@@ -14,8 +14,6 @@ constants:
 
    include blakston.khd
 
-   FADE_TIME = 300000       % 5 minutes
-
 resources:
 
    include fade.lkod
