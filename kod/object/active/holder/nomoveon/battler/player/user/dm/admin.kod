@@ -22,8 +22,6 @@ resources:
    admin_login = "Welcome to the game, Administrator %s."
    admin_admin_module = admin.dll
 
-   admin_mortal = "You are mortal."
-   admin_immortal = "You are immortal."
    admin_morphed = "You are not in your plain human form."
 
    admin_anonymous = "You are now anonymous."
@@ -37,8 +35,6 @@ resources:
    admin_relic_command = "relic"
    admin_start_tour_command = "start tour"
    admin_end_tour_command = "end tour"
-   admin_mortal_command = "mortal"
-   admin_immortal_command = "immortal"
    admin_logoffghost_on_command = "logoffghost on"
    admin_logoffghost_off_command = "logoffghost off"
    admin_logoffghost_temp_off_command = "logoffghost temp off"
@@ -54,8 +50,6 @@ resources:
       "command only works on weapons, for the time being)."
 
    admin_made_itematt = "%s raises %s%s, glowing briefly with a mystical light!"
-   admin_gone_mortal = "%s appears more vulnerable."
-   admin_gone_immortal = "%s appears less vulnerable."
 
    admin_logoffghost_on = "Logoff penalties are now active."
    admin_logoffghost_off = "Logoff penalties are now inactive."
@@ -81,11 +75,6 @@ messages:
          Send(self,@MsgSendUser,#message_rsc=admin_login,
                #parm1=Send(self,@GetTrueName));
          Send(self,@UserLoadModule,#module=admin_admin_module);
-      }
-
-      if NOT pbImmortal
-      {
-         Send(self,@MsgSendUser,#message_rsc=admin_mortal);
       }
 
       if (piDMFlags & DMFLAG_ANONYMOUS)
@@ -272,44 +261,6 @@ messages:
       if StringEqual(string,admin_end_tour_command)
       {
          Send(self,@EndTour);
-
-         return;
-      }
-
-      if StringEqual(string,admin_mortal_command)
-      {
-         pbImmortal = FALSE;
-
-         if NOT pbStealth
-         {
-            Send(poOwner,@SomeoneSaid,#what=self,#type=SAY_MESSAGE,
-                 #string=admin_gone_mortal,#parm1=Send(self,@GetName));
-         }
-         else
-         {
-            Send(self,@MsgSendUser,#message_rsc=admin_mortal);
-         }
-
-         Send(poOwner,@SomethingChanged,#what=self);
-
-         return;
-      }
-
-      if StringEqual(string,admin_immortal_command)
-      {
-         pbImmortal = pbImmortalSave;
-
-         if NOT pbStealth
-         {
-            Send(poOwner,@SomeoneSaid,#what=self,#type=SAY_MESSAGE,
-                 #string=admin_gone_immortal,#parm1=Send(self,@GetName));
-         }
-         else
-         {
-            Send(self,@MsgSendUser,#message_rsc=admin_immortal);
-         }
-
-         Send(poOwner,@SomethingChanged,#what=self);
 
          return;
       }

@@ -1,4 +1,6 @@
 dm_login = de "Willkommen in Meridian, %s."
+dm_mortal = de "Du bist jetzt sterblich."
+dm_immortal = de "Du bist jetzt unsterblich."
 dm_teleportto = de \
    "%s schreitet durch ein Dimensionstor, das sich neben Dir öffnet."
 dm_teleportfrom = de \
@@ -87,6 +89,8 @@ dm_stealth_on = de "Du gehst jetzt heimlich vor."
 dm_stealth_off = de "Du gehst nicht mehr heimlich vor."
 dm_plain = de "Du wirst für die Spieler wieder sichtbar."
 dm_blank = de "You are now blank."
+dm_mortal_command = de "mortal"
+dm_immortal_command = de "immortal"
 dm_no_longer = de \
    "Dieser Befehl existiert nicht mehr. Gib ~Idm help~I ein, um mehr Infos "
    "zu erhalten."
@@ -99,6 +103,8 @@ dm_no_item = de "No item with that name exists in the Meridian universe."
 dm_no_monster = de "No monster with that name exists in the Meridian universe."
 dm_no_item_group = de "There is no item group with that name."
 dm_q = de "Q"
+dm_gone_mortal = de "%s scheint verwundbarer."
+dm_gone_immortal = de "%s scheint weniger verwundbar."
 dm_void = de "%s greift in das Dimensionstor. %s%s wird herausgezogen!"
 dm_call = de \
    "%s murmelt magische Zauberformeln, und plötzlich erscheinen überall Monster."
