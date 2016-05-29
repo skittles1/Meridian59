@@ -2558,7 +2558,6 @@ messages:
          AND iHair_translation <> PT_GRAY_TO_KGRAY
          AND iHair_translation <> PT_GRAY_TO_BLACK
          AND iHair_translation <> PT_GRAY_TO_BLOND
-         AND iHair_translation <> PT_GRAY_TO_LSKY
       {
          % if they hacked char.dll...
          iHair_translation = PT_GRAY_TO_BLOND;
