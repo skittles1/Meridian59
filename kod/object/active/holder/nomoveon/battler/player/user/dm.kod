@@ -25,6 +25,8 @@ resources:
    dm_module = dm.dll
 
    dm_login = "Welcome to the game, DM %s."
+   dm_mortal = "You are mortal."
+   dm_immortal = "You are immortal."
 
    dm_teleportto = \
       "A dimensional gate appears next to you, and %s steps through."
@@ -97,6 +99,8 @@ resources:
    dm_call_monster_command = "call monster"
    dm_npc_chat_command = "npc chat"
    dm_plain_command = "plain"
+   dm_mortal_command = "mortal"
+   dm_immortal_command = "immortal"
 
    dm_currently_in = "The ROO for `b%s`n is `k`B%s`n.  The room number is %i."
    dm_currently_at = \
@@ -152,7 +156,9 @@ resources:
    dm_no_monster = "No monster with that name exists in the Meridian universe."
    dm_no_item_group = "There is no item group with that name."
    dm_q = "Q"
-   
+
+   dm_gone_mortal = "%s appears more vulnerable."
+   dm_gone_immortal = "%s appears less vulnerable."
    dm_void = "%s reaches into the void and pulls forth %s%s!"
    dm_call = \
       "%s utters arcane syllables into the shadows, stirring the monsters."
@@ -238,7 +244,10 @@ resources:
       "to obtain a class of items (rings, money, reagents etc).\nUse "
       "~bdm roomgive number itemname~n to give ~bnumber~n amount of that item "
       "to everyone in the room."
-
+   dm_help_mortality = \
+      "Use ~bdm immortal~n to set immortality (can't be attacked or killed).  "
+      "Use ~bdm mortal~n to turn immortality off (~rnote that you can be "
+      "killed, so be careful!~n)."
    // Help sub-menus.
    dm_help_messages = \
       "Sending messages to users:\n"
@@ -444,6 +453,11 @@ messages:
             Send(self,@MsgSendUser,#message_rsc=dm_login,
                   #parm1=Send(self,@GetName));
          }
+      }
+
+      if NOT pbImmortal
+      {
+         Send(self,@MsgSendUser,#message_rsc=dm_mortal);
       }
 
       if Send(self,@IsHidden)
@@ -1405,6 +1419,48 @@ messages:
          }
       }
 
+      if (piDMFlags & DMFLAG_ALLOW_SET_MORTAL)
+      {
+         if StringEqual(string,dm_mortal_command)
+         {
+            pbImmortal = FALSE;
+
+            if NOT pbStealth
+            {
+               Send(poOwner,@SomeoneSaid,#what=self,#type=SAY_MESSAGE,
+                     #string=dm_gone_mortal,#parm1=Send(self,@GetName));
+            }
+            else
+            {
+               Send(self,@MsgSendUser,#message_rsc=dm_mortal);
+            }
+
+            Send(poOwner,@SomethingChanged,#what=self);
+
+            return;
+         }
+
+
+         if StringEqual(string,dm_immortal_command)
+         {
+            pbImmortal = pbImmortalSave;
+
+            if NOT pbStealth
+            {
+               Send(poOwner,@SomeoneSaid,#what=self,#type=SAY_MESSAGE,
+                     #string=dm_gone_immortal,#parm1=Send(self,@GetName));
+            }
+            else
+            {
+               Send(self,@MsgSendUser,#message_rsc=dm_immortal);
+            }
+
+            Send(poOwner,@SomethingChanged,#what=self);
+
+            return;
+         }
+      }
+
       propagate;
    }
 
@@ -1493,6 +1549,10 @@ messages:
          if (piDMFlags & DMFLAG_ALLOW_CREATE_ITEMS)
          {
             Send(self,@MsgSendUser,#message_rsc=dm_help_itemget);
+         }
+         if (piDMFlags & DMFLAG_ALLOW_SET_MORTAL)
+         {
+            Send(self,@MsgSendUser,#message_rsc=dm_help_mortality);
          }
          // Standard help menu.
          Send(self,@MsgSendUser,#message_rsc=dm_help_all);

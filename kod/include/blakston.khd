@@ -2459,6 +2459,8 @@
    DMFLAG_ALLOW_COMBAT           = 0x200000
    // Allow giving items to NPCs/mobs.
    DMFLAG_ALLOW_GIVE_MOBS        = 0x400000
+   // Allow switching immortality on/off
+   DMFLAG_ALLOW_SET_MORTAL       = 0x800000
 
    DMFLAG_SET_MODERATOR          = 0x000000
    DMFLAG_SET_BARD               = 0x0414C0
