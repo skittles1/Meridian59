@@ -23,6 +23,7 @@ These notices must be retained in any copies of any part of this
 documentation and/or software.
  */
 
+#include <stdio.h>
 #include <string.h>
 #include <memory.h>
 #include "md5.h"
@@ -312,6 +313,20 @@ void MDString (char *string, unsigned char *digest)
    for (i=0; i < ENCRYPT_LEN; i++)
       if (digest[i] == 0)
 	 digest[i] = 1;
+}
+
+/* Digests a string, converts to hex and places it in filehash. Filehash
+ * must be 33 bytes.
+ */
+void MDFileHash(char *string, char *filehash, unsigned int bytes)
+{
+   unsigned char digest[16];
+   MDStringBytes(string, digest, bytes);
+
+   // Convert to hex.
+   for (int i = 0; i < 16; ++i)
+      sprintf(filehash + i * 2, "%02X", digest[i]);
+   filehash[32] = 0;
 }
 
 /* Digests a string and prints the result.  Digest must be at least 16 bytes long.

@@ -108,6 +108,8 @@ typedef struct
 
    int last_download_time; /* as reported by the client.  Needed to communicate from
 			      synched mode to upload mode */
+   // RSB file hash sent by client for comparison with live RSB.
+   char rsb_hash[ENCRYPT_LEN + 1];
 
    unsigned int seeds[SEED_COUNT]; /* for security in game mode */
    Bool seeds_hacked;
