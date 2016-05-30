@@ -53,6 +53,8 @@ properties:
    // portal first enters a room or is moved.
    plTeleportArea = $
 
+   ptAnimate = $
+
 messages:
 
    Constructor(dest_room_num = RID_DEFAULT, dest_row = 1, dest_col = 1,
@@ -74,6 +76,17 @@ messages:
       if icon <> $
       {
          vrIcon = icon;
+      }
+
+      propagate;
+   }
+
+   Delete()
+   {
+      if (ptAnimate <> $)
+      {
+         DeleteTimer(ptAnimate);
+         ptAnimate = $;
       }
 
       propagate;
@@ -138,6 +151,21 @@ messages:
       return;
    }
 
+   ReanimatePortal(timer=$)
+   "Turns the portal's animation back on."
+   {
+      if (timer <> ptAnimate)
+      {
+         DeleteTimer(ptAnimate);
+      }
+
+      ptAnimate = $;
+
+      Send(self,@SetAnimation,#what=TRUE);
+
+      return;
+   }
+
    SomethingMoved(what = $)
    {
       if what = self
@@ -156,8 +184,15 @@ messages:
 
       if (Send(poOwner,@IsUserInArea,#who=what,#lArea=plTeleportArea))
       {
-         % Something moved on top of us.
-         Send(self,@TeleportSomething,#what=what);
+         // Turn the portal off for a short time during transport.
+         // Done in case a portal tries to repeatedly teleport
+         // the same player.
+         Send(self,@SetAnimation,#what=FALSE);
+         ptAnimate = CreateTimer(self,@ReanimatePortal,500);
+
+         // Something moved on top of us. Post this so the user's
+         // new coordinates get set correctly if moving in the same room.
+         Post(self,@TeleportSomething,#what=what);
       }
 
       return;
