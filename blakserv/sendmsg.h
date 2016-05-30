@@ -16,7 +16,7 @@
 #define MAX_C_PARMS 40
 #define MAX_NAME_PARMS 45
 #define MAX_LOCALS 50
-#define MAX_BLAKOD_STATEMENTS 30000000
+#define MAX_BLAKOD_STATEMENTS 40000000
 /* the c function id is 1 byte */
 #define MAX_C_FUNCTION 256
 
