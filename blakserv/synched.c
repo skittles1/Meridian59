@@ -563,8 +563,8 @@ void VerifyLogin(session_node *s)
    else
    {
       str = GetRsbMD5();
-      if (strcmp(str, "") != 0
-         && strcmp(s->rsb_hash, "") != 0
+      if (*str != 0
+         && s->rsb_hash[0] != 0
          && strcmp(s->rsb_hash, str) != 0)
       {
          if (s->version_major == 50)
