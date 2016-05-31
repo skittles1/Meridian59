@@ -891,7 +891,7 @@ void InterfaceDrawText(HWND hwnd)
 	
 	if (TryEnterServerLock())
 	{
-		sprintf(s,"%lu bytes",GetMemoryTotal());
+		sprintf(s,"%i bytes",GetMemoryTotal());
 		SetDlgItemText(HWND_STATUS,IDC_MEMORY_VALUE,s);
 		
 		kstat = GetKodStats();
@@ -949,8 +949,6 @@ void InterfaceCheckChannels()
          break;
 		default:
 			hwndList = GetDlgItem(HWND_CHANNEL,IDC_DEBUG_LIST);
-			break;
-			hwndList = NULL; 
 			break;
 		}
 

@@ -137,6 +137,7 @@ Bool LoadDynamicRscName(char *filename)
    if (version != 1)
    {
       eprintf("LoadDynamicRscName can't understand rsc version != 1\n");
+      fclose(fh);
       return False;
    }
 

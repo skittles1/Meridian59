@@ -298,7 +298,7 @@ int C_GodLog(int object_id,local_var_type *local_vars,
 			
 		case TAG_STRING :
 			{
-				int lenBuffer, lenString;
+				int lenBuffer;
 				string_node *snod = GetStringByID(each_val.v.data);
 				
 				if (snod == NULL)
@@ -306,7 +306,6 @@ int C_GodLog(int object_id,local_var_type *local_vars,
 					bprintf("C_GodLog can't find string %i\n",each_val.v.data);
 					return NIL;
 				}
-				lenString = snod->len_data;
 				lenBuffer = strlen(buf);
 				memcpy(buf + lenBuffer,snod->data,snod->len_data);
 				*(buf + lenBuffer + snod->len_data) = 0;
@@ -442,7 +441,7 @@ int C_Debug(int object_id,local_var_type *local_vars,
 			
 		case TAG_STRING :
 			{
-				int lenBuffer, lenString;
+				int lenBuffer;
 				string_node *snod = GetStringByID(each_val.v.data);
 				
 				if (snod == NULL)
@@ -450,7 +449,6 @@ int C_Debug(int object_id,local_var_type *local_vars,
 					bprintf("C_Debug can't find string %i\n",each_val.v.data);
 					return NIL;
 				}
-				lenString = snod->len_data;
 				lenBuffer = strlen(buf);
 				memcpy(buf + lenBuffer,snod->data,snod->len_data);
 				*(buf + lenBuffer + snod->len_data) = 0;

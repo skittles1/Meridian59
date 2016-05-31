@@ -99,12 +99,12 @@ void InitProfiling(void)
    kod_stat.message_depth_highest = 0;
    kod_stat.interpreting_class = INVALID_CLASS;
 
-   for (i = 0; i < MAX_C_FUNCTION; i++)
+   for (i = 0; i < MAX_C_FUNCTION; ++i)
+   {
       kod_stat.c_count_untimed[i] = 0;
-   for (i = 0; i < MAX_C_FUNCTION; i++)
       kod_stat.c_count_timed[i] = 0;
-   for (i = 0; i < MAX_C_FUNCTION; i++)
       kod_stat.ccall_total_time[i] = 0;
+   }
 
    message_depth = 0;
 

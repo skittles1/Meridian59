@@ -1759,7 +1759,6 @@ void AdminShowOneUser(user_node *u)
 	resource_node *r;
 	object_node *o;
 	class_node *c;
-	char ch = 'U';
 	
 	if (!u)
 		return;
@@ -4465,8 +4464,6 @@ void AdminSendClass(int session_id,admin_parm_type parms[],
 	DoneLoadAccounts();
 	
 	/* need to sort blak_parm */
-	
-	message_name = (char *)parms[1];
 	
 	c = GetClassByName(class_name);
 	if (c == NULL)
