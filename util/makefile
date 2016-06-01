@@ -84,7 +84,7 @@ $(OUTDIR)\porttest.exe: $(OUTDIR)\porttest.obj
 	$(CP) $@ $(BLAKBINDIR)
 
 $(OUTDIR)\md5.obj : $(SOURCEDIR)\md5.c
-    $(CC) -Fo$(OUTDIR)/ $(CFLAGS) /Fd$(OUTDIR)\vc90.pdb /Fpmd5pch -c $**
+    $(CC) -Fo$(OUTDIR)/ $(CFLAGS) /Fd$(OUTDIR)\ /Fpmd5pch -c $**
 
 $(OUTDIR)\clientpatch.exe: $(OUTDIR)\clientpatch.obj
 	$(LINK) $(LINKFLAGS) $** $(NTLIBS) $(BLAKLIBDIR)\jansson.lib $(OUTDIR)\md5.obj -out:$@

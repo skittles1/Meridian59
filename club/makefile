@@ -33,7 +33,7 @@ $(OUTDIR)\club.exe : $(OBJS) $(OUTDIR)\club.res
         $(CP) $@ $(CLIENTRUNDIR)
 
 $(OUTDIR)\md5.obj : $(TOPDIR)\util\md5.c
-	$(CC) -Fo$(OUTDIR)/ $(CFLAGS) /Fd$(OUTDIR)\vc90.pdb /FpCpch -c $**
+	$(CC) -Fo$(OUTDIR)/ $(CFLAGS) /Fd$(OUTDIR)\ /FpCpch -c $**
 
 
 

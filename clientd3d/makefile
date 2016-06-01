@@ -139,10 +139,10 @@ $(OUTDIR)\pal.c: $(OUTDIR)\makepal.exe $(PALETTEFILE)
 	$(OUTDIR)\makepal $(PALETTEFILE) $(OUTDIR)
 
 $(OUTDIR)\crc.obj : $(TOPDIR)\util\crc.c
-	$(CC) -Fo$(OUTDIR)/ $(CFLAGS) /Fd$(OUTDIR)\vc90.pdb /FpCpch -c $**
+	$(CC) -Fo$(OUTDIR)/ $(CFLAGS) /Fd$(OUTDIR)\ /FpCpch -c $**
 
 $(OUTDIR)\md5.obj : $(TOPDIR)\util\md5.c
-	$(CC) -Fo$(OUTDIR)/ $(CFLAGS) /Fd$(OUTDIR)\vc90.pdb /FpCpch -c $**
+	$(CC) -Fo$(OUTDIR)/ $(CFLAGS) /Fd$(OUTDIR)\ /FpCpch -c $**
 
 $(OUTDIR)\meridian.exe: $(OBJS) $(DEFFILE) $(OUTDIR)\client.res
 	$(LINK) $(LINKFLAGS) @<<
