@@ -794,15 +794,6 @@ messages:
       // Log the DM command in god.txt, and print it to the debug log.
       GodLog("DM ",Send(self,@GetTrueName)," used the DM command dm ",string);
 
-      // Handles all help menus that include "help". Future DM commands
-      // that include "help" should be handled by DMSayHelp.
-      if StringContain(string,dm_help_command)
-      {
-         Send(self,@DMSayHelp,#string=string);
-
-         return;
-      }
-
       if (piDMFlags & DMFLAG_ALLOW_TURNOFF_ROOMPK)
          AND StringEqual(string,dm_turn_off_pk)
       {
@@ -861,6 +852,15 @@ messages:
          {
             Send(First(i),@MsgSendUser,#message_rsc=dm_system_message,#parm1=string);
          }
+
+         return;
+      }
+
+      // Handles all help menus that include "help". Future DM commands
+      // that include "help" should be handled by DMSayHelp.
+      if StringContain(string,dm_help_command)
+      {
+         Send(self,@DMSayHelp,#string=string);
 
          return;
       }
