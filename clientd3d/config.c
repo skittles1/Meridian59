@@ -38,6 +38,7 @@ static char INIPlaySound[]   = "PlaySound";
 static char INIPlayLoopSounds[]   = "PlayLoopSounds";
 static char INIPlayRandomSounds[]   = "PlayRandomSounds";
 static char INITimeout[]     = "Timeout";
+static char INITimeoutEnabled[] = "TimeoutEnabled";
 static char INIUserName[]    = "UserName";
 static char INIAnimate[]     = "Animate";
 static char INIArea[]        = "Area";
@@ -294,6 +295,7 @@ void ConfigLoad(void)
 #endif
    config.showFPS = GetConfigInt(special_section, INIShowFPS, False, ini_file);
    config.timeout	= GetConfigInt(misc_section, INITimeout, DefaultTimeout, ini_file);
+   config.timeoutenabled = GetConfigInt(misc_section, INITimeoutEnabled, False, ini_file);
    config.technical = GetConfigInt(special_section, INITechnical, False, ini_file);
 
    TimeSettingsLoad();
@@ -312,6 +314,7 @@ void ConfigSave(void)
    WriteConfigInt(misc_section, INIPlayLoopSounds, config.play_loop_sounds, ini_file);
    WriteConfigInt(misc_section, INIPlayRandomSounds, config.play_random_sounds, ini_file);
    WriteConfigInt(misc_section, INITimeout, config.timeout, ini_file);
+   WriteConfigInt(misc_section, INITimeoutEnabled, config.timeoutenabled, ini_file);
    WriteConfigInt(misc_section, INIArea, gLargeArea, ini_file);
    WriteConfigInt(misc_section, INIAnimate, config.animate, ini_file);
    WriteConfigInt(misc_section, INIVersion, config.ini_version, ini_file);
