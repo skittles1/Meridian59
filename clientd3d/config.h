@@ -52,6 +52,7 @@ typedef struct {
    Bool play_sound;              /* Does user want to hear sound? */
    Bool large_area;              /* Drawing area size--> 0 = small, nonzero = large */
    int  timeout;                 /* Period of logoff timer */
+   Bool  timeoutenabled;         /* Whether we use the logoff timer */
    char username[MAXUSERNAME+1]; /* User's last login name */
    char password[MAXPASSWORD+1]; /* User's last password (not saved to INI file) */
 
