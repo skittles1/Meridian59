@@ -2501,6 +2501,9 @@ messages:
       Send(self,@CreateOneRoomIfNew,#num=RID_NEWB8,#class=&Newb8);
       Send(self,@CreateOneRoomIfNew,#num=RID_NEWB9,#class=&Newb9);
 
+      Send(self,@CreateOneRoomIfNew,#num=RID_FAROL_WEST,#class=&FarolWest);
+      Send(self,@CreateOneRoomIfNew,#num=RID_RAZA_FOREST,#class=&RazaForest);
+
       Send(self,@CreateOneRoomIfNew,#num=RID_GUILDH1,#class=&GuildHall1);
       Send(self,@CreateOneRoomIfNew,#num=RID_GUILDH2,#class=&GuildHall2);
       Send(self,@CreateOneRoomIfNew,#num=RID_GUILDH3,#class=&GuildHall3);

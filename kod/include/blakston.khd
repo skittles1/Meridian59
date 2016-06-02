@@ -812,6 +812,9 @@
    RID_NEWB9            = 1019
    RID_NEWB_MAX         = 1019
 
+   RID_FAROL_WEST       = 1050
+   RID_RAZA_FOREST      = 1051
+
    % Desert rooms, start at 1500.
    % RID_DESERT is the constant used by GetRegion.
    RID_DESERT = 1500

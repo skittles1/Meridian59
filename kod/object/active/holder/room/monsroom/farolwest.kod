@@ -1,0 +1,79 @@
+% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+% All rights reserved.
+%
+% This software is distributed under a license that is described in
+% the LICENSE file that accompanies it.
+%
+% Meridian is a registered trademark.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+FarolWest is MonsterRoom
+
+constants:
+
+   include blakston.khd
+
+resources:
+
+   room_farolwest = farolwest.roo
+   room_name_farolwest ="Western Edge of the Forest of Farol"
+   farolwest_music = walk5.ogg
+
+classvars:
+
+   vrName = room_name_farolwest
+
+   viTeleport_row = 27
+   viTeleport_col = 40
+
+   viTerrain_type = TERRAIN_FOREST
+
+   viFlag_row = 3
+   viFlag_col = 41
+
+   viWeatherZone = WEATHER_ZONE_MARION
+
+properties:
+
+   prRoom = room_farolwest
+   prMusic = farolwest_music
+   piRoom_num = RID_FAROL_WEST
+
+   piBaseLight = LIGHT_NICE
+   piOutside_factor = 8
+
+   piDirectional_percent = DIRECTIONAL_PERCENT_OUTDOORS
+
+   pbSnowGroundTexture = TRUE
+
+   piGen_percent = 100
+
+   piInit_count_min = 4
+   piInit_count_max = 6
+
+   piMonster_count_max = 12
+
+messages:
+
+   Constructed()
+   {
+      plMonsters = [ [&Bunny, 35], [&GiantRat, 30],
+                     [&SmallRat, 10], [&Centipede, 25] ];
+
+      propagate;
+   }
+
+    CreateStandardExits()
+   {
+      plExits = $;
+
+      plEdge_Exits = $;
+      plEdge_Exits = Cons([LEAVE_EAST, RID_C6, 18, 2, ROTATE_NONE], plEdge_exits);
+      plEdge_Exits = Cons([LEAVE_WEST, RID_B6, 39, 48, ROTATE_NONE], plEdge_exits);
+
+      propagate;
+   }
+
+end
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
