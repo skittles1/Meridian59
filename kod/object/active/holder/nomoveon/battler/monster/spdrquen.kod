@@ -148,8 +148,8 @@ messages:
          oSpell2 = Send(SYS,@FindSpellByNum,#num=SID_SPIDER_WEB);
          if who <> $
          {
-            Send(oSpell2,@CastSpell,#who=who,
-                  #lTargets=[what],#ispellpower=30);
+            Send(oSpell2,@CastSpell,#who=who,#lTargets=[what],#ispellpower=30,
+                  #bItemCast=TRUE);
          }
          else
          {

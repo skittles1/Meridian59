@@ -222,7 +222,8 @@ messages:
       {
          if who <> $
          {
-            Send(oSpell,@CastSpell,#who=who,#lTargets=[what],#iSpellPower=50);
+            Send(oSpell,@CastSpell,#who=who,#lTargets=[what],#iSpellPower=50,
+                  #bItemCast=TRUE);
          }
          else
          {
