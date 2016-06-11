@@ -97,7 +97,8 @@ messages:
       {
          if who <> $
          {
-            Send(oSpell,@CastSpell,#who=who,#lTargets=[what],#iSpellPower=15);
+            Send(oSpell,@CastSpell,#who=who,#lTargets=[what],#iSpellPower=15,
+                  #bItemCast=TRUE);
          }
          else
          {
