@@ -239,7 +239,7 @@ inline long GetFloorHeight(long x, long y, Sector *sector) {
     if (sector->sloped_floor == (SlopeData *)NULL)
 	return sector->floor_height;
     else
-	return (-sector->sloped_floor->plane.a*x - sector->sloped_floor->plane.b*y - sector->sloped_floor->plane.d)/sector->sloped_floor->plane.c;
+	return roundf((-sector->sloped_floor->plane.a*x - sector->sloped_floor->plane.b*y - sector->sloped_floor->plane.d)/sector->sloped_floor->plane.c);
 }
 
 /***************************************************************************
@@ -255,7 +255,7 @@ inline long GetCeilingHeight(long x, long y, Sector *sector) {
     if (sector->sloped_ceiling == (SlopeData *)NULL)
 	return sector->ceiling_height;
     else
-	return (-sector->sloped_ceiling->plane.a*x - sector->sloped_ceiling->plane.b*y - sector->sloped_ceiling->plane.d)/sector->sloped_ceiling->plane.c;
+	return roundf((-sector->sloped_ceiling->plane.a*x - sector->sloped_ceiling->plane.b*y - sector->sloped_ceiling->plane.d)/sector->sloped_ceiling->plane.c);
 }
 
 /*****************************************************************************/
