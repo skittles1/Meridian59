@@ -632,6 +632,7 @@ void BSPSplitWalls(WallDataList walls, WallData *root, WallDataList *root_walls,
                //"(a = %6.4f, a2 = %6.4f, b = %6.4f, b2= %6.4f\n", ra1, ra2, rb1, rb2);
                LogError("something is wacky in BSPSplitWalls! "
                   "(a = %6.4f, a2 = %6.4f, b = %6.4f, b2= %6.4f\n", a, a2, b, b2);
+               LogError("Linedef %i\n, sector %i", wall->linedef_num, wall->pos_sector);
             }
 
             wall->next = *root_walls;

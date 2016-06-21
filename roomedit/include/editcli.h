@@ -143,7 +143,7 @@ private:
 	const char *AddObjectType(const char *);
 
 public:
-	TEditorClient (TWindow* parent, char *_LevelName, BOOL newLevel,
+	TEditorClient (TWindow* parent, char *_LevelName, char *_saveLevelName, BOOL newLevel,
 				   const char* title = 0, TModule* module = 0);
 	virtual ~TEditorClient ();
 	BOOL SaveChanges ();

@@ -66,7 +66,7 @@
 //
 // Main window title
 //
-#define TITLE "BlakSton Room Editor version 2.3 (February 23, 2016)"
+#define TITLE "BlakSton Room Editor version 2.4 (June 21, 2016)"
 
 //
 // Generated help file.
@@ -91,6 +91,7 @@ HHOOK hKeyboardHook = NULL;
 
 // Initial level name to load from command line
 static char init_level[500];
+static char save_level[500];
 
 //
 // Hook Callback function called each time a key is pressed or released
@@ -226,7 +227,7 @@ void WinDEUApp::InitInstance ()
 									 *this,
 									 0);
 	// Parse command line and INI file.
-	InitWindeu(argc, argv, init_level);
+	InitWindeu(argc, argv, init_level, save_level);
 
 // removed annoyances ARK
 #if 0
@@ -262,7 +263,7 @@ void WinDEUApp::InitInstance ()
 		// the old one (the main client)
 		TMainFrame *MainFrame =
 			TYPESAFE_DOWNCAST(MainWindow->GetApplication()->GetMainWindow(), TMainFrame);
-		MainFrame->EditLevel (init_level, FALSE) ;
+		MainFrame->EditLevel(init_level, save_level, FALSE);
 	}
 }
 

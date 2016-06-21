@@ -172,7 +172,7 @@ void TMainClient::CmFileOpenWad ()
 		// the old one (the main client)
 		TMainFrame *MainFrame =
 			TYPESAFE_DOWNCAST (GetApplication()->GetMainWindow(), TMainFrame);
-		MainFrame->EditLevel (FileData.FileName, FALSE) ;
+		MainFrame->EditLevel(FileData.FileName, FileData.FileName, FALSE);
 		
 	}
 	RESTORE_HELP_CONTEXT();
@@ -549,7 +549,7 @@ void TMainClient::CmEditorCreate ()
 		// the old one (the main client)
 		TMainFrame *MainFrame =
 			TYPESAFE_DOWNCAST(GetApplication()->GetMainWindow(), TMainFrame);
-		MainFrame->EditLevel (LevelName, TRUE) ;
+		MainFrame->EditLevel(LevelName, LevelName, TRUE);
 	}
 	RESTORE_HELP_CONTEXT();
 	return;		// 'this' is not valid anymore
