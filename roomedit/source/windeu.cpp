@@ -85,11 +85,14 @@
 
 //#include "entrance.h"
 
+// Option to run roomedit as a nodebuilder.
+Bool nodeBuilderMode = FALSE;
+
 // Variables globales
 int DoomVersion;            /* Doom version (1 or 2) */
 FILE *logfile = NULL;		/* filepointer to the error log */
 Bool Registered = TRUE;	    /* registered or shareware game? */
-Bool Debug = FALSE;			/* are we debugging? */
+Bool Debug = TRUE;			/* are we debugging? */
 Bool Quiet = FALSE;			/* don't play a sound when an object is selected */
 Bool Quieter = FALSE;		/* don't play any sound, even when an error occurs */
 Bool Expert = FALSE;		/* don't ask for confirmation for some operations */
@@ -137,7 +140,7 @@ char *DefaultWallTexture;		/* default normal wall texture */
 char *DefaultUpperTexture;		/* default upper wall texture */
 char *DefaultLowerTexture;		/* default lower wall texture */
 char *DefaultFloorTexture;		/* default floor texture */
-char *DefaultCeilingTexture;	        /* default ceiling texture */
+char *DefaultCeilingTexture;	/* default ceiling texture */
 
 SHORT  DefaultFloorHeight   = 0;	/* default floor height */
 // Changed default ceiling height ARK
@@ -173,17 +176,17 @@ OptDesc options[] =
 	{ "w",  "main",        OPT_STRING,     "Main WAD file",				NULL,                         &MainWad        },
 	{ NULL, "file",        OPT_STRINGLIST, "Patch WAD file",				NULL,                         &PatchWads      },
 	{ "pw", "pwad",        OPT_STRINGACC,  "Patch WAD file",				NULL,                         &PatchWads      },
-	{ NULL, "config",      OPT_STRING,     "Config file",				NULL,                         &CfgFile        },
+	{ NULL, "config",      OPT_STRING,     "Config file",				"windeu.ini",                         &CfgFile        },
 	{ "z",  "zoom",        OPT_INTEGER,    "Initial zoom factor",		NULL,                         &InitialScale   },
 	{ "c",  "color2",      OPT_BOOLEAN,    "Alternate Things color set",	"Normal Things color set",    &Colour2        },
 	{ "i",  "infobar",     OPT_BOOLEAN,    "Info bar shown",				"Info bar hidden",            &InfoShown      },
 	{ "a",  "addselbox",   OPT_BOOLEAN,    "Additive selection box",		"Select objects in box only", &AdditiveSelBox },
 	{ "sf", "splitfactor", OPT_INTEGER,    "Split factor",				NULL,			      		&SplitFactor    },
-	{ NULL, "walltexture", OPT_STRING,     "Default wall texture",		NULL,                   &DefaultWallTexture    },
-	{ NULL, "lowertexture",OPT_STRING,     "Default lower wall texture",	NULL,                &DefaultLowerTexture   },
-	{ NULL, "uppertexture",OPT_STRING,     "Default upper wall texture",	NULL,                &DefaultUpperTexture   },
-	{ NULL, "floortexture",OPT_STRING,     "Default floor texture",		NULL,                &DefaultFloorTexture   },
-	{ NULL, "ceiltexture", OPT_STRING,     "Default ceiling texture",	NULL,                   &DefaultCeilingTexture },
+	{ NULL, "walltexture", OPT_STRING,     "Default wall texture",		DEFAULT_WALL_TEXTURE, &DefaultWallTexture    },
+	{ NULL, "lowertexture",OPT_STRING,     "Default lower wall texture",	DEFAULT_LOWER_TEXTURE, &DefaultLowerTexture   },
+	{ NULL, "uppertexture",OPT_STRING,     "Default upper wall texture",	DEFAULT_UPPER_TEXTURE, &DefaultUpperTexture   },
+	{ NULL, "floortexture", OPT_STRING, "Default floor texture", DEFAULT_FLOOR_TEXTURE, &DefaultFloorTexture },
+	{ NULL, "ceiltexture", OPT_STRING,     "Default ceiling texture",	DEFAULT_CEILING_TEXTURE, &DefaultCeilingTexture },
 	{ NULL, "floorheight", OPT_INTEGER,    "Default floor height",		NULL,			      		&DefaultFloorHeight    },
 	{ NULL, "ceilheight",  OPT_INTEGER,    "Default ceiling height",		NULL,			      	&DefaultCeilingHeight  },
 	{ "s0", "select0",     OPT_BOOLEAN,    "Select 0 by default",		"No default selection",	&Select0          },
@@ -196,21 +199,25 @@ OptDesc options[] =
 	{ "sg", "showgrid",    	OPT_BOOLEAN,   NULL,								NULL,                   &GridShown		   },
 	{ "ng", "snaptogrid",  	OPT_BOOLEAN,   NULL,								NULL,                   &SnapToGrid			},
 	// Added ARK
-	{ "bg", "bitmapdir",   	OPT_STRING,    NULL,								NULL,                   &BitmapDir			},
-	{ "sp", "bitmapspec",  	OPT_STRING,    NULL,								NULL,                   &BitmapSpec			},
-	{ "sc", "autoscroll",  	OPT_BOOLEAN,   NULL,   							NULL,  						&AutoScroll			},
-	{ "kod", "koddir",   	OPT_STRING,    NULL,								NULL,                   &KodDir			 	},
-	{ "svr", "serverdir",   OPT_STRING,    NULL,								NULL,                   &ServerDir			},
-	{ "ent", "entrances", 	OPT_STRING,		NULL,								NULL,							&EntranceData		},
+	{ "bg", "bitmapdir", OPT_STRING,       NULL,								DEFAULT_BITMAP_DIR,      &BitmapDir },
+	{ "sp", "bitmapspec",  	OPT_STRING,    NULL,								DEFAULT_BITMAP_SPEC,     &BitmapSpec			},
+	{ "sc", "autoscroll",  	OPT_BOOLEAN,   NULL,   							NULL,                    &AutoScroll			},
+	{ "kod", "koddir", OPT_STRING,         NULL,								DEFAULT_KOD_DIR,         &KodDir },
+	{ "svr", "serverdir",   OPT_STRING,    NULL,								DEFAULT_SERVER_DIR,      &ServerDir			},
+	{ "ent", "entrances", 	OPT_STRING,		NULL,								DEFAULT_ENTRANCE_FILE,  	&EntranceData		},
 	{ NULL, NULL,          	OPT_END,       NULL,								NULL,                   NULL           	}
 };
 
 
+bool NodeBuilderMode()
+{
+	return nodeBuilderMode;
+}
 
 /*
 	Windeu initialization
 */
-void InitWindeu (int argc, char **argv, char *init_level)
+void InitWindeu (int argc, char **argv, char *init_level, char *save_level)
 {
 	TRACE ("InitWindeu(): start");
 	argv++;
@@ -257,15 +264,21 @@ void InitWindeu (int argc, char **argv, char *init_level)
 
 	/* quick and dirty check for a "-config" option */
 	for (int i = 0; i < argc - 1; i++)
+	{
 		if (!strcmp(argv[i], "-config"))
 		{
 			CfgFile = argv[i + 1];
-			break;
+			++i;
 		}
+		else if (!strcmp(argv[i], "-nodebuilder"))
+		{
+			nodeBuilderMode = TRUE;
+		}
+	}
 
 	/* read config file and command line options */
 	ParseConfigFileOptions(CfgFile);
-	ParseCommandLineOptions(argc, argv, init_level);
+	ParseCommandLineOptions(argc, argv, init_level, save_level);
 
 	// Setup builder priority vars.
 	if ( BuildPriority < BUILD_PRIORITY_MIN )
@@ -429,19 +442,33 @@ void Usage()
    Handle command line options
 */
 
-void ParseCommandLineOptions( int argc, char *argv[], char *init_level)
+void ParseCommandLineOptions( int argc, char *argv[], char *init_level, char *save_level)
 {
 	int optnum;
+	bool initFound = false, saveFound = false;
 
 	init_level[0] = 0;
+	save_level[0] = 0;
 	while (argc > 0)
 	{
+		// Get levels to open and save to, if present.
 		if (argv[0][0] != '-' && argv[0][0] != '+')
 		{
-//			Notify ("Options must start with '-' or '+'");
-		   strcpy(init_level, argv[0]);
-			argc--;
-			argv++;
+			// Notify ("Options must start with '-' or '+'");
+			if (!initFound)
+			{
+				strcpy(init_level, argv[0]);
+				argc--;
+				argv++;
+				initFound = true;
+			}
+			else if (initFound && !saveFound)
+			{
+				strcpy(save_level, argv[0]);
+				argc--;
+				argv++;
+				saveFound = true;
+			}
 			continue;
 		}
 
@@ -565,6 +592,18 @@ void ParseCommandLineOptions( int argc, char *argv[], char *init_level)
    read the config file
 */
 
+void InitDefaultOptions()
+{
+	for (int optnum = 0; options[optnum].opt_type != OPT_END; optnum++)
+	{
+		if (options[optnum].opt_type == OPT_STRING)
+		{
+			if (options[optnum].msg_if_true && options[optnum].msg_if_false)
+				WorkMessage("%s: %s", options[optnum].msg_if_true, options[optnum].msg_if_false);
+		}
+	}
+}
+
 void ParseConfigFileOptions(char *filename)
 {
 	FILE *cfgfile;
@@ -577,6 +616,10 @@ void ParseConfigFileOptions(char *filename)
 	if ((cfgfile = fopen (filename, "r")) == NULL)
 	{
 		Notify ("Configuration file not found (%s)", filename);
+
+		// Init default string options, otherwise roomedit will crash.
+		InitDefaultOptions();
+
 		return;
 	}
 
@@ -818,13 +861,16 @@ void ClearLog(void)
 void CloseLog(void)
 {
    if (NULL != logfile)
-		fclose(logfile);
+      fclose(logfile);
    logfile = NULL;
    if (errorFound)
    {
       char buffer[256];
-		wsprintf(buffer,"NOTEPAD.EXE %s",DEU_LOG_FILE);
-      WinExec(buffer,SW_SHOW);
+      if (!NodeBuilderMode())
+      {
+         wsprintf(buffer, "NOTEPAD.EXE %s", DEU_LOG_FILE);
+         WinExec(buffer, SW_SHOW);
+      }
    }
 }
 
@@ -956,6 +1002,8 @@ void GetWorkMessage (char *buffer, size_t bufferSize)
 
 BOOL Confirm(char *confstr, ...)
 {
+	if (NodeBuilderMode())
+		return true;
 	va_list  args;
 	char msg[256];	// Safer than on stack
 
@@ -978,6 +1026,8 @@ BOOL Confirm(char *confstr, ...)
 
 void Notify(char *notstr, ...)
 {
+	if (NodeBuilderMode())
+		return;
 	va_list  args;
 	char msg[256];
 

@@ -173,7 +173,7 @@ void TMainFrame::SetMenuAndAccel (TResId id)
 // TMainFrame
 // ----------
 //
-void TMainFrame::EditLevel (char *levelName, BOOL newLevel)
+void TMainFrame::EditLevel (char *levelName, char *saveLevelName, BOOL newLevel)
 {
 	TRACE ("TMainFrame::StartEditLevel: start");
 	assert (inEditor == FALSE) ;
@@ -195,7 +195,7 @@ void TMainFrame::EditLevel (char *levelName, BOOL newLevel)
 	SetupEditorControlBar();
 
 	// Set editor client
-	SetClientWindow (new TEditorClient (0, levelName, newLevel));
+	SetClientWindow(new TEditorClient(0, levelName, saveLevelName, newLevel));
 	statusBar->SetWindowPos(*GetClientWindow(),
 									0, 0, 0, 0,
 									SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW);

@@ -68,7 +68,7 @@ public:
 	TMainFrame (const char* title, TModule* module = 0);
 	virtual ~TMainFrame ();
 
-	void EditLevel (char *levelName, BOOL newLevel);
+	void EditLevel (char *levelName, char *saveLevelName, BOOL newLevel);
 	BOOL StopEditLevel ();
 
 	TStatusBar *GetStatusBar() { return statusBar; } ;

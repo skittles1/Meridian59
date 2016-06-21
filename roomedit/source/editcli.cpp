@@ -289,7 +289,7 @@ END_RESPONSE_TABLE;
 // -------------
 //  Constructor
 //
-TEditorClient::TEditorClient (TWindow* parent, char *_levelName,
+TEditorClient::TEditorClient (TWindow* parent, char *_levelName, char *_saveLevelName,
 							  BOOL newLevel, const char* title,
 							  TModule* module):
 	TLayoutWindow(parent, title, module)
@@ -406,10 +406,13 @@ TEditorClient::TEditorClient (TWindow* parent, char *_levelName,
 	SetScale ((float) (1.0 / InitialScale));
 	CenterMapAroundCoords( (MapMinX + MapMaxX) / 2, (MapMinY + MapMaxY) / 2);
 
-	// If we're just opening the file to save it with new features uncomment
-	// this code to perform immediate save and exit after loading.
-	//SaveLevelData(LevelName);
-	//exit(0);
+   // If operating in nodebuilder mode, save the map straight away and exit.
+   if (NodeBuilderMode() && _saveLevelName[0] != 0)
+   {
+      SaveLevelData(_saveLevelName);
+      CleanupWindeu();
+      exit(0);
+   }
 }
 
 

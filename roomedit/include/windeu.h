@@ -206,7 +206,8 @@ extern SHORT  DefaultLightLevel;		/* default light level */
 */
 
 /* from windeu.cpp */
-void InitWindeu (int argc, char **argv, char *init_level);
+bool NodeBuilderMode();
+void InitWindeu (int argc, char **argv, char *init_level, char *save_level);
 void CleanupWindeu () ;
 void CenterWindow (TWindow *pWnd);
 void Beep ();
@@ -222,7 +223,7 @@ BOOL Confirm (char*, ...);
 void Notify (char *, ...);
 void FunnyMessage ();
 void Usage ();
-void ParseCommandLineOptions( int argc, char *argv[], char *init_level);
+void ParseCommandLineOptions(int argc, char *argv[], char *init_level, char *save_level);
 void ParseConfigFileOptions (char *filename);
 void AppendItemToList (char ***list, char *item);
 char *FormatNumber(LONG num);
