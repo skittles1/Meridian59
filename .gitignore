@@ -207,3 +207,7 @@ pip-log.txt
 /roomedit/windeu32.log
 /roomedit/owl-6.34/lib
 *.roo~
+*.dbs
+*.backup1
+*.backup2
+*.backup3
