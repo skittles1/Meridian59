@@ -63,8 +63,8 @@ messages:
       plMonsters = [ [&Spider, 50], [&Groundworm, 50] ];
 
       plGenerators = [ [8, 9], [11, 24], [19, 10], [26, 21], [33, 7],
-		      [36, 16], [35, 26], [41, 6], [43, 20], [46, 35], 
-		      [38, 43], [29, 43], [20, 33], [9, 35], [16, 48]];
+                       [36, 16], [35, 26], [41, 6], [43, 20], [46, 35],
+                       [38, 43], [29, 43], [20, 33], [9, 35], [16, 48]];
       propagate;
    }
 
@@ -75,6 +75,12 @@ messages:
       plEdge_Exits = Cons([LEAVE_NORTH, RID_EAST_TOS, 57, 36, ROTATE_NONE], plEdge_exits);
       plEdge_Exits = Cons([LEAVE_SOUTH, RID_I7, 1, 39, ROTATE_NONE], plEdge_exits);
 
+      plExits = $;
+      plExits = Cons([ 31, 12, RID_TOS_SMUGGLERS_WAY, 2, 11, ROTATE_180 ],plExits);
+      plExits = Cons([ 31, 13, RID_TOS_SMUGGLERS_WAY, 2, 11, ROTATE_180 ],plExits);
+      plExits = Cons([ 32, 12, RID_TOS_SMUGGLERS_WAY, 2, 11, ROTATE_180 ],plExits);
+      plExits = Cons([ 32, 13, RID_TOS_SMUGGLERS_WAY, 2, 11, ROTATE_180 ],plExits);
+      
       return;
    }
 
