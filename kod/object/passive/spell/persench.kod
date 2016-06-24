@@ -125,6 +125,7 @@ messages:
          % Cannot cast buffs on others in any permanently safe rooms.
          if who <> oTarget
             AND (Send(Send(who,@GetOwner),@GetPermanentFlags) & ROOM_NO_COMBAT)
+            AND NOT Send(SETTINGS_OBJECT,@CanBuffOthersInSafeZones)
          {
             Send(who,@MsgSendUser,#message_rsc=PersonalEnchantment_bad_location);
 
