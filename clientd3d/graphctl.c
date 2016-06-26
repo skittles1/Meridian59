@@ -267,7 +267,7 @@ void GraphCtlPaint(HWND hwnd)
           { - GRAPH_SLIDER_HEIGHT / 2, GRAPH_SLIDER_HEIGHT - 1} };
    POINT points[3];
    Bool focus;
-   char temp[MAXAMOUNT * 2 + 1];
+   char temp[MAXAMOUNT * 3];
 
 
    info = (GraphCtlStruct *) GetWindowLong(hwnd, GWL_GRAPHCTLMEM);
