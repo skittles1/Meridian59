@@ -4,7 +4,9 @@
 *.bof
 *.rsc
 kodbase.txt
-run/*
+run/server/*
+run/localclient/*
+!run/localclient/*.dll
 bbgun.exe
 clientpatch.exe
 palcomp.exe
