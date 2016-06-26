@@ -129,6 +129,9 @@ properties:
    // Spell items cost this much compared to casting the actual spell.
    piItemManaCostPct = 75
 
+   // Can users buff each other in safe zones?
+   pbBuffOthersInSafeZones = TRUE
+
    %
    % Guild hall settings
    %
@@ -486,6 +489,11 @@ messages:
    GetItemManaCostPct()
    {
       return piItemManaCostPct;
+   }
+
+   CanBuffOthersInSafeZones()
+   {
+      return pbBuffOthersInSafeZones;
    }
 
    %

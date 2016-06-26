@@ -7003,6 +7003,16 @@ messages:
       return;
    }
 
+   GetSpellBook()
+   {
+      return plSpellBook;
+   }
+
+   GetBaseSpellPower()
+   {
+      return piSpellPower;
+   }
+
    % Gets the projectile icon of the monster.  If monster doesn't use
    %  projectiles, return nil
    GetProjectileIcon()
