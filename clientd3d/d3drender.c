@@ -113,6 +113,7 @@ AREA               gD3DView;
 Bool               gD3DRedrawAll = FALSE;
 int                  gTemp = 0;
 Bool               gWireframe;      // this is really bad, I'm sorry
+int                numMipMaps = 5;
 
 extern player_info      player;
 extern long            viewer_height;
@@ -246,8 +247,6 @@ unsigned char gSkyboxBGRA[] =
 };
 
 void            D3DRenderBackgroundsLoad(char *pFilename, int index);
-LPDIRECT3DTEXTURE9   D3DRenderTextureCreateFromBGF(PDIB pDib, BYTE xLat0, BYTE xLat1,
-                                      BYTE effect);
 LPDIRECT3DTEXTURE9   D3DRenderTextureCreateFromResource(BYTE *ptr, int width, int height);
 void            D3DRenderWorldDraw(d3d_render_pool_new *pPool, room_type *room,
                                 Draw3DParams *params);
@@ -391,6 +390,12 @@ HRESULT D3DRenderInit(HWND hWnd)
    // Keep AA disabled for now, until fixed
    hr = IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_MULTISAMPLEANTIALIAS, FALSE);
    
+   // Number of mipmaps/texture levels. Config is a boolean, pick 5 (on) or 1 (off).
+   if (config.mipMaps)
+      numMipMaps = 5;
+   else
+      numMipMaps = 1;
+
    hr = IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_CULLMODE, D3DCULL_NONE);
    hr = IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_LIGHTING, FALSE);
    hr = IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_CLIPPING, FALSE);
@@ -441,12 +446,20 @@ HRESULT D3DRenderInit(HWND hWnd)
 
    IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_MAGFILTER, gD3DDriverProfile.magFilter);
    IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_MINFILTER, gD3DDriverProfile.minFilter);
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
    IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_MAXANISOTROPY, gD3DDriverProfile.maxAnisotropy);
+   if (config.mipMaps)
+   {
+      IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+      IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+   }
+   else
+   {
+      IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
+      IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
+   }
 
    IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_MAGFILTER, gD3DDriverProfile.magFilter);
    IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_MINFILTER, gD3DDriverProfile.minFilter);
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
    IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_MAXANISOTROPY, gD3DDriverProfile.maxAnisotropy);
       
    /***************************************************************************/
@@ -962,7 +975,10 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
       timeLMaps = timeGetTime();
       IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_MAGFILTER, gD3DDriverProfile.magFilter);
       IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_MINFILTER, gD3DDriverProfile.minFilter);
-      IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+      if (config.mipMaps)
+         IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+      else
+         IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
       IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_MAXANISOTROPY, gD3DDriverProfile.maxAnisotropy);
       IDirect3DDevice9_SetVertexShader(gpD3DDevice, NULL);
       IDirect3DDevice9_SetVertexDeclaration(gpD3DDevice, decl2dc);
@@ -1339,11 +1355,7 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
       // completely shutdown & restart D3D9
       if (hr == D3DERR_DEVICENOTRESET)
       {      
-         D3DRenderShutDown();
-         gFrame = 0;
-         gD3DRedrawAll |= D3DRENDER_REDRAW_ALL;
-         D3DRenderInit(hMain);
-         D3DParticlesInit(false);
+         D3DRenderReset();
       }
    }
    
@@ -1355,6 +1367,16 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
 
    //debug(("all = %d lmaps = %d wrld = %d obj = %d  particles = %d sky = %d init = %d\n",
       //timeOverall, timeLMaps, timeWorld, timeObjects, timeParticles, timeSkybox+timeSkybox2, timeInit));
+}
+
+// Resets the renderer.
+void D3DRenderReset()
+{
+   D3DRenderShutDown();
+   gFrame = 0;
+   gD3DRedrawAll |= D3DRENDER_REDRAW_ALL;
+   D3DRenderInit(hMain);
+   D3DParticlesInit(false);
 }
 
 void D3DRenderWorldDraw(d3d_render_pool_new *pPool, room_type *room, Draw3DParams *params)
@@ -3498,10 +3520,10 @@ LPDIRECT3DTEXTURE9 D3DRenderTextureCreateFromBGF(PDIB pDib, BYTE xLat0, BYTE xLa
    pBits = DibPtr(pDib);
 
    if (gD3DDriverProfile.bManagedTextures)
-      IDirect3DDevice9_CreateTexture(gpD3DDevice, newWidth, newHeight, 5, 0,
+      IDirect3DDevice9_CreateTexture(gpD3DDevice, newWidth, newHeight, numMipMaps, 0,
                                      D3DFMT_A1R5G5B5, D3DPOOL_MANAGED, &pTexture, NULL);
    else
-      IDirect3DDevice9_CreateTexture(gpD3DDevice, newWidth, newHeight, 5, 0,
+      IDirect3DDevice9_CreateTexture(gpD3DDevice, newWidth, newHeight, numMipMaps, 0,
                                      D3DFMT_A1R5G5B5, D3DPOOL_SYSTEMMEM, &pTexture, NULL);
 
    if (pTexture == NULL)
@@ -3574,7 +3596,7 @@ LPDIRECT3DTEXTURE9 D3DRenderTextureCreateFromBGF(PDIB pDib, BYTE xLat0, BYTE xLa
 
    if (gD3DDriverProfile.bManagedTextures == FALSE)
    {
-      IDirect3DDevice9_CreateTexture(gpD3DDevice, pNewWidth, pNewHeight, 5, 0,
+      IDirect3DDevice9_CreateTexture(gpD3DDevice, pNewWidth, pNewHeight, numMipMaps, 0,
                                      D3DFMT_A1R5G5B5, D3DPOOL_DEFAULT, &pTextureFinal, NULL);
 
       if (pTextureFinal)

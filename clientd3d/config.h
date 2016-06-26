@@ -118,6 +118,7 @@ typedef struct {
    int ObjectCacheMin;			 /* minimum size of the object cache */
    int GridCacheMin;			 /* minimum size of the grid cache */
 
+   Bool mipMaps; // Load multiple levels of textures.
    // stuff for new client
    BOOL	bAlwaysRun;
    BOOL bAttackOnTarget;

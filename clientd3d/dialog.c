@@ -696,13 +696,14 @@ void DisplayDescription(object_node *obj, BYTE flags, char *description,
 */
 void AbortGameDialogs(void)
 {
-	AbortBuyDialog();
-	if (hDescDialog != NULL)
-		SendMessage(hDescDialog, WM_COMMAND, IDCANCEL, 0);
-	if (hAmountDialog != NULL)
-		SendMessage(hAmountDialog, WM_COMMAND, IDCANCEL, 0);
-	AbortWhoDialog();
-	AbortAnnotateDialog();
-	AbortPasswordDialog();
-	AbortPreferencesDialog();
+   AbortBuyDialog();
+   if (hDescDialog != NULL)
+      SendMessage(hDescDialog, WM_COMMAND, IDCANCEL, 0);
+   if (hAmountDialog != NULL)
+      SendMessage(hAmountDialog, WM_COMMAND, IDCANCEL, 0);
+   AbortWhoDialog();
+   AbortAnnotateDialog();
+   AbortPasswordDialog();
+   AbortPreferencesDialog();
+   AbortGraphicsDialog();
 }

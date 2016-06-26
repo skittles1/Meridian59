@@ -15,6 +15,7 @@
 
 static HWND hPasswdDialog = NULL;
 static HWND hPreferencesDialog = NULL;
+static HWND hGraphicsDialog = NULL;
 
 BOOL CALLBACK ProfanityDialogProc(HWND hDlg, UINT message, UINT wParam, LONG lParam);
 
@@ -142,6 +143,12 @@ void AbortPreferencesDialog(void)
 {
    if (hPreferencesDialog != NULL)
       EndDialog(hPreferencesDialog, IDCANCEL);
+}
+/*****************************************************************************/
+void AbortGraphicsDialog(void)
+{
+   if (hGraphicsDialog != NULL)
+      EndDialog(hGraphicsDialog, IDCANCEL);
 }
 /*****************************************************************************/
 BOOL CALLBACK PreferencesDialogProc(HWND hDlg, UINT message, UINT wParam, LONG lParam)
@@ -397,6 +404,52 @@ BOOL CALLBACK PreferencesDialogProc(HWND hDlg, UINT message, UINT wParam, LONG l
       hPreferencesDialog = NULL;
       return TRUE;
    }
+   return FALSE;
+}
+/*****************************************************************************/
+BOOL CALLBACK GraphicsDialogProc(HWND hDlg, UINT message, UINT wParam, LONG lParam)
+{
+   Bool temp;
+
+   switch (message)
+   {
+   case WM_INITDIALOG:
+      CenterWindow(hDlg, GetParent(hDlg));
+      if (hGraphicsDialog != NULL)
+      {
+         EndDialog(hDlg, IDCANCEL);
+         return FALSE;
+      }
+      hGraphicsDialog = hDlg;
+      CheckDlgButton(hDlg, IDC_MIPMAPS, config.mipMaps);
+
+      return TRUE;
+
+   case WM_COMMAND:
+      switch (GET_WM_COMMAND_ID(wParam, lParam))
+      {
+      case IDCANCEL:
+         EndDialog(hDlg, IDCANCEL);
+         return TRUE;
+      case IDOK:
+         temp = IsDlgButtonChecked(hDlg, IDC_MIPMAPS);
+         if (temp != config.mipMaps)
+         {
+            config.mipMaps = temp;
+            D3DRenderReset();
+         }
+         EndDialog(hDlg, IDOK);
+
+         return TRUE;
+      }
+      break;
+
+   case WM_DESTROY:
+      hGraphicsDialog = NULL;
+
+      return TRUE;
+   }
+
    return FALSE;
 }
 /*****************************************************************************/

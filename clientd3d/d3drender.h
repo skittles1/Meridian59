@@ -110,6 +110,7 @@ extern int		gScreenWidth;
 extern int		gScreenHeight;
 
 HRESULT				D3DRenderInit(HWND hWnd);
+void				D3DRenderReset(void);
 void				D3DRenderShutDown(void);
 void				D3DRenderBegin(room_type *room, Draw3DParams *params);
 void				D3DGeometryBuild(room_type *room);
