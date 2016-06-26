@@ -618,5 +618,77 @@
     <None Include="client.def">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="bitmap\TARGET.CUR">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bitmap\drop.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bitmap\get.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bitmap\crosscur.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bitmap\incur.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bitmap\download.avi" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="bitmap\ICON1.ICO">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap\CLOCK.ICO">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap\FORM.ICO">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap\phone.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap\offer.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap\blue.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap\bkgnd.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap\annotate.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap\mapbkgnd.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap\imglist.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap\viewtreat_ul.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap\viewtreat_ur.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap\viewtreat_ll.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap\viewtreat_lr.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap\viewtreat_ul_hilight.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap\viewtreat_ur_hilight.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap\viewtreat_ll_hilight.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap\viewtreat_lr_hilight.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
