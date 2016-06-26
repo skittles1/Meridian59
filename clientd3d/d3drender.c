@@ -8720,10 +8720,8 @@ Bool D3DMaterialWorldPool(d3d_render_pool_new *pPool)
    D3DRENDER_SET_COLOR_STAGE(gpD3DDevice, 0, D3DTOP_MODULATE, D3DTA_TEXTURE, D3DTA_DIFFUSE);
    D3DRENDER_SET_ALPHA_STAGE(gpD3DDevice, 0, D3DTOP_MODULATE, D3DTA_TEXTURE, D3DTA_DIFFUSE);
 
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0,
-                                         D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0,
-                                         D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
 
    return TRUE;
 }
@@ -8760,26 +8758,29 @@ Bool D3DMaterialWorldDynamicChunk(d3d_render_chunk_new *pChunk)
 
    if (pChunk->pSideDef == NULL)
    {
+      IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+
       if (pChunk->pSector)
       {
          if (pChunk->pSector->ceiling == current_room.sectors[0].ceiling)
-         {
             IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_DEPTHBIAS, F2DW((float)0));
-         }
          else
-         {
             IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_DEPTHBIAS, F2DW((float)ZBIAS_WORLD * -0.00001f));
-         }
       }
    }
    else
    {
+      if (pChunk->pSideDef->flags & WF_NO_VTILE)
+         IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+      else
+         IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+
       IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_DEPTHBIAS, F2DW((float)ZBIAS_WORLD * -0.00001f));
    }
 
    if (gD3DDriverProfile.bFogEnable)
    {
-      float   end;
+      float end;
 
       end = D3DRenderFogEndCalc(pChunk);
 
@@ -8795,8 +8796,8 @@ Bool D3DMaterialWorldStaticChunk(d3d_render_chunk_new *pChunk)
    {
       if (pChunk->pSector == &current_room.sectors[0])
       {
-         if ((pChunk->pSector->ceiling == current_room.sectors[0].ceiling) &&
-            (pChunk->pSector->ceiling != NULL))
+         if ((pChunk->pSector->ceiling == current_room.sectors[0].ceiling)
+            && (pChunk->pSector->ceiling != NULL))
             return FALSE;
       }
    }
@@ -8813,35 +8814,38 @@ Bool D3DMaterialWorldStaticChunk(d3d_render_chunk_new *pChunk)
       if (pChunk->pSectorNeg->flags & SF_HAS_ANIMATED)
          return FALSE;
 
-   if (pChunk->pSideDef)
-      if (pChunk->pSideDef->flags & WF_HAS_ANIMATED)
-         return FALSE;
 
    if (pChunk->pSideDef == NULL)
    {
+      IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+
       if (pChunk->pSector)
       {
          if (pChunk->pSector->ceiling == current_room.sectors[0].ceiling)
-         {
             IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_DEPTHBIAS, F2DW((float)0));
-         }
          else
-         {
             IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_DEPTHBIAS, F2DW((float)ZBIAS_WORLD * -0.00001f));
-         }
       }
    }
    else
    {
+      if (pChunk->pSideDef->flags & WF_HAS_ANIMATED)
+         return FALSE;
+
+      // Clamp texture vertically to remove stray pixels at the top.
+      if (pChunk->pSideDef->flags & WF_NO_VTILE)
+         IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+      else
+         IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+
       IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_DEPTHBIAS, F2DW((float)ZBIAS_WORLD * -0.00001f));
    }
 
    if (gD3DDriverProfile.bFogEnable)
    {
-      float   end;
+      float end;
 
       end = D3DRenderFogEndCalc(pChunk);
-
       IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_FOGEND, *(DWORD *)(&end));
    }
 
@@ -8853,10 +8857,8 @@ Bool D3DMaterialWallMaskPool(d3d_render_pool_new *pPool)
    D3DRENDER_SET_COLOR_STAGE(gpD3DDevice, 0, D3DTOP_MODULATE, D3DTA_TEXTURE, D3DTA_DIFFUSE);
    D3DRENDER_SET_ALPHA_STAGE(gpD3DDevice, 0, D3DTOP_MODULATE, D3DTA_TEXTURE, D3DTA_DIFFUSE);
 
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0,
-                                         D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0,
-                                         D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
 
    return TRUE;
 }
@@ -8880,15 +8882,10 @@ Bool D3DMaterialNone(d3d_render_chunk_new *pPool)
 
 Bool D3DMaterialLMapDynamicPool(d3d_render_pool_new *pPool)
 {
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0,
-                                         D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0,
-                                         D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
-
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1,
-                                         D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1,
-                                         D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
    
    IDirect3DDevice9_SetTexture(gpD3DDevice, 0, (IDirect3DBaseTexture9 *) gpDLightWhite);
 
@@ -8919,6 +8916,8 @@ Bool D3DMaterialLMapDynamicChunk(d3d_render_chunk_new *pChunk)
 {
    if (pChunk->pSideDef == NULL)
    {
+      IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+
       if (pChunk->pSector)
       {
          if (pChunk->pSector->ceiling == current_room.sectors[0].ceiling)
@@ -8933,6 +8932,11 @@ Bool D3DMaterialLMapDynamicChunk(d3d_render_chunk_new *pChunk)
    }
    else
    {
+      if (pChunk->pSideDef->flags & WF_NO_VTILE)
+         IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+      else
+         IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+
       IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_DEPTHBIAS, F2DW((float)ZBIAS_WORLD * -0.00001f));
    }
 
@@ -8943,20 +8947,23 @@ Bool D3DMaterialLMapStaticChunk(d3d_render_chunk_new *pChunk)
 {
    if (pChunk->pSideDef == NULL)
    {
+      IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+
       if (pChunk->pSector)
       {
          if (pChunk->pSector->ceiling == current_room.sectors[0].ceiling)
-         {
             IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_DEPTHBIAS, F2DW((float)0));
-         }
          else
-         {
             IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_DEPTHBIAS, F2DW((float)ZBIAS_WORLD * -0.00001f));
-         }
       }
    }
    else
    {
+      if (pChunk->pSideDef->flags & WF_NO_VTILE)
+         IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+      else
+         IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+
       IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_DEPTHBIAS, F2DW((float)ZBIAS_WORLD * -0.00001f));
    }
 
@@ -9027,22 +9034,17 @@ Bool D3DMaterialObjectChunk(d3d_render_chunk_new *pChunk)
    IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_DEPTHBIAS, F2DW((float)pChunk->zBias * -0.00001f));
 
    if (pChunk->drawingtype == DRAWFX_TRANSLUCENT25)
-      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF,
-                                      D3DRENDER_TRANS25 - 1);
+      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF, D3DRENDER_TRANS25 - 1);
    else if (pChunk->drawingtype == DRAWFX_TRANSLUCENT50)
-      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF,
-                                      D3DRENDER_TRANS50 - 1);
+      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF, D3DRENDER_TRANS50 - 1);
    else if (pChunk->drawingtype == DRAWFX_TRANSLUCENT75)
-      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF,
-                                      D3DRENDER_TRANS75 - 1);
+      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF, D3DRENDER_TRANS75 - 1);
    else if (pChunk->drawingtype == DRAWFX_DITHERTRANS)
       IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF, 1);
    else if (pChunk->drawingtype == DRAWFX_DITHERINVIS)
-      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF,
-                                      D3DRENDER_TRANS50 - 1);
+      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF, D3DRENDER_TRANS50 - 1);
    else if (pChunk->drawingtype == DRAWFX_DITHERGREY)
-      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF,
-                                      D3DRENDER_TRANS50 - 1);
+      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF, D3DRENDER_TRANS50 - 1);
    else
       IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF, TEMP_ALPHA_REF);
 
@@ -9070,33 +9072,23 @@ Bool D3DMaterialObjectChunk(d3d_render_chunk_new *pChunk)
 
 Bool D3DMaterialObjectInvisiblePool(d3d_render_pool_new *pPool)
 {
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0,
-                                         D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0,
-                                         D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
 
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1,
-                                         D3DSAMP_ADDRESSU, D3DTADDRESS_MIRROR);
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1,
-                                         D3DSAMP_ADDRESSV, D3DTADDRESS_MIRROR);
+   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_ADDRESSU, D3DTADDRESS_MIRROR);
+   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_ADDRESSV, D3DTADDRESS_MIRROR);
 
    D3DRENDER_SET_COLOR_STAGE(gpD3DDevice, 0, D3DTOP_SELECTARG2, D3DTA_TEXTURE, D3DTA_DIFFUSE);
    D3DRENDER_SET_ALPHA_STAGE(gpD3DDevice, 0, D3DTOP_SELECTARG1, D3DTA_TEXTURE, D3DTA_DIFFUSE);
    D3DRENDER_SET_COLOR_STAGE(gpD3DDevice, 1, D3DTOP_SELECTARG2, 0, D3DTA_TEXTURE);
    D3DRENDER_SET_ALPHA_STAGE(gpD3DDevice, 1, D3DTOP_SELECTARG1, D3DTA_CURRENT, 0);
 
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1,
-                                         D3DSAMP_MAGFILTER, D3DTEXF_POINT);
-   
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1,
-                                         D3DSAMP_MINFILTER, D3DTEXF_POINT);
-   
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1,
-                                         D3DSAMP_MIPFILTER, D3DTEXF_NONE);
-   
-   IDirect3DDevice9_SetTexture(
-      gpD3DDevice, 1, (IDirect3DBaseTexture9 *) gpBackBufferTex[0]);
-                 
+   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
+
+   IDirect3DDevice9_SetTexture(gpD3DDevice, 1, (IDirect3DBaseTexture9 *) gpBackBufferTex[0]);
+
    return TRUE;
 }
 
@@ -9138,23 +9130,18 @@ Bool D3DMaterialObjectInvisibleChunk(d3d_render_chunk_new *pChunk)
    IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_DEPTHBIAS, F2DW((float)pChunk->zBias * -0.00001f));
 
    if (pChunk->drawingtype == DRAWFX_TRANSLUCENT25)
-      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF,
-                                      D3DRENDER_TRANS25 - 1);
+      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF, D3DRENDER_TRANS25 - 1);
    else if (pChunk->drawingtype == DRAWFX_TRANSLUCENT50)
-      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF,
-                                      D3DRENDER_TRANS50 - 1);
+      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF, D3DRENDER_TRANS50 - 1);
    else if (pChunk->drawingtype == DRAWFX_TRANSLUCENT75)
-      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF,
-                                      D3DRENDER_TRANS75 - 1);
+      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF, D3DRENDER_TRANS75 - 1);
    else if (pChunk->drawingtype == DRAWFX_DITHERTRANS)
-      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF,
-                                      1);
+      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF, 1);
    else if (pChunk->drawingtype == DRAWFX_DITHERINVIS)
-      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF,
-                                      D3DRENDER_TRANS50 - 1);
+      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF, D3DRENDER_TRANS50 - 1);
    else if (pChunk->drawingtype == DRAWFX_DITHERGREY)
-      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF,
-                                      D3DRENDER_TRANS50 - 1);
+      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF,  D3DRENDER_TRANS50 - 1);
+
    return TRUE;
 }
 
@@ -9181,8 +9168,7 @@ Bool D3DMaterialEffectPacket(d3d_render_packet_new *pPacket, d3d_render_cache_sy
       pTexture = pPacket->pTexture;
 
    if (pTexture)
-      IDirect3DDevice9_SetTexture(
-         gpD3DDevice, 0, (IDirect3DBaseTexture9 *) pTexture);
+      IDirect3DDevice9_SetTexture(gpD3DDevice, 0, (IDirect3DBaseTexture9 *) pTexture);
 
    return TRUE;
 }
@@ -9205,8 +9191,7 @@ Bool D3DMaterialBlurPacket(d3d_render_packet_new *pPacket, d3d_render_cache_syst
       pTexture = pPacket->pTexture;
 
    if (pTexture)
-      IDirect3DDevice9_SetTexture(gpD3DDevice, 0,
-                                  (IDirect3DBaseTexture9 *) pTexture);
+      IDirect3DDevice9_SetTexture(gpD3DDevice, 0, (IDirect3DBaseTexture9 *) pTexture);
 
    return TRUE;
 }
