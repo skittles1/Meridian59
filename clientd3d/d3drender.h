@@ -119,8 +119,6 @@ void				D3DRenderEnableToggle(void);
 int					D3DRenderIsEnabled(void);
 LPDIRECT3DTEXTURE9	D3DRenderTextureCreateFromBGF(PDIB pDib, BYTE xLat0, BYTE xLat1,
 												  BYTE effect);
-LPDIRECT3DTEXTURE9	D3DRenderTextureCreateFromBGFSwizzled(PDIB pDib, BYTE xLat0, BYTE xLat1,
-												  BYTE effect);
 void				D3DRenderPaletteSet(UINT xlatID0, UINT xlatID1, BYTE flags);
 void				D3DRenderBackgroundSet(ID background);
 void				D3DRenderBackgroundSet2(ID background);
