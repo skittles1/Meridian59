@@ -4740,27 +4740,8 @@ int D3DRenderWallExtract(WallData *pWall, PDIB pDib, unsigned int *flags, custom
    if (pSideDef->flags & WF_TRANSPARENT)
       *flags |= D3DRENDER_TRANSPARENT;
 
-   switch (type)
-   {
-      case D3DRENDER_WALL_NORMAL:
-         if (pSideDef->flags & WF_NO_VTILE)
-               *flags |= D3DRENDER_NO_VTILE;
-      break;
-
-/*      case D3DRENDER_WALL_BELOW:
-         if (pSideDef->flags & WF_NO_VTILE)
-            if (NULL == pSideDef->normal_bmap)
-               *flags |= D3DRENDER_NO_VTILE;
-      break;
-
-      case D3DRENDER_WALL_ABOVE:
-         if (pSideDef->flags & WF_NO_VTILE)
-            *flags |= D3DRENDER_NO_VTILE;
-      break;*/
-
-      default:
-      break;
-   }
+   if (type == D3DRENDER_WALL_NORMAL && (pSideDef->flags & WF_NO_VTILE))
+      *flags |= D3DRENDER_NO_VTILE;
 
    if ((pXYZ) && (pST))
    {
@@ -8652,7 +8633,7 @@ Bool D3DMaterialWorldDynamicChunk(d3d_render_chunk_new *pChunk)
    }
    else
    {
-      if (pChunk->pSideDef->flags & WF_NO_VTILE)
+      if (pChunk->flags & D3DRENDER_NO_VTILE)
          IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
       else
          IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
@@ -8715,7 +8696,7 @@ Bool D3DMaterialWorldStaticChunk(d3d_render_chunk_new *pChunk)
          return FALSE;
 
       // Clamp texture vertically to remove stray pixels at the top.
-      if (pChunk->pSideDef->flags & WF_NO_VTILE)
+      if (pChunk->flags & D3DRENDER_NO_VTILE)
          IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
       else
          IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
@@ -8814,7 +8795,7 @@ Bool D3DMaterialLMapDynamicChunk(d3d_render_chunk_new *pChunk)
    }
    else
    {
-      if (pChunk->pSideDef->flags & WF_NO_VTILE)
+      if (pChunk->flags & D3DRENDER_NO_VTILE)
          IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
       else
          IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
@@ -8841,7 +8822,7 @@ Bool D3DMaterialLMapStaticChunk(d3d_render_chunk_new *pChunk)
    }
    else
    {
-      if (pChunk->pSideDef->flags & WF_NO_VTILE)
+      if (pChunk->flags & D3DRENDER_NO_VTILE)
          IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
       else
          IDirect3DDevice9_SetSamplerState(gpD3DDevice, 1, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
