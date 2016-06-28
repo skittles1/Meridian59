@@ -387,7 +387,7 @@ IntersectionType BSPWallIntersection(WallData *wall1, WallData *wall2, double *x
  */
 WallData *BSPChooseRoot(WallDataList walls)
 {
-   WallData *best_root, *wall, *root;
+   WallData *best_root = NULL, *wall, *root;
    int best_count = -1;      // Minimum # of walls in bigger side of best wall
    int best_splits = 999999; // # of splits for best root so far
 
@@ -482,7 +482,7 @@ void BSPUpdateSplit(WallData *wall1, WallData *wall2)
  */
 void BSPFlipWall(WallData *wall)
 {
-   int temp, posoffset, negoffset, temp1, temp2;
+   int temp, posxoffset, negxoffset, posyoffset, negyoffset,temp1, temp2;
    double doubletemp;
 #if 0
    TextureInfo *info;
@@ -495,8 +495,10 @@ void BSPFlipWall(WallData *wall)
 
    // Swap x offsets; need to recompute
    // XXX Still not sure this is right
-   posoffset = wall->pos_xoffset;
-   negoffset = wall->neg_xoffset;
+   posxoffset = wall->pos_xoffset;
+   negxoffset = wall->neg_xoffset;
+   posyoffset = wall->pos_yoffset;
+   negyoffset = wall->neg_yoffset;
 
 #if 0
    info = GetSidedefTextureInfo(wall->pos_sidedef);
@@ -512,8 +514,10 @@ void BSPFlipWall(WallData *wall)
 //      wall->neg_sector, wall->pos_sector, wall->pos_sidedef, wall->neg_sidedef);
 //   dprintf("old +x = %d, old -x = %d, new +x = %d, new -x = %d\n", 
 //      wall->pos_xoffset, wall->neg_xoffset, negoffset, posoffset);
-   wall->pos_xoffset = negoffset;
-   wall->neg_xoffset = posoffset;
+   wall->pos_xoffset = negxoffset;
+   wall->neg_xoffset = posxoffset;
+   wall->pos_yoffset = negyoffset;
+   wall->neg_yoffset = posyoffset;
 
    SWAP(wall->pos_sidedef, wall->neg_sidedef, temp);
 

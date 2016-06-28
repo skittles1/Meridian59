@@ -592,8 +592,11 @@ void BuildNewMainWad (char *filename, BOOL patchonly)
 		ProgError ("You were warned: you are not allowed to do this.");
 	}
 
-	if ((file = fopen (filename, "wb")) == NULL)
-		ProgError ("Unable to open file \"%s\"", filename);
+	if ((file = fopen(filename, "wb")) == NULL)
+	{
+		ProgError("Unable to open file \"%s\"", filename);
+		return;
+	}
 
 	if (patchonly)
 		WriteBytes (file, "PWAD", 4);

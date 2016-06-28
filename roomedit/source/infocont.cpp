@@ -225,7 +225,7 @@ void TInfoControl::Paint (TDC& dc, bool erase, TRect& rect)
 				case TA_CENTER:
 					x = cRect.Width() / 2;
 					break;
-				case TA_RIGHT:
+				default: //case TA_RIGHT:
 					x = cRect.Width() - 1;
 					break;
 				}

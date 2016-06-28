@@ -82,8 +82,8 @@ void *AllocMemory (long size)
 
 	if (ret == NULL)
 		ProgError ("Out of memory (cannot allocate %lu bytes)", size);
-
-	memset (ret, 0, size);
+	else
+		memset (ret, 0, size);
 
 	return ret;
 #endif

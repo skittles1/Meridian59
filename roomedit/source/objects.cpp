@@ -2834,46 +2834,49 @@ void MakeLiftFromSector (SHORT sector)
    get the absolute height from which the textures are drawn
 */
 
-SHORT GetTextureRefHeight (SHORT sidedef)
+SHORT GetTextureRefHeight(SHORT sidedef)
 {
    SHORT l, sector;
-   SHORT otherside;
+   SHORT otherside = -1;
 
    /* find the SideDef on the other side of the LineDef, if any */
    // ObjectsNeeded( OBJ_LINEDEFS, 0);
    for (l = 0; l < NumLineDefs; l++)
    {
-	  if (LineDefs[ l].sidedef1 == sidedef)
-	  {
-	 otherside = LineDefs[ l].sidedef2;
-	 break;
-	  }
-	  if (LineDefs[ l].sidedef2 == sidedef)
-	  {
-	 otherside = LineDefs[ l].sidedef1;
-	 break;
-	  }
+      if (LineDefs[l].sidedef1 == sidedef)
+      {
+         otherside = LineDefs[l].sidedef2;
+         break;
+      }
+      if (LineDefs[l].sidedef2 == sidedef)
+      {
+         otherside = LineDefs[l].sidedef1;
+         break;
+      }
    }
+   if (otherside < 0)
+      return 0;
+
    /* get the Sector number */
    // ObjectsNeeded( OBJ_SIDEDEFS, 0);
-   sector = SideDefs[ sidedef].sector;
+   sector = SideDefs[sidedef].sector;
    /* if the upper texture is displayed, then the reference is taken from the other Sector */
    if (otherside >= 0)
    {
-	  l = SideDefs[ otherside].sector;
-	  if (l > 0)
-	  {
-	 // ObjectsNeeded( OBJ_SECTORS, 0);
-	 if (Sectors[ l].ceilh < Sectors[ sector].ceilh && Sectors[ l].ceilh > Sectors[ sector].floorh)
-		sector = l;
-	  }
+      l = SideDefs[otherside].sector;
+      if (l > 0)
+      {
+         // ObjectsNeeded( OBJ_SECTORS, 0);
+         if (Sectors[l].ceilh < Sectors[sector].ceilh && Sectors[l].ceilh > Sectors[sector].floorh)
+            sector = l;
+      }
    }
    /* return the altitude of the ceiling */
    // ObjectsNeeded( OBJ_SECTORS, 0);
    if (sector >= 0)
-	  return Sectors[ sector].ceilh; /* textures are drawn from the ceiling down */
+      return Sectors[sector].ceilh; /* textures are drawn from the ceiling down */
    else
-	  return 0; /* yuck! */
+      return 0; /* yuck! */
 }
 
 

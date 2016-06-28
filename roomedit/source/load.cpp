@@ -438,6 +438,7 @@ BOOL LoadRoom(int infile)
 		for (i=0; i < NumThings; i++)
 		{
 			char comments[64];
+			comments[0] = 0;
 
 			if (read(infile, &temp, 4) != 4) return FALSE;
 			Things[i].type = temp;
