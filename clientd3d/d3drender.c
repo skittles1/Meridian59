@@ -388,7 +388,10 @@ HRESULT D3DRenderInit(HWND hWnd)
    /***************************************************************************/
    
    // Keep AA disabled for now, until fixed
-   hr = IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_MULTISAMPLEANTIALIAS, FALSE);
+   if (config.aaMode > 0)
+      hr = IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_MULTISAMPLEANTIALIAS, TRUE);
+   else
+      hr = IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_MULTISAMPLEANTIALIAS, FALSE);
    
    // Number of mipmaps/texture levels. Config is a boolean, pick 5 (on) or 1 (off).
    if (config.mipMaps)

@@ -119,6 +119,8 @@ typedef struct {
    int GridCacheMin;			 /* minimum size of the grid cache */
 
    Bool mipMaps; // Load multiple levels of textures.
+   int aaMode; // Level of antialiasing.
+
    // stuff for new client
    BOOL	bAlwaysRun;
    BOOL bAttackOnTarget;

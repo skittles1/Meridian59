@@ -317,6 +317,7 @@
 #define IDC_ATTEMPTS                    1114
 #define IDC_LIST1                       1115
 #define IDC_USERLIST                    1115
+#define IDC_ANTI_ALIAS                  1115
 #define IDC_SUBJECT                     1117
 #define IDC_TIMEOUT                     1117
 #define IDC_EDIT                        1117
@@ -419,6 +420,7 @@
 #define IDC_SPELLPOWER                  1215
 #define IDC_PARTICLENUM                 1216
 #define IDC_MIPMAPS                     1217
+#define IDC_AA_TEXT                     1221
 #define ID_GAME_EXIT                    3002
 #define ID_FONT_MAIL                    3014
 #define ID_FONT_LIST                    3015
@@ -484,7 +486,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        196
 #define _APS_NEXT_COMMAND_VALUE         3519
-#define _APS_NEXT_CONTROL_VALUE         1218
+#define _APS_NEXT_CONTROL_VALUE         1222
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

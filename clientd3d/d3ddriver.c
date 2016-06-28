@@ -28,6 +28,23 @@ DWORD	gFogCaps = (D3DPRASTERCAPS_FOGTABLE |
 
 D3DPRESENT_PARAMETERS	gPresentParam;
 
+int D3DGetAvailableAAOptions(void)
+{
+   int result = 0;
+
+   DWORD qual = 0;
+
+   for (int i = 1; i < 16; ++i)
+   {
+      if (SUCCEEDED(IDirect3D9_CheckDeviceMultiSampleType(gpD3D, D3DADAPTER_DEFAULT,
+         D3DDEVTYPE_HAL, D3DFMT_A8R8G8B8, FALSE, (D3DMULTISAMPLE_TYPE)i, &qual)))
+      {
+         result |= (1 << i);
+      }
+   }
+   return result;
+}
+
 Bool D3DDriverProfileInit(void)
 {
 	FILE					*pFile;
@@ -96,15 +113,18 @@ Bool D3DDriverProfileInit(void)
 	gPresentParam.AutoDepthStencilFormat = D3DFMT_D24S8;
 	//gPresentParam.Flags |= D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
 
-	// enabling this will enable AA but will kill effects like invis right now
-	/*DWORD qual = 0;
-	if (SUCCEEDED(IDirect3D9_CheckDeviceMultiSampleType(gpD3D, D3DADAPTER_DEFAULT, 
-					D3DDEVTYPE_HAL, D3DFMT_A8R8G8B8, FALSE, 
-					D3DMULTISAMPLE_8_SAMPLES, &qual)))
-	{
-		gPresentParam.MultiSampleType = D3DMULTISAMPLE_8_SAMPLES;
-		gPresentParam.MultiSampleQuality = qual - 1;
-	}*/
+   // Anti-aliasing. At one point this broke effects like invis but
+   // currently seems to work with no problems.
+   DWORD qual = 0;
+   D3DMULTISAMPLE_TYPE aaMode = (D3DMULTISAMPLE_TYPE)config.aaMode;
+   if (aaMode < 2 || aaMode > 16)
+      aaMode = D3DMULTISAMPLE_NONE;
+   if (SUCCEEDED(IDirect3D9_CheckDeviceMultiSampleType(gpD3D, D3DADAPTER_DEFAULT,
+      D3DDEVTYPE_HAL, D3DFMT_A8R8G8B8, FALSE, aaMode, &qual)))
+   {
+      gPresentParam.MultiSampleType = aaMode;
+      gPresentParam.MultiSampleQuality = qual - 1;
+   }
 
 	// first try hardware vertex processing
 	error = IDirect3D9_CreateDevice(gpD3D, D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL,

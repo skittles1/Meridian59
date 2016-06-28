@@ -58,6 +58,7 @@ static char INIGridCacheMin[] = "GridCacheMin";
 static char INIMusicVolume[]  = "MusicVolume";
 static char INISoundVolume[]  = "SoundVolume";
 static char INIMipMaps[]      = "MipMaps";
+static char INIAntiAliasing[] = "AntiAliasing";
 
 static char interface_section[]= "Interface";
 static char INIDrawMap[]     = "DrawMap";
@@ -269,6 +270,7 @@ void ConfigLoad(void)
    config.ObjectCacheMin = GetConfigInt(misc_section, INIObjectCacheMin, 6000000, ini_file);
    config.GridCacheMin = GetConfigInt(misc_section, INIGridCacheMin,   4000000, ini_file);
    config.mipMaps = GetConfigInt(misc_section, INIMipMaps, true, ini_file);
+   config.aaMode = GetConfigInt(misc_section, INIAntiAliasing, 0, ini_file);
 
    if( config.CacheBalance < 10 ) config.CacheBalance = 10 ;
    if( config.CacheBalance > 90 ) config.CacheBalance = 90 ;
@@ -327,6 +329,7 @@ void ConfigSave(void)
    WriteConfigInt(misc_section, INIObjectCacheMin, config.ObjectCacheMin, ini_file);
    WriteConfigInt(misc_section, INIGridCacheMin, config.GridCacheMin, ini_file);
    WriteConfigInt(misc_section, INIMipMaps, config.mipMaps, ini_file);
+   WriteConfigInt(misc_section, INIAntiAliasing, config.aaMode, ini_file);
 
    WriteConfigInt(users_section, INIDrawPlayerNames, config.draw_player_names, ini_file);
    WriteConfigInt(users_section, INIDrawNPCNames, config.draw_npc_names, ini_file);

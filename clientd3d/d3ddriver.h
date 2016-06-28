@@ -49,6 +49,7 @@ typedef struct d3d_driver_profile
 	Bool					bFogEnable;
 } d3d_driver_profile;
 
+int D3DGetAvailableAAOptions(void);
 Bool D3DDriverProfileInit(void);
 
 #endif
