@@ -275,8 +275,6 @@ void ConfigLoad(void)
    if( config.CacheBalance < 10 ) config.CacheBalance = 10 ;
    if( config.CacheBalance > 90 ) config.CacheBalance = 90 ;
 
-   config.soundLibrary = GetConfigInt(misc_section, INISoundLibrary, LIBRARY_MSS, ini_file);
-
 #ifdef NODPRINTFS
    config.debug    = False;
    config.security = True;

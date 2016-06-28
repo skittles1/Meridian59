@@ -9253,18 +9253,12 @@ Bool IsHidden(Draw3DParams *params, long x0, long y0, long x1, long y1)
    x1 -= params->viewer_x;
    y1 -= params->viewer_y;
 
-   if (center_a * x0 + center_b * y0 < 0)
+   if (center_a * x0 + center_b * y0 < 0
+      && center_a * x0 + center_b * y1 < 0
+      && center_a * x1 + center_b * y0 < 0
+      && center_a * x1 + center_b * y1 < 0)
    {
-      if (center_a * x0 + center_b * y1 < 0)
-      {
-         if (center_a * x1 + center_b * y0 < 0)
-         {
-            if (center_a * x1 + center_b * y1 < 0)
-            {
-               return True;                /* all behind viewer */
-            }
-         }
-      }
+      return True;                /* all behind viewer */
    }
 
    long l0, l1, l2, l3, r0, r1, r2, r3;
