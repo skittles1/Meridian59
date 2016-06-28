@@ -153,6 +153,8 @@ void TMainClient::CmFileOpenWad ()
 	// the TFileOpenDialog below is going to set
 	// it to the folder of the file being opened...
 	char workdir[256];
+	workdir[0] = 0;
+
 	GetCurrentDirectory(256, workdir);
 
 	SET_HELP_CONTEXT(Open_WAD_file);
@@ -393,11 +395,13 @@ void TMainClient::CmFileInsertRaw ()
 	file = fopen (input, "wb");
 	if (file == NULL)
 		Notify ("Error opening output file \"%s\"", input);
+	else
+	{
+		SaveEntryFromRawFile(file, raw, ObjectName);
 
-	SaveEntryFromRawFile (file, raw, ObjectName);
-
-	fclose(raw);
-	fclose(file);
+		fclose(raw);
+		fclose(file);
+	}
 End:
 	RESTORE_HELP_CONTEXT();
 }
@@ -454,13 +458,15 @@ void TMainClient::CmFileExtractRaw ()
 	WorkMessage ("Saving directory entry data to \"%s\".", FileData.FileName);
 
 	file = fopen(FileData.FileName, "wb");
-	if ( file == NULL)
+	if (file == NULL)
 	{
 		Notify ("Error opening output file \"%s\"", FileData.FileName);
 	}
-	SaveEntryToRawFile (file, ObjectName);
-	fclose (file);
-
+	else
+	{
+		SaveEntryToRawFile(file, ObjectName);
+		fclose(file);
+	}
 End:
 	RESTORE_HELP_CONTEXT();
 }

@@ -3323,7 +3323,7 @@ void TEditorClient::CmModeNext ()
 		case OBJ_LINEDEFS:
 			NewMode = OBJ_SECTORS;
 			break;
-		case OBJ_SECTORS:
+		default: // case OBJ_SECTORS:
 			NewMode = OBJ_THINGS;
 			break;
 	}
@@ -3355,7 +3355,7 @@ void TEditorClient::CmModePrev ()
 		case OBJ_LINEDEFS:
 			NewMode = OBJ_VERTEXES;
 			break;
-		case OBJ_SECTORS:
+		default: //case OBJ_SECTORS:
 			NewMode = OBJ_LINEDEFS;
 			break;
 	}
@@ -3452,7 +3452,7 @@ void TEditorClient::CmMiscRotateScale ()
 		 if (EditMode == OBJ_THINGS)	hc = Rotate_and_scale_Things;
 	else if (EditMode == OBJ_VERTEXES)	hc = Rotate_and_scale_Vertices;
 	else if (EditMode == OBJ_LINEDEFS)	hc = Rotate_and_scale_LineDefs;
-	else if (EditMode == OBJ_SECTORS)	hc = Rotate_and_scale_Sectors;
+	else hc = Rotate_and_scale_Sectors; //  if (EditMode == OBJ_SECTORS)
 	SET_HELP_CONTEXT(hc);
 
 	char Title[80];

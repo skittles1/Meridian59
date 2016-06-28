@@ -64,6 +64,7 @@ void InterfaceClose(void)
    AbortGameDialogs();
    AbortPasswordDialog();
    AbortPreferencesDialog();
+   AbortGraphicsDialog();
    AbortAboutDialog();
 
    MusicStop();

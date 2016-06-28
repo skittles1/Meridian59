@@ -122,6 +122,10 @@ void MenuCommand(HWND hwnd, int id, HWND hwndCtl, UINT codeNotify)
       }
       break;
 
+   case ID_GRAPHICS_MENU:
+      DialogBox(hInst, MAKEINTRESOURCE(IDD_GRAPHICS), hMain, GraphicsDialogProc);
+      break;
+
   case ID_CONFIGMENU:
 	  ConfigMenuLaunch();
       break;

@@ -356,6 +356,12 @@ $(SolutionDir)postbuild.bat
     <ClCompile Include="xlat.c" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bitmap\crosscur.cur" />
+    <None Include="bitmap\download.avi" />
+    <None Include="bitmap\drop.cur" />
+    <None Include="bitmap\get.cur" />
+    <None Include="bitmap\incur.cur" />
+    <None Include="bitmap\TARGET.CUR" />
     <None Include="client.def" />
   </ItemGroup>
   <ItemGroup>
@@ -379,6 +385,26 @@ $(SolutionDir)postbuild.bat
     <ProjectReference Include="maketrig.vcxproj">
       <Project>{cd5804a4-972e-4e67-a461-427a9725786f}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="bitmap\annotate.bmp" />
+    <Image Include="bitmap\bkgnd.bmp" />
+    <Image Include="bitmap\blue.ico" />
+    <Image Include="bitmap\CLOCK.ICO" />
+    <Image Include="bitmap\FORM.ICO" />
+    <Image Include="bitmap\ICON1.ICO" />
+    <Image Include="bitmap\imglist.bmp" />
+    <Image Include="bitmap\mapbkgnd.bmp" />
+    <Image Include="bitmap\offer.ico" />
+    <Image Include="bitmap\phone.ico" />
+    <Image Include="bitmap\viewtreat_ll.bmp" />
+    <Image Include="bitmap\viewtreat_ll_hilight.bmp" />
+    <Image Include="bitmap\viewtreat_lr.bmp" />
+    <Image Include="bitmap\viewtreat_lr_hilight.bmp" />
+    <Image Include="bitmap\viewtreat_ul.bmp" />
+    <Image Include="bitmap\viewtreat_ul_hilight.bmp" />
+    <Image Include="bitmap\viewtreat_ur.bmp" />
+    <Image Include="bitmap\viewtreat_ur_hilight.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

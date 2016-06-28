@@ -317,6 +317,7 @@
 #define IDC_ATTEMPTS                    1114
 #define IDC_LIST1                       1115
 #define IDC_USERLIST                    1115
+#define IDC_ANTI_ALIAS                  1115
 #define IDC_SUBJECT                     1117
 #define IDC_TIMEOUT                     1117
 #define IDC_EDIT                        1117
@@ -368,6 +369,7 @@
 #define IDC_TOOLBAR                     1165
 #define IDD_WITHDRAWAL                  1165
 #define ID_DESCNAME                     1166
+#define IDD_GRAPHICS                    1166
 #define IDC_SCROLL                      1167
 #define IDC_SPECIAL1                    1168
 #define IDC_SPECIAL2                    1169
@@ -417,6 +419,8 @@
 #define IDC_REAGENTBAG                  1214
 #define IDC_SPELLPOWER                  1215
 #define IDC_PARTICLENUM                 1216
+#define IDC_MIPMAPS                     1217
+#define IDC_AA_TEXT                     1221
 #define ID_GAME_EXIT                    3002
 #define ID_FONT_MAIL                    3014
 #define ID_FONT_LIST                    3015
@@ -474,14 +478,15 @@
 #define ID_WIKI                         3515
 #define ID_HOMEPAGE                     3516
 #define ID_COLOR_QUESTHEADER            3517
+#define ID_GRAPHICS_MENU                3518
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        196
-#define _APS_NEXT_COMMAND_VALUE         3518
-#define _APS_NEXT_CONTROL_VALUE         1217
+#define _APS_NEXT_COMMAND_VALUE         3519
+#define _APS_NEXT_CONTROL_VALUE         1222
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

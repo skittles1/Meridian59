@@ -25,9 +25,11 @@ BOOL CALLBACK PasswordDialogProc(HWND hDlg, UINT message, UINT wParam, LONG lPar
 BOOL CALLBACK RegisterDialogProc(HWND hDlg, UINT message, UINT wParam, LONG lParam);
 BOOL CALLBACK AdminNoteDialogProc(HWND hDlg, UINT message, UINT wParam, LONG lParam);
 BOOL CALLBACK PreferencesDialogProc(HWND hDlg, UINT message, UINT wParam, LONG lParam);
+BOOL CALLBACK GraphicsDialogProc(HWND hDlg, UINT message, UINT wParam, LONG lParam);
 
 void AbortPasswordDialog(void);
 void AbortPreferencesDialog(void);
+void AbortGraphicsDialog(void);
 void AbortRegisterDialog(void);
 void AbortAdminNoteDialog(void);
 

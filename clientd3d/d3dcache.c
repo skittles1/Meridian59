@@ -112,7 +112,7 @@ LPDIRECT3DTEXTURE9 D3DCacheTextureLookupSwizzled(d3d_texture_cache *pTextureCach
 		}
 	}
 
-	pTexture = D3DRenderTextureCreateFromBGFSwizzled(pPacket->pDib, pPacket->xLat0,
+	pTexture = D3DRenderTextureCreateFromBGF(pPacket->pDib, pPacket->xLat0,
 			pPacket->xLat1, effect);
 
 	if (NULL == pTexture)

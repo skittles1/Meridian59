@@ -15,6 +15,7 @@
 
 static HWND hPasswdDialog = NULL;
 static HWND hPreferencesDialog = NULL;
+static HWND hGraphicsDialog = NULL;
 
 BOOL CALLBACK ProfanityDialogProc(HWND hDlg, UINT message, UINT wParam, LONG lParam);
 
@@ -142,6 +143,12 @@ void AbortPreferencesDialog(void)
 {
    if (hPreferencesDialog != NULL)
       EndDialog(hPreferencesDialog, IDCANCEL);
+}
+/*****************************************************************************/
+void AbortGraphicsDialog(void)
+{
+   if (hGraphicsDialog != NULL)
+      EndDialog(hGraphicsDialog, IDCANCEL);
 }
 /*****************************************************************************/
 BOOL CALLBACK PreferencesDialogProc(HWND hDlg, UINT message, UINT wParam, LONG lParam)
@@ -397,6 +404,128 @@ BOOL CALLBACK PreferencesDialogProc(HWND hDlg, UINT message, UINT wParam, LONG l
       hPreferencesDialog = NULL;
       return TRUE;
    }
+   return FALSE;
+}
+/*****************************************************************************/
+BOOL CALLBACK GraphicsDialogProc(HWND hDlg, UINT message, UINT wParam, LONG lParam)
+{
+   char retStr[12];
+   HWND hWndComboBox;
+   int aaList, index, aaMode;
+   Bool temp;
+   bool changed = false;
+
+   switch (message)
+   {
+   case WM_INITDIALOG:
+      CenterWindow(hDlg, GetParent(hDlg));
+      if (hGraphicsDialog != NULL)
+      {
+         EndDialog(hDlg, IDCANCEL);
+
+         return FALSE;
+      }
+
+      if (!D3DRenderIsEnabled())
+      {
+         EnableWindow(GetDlgItem(hDlg, IDC_MIPMAPS), FALSE);
+         EnableWindow(GetDlgItem(hDlg, IDC_AA_TEXT), FALSE);
+         EnableWindow(GetDlgItem(hDlg, IDC_ANTI_ALIAS), FALSE);
+
+         return FALSE;
+      }
+
+      hGraphicsDialog = hDlg;
+      CheckDlgButton(hDlg, IDC_MIPMAPS, config.mipMaps);
+      hWndComboBox = GetDlgItem(hDlg, IDC_ANTI_ALIAS);
+      SendMessage(hWndComboBox, CB_ADDSTRING, NULL, (LPARAM)"No AA");
+      if (config.aaMode == D3DMULTISAMPLE_NONE)
+         SendMessage(hWndComboBox, CB_SELECTSTRING, (WPARAM)-1, (LPARAM)"No AA");
+
+      aaList = D3DGetAvailableAAOptions();
+
+      if (aaList & (1 << D3DMULTISAMPLE_2_SAMPLES))
+      {
+         SendMessage(hWndComboBox, CB_ADDSTRING, NULL, (LPARAM)"2x AA");
+         if (config.aaMode == D3DMULTISAMPLE_2_SAMPLES)
+            SendMessage(hWndComboBox, CB_SELECTSTRING, (WPARAM)-1, (LPARAM)"2x AA");
+      }
+      if (aaList & (1 << D3DMULTISAMPLE_3_SAMPLES))
+      {
+         SendMessage(hWndComboBox, CB_ADDSTRING, NULL, (LPARAM)"3x AA");
+         if (config.aaMode == D3DMULTISAMPLE_3_SAMPLES)
+            SendMessage(hWndComboBox, CB_SELECTSTRING, (WPARAM)-1, (LPARAM)"3x AA");
+      }
+      if (aaList & (1 << D3DMULTISAMPLE_4_SAMPLES))
+      {
+         SendMessage(hWndComboBox, CB_ADDSTRING, NULL, (LPARAM)"4x AA");
+         if (config.aaMode == D3DMULTISAMPLE_4_SAMPLES)
+            SendMessage(hWndComboBox, CB_SELECTSTRING, (WPARAM)-1, (LPARAM)"4x AA");
+      }
+      if (aaList & (1 << D3DMULTISAMPLE_8_SAMPLES))
+      {
+         SendMessage(hWndComboBox, CB_ADDSTRING, NULL, (LPARAM)"8x AA");
+         if (config.aaMode == D3DMULTISAMPLE_8_SAMPLES)
+            SendMessage(hWndComboBox, CB_SELECTSTRING, (WPARAM)-1, (LPARAM)"8x AA");
+      }
+      if (aaList & (1 << D3DMULTISAMPLE_16_SAMPLES))
+      {
+         SendMessage(hWndComboBox, CB_ADDSTRING, NULL, (LPARAM)"16x AA");
+         if (config.aaMode == D3DMULTISAMPLE_16_SAMPLES)
+            SendMessage(hWndComboBox, CB_SELECTSTRING, (WPARAM)-1, (LPARAM)"16x AA");
+      }
+
+      return TRUE;
+
+   case WM_COMMAND:
+      switch (GET_WM_COMMAND_ID(wParam, lParam))
+      {
+      case IDCANCEL:
+         EndDialog(hDlg, IDCANCEL);
+         return TRUE;
+      case IDOK:
+         temp = IsDlgButtonChecked(hDlg, IDC_MIPMAPS);
+         if (temp != config.mipMaps)
+         {
+            config.mipMaps = temp;
+            changed = true;
+         }
+         hWndComboBox = GetDlgItem(hDlg, IDC_ANTI_ALIAS);
+         index = SendMessage(hWndComboBox, CB_GETCURSEL, 0, 0);
+         if (index != CB_ERR)
+         {
+            SendMessage(hWndComboBox, CB_GETLBTEXT, index, (LPARAM)retStr);
+            if (strcmp(retStr, "No AA") == 0)
+               aaMode = 0;
+            else if (strcmp(retStr, "2x AA") == 0)
+               aaMode = 2;
+            else if (strcmp(retStr, "4x AA") == 0)
+               aaMode = 4;
+            else if (strcmp(retStr, "8x AA") == 0)
+               aaMode = 8;
+            else if (strcmp(retStr, "16x AA") == 0)
+               aaMode = 16;
+            if (config.aaMode != aaMode)
+            {
+               config.aaMode = aaMode;
+               changed = true;
+            }
+         }
+         if (changed)
+            D3DRenderReset();
+
+         EndDialog(hDlg, IDOK);
+
+         return TRUE;
+      }
+      break;
+
+   case WM_DESTROY:
+      hGraphicsDialog = NULL;
+
+      return TRUE;
+   }
+
    return FALSE;
 }
 /*****************************************************************************/

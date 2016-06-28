@@ -37,6 +37,7 @@ BEGIN
         MENUITEM "&Einwählen",                  3061
         MENUITEM "&Auflegen",                   3062
         MENUITEM "&Voreinstellungen",           3060
+        MENUITEM "&Grafik Optionen",            3518
         MENUITEM "Konfiguration",               186
         MENUITEM "Pass&wort ändern",            3506
         MENUITEM "Logout timer",                3052
@@ -122,6 +123,19 @@ END
 //
 // Dialog
 //
+
+1166 DIALOGEX 0, 0, 173, 82
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Grafik Optionen"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    CONTROL         "&MipMaps aktivieren (detailliertere Texturen)",1217,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,12,152,19
+    DEFPUSHBUTTON   "OK",IDOK,31,57,45,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,92,57,45,14,WS_GROUP
+    LTEXT           "Anti Aliasing",1221,65,35,46,8
+    COMBOBOX        1115,11,34,48,62,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+END
 
 181 DIALOGEX 0, 0, 249, 113
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -733,6 +747,10 @@ BEGIN
     109                     "Längenprobleme mit der Servernachricht."
     110                     "Es ist kein Spielecharakter ist für diesen Account angelegt. Wende Dich an den Kundenservice."
     111                     "Übertragungsfehler; versuche die Verbindung erneut aufzubauen."
+END
+
+STRINGTABLE
+BEGIN
     192                     "Eine Datei mit einer Größe von %d bytes"
     193                     "%d Dateien mit einer Größe von %d bytes."
     194                     "%d Dateien mit einer Größe von %.1f Kb."
@@ -827,9 +845,10 @@ BEGIN
         MENUITEM "&Connect",                    ID_GAME_CONNECT
         MENUITEM "&Disconnect",                 ID_GAME_DISCONNECT
         MENUITEM "&Preferences",                ID_GAME_SETTINGS
+        MENUITEM "&Graphics",                   ID_GRAPHICS_MENU
         MENUITEM "Configuration",               ID_CONFIGMENU
         MENUITEM "Change pass&word",            ID_GAME_PASSWORD, GRAYED
-        MENUITEM "Logout timer",                ID_OPTIONS_TIMEOUT
+        MENUITEM "&Logout timer",               ID_OPTIONS_TIMEOUT
         MENUITEM SEPARATOR
         MENUITEM "Print &Map",                  ID_GAME_PRINTMAP
         MENUITEM SEPARATOR
@@ -1345,6 +1364,19 @@ BEGIN
     DEFPUSHBUTTON   "&Update",IDC_UPDATE,138,97,93,14
 END
 
+IDD_GRAPHICS DIALOGEX 0, 0, 173, 82
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Graphics Options"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    CONTROL         "&Enable MipMaps (more accurate texturing)",IDC_MIPMAPS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,12,152,19
+    DEFPUSHBUTTON   "OK",IDOK,31,57,45,14,WS_GROUP
+    PUSHBUTTON      "Cancel",IDCANCEL,92,57,45,14,WS_GROUP
+    LTEXT           "Anti Aliasing",IDC_AA_TEXT,65,35,46,8
+    COMBOBOX        IDC_ANTI_ALIAS,11,34,48,62,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1507,6 +1539,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 109
     END
+
+    IDD_GRAPHICS, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 169
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 78
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -1628,8 +1668,13 @@ BEGIN
     IDS_TOOMANYLOGINS       "Too many login attempts."
     IDS_TIMEOUT             "Login timed out."
     IDS_CANTRENAME          "Unable to move one or more files from the %s directory to the %s directory.    Make sure the directories exist, and try the download again."
+END
+
+STRINGTABLE
+BEGIN
     IDC_SIZE_UPDATE_ONE_FILE "There is one file %d bytes in size."
-    IDC_SIZE_UPDATE_FILES_BYTES "There are %d files totaling %d bytes in size."
+    IDC_SIZE_UPDATE_FILES_BYTES 
+                            "There are %d files totaling %d bytes in size."
     IDC_SIZE_UPDATE_FILES_KB "There are %d files totaling %.1f Kb in size."
     IDC_SIZE_UPDATE_FILES_MB "There are %d files totaling %.1f Mb in size."
 END
