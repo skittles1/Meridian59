@@ -8,12 +8,14 @@
 #include "client.h"
 
 #define MAX_PARTICLES 256
+#define SNOW_SIZE_HALF 24.0f
 
 particle_system gParticleSystemSand;
 particle_system gParticleSystemRain;
 particle_system gParticleSystemSnow;
 particle_system gParticleSystemFireworks;
 
+bool systemInitDone = false;
 extern player_info player;
 
 void D3DParticleInitPosSpeed(emitter *pEmitter, particle *pParticle);
@@ -24,7 +26,8 @@ void D3DParticleInitPosSpeedCircleY(emitter *pEmitter, particle *pParticle);
 void D3DParticleInitPosSpeedCircleZ(emitter *pEmitter, particle *pParticle);
 void D3DParticleInitRotation(emitter *pEmitter, particle *pParticle);
 void D3DParticleInitColorEnergy(emitter *pEmitter, particle *pParticle);
-void D3DParticleAddToRenderer(d3d_render_pool_new *pPool, particle *pParticle);
+void D3DParticleAddToRenderer(d3d_render_pool_new *pPool, Draw3DParams *params, 
+   particle_system *pParticleSystem, particle *pParticle);
 void D3DParticleVelocityUpdate(emitter *pEmitter, particle *pParticle);
 void D3DParticleRandomizeEmitterPosition(emitter *pEmitter);
 
@@ -37,18 +40,107 @@ void SnowInit(void);
 void FireworksInit(void);
 
 /*
+* D3DParticleSystemSetup: Set up stuff that doesn't need to change.
+*/
+void D3DParticleSystemInit(void)
+{
+   if (systemInitDone)
+      return;
+
+   ///////////////////////////////// Snow /////////////////////////////////
+   // Create snow texture.
+   if (gParticleSystemSnow.pTexture)
+      IDirect3DDevice9_Release(gParticleSystemSnow.pTexture);
+   HRESULT hr = D3DXCreateTextureFromFile(gpD3DDevice, "./resource/weather_snow.png",
+      &gParticleSystemSnow.pTexture);
+   if (hr != D3D_OK)
+      gParticleSystemSnow.pTexture = NULL;
+   // Set some drawing parameters.
+   gParticleSystemSnow.drawType = D3DPT_TRIANGLESTRIP;
+   gParticleSystemSnow.numDrawStages = 1;
+   gParticleSystemSnow.numIndices = 4;
+   gParticleSystemSnow.numVertices = 4;
+   gParticleSystemSnow.numPrimitives = 2;
+   gParticleSystemSnow.pParticleIndices[0] = 1;
+   gParticleSystemSnow.pParticleIndices[1] = 2;
+   gParticleSystemSnow.pParticleIndices[2] = 0;
+   gParticleSystemSnow.pParticleIndices[3] = 3;
+
+   // Create snow xyz
+   gParticleSystemSnow.pParticleXYZ[0].x = -SNOW_SIZE_HALF;
+   gParticleSystemSnow.pParticleXYZ[0].z = SNOW_SIZE_HALF;
+   gParticleSystemSnow.pParticleXYZ[1].x = -SNOW_SIZE_HALF;
+   gParticleSystemSnow.pParticleXYZ[1].z = -SNOW_SIZE_HALF;
+   gParticleSystemSnow.pParticleXYZ[2].x = SNOW_SIZE_HALF;
+   gParticleSystemSnow.pParticleXYZ[2].z = -SNOW_SIZE_HALF;
+   gParticleSystemSnow.pParticleXYZ[3].x = SNOW_SIZE_HALF;
+   gParticleSystemSnow.pParticleXYZ[3].z = SNOW_SIZE_HALF;
+
+   // Create snow UV
+   float oneOverW, oneOverH;
+   oneOverW = (1.0f / 512.0f);
+   oneOverH = (1.0f / 512.0f);
+   gParticleSystemSnow.pParticleST[0].s = 1.0f - oneOverW;
+   gParticleSystemSnow.pParticleST[0].t = oneOverH;
+   gParticleSystemSnow.pParticleST[1].s = 1.0f - oneOverW;
+   gParticleSystemSnow.pParticleST[1].t = 1.0f - oneOverH;
+   gParticleSystemSnow.pParticleST[2].s = oneOverW;
+   gParticleSystemSnow.pParticleST[2].t = 1.0f - oneOverH;
+   gParticleSystemSnow.pParticleST[3].s = oneOverW;
+   gParticleSystemSnow.pParticleST[3].t = oneOverH;
+
+   ///////////////////////////////// Rain ///////////////////////////////////////
+
+   // Set some drawing parameters.
+   gParticleSystemRain.drawType = D3DPT_LINESTRIP;
+   gParticleSystemRain.numDrawStages = 0;
+   gParticleSystemRain.numIndices = 2;
+   gParticleSystemRain.numVertices = 2;
+   gParticleSystemRain.numPrimitives = 1;
+   gParticleSystemRain.pTexture = NULL;
+
+   ///////////////////////////////// Fireworks /////////////////////////////////
+   // Set some drawing parameters.
+   gParticleSystemFireworks.drawType = D3DPT_LINESTRIP;
+   gParticleSystemFireworks.numDrawStages = 0;
+   gParticleSystemFireworks.numIndices = 2;
+   gParticleSystemFireworks.numVertices = 2;
+   gParticleSystemFireworks.numPrimitives = 1;
+   gParticleSystemFireworks.pTexture = NULL;
+
+   ///////////////////////////////// Sandstorm /////////////////////////////////
+
+   // Set some drawing parameters.
+   gParticleSystemSand.drawType = D3DPT_LINESTRIP;
+   gParticleSystemSand.numDrawStages = 0;
+   gParticleSystemSand.numIndices = 2;
+   gParticleSystemSand.numVertices = 2;
+   gParticleSystemSand.numPrimitives = 1;
+   gParticleSystemSand.pTexture = NULL;
+
+   systemInitDone = true;
+}
+
+/*
  * D3DParticlesReset: Initializes all particle systems.
  */
 void D3DParticlesInit(bool reset)
 {
    int height = PlayerGetHeight();
 
+   // Delete existing emitters if necessary, create new emitters.
    SandstormInit();
    RainInit();
    SnowInit();
    FireworksInit();
    if (reset)
+   {
+      systemInitDone = false;
+      // Sets where the player is - must be done after emitter creation.
       D3DParticleSystemSetPlayerPos((float)player.x, (float)player.y, (float)height);
+   }
+   // Init static particle system stuff (special textures, structs that don't change).
+   D3DParticleSystemInit();
 }
 
 void D3DParticleSystemReset(particle_system *pParticleSystem)
@@ -254,13 +346,13 @@ void D3DParticleSystemUpdateFluid(particle_system *pParticleSystem, d3d_render_p
 
          // If this particle is hidden from the player's view, don't let D3D try to draw it.
          if (!IsHidden(params, (long)pParticle->pos.x, (long)pParticle->pos.y,
-               (long)pParticle->pos.x, (long)pParticle->pos.y))
-            D3DParticleAddToRenderer(pPool, pParticle);
+            (long)pParticle->pos.x, (long)pParticle->pos.y))
+            D3DParticleAddToRenderer(pPool, params, pParticleSystem, pParticle);
       }
    }
 
-   D3DCacheFill(pCacheSystem, pPool, 0);
-   D3DCacheFlush(pCacheSystem, pPool, 0, D3DPT_LINESTRIP);
+   D3DCacheFill(pCacheSystem, pPool, pParticleSystem->numDrawStages);
+   D3DCacheFlush(pCacheSystem, pPool, pParticleSystem->numDrawStages, pParticleSystem->drawType);
 }
 
 /*
@@ -307,7 +399,7 @@ void D3DParticleSystemUpdateBurst(particle_system *pParticleSystem, d3d_render_p
             // If this particle is hidden from the player's view, don't let D3D try to draw it.
             if (!IsHidden(params, (long)pParticle->pos.x, (long)pParticle->pos.y,
                      (long)pParticle->pos.x, (long)pParticle->pos.y))
-               D3DParticleAddToRenderer(pPool, pParticle);
+                     D3DParticleAddToRenderer(pPool, params, pParticleSystem, pParticle);
 
             // 10% chance to dim color.
             if ((int)rand() % 10 == 1)
@@ -686,33 +778,52 @@ void D3DParticleVelocityUpdate(emitter *pEmitter, particle *pParticle)
 /*
 * D3DParticleAddToRenderer: Adds a particle to be rendered.
 */
-void D3DParticleAddToRenderer(d3d_render_pool_new *pPool, particle *pParticle)
+void D3DParticleAddToRenderer(d3d_render_pool_new *pPool, Draw3DParams *params,
+   particle_system *pParticleSystem, particle *pParticle)
 {
    d3d_render_packet_new *pPacket;
    d3d_render_chunk_new *pChunk;
 
-   pPacket = D3DRenderPacketFindMatch(pPool, NULL, NULL, 0, 0, 0);
+   pPacket = D3DRenderPacketFindMatch(pPool, pParticleSystem->pTexture, NULL, 0, 0, 0);
    assert(pPacket);
    pPacket->pMaterialFctn = &D3DMaterialParticlePacket;
 
    pChunk = D3DRenderChunkNew(pPacket);
    assert(pChunk);
-   pChunk->numIndices = 2;
-   pChunk->numVertices = 2;
-   pChunk->numPrimitives = 1;
+   pChunk->numIndices = pParticleSystem->numIndices;
+   pChunk->numVertices = pParticleSystem->numVertices;
+   pChunk->numPrimitives = pParticleSystem->numPrimitives;
    pChunk->pMaterialFctn = &D3DMaterialParticleChunk;
 
    MatrixTranslate(&pChunk->xForm, pParticle->pos.x, pParticle->pos.z, pParticle->pos.y);
 
-   CHUNK_XYZ_SET(pChunk, 0, 0, 0, 0);
-   CHUNK_XYZ_SET(pChunk, 1, -pParticle->velocity.x, -pParticle->velocity.y,
-      -pParticle->velocity.z);
-   CHUNK_BGRA_SET(pChunk, 0, (pParticle->bgra.b), pParticle->bgra.g, pParticle->bgra.r,
-      pParticle->bgra.a);
-   CHUNK_BGRA_SET(pChunk, 1, pParticle->bgra.b, pParticle->bgra.g, pParticle->bgra.r,
-      0);
-   CHUNK_INDEX_SET(pChunk, 0, 0);
-   CHUNK_INDEX_SET(pChunk, 1, 1);
+   if (pParticleSystem->pTexture)
+   {
+      MatrixMultiply(&pChunk->xForm, &mPlayerRotation, &pChunk->xForm);
+
+      for (u_int i = 0; i < pChunk->numVertices; i++)
+      {
+         pChunk->indices[i] = pParticleSystem->pParticleIndices[i];
+         pChunk->xyz[i] = pParticleSystem->pParticleXYZ[i];
+         pChunk->st0[i] = pParticleSystem->pParticleST[i];
+         pChunk->bgra[i].b = pParticle->bgra.b;
+         pChunk->bgra[i].g = pParticle->bgra.g;
+         pChunk->bgra[i].r = pParticle->bgra.r;
+         pChunk->bgra[i].a = pParticle->bgra.a;
+      }
+   }
+   else
+   {
+      CHUNK_XYZ_SET(pChunk, 0, 0, 0, 0);
+      CHUNK_XYZ_SET(pChunk, 1, -pParticle->velocity.x, -pParticle->velocity.y,
+         -pParticle->velocity.z);
+      CHUNK_BGRA_SET(pChunk, 0, (pParticle->bgra.b), pParticle->bgra.g, pParticle->bgra.r,
+         pParticle->bgra.a);
+      CHUNK_BGRA_SET(pChunk, 1, pParticle->bgra.b, pParticle->bgra.g, pParticle->bgra.r,
+         0);
+      CHUNK_INDEX_SET(pChunk, 0, 0);
+      CHUNK_INDEX_SET(pChunk, 1, 1);
+   }
 }
 
 void D3DParticleDestroy(particle *pParticle)
@@ -949,14 +1060,14 @@ void SnowInit(void)
    // Distance from the player to spawn particles.
 #define SNOW_EMITTER_RADIUS	(16384)
    // Amount of energy to give them.
-#define SNOW_EMITTER_ENERGY	(400)
+#define SNOW_EMITTER_ENERGY	(4000)
    // Default height to spawn them at.
 #define SNOW_EMITTER_HEIGHT	(2500)
 #define SNOW_TIMER ((int)rand() % 240)
 
    D3DParticleSystemReset(&gParticleSystemSnow);
 
-   for (int i = 0; i < 9; i++)
+   for (int i = 0; i < 3; i++)
    {
       // Normal height.
       D3DParticleEmitterInit(&gParticleSystemSnow,

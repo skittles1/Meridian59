@@ -71,10 +71,23 @@ typedef struct emitter
 
 typedef struct particle_system
 {
-	int			numParticles;
-	list_type	emitterList;
+   // Rendering info.
+   D3DPRIMITIVETYPE drawType;
+   int numDrawStages;
+   u_int numIndices;
+   u_int numVertices;
+   u_int numPrimitives;
+   custom_xyz pParticleXYZ[4];
+   custom_st pParticleST[4];
+   custom_index pParticleIndices[4];
+   LPDIRECT3DTEXTURE9 pTexture;
+
+   // Particle info.
+   int numParticles;
+   list_type emitterList;
 } particle_system;
 
+void D3DParticleSystemInit(void);
 void D3DParticlesInit(bool reset);
 void D3DParticlesReset();
 void	D3DParticleSystemReset(particle_system *pParticleSystem);
