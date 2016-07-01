@@ -15,9 +15,25 @@ particle_system gParticleSystemRain;
 particle_system gParticleSystemSnow;
 particle_system gParticleSystemFireworks;
 
-bool systemInitDone = false;
 extern player_info player;
 
+// Emitter init/reset functions.
+void SandstormInit(void);
+void RainInit(void);
+void SnowInit(void);
+void FireworksInit(void);
+void D3DParticleSystemResetEmitters(particle_system *pParticleSystem);
+void D3DParticleEmitterInit(particle_system *pParticleSystem, float posX, float posY, float posZ,
+   float velX, float velY, float velZ, unsigned char b, unsigned char g,
+   unsigned char r, unsigned char a, int energy, int timerBase,
+   float rotX, float rotY, float rotZ, int randomPos, int randomRot,
+   int maxParticles, int emitterFlags);
+// Emitter property functions.
+void	D3DParticleEmitterUpdate(emitter *pEmitter, float posX, float posY, float posZ);
+// Particle status functions.
+Bool D3DParticleIsAlive(emitter *pEmitter, particle *pParticle);
+void D3DParticleDestroy(particle *pParticle);
+// Particle property functions.
 void D3DParticleInitPosSpeed(emitter *pEmitter, particle *pParticle);
 void D3DParticleInitPosSpeedSphere(emitter *pEmitter, particle *pParticle);
 void D3DParticleInitPosSpeedRandomCircle(emitter *pEmitter, particle *pParticle);
@@ -26,31 +42,28 @@ void D3DParticleInitPosSpeedCircleY(emitter *pEmitter, particle *pParticle);
 void D3DParticleInitPosSpeedCircleZ(emitter *pEmitter, particle *pParticle);
 void D3DParticleInitRotation(emitter *pEmitter, particle *pParticle);
 void D3DParticleInitColorEnergy(emitter *pEmitter, particle *pParticle);
-void D3DParticleAddToRenderer(d3d_render_pool_new *pPool, Draw3DParams *params, 
-   particle_system *pParticleSystem, particle *pParticle);
 void D3DParticleVelocityUpdate(emitter *pEmitter, particle *pParticle);
 void D3DParticleRandomizeEmitterPosition(emitter *pEmitter);
-
-Bool D3DParticleIsAlive(emitter *pEmitter, particle *pParticle);
-void D3DParticleDestroy(particle *pParticle);
-
-void SandstormInit(void);
-void RainInit(void);
-void SnowInit(void);
-void FireworksInit(void);
+// Renderer function.
+void D3DParticleAddToRenderer(d3d_render_pool_new *pPool, Draw3DParams *params, 
+   particle_system *pParticleSystem, particle *pParticle);
 
 /*
-* D3DParticleSystemSetup: Set up stuff that doesn't need to change.
+ * D3DParticleSystemShutdown: Remove static rendering info (release textures).
+ */
+void D3DParticleSystemShutdown(void)
+{
+   IDirect3DDevice9_Release(gParticleSystemSnow.pTexture);
+   gParticleSystemSnow.pTexture = NULL;
+}
+
+/*
+* D3DParticleSystemSetup: Non-emitter setup (static rendering info).
 */
 void D3DParticleSystemInit(void)
 {
-   if (systemInitDone)
-      return;
-
    ///////////////////////////////// Snow /////////////////////////////////
    // Create snow texture.
-   if (gParticleSystemSnow.pTexture)
-      IDirect3DDevice9_Release(gParticleSystemSnow.pTexture);
    HRESULT hr = D3DXCreateTextureFromFile(gpD3DDevice, "./resource/weather_snow.png",
       &gParticleSystemSnow.pTexture);
    if (hr != D3D_OK)
@@ -117,12 +130,10 @@ void D3DParticleSystemInit(void)
    gParticleSystemSand.numVertices = 2;
    gParticleSystemSand.numPrimitives = 1;
    gParticleSystemSand.pTexture = NULL;
-
-   systemInitDone = true;
 }
 
 /*
- * D3DParticlesReset: Initializes all particle systems.
+ * D3DParticlesInit: Sets up particle emitters for all particle systems.
  */
 void D3DParticlesInit(bool reset)
 {
@@ -135,15 +146,12 @@ void D3DParticlesInit(bool reset)
    FireworksInit();
    if (reset)
    {
-      systemInitDone = false;
       // Sets where the player is - must be done after emitter creation.
       D3DParticleSystemSetPlayerPos((float)player.x, (float)player.y, (float)height);
    }
-   // Init static particle system stuff (special textures, structs that don't change).
-   D3DParticleSystemInit();
 }
 
-void D3DParticleSystemReset(particle_system *pParticleSystem)
+void D3DParticleSystemResetEmitters(particle_system *pParticleSystem)
 {
    list_type list;
    emitter *pEmitter;
@@ -838,7 +846,7 @@ void SandstormInit(void)
 #define EMITTER_HEIGHT	(0)
 #define SANDSTORM_TIMER ((int)rand() % 240)
 
-   D3DParticleSystemReset(&gParticleSystemSand);
+   D3DParticleSystemResetEmitters(&gParticleSystemSand);
    // four corners, blowing around the perimeter
    D3DParticleEmitterInit(&gParticleSystemSand,
       EMITTER_RADIUS * -724.0f, EMITTER_RADIUS * -724.0f, EMITTER_HEIGHT,
@@ -1027,7 +1035,7 @@ void RainInit(void)
 #define RAIN_EMITTER_HEIGHT	(2500)
 #define RAIN_TIMER ((int)rand() % 240)
 
-   D3DParticleSystemReset(&gParticleSystemRain);
+   D3DParticleSystemResetEmitters(&gParticleSystemRain);
 
    for (int i = 0; i < 8; i++)
    {
@@ -1065,7 +1073,7 @@ void SnowInit(void)
 #define SNOW_EMITTER_HEIGHT	(2500)
 #define SNOW_TIMER ((int)rand() % 240)
 
-   D3DParticleSystemReset(&gParticleSystemSnow);
+   D3DParticleSystemResetEmitters(&gParticleSystemSnow);
 
    for (int i = 0; i < 3; i++)
    {
@@ -1127,7 +1135,7 @@ void FireworksInit(void)
 #define FIREWORKS_EMITTER_HEIGHT	(3600)
 #define FIREWORKS_TIMER ((int)rand() % 120)
 
-   D3DParticleSystemReset(&gParticleSystemFireworks);
+   D3DParticleSystemResetEmitters(&gParticleSystemFireworks);
 
    D3DParticleEmitterInit(&gParticleSystemFireworks,
       12000.0f, -3000.0f, FIREWORKS_EMITTER_HEIGHT,

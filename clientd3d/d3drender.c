@@ -529,6 +529,9 @@ HRESULT D3DRenderInit(HWND hWnd)
    playerOldPos.y = 0;
    playerOldPos.z = 0;
 
+   // Particle system static info.
+   D3DParticleSystemInit();
+
    return S_OK;
 }
 
@@ -552,7 +555,9 @@ void D3DRenderShutDown(void)
          D3DRenderPoolShutdown(&gLMapPool);
          D3DRenderPoolShutdown(&gLMapPoolStatic);
       }
-      
+
+      D3DParticleSystemShutdown();
+
       D3DCacheSystemShutdown(&gObjectCacheSystem);
       D3DCacheSystemShutdown(&gWorldCacheSystem);
       D3DCacheSystemShutdown(&gWorldCacheSystemStatic);
@@ -1387,7 +1392,8 @@ void D3DRenderReset()
    gFrame = 0;
    gD3DRedrawAll |= D3DRENDER_REDRAW_ALL;
    D3DRenderInit(hMain);
-   D3DParticlesInit(true);
+   // Particle systems were stopped, reset the emitters.
+   D3DParticlesInit(false);
 }
 
 void D3DRenderWorldDraw(d3d_render_pool_new *pPool, room_type *room, Draw3DParams *params)
