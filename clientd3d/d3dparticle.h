@@ -71,21 +71,29 @@ typedef struct emitter
 
 typedef struct particle_system
 {
-	int			numParticles;
-	list_type	emitterList;
+   // Rendering info.
+   D3DPRIMITIVETYPE drawType;
+   int numDrawStages;
+   u_int numIndices;
+   u_int numVertices;
+   u_int numPrimitives;
+   custom_xyz pParticleXYZ[4];
+   custom_st pParticleST[4];
+   custom_index pParticleIndices[4];
+   LPDIRECT3DTEXTURE9 pTexture;
+
+   // Particle info.
+   int numParticles;
+   list_type emitterList;
 } particle_system;
 
-void D3DParticlesInit(bool reset);
-void D3DParticlesReset();
-void	D3DParticleSystemReset(particle_system *pParticleSystem);
-void	D3DParticleEmitterInit(particle_system *pParticleSystem, float posX, float posY, float posZ,
-                           float velX, float velY, float velZ, unsigned char b, unsigned char g,
-                           unsigned char r, unsigned char a, int energy, int timerBase,
-                           float rotX, float rotY, float rotZ, int randomPos, int randomRot,
-                           int maxParticles, int emitterFlags);
+// Particle system init/reset.
+void D3DParticleSystemInit(void); // System static info.
+void D3DParticleSystemShutdown(void); // System static info.
+void D3DParticlesInit(bool reset); // Emitters.
+
+// Particle system update functions.
 void D3DParticleSystemSetPlayerPos(float posX, float posY, float posZ);
-void	D3DParticleEmitterUpdate(emitter *pEmitter, float posX, float posY, float posZ);
-//void	D3DParticleSystemRoomInit(particle_system *pParticleSystem, room_type *room);
 void	D3DParticleSystemUpdateFluid(particle_system *pParticleSystem, d3d_render_pool_new *pPool,
 							 d3d_render_cache_system *pCacheSystem, Draw3DParams *params);
 void	D3DParticleSystemUpdateBurst(particle_system *pParticleSystem, d3d_render_pool_new *pPool,

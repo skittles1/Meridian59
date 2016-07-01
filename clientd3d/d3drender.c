@@ -21,6 +21,7 @@ d3d_render_packet_new   *gpPacket;
 
 LPDIRECT3D9            gpD3D = NULL;
 LPDIRECT3DDEVICE9      gpD3DDevice = NULL;
+D3DMATRIX mPlayerRotation; // Player's view rotated/transposed.
 
 // temp dynamic lightmaps
 LPDIRECT3DTEXTURE9      gpDLightAmbient = NULL;
@@ -528,6 +529,9 @@ HRESULT D3DRenderInit(HWND hWnd)
    playerOldPos.y = 0;
    playerOldPos.z = 0;
 
+   // Particle system static info.
+   D3DParticleSystemInit();
+
    return S_OK;
 }
 
@@ -551,7 +555,9 @@ void D3DRenderShutDown(void)
          D3DRenderPoolShutdown(&gLMapPool);
          D3DRenderPoolShutdown(&gLMapPoolStatic);
       }
-      
+
+      D3DParticleSystemShutdown();
+
       D3DCacheSystemShutdown(&gObjectCacheSystem);
       D3DCacheSystemShutdown(&gWorldCacheSystem);
       D3DCacheSystemShutdown(&gWorldCacheSystemStatic);
@@ -762,7 +768,11 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
 
    anglePitch = PlayerGetHeightOffset();
 
-   MatrixRotateY(&rot, (float)angleHeading * 360.0f / 4096.0f * PI / 180.0f);
+   // Set this one so we don't have to calculate it multiple times during rendering.
+   MatrixRotateY(&mPlayerRotation, (float)angleHeading * 360.0f / 4096.0f * PI / 180.0f);
+   MatrixCopy(&rot, &mPlayerRotation);
+   MatrixTranspose(&mPlayerRotation, &mPlayerRotation);
+
    MatrixRotateX(&mat, (float)anglePitch * 45.0f / 414.0f * PI / 180.0f);
    MatrixMultiply(&rot, &rot, &mat);
    MatrixTranslate(&trans, -(float)params->viewer_x, -(float)params->viewer_height, -(float)params->viewer_y);
@@ -1023,48 +1033,6 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
    }
 
    IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_CULLMODE, D3DCULL_NONE);
-   
-   /***************************************************************************/
-   /*                             PARTICLES                                   */
-   /***************************************************************************/
-   
-   if (draw_particles)
-   {
-      timeParticles = timeGetTime();
-
-      // Updates emitter positions for all particle systems.
-      D3DParticleSystemSetPlayerPos(playerDeltaPos.x, playerDeltaPos.y, playerDeltaPos.z);
-
-      if (effects.sand)
-      {
-         IDirect3DDevice9_SetVertexShader(gpD3DDevice, NULL);
-         IDirect3DDevice9_SetVertexDeclaration(gpD3DDevice, decl0dc);
-
-         D3DParticleSystemUpdateFluid(&gParticleSystemSand, &gParticlePool, &gParticleCacheSystem, params);
-      }
-      if (effects.raining && config.weather)
-      {
-         IDirect3DDevice9_SetVertexShader(gpD3DDevice, NULL);
-         IDirect3DDevice9_SetVertexDeclaration(gpD3DDevice, decl0dc);
-
-         D3DParticleSystemUpdateFluid(&gParticleSystemRain, &gParticlePool, &gParticleCacheSystem, params);
-      }
-      if (effects.snowing && config.weather)
-      {
-         IDirect3DDevice9_SetVertexShader(gpD3DDevice, NULL);
-         IDirect3DDevice9_SetVertexDeclaration(gpD3DDevice, decl0dc);
-
-         D3DParticleSystemUpdateFluid(&gParticleSystemSnow, &gParticlePool, &gParticleCacheSystem, params);
-      }
-      if (effects.fireworks)
-      {
-         IDirect3DDevice9_SetVertexShader(gpD3DDevice, NULL);
-         IDirect3DDevice9_SetVertexDeclaration(gpD3DDevice, decl0dc);
-
-         D3DParticleSystemUpdateBurst(&gParticleSystemFireworks, &gParticlePool, &gParticleCacheSystem, params);
-      }
-      timeParticles = timeGetTime() - timeParticles;
-   }
 
    /***************************************************************************/
    /*                   NAMES / OBJECTS / PLAYEROVERLAYS                      */
@@ -1215,6 +1183,51 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
       D3DCacheFill(&gObjectCacheSystem, &gObjectPool, 1);
       D3DCacheFlush(&gObjectCacheSystem, &gObjectPool, 1, D3DPT_TRIANGLESTRIP);
       IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ZENABLE, D3DZB_TRUE);
+   }
+
+   /***************************************************************************/
+   /*                             PARTICLES                                   */
+   /***************************************************************************/
+
+   if (draw_particles)
+   {
+      IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_VIEW, &view);
+      IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_PROJECTION, &proj);
+
+      timeParticles = timeGetTime();
+
+      // Updates emitter positions for all particle systems.
+      D3DParticleSystemSetPlayerPos(playerDeltaPos.x, playerDeltaPos.y, playerDeltaPos.z);
+
+      if (effects.sand)
+      {
+         IDirect3DDevice9_SetVertexShader(gpD3DDevice, NULL);
+         IDirect3DDevice9_SetVertexDeclaration(gpD3DDevice, decl0dc);
+
+         D3DParticleSystemUpdateFluid(&gParticleSystemSand, &gParticlePool, &gParticleCacheSystem, params);
+      }
+      if (effects.raining && config.weather)
+      {
+         IDirect3DDevice9_SetVertexShader(gpD3DDevice, NULL);
+         IDirect3DDevice9_SetVertexDeclaration(gpD3DDevice, decl0dc);
+
+         D3DParticleSystemUpdateFluid(&gParticleSystemRain, &gParticlePool, &gParticleCacheSystem, params);
+      }
+      if (effects.snowing && config.weather)
+      {
+         IDirect3DDevice9_SetVertexShader(gpD3DDevice, NULL);
+         IDirect3DDevice9_SetVertexDeclaration(gpD3DDevice, decl1dc);
+
+         D3DParticleSystemUpdateFluid(&gParticleSystemSnow, &gParticlePool, &gParticleCacheSystem, params);
+      }
+      if (effects.fireworks)
+      {
+         IDirect3DDevice9_SetVertexShader(gpD3DDevice, NULL);
+         IDirect3DDevice9_SetVertexDeclaration(gpD3DDevice, decl0dc);
+
+         D3DParticleSystemUpdateBurst(&gParticleSystemFireworks, &gParticlePool, &gParticleCacheSystem, params);
+      }
+      timeParticles = timeGetTime() - timeParticles;
    }
 
    /***************************************************************************/
@@ -1379,6 +1392,7 @@ void D3DRenderReset()
    gFrame = 0;
    gD3DRedrawAll |= D3DRENDER_REDRAW_ALL;
    D3DRenderInit(hMain);
+   // Particle systems were stopped, reset the emitters.
    D3DParticlesInit(false);
 }
 
@@ -3162,8 +3176,8 @@ Bool D3DComputePlayerOverlayArea(PDIB pdib, char hotspot, AREA *obj_area)
 void D3DRenderNamesDraw3D(d3d_render_cache_system *pCacheSystem, d3d_render_pool_new *pPool,
                   room_type *room, Draw3DParams *params, font_3d *pFont)
 {
-   D3DMATRIX         mat, rot, xForm, trans;
-   int               angleHeading, anglePitch, strLen, sector_flags, offset;
+   D3DMATRIX         mat, xForm, trans;
+   int               anglePitch, strLen, sector_flags, offset;
    room_contents_node   *pRNode;
    list_type         list;
    long            dx, dy, angle, top, bottom;
@@ -3180,10 +3194,6 @@ void D3DRenderNamesDraw3D(d3d_render_cache_system *pCacheSystem, d3d_render_pool
 
    d3d_render_packet_new   *pPacket;
    d3d_render_chunk_new   *pChunk;
-
-   angleHeading = params->viewer_angle + 3072;
-   if (angleHeading >= 4096)
-      angleHeading -= 4096;
 
    anglePitch = PlayerGetHeightOffset();
 
@@ -3271,13 +3281,11 @@ void D3DRenderNamesDraw3D(d3d_render_cache_system *pCacheSystem, d3d_render_pool
 
 //         z += ((float)pRNode->boundingHeightAdjust * 4.0f);// / 1.66f;
 
-      MatrixRotateY(&rot, (float)angleHeading * 360.0f / 4096.0f * PI / 180.0f);
-      MatrixTranspose(&rot, &rot);
       MatrixTranslate(&mat, (float)pRNode->motion.x, (float)max(bottom,
          pRNode->motion.z) - depth +
          (((float)pDib->height / (float)pDib->shrink * 16.0f) - (float)pDib->yoffset * 4.0f) +
          ((float)pRNode->boundingHeightAdjust * 4.0f), (float)pRNode->motion.y);
-      MatrixMultiply(&xForm, &rot, &mat);
+      MatrixMultiply(&xForm, &mPlayerRotation, &mat);
 
       fg_color = GetPlayerNameColor(&pRNode->obj, pName);
 
@@ -5831,17 +5839,11 @@ void D3DGetBackgroundOverlayPosition(BackgroundOverlay *pOverlay, Draw3DParams *
 
 void D3DRenderBackgroundObjectsDraw(d3d_render_pool_new *pPool, room_type *room, Draw3DParams *params)
 {
-   D3DMATRIX mat, rot;
+   D3DMATRIX mat;
    Pnt3D bObj;
    PDIB pDib;
    d3d_render_packet_new *pPacket = NULL;
    d3d_render_chunk_new  *pChunk = NULL;
-
-   // Background objects don't adjust angle, but we adjust the viewing angle
-   // for the player so they view the object face on.
-   int viewAngle = params->viewer_angle + 3072;
-   if (viewAngle >= 4096)
-      viewAngle -= 4096;
 
    for (list_type list = room->bg_overlays; list != NULL; list = list->next)
    {
@@ -5875,10 +5877,10 @@ void D3DRenderBackgroundObjectsDraw(d3d_render_pool_new *pPool, room_type *room,
       pChunk->pMaterialFctn = &D3DMaterialObjectChunk;
       pChunk->zBias = 0;
 
-      MatrixRotateY(&rot, (float)viewAngle * 360.0f / 4096.0f * PI / 180.0f);
-      MatrixTranspose(&rot, &rot);
+      // Background objects don't adjust angle, but we adjust the viewing angle
+      // for the player so they view the object face on.
       MatrixTranslate(&mat, (float)bObj.x, (float)bObj.z, (float)bObj.y);
-      MatrixMultiply(&pChunk->xForm, &rot, &mat);
+      MatrixMultiply(&pChunk->xForm, &mPlayerRotation, &mat);
 
       pChunk->xyz[0].x = (float)pDib->width / (float)pDib->shrink * -8.0f + (float)pDib->xoffset;
       pChunk->xyz[0].z = ((float)pDib->height / (float)pDib->shrink * 16.0f) - (float)pDib->yoffset * 4.0f;
@@ -5929,7 +5931,7 @@ void D3DRenderObjectsDraw(d3d_render_pool_new *pPool, room_type *room,
                       Draw3DParams *params, BYTE flags, Bool drawTransparent)
 {
    D3DMATRIX         mat, rot, trans;
-   int               angleHeading, anglePitch, i, curObject;
+   int               anglePitch, i, curObject;
    room_contents_node   *pRNode;
    long            dx, dy, angle;
    PDIB            pDib;
@@ -5942,10 +5944,6 @@ void D3DRenderObjectsDraw(d3d_render_pool_new *pPool, room_type *room,
 
    d3d_render_packet_new   *pPacket = NULL;
    d3d_render_chunk_new   *pChunk = NULL;
-
-   angleHeading = params->viewer_angle + 3072;
-   if (angleHeading >= 4096)
-      angleHeading -= 4096;
 
    anglePitch = PlayerGetHeightOffset();
 
@@ -6069,11 +6067,9 @@ void D3DRenderObjectsDraw(d3d_render_pool_new *pPool, room_type *room,
          }
       }
 
-      MatrixRotateY(&rot, (float)angleHeading * 360.0f / 4096.0f * PI / 180.0f);
-      MatrixTranspose(&rot, &rot);
       MatrixTranslate(&mat, (float)pRNode->motion.x, max(bottom, pRNode->motion.z) - depth,
          (float)pRNode->motion.y);
-      MatrixMultiply(&pChunk->xForm, &rot, &mat);
+      MatrixMultiply(&pChunk->xForm, &mPlayerRotation, &mat);
 
       xyz[0].x = (float)pDib->width / (float)pDib->shrink * -8.0f + (float)pDib->xoffset;
       xyz[0].z = ((float)pDib->height / (float)pDib->shrink * 16.0f) - (float)pDib->yoffset * 4.0f;
@@ -6200,9 +6196,8 @@ void D3DRenderObjectsDraw(d3d_render_pool_new *pPool, room_type *room,
          bottomRight.z = 0;
          bottomRight.w = 1.0f;
 
-         MatrixRotateY(&rot, (float)angleHeading * 360.0f / 4096.0f * PI / 180.0f);
          MatrixRotateX(&mat, (float)anglePitch * 50.0f / 414.0f * PI / 180.0f);
-         MatrixMultiply(&rot, &rot, &mat);
+         MatrixMultiply(&rot, &mPlayerRotation, &mat);
          MatrixTranslate(&trans, -(float)params->viewer_x, -(float)params->viewer_height, -(float)params->viewer_y);
          MatrixMultiply(&mat, &trans, &rot);
          XformMatrixPerspective(&localToScreen, FOV_H, FOV_V, 1.0f, 2000000.0f);
@@ -7126,8 +7121,8 @@ TEMP_END2:
 
 void D3DRenderProjectilesDrawNew(d3d_render_pool_new *pPool, room_type *room, Draw3DParams *params)
 {
-   D3DMATRIX         mat, rot;
-   int               angleHeading, anglePitch;
+   D3DMATRIX         mat;
+   int               anglePitch;
    int               i;
    Projectile         *pProjectile;
    list_type         list;
@@ -7136,10 +7131,6 @@ void D3DRenderProjectilesDrawNew(d3d_render_pool_new *pPool, room_type *room, Dr
 
    d3d_render_packet_new   *pPacket;
    d3d_render_chunk_new   *pChunk;
-
-   angleHeading = params->viewer_angle + 3072;
-   if (angleHeading >= 4096)
-      angleHeading -= 4096;
 
    anglePitch = PlayerGetHeightOffset();
 
@@ -7184,11 +7175,9 @@ void D3DRenderProjectilesDrawNew(d3d_render_pool_new *pPool, room_type *room, Dr
       if (angle < -4096)
          angle += 4096;
 
-      MatrixRotateY(&rot, (float)angleHeading * 360.0f / 4096.0f * PI / 180.0f);
-      MatrixTranspose(&rot, &rot);
       MatrixTranslate(&mat, (float)pProjectile->motion.x, (float)pProjectile->motion.z,
          (float)pProjectile->motion.y);
-      MatrixMultiply(&pChunk->xForm, &rot, &mat);
+      MatrixMultiply(&pChunk->xForm, &mPlayerRotation, &mat);
 
       pChunk->xyz[0].x = (float)pDib->width / (float)pDib->shrink * -8.0f + (float)pDib->xoffset;
       pChunk->xyz[0].z = ((float)pDib->height / (float)pDib->shrink * 16.0f) - (float)pDib->yoffset * 4.0f;
@@ -9069,13 +9058,13 @@ Bool D3DMaterialBlurChunk(d3d_render_chunk_new *pChunk)
 
 Bool D3DMaterialParticlePool(d3d_render_pool_new *pPool)
 {
-   IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHATESTENABLE, FALSE);
+   IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHATESTENABLE, TRUE);
+   D3DRENDER_SET_ALPHATEST_STATE(gpD3DDevice, TRUE, TEMP_ALPHA_REF, D3DCMP_GREATEREQUAL);
+   D3DRENDER_SET_ALPHABLEND_STATE(gpD3DDevice, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_INVSRCALPHA);
    IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHABLENDENABLE, TRUE);
    IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
    IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-   D3DRENDER_SET_COLOR_STAGE(gpD3DDevice, 0, D3DTOP_SELECTARG2, 0, D3DTA_DIFFUSE);
-   D3DRENDER_SET_ALPHA_STAGE(gpD3DDevice, 0, D3DTOP_SELECTARG2, 0, D3DTA_DIFFUSE);
    D3DRENDER_SET_COLOR_STAGE(gpD3DDevice, 1, D3DTOP_DISABLE, 0, 0);
    D3DRENDER_SET_ALPHA_STAGE(gpD3DDevice, 1, D3DTOP_DISABLE, 0, 0);
 
@@ -9084,12 +9073,34 @@ Bool D3DMaterialParticlePool(d3d_render_pool_new *pPool)
 
 Bool D3DMaterialParticlePacket(d3d_render_packet_new *pPacket, d3d_render_cache_system *pCacheSystem)
 {
+   if (pPacket->pTexture)
+   {
+      IDirect3DDevice9_SetTexture(gpD3DDevice, 0, (IDirect3DBaseTexture9 *)pPacket->pTexture);
+      D3DRENDER_SET_COLOR_STAGE(gpD3DDevice, 0, D3DTOP_MODULATE, D3DTA_TEXTURE, D3DTA_DIFFUSE);
+      D3DRENDER_SET_ALPHA_STAGE(gpD3DDevice, 0, D3DTOP_MODULATE, D3DTA_TEXTURE, D3DTA_DIFFUSE);
+   }
+   else
+   {
+      D3DRENDER_SET_COLOR_STAGE(gpD3DDevice, 0, D3DTOP_SELECTARG2, 0, D3DTA_DIFFUSE);
+      D3DRENDER_SET_ALPHA_STAGE(gpD3DDevice, 0, D3DTOP_SELECTARG2, 0, D3DTA_DIFFUSE);
+   }
+
+
    return TRUE;
 }
 
 Bool D3DMaterialParticleChunk(d3d_render_chunk_new *pChunk)
 {
    IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_WORLD, &pChunk->xForm);
+
+   IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_DEPTHBIAS, F2DW((float)0 * -0.00001f));
+   if (gD3DDriverProfile.bFogEnable)
+   {
+      float   end;
+
+      end = D3DRenderFogEndCalc(pChunk);
+      IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_FOGEND, *(DWORD *)(&end));
+   }
 
    return TRUE;
 }

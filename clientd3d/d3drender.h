@@ -102,6 +102,7 @@ typedef struct font_3d
 
 extern LPDIRECT3D9				gpD3D;
 extern LPDIRECT3DDEVICE9		gpD3DDevice;
+extern D3DMATRIX mPlayerRotation;
 
 extern int		gNumVertices;
 extern BOOL		gbAlwaysRun;
