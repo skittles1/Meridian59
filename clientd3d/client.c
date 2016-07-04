@@ -355,3 +355,19 @@ void GetGamePath( char *szGamePath )
   if (!GetWorkingDirectory(szGamePath, MAX_PATH))
     debug(("Unable to get current directory!\n"));
 }
+
+double GetMicroCountDouble()
+{
+   static LARGE_INTEGER microFrequency;
+   LARGE_INTEGER now;
+
+   if (microFrequency.QuadPart == 0)
+      QueryPerformanceFrequency(&microFrequency);
+
+   if (microFrequency.QuadPart == 0)
+      return 0;
+
+   QueryPerformanceCounter(&now);
+
+   return (double)(now.QuadPart * 1000000 / (double)microFrequency.QuadPart);
+}
