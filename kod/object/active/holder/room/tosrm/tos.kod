@@ -121,11 +121,15 @@ messages:
 
       plExits = Cons([ 61, 6, RID_TOS_FORGOTTEN, 3, 3, ROTATE_NONE ],plExits);
       plExits = Cons([ 61, 7, RID_TOS_FORGOTTEN, 3, 3, ROTATE_NONE ],plExits);
-      
+
+      // New crypt
+      plExits = Cons([ 71, 17, RID_TOS_STORAGE, 6, 6, ROTATE_180 ],plExits);
+      plExits = Cons([ 71, 18, RID_TOS_STORAGE, 6, 6, ROTATE_180 ],plExits);
+      plExits = Cons([ 72, 17, RID_TOS_STORAGE, 6, 6, ROTATE_180 ],plExits);
+      plExits = Cons([ 72, 18, RID_TOS_STORAGE, 6, 6, ROTATE_180 ],plExits);
 
       plExits = Cons([ 25, 23, RID_TOS_APOTH, 7, 3, ROTATE_NONE ],plExits);
       plExits = Cons([ 25, 24, RID_TOS_APOTH, 7, 3, ROTATE_NONE ],plExits);
-      
 
       propagate;
    }
@@ -221,6 +225,30 @@ messages:
 
       Send(self,@NewHold,#what=Create(&Fountain),#new_row=56,#new_col=18,
            #fine_row=36,#fine_col=36,#new_angle=ANGLE_EAST);
+           
+      // New ornamental objects near storage building.
+      Send(self,@NewHold,#what=Create(&Tree),#new_row=65,#new_col=22,
+            #fine_row=15,#fine_col=0,#new_angle=ANGLE_EAST);
+      Send(self,@NewHold,#what=Create(&Tree),#new_row=65,#new_col=14,
+            #fine_row=26,#fine_col=55,#new_angle=ANGLE_EAST);
+      Send(self,@NewHold,#what=Create(&Tree),#new_row=69,#new_col=21,
+            #fine_row=48,#fine_col=38,#new_angle=ANGLE_EAST);
+      Send(self,@NewHold,#what=Create(&Tree),#new_row=69,#new_col=14,
+            #fine_row=42,#fine_col=44,#new_angle=ANGLE_EAST);
+
+      Send(self,@NewHold,#what=Create(&Shrub),#new_row=66,#new_col=20,
+            #fine_row=3,#fine_col=23,#new_angle=ANGLE_EAST);
+      Send(self,@NewHold,#what=Create(&Shrub),#new_row=67,#new_col=20,
+            #fine_row=33,#fine_col=23,#new_angle=ANGLE_EAST);
+      Send(self,@NewHold,#what=Create(&Shrub),#new_row=66,#new_col=15,
+            #fine_row=1,#fine_col=37,#new_angle=ANGLE_EAST);
+      Send(self,@NewHold,#what=Create(&Shrub),#new_row=67,#new_col=15,
+            #fine_row=21,#fine_col=37,#new_angle=ANGLE_EAST);
+
+      Send(self,@NewHold,#what=Create(&Lamp),#new_row=70,#new_col=20,
+            #fine_row=8,#fine_col=21,#new_angle=ANGLE_EAST);
+      Send(self,@NewHold,#what=Create(&Lamp),#new_row=69,#new_col=15,
+            #fine_row=52,#fine_col=30,#new_angle=ANGLE_EAST);
 
       propagate;
    }
