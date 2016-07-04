@@ -53,7 +53,7 @@ resources:
       "~B~U~k[###]~n ~B~vThe feared outlaw, %q, has just met justice at %s%q's hands."
    system_killed_self = "~B~U~k[###]~n ~B~v%q was just slain by %s own folly."
    system_user_killed_room = \
-      "~B~U~k[###]~n ~B~v%s have laid claim to yet another poor soul, %q."
+      "~B~U~k[###]~n ~B~v%q has met an unfortunate end in %s."
    system_user_killed_bridge_faith = \
       "~B~U~k[###]~n ~B~v%q just hurled %sself from the cliffs of Riija to find a watery "
       "grave."
@@ -1779,7 +1779,7 @@ messages:
          else
          {
             rMessage = system_user_killed_room;
-            param2 = Send(what,@GetTrueName);
+            param2 = Send(killer,@GetTrueName);
          }
 
          % Eliminate param3 that was set by default
