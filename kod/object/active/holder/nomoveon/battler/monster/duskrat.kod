@@ -70,7 +70,7 @@ classvars:
    viKarma = -40
    viDefault_behavior = \
       AI_FIGHT_AGGRESSIVE | AI_FIGHT_SWITCHALOT | AI_MOVE_REGROUP
-   viLight_Penalty = 30
+   viLight_Penalty = 3
    viCashmin = 250
    viCashmax = 750
 
