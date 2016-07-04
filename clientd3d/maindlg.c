@@ -410,6 +410,7 @@ BOOL CALLBACK PreferencesDialogProc(HWND hDlg, UINT message, UINT wParam, LONG l
 BOOL CALLBACK GraphicsDialogProc(HWND hDlg, UINT message, UINT wParam, LONG lParam)
 {
    char retStr[12];
+   retStr[0] = 0;
    HWND hWndComboBox;
    int aaList, index, aaMode;
    Bool temp;
@@ -495,9 +496,7 @@ BOOL CALLBACK GraphicsDialogProc(HWND hDlg, UINT message, UINT wParam, LONG lPar
          if (index != CB_ERR)
          {
             SendMessage(hWndComboBox, CB_GETLBTEXT, index, (LPARAM)retStr);
-            if (strcmp(retStr, "No AA") == 0)
-               aaMode = 0;
-            else if (strcmp(retStr, "2x AA") == 0)
+            if (strcmp(retStr, "2x AA") == 0)
                aaMode = 2;
             else if (strcmp(retStr, "4x AA") == 0)
                aaMode = 4;
@@ -505,6 +504,8 @@ BOOL CALLBACK GraphicsDialogProc(HWND hDlg, UINT message, UINT wParam, LONG lPar
                aaMode = 8;
             else if (strcmp(retStr, "16x AA") == 0)
                aaMode = 16;
+            else
+               aaMode = 0;
             if (config.aaMode != aaMode)
             {
                config.aaMode = aaMode;
