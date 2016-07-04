@@ -807,7 +807,7 @@ void D3DParticleAddToRenderer(d3d_render_pool_new *pPool, Draw3DParams *params,
 
    if (pParticleSystem->pTexture)
    {
-      MatrixMultiply(&pChunk->xForm, &mPlayerRotation, &pChunk->xForm);
+      MatrixMultiply(&pChunk->xForm, &mPlayerHeadingTrans, &pChunk->xForm);
 
       for (u_int i = 0; i < pChunk->numVertices; i++)
       {

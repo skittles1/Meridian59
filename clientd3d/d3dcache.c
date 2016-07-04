@@ -485,8 +485,10 @@ void D3DCacheFill(d3d_render_cache_system *pCacheSystem, d3d_render_pool_new *pP
 		}
 	}
 
-	if (pRenderCache)
-		CACHE_UNLOCK(pRenderCache);
+   if (pRenderCache)
+   {
+      CACHE_UNLOCK(pRenderCache);
+   }
 }
 
 void D3DCacheFlush(d3d_render_cache_system *pCacheSystem, d3d_render_pool_new *pPool, int numStages,

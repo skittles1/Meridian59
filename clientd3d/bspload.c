@@ -424,22 +424,22 @@ Bool LoadSidedefs(file_node *f, room_type *room, int num_sidedefs)
       // Set up animation, if any
       if (speed != 0)
       {
-    s->animate = (RoomAnimate *) SafeMalloc(sizeof(RoomAnimate));
-    RoomSetupCycleAnimation(s->animate, speed);
+         s->animate = (RoomAnimate *) SafeMalloc(sizeof(RoomAnimate));
+         RoomSetupCycleAnimation(s->animate, speed);
       }
       else if (WallScrollSpeed(s->flags) != SCROLL_NONE)
       {
-    // Slow down wall scrolling speed; this is because we notice subjectively
-    // that walls are scrolling too fast.
-    speed = WallScrollSpeed(s->flags);
-    switch (speed)
-    {
-    case SCROLL_SLOW:   period = SCROLL_WALL_SLOW_PERIOD;     break;
-    case SCROLL_MEDIUM: period = SCROLL_WALL_MEDIUM_PERIOD;   break;
-    case SCROLL_FAST:   period = SCROLL_WALL_FAST_PERIOD;     break;
-    }
-    s->animate = (RoomAnimate *) SafeMalloc(sizeof(RoomAnimate));
-    RoomSetupScrollAnimation(s->animate, period, WallScrollDirection(s->flags));
+         // Slow down wall scrolling speed; this is because we notice subjectively
+         // that walls are scrolling too fast.
+         speed = WallScrollSpeed(s->flags);
+         switch (speed)
+         {
+         case SCROLL_MEDIUM: period = SCROLL_WALL_MEDIUM_PERIOD;   break;
+         case SCROLL_FAST:   period = SCROLL_WALL_FAST_PERIOD;     break;
+         default: period = SCROLL_WALL_SLOW_PERIOD; // case SCROLL_SLOW
+         }
+         s->animate = (RoomAnimate *) SafeMalloc(sizeof(RoomAnimate));
+         RoomSetupScrollAnimation(s->animate, period, WallScrollDirection(s->flags));
       }
       else s->animate = NULL;
    }
@@ -651,49 +651,54 @@ Bool LoadSectors(file_node *f, room_type *room, int num_sectors)
       // XXX Old version
       if (room_version >= 10)
       {
-    if (CliMappedFileRead(f, &speed, 1) != 1) return False;
+         if (CliMappedFileRead(f, &speed, 1) != 1) return False;
       }
-      else speed = 0;
+      else
+         speed = 0;
 
       // Set up animation, if any
       if (speed != 0)
       {
-    s->animate = (RoomAnimate *) SafeMalloc(sizeof(RoomAnimate));
-    RoomSetupCycleAnimation(s->animate, speed);
+         s->animate = (RoomAnimate *) SafeMalloc(sizeof(RoomAnimate));
+         RoomSetupCycleAnimation(s->animate, speed);
       }
       else if (SectorScrollSpeed(s->flags) != SCROLL_NONE)
       {
-    speed = SectorScrollSpeed(s->flags);
-    switch (speed)
-    {
-    case SCROLL_SLOW:   period = SCROLL_SLOW_PERIOD;   break;
-    case SCROLL_MEDIUM: period = SCROLL_MEDIUM_PERIOD; break;
-    case SCROLL_FAST:   period = SCROLL_FAST_PERIOD;   break;
-    }
-    s->animate = (RoomAnimate *) SafeMalloc(sizeof(RoomAnimate));
-    RoomSetupScrollAnimation(s->animate, period, SectorScrollDirection(s->flags));
+         speed = SectorScrollSpeed(s->flags);
+         switch (speed)
+         {
+         case SCROLL_MEDIUM: period = SCROLL_MEDIUM_PERIOD; break;
+         case SCROLL_FAST:   period = SCROLL_FAST_PERIOD;   break;
+         default: period = SCROLL_SLOW_PERIOD; // case SCROLL_SLOW
+         }
+         s->animate = (RoomAnimate *) SafeMalloc(sizeof(RoomAnimate));
+         RoomSetupScrollAnimation(s->animate, period, SectorScrollDirection(s->flags));
       }
       else if (s->flags & SF_FLICKER)
       {
-    s->animate = (RoomAnimate *) SafeMalloc(sizeof(RoomAnimate));
-    RoomSetupFlickerAnimation(s->animate, s->light, s->server_id);
+         s->animate = (RoomAnimate *) SafeMalloc(sizeof(RoomAnimate));
+         RoomSetupFlickerAnimation(s->animate, s->light, s->server_id);
       }
-      else s->animate = NULL;
+      else
+         s->animate = NULL;
 
-      if (s->flags & SF_SLOPED_FLOOR) {
-     s->sloped_floor = LoadSlopeInfo(f);
-     if (s->sloped_floor == (SlopeData *)NULL)
-         return False;
+      if (s->flags & SF_SLOPED_FLOOR)
+      {
+         s->sloped_floor = LoadSlopeInfo(f);
+         if (s->sloped_floor == (SlopeData *)NULL)
+            return False;
       }
 
-      if (s->flags & SF_SLOPED_CEILING) {
-     s->sloped_ceiling = LoadSlopeInfo(f);
-     if (s->sloped_ceiling == (SlopeData *)NULL)
-         return False;
+      if (s->flags & SF_SLOPED_CEILING)
+      {
+         s->sloped_ceiling = LoadSlopeInfo(f);
+         if (s->sloped_ceiling == (SlopeData *)NULL)
+            return False;
       }
    }
    return True;
 }
+
 Bool LoadThings(file_node *f, room_type *room, int num_things)
 {
    int temp;
