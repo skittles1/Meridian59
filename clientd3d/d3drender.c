@@ -21,7 +21,16 @@ d3d_render_packet_new   *gpPacket;
 
 LPDIRECT3D9            gpD3D = NULL;
 LPDIRECT3DDEVICE9      gpD3DDevice = NULL;
-D3DMATRIX mPlayerRotation; // Player's view rotated/transposed.
+
+// Matrices we can precalculate
+D3DMATRIX mPlayerHeading; // Player's heading rotated Y.
+D3DMATRIX mPlayerPitch; // Player's pitch rotated X.
+D3DMATRIX mPlayerPitchFudge; // Player's pitch rotated X, slightly larger for objects?
+D3DMATRIX mPlayerHeadingTrans; // Player's heading rotated Y and transposed.
+D3DMATRIX mPlayerViewTranslate; // Player's view translated.
+D3DMATRIX mPlayerHPMul; // Player's heading and pitch rotated and multiplied.
+D3DMATRIX mPlayerHPFudgeMul; // Player's heading and larger pitch rotated and multiplied.
+D3DMATRIX mIdentity; // Identity matrix.
 
 // temp dynamic lightmaps
 LPDIRECT3DTEXTURE9      gpDLightAmbient = NULL;
@@ -257,7 +266,7 @@ void            D3DRenderNamesDraw3D(d3d_render_cache_system *pCacheSystem, d3d_
                   room_type *room, Draw3DParams *params, font_3d *pFont);
 void            D3DRenderLMapsBuild(void);
 void            D3DRenderFontInit(font_3d *pFont, HFONT hFont);
-void            D3DRenderSkyboxDraw(d3d_render_pool_new *pPool, int angleHeading, int anglePitch);
+void            D3DRenderSkyboxDraw(d3d_render_pool_new *pPool);
 void            D3DRenderBackgroundObjectsDraw(d3d_render_pool_new *pPool, room_type *room, Draw3DParams *params);
 void            D3DGetBackgroundOverlayPosition(BackgroundOverlay *pOverlay, Draw3DParams *params, Pnt3D *bObj);
 Bool            D3DComputePlayerOverlayArea(PDIB pdib, char hotspot, AREA *obj_area);
@@ -666,7 +675,7 @@ void D3DRenderShutDown(void)
 ************************************************************************************/
 void D3DRenderBegin(room_type *room, Draw3DParams *params)
 {
-   D3DMATRIX   mat, rot, trans, view, proj, identity;
+   D3DMATRIX   view, proj;
    int         angleHeading, anglePitch;
    long      timeOverall, timeWorld, timeObjects, timeLMaps, timeSkybox;
    long     timeSkybox2, timeInit, timeParticles;
@@ -677,7 +686,7 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
    Bool      draw_objects = TRUE;
    Bool      draw_particles = TRUE;
    room_contents_node   *pRNode;
-   
+
    /***************************************************************************/
    /*                             PREPARATIONS                                */
    /***************************************************************************/
@@ -710,9 +719,7 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
    // view element textures
    if (gFrame == 0)
    {
-      int   i;
-
-      for (i = 0; i < NUM_VIEW_ELEMENTS; i++)
+      for (int i = 0; i < NUM_VIEW_ELEMENTS; ++i)
       {
          gpViewElements[i] = D3DRenderTextureCreateFromResource(ViewElements[i].bits,
             ViewElements[i].width, ViewElements[i].height);
@@ -757,10 +764,14 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
 
    D3DRenderPaletteSet(0, 0, 0);
 
-    IDirect3DDevice9_BeginScene(gpD3DDevice);
+   IDirect3DDevice9_BeginScene(gpD3DDevice);
 
-   MatrixIdentity(&mat);
-   IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_WORLD, &mat);
+   /***************************************************************************/
+   /*                              MATRICES                                   */
+   /***************************************************************************/
+
+   MatrixIdentity(&mIdentity);
+   IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_WORLD, &mIdentity);
 
    angleHeading = params->viewer_angle + 3072;
    if (angleHeading >= MAX_ANGLE)
@@ -768,15 +779,15 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
 
    anglePitch = PlayerGetHeightOffset();
 
-   // Set this one so we don't have to calculate it multiple times during rendering.
-   MatrixRotateY(&mPlayerRotation, (float)angleHeading * 360.0f / 4096.0f * PI / 180.0f);
-   MatrixCopy(&rot, &mPlayerRotation);
-   MatrixTranspose(&mPlayerRotation, &mPlayerRotation);
-
-   MatrixRotateX(&mat, (float)anglePitch * 45.0f / 414.0f * PI / 180.0f);
-   MatrixMultiply(&rot, &rot, &mat);
-   MatrixTranslate(&trans, -(float)params->viewer_x, -(float)params->viewer_height, -(float)params->viewer_y);
-   MatrixMultiply(&view, &trans, &rot);
+   // Set some matrices up now so we don't have to calculate them multiple times during rendering.
+   MatrixRotateY(&mPlayerHeading, (float)angleHeading * 360.0f / 4096.0f * PI / 180.0f);
+   MatrixTranspose(&mPlayerHeadingTrans, &mPlayerHeading);
+   MatrixRotateX(&mPlayerPitchFudge, (float)anglePitch * 50.0f / 414.0f * PI / 180.0f);
+   MatrixRotateX(&mPlayerPitch, (float)anglePitch * 45.0f / 414.0f * PI / 180.0f);
+   MatrixMultiply(&mPlayerHPMul, &mPlayerHeading, &mPlayerPitch);
+   MatrixMultiply(&mPlayerHPFudgeMul, &mPlayerHeading, &mPlayerPitchFudge);
+   MatrixTranslate(&mPlayerViewTranslate, -(float)params->viewer_x, -(float)params->viewer_height, -(float)params->viewer_y);
+   MatrixMultiply(&view, &mPlayerViewTranslate, &mPlayerHPMul);
 
    IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_VIEW, &view);
 
@@ -784,6 +795,10 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
 //   aspectRatio = (float)(gD3DRect.right - gD3DRect.left) / (float)(gD3DRect.bottom - gD3DRect.top);
 //   XformMatrixPerspective(&proj, -PI / 4.0f * 0.64f * aspectRatio, PI / 6.0f * 1.55f * (1.0f / aspectRatio), 100.0f, 150000.0f);
    IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_PROJECTION, &proj);
+
+   /***************************************************************************/
+   /*                              PREPARATIONS                               */
+   /***************************************************************************/
 
    IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_COLORWRITEENABLE,
                                    D3DCOLORWRITEENABLE_RED | D3DCOLORWRITEENABLE_GREEN | D3DCOLORWRITEENABLE_BLUE);
@@ -817,7 +832,11 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
    playerOldPos.z = params->viewer_height;
 
    timeInit = timeGetTime() - timeInit;
-   // skybox
+
+   /***************************************************************************/
+   /*                              SKYBOX                                     */
+   /***************************************************************************/
+
    if (draw_sky)
    {
       timeSkybox = timeGetTime();
@@ -839,7 +858,7 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
 
       D3DRenderPoolReset(&gWorldPool, &D3DMaterialWorldPool);
       D3DCacheSystemReset(&gWorldCacheSystem);
-      D3DRenderSkyboxDraw(&gWorldPool, angleHeading, anglePitch);
+      D3DRenderSkyboxDraw(&gWorldPool);
       D3DCacheFill(&gWorldCacheSystem, &gWorldPool, 1);
       D3DCacheFlush(&gWorldCacheSystem, &gWorldPool, 1, D3DPT_TRIANGLESTRIP);
 
@@ -964,7 +983,7 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
 
       D3DRenderPoolReset(&gWorldPool, &D3DMaterialWorldPool);
       D3DCacheSystemReset(&gWorldCacheSystem);
-      D3DRenderSkyboxDraw(&gWorldPool, angleHeading, anglePitch);
+      D3DRenderSkyboxDraw(&gWorldPool);
       D3DCacheFill(&gWorldCacheSystem, &gWorldPool, 1);
       D3DCacheFlush(&gWorldCacheSystem, &gWorldPool, 1, D3DPT_TRIANGLESTRIP);
 
@@ -1022,10 +1041,8 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
       }
       //timeDynamic = timeGetTime() - timeDynamic;
       //debug(("Dynamic light maps = %d, static = %d\n", timeDynamic, timeStatic));
-
       D3DCacheFill(&gLMapCacheSystem, &gLMapPool, 2);
       D3DCacheFlush(&gLMapCacheSystem, &gLMapPool, 2, D3DPT_TRIANGLESTRIP);
-
       if (gD3DDriverProfile.bFogEnable)
          IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_FOGENABLE, TRUE);
 
@@ -1054,8 +1071,6 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
 
          D3DRENDER_SET_ALPHATEST_STATE(gpD3DDevice, TRUE, TEMP_ALPHA_REF, D3DCMP_GREATEREQUAL);
          D3DRENDER_SET_ALPHABLEND_STATE(gpD3DDevice, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_SRCCOLOR);
-
-         MatrixIdentity(&identity);
 
          D3DRenderPoolReset(&gObjectPool, &D3DMaterialObjectPool);
          D3DCacheSystemReset(&gObjectCacheSystem);
@@ -1165,10 +1180,9 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
    IDirect3DDevice9_SetVertexDeclaration(gpD3DDevice, decl0dc);
 
    // Set up orthographic projection for drawing overlays
-   MatrixIdentity(&mat);
-   IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_WORLD, &mat);
-   IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_VIEW, &mat);
-   IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_PROJECTION, &mat);
+   IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_WORLD, &mIdentity);
+   IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_VIEW, &mIdentity);
+   IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_PROJECTION, &mIdentity);
 
    // post overlay effects
    if (draw_objects)
@@ -1305,10 +1319,9 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
          CHUNK_INDEX_SET(pChunk, 3, 3);
       }
 
-      MatrixIdentity(&mat);
-      IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_WORLD, &mat);
-      IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_VIEW, &mat);
-      IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_PROJECTION, &mat);
+      IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_WORLD, &mIdentity);
+      IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_VIEW, &mIdentity);
+      IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_PROJECTION, &mIdentity);
       IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ZENABLE, FALSE);
 
       D3DRENDER_SET_ALPHATEST_STATE(gpD3DDevice, FALSE, 1, D3DCMP_GREATEREQUAL);
@@ -1323,7 +1336,7 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
    /***************************************************************************/
    /*                             VIEW ELEMENTS                               */
    /***************************************************************************/
-   
+
    if (1)
    {
       D3DRENDER_SET_COLOR_STAGE(gpD3DDevice, 1, D3DTOP_DISABLE, 0, 0);
@@ -1374,7 +1387,7 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
          D3DRenderReset();
       }
    }
-   
+
    timeOverall = timeGetTime() - timeOverall;
 //   debug(("number of objects = %d\n", gNumObjects));
    if ((gFrame & 255) == 255)
@@ -3177,7 +3190,7 @@ void D3DRenderNamesDraw3D(d3d_render_cache_system *pCacheSystem, d3d_render_pool
                   room_type *room, Draw3DParams *params, font_3d *pFont)
 {
    D3DMATRIX         mat, xForm, trans;
-   int               anglePitch, strLen, sector_flags, offset;
+   int               strLen, sector_flags, offset;
    room_contents_node   *pRNode;
    list_type         list;
    long            dx, dy, angle, top, bottom;
@@ -3194,8 +3207,6 @@ void D3DRenderNamesDraw3D(d3d_render_cache_system *pCacheSystem, d3d_render_pool
 
    d3d_render_packet_new   *pPacket;
    d3d_render_chunk_new   *pChunk;
-
-   anglePitch = PlayerGetHeightOffset();
 
    // base objects
    for (list = room->contents; list != NULL; list = list->next)
@@ -3285,7 +3296,7 @@ void D3DRenderNamesDraw3D(d3d_render_cache_system *pCacheSystem, d3d_render_pool
          pRNode->motion.z) - depth +
          (((float)pDib->height / (float)pDib->shrink * 16.0f) - (float)pDib->yoffset * 4.0f) +
          ((float)pRNode->boundingHeightAdjust * 4.0f), (float)pRNode->motion.y);
-      MatrixMultiply(&xForm, &mPlayerRotation, &mat);
+      MatrixMultiply(&xForm, &mPlayerHeadingTrans, &mat);
 
       fg_color = GetPlayerNameColor(&pRNode->obj, pName);
 
@@ -4398,34 +4409,20 @@ void D3DRenderFontInit(font_3d *pFont, HFONT hFont)
    DeleteDC(hDC);
 }
 
-void D3DRenderSkyboxDraw(d3d_render_pool_new *pPool, int angleHeading, int anglePitch)
+void D3DRenderSkyboxDraw(d3d_render_pool_new *pPool)
 {
-   int         i, j;
-   D3DMATRIX   rot, mat;
-
    d3d_render_packet_new   *pPacket;
    d3d_render_chunk_new   *pChunk;
 
    IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHABLENDENABLE, FALSE);
 
-   MatrixIdentity(&mat);
-   IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_WORLD, &mat);
-
-   MatrixRotateY(&rot, (float)angleHeading * 360.0f / 4096.0f * PI / 180.0f);
-   MatrixRotateX(&mat, (float)anglePitch * 45.0f / 414.0f * PI / 180.0f);
-   MatrixMultiply(&mat, &rot, &mat);
-
-   IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_VIEW, &mat);
+   IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_WORLD, &mIdentity);
+   IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_VIEW, &mPlayerHPMul);
 
 //   XformMatrixPerspective(&mat, -PI / 4.0f, PI / 6.0f, 100.0f, 150000.0f);
 //   IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_PROJECTION, &mat);
 
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0,
-                D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0,
-            D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
-
-   for (i = 0; i < 6; i++)
+   for (int i = 0; i < 6; ++i)
    {
       pPacket = D3DRenderPacketFindMatch(pPool, gpSkyboxTextures[gCurBackground][i], NULL, 0, 0, 0);
       if (NULL == pPacket)
@@ -4442,7 +4439,7 @@ void D3DRenderSkyboxDraw(d3d_render_pool_new *pPool, int angleHeading, int angle
       pChunk->flags |= D3DRENDER_NOAMBIENT;
 
       // add xyz, st, and bgra data
-      for (j = 0; j < 4; j++)
+      for (int j = 0; j < 4; ++j)
       {
          pChunk->xyz[j].x = gSkyboxXYZ[(i * 4 * 3) + (j * 3)];
          pChunk->xyz[j].z = gSkyboxXYZ[(i * 4 * 3) + (j * 3) + 1];
@@ -4462,11 +4459,6 @@ void D3DRenderSkyboxDraw(d3d_render_pool_new *pPool, int angleHeading, int angle
       pChunk->indices[2] = 0;
       pChunk->indices[3] = 3;
    }
-
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0,
-            D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
-   IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0,
-            D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
 }
 
 /*
@@ -5880,7 +5872,7 @@ void D3DRenderBackgroundObjectsDraw(d3d_render_pool_new *pPool, room_type *room,
       // Background objects don't adjust angle, but we adjust the viewing angle
       // for the player so they view the object face on.
       MatrixTranslate(&mat, (float)bObj.x, (float)bObj.z, (float)bObj.y);
-      MatrixMultiply(&pChunk->xForm, &mPlayerRotation, &mat);
+      MatrixMultiply(&pChunk->xForm, &mPlayerHeadingTrans, &mat);
 
       pChunk->xyz[0].x = (float)pDib->width / (float)pDib->shrink * -8.0f + (float)pDib->xoffset;
       pChunk->xyz[0].z = ((float)pDib->height / (float)pDib->shrink * 16.0f) - (float)pDib->yoffset * 4.0f;
@@ -5930,8 +5922,8 @@ void D3DRenderBackgroundObjectsDraw(d3d_render_pool_new *pPool, room_type *room,
 void D3DRenderObjectsDraw(d3d_render_pool_new *pPool, room_type *room,
                       Draw3DParams *params, BYTE flags, Bool drawTransparent)
 {
-   D3DMATRIX         mat, rot, trans;
-   int               anglePitch, i, curObject;
+   D3DMATRIX         mat;
+   int               i, curObject;
    room_contents_node   *pRNode;
    long            dx, dy, angle;
    PDIB            pDib;
@@ -5944,8 +5936,6 @@ void D3DRenderObjectsDraw(d3d_render_pool_new *pPool, room_type *room,
 
    d3d_render_packet_new   *pPacket = NULL;
    d3d_render_chunk_new   *pChunk = NULL;
-
-   anglePitch = PlayerGetHeightOffset();
 
    // base objects
    //for (list = room->contents; list != NULL; list = list->next)
@@ -6069,7 +6059,7 @@ void D3DRenderObjectsDraw(d3d_render_pool_new *pPool, room_type *room,
 
       MatrixTranslate(&mat, (float)pRNode->motion.x, max(bottom, pRNode->motion.z) - depth,
          (float)pRNode->motion.y);
-      MatrixMultiply(&pChunk->xForm, &mPlayerRotation, &mat);
+      MatrixMultiply(&pChunk->xForm, &mPlayerHeadingTrans, &mat);
 
       xyz[0].x = (float)pDib->width / (float)pDib->shrink * -8.0f + (float)pDib->xoffset;
       xyz[0].z = ((float)pDib->height / (float)pDib->shrink * 16.0f) - (float)pDib->yoffset * 4.0f;
@@ -6196,13 +6186,10 @@ void D3DRenderObjectsDraw(d3d_render_pool_new *pPool, room_type *room,
          bottomRight.z = 0;
          bottomRight.w = 1.0f;
 
-         MatrixRotateX(&mat, (float)anglePitch * 50.0f / 414.0f * PI / 180.0f);
-         MatrixMultiply(&rot, &mPlayerRotation, &mat);
-         MatrixTranslate(&trans, -(float)params->viewer_x, -(float)params->viewer_height, -(float)params->viewer_y);
-         MatrixMultiply(&mat, &trans, &rot);
+         MatrixMultiply(&rot, &mPlayerHeading, &mPlayerPitchFudge);
+         MatrixMultiply(&mat, &mPlayerViewTranslate, &rot);
          XformMatrixPerspective(&localToScreen, FOV_H, FOV_V, 1.0f, 2000000.0f);
-         MatrixMultiply(&mat, &pChunk->xForm,
-            &mat);
+         MatrixMultiply(&mat, &pChunk->xForm, &mat);
          MatrixMultiply(&localToScreen, &mat, &localToScreen);
 
          MatrixMultiplyVector(&topLeft, &localToScreen, &topLeft);
@@ -6325,7 +6312,7 @@ void D3DRenderObjectsDraw(d3d_render_pool_new *pPool, room_type *room,
          pChunk->zBias = ZBIAS_TARGETED;
          pChunk->isTargeted = TRUE;
 
-         MatrixMultiply(&pChunk->xForm, &rot, &mat);
+         MatrixMultiply(&pChunk->xForm, &mPlayerHeadingTrans, &mat);
 
          if (flags == DRAWFX_INVISIBLE)
          {
@@ -6398,8 +6385,8 @@ void D3DRenderObjectsDraw(d3d_render_pool_new *pPool, room_type *room,
 void D3DRenderOverlaysDraw(d3d_render_pool_new *pPool, room_type *room, Draw3DParams *params,
                      BOOL underlays, BYTE flags, Bool drawTransparent)
 {
-   D3DMATRIX         mat, rot, trans;
-   int               angleHeading, anglePitch, i, curObject;
+   D3DMATRIX         mat;
+   int               i, curObject;
    room_contents_node   *pRNode;
    long            dx, dy, angle, top, bottom;
    PDIB            pDib, pDibOv, pDibOv2;
@@ -6413,12 +6400,6 @@ void D3DRenderOverlaysDraw(d3d_render_pool_new *pPool, room_type *room, Draw3DPa
 
    d3d_render_packet_new   *pPacket = NULL;
    d3d_render_chunk_new   *pChunk = NULL;
-
-   angleHeading = params->viewer_angle + 3072;
-   if (angleHeading >= 4096)
-      angleHeading -= 4096;
-
-   anglePitch = PlayerGetHeightOffset();
 
    for (curObject = 0; curObject < nitems; curObject++)
    {
@@ -6780,11 +6761,9 @@ void D3DRenderOverlaysDraw(d3d_render_pool_new *pPool, room_type *room, Draw3DPa
                   }
                }
 
-               MatrixRotateY(&rot, (float)angleHeading * 360.0f / 4096.0f * PI / 180.0f);
-               MatrixTranspose(&rot, &rot);
                MatrixTranslate(&mat, (float)pRNode->motion.x, (float)max(bottom,
                   pRNode->motion.z) - depthf, (float)pRNode->motion.y);
-               MatrixMultiply(&pChunk->xForm, &rot, &mat);
+               MatrixMultiply(&pChunk->xForm, &mPlayerHeadingTrans, &mat);
 
                lastDistance = 0;
 
@@ -6844,7 +6823,7 @@ void D3DRenderOverlaysDraw(d3d_render_pool_new *pPool, room_type *room, Draw3DPa
                // now add object to visible object list
                if ((pRNode->obj.id != INVALID_ID) && (pRNode->obj.id != player.id))
                {
-                  D3DMATRIX   localToScreen, rot, mat;
+                  D3DMATRIX   localToScreen, mat;
                   custom_xyzw   topLeft, topRight, bottomLeft, bottomRight, center;
                   ObjectRange *range = FindVisibleObjectById(pRNode->obj.id);
                   int         w, h;
@@ -6874,14 +6853,9 @@ void D3DRenderOverlaysDraw(d3d_render_pool_new *pPool, room_type *room, Draw3DPa
                   bottomRight.z = 0;
                   bottomRight.w = 1.0f;
 
-                  MatrixRotateY(&rot, (float)angleHeading * 360.0f / 4096.0f * PI / 180.0f);
-                  MatrixRotateX(&mat, (float)anglePitch * 50.0f / 414.0f * PI / 180.0f);
-                  MatrixMultiply(&rot, &rot, &mat);
-                  MatrixTranslate(&trans, -(float)params->viewer_x, -(float)params->viewer_height, -(float)params->viewer_y);
-                  MatrixMultiply(&mat, &trans, &rot);
+                  MatrixMultiply(&mat, &mPlayerViewTranslate, &mPlayerHPFudgeMul);
                   XformMatrixPerspective(&localToScreen, FOV_H, FOV_V, 1.0f, Z_RANGE);
-                  MatrixMultiply(&mat, &pChunk->xForm,
-                     &mat);
+                  MatrixMultiply(&mat, &pChunk->xForm, &mat);
                   MatrixMultiply(&localToScreen, &mat, &localToScreen);
 
                   MatrixMultiplyVector(&topLeft, &localToScreen, &topLeft);
@@ -7040,7 +7014,7 @@ void D3DRenderOverlaysDraw(d3d_render_pool_new *pPool, room_type *room, Draw3DPa
                   pChunk->zBias = ZBIAS_TARGETED;
                   pChunk->isTargeted = TRUE;
 
-                  MatrixMultiply(&pChunk->xForm, &rot, &mat);
+                  MatrixMultiply(&pChunk->xForm, &mPlayerHeadingTrans, &mat);
 
                   if (flags == DRAWFX_INVISIBLE)
                   {
@@ -7122,8 +7096,6 @@ TEMP_END2:
 void D3DRenderProjectilesDrawNew(d3d_render_pool_new *pPool, room_type *room, Draw3DParams *params)
 {
    D3DMATRIX         mat;
-   int               anglePitch;
-   int               i;
    Projectile         *pProjectile;
    list_type         list;
    long            dx, dy, angle;
@@ -7131,8 +7103,6 @@ void D3DRenderProjectilesDrawNew(d3d_render_pool_new *pPool, room_type *room, Dr
 
    d3d_render_packet_new   *pPacket;
    d3d_render_chunk_new   *pChunk;
-
-   anglePitch = PlayerGetHeightOffset();
 
    // base objects
    for (list = room->projectiles; list != NULL; list = list->next)
@@ -7177,7 +7147,7 @@ void D3DRenderProjectilesDrawNew(d3d_render_pool_new *pPool, room_type *room, Dr
 
       MatrixTranslate(&mat, (float)pProjectile->motion.x, (float)pProjectile->motion.z,
          (float)pProjectile->motion.y);
-      MatrixMultiply(&pChunk->xForm, &mPlayerRotation, &mat);
+      MatrixMultiply(&pChunk->xForm, &mPlayerHeadingTrans, &mat);
 
       pChunk->xyz[0].x = (float)pDib->width / (float)pDib->shrink * -8.0f + (float)pDib->xoffset;
       pChunk->xyz[0].z = ((float)pDib->height / (float)pDib->shrink * 16.0f) - (float)pDib->yoffset * 4.0f;
@@ -7212,7 +7182,7 @@ void D3DRenderProjectilesDrawNew(d3d_render_pool_new *pPool, room_type *room, Dr
       pChunk->indices[2] = 0;
       pChunk->indices[3] = 3;
 
-      for (i = 0; i < 4; i++)
+      for (int i = 0; i < 4; i++)
       {
          pChunk->bgra[i].b = COLOR_MAX;
          pChunk->bgra[i].g = COLOR_MAX;
@@ -7226,7 +7196,6 @@ void D3DRenderProjectilesDrawNew(d3d_render_pool_new *pPool, room_type *room, Dr
 
 void D3DRenderPlayerOverlaysDraw(d3d_render_pool_new *pPool, room_type *room, Draw3DParams *params)
 {
-   D3DMATRIX         mat;
    room_contents_node   *pRNode;
    PDIB            pDib;
    custom_bgra         bgra;
@@ -7248,10 +7217,9 @@ void D3DRenderPlayerOverlaysDraw(d3d_render_pool_new *pPool, room_type *room, Dr
    IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHAREF, TEMP_ALPHA_REF);
    IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHABLENDENABLE, FALSE);
 
-   MatrixIdentity(&mat);
-   IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_WORLD, &mat);
-   IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_VIEW, &mat);
-   IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_PROJECTION, &mat);
+   IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_WORLD, &mIdentity);
+   IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_VIEW, &mIdentity);
+   IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_PROJECTION, &mIdentity);
 
    // Get player's object drawing flags for special drawing effects
    pRNode = GetRoomObjectById(player.id);
@@ -9116,7 +9084,6 @@ LPDIRECT3DTEXTURE9 D3DRenderFramebufferTextureCreate(LPDIRECT3DTEXTURE9 pTex0,
 {
    LPDIRECT3DSURFACE9   pSrc, pDest[2], pZBuf;
    RECT            rect;
-   D3DMATRIX         mat;
    HRESULT            hr;
    d3d_render_packet_new   *pPacket;
    d3d_render_chunk_new   *pChunk;
@@ -9140,10 +9107,9 @@ LPDIRECT3DTEXTURE9 D3DRenderFramebufferTextureCreate(LPDIRECT3DTEXTURE9 pTex0,
    hr = IDirect3DDevice9_StretchRect(gpD3DDevice, pSrc, &rect, pDest[0], &rect, D3DTEXF_NONE);
    
    // clear local->screen transforms
-   MatrixIdentity(&mat);
-   hr = IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_WORLD, &mat);
-   hr = IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_VIEW, &mat);
-   hr = IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_PROJECTION, &mat);
+   hr = IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_WORLD, &mIdentity);
+   hr = IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_VIEW, &mIdentity);
+   hr = IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_PROJECTION, &mIdentity);
 
    hr = IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ALPHATESTENABLE, FALSE);
    hr = IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_ZWRITEENABLE, FALSE);
