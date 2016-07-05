@@ -16,6 +16,8 @@ constants:
 
 resources:
 
+   include tosstorage.lkod
+
    room_name_tosstorage = "Abandoned Storage Room"
    room_tosstorage = tosstorage.roo
    tosstorage_music = tos.ogg
