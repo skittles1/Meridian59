@@ -28,11 +28,12 @@ messages:
    Constructed()
    {
       plTreasure = [ [ &RainbowFern, 30],
-                     [ &KriipaClaw, 30],
+                     [ &KriipaClaw, 23],
                      [ &Snack, 1],
+                     [ &TeloFruit, 5],
                      [ &WebMoss, 30],
-                     [ &NeruditeSword, 1],
-                     [ &NeruditeArmor, 1],
+                     [ &NeruditeSword, 2],
+                     [ &NeruditeArmor, 2],
                      [ &IvyCirclet, 1],
                      [ &Yrxlsap, 6]
                    ];

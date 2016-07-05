@@ -5726,6 +5726,7 @@ messages:
       plItemTemplates = cons(create(&Cookie),plItemTemplates);
       plItemTemplates = cons(create(&Pear),plItemTemplates);
       plItemTemplates = cons(create(&Orange),plItemTemplates);
+      plItemTemplates = cons(create(&TeloFruit),plItemTemplates);
 
       plItemTemplates = cons(create(&EasterEgg),plItemTemplates);
 

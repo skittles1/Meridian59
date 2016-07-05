@@ -29,10 +29,11 @@ messages:
    {
       plTreasure = [ [ &Longbow, 5 ],
                      [ &BattleBow, 15 ],
-                     [ &CyanMushroom, 24],
+                     [ &CyanMushroom, 16],
                      [ &PolishedSeraphym, 20],
                      [ &FireSand, 20],
                      [ &Yrxlsap, 8],
+                     [ &TeloFruit, 8],
                      [ &NeruditeArmor, 4],
                      [ &KillingFieldScroll, 4]
                    ];
