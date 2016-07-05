@@ -76,12 +76,31 @@ messages:
       plEdge_Exits = Cons([LEAVE_SOUTH, RID_I7, 1, 39, ROTATE_NONE], plEdge_exits);
 
       plExits = $;
-      plExits = Cons([ 31, 12, RID_TOS_SMUGGLERS_WAY, 2, 11, ROTATE_180 ],plExits);
-      plExits = Cons([ 31, 13, RID_TOS_SMUGGLERS_WAY, 2, 11, ROTATE_180 ],plExits);
-      plExits = Cons([ 32, 12, RID_TOS_SMUGGLERS_WAY, 2, 11, ROTATE_180 ],plExits);
-      plExits = Cons([ 32, 13, RID_TOS_SMUGGLERS_WAY, 2, 11, ROTATE_180 ],plExits);
-      
+
       return;
+   }
+
+   SomethingMoved(what = $,new_row = $, new_col = $, fine_row = FINENESS_HALF,
+                  fine_col = FINENESS_HALF)
+   {
+      if (what = $
+         OR NOT IsClass(what,&User))
+      {
+         propagate;
+      }
+
+      if (new_row = 31
+         AND (new_col = 12 OR new_col = 13)
+         AND fine_row <= 58)
+      {
+         Send(SYS,@UtilGoNearSquare,#what=what,
+               #where=Send(SYS,@FindRoomByNum,#num=RID_TOS_SMUGGLERS_WAY),
+               #new_row=2,#new_col=11,#new_angle=ANGLE_SOUTH);
+
+         return;
+      }
+
+      propagate;
    }
 
 end
