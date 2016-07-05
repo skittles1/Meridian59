@@ -4751,8 +4751,10 @@ messages:
 
       if bBooted
       {
-         % Check for safety before booting.
+         // On sacred haven servers, let users attack their own faction
+         // soldiers to drop shield and faction regardless of safety.
          if NOT Send(self,@CheckPlayerPreference,#flag=CF_SAFETY_OFF)
+            AND NOT (NOT Send(SYS,@IsPKAllowed) AND NOT IsClass(what,&User))
          {
             if report
             {
