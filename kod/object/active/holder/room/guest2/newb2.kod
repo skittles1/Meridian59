@@ -26,6 +26,9 @@ classvars:
 
    viDemo_base = RID_NEWB_BASE
 
+   viFlag_row = 20
+   viFlag_col = 6
+
 properties:
 
    piRoom_num = RID_NEWB2

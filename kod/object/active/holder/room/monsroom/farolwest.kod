@@ -61,6 +61,9 @@ messages:
       plMonsters = [ [&Bunny, 35], [&GiantRat, 30],
                      [&SmallRat, 10], [&Centipede, 25] ];
 
+      plGenerators = [ [42, 28], [33, 40], [30, 46], [20, 37], [9, 28],
+                       [13, 19], [27, 20], [29, 9] ];
+
       propagate;
    }
 
@@ -71,6 +74,7 @@ messages:
       plEdge_Exits = $;
       plEdge_Exits = Cons([LEAVE_EAST, RID_C6, 18, 2, ROTATE_NONE], plEdge_exits);
       plEdge_Exits = Cons([LEAVE_WEST, RID_B6, 39, 48, ROTATE_NONE], plEdge_exits);
+      plEdge_Exits = Cons([LEAVE_SOUTH, RID_RAZA_FOREST, 5, 31, ROTATE_NONE], plEdge_exits);
 
       propagate;
    }
