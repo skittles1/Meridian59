@@ -39,6 +39,8 @@ resources:
       "A lazy inn next to a quiet creek rests on the other side of this portal."
    portal_barloque = \
       "Gazing into the portal, you see an expensive inn in a bustling city."
+   portal_raza = \
+      "Through the portal, you see the rustic charm of the Raza Inn."
    zap_to_corpse = \
       "Entering the portal you wander about the netherworld, but find "
       "yourself drawn out..."
@@ -675,6 +677,12 @@ messages:
                         #dest_col=10 ,#dest_row=4);
       Send(self,@NewHold,#what= poPortal5,#new_row=21,#new_col=2,
             #fine_row=48,#fine_col=0,#new_angle=ANGLE_NORTH_EAST);
+
+      // Raza portal is always active, so don't record it in a property.
+      Send(self,@NewHold,#what=Create(&Portal,#desc=portal_raza,
+            #dest_room_num=RID_RAZA_INN,#dest_col=8,#dest_row=3),
+            #new_row=11,#new_col=3,#fine_row=32,#fine_col=32,
+            #new_angle=ANGLE_SOUTH);
 
       Send(self,@NewHold,#what=Create(&Skull),#new_row=16,#new_col=16,
             #fine_row=32,#fine_col=32);
