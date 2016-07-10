@@ -3042,37 +3042,19 @@ messages:
 
    UserGotoDeadRoom()
    {
-      local oNew_room, iRoom, oRoom;
+      local oNew_room;
 
       if pbLogged_On
       {
-         iRoom = Send(poOwner,@GetRoomNum);
-      
-         if iRoom >= RID_NEWB_BASE AND iRoom <= RID_NEWB_MAX
+         oNew_room = Send(SYS,@FindRoomByNum,#num=RID_UNDERWORLD);
+         if NOT Send(SYS,@UtilGoNearSquare,#what=self,#where=oNew_room,
+                     #new_row=24,#new_col=10,
+                     #fine_row=38,#fine_col=54,#new_angle=3072)
          {
-            Send(self,@TeleportTo,#RID=RID_NEWB1,#bAdminPort=FALSE);
+            Debug("UserGotoDeadRoom unable to Send user to dead room",
+                  self,vrName);
+            return Send(SYS,@GetFailureRsc);
          }
-         else
-         {
-            oNew_room = Send(SYS,@FindRoomByNum,#num=RID_UNDERWORLD);
-            if NOT Send(SYS,@UtilGoNearSquare,#what=self,#where=oNew_room,
-                        #new_row=24,#new_col=10,
-                        #fine_row=38,#fine_col=54,#new_angle=3072)
-            {
-               Debug("UserGotoDeadRoom unable to Send user to dead room",
-                     self,vrName);
-               return Send(SYS,@GetFailureRsc);
-            }
-         }
-      }
-      else if piSave_Room >= RID_NEWB_BASE AND piSave_Room <= RID_NEWB_MAX
-      {
-         Debug("Player died while offline, but in newbie area!  (how did "
-                "a necromancer get there?):",Send(self,@GetTrueName));
-         piSave_Room = RID_NEWB1;
-         oRoom = Send(SYS,@FindRoomByNum,#num=RID_NEWB1);
-         piSave_Row = Send(oRoom,@GetTeleportRow);
-         piSave_Col = Send(oRoom,@GetTeleportCol);
       }
       else
       {
@@ -7949,7 +7931,6 @@ messages:
       {
          if oOldRoom <> $
          {
-            Send(self,@CheckLeavingNewbieOrGuest,#leaving=oOldRoom);
             Send(self,@CheckTokenInNewRoom,#what=oOldRoom);
          }
 
@@ -9984,63 +9965,6 @@ messages:
       plNew_mail = $;
       
       return;
-   }
-
-   LeaveNewbieOrGuestRegion()
-   {
-      % Delete their inventory?
-      if Send(SETTINGS_OBJECT, @CleanNewbieInventoryOnEnteringRealWorld)
-      {
-         Send(self,@StripInventory);
-      }
-
-      return;
-   }
-
-   EnterNewbieOrGuestRegion()
-   {
-      % We used to erase inventory here.  Seems dangerous to irrevocably do this.
-      return;
-   }
-
-   CheckLeavingNewbieOrGuest(leaving=$)
-   {
-      local oldregion, region;
-
-      % We're potentially changing rooms here. poOwner is already set to new
-      %  room.
-      if leaving = poOwner OR Send(self,@PlayerIsImmortal)
-      {
-         return FALSE;
-      }
-
-      oldregion = Send(leaving,@GetRegion);
-      region = Send(poOwner,@GetRegion);
-
-      if region = oldregion
-      {
-         if region = RID_NEWB_BASE
-            OR region = RID_GUEST_BASE
-         {
-            Send(self,@SetInitialHomeroom);
-         }
-         
-         return FALSE;
-      }
-
-      if oldregion = RID_NEWB_BASE
-         OR oldregion = RID_GUEST_BASE
-      {
-         Send(self,@LeaveNewbieOrGuestRegion);
-      }
-
-      if region = RID_NEWB_BASE
-         OR region = RID_GUEST_BASE
-      {
-         Send(self,@EnterNewbieOrGuestRegion);
-      }
-
-      return TRUE;
    }
 
    AddCurrentQuest(node = $, template = $)

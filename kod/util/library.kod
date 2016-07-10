@@ -358,7 +358,7 @@ resources:
    LT_broker = "broker"
    LT_madelia = "Madelia"
    LT_kraanan = "kraanan"
-   LT_hazar = "Hazar"
+   LT_raza = "Raza"
    LT_kocatan = "Kocatan"
    LT_kocatan2 = "Ko'catan"
    LT_shal1 = "Shal'ille"
@@ -1101,7 +1101,7 @@ messages:
          [40,LIBRES_NOT_NEWBIE,[ LIBACT_RUMOR_TOKEN_LOC ]] 
       ]],plRandomLib);
 
-      plRandomLib = Cons([&HazarTown,[
+      plRandomLib = Cons([&RazaTown,[
          [48,0,[ LIBACT_SAY, LM_haz_rand17 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand16 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand15 ]],
@@ -1121,35 +1121,35 @@ messages:
          [48,0,[ LIBACT_SAY, LM_haz_rand1 ]]
       ]],plRandomLib);
 
-       plRandomLib = Cons([&HazarBartender,[
+       plRandomLib = Cons([&RazaBartender,[
          [48,0,[ LIBACT_SAY, LM_haz_rand_apoth1 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand_inn1 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand_smith1 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand_elder1 ]]
       ]],plRandomLib);
 
-      plRandomLib = Cons([&HazarInnkeeper,[
+      plRandomLib = Cons([&RazaInnkeeper,[
          [48,0,[ LIBACT_SAY, LM_haz_rand_apoth1 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand_bar1 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand_smith1 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand_elder1 ]]
       ]],plRandomLib);
 
-      plRandomLib = Cons([&HazarBlacksmith,[
+      plRandomLib = Cons([&RazaBlacksmith,[
          [48,0,[ LIBACT_SAY, LM_haz_rand_apoth1 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand_inn1 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand_bar1 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand_elder1 ]]
       ]],plRandomLib);
 
-      plRandomLib = Cons([&HazarElder,[
+      plRandomLib = Cons([&RazaElder,[
          [48,0,[ LIBACT_SAY, LM_haz_rand_apoth1 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand_inn1 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand_smith1 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand_bar1 ]]
       ]],plRandomLib);
 
-      plRandomLib = Cons([&HazarApothecary,[
+      plRandomLib = Cons([&RazaApothecary,[
          [48,0,[ LIBACT_SAY, LM_haz_rand_bar1 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand_inn1 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand_smith1 ]],
@@ -1181,7 +1181,7 @@ messages:
       %       [[LT_bye,LT_farewell],0, [LIBACT_SAY, LM_mons_bye4 ]]
       %     ]],plSpeechLib);
 
-      plSpeechLib = Cons([&HazarTown,[
+      plSpeechLib = Cons([&RazaTown,[
          [[LT_hello],0,[LIBACT_SAY_TARG,LM_haz_hello]],
          [[LT_hi],0,[LIBACT_SAY_TARG,LM_haz_hello]],
          [[LT_hiya],0,[LIBACT_SAY_TARG,LM_haz_hello]],
@@ -1191,19 +1191,19 @@ messages:
          [[LT_help],0,[LIBACT_SAY,LM_haz_help]],
          [[LT_meridian],0,[LIBACT_SAY,LM_haz_meridian]]
       ]],plSpeechLib);
-      plSpeechLib = Cons([&HazarInnkeeper,[
+      plSpeechLib = Cons([&RazaInnkeeper,[
          [[LT_quest],0,[LIBACT_SAY,LM_haz_quest]],
          [[LT_buy],0,[LIBACT_SAY,LM_haz_innk_buy]],
          [[LT_sell],0,[LIBACT_SAY,LM_haz_innk_sell]],
          [[LT_snack],0,[LIBACT_SAY,LM_haz_snack_none]]
       ]],plSpeechLib);
-      plSpeechLib = Cons([&HazarBartender,[
+      plSpeechLib = Cons([&RazaBartender,[
          [[LT_buy],0,[LIBACT_SAY,LM_haz_bar_buy]],
          [[LT_sell],0,[LIBACT_SAY,LM_haz_bar_sell]],
          [[LT_snack],0,[LIBACT_SAY,LM_haz_snack_want]],
          [[LT_quest],0,[LIBACT_SAY,LM_haz_quest]]
       ]],plSpeechLib);
-      plSpeechLib = Cons([&HazarElder,[
+      plSpeechLib = Cons([&RazaElder,[
          [[LT_buy],0,[LIBACT_SAY,LM_haz_elder_buy]],
          [[LT_sell],0,[LIBACT_SAY,LM_haz_elder_sell]],
          [[LT_snack],0,[LIBACT_SAY,LM_haz_snack_none]],
@@ -1215,14 +1215,14 @@ messages:
          [[LT_marcus],0,[LIBACT_SAY,LM_haz_marcus]],
          [[LT_tomas],0,[LIBACT_SAY,LM_haz_tomas]]
       ]],plSpeechLib);
-      plSpeechLib = Cons([&HazarApothecary,[
+      plSpeechLib = Cons([&RazaApothecary,[
          [[LT_buy],0,[LIBACT_SAY,LM_haz_apoth_buy]],
          [[LT_sell],0,[LIBACT_SAY,LM_haz_apoth_sell]],
          [[LT_snack],0,[LIBACT_SAY,LM_haz_snack_response]],
          [[LT_quest],0,[LIBACT_SAY,LM_haz_quest]],
          [[LT_rodric],0,[LIBACT_SAY,LM_haz_rodric]]
       ]],plSpeechLib);
-      plSpeechLib = Cons([&HazarBlacksmith,[
+      plSpeechLib = Cons([&RazaBlacksmith,[
          [[LT_quest],0,[LIBACT_SAY,LM_haz_snack_quest]],
          [[LT_buy],0,[LIBACT_SAY,LM_haz_smith_buy]],
          [[LT_sell],0,[LIBACT_SAY,LM_haz_smith_sell]],
@@ -1382,7 +1382,7 @@ messages:
          [[LT_duke], 0, [LIBACT_MOOD, -2], 1],
          [[LT_tos], 0, [LIBACT_MOOD, -1], 2],
          [[LT_cor], 0, [LIBACT_MOOD, -1], 3],
-         [[LT_hazar], 0, [LIBACT_MOOD, -1], 4],
+         [[LT_raza], 0, [LIBACT_MOOD, -1], 4],
          [[LT_jasper], 0, [LIBACT_MOOD, -1], 5],
          [[LT_kocatan], 0, [LIBACT_MOOD, -1], 6],
          [[LT_kocatan2], 0, [LIBACT_MOOD, -1], 7],
@@ -1677,27 +1677,27 @@ messages:
          [[LT_prayer], 0, [LIBACT_MOOD, 1], 5]
       ]], plSpeechLib);
 
-      plSpeechLib = Cons([&HazarTown,[
+      plSpeechLib = Cons([&RazaTown,[
          [[LT_akardius,LT_duke,LT_princess,LT_kateriina],0,[LIBACT_SAY,LM_haz_factions]],
          [[LT_cor,LT_jasper,LT_marion,LT_barloque,LT_tos],0,[LIBACT_SAY,LM_haz_towns]],
          [[LT_help],0,[LIBACT_SAY,LM_haz_help]]
       ]],plSpeechLib);
 
-      plSpeechLib = Cons([&HazarInnkeeper,[
+      plSpeechLib = Cons([&RazaInnkeeper,[
          [[LT_quest],0,[LIBACT_SAY,LM_haz_quest]]
       ]],plSpeechLib);
-      plSpeechLib = Cons([&HazarBartender,[
+      plSpeechLib = Cons([&RazaBartender,[
          [[LT_quest],0,[LIBACT_SAY,LM_haz_quest]]
       ]],plSpeechLib);
-      plSpeechLib = Cons([&HazarElder,[
+      plSpeechLib = Cons([&RazaElder,[
          [[LT_quest],0,[LIBACT_SAY,LM_haz_quest_elder]],
          [[LT_mausoleum],0,[LIBACT_SAY,LM_haz_mausoleum]],
          [[LT_mummy],0,[LIBACT_SAY,LM_haz_mummy]]
       ]],plSpeechLib);
-      plSpeechLib = Cons([&HazarApothecary,[
+      plSpeechLib = Cons([&RazaApothecary,[
          [[LT_quest],0,[LIBACT_SAY,LM_haz_quest]]
       ]],plSpeechLib);
-      plSpeechLib = Cons([&HazarBlacksmith,[
+      plSpeechLib = Cons([&RazaBlacksmith,[
          [[LT_quest],0,[LIBACT_SAY,LM_haz_quest]]
       ]],plSpeechLib);
 
@@ -2011,7 +2011,7 @@ messages:
       }
 
       if ((libvec & LIBRES_NOT_NEWBIE) <> 0)
-         AND (IsClass(mob,&HazarTown))
+         AND (IsClass(mob,&RazaTown))
       {
          return TRUE;
       }

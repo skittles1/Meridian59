@@ -12,7 +12,7 @@ BOFS =  badland1.bof a5.bof a6.bof c4.bof c6.bof castle1b.bof d4.bof d5.bof \
         g9.bof h3.bof h5.bof h6.bof h7.bof i3.bof i6.bof i7.bof i8.bof i9.bof \
         nest1.bof objroom.bof throne1.bof toscrypt.bof tosgrave.bof \
         uworld.bof d6.bof d7.bof f8.bof barlsew.bof j3.bof feyforst.bof \
-        guest6.bof barlsew2.bof barlsew3.bof jassew1.bof jassew2.bof jassew3.bof \
+        razacrypt.bof barlsew2.bof barlsew3.bof jassew1.bof jassew2.bof jassew3.bof \
         orccave1.bof orccave2.bof orccave3.bof orccave4.bof orccave5.bof \
         orccave6.bof orcpita.bof orcpitb.bof kocsew1.bof kocsew2.bof bossroom.bof \
         kcforest.bof orccav1x.bof orccav5x.bof lichmaze.bof necarea1.bof necarea2.bof \
