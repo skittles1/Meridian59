@@ -41,8 +41,7 @@ resources:
       "--------------------\n\n"
       "This is the end of your tutorial.  Feel free to explore around a bit "
       "and try new things.  You may wish to pay a visit to the Grand Museum, "
-      "which houses a number of exhibits about the wonders found in Meridian "
-      "proper."
+      "which houses a number of exhibits about the wonders found in Meridian."
 
 classvars:
 
