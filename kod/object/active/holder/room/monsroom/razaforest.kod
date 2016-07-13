@@ -16,6 +16,8 @@ constants:
 
 resources:
 
+   include razaforest.lkod
+
    room_razaforest = razaforest.roo
    room_name_razaforest = "Outskirts of Raza"
    razaforest_music = walk5.ogg

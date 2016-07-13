@@ -740,7 +740,7 @@ resources:
       "The spectral mummies that haunt this crypt were once simple "
       "mummified corpses like this one."
 
-   oo_modportal_name = "model portal"
+   oo_modportal_name = "miniature portal"
    oo_modportal_icon = modportal.bgf
    oo_modteleport_icon = modteleport.bgf
    oo_modportal_desc = \

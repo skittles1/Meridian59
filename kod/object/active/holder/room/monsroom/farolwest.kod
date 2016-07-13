@@ -16,8 +16,10 @@ constants:
 
 resources:
 
+   include farolwest.lkod
+
    room_farolwest = farolwest.roo
-   room_name_farolwest ="Western Edge of the Forest of Farol"
+   room_name_farolwest = "Western Edge of the Forest of Farol"
    farolwest_music = walk5.ogg
 
 classvars:
