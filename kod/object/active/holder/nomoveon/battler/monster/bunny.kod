@@ -40,15 +40,15 @@ classvars:
    vrDead_icon = bunny_dead_icon_rsc
    vrDead_name = bunny_dead_name_rsc
 
-   viSpeed = SPEED_SLOW
+   viSpeed = SPEED_AVERAGE
    viAttack_type = ATCK_WEAP_SLASH
    viDefault_behavior = AI_FIGHT_KARMA_AGGRESSIVE | AI_MOVE_FLEE_FRIGHTENERS
 
    viDifficulty = 4
-   viLevel = 40
-   viKarma = -45
-   viCashmin = 175
-   viCashmax = 375
+   viLevel = 30
+   viKarma = 30
+   viCashmin = 150
+   viCashmax = 300
    vrSound_hit = bunny_sound_hit
    vrSound_miss = bunny_sound_miss
    vrSound_aware = bunny_sound_aware
@@ -56,19 +56,14 @@ classvars:
 
 properties:
 
-   viTreasure_type = TID_ZOMBIE
+   viTreasure_type = TID_WIMPY_MEDIUM
 
    piAnimation = ANIM_NONE
-
-   ptRevertControl = $
 
 messages:
 
    Constructed()
    {
-      plResistances = [ [-ATCK_SPELL_UNHOLY, 50 ],
-                        [-ATCK_SPELL_HOLY, -25 ] ];
-
       % The gray translations won't work on Bunny, but work on the
       % child classes. The blend translations *do* work, and give
       % the parent Bunny class a small chance to change color.
@@ -128,22 +123,6 @@ messages:
       % if no body animation
 
       propagate;
-   }
-
-   Delete()
-   {
-      if ptRevertControl <> $
-      {
-         DeleteTimer(ptRevertControl);
-         ptRevertControl = $;
-      }
-
-      propagate;
-   }
-
-   CanMorphTo()
-   {
-      return FALSE;
    }
 
    ChangeColor(xlat = 0)
