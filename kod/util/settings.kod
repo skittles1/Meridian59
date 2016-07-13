@@ -202,7 +202,7 @@ properties:
    %
 
    % Set map where players start in.
-   piInitialRoomID = RID_RAZA_INN
+   piInitialHomeRoomID = RID_RAZA_INN
 
    % Enables or disables some safe-spots, see blakston.khd comments.
    piLOSSkip = LOS_SKIP_1
@@ -597,7 +597,7 @@ messages:
 
    GetInitialRoomID()
    {
-      return piInitialRoomID;
+      return piInitialHomeRoomID;
    }
 
    GetLOSSkip()

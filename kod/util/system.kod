@@ -2667,6 +2667,23 @@ messages:
          Send(oFeast_Hall, @SetLocked, #value = bFeast_Hall_Locked);
       }
 
+      // Fix up old Raza RIDs
+      foreach i in plUsers
+      {
+         if (Send(i,@GetHomeRoom) = 1011)
+         {
+            Send(i,@SetHomeroom,#RID=RID_RAZA_INN);
+         }
+
+         n = Send(i,@GetSaveRoom);
+
+         if (n = $
+            OR (n >= 1000 AND n <= 1020))
+         {
+            Send(i,@SetSaveLocation,#rid=RID_RAZA_INN,#row=3,#col=8);
+         }
+      }
+
       return TRUE;
    }
 
