@@ -46,6 +46,21 @@ resources:
       "east end of the pond. The shop has the hammer and anvil sign next to "
       "the door."
 
+   raza_signname2 = "Entering the world"
+   raza_sign2 = \
+      "Beyond this gate lies the rest of the world of Meridian 59.  At this "
+      "time, you may wish to read the mail your guardian angel has sent you "
+      "as it contains information on how to survive and what you might do in "
+      "this world.  To access your mail, type MAIL.\n\n"
+      "In the area surrounding Raza you will find monsters appropriate for "
+      "your level, however when encountering a new monster, you should look "
+      "at its description to see what hitpoints it will take you to.  If this "
+      "number is far beyond your own level, the monster may be too dangerous "
+      "for you to challenge alone.\n\n"
+      "You can return to Raza at any time to sell your items or purchase more, "
+      "and if you venture north-east to the Forest of Farol you may travel "
+      "north or south to other towns."
+
    raza_locked_farm = \
       "The door to the farmhouse is firmly bolted from the inside."
    raza_locked_stable = "The door to the tiny shed is locked."
@@ -142,7 +157,10 @@ messages:
 
       oSign=Create(&Sign,#desc=raza_sign,#newbie=TRUE,#name=raza_signname);
       Send(self,@NewHold,#what=oSign,#new_row=12,#new_col=27,
-            #fine_row=10,#fine_col=16); % Inn
+            #fine_row=10,#fine_col=16);
+      oSign=Create(&Sign,#desc=raza_sign2,#newbie=TRUE,#name=raza_signname2);
+      Send(self,@NewHold,#what=oSign,#new_row=3,#new_col=40,
+            #fine_row=37,#fine_col=8);
 
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_RAZA_TREE1),
             #new_row=24,#new_col=36,#fine_row=0,#fine_col=0,#new_angle=ANGLE_EAST); % Mausoleum
