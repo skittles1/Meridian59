@@ -21,9 +21,8 @@ resources:
    pear_name_rsc = "pear"
    pear_icon_rsc = pear.bgf
    pear_desc_rsc = \
-      "This firm and strange shaped fruit fits well in"
-      " your hand.  You're not sure where to bite first!"
-
+      "This firm and strange shaped fruit fits well in "
+      "your hand.  You're not sure where to bite first!"
 
    pear_name_plural_rsc = "pears"
 
@@ -33,7 +32,7 @@ resources:
      "This pear tree is common around the city of Marion and is "
      "known for its strange shaped fruit.  Several of them look low "
      "enough for you to pick."
-   pear_got_one = "You reach up and pick an pear from the tree."
+   pear_got_one = "You reach up and pick a pear from the tree."
 
 classvars:
 
