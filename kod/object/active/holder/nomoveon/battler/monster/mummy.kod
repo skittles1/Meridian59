@@ -40,12 +40,12 @@ classvars:
    vrName = mummy_name_rsc
    vrIcon = mummy_icon_rsc
    vrDesc = mummy_desc_rsc
-   
+
    vrDead_icon = mummy_dead_icon_rsc
    vrDead_name = mummy_dead_name_rsc
 
    viTreasure_type = TID_NEWBIE_AREA
-   viSpeed = SPEED_VERY_SLOW
+   viSpeed = SPEED_FAST
    viAttributes = 0
    viLevel = 30
    viDifficulty = 1

@@ -39,6 +39,7 @@ resources:
    TerritoryGame_Jasper = "Jasper"
    TerritoryGame_Marion = "Marion"
    TerritoryGame_CorNoth = "Cor Noth"
+   TerritoryGame_Raza = "Raza"
 
    TerritoryGame_lost_hometown = \
       "~IHaving lost %s home city, %s relinquishes all claimed territories."
@@ -55,6 +56,7 @@ properties:
    plJasperRIDs = $
    plCorNothRIDs = $
    plBarloqueRIDs = $
+   plRazaRIDs = $
    plFlagRIDs = $
    plFlagCounts = $
    piGameMode = GAME_FULL
@@ -134,16 +136,18 @@ messages:
       plTosRIDs = [ RID_TOS, RID_H6, RID_I6, RID_H5 ];
       plMarionRIDs = [ RID_MARION, RID_C4, RID_C5 ];
       plJasperRIDs = [ RID_JASWEST, RID_F8, RID_E7, RID_D7 ];
-      plCorNothRIDs =  [RID_CORNOTH, RID_G4, RID_G5 ];
-      plBarloqueRIDs =  [RID_BAR_NORTH, RID_I3, RID_H3, RID_J3 ];
-      plFlagRIDs = [ RID_E2, RID_F2, RID_F3, RID_H3, RID_I3, RID_J3,
-                     RID_C4, RID_D4, RID_E4, RID_F4, RID_G4, RID_H4,
-                     RID_C5, RID_D5, RID_G5, RID_H5,
-                     RID_B6, RID_C6, RID_D6, RID_E6, RID_F6, RID_G6, RID_H6, RID_I6
+      plCorNothRIDs =  [ RID_CORNOTH, RID_G4, RID_G5 ];
+      plBarloqueRIDs =  [ RID_BAR_NORTH, RID_I3, RID_H3, RID_J3 ];
+      plRazaRIDs = [ RID_RAZA, RID_RAZA_FOREST, RID_FAROL_WEST ];
+      plFlagRIDs = [ RID_E2, RID_F2, RID_F3, RID_H3, RID_I3, RID_J3, RID_C4,
+                     RID_D4, RID_E4, RID_F4, RID_G4, RID_H4, RID_C5, RID_D5,
+                     RID_G5, RID_H5, RID_B6, RID_C6, RID_D6, RID_E6, RID_F6,
+                     RID_G6, RID_H6, RID_I6, RID_C7, RID_D7, RID_E7, RID_F7,
+                     RID_H7, RID_I7, RID_F8, RID_RAZA_FOREST, RID_FAROL_WEST
                    ];
 
-      foreach i in [ RID_C7, RID_D7, RID_E7, RID_F7, RID_H7, RID_I7,
-                 RID_F8, RID_TOS, RID_MARION, RID_JASWEST, RID_CORNOTH, RID_BAR_NORTH ]
+      foreach i in [ RID_RAZA, RID_TOS, RID_MARION, RID_JASWEST,
+                     RID_CORNOTH, RID_BAR_NORTH ]
       {
          plFlagRIDs = Cons(i,plFlagRIDs);
       }
@@ -238,7 +242,7 @@ messages:
       % placing the other flags yet.  So we do this in two passes:
       % 1) Create and place all flags
       % 2) Set flags' factions
-      foreach lRIDs in [plTosRIDs, plMarionRIDs, plJasperRIDs, plCorNothRIDs, plBarloqueRIDs]
+      foreach lRIDs in [plTosRIDs, plMarionRIDs, plJasperRIDs, plCorNothRIDs, plBarloqueRIDs, plRazaRIDs]
       {
          foreach iRID in lRIDs
          {
@@ -246,7 +250,7 @@ messages:
          }
       }
 
-      foreach lRIDs in [plTosRIDs, plMarionRIDs, plJasperRIDs, plCorNothRIDs, plBarloqueRIDs]
+      foreach lRIDs in [plTosRIDs, plMarionRIDs, plJasperRIDs, plCorNothRIDs, plBarloqueRIDs, plRazaRIDs]
       {
          foreach iRID in lRIDs
          {
@@ -269,7 +273,7 @@ messages:
                Send(oFlag,@SetFaction,#faction=FACTION_PRINCESS);
             }
 
-            if (lRIDs = plJasperRIDs)
+            if (lRIDs = plJasperRIDs) OR (lRIDs = plRazaRIDs)
             {
                if (Random(0,1) = 0)
                {
@@ -372,6 +376,17 @@ messages:
                Send(oFlag,@SetClaimable,#claimable=FALSE);
             }
          }
+
+         iLocation = FindListElem(plRazaRIDs,iRID);
+         if iLocation
+         {
+            Send(oFlag,@SetFaction,#faction=FACTION_NEUTRAL);
+            if iLocation = 1
+            {
+               % town flag
+               Send(oFlag,@SetClaimable,#claimable=FALSE);
+            }
+         }
       }
 
       return;
@@ -387,8 +402,7 @@ messages:
          iCapout = 0;
          while Send(oFlagRoom,@FindHoldingActive,#Class=&Flagpole) <> $
          {
-            iCapout = iCapout + 1;
-            if iCapout > 20
+            if ++iCapout > 20
             {
                Debug("Possible loopout in ClearAllFlags, room:",
                      Send(oFlagRoom,@GetName));
@@ -405,36 +419,31 @@ messages:
 
    ReloadSavedFlagStates()
    {
-      local i, iRID, oRoom, oFlag;
+      local i, oRoom, oFlag;
 
       if plFlagStates = $
       {
-         Debug("ReloadSavedFlagStates:: nothing saved, nothing reloaded");
+         Debug("ReloadSavedFlagStates has no saved flag states!");
       }
 
-      if Length(plFlagStates) <> Length(plFlagRIDs)
+      foreach i in plFlagStates
       {
-         Debug("ReloadSavedFlagStates:: error in saved flag states - length mismatch");
-      }
-
-      i = Length(plFlagRIDs);
-      while i > 0
-      {
-         i = i - 1;
-         iRID = Nth(plFlagRIDs,(i+1));
-         oRoom = Send(SYS,@FindRoomByNum,#num=iRID);
-         if oRoom = $
+         oRoom = Send(SYS,@FindRoomByNum,#num=First(i));
+         if (oRoom = $)
          {
-            Debug("ReloadSavedFlagStates:: got nil room for RID=",iRID);
+            Debug("ReloadSavedFlagStates got nil room for RID ",First(i));
+
             continue;
          }
+
          oFlag = Send(oRoom,@FindHoldingActive,#class=&Flagpole);
-         if oFlag = $
+         if (oFlag = $)
          {
-            Debug("ReloadSavedFlagStates:: got nil flag in",Send(oRoom,@GetName));
+            Debug("ReloadSavedFlagStates got nil flag in ",Send(oRoom,@GetName));
+
             continue;
          }
-         Send(oFlag,@SetFaction,#faction=Nth(plFlagStates,(i+1)));
+         Send(oFlag,@SetFaction,#faction=Nth(i,2));
       }
 
       return;
@@ -442,84 +451,65 @@ messages:
 
    SaveFlagStates()
    {
-      local i, iRID, oRoom, oFlag, lNewFlagStates, bReplace;
+      local i, oRoom, oFlag;
 
-      lNewFlagStates = $;
-      bReplace = TRUE;
-      i = Length(plFlagRIDs);
+      plFlagStates = $;
 
-      while i > 0
+      foreach i in plFlagRIDs
       {
-         i = i - 1;
-         iRID = Nth(plFlagRIDs,(i+1));
-
-         oRoom = Send(SYS,@FindRoomByNum,#num=iRID);
-         if oRoom = $
+         oRoom = Send(SYS,@FindRoomByNum,#num=i);
+         if (oRoom = $)
          {
-            bReplace = FALSE;
-            Debug("SaveFlagStates:: got nil room for RID=",iRID);
+            Debug("SaveFlagStates got nil room for RID ",i);
+
             continue;
          }
 
          oFlag = Send(oRoom,@FindHoldingActive,#class=&Flagpole);
          if oFlag = $
          {
-            bReplace = FALSE;
-            Debug("SaveFlagStates:: got nil flag in",Send(oRoom,@GetName));
+            Debug("SaveFlagStates got nil flag in ",Send(oRoom,@GetName));
+
             continue;
          }
 
-         lNewFlagStates = Cons(Send(oFlag,@GetFaction),lNewFlagStates);
-      }
-
-      if bReplace
-      {
-         plFlagStates = lNewFlagStates;
-      }
-      else
-      {
-         Debug("ReloadSavedFlagStates:: encountered errors during save; not replacing older save.");
+         plFlagStates = Cons([i, Send(oFlag,@GetFaction)],plFlagStates);
       }
 
       return plFlagStates;
    }
-   
+
    SetFlagStates(lFlagStates = $)
    "Used during recreates to save flag states."
    {
-      local i, iRID, oRoom, oFlag;
+      local i, oRoom, oFlag;
 
       if lFlagStates = $
          OR NOT IsList(lFlagStates)
       {
-         Debug("SetFlagStates:: nothing saved, nothing reloaded");
+         Debug("SetFlagStates sent invalid flags list - flags not reloaded.");
       }
 
-      if Length(lFlagStates) <> Length(plFlagRIDs)
+      foreach i in lFlagStates
       {
-         Debug("SetFlagStates:: error in saved flag states - length mismatch");
-      }
-
-      i = Length(plFlagRIDs);
-      while i > 0
-      {
-         i = i - 1;
-         iRID = Nth(plFlagRIDs,(i+1));
-         oRoom = Send(SYS,@FindRoomByNum,#num=iRID);
-         if oRoom = $
+         oRoom = Send(SYS,@FindRoomByNum,#num=First(i));
+         if (oRoom = $)
          {
-            Debug("SetFlagStates:: got nil room for RID=",iRID);
+            Debug("SetFlagStates got nil room for RID ",First(i));
+
             continue;
          }
+
          oFlag = Send(oRoom,@FindHoldingActive,#class=&Flagpole);
-         if oFlag = $
+         if (oFlag = $)
          {
-            Debug("SetFlagStates:: got nil flag in",Send(oRoom,@GetName));
+            Debug("SetFlagStates got nil flag in ",Send(oRoom,@GetName));
+
             continue;
          }
-         Send(oFlag,@SystemSetFaction,#faction=Nth(lFlagStates,(i+1)));
+         Send(oFlag,@SystemSetFaction,#faction=Nth(i,2));
       }
-      
+
       Send(self,@SaveFlagStates);
       Send(self,@CountFlags);
 
@@ -553,7 +543,7 @@ messages:
          if oFlagpole <> $
          {
             iFaction = Send(oFlagpole,@GetFaction) + 1;
-            setNth(lFlagCounts, iFaction, (Nth(lFlagCounts, iFaction)+1));
+            SetNth(lFlagCounts, iFaction, (Nth(lFlagCounts, iFaction)+1));
          }
       }
 
@@ -579,7 +569,10 @@ messages:
 
    GetFlagCounts()
    {
-      if plFlagCounts = $ { return [0,0,0,0]; }
+      if plFlagCounts = $
+      {
+         return [0,0,0,0];
+      }
 
       return plFlagCounts;
    }
@@ -588,30 +581,31 @@ messages:
    {
       local lRIDs, iRID, oRoom, oFlagpole, lFlagCounts, iFaction;
 
-      foreach lRIDs in [plTosRIDs, plMarionRIDs, plJasperRIDs, plCorNothRIDs, plBarloqueRIDs]
+      foreach lRIDs in [plTosRIDs, plMarionRIDs, plJasperRIDs, plCorNothRIDs, plBarloqueRIDs, plRazaRIDs]
       {
          lFlagCounts = [0, 0, 0, 0];
          foreach iRID in lRIDs
          {
             oRoom = Send(SYS,@FindRoomByNum,#num=iRID);
             oFlagpole = Send(oRoom,@FindHoldingActive,#class=&FlagPole);
-            if oFlagpole = $ 
-            { 
+            if oFlagpole = $
+            {
                Debug("RecalcTownFlags: missing flag, aborting. Room = ",
-                     Send(oRoom, @GetName)); 
+                     Send(oRoom, @GetName));
+
                return;
             }
             iFaction = Send(oFlagpole,@GetFaction) + 1;
-            setNth(lFlagCounts, iFaction, (Nth(lFlagCounts, iFaction)+1));
+            SetNth(lFlagCounts, iFaction, (Nth(lFlagCounts, iFaction)+1));
          }
 
          iFaction = 0;
-         while iFaction < 4
+         while iFaction <= FACTION_NORMAL_MAX
          {
-            iFaction = iFaction + 1;
+            ++iFaction;
             if Nth(lFlagCounts,iFaction) > (Length(lRIDs) - 2)
             {
-               oRoom = Send(SYS,@FindRoomByNum,#num=first(lRIDs));
+               oRoom = Send(SYS,@FindRoomByNum,#num=First(lRIDs));
                oFlagpole = Send(oRoom,@FindHoldingActive,#class=&FlagPole);
                if Send(oFlagPole,@GetFaction) <> (iFaction-1)
                {
@@ -683,6 +677,10 @@ messages:
       {
          AddPacket(4,TerritoryGame_Marion);
       }
+      else if town = plRazaRIDs
+      {
+         AddPacket(4,TerritoryGame_Raza);
+      }
       else
       {
          AddPacket(4,TerritoryGame_Tos);
@@ -715,18 +713,18 @@ messages:
 
       if (Nth(plFlagCounts, (FACTION_DUKE+1)) + piDukeFlagItemCount) < iMaxFlagItems
       {
-         Send(create(&DukeFlag),@TeleportHome);
+         Send(Create(&DukeFlag),@TeleportHome);
       }
 
       if (Nth(plFlagCounts, (FACTION_PRINCESS+1)) + piPrincessFlagItemCount) < iMaxFlagItems
       {
-         Send(create(&PrincessFlag),@TeleportHome);
+         Send(Create(&PrincessFlag),@TeleportHome);
       }
 
       if (FACTION_NORMAL_MAX > FACTION_PRINCESS) and
             ((Nth(plFlagCounts, (FACTION_REBEL+1)) + piRebelFlagItemCount) < iMaxFlagItems)
       {
-         Send(create(&RebelFlag),@TeleportHome);
+         Send(Create(&RebelFlag),@TeleportHome);
       }
 
       return;
@@ -736,17 +734,17 @@ messages:
    {
       if IsClass(flag,&DukeFlag)
       {
-         piDukeFlagItemCount = piDukeFlagItemCount + 1;
+         ++piDukeFlagItemCount;
       }
 
       if IsClass(flag,&PrincessFlag)
       {
-         piPrincessFlagItemCount = piPrincessFlagItemCount + 1;
+         ++piPrincessFlagItemCount;
       }
 
       if IsClass(flag,&RebelFlag)
       {
-         piRebelFlagItemCount = piRebelFlagItemCount + 1;
+         ++piRebelFlagItemCount;
       }
 
       return;
@@ -841,8 +839,9 @@ messages:
       iDukePower = Send(Send(SYS,@GetParliament),@GetPower,#faction=FACTION_DUKE);
       iNeutralPower = Send(Send(SYS,@GetParliament),@GetPower,#faction=FACTION_NEUTRAL);
       iTotalPower = iPrincesspower + iDukePower + iNeutralPower;
-      iTotalFlags = Length(plTosRIDs) + Length(plMarionRIDs) + Length(plJasperRIDs) +
-                    Length(plCorNothRIDs) + Length(plBarloqueRIDs) - 5;
+      iTotalFlags = Length(plTosRIDs) + Length(plMarionRIDs) + Length(plJasperRIDs)
+                    + Length(plCorNothRIDs) + Length(plBarloqueRIDs)
+                    + Length(plRazaRIDs) - 6;
       iPrincessFlags = ((iPrincesspower * iTotalFlags) / iTotalPower);
       iDukeFlags = ((iDukePower * iTotalFlags) / iTotalPower);
       iNeutralFlags = (iTotalFlags - iPrincessFlags - iDukeFlags);
@@ -850,11 +849,11 @@ messages:
       % Next, distribute the flags accordingly
 
       %  First, clear all to neutral
-      foreach lRIDs in [plTosRIDs, plMarionRIDs, plJasperRIDs, plCorNothRIDs, plBarloqueRIDs]
+      foreach lRIDs in [plTosRIDs, plMarionRIDs, plJasperRIDs, plCorNothRIDs, plBarloqueRIDs, plRazaRIDs]
       {
          foreach iRID in lRIDs
          {
-            if iRID = first(lRIDs) { continue; }
+            if iRID = First(lRIDs) { continue; }
             oRoom = Send(SYS,@FindRoomByNum,#num=iRID);
             oFlag = Send(oRoom,@FindHoldingActive,#class=&Flagpole);
             Send(oFlag,@SetFaction,#faction=FACTION_NEUTRAL);
@@ -862,13 +861,13 @@ messages:
       }
 
       %  Then place duke flags
-      foreach lRIDs in [plTosRIDs, plMarionRIDs, plJasperRIDs, plCorNothRIDs, plBarloqueRIDs]
+      foreach lRIDs in [plTosRIDs, plMarionRIDs, plJasperRIDs, plCorNothRIDs, plBarloqueRIDs, plRazaRIDs]
       {
          foreach iRID in lRIDs
          {
             if iDukeFlags > 0
             {
-               if iRID = first(lRIDs) { continue; }
+               if iRID = First(lRIDs) { continue; }
                oRoom = Send(SYS,@FindRoomByNum,#num=iRID);
                oFlag = Send(oRoom,@FindHoldingActive,#class=&Flagpole);
                Send(oFlag,@SetFaction,#faction=FACTION_DUKE);
@@ -878,13 +877,13 @@ messages:
       }
 
       %  And finally princess flags
-      foreach lRIDs in [plBarloqueRIDs, plCorNothRIDs, plJasperRIDs, plMarionRIDs, plTosRIDs]
+      foreach lRIDs in [plBarloqueRIDs, plCorNothRIDs, plJasperRIDs, plMarionRIDs, plTosRIDs, plRazaRIDs]
       {
          foreach iRID in lRIDs
          {
             if iPrincessFlags > 0
             {
-               if iRID = first(lRIDs) { continue; }
+               if iRID = First(lRIDs) { continue; }
                oRoom = Send(SYS,@FindRoomByNum,#num=iRID);
                oFlag = Send(oRoom,@FindHoldingActive,#class=&Flagpole);
                Send(oFlag,@SetFaction,#faction=FACTION_PRINCESS);

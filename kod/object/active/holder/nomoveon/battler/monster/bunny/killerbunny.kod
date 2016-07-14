@@ -55,5 +55,13 @@ properties:
 
 messages:
 
+   Constructed()
+   {
+      plResistances = [ [-ATCK_SPELL_UNHOLY, 50 ],
+                        [-ATCK_SPELL_HOLY, -25 ] ];
+
+      propagate;
+   }
+
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

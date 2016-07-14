@@ -2481,25 +2481,18 @@ messages:
       Send(self,@CreateOneRoomIfNew,#num=RID_FOREST4,#class=&Forest4);
       Send(self,@CreateOneRoomIfNew,#num=RID_CAVE3,#class=&Cave3);
 
-      Send(self,@CreateOneRoomIfNew,#num=RID_GUEST1,#class=&Guest1);
-      Send(self,@CreateOneRoomIfNew,#num=RID_GUEST2,#class=&Guest2);
-      Send(self,@CreateOneRoomIfNew,#num=RID_GUEST3,#class=&Guest3);
-      Send(self,@CreateOneRoomIfNew,#num=RID_GUEST4,#class=&Guest4);
-      Send(self,@CreateOneRoomIfNew,#num=RID_GUEST5,#class=&Guest5);
-      Send(self,@CreateOneRoomIfNew,#num=RID_GUEST6,#class=&Guest6);
-      Send(self,@CreateOneRoomIfNew,#num=RID_GUEST7,#class=&Guest7);
-      Send(self,@CreateOneRoomIfNew,#num=RID_GUEST8,#class=&Guest8);
-      Send(self,@CreateOneRoomIfNew,#num=RID_GUEST9,#class=&Guest9);
+      Send(self,@CreateOneRoomIfNew,#num=RID_RAZA_INN,#class=&RazaInn);
+      Send(self,@CreateOneRoomIfNew,#num=RID_RAZA,#class=&Raza);
+      Send(self,@CreateOneRoomIfNew,#num=RID_RAZA_SMITH,#class=&RazaSmith);
+      Send(self,@CreateOneRoomIfNew,#num=RID_RAZA_APOTH,#class=&RazaApoth);
+      Send(self,@CreateOneRoomIfNew,#num=RID_RAZA_ELDER,#class=&RazaHut);
+      Send(self,@CreateOneRoomIfNew,#num=RID_RAZA_MAUSOLEUM,#class=&RazaCrypt);
+      Send(self,@CreateOneRoomIfNew,#num=RID_RAZA_BAR,#class=&RazaBar);
+      Send(self,@CreateOneRoomIfNew,#num=RID_RAZA_MUSEUM,#class=&RazaMuseum);
+      Send(self,@CreateOneRoomIfNew,#num=RID_RAZA_HALL,#class=&RazaHall);
 
-      Send(self,@CreateOneRoomIfNew,#num=RID_NEWB1,#class=&Newb1);
-      Send(self,@CreateOneRoomIfNew,#num=RID_NEWB2,#class=&Newb2);
-      Send(self,@CreateOneRoomIfNew,#num=RID_NEWB3,#class=&Newb3);
-      Send(self,@CreateOneRoomIfNew,#num=RID_NEWB4,#class=&Newb4);
-      Send(self,@CreateOneRoomIfNew,#num=RID_NEWB5,#class=&Newb5);
-      Send(self,@CreateOneRoomIfNew,#num=RID_NEWB6,#class=&Newb6);
-      Send(self,@CreateOneRoomIfNew,#num=RID_NEWB7,#class=&Newb7);
-      Send(self,@CreateOneRoomIfNew,#num=RID_NEWB8,#class=&Newb8);
-      Send(self,@CreateOneRoomIfNew,#num=RID_NEWB9,#class=&Newb9);
+      Send(self,@CreateOneRoomIfNew,#num=RID_FAROL_WEST,#class=&FarolWest);
+      Send(self,@CreateOneRoomIfNew,#num=RID_RAZA_FOREST,#class=&RazaForest);
 
       Send(self,@CreateOneRoomIfNew,#num=RID_GUILDH1,#class=&GuildHall1);
       Send(self,@CreateOneRoomIfNew,#num=RID_GUILDH2,#class=&GuildHall2);
@@ -2672,6 +2665,23 @@ messages:
       if oFeast_Hall <> $
       {
          Send(oFeast_Hall, @SetLocked, #value = bFeast_Hall_Locked);
+      }
+
+      // Fix up old Raza RIDs
+      foreach i in plUsers
+      {
+         if (Send(i,@GetHomeRoom) = 1011)
+         {
+            Send(i,@SetHomeroom,#RID=RID_RAZA_INN);
+         }
+
+         n = Send(i,@GetSaveRoom);
+
+         if (n = $
+            OR (n >= 1000 AND n <= 1020))
+         {
+            Send(i,@SetSaveLocation,#rid=RID_RAZA_INN,#row=3,#col=8);
+         }
       }
 
       return TRUE;

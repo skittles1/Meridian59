@@ -6,6 +6,6 @@
 
 DEPEND = ..\deleted.bof
 BOFS = palsy.bof dementia.bof firewand.bof SpecialWand.bof sickness.bof \
-       breakrodpurge.bof breakrodhold.bof breakrodblind.bof
+       breakrodpurge.bof breakrodhold.bof breakrodblind.bof hazarclasses.bof
 
 !include $(KODDIR)\kod.mak

@@ -43,14 +43,14 @@ classvars:
    vrDead_name = centipede_dead_name_rsc
 
    viTreasure_type = TID_WIMPY_MEDIUM
-
+   viDefault_behavior = AI_FIGHT_KARMA_AGGRESSIVE
    viSpeed = SPEED_FAST
    viAttack_type = ATCK_WEAP_BITE
 
    viLevel = 30
    viDifficulty = 5
    viVisionDistance = 8
-   viKarma = 20
+   viKarma = 25
    viCashmin = 150
    viCashmax = 300
    vrSound_hit = centipede_sound_hit

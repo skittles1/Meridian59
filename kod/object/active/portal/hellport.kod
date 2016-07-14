@@ -54,7 +54,7 @@ messages:
    Constructed()
    {
       plPossibleLocations = [ RID_TOS_INN, RID_COR_INN, RID_BAR_INN,
-                              RID_JAS_INN, RID_MAR_INN ];
+                              RID_JAS_INN, RID_MAR_INN, RID_RAZA_INN ];
 
       % Set up the locations timer.
       Send(self,@LocationsTimer);

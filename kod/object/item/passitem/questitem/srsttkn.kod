@@ -86,7 +86,8 @@ messages:
 
       if IsClass(what,&MarionElder)
          OR IsClass(what,&JasperElder)
-         OR IsClass(what,&HazarElder)
+         OR IsClass(what,&RazaElder)
+         OR IsClass(what,&KocatanBonePriestess)
       {
          return TRUE;
       }

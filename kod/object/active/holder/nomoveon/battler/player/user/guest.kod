@@ -49,24 +49,24 @@ messages:
    SetRandomHomeroom()
    {
       %debug("setrandomhomeroom");
-      piHomeroom = RID_GUEST1;
+      piHomeroom = RID_RAZA_INN;
       return;
    }
 
    SetInitialHomeroom()
    {
-      piHomeroom = RID_GUEST1;
+      piHomeroom = RID_RAZA_INN;
       return;
    }
 
    GetInitialRoomID()
    {
-      return RID_GUEST1;
+      return RID_RAZA_INN;
    }
 
    UserGotoDeadRoom()
    {
-      Send(self,@TeleportTo,#RID=RID_GUEST1,#bAdminPort=FALSE);
+      Send(self,@TeleportTo,#RID=RID_RAZA_INN,#bAdminPort=FALSE);
 
       return;
    }

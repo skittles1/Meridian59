@@ -519,6 +519,22 @@
    RID_MAR_HALL = 204
    RID_MAR_HEALER_SHOP = 205
 
+   // Raza, 300-349
+   RID_RAZA = 300
+   RID_RAZA_INN = 301
+   RID_RAZA_HALL = 302
+   RID_RAZA_SMITH = 303
+   RID_RAZA_APOTH = 304
+   RID_RAZA_HUT = 305
+   RID_RAZA_ELDER = 305
+   RID_RAZA_CRYPT = 306
+   RID_RAZA_MAUSOLEUM = 306
+   RID_RAZA_BAR = 307
+   RID_RAZA_MUSEUM = 308
+
+   RID_RAZA_FOREST = 330
+   RID_FAROL_WEST = 331
+
    % Jasper 350-399
    RID_JASPER = 350
    RID_JAS_EAST = 350
@@ -776,41 +792,6 @@
    RID_DUKE3 = 952
    RID_DUKE4 = 953
    RID_DUKE5 = 954
-
-   % guest rooms must be sequential from RID_GUEST_BASE
-   RID_GUEST_BASE = 1000
-   RID_GUEST1 = 1001
-   RID_GUEST_INN = 1001
-   RID_GUEST2 = 1002
-   RID_HAZAR = 1002
-   RID_GUEST3 = 1003
-   RID_GUEST4 = 1004
-   RID_GUEST5 = 1005
-   RID_GUEST6 = 1006
-   RID_GUEST_MAUSOLEUM = 1006
-   RID_GUEST7 = 1007
-   RID_GUEST_BAR = 1007
-   RID_GUEST8 = 1008
-   RID_GUEST_MUSEUM = 1008
-   RID_GUEST9 = 1009
-
-   % Newbie rooms must be sequential from RID_NEWB_BASE
-   RID_NEWB_BASE        = 1010
-   RID_NEWB1            = 1011
-   RID_RAZA_INN         = 1011
-   RID_NEWB2            = 1012
-   RID_RAZA             = 1012
-   RID_NEWB3            = 1013
-   RID_NEWB4            = 1014
-   RID_NEWB5            = 1015
-   RID_NEWB6            = 1016
-   RID_RAZA_MAUSOLEUM   = 1016
-   RID_NEWB7            = 1017
-   RID_RAZA_BAR         = 1017
-   RID_NEWB8            = 1018
-   RID_RAZA_MUSEUM      = 1018
-   RID_NEWB9            = 1019
-   RID_NEWB_MAX         = 1019
 
    % Desert rooms, start at 1500.
    % RID_DESERT is the constant used by GetRegion.
@@ -2952,6 +2933,8 @@
    OO_VJOURNAL = 162
    OO_BONES_RAZA = 163
    OO_MUMMY = 164
+   OO_MUSEUM_PORTAL = 165
+   OO_MUSEUM_TELEPORT = 166
 
    %%% Shrines
 

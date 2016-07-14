@@ -109,9 +109,7 @@ messages:
 
       iRegion = Send(oRoom,@GetRegion);
 
-      if (NOT Send(oRoom,@CanHavePlayerPortal)
-         OR iRegion = RID_NEWB_BASE
-         OR iRegion = RID_GUEST_BASE)
+      if (NOT Send(oRoom,@CanHavePlayerPortal))
       {
          Send(who,@MsgSendUser,#message_rsc=DeathRift_generic_fail);
 

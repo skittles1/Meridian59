@@ -916,24 +916,12 @@ messages:
    {
       % region ids are simply key room ids:
       %    rid_default for most of the mainland
-      %    rid_guest1 for all guest rooms
-      %    rid_newb1 for all newbie rooms
       %    rid_outofgrace for the outofgrace room only
       %    rid_kocaton for all kocaton island areas
       %    rid_orc_cave for all orc cave (mainland-to-island-cave) areas
 
       % this is ugly to do it here, but was lowest risk to add as an emergency patch
       % change this later by overriding GetRegion() please!
-
-      if (piRoom_num >= RID_GUEST_BASE) AND (piRoom_num < RID_NEWB_BASE)
-      {
-         return RID_GUEST_BASE;
-      }
-
-      if (piRoom_num >= RID_NEWB_BASE) AND (piRoom_num <= RID_NEWB_MAX)
-      {
-         return RID_NEWB_BASE;
-      }
 
       if (piRoom_num >= RID_KOCATAN) AND (piRoom_num <= RID_KOCATAN_END)
       {
@@ -958,22 +946,12 @@ messages:
    "Regions without safe rooms will default to Cor Noth inn."
    {
       local iRegion;
-      
+
       iRegion = Send(self,@GetRegion);
-      
-      if iRegion = RID_GUEST_BASE
-      {
-         return RID_GUEST1;
-      }
 
       if iRegion = RID_OUTOFGRACE
       {
          return RID_OUTOFGRACE;
-      }
-
-      if iRegion = RID_NEWB_BASE
-      {
-         return RID_NEWB1;
       }
 
       if iRegion = RID_KOCATAN

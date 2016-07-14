@@ -740,6 +740,13 @@ resources:
       "The spectral mummies that haunt this crypt were once simple "
       "mummified corpses like this one."
 
+   oo_modportal_name = "miniature portal"
+   oo_modportal_icon = modportal.bgf
+   oo_modteleport_icon = modteleport.bgf
+   oo_modportal_desc = \
+      "A plaque below the model reads:\nA portal, which transports those who "
+      "pass through it."
+
 classvars:
 
 properties:
@@ -1356,6 +1363,20 @@ messages:
          vrName = oo_mummy_name;
          vrIcon = oo_mummy_icon;
          vrDesc = oo_mummy_desc;
+      }
+
+      if type = OO_MUSEUM_PORTAL
+      {
+         vrName = oo_modportal_name;
+         vrIcon = oo_modportal_icon;
+         vrDesc = oo_modportal_desc;
+      }
+
+      if type = OO_MUSEUM_TELEPORT
+      {
+         vrName = oo_modportal_name;
+         vrIcon = oo_modteleport_icon;
+         vrDesc = oo_modportal_desc;
       }
 
       %% tell the room we changed, unless this is in constructor

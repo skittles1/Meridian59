@@ -44,9 +44,6 @@ properties:
    % Player advancement
    %
 
-   % If true, you can't take any objects out of the newbie area.
-   pbCleanNewbieInventoryOnEnteringRealWorld = FALSE
-
    piKillKarmaSwingNeutral = 3
    piKillKarmaSwingMonster = 6
    piKillKarmaSwingPlayer = 10
@@ -205,7 +202,7 @@ properties:
    %
 
    % Set map where players start in.
-   piInitialRoomID = RID_NEWB1
+   piInitialHomeRoomID = RID_RAZA_INN
 
    % Enables or disables some safe-spots, see blakston.khd comments.
    piLOSSkip = LOS_SKIP_1
@@ -380,11 +377,6 @@ messages:
    GetLoreBookDropFactor()
    {
       return piLoreBookDropFactor;
-   }
-
-   CleanNewbieInventoryOnEnteringRealWorld()
-   {
-      return pbCleanNewbieInventoryOnEnteringRealWorld;
    }
 
    GetDefaultDeathCost()
@@ -605,7 +597,7 @@ messages:
 
    GetInitialRoomID()
    {
-      return piInitialRoomID;
+      return piInitialHomeRoomID;
    }
 
    GetLOSSkip()

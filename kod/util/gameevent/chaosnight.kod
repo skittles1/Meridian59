@@ -274,7 +274,7 @@ messages:
       Send(&CorNothInnkeeper,@SetForSaleFrenzy);
       Send(&BarloqueInnkeeper,@SetForSaleFrenzy);
       Send(&TosInnKeeper,@SetForSaleFrenzy);
-      Send(&HazarInnKeeper,@SetForSaleFrenzy);
+      Send(&RazaInnKeeper,@SetForSaleFrenzy);
       Send(&KocatanInnkeeper,@SetForSaleFrenzy);
 
       return;
@@ -288,7 +288,7 @@ messages:
       Send(&CorNothInnkeeper,@SetForSale);
       Send(&BarloqueInnkeeper,@SetForSale);
       Send(&TosInnKeeper,@SetForSale);
-      Send(&HazarInnKeeper,@SetForSale);
+      Send(&RazaInnKeeper,@SetForSale);
       Send(&KocatanInnkeeper,@SetForSale);
 
       return;

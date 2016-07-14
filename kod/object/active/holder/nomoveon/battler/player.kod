@@ -331,7 +331,6 @@ resources:
    player_citizen_jasper = " has called Jasper home"
    player_citizen_marion = " has been a Marionite"
    player_citizen_raza = " is of Raza"
-   player_citizen_hazar = " is of Hazar"
    player_citizen_kocatan = " has lived in Ko'catan"
    player_citizen_unknown = " has wandered"
    player_of = " of "
@@ -598,12 +597,20 @@ resources:
       "the bankers, the innkeepers.  Ask them for help.  Sometimes, they "
       "may even wish for you to run an errand for them if you ask."
       "\n\n"
-      "For your first quest, you may wish to research which hometown you were "
-      "born in.  You can ask any of the towns' people you meet for their "
-      "opinions about the different towns.  To permanently select a hometown, "
-      "you need to adventure to the Hall of Genealogy in the town of Cor Noth "
-      "and look through the books there.  Take your time selecting your "
-      "hometown, as it may determine how other people interact with you."
+      "No matter if warrior or mage, every adventurer needs a town he can call "
+      "home. New souls to these lands find a temporary refuge in Raza, but only "
+      "few feel a true connection to this place. An adventurer's choice of home "
+      "has far-reaching consequences after all - and Raza may not be the most "
+      "beneficial one. For this reason, you may want to set off on a quest to "
+      "find a fitting base of operations for your future endeavors and declare "
+      "one of the cities in Meridian your home.  There should be no doubt that "
+      "such a choice must be carefully considered. It might be helpful to seek "
+      "the locals' advice and ask them for their opinion on the various cities "
+      "of the realm before you make your decision a final one. Once you have "
+      "come to a conclusion, it is time to prepare for a journey to the city of "
+      "Cor Noth. There, you will find the Hall of Genealogy, where you can vow "
+      "your allegiance to a city of your choosing and become a permanent "
+      "citizen, with all of the attached benefits - and drawbacks."
       "\n\n"
       "Death is unkind to you - avoid it!  A death can make you weaker, and "
       "all of your possessions are left where you met your demise, where any "
@@ -1999,11 +2006,8 @@ messages:
       {
          switch(Send(self,@GetHomeRoom))
          {
-            case RID_NEWB1:
+            case RID_RAZA_INN:
                j = player_citizen_raza;
-               break;
-            case RID_GUEST1:
-               j = player_citizen_hazar;
                break;
             case RID_BAR_INN:
                j = player_citizen_barloque;
@@ -2340,10 +2344,10 @@ messages:
 
       Send(self,@SetPlayerFlag,#flag=PFLAG_MOVED_SINCE_ENTRY,#value=FALSE);
 
-      % If we log into the Raza/Hazar inn and aren't past the tutorial,
-      %   then give us a commands list.
-      if IsClass(poOwner,&Guest1)
-         OR (IsClass(poOwner,&Newb1)
+      // If we log into the Raza inn and aren't past the tutorial,
+      // then give us a commands list.
+      // TODO: update this to not require a room check.
+      if (IsClass(poOwner,&RazaInn)
             AND NOT (piFlags & PFLAG_TUTORIAL))
       {
          Post(self,@MsgSendUser,#message_rsc=player_newbie_commands);
@@ -7592,14 +7596,6 @@ messages:
          return 0;
       }
 
-      % No karma changes in the newbie area. Otherwise e.g. killing a negative
-      % karma monster may make your spell inoperable.
-      if poOwner <> $
-         AND Send(poOwner,@GetRegion) = RID_NEWB_BASE
-      {
-         return 0;
-      }
-
       % No karma changes from killing neutral monsters.
       if bIsMob AND karma_victim = NEUTRAL
       {
@@ -9379,7 +9375,6 @@ messages:
       % Reign of Blood Frenzy death?  Newbie death?
       % Don't drop anything or take any penalties.
       if Send(SYS,@GetChaosNight)
-         OR (iRoom >= RID_NEWB_BASE AND iRoom <= RID_NEWB_MAX)
          OR Send(self,@HasHonorString,#string=player_newbie_honor_string)
          OR (NOT (piFlags & PFLAG_PKILL_ENABLE)
             AND NOT Send(SETTINGS_OBJECT,@NewbiesDropLoot))
@@ -9507,7 +9502,7 @@ messages:
          }
 
          % Positive karma makes us eligible for a booby prize.
-         if piKarma > 5000 AND (Send(self,@GetHomeRoom) <> RID_NEWB1)
+         if piKarma > 5000
          {
             % To prevent mule money abuse, make the hammer "created".
             % This makes it worthless to try to sell. It lasts for 5 hours.
