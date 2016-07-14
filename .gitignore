@@ -90,6 +90,8 @@ local.properties
 *.obj
 *.pch
 *.pdb
+*.ipdb
+*.iobj
 *.pgc
 *.pgd
 *.rsp
@@ -112,6 +114,8 @@ ipch/
 *.ncb
 *.opensdf
 *.sdf
+*.VC.db
+*.VC.opendb
 
 # Visual Studio profiler
 *.psess
