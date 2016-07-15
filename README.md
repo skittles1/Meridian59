@@ -42,8 +42,9 @@ Build Instructions
 These build instructions can also be found on the Server 105 GitHub
 [wiki](https://github.com/OpenMeridian105/Meridian59/wiki/Build-Instructions).
 
-0. Install [Microsoft Visual Studio 2013](http://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx)
-or greater.
+0. Install [Microsoft Visual Studio 2015 Community Edition](https://www.visualstudio.com/en-us/downloads/download-visual-studio-vs.aspx).
+During installation you will need to choose "Custom" installation and add the
+C++ components to the installation, as these are not installed by default (see https://msdn.microsoft.com/en-au/library/60k1461a.aspx).
 0. Download this source code, either with a git client or with the
 "Download ZIP" option from your chosen repository.
 
@@ -54,14 +55,14 @@ BUILD menu and select Build Solution (or press CTRL+SHIFT+B) to build.
 
 ### Makefile build
 0. Locate your Visual Studio install folder, usually something like
-`"C:\Program Files (x86)\Microsoft Visual Studio 12.0"`.
+`"C:\Program Files (x86)\Microsoft Visual Studio 14.0"`.
 Navigate to the Common folder, and then the Tools folder. Example:
-`"C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools"`.
+`"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools"`.
 0. Create a shortcut (by right-clicking on vsvars32.bat and selecting
 Create shortcut) called "Meridian Development Shell" on your desktop
 or in your start menu with the following property:
 Target: `%windir%\system32\cmd.exe /k "C:\Program Files (x86)\Microsoft
-Visual Studio 12.0\Common7\Tools\vsvars32.bat"`
+Visual Studio 14.0\Common7\Tools\vsvars32.bat"`
 0. OPTIONAL: set the "Start In" property of your shortcut to the folder
 that contains the meridian source code for ease of use.
 0. Open the Meridian Development Shell and navigate to the folder
