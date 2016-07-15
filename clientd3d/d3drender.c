@@ -1242,6 +1242,10 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
          D3DParticleSystemUpdateBurst(&gParticleSystemFireworks, &gParticlePool, &gParticleCacheSystem, params);
       }
       timeParticles = timeGetTime() - timeParticles;
+
+      IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_WORLD, &mIdentity);
+      IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_VIEW, &mIdentity);
+      IDirect3DDevice9_SetTransform(gpD3DDevice, D3DTS_PROJECTION, &mIdentity);
    }
 
    /***************************************************************************/
@@ -1348,6 +1352,9 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
       IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
       IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
 
+      if (config.aaMode > 0)
+         IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_MULTISAMPLEANTIALIAS, FALSE);
+
       IDirect3DDevice9_SetVertexShader(gpD3DDevice, NULL);
       IDirect3DDevice9_SetVertexDeclaration(gpD3DDevice, decl1dc);
 
@@ -1356,6 +1363,9 @@ void D3DRenderBegin(room_type *room, Draw3DParams *params)
       D3DRenderViewElementsDraw(&gObjectPool);
       D3DCacheFill(&gObjectCacheSystem, &gObjectPool, 1);
       D3DCacheFlush(&gObjectCacheSystem, &gObjectPool, 1, D3DPT_TRIANGLESTRIP);
+
+      if (config.aaMode > 0)
+         IDirect3DDevice9_SetRenderState(gpD3DDevice, D3DRS_MULTISAMPLEANTIALIAS, TRUE);
 
       IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_MAGFILTER, gD3DDriverProfile.magFilter);
       IDirect3DDevice9_SetSamplerState(gpD3DDevice, 0, D3DSAMP_MINFILTER, gD3DDriverProfile.minFilter);
