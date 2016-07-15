@@ -29,7 +29,7 @@ static std::string client_path;
 ExtList extensions { ".bgf", ".ogg", ".roo", ".dll", ".rsb", ".exe", ".bsf",
                      ".ttf", ".zip", ".font", ".md", ".png", ".material",
                      ".hlsl", ".dds", ".mesh", ".xml", ".pu", ".compositor",
-                     ".imageset", ".layout", ".looknfeel", ".scheme", ".avi" };
+                     ".imageset", ".layout", ".looknfeel", ".scheme", ".avi", ".otf" };
 
 bool FindMatchingFiles(std::string path, FileList *files);
 /***************************************************************************/
@@ -94,6 +94,8 @@ int main(int argc, char **argv)
          // during the update process, the last thing updated are
          // client executables.
          strptr = strrchr((char *)std::get<2>(*it).c_str(), '.');
+         if (!strptr)
+            continue;
          if (stricmp(strptr, ".exe") == 0)
             json_array_append(ExecArray, GenerateCacheFile(std::get<0>(*it).c_str(),
                std::get<1>(*it).c_str(), std::get<2>(*it).c_str()));
@@ -155,6 +157,8 @@ bool FindMatchingFiles(std::string path, FileList *files)
       {
          // Get the extension, including '.' and check against extension list.
          strptr = strrchr(search_data.cFileName, '.');
+         if (!strptr)
+            continue;
          for (ExtList::iterator it = extensions.begin(); it != extensions.end(); ++it)
          {
             // If we match an extension, add to the FileList structure.
