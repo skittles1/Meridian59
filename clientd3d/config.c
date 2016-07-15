@@ -270,7 +270,7 @@ void ConfigLoad(void)
    config.ObjectCacheMin = GetConfigInt(misc_section, INIObjectCacheMin, 6000000, ini_file);
    config.GridCacheMin = GetConfigInt(misc_section, INIGridCacheMin,   4000000, ini_file);
    config.mipMaps = GetConfigInt(misc_section, INIMipMaps, true, ini_file);
-   config.aaMode = GetConfigInt(misc_section, INIAntiAliasing, 0, ini_file);
+   config.aaMode = GetConfigInt(misc_section, INIAntiAliasing, 8, ini_file);
 
    if( config.CacheBalance < 10 ) config.CacheBalance = 10 ;
    if( config.CacheBalance > 90 ) config.CacheBalance = 90 ;
