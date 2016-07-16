@@ -22,7 +22,7 @@ resources:
    feigndeath_icon_rsc = ifeignde.bgf
    feigndeath_desc_rsc = \
       "Makes you appear to be deceased, that hopefully someone won't "
-      "really make you as such.  Requires one rainbow fern to cast."
+      "really make you as such.  Requires nothing but a devious mind."
 
    feigndeath_user_killed = "~B~U~k[###]~n ~B~v%s was just killed by %s%s."
    feigndeath_angrymocker = "an angry guy named Mocker"
@@ -57,7 +57,6 @@ messages:
    ResetReagents()
    {
       plReagents = $;
-      plReagents = Cons([&RainbowFern,1],plReagents);
 
       return;
    }

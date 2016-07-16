@@ -22,7 +22,7 @@ resources:
    Invigorate_icon_rsc = iinvigor.bgf
    Invigorate_desc_rsc = \
       "This song allows all listeners to regain vigor at an accelerated rate.  "
-      "Requires one diamond and an edible mushroom to cast."
+      "Requires nothing but a strong voice."
 
    Invigorate_song = song11.ogg
 
@@ -33,7 +33,7 @@ resources:
    Invigorate_caster_enter = "You feel the tiredness of your muscles diminish."
    Invigorate_enter = "%s's invigorating song eases the tiredness of your muscles."
    Invigorate_leave = "You can no longer hear the invigorating notes of %s's song."
-   
+
 classvars:
 
    radius_ench_cast = Invigorate_cast
@@ -73,8 +73,6 @@ messages:
    ResetReagents()
    {
       plReagents = $;
-      plReagents = Cons([&Diamond,1],plReagents);
-      plReagents = Cons([&Snack,1],plReagents);
 
       return;
    }

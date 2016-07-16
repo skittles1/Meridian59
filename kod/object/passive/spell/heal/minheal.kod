@@ -23,8 +23,8 @@ resources:
       "The compassionate power of Shal'ille heals the wounds of the caster "
       "or another person.  Is particularly potent on those protected by "
       "guardian angels.  Shal'ille gives a small reward toward the karma "
-      "of the mage who heals another good soul.  "
-      "Requires one herb to cast."
+      "of the mage who heals another good soul.  Requires nothing but a "
+      "compassionate soul."
    heal_spell_intro = \
       "Shal'ille Lv. 1: Bestows the healing touch of Shal'ille, restoring "
       "points of health."
@@ -50,7 +50,6 @@ messages:
    ResetReagents()
    {
       plReagents = $;
-      plReagents = Cons([&Herbs,1],plReagents);
 
       return;
    }
