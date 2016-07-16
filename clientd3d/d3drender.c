@@ -3551,11 +3551,15 @@ LPDIRECT3DTEXTURE9 D3DRenderTextureCreateFromBGF(PDIB pDib, BYTE xLat0, BYTE xLa
 
    pBits = DibPtr(pDib);
 
+   int reqMipMaps = numMipMaps;
+   if (reqMipMaps > 1 && (newWidth < 16 || newHeight < 16))
+      reqMipMaps = 1;
+
    if (gD3DDriverProfile.bManagedTextures)
-      IDirect3DDevice9_CreateTexture(gpD3DDevice, newWidth, newHeight, numMipMaps, 0,
+      IDirect3DDevice9_CreateTexture(gpD3DDevice, newWidth, newHeight, reqMipMaps, 0,
                                      D3DFMT_A1R5G5B5, D3DPOOL_MANAGED, &pTexture, NULL);
    else
-      IDirect3DDevice9_CreateTexture(gpD3DDevice, newWidth, newHeight, numMipMaps, 0,
+      IDirect3DDevice9_CreateTexture(gpD3DDevice, newWidth, newHeight, reqMipMaps, 0,
                                      D3DFMT_A1R5G5B5, D3DPOOL_SYSTEMMEM, &pTexture, NULL);
 
    if (pTexture == NULL)
@@ -3628,7 +3632,7 @@ LPDIRECT3DTEXTURE9 D3DRenderTextureCreateFromBGF(PDIB pDib, BYTE xLat0, BYTE xLa
 
    if (gD3DDriverProfile.bManagedTextures == FALSE)
    {
-      IDirect3DDevice9_CreateTexture(gpD3DDevice, pNewWidth, pNewHeight, numMipMaps, 0,
+      IDirect3DDevice9_CreateTexture(gpD3DDevice, pNewWidth, pNewHeight, reqMipMaps, 0,
                                      D3DFMT_A1R5G5B5, D3DPOOL_DEFAULT, &pTextureFinal, NULL);
 
       if (pTextureFinal)
