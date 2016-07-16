@@ -23,10 +23,8 @@ resources:
    darkness_desc_rsc = \
       "Draws a curtain of darkness over a room, making it more "
       "amenable to followers of the Vile One.  "
-      "Requires fairy wings and entroot berries to cast."
-   
+      "Requires nothing but a sinister intent"
    darkness_unnecessary = "This area already has a darkness enchantment."
-
    darkness_on = \
       "A curtain of darkness is drawn across the room, stirring the "
       "servants of Qor."
@@ -37,7 +35,6 @@ resources:
    darkness_spell_intro = \
       "Qor Lv. 1: Draws a curtain of darkness over the room, stirring "
       "the servants of Qor."
-
    darkness_sound = qinvis.ogg
 
 classvars:
@@ -65,8 +62,6 @@ messages:
    ResetReagents()
    {
       plReagents = $;
-      plReagents = Cons([&FairyWing,1],plReagents);
-      plReagents = Cons([&EntrootBerry,1],plReagents);
 
       return;
    }
