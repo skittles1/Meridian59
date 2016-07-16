@@ -4398,15 +4398,31 @@ messages:
             OR IsClass(victim,&EvilTwin)
             OR Send(victim,@GetMaster) <> $
          {
-            if NOT (piFlags & PFLAG_PKILL_ENABLE)
+            if (Send(victim,@IsOwnedByPlayer))
             {
-               if report
+               // Newbies can't attack players' pets.
+               if (NOT (piFlags & PFLAG_PKILL_ENABLE))
                {
-                  Send(self,@MsgSendUser,
-                        #message_rsc=player_cant_hit_newbie_minion);
+                  if (report)
+                  {
+                     Send(self,@MsgSendUser,
+                           #message_rsc=player_cant_hit_newbie_minion);
+                  }
+
+                  return FALSE;
                }
 
-               return FALSE;
+               // No attacking players' pets on Sacred Haven.
+               if (NOT Send(SYS,@IsPKAllowed))
+               {
+                  if (report)
+                  {
+                     Send(self,@MsgSendUser,#message_rsc=player_guardian_angel,
+                          #parm1=Send(victim,@GetDef),#parm2=Send(victim,@GetName));
+                  }
+
+                  return FALSE;
+               }
             }
 
             if Send(victim,@GetMaster) = self
@@ -4439,19 +4455,6 @@ messages:
             {
                Send(self,@MsgSendUser,#message_rsc=Jig_cannot_attack,
                      #parm1=Send(victim,@GetDef),#parm2=Send(victim,@GetName));
-            }
-
-            return FALSE;
-         }
-
-         % No attacking pets on Sacred Haven
-         if NOT Send(SYS,@IsPKAllowed)
-            AND Send(victim,@GetMaster) <> $
-         {
-            if report
-            {
-               Send(self,@MsgSendUser,#message_rsc=player_guardian_angel,
-                    #parm1=Send(victim,@GetDef),#parm2=Send(victim,@GetName));
             }
 
             return FALSE;
