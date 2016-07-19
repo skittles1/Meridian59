@@ -31,6 +31,7 @@ static char resource_dir[] = "resource";
 static char room_dir[] = "resource";
 static char rsb_spec[] = "*.rsb";
 static char rsc_spec[] = "*.rsc";
+static char rsb_file[] = "rsc0000.rsb";
 static unsigned char rsb_hash[ENCRYPT_LEN + 1];
 
 static Bool ignore_duplicates;  // Don't complain about duplicate rscs when True
@@ -105,7 +106,7 @@ void LoadRSBHash(void)
    rsb_hash[0] = 0;
 
    GetGamePath(game_path);
-   sprintf(file_load_path, "%s%s\\%s", game_path, resource_dir, rsb_spec);
+   sprintf(file_load_path, "%s%s\\%s", game_path, resource_dir, rsb_file);
 
    hFindFile = FindFirstFile(file_load_path, &file_info);
    if (hFindFile == INVALID_HANDLE_VALUE)
@@ -182,7 +183,7 @@ Bool LoadResources(void)
 	
 	ignore_duplicates = True;
 	// Load combined rscs, then normal rscs
-	rsb_loaded = LoadRscFilesSorted(rsb_spec);
+	rsb_loaded = LoadRscFilesSorted(rsb_file);
 	rsc_loaded = LoadRscFiles(rsc_spec);
 	
 	// Built-in resources for About box
