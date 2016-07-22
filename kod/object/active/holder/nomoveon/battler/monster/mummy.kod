@@ -45,7 +45,7 @@ classvars:
    vrDead_name = mummy_dead_name_rsc
 
    viTreasure_type = TID_NEWBIE_AREA
-   viSpeed = SPEED_FAST
+   viSpeed = SPEED_SLIGHTLY_SLOW
    viAttributes = 0
    viLevel = 30
    viDifficulty = 1
@@ -55,8 +55,8 @@ classvars:
    viKarma = 0
    vbIsUndead = TRUE
    viDefault_behavior = AI_FIGHT_AGGRESSIVE | AI_MOVE_FLEE_FRIGHTENERS
-   viCashmin = 1
-   viCashmax = 20
+   viCashmin = 50
+   viCashmax = 100
    vrSound_hit = mummy_sound_hit
    vrSound_miss = mummy_sound_miss
    vrSound_aware = mummy_sound_aware

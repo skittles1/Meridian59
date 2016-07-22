@@ -1664,6 +1664,7 @@
    SPEED_NONE          = 0
    SPEED_VERY_SLOW     = 4
    SPEED_SLOW          = 8
+   SPEED_SLIGHTLY_SLOW = 10
    SPEED_AVERAGE       = 12
    SPEED_FAST          = 16
    SPEED_FASTER        = 18
