@@ -33,7 +33,7 @@ resources:
    Elusion_Success = "The world folds in on itself."
    Elusion_Location_list = \
       "The world shimmers and secret paths are revealed, leading "
-      "to %s%s%s%s%s%s%s%s%s%s%s%s."
+      "to %s%s%s%s%s%s%s%s%s%s%s%s%s%s."
    elusion_loc_list_comma = ", "
    elusion_loc_list_and = "and "
    elusion_loc_list_blank = ""
@@ -45,8 +45,8 @@ resources:
       "%s vanishes in an instant, leaving behind a fading shimmer of "
       "warped space."
 
-   % Yeah, it's Illusionary wounds sound, but it fits.
-   % Plus, Ill. Wounds wasn't using it anymore.
+   // Yeah, it's Illusionary wounds sound, but it fits.
+   // Plus, Ill. Wounds wasn't using it anymore.
    Elusion_sound = riluswnd.ogg
 
 classvars:
@@ -69,7 +69,7 @@ classvars:
 
 properties:
 
-   % If true, can cast elusion from any room.  Otherwise it's limited.
+   // If true, can cast elusion from any room.  Otherwise it's limited.
    pbCanCastFromAnywhere = TRUE
 
 messages:
@@ -86,7 +86,7 @@ messages:
    {
       local oRoom, iRoomNum;
 
-      % Can't cast just after attacking someone
+      // Can't cast just after attacking someone
       if Send(who,@GetLastPlayerAttackTime)
          + Send(SETTINGS_OBJECT,@TeleportAttackDelaySec)
          > GetTime()
@@ -101,17 +101,18 @@ messages:
          propagate;
       }
 
-      % Can only cast from certain rooms.  This was added because being
-      % able to escape from anywhere was too powerful.
+      // Can only cast from certain rooms.  This was added because being
+      // able to escape from anywhere was too powerful.
 
       oRoom = Send(who, @GetOwner);
       iRoomNum = Send(oRoom, @GetRoomNum);
 
-      if (iRoomNum <> RID_TOS AND iRoomNum <> RID_MARION AND
-          iRoomNum <> RID_BARLOQUE AND iRoomNum <> RID_CORNOTH AND
-          iRoomNum <> RID_JASPER AND iRoomNum <> RID_KOC_INN)
+      if (iRoomNum <> RID_TOS AND iRoomNum <> RID_MARION
+         AND iRoomNum <> RID_BARLOQUE AND iRoomNum <> RID_CORNOTH
+         AND iRoomNum <> RID_JASPER AND iRoomNum <> RID_KOC_INN
+         AND iRoomNum <> RID_RAZA)
       {
-         % In your guild hall?
+         // In your guild hall?
          if oRoom <> Send(who,@GetGuildHall)
          {
             Send(who,@MsgSendUser,#message_rsc=Elusion_cant_cast_here);
@@ -125,8 +126,8 @@ messages:
 
    GetTranceTime(iSpellpower=0,who=$)
    {
-      % Since this spell uses the trance, don't
-      % scale it down depending on iSpellpower
+      // Since this spell uses the trance, don't
+      // scale it down depending on iSpellpower
       return viCast_time;
    }
 
@@ -134,8 +135,8 @@ messages:
    {
       local oTrance, lLocations, sLocations;
 
-      % Get rid of the regular casting trance, we
-      % need a special one put on below.
+      // Get rid of the regular casting trance, we
+      // need a special one put on below.
       Send(who,@BreakTrance,#event=EVENT_STEER);
 
       oTrance = Send(SYS,@FindSpellByNum,#num=SID_TRANCE);
@@ -143,13 +144,13 @@ messages:
       lLocations = Send(self,@GetLocations,#iSpellpower=iSpellpower,
                         #target=who);
 
-      % User will add the protocol packet and callback SendElusionLocations
-      % to send the appropriate resources.
+      // User will add the protocol packet and callback SendElusionLocations
+      // to send the appropriate resources.
       Send(who,@MsgSendUserCallback,#what=self,
             #sCallback=SetString($,@SendElusionLocations),
             #parm1=lLocations);
 
-      % lTargets is of the form = [location1, location2,...]
+      // lTargets is of the form = [location1, location2,...]
       Send(oTrance,@BeginCastingTrance,#what=self,#who=who,
             #lTargets=lLocations,#time=TRANCE_TIME);
 
@@ -165,19 +166,19 @@ messages:
    {
       local lAllTargets, oGuildHall, sRoomName, bFound, oRoom, i, each_obj;
 
-      % Check if string is a location.  If it is, and the caster has
-      % sufficient spellpower make it the target.  Get percent in the
-      % target spell.  If not there or fail check, bail and print failure.
+      // Check if string is a location.  If it is, and the caster has
+      // sufficient spellpower make it the target.  Get percent in the
+      // target spell.  If not there or fail check, bail and print failure.
 
-      Send(who,@BreakTrance,#event=EVENT_STEER);  %% Don't print fizzle message
+      Send(who,@BreakTrance,#event=EVENT_STEER);  // Don't print fizzle message
 
       bFound = FALSE;
 
       lAllTargets = lTargets;
 
-      % Special bonus!  Warp to guild hall with high enough spellpower.
-      % Spellpower has to be high enough that you were already going to 5
-      % or more places.
+      // Special bonus!  Warp to guild hall with high enough spellpower.
+      // Spellpower has to be high enough that you were already going to 5
+      // or more places.
       if Length(lTargets) >= 5
       {
          oGuildHall = Send(who,@GetGuildHall);
@@ -232,32 +233,32 @@ messages:
                     Send(SYS,@FindRoomByNum,#num=RID_MARION),
                     Send(SYS,@FindRoomByNum,#num=RID_BARLOQUE),
                     Send(SYS,@FindRoomByNum,#num=RID_CORNOTH),
-                    Send(SYS,@FindRoomByNum,#num=RID_JASPER)];
+                    Send(SYS,@FindRoomByNum,#num=RID_JASPER),
+                    Send(SYS,@FindRoomByNum,#num=RID_RAZA)];
 
       lAvailable = $;
 
-      % Originally divided by 16 for 96 spellpower, this has been
-      % dropped to 84 spellpower for Island (divide by 14)
-      iNumLocations = bound(iSpellPower/14,1,6);
+      // 84 spellpower for Island (7 locations, divide by 12)
+      iNumLocations = Bound(iSpellPower/12,1,7);
 
       if Send(Send(target,@GetOwner),@GetRegion) = RID_KOCATAN
-         OR iNumLocations = 6
+         OR iNumLocations = 7
       {
          lAvailable = Cons(Send(SYS,@FindRoomByNum,
                            #num=RID_KOC_INN),lAvailable);
-         iNumLocations = iNumLocations - 1;
+         --iNumLocations;
       }
 
       while iNumLocations > 0
       {
-         % Make these completely random, since we're just escaping
-         % to somewhere ...anywhere... else.
+         // Make these completely random, since we're just escaping
+         // to somewhere ...anywhere... else.
 
          oRoom = Nth(lLocations,Random(1,Length(lLocations)));
          lAvailable = Cons(oRoom,lAvailable);
          lLocations = DelListElem(lLocations,oRoom);
 
-         iNumLocations = iNumLocations - 1;
+         --iNumLocations;
       }
 
       return lAvailable;
@@ -272,7 +273,7 @@ messages:
          return FALSE;
       }
 
-      % Add master resource.
+      // Add master resource.
       AddPacket(4,Elusion_Location_list);
       lLocations = parm1;
 
@@ -283,7 +284,7 @@ messages:
 
       foreach i in lLocations
       {
-         iCounter++;
+         ++iCounter;
 
          if iNumRooms > 1
          {
@@ -300,14 +301,14 @@ messages:
          }
          else
          {
-            iNumRsc++;
+            ++iNumRsc;
             AddPacket(4,Send(i,@GetName));
          }
       }
 
-      % If we didn't add enough location resources, make up for it
-      % with blank ones.
-      while iNumRsc++ < 12
+      // If we didn't add enough location resources, make up for it
+      // with blank ones.
+      while iNumRsc++ < 14
       {
          AddPacket(4,elusion_loc_list_blank);
       }
