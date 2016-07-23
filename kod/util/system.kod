@@ -6944,6 +6944,7 @@ messages:
    "Admin Supported."
    {
       local oSpell;
+
       if num = $
       {
          return Send(self,@GetFailureRsc);
@@ -6962,6 +6963,7 @@ messages:
    "Admin Supported."
    {
       local oSpell;
+
       if num = $
       {
          return Send(self,@GetFailureRsc);
@@ -6976,65 +6978,126 @@ messages:
       return Send(oSpell,@DisableSpell);
    }
 
-   AdminCountPlayersWithSpell(num=$,includeDMs=FALSE)
+   AdminCountPlayersWithAbility(num=0,includeDMs=FALSE)
    "Admin Supported."
    {
-      local i,iCount;
+      local i, iCount, sMessage;
+
+      // Sanity check on num.
+      if (Send(SYS,@FindSpellByNum,#num=num) = $
+         AND Send(SYS,@FindSkillByNum,#num=num) = $)
+      {
+         Debug("AdminCountPlayersWithAbility sent invalid ability constant ",
+               num);
+
+         return 0;
+      }
+
+      // Constants over SKID_MINIMUM (400) are skills, under are spells.
+      if (num >= SKID_MINIMUM)
+      {
+         sMessage = SetString($,@HasSkill);
+      }
+      else
+      {
+         sMessage = SetString($,@HasSpell);
+      }
+
       iCount = 0;
+
       foreach i in plUsers
       {
-         if includeDMs OR NOT isClass(i,&DM)
+         if includeDMs OR NOT IsClass(i,&DM)
          {
-            if Send(i,@HasSpell,#num=num)
+            if Send(i,sMessage,#num=num)
             {
-               iCount=(iCount+1);
+               ++iCount;
             }
          }
       }
+
       return iCount;
    }
 
-   AdminListPlayersWithSpell(num=$,includeDMs=FALSE)
+   AdminListPlayersWithAbility(num=0,includeDMs=FALSE)
    "Admin Supported."
    {
-      local i,lPlayers;
-      lPlayers = $;
+      local i, lPlayers, sMessage;
+
+      // Sanity check on num.
+      if (Send(SYS,@FindSpellByNum,#num=num) = $
+         AND Send(SYS,@FindSkillByNum,#num=num) = $)
+      {
+         Debug("AdminListPlayersWithAbility sent invalid ability constant ",
+               num);
+
+         return $;
+      }
+
+      // Constants over SKID_MINIMUM (400) are skills, under are spells.
+      if (num >= SKID_MINIMUM)
+      {
+         sMessage = SetString($,@HasSkill);
+      }
+      else
+      {
+         sMessage = SetString($,@HasSpell);
+      }
+
       foreach i in plUsers
       {
-         if includeDMs OR NOT isClass(i,&DM)
+         if includeDMs OR NOT IsClass(i,&DM)
          {
-            if Send(i,@HasSpell,#num=num)
+            if Send(i,sMessage,#num=num)
             {
-               lPlayers=cons(i,lPlayers);
+               lPlayers = Cons(i,lPlayers);
             }
          }
       }
+
       return lPlayers;
    }
 
-   AdminNamePlayersWithSpell(num=$,includeDMs=FALSE)
+   AdminNamePlayersWithAbility(num=0,includeDMs=FALSE)
    "Admin Supported."
    {
-      local i,lPlayers,sPlayers;
+      local i, sMessage;
 
-      lPlayers = $;
+      // Sanity check on num.
+      if (Send(SYS,@FindSpellByNum,#num=num) = $
+         AND Send(SYS,@FindSkillByNum,#num=num) = $)
+      {
+         Debug("AdminNamePlayersWithAbility sent invalid ability constant ",
+               num);
+
+         return $;
+      }
+
+      // Constants over SKID_MINIMUM (400) are skills, under are spells.
+      if (num >= SKID_MINIMUM)
+      {
+         sMessage = SetString($,@HasSkill);
+      }
+      else
+      {
+         sMessage = SetString($,@HasSpell);
+      }
+
       ClearTempString();
+
       foreach i in plUsers
       {
-         if includeDMs or not isClass(i,&DM)
+         if includeDMs OR NOT IsClass(i,&DM)
          {
-            if Send(i,@HasSpell,#num=num)
+            if Send(i,sMessage,#num=num)
             {
-               AppendTempString(Send(i,@Getname));
+               AppendTempString(Send(i,@GetTrueName));
                AppendTempString("; ");
             }
          }
       }
 
-      sPlayers = CreateString();
-      SetString(sPlayers,GetTempString());
-
-      return sPlayers;
+      return SetString($,GetTempString());
    }
 
    FindPlayersOverLearnCount()
@@ -7042,7 +7105,6 @@ messages:
       local i, iStartingLearnPoints, iMaxLearnPoints, iTotalLearnPoints, iList,
             lSpells, lSkills;
 
-      iList = $;
       foreach i in plUsers
       {
          if Send(i,@GetSpellList) = $
@@ -7089,29 +7151,83 @@ messages:
       return iList;
    }
 
-   FixSpellLevelChange(iSID=0)
+   FixSpellLevelChange(num=0)
    "Removes a spell from one level and adds it to another for all players "
    "who have the spell, and also have the second level."
    {
       local i, oSpell, iPercent, iTP;
 
-      oSpell = Send(self,@FindSpellByNum,#num=iSID);
+      oSpell = Send(self,@FindSpellByNum,#num=num);
+
+      if (oSpell = $)
+      {
+         Debug("FixSpellLevelChange unable to find spell object for ",num,
+               " not adjusting spell level.");
+
+         return;
+      }
 
       foreach i in plUsers
       {
-         if Send(i,@HasSpell,#num=iSID)
+         if Send(i,@HasSpell,#num=num)
          {
-            iPercent = Send(i,@GetSpellAbility,#spell_num=iSID);
-            Send(i,@RemoveSpell,#num=iSID);
-            if Send(i,@PlayerCanLearn,#spell_num=iSID) = PLAYER_LEARN_SUCCESS
+            iPercent = Send(i,@GetSpellAbility,#spell_num=num);
+            Send(i,@RemoveSpell,#num=num);
+            if Send(i,@PlayerCanLearn,#spell_num=num) = PLAYER_LEARN_SUCCESS
             {
-               Send(i,@AddSpell,#num=iSID,#iability=iPercent);
+               Send(i,@AddSpell,#num=num,#iability=iPercent);
                Debug("Readded spell ",Send(oSpell,@GetName)," to ",
                      Send(i,@GetTrueName));
             }
             else
             {
                iTP = Send(oSpell,@GetMeditateRatio);
+               Send(i,@AddTrainingPoints,#points=iTP * iPercent,#bCap=FALSE);
+               Debug("Added ",iTP * iPercent," TP to ",Send(i,@GetTrueName));
+            }
+         }
+      }
+
+      return;
+   }
+
+   FixSkillLevelChange(num=0)
+   "Removes a skill from one level and adds it to another for all players "
+   "who have the skill, and also have the second level."
+   {
+      local i, oSkill, iPercent, iTP;
+
+      oSkill = Send(self,@FindSkillByNum,#num=num);
+
+      if (oSkill = $)
+      {
+         Debug("FixSkillLevelChange unable to find skill object for ",num,
+               " not adjusting skill level.");
+
+         return;
+      }
+
+      foreach i in plUsers
+      {
+         // Can't check DMs with skills due to assess, kick and thrust.
+         if (IsClass(i,&DM))
+         {
+            continue;
+         }
+
+         if Send(i,@HasSkill,#num=num)
+         {
+            iPercent = Send(i,@GetSkillAbility,#skill_num=num);
+            Send(i,@RemoveSkill,#num=num);
+            if Send(i,@PlayerCanLearn,#skill_num=num) = PLAYER_LEARN_SUCCESS
+            {
+               Send(i,@AddSkill,#num=num,#iability=iPercent);
+               Debug("Readded skill ",Send(oSkill,@GetName)," to ",
+                     Send(i,@GetTrueName));
+            }
+            else
+            {
+               iTP = Send(oSkill,@GetMeditateRatio);
                Send(i,@AddTrainingPoints,#points=iTP * iPercent,#bCap=FALSE);
                Debug("Added ",iTP * iPercent," TP to ",Send(i,@GetTrueName));
             }
