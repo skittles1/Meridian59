@@ -1984,7 +1984,9 @@
    STROKE_ACID_TOUCH = 25
    STROKE_UNHOLY_TOUCH = 26
 
-   %%% Unique skill constants
+   // Unique skill constants
+   // Don't create any lower than 400 - conflict with spells (1-399).
+   SKID_MINIMUM = 400
 
    SKID_DODGE = 401
    SKID_PARRY = 402
