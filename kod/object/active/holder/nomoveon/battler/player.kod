@@ -11654,6 +11654,11 @@ messages:
          }
       }
 
+      if (poOwner <> $)
+      {
+         Send(poOwner,@SomethingChanged,#what=self);
+      }
+
       return;
    }
 
