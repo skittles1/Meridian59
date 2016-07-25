@@ -6716,15 +6716,15 @@ messages:
       piHatred = iHatred;
 
       if poTarget <> $
+         AND IsClass(poTarget,&User)
          AND Send(poTarget,@GetOwner) = poOwner
-         AND IsClass(poTarget,&user)
       {
-         Send(poTarget,@SubtractFromMonsterChasers,
-              #level=viLevel);
+         Send(poTarget,@SubtractFromMonsterChasers,#level=viLevel);
       }
 
       poTarget = what;
-      if IsClass(poTarget,&user)
+      if IsClass(poTarget,&User)
+         AND Send(poTarget,@GetOwner) = poOwner
       {
          Send(poTarget,@AddToMonsterChasers,#level=viLevel);
       }
