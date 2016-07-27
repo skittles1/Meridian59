@@ -23,15 +23,19 @@ enum { SOURCE1 = 1, SOURCE2 = 2 };  /* See set_source_id */
 
 /* Structure for loop addresses */
 typedef struct {
-   int toppos;               /* File offset of top of loop */
-   list_type break_list;     /* List of addresses that need to be
-			      * filled in with file offset of bottom
-			      * of loop
-			      */
-   list_type for_continue_list; /* Addresses that need to be filled in for continue
-				 * statements in for loops (in while loops, 
-				 * continue jumps backward, so not necessary).
-				 */
+   /* File offset of top of loop */
+   int toppos;
+   /* List of addresses that need to be filled in
+    * with file offset of bottom of loop */
+   list_type break_list;
+   /* Addresses that need to be filled in for continue
+   * statements in for loops (in while loops,
+   * continue jumps backward, so not necessary).
+   */
+   list_type for_continue_list;
+   /* Addresses that need to be filled in but have
+    * conditional gotos (whereas breaks are unconditional) */
+   list_type conditional_goto_list;
 } *loop_type, loop_struct;
 
 extern int codegen_ok;          /* Did codegen complete successfully? */
@@ -42,7 +46,8 @@ void OutputInt(int outfile, int datum);
 void OutputConstant(int outfile, const_type c);
 void OutputGotoOffset(int outfile, int source, int destination);
 void OutputBaseExpression(int outfile, expr_type expr);
-void BackpatchGoto(int outfile, int source, int destination);
+void BackpatchGotoUnconditional(int outfile, int source, int destination);
+void BackpatchGotoConditional(int outfile, int source, int destination);
 
 void codegen_error(const char *fmt, ...);
 int const_to_int(const_type c);

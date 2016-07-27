@@ -348,7 +348,7 @@ int codegen_if(if_stmt_type s, int numlocals)
    }
 
    /* Go back and fill in destination address for conditional goto */
-   BackpatchGoto(outfile, gotopos, FileCurPos(outfile));
+   BackpatchGotoConditional(outfile, gotopos, FileCurPos(outfile));
 
    /* If there's an else clause, write out its code */
    if (s->else_clause != NULL)
@@ -360,7 +360,7 @@ int codegen_if(if_stmt_type s, int numlocals)
 	    our_maxlocal = numtemps;
       }
       /* Go back and fill in destination address for end of then clause */
-      BackpatchGoto(outfile, thenpos, FileCurPos(outfile));
+      BackpatchGotoUnconditional(outfile, thenpos, FileCurPos(outfile));
    }
    else if (s->elseif_clause != NULL)
    {
@@ -369,7 +369,7 @@ int codegen_if(if_stmt_type s, int numlocals)
       numtemps = codegen_if(elseif->value.if_stmt_val, numlocals);
       if (numtemps > our_maxlocal)
          our_maxlocal = numtemps;
-      BackpatchGoto(outfile, thenpos, FileCurPos(outfile));
+      BackpatchGotoUnconditional(outfile, thenpos, FileCurPos(outfile));
    }
    return our_maxlocal;
 }
@@ -540,11 +540,11 @@ int codegen_switch(switch_stmt_type s, int numlocals)
       // Default case location is at defaultpos.
       if (case_stmt->type == S_DEFAULTCASE)
       {
-         BackpatchGoto(outfile, defaultpos, FileCurPos(outfile));
+         BackpatchGotoUnconditional(outfile, defaultpos, FileCurPos(outfile));
       }
       else
       {
-         BackpatchGoto(outfile, casepos[numCase], FileCurPos(outfile));
+         BackpatchGotoConditional(outfile, casepos[numCase], FileCurPos(outfile));
          numCase++;
       }
       // Write code for statements.
@@ -558,11 +558,11 @@ int codegen_switch(switch_stmt_type s, int numlocals)
 
    /* Backpatch continue statements in loop body */
    for (p = current_loop->for_continue_list; p != NULL; p = p->next)
-      BackpatchGoto(outfile, (int)p->data, FileCurPos(outfile));
+      BackpatchGotoUnconditional(outfile, (int)p->data, FileCurPos(outfile));
 
-   /* Go back and fill in destination address for conditional goto */
+   /* Go back and fill in destination address for unconditional goto */
    if (!default_stmt)
-      BackpatchGoto(outfile, endpos, FileCurPos(outfile));
+      BackpatchGotoUnconditional(outfile, endpos, FileCurPos(outfile));
 
    codegen_exit_loop();
 
@@ -583,6 +583,7 @@ void codegen_enter_loop(void)
    loop_info->toppos = FileCurPos(outfile);
    loop_info->break_list = NULL;
    loop_info->for_continue_list = NULL;
+   loop_info->conditional_goto_list = NULL;
    current_loop = loop_info;
    
    /* Add new loop to front of list */
@@ -600,7 +601,11 @@ void codegen_exit_loop(void)
 
    /* Backpatch break statements to jump to end of loop */
    for (p = current_loop->break_list; p != NULL; p = p->next)
-      BackpatchGoto(outfile,  (int) p->data, FileCurPos(outfile));
+      BackpatchGotoUnconditional(outfile, (int) p->data, FileCurPos(outfile));
+
+   /* Backpatch conditional goto statements to jump to end of loop */
+   for (p = current_loop->conditional_goto_list; p != NULL; p = p->next)
+      BackpatchGotoConditional(outfile, (int)p->data, FileCurPos(outfile));
 
    /* Remove current list from loop "stack" */
    loop_stack = list_delete_first(loop_stack);
@@ -634,9 +639,9 @@ int codegen_while(while_stmt_type s, int numlocals)
    sourceval = set_source_id(&opcode, SOURCE1, s->condition);
    OutputOpcode(outfile, opcode);
 
-   /* Make believe goto is a break statement & leave space for backpatching */
-   current_loop->break_list = 
-      list_add_item(current_loop->break_list, (void *) FileCurPos(outfile));
+   /* Conditional jump to end of loop */
+   current_loop->conditional_goto_list =
+      list_add_item(current_loop->conditional_goto_list, (void *)FileCurPos(outfile));
    OutputInt(outfile, 0);
    OutputInt(outfile, sourceval);
 
@@ -685,7 +690,7 @@ int codegen_dowhile(while_stmt_type s, int numlocals)
    
    /* Backpatch continue statements in loop body */
    for (p = current_loop->for_continue_list; p != NULL; p = p->next)
-      BackpatchGoto(outfile, (int)p->data, FileCurPos(outfile));
+      BackpatchGotoUnconditional(outfile, (int)p->data, FileCurPos(outfile));
 
    /* First generate code for condition */
    our_maxlocal = simplify_expr(s->condition, numlocals);
@@ -697,9 +702,9 @@ int codegen_dowhile(while_stmt_type s, int numlocals)
    sourceval = set_source_id(&opcode, SOURCE1, s->condition);
    OutputOpcode(outfile, opcode);
 
-   /* Make believe goto is a break statement & leave space for backpatching */
-   current_loop->break_list =
-      list_add_item(current_loop->break_list, (void *)FileCurPos(outfile));
+   /* Conditional jump to end of loop */
+   current_loop->conditional_goto_list =
+      list_add_item(current_loop->conditional_goto_list, (void *)FileCurPos(outfile));
    OutputInt(outfile, 0);
    OutputInt(outfile, sourceval);
 
@@ -757,9 +762,9 @@ int codegen_for(for_stmt_type s, int numlocals)
    sourceval = set_source_id(&opcode, SOURCE1, s->condition);
    OutputOpcode(outfile, opcode);
 
-   /* Make believe goto is a break statement & leave space for backpatching */
-   current_loop->break_list =
-      list_add_item(current_loop->break_list, (void *)FileCurPos(outfile));
+   /* Conditional jump to end of loop */
+   current_loop->conditional_goto_list =
+      list_add_item(current_loop->conditional_goto_list, (void *)FileCurPos(outfile));
    OutputInt(outfile, 0);
    OutputInt(outfile, sourceval);
 
@@ -774,7 +779,7 @@ int codegen_for(for_stmt_type s, int numlocals)
 
    /* Backpatch continue statements in loop body */
    for (p = current_loop->for_continue_list; p != NULL; p = p->next)
-      BackpatchGoto(outfile, (int)p->data, FileCurPos(outfile));
+      BackpatchGotoUnconditional(outfile, (int)p->data, FileCurPos(outfile));
 
    /* Step 4: Execute statements from assign list (iterators) */
    /* If no iteration, list will be NULL. */
@@ -874,9 +879,9 @@ int codegen_foreach(foreach_stmt_type s, int numlocals)
    opcode.dest = GOTO_IF_TRUE;
    OutputOpcode(outfile, opcode);
 
-   /* Make believe goto is a break statement & leave space for backpatching */
-   current_loop->break_list = 
-      list_add_item(current_loop->break_list, (void *) FileCurPos(outfile));
+   /* Conditional jump to end of loop */
+   current_loop->conditional_goto_list =
+      list_add_item(current_loop->conditional_goto_list, (void *)FileCurPos(outfile));
    OutputInt(outfile, 0);
    OutputInt(outfile, temp2_id->idnum);   /* Jump if temp2 = TRUE */ 
 
@@ -899,7 +904,7 @@ int codegen_foreach(foreach_stmt_type s, int numlocals)
 
    /* Backpatch continue statements in loop body */
    for (p = current_loop->for_continue_list; p != NULL; p = p->next)
-      BackpatchGoto(outfile,  (int) p->data, FileCurPos(outfile));
+      BackpatchGotoUnconditional(outfile,  (int) p->data, FileCurPos(outfile));
 
    /**** Statement #4:    temp = Rest(temp) ****/
    /* Can reuse most of statement #3 above */
