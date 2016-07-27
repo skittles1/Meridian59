@@ -56,14 +56,13 @@ void OutputInt(int outfile, int datum)
 /************************************************************************/
 /*
  * OutputGotoOffset:  Write out jump offset from goto instruction (source)
- *    to destination.  An extra +1 is added to the offset because jump offsets
- *    are supposed to be from the BEGINNING of the goto statement, but the
- *    source byte is actually one byte into the instruction (right after
- *    the opcode).
- */  
+ *    to destination. sizeof(bkod_type) is subtracted here as when the
+ *    interpreter reads this offset, at least that many bytes will have
+ *    been read past 'source'.
+ */
 void OutputGotoOffset(int outfile, int source, int destination)
 {
-   OutputInt(outfile, destination - source + 1);
+   OutputInt(outfile, destination - source - sizeof(bkod_type));
 }
 /************************************************************************/
 /*
@@ -176,14 +175,28 @@ void OutputBaseExpression(int outfile, expr_type expr)
 }
 /************************************************************************/
 /*
- * BackpatchGoto: Go back to the spot "source" in the file, and write out
- *   the offset required to jump to "destination".  Then return to 
- *   "destination" in the file.
+ * BackpatchGotoUnconditional: Go back to the spot "source" in the file,
+ *   and write out the offset required to jump to "destination".  Then
+ *   return to "destination" in the file.
  */
-void BackpatchGoto(int outfile, int source, int destination)
+void BackpatchGotoUnconditional(int outfile, int source, int destination)
 {
    FileGoto(outfile, source);
    OutputGotoOffset(outfile, source, destination);
+   FileGoto(outfile, destination);
+}
+/************************************************************************/
+/*
+ * BackpatchGotoConditional: Go back to the spot "source" in the file,
+ *   and write out the offset required to jump to "destination".  Then
+ *   return to "destination" in the file. Subract sizeof(bkod_type) to
+ *   account for the check data having been read in by the interpreter,
+ *   offsetting source from the expected point.
+ */
+void BackpatchGotoConditional(int outfile, int source, int destination)
+{
+   FileGoto(outfile, source);
+   OutputGotoOffset(outfile, source, destination - sizeof(bkod_type));
    FileGoto(outfile, destination);
 }
 /************************************************************************/
@@ -434,7 +447,7 @@ int flatten_expr(expr_type e, id_type destvar, int maxlocal)
          OutputInt(outfile, 0);    /* Leave room for destination */
          
          /* Backpatch in goto that skipped short circuit code */
-         BackpatchGoto(outfile, gotopos, FileCurPos(outfile));
+         BackpatchGotoConditional(outfile, gotopos, FileCurPos(outfile));
       }
       
       tempexpr = e->value.binary_opval.right_exp;
@@ -479,8 +492,8 @@ int flatten_expr(expr_type e, id_type destvar, int maxlocal)
       
       /* If there was short circuit code, fill in the short-circuiting goto */
       if (exitpos != 0)
-	 BackpatchGoto(outfile, exitpos, FileCurPos(outfile));
-      
+         BackpatchGotoUnconditional(outfile, exitpos, FileCurPos(outfile));
+
       /* See which branch used more temps */
       if (templocals > our_maxlocal)
 	 our_maxlocal = templocals;

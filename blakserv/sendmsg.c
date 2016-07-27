@@ -1103,19 +1103,18 @@ void InterpretGoto(int object_id, local_var_type *local_vars, opcode_type opcode
    int var_check;
    val_type check_data;
 
-   /* we've read one byte of instruction so far */
-   char *inst_start = bkod - 1;
+   // This function is called often, so the switch has been
+   // optimized away to return the value immediately.
 
-   /* This function is called often, so the switch has been
-   * optimized away to return the value immediately. */
-
+   // Addresses take into account position of bkod pointer
+   // after reading data (done in compiler rather than here).
    dest_addr = get_int();
 
-   /* unconditional gotos have source2 bits set--otherwise, it's a goto
-   only if the source1 bits have a non-zero var */
+   // unconditional gotos have source2 bits set--otherwise, it's a goto
+   // only if the source1 bits have a non-zero var.
    if (opcode.source2 == GOTO_UNCONDITIONAL)
    {
-      bkod = inst_start + dest_addr;
+      bkod += dest_addr;
       return;
    }
 
@@ -1123,7 +1122,7 @@ void InterpretGoto(int object_id, local_var_type *local_vars, opcode_type opcode
    check_data = RetrieveValue(object_id,local_vars,opcode.source1,var_check);
    if ((opcode.dest == GOTO_IF_TRUE && check_data.v.data != 0) ||
       (opcode.dest == GOTO_IF_FALSE && check_data.v.data == 0))
-      bkod = inst_start + dest_addr;
+      bkod += dest_addr;
 }
 
 void InterpretCall(int object_id,local_var_type *local_vars,opcode_type opcode)
