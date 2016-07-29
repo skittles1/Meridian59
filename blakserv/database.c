@@ -372,6 +372,9 @@ BOOL MySQLRecordTotalMoney(int total_money)
 	record	= (sql_record_totalmoney*)malloc(sizeof(sql_record_totalmoney));
 	node	= (sql_queue_node*)malloc(sizeof(sql_queue_node));
 	
+   if (!record || !node)
+      return FALSE;
+
 	// set values
 	record->total_money = total_money;
 	
@@ -405,6 +408,9 @@ BOOL MySQLRecordMoneyCreated(int money_created)
 	record	= (sql_record_moneycreated*)malloc(sizeof(sql_record_moneycreated));
 	node	= (sql_queue_node*)malloc(sizeof(sql_queue_node));
 	
+   if (!record || !node)
+      return FALSE;
+
 	// set values
 	record->money_created = money_created;
 	
@@ -437,6 +443,9 @@ BOOL MySQLRecordPlayerLogin(char* account, char* character, char* ip)
 	// allocate
 	record	= (sql_record_playerlogin*)malloc(sizeof(sql_record_playerlogin));
 	node	= (sql_queue_node*)malloc(sizeof(sql_queue_node));
+
+   if (!record || !node)
+      return FALSE;
 
 	// set values
 	record->account		= _strdup(account);
@@ -477,6 +486,9 @@ BOOL MySQLRecordPlayerAssessDamage(char* who, char* attacker, int aspell, int at
 	record	= (sql_record_playerassessdamage*)malloc(sizeof(sql_record_playerassessdamage));
 	node	= (sql_queue_node*)malloc(sizeof(sql_queue_node));
 	
+   if (!record || !node)
+      return FALSE;
+
 	// set values
 	record->who			= _strdup(who);
 	record->attacker	= _strdup(attacker);
@@ -519,6 +531,9 @@ BOOL MySQLRecordPlayerDeath(char* victim, char* killer, char* room, char* attack
    // allocate
    record = (sql_record_playerdeath*)malloc(sizeof(sql_record_playerdeath));
    node = (sql_queue_node*)malloc(sizeof(sql_queue_node));
+
+   if (!record || !node)
+      return FALSE;
 
    // set values
    record->victim = _strdup(victim);
@@ -565,6 +580,9 @@ BOOL MySQLRecordPlayer(int account_id, char* name, char* home, char* bind, char*
    // allocate
    record = (sql_record_player*)malloc(sizeof(sql_record_player));
    node = (sql_queue_node*)malloc(sizeof(sql_queue_node));
+
+   if (!record || !node)
+      return FALSE;
 
    // set values
    record->account_id = account_id;
@@ -616,6 +634,9 @@ BOOL MySQLRecordPlayerSuicide(int account_id, char* name)
    record = (sql_record_playersuicide*)malloc(sizeof(sql_record_playersuicide));
    node = (sql_queue_node*)malloc(sizeof(sql_queue_node));
 
+   if (!record || !node)
+      return FALSE;
+
    // set values
    record->account_id = account_id;
    record->name = _strdup(name);
@@ -651,6 +672,9 @@ BOOL MySQLRecordGuild(char* name, char* leader, char* hall)
    // allocate
    record = (sql_record_guild*)malloc(sizeof(sql_record_guild));
    node = (sql_queue_node*)malloc(sizeof(sql_queue_node));
+
+   if (!record || !node)
+      return FALSE;
 
    // set values
    record->name = _strdup(name);
@@ -690,6 +714,9 @@ BOOL MySQLRecordGuildDisband(char* name)
    // allocate
    record = (sql_record_guilddisband*)malloc(sizeof(sql_record_guilddisband));
    node = (sql_queue_node*)malloc(sizeof(sql_queue_node));
+
+   if (!record || !node)
+      return FALSE;
 
    // set values
    record->name = _strdup(name);

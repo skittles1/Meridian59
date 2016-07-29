@@ -61,21 +61,26 @@ enum
 typedef int (*ccall_proc)(int object_id,local_var_type *local_vars,
                     int num_normal_parms,parm_node normal_parm_array[],
                     int num_name_parms,parm_node name_parm_array[]);
-
 ccall_proc ccall_table[MAX_C_FUNCTION];
+
+// Table of pointers to functions to call for opcodes.
+typedef void(*op_proc)(int object_id, local_var_type *local_vars);
+op_proc opcode_table[NUMBER_OF_OPCODES];
+void CreateOpcodeTable(void);
 
 int done;
 
 /* local function prototypes */
+// Main interpreter loop.
 int InterpretAtMessage(int object_id,class_node* c,message_node* m,
                   int num_sent_parms,parm_node sent_parms[],
                   val_type *ret_val);
+
+// Store functions: one general (local or property) and one specific for each.
 __forceinline void StoreValue(int object_id,local_var_type *local_vars,int data_type,int data,
                    val_type new_data);
-void InterpretUnaryAssign(int object_id,local_var_type *local_vars,opcode_type opcode);
-void InterpretBinaryAssign(int object_id,local_var_type *local_vars,opcode_type opcode);
-void InterpretGoto(int object_id, local_var_type *local_vars, opcode_type opcode);
-void InterpretCall(int object_id,local_var_type *local_vars,opcode_type opcode);
+__forceinline void StoreLocal(local_var_type *local_vars, int data, val_type new_data);
+__forceinline void StoreProperty(int object_id, int data, val_type new_data);
 
 void InitProfiling(void)
 {
@@ -135,6 +140,9 @@ void InitBkodInterpret(void)
    post_q.next = 0;
    post_q.last = 0;
    
+   // Create the opcode table.
+   CreateOpcodeTable();
+
    for (i=0;i<MAX_C_FUNCTION;i++)
       ccall_table[i] = C_Invalid;
    
@@ -699,53 +707,54 @@ int InterpretAtMessage(int object_id,class_node* c,message_node* m,
          return RETURN_NO_PROPAGATE;
       }
 
-      // Get the opcode for this operation
-      opcode_type *opcode = (opcode_type *)bkod++;
+      // Get the opcode for this operation.
+      char *op_id = bkod++;
 
-      /* use continues instead of breaks here since there is nothing
-      after the switch, for efficiency */
+      // Opcode counter - disabled on live server (unnecessary overhead).
+      //kod_stat.opcode_count[*op_id]++;
 
-      switch (opcode->command)
+      // Zero opcode is return.
+      if (!*op_id)
       {
-         case UNARY_ASSIGN : 
-            InterpretUnaryAssign(object_id,&local_vars,*opcode);
-            continue;
-         case BINARY_ASSIGN : 
-            InterpretBinaryAssign(object_id, &local_vars, *opcode);
-            continue;
-         case GOTO : 
-            InterpretGoto(object_id, &local_vars, *opcode);
-            continue;
-         case CALL : 
-            InterpretCall(object_id, &local_vars, *opcode);
-            continue;
-         case RETURN :
-            if (kod_stat.debugtime)
-            {
-               m->total_call_time += (GetMicroCountDouble() - startTime);
-               m->timed_call_count++;
-            }
-            else
-            {
-               m->untimed_call_count++;
-            }
-            if (opcode->dest == PROPAGATE)
-               return RETURN_PROPAGATE;
-            else
-            {
-               int data;
-               data = get_int();
-               *ret_val = RetrieveValue(object_id, &local_vars, opcode->source1, data);
-               return RETURN_NO_PROPAGATE;
-            }
-            /* can't get here */
-               continue;
-         default : 
-            bprintf("InterpretAtMessage found INVALID OPCODE command %i.  die.\n",
-               opcode->command);
-            FlushDefaultChannels();
-            continue;
+         if (kod_stat.debugtime)
+         {
+            m->total_call_time += (GetMicroCountDouble() - startTime);
+            m->timed_call_count++;
+         }
+         else
+         {
+            m->untimed_call_count++;
+         }
+         opcode_data *opcode = (opcode_data *)bkod++;
+
+         if (opcode->source2 == PROPAGATE)
+            return RETURN_PROPAGATE;
+         else
+         {
+            bkod_type data;
+            data = get_int();
+            *ret_val = RetrieveValue(object_id, &local_vars, opcode->source1, data);
+            return RETURN_NO_PROPAGATE;
+         }
       }
+
+      /*
+      // Error check disabled - if we're not reading opcodes correctly,
+      // something has gone very wrong and we shouldn't even save the game
+      // before crashing because any recent data changes (e.g. property contents)
+      // could be wrong. Easy to debug this using the pdb so an error
+      // message isn't necessary
+      if (*op_id < 0 || *op_id >= NUMBER_OF_OPCODES)
+      {
+         // Fatal error.
+         bprintf("InterpretAtMessage found INVALID OPCODE command %i.  die.\n",
+            *op_id);
+         FlushDefaultChannels();
+         continue;
+      }*/
+
+      // Otherwise call the opcode function.
+      opcode_table[*op_id](object_id, &local_vars);
    }
 }
 
@@ -794,428 +803,36 @@ __forceinline void StoreValue(int object_id, local_var_type *local_vars,
    }
 }
 
-void InterpretUnaryAssign(int object_id,local_var_type *local_vars,opcode_type opcode)
+__forceinline void StoreLocal(local_var_type *local_vars, int data, val_type new_data)
 {
-   char info = get_byte();
-   unopdata_node *opnode = (unopdata_node*)((bkod += sizeof(unopdata_node))
-      - sizeof(unopdata_node));
-
-   val_type source_data = RetrieveValue(object_id, local_vars, opcode.source1, opnode->source);
-
-   switch (info)
+   if (data < 0 || data >= local_vars->num_locals)
    {
-   case NOT : 
-      if (source_data.v.tag != TAG_INT)
-      {
-         bprintf("InterpretUnaryAssign can't not non-int %i,%i\n",
-            source_data.v.tag,source_data.v.data);
-         break;
-      }
-      source_data.v.data = !source_data.v.data;
-      break;
-   case NEGATE :
-      if (source_data.v.tag != TAG_INT)
-      {
-         bprintf("InterpretUnaryAssign can't negate non-int %i,%i\n",
-            source_data.v.tag,source_data.v.data);
-         break;
-      }
-      source_data.v.data = -source_data.v.data;
-      break;
-   case NONE :
-      break;
-   case BITWISE_NOT :
-      if (source_data.v.tag != TAG_INT)
-      {
-         bprintf("InterpretUnaryAssign can't bitwise not non-int %i,%i\n",
-            source_data.v.tag,source_data.v.data);
-         break;
-      }
-      source_data.v.data = ~source_data.v.data;
-      break;
-   case POST_INCREMENT:
-      if (source_data.v.tag != TAG_INT)
-      {
-         bprintf("InterpretUnaryAssign can't post-increment non-int %i,%i\n",
-            source_data.v.tag,source_data.v.data);
-         break;
-      }
-      if (opnode->source != opnode->dest
-         || opcode.source1 != opcode.dest)
-         StoreValue(object_id, local_vars, opcode.dest, opnode->dest, source_data);
-      ++source_data.v.data;
-      StoreValue(object_id, local_vars, opcode.source1, opnode->source, source_data);
-      return;
-   case PRE_INCREMENT:
-      if (source_data.v.tag != TAG_INT)
-      {
-         bprintf("InterpretUnaryAssign can't pre-increment non-int %i,%i\n",
-            source_data.v.tag, source_data.v.data);
-         break;
-      }
-      ++source_data.v.data;
-      if (opnode->source != opnode->dest
-         || opcode.source1 != opcode.dest)
-         StoreValue(object_id, local_vars, opcode.source1, opnode->source, source_data);
-      break;
-   case POST_DECREMENT :
-      if (source_data.v.tag != TAG_INT)
-      {
-         bprintf("InterpretUnaryAssign can't post-decrement non-int %i,%i\n",
-            source_data.v.tag,source_data.v.data);
-         break;
-      }
-      if (opnode->source != opnode->dest
-         || opcode.source1 != opcode.dest)
-         StoreValue(object_id, local_vars, opcode.dest, opnode->dest, source_data);
-      --source_data.v.data;
-      StoreValue(object_id, local_vars, opcode.source1, opnode->source, source_data);
-      return;
-   case PRE_DECREMENT:
-      if (source_data.v.tag != TAG_INT)
-      {
-         bprintf("InterpretUnaryAssign can't pre-decrement non-int %i,%i\n",
-            source_data.v.tag, source_data.v.data);
-         break;
-      }
-      --source_data.v.data;
-      if (opnode->source != opnode->dest
-         || opcode.source1 != opcode.dest)
-         StoreValue(object_id, local_vars, opcode.source1, opnode->source, source_data);
-      break;
-   default :
-      bprintf("InterpretUnaryAssign can't perform unary op %i\n",info);
-      break;
-   }
-
-   StoreValue(object_id, local_vars, opcode.dest, opnode->dest, source_data);
-}
-
-void InterpretBinaryAssign(int object_id,local_var_type *local_vars,opcode_type opcode)
-{
-   val_type source1_data,source2_data;
-   char info = get_byte();
-   binopdata_node *opnode = (binopdata_node*)((bkod += sizeof(binopdata_node))
-      - sizeof(binopdata_node));
-
-   source1_data = RetrieveValue(object_id,local_vars,opcode.source1, opnode->source1);
-   source2_data = RetrieveValue(object_id, local_vars, opcode.source2, opnode->source2);
-
-   /*
-   if (source1_data.v.tag != source2_data.v.tag)
-   bprintf("InterpretBinaryAssign is operating on 2 diff types!\n");
-   */
-   switch (info)
-   {
-   case ADD : 
-      if (source1_data.v.tag != TAG_INT || source2_data.v.tag != TAG_INT)
-      {
-         bprintf("InterpretBinaryAssign can't add 2 vars %i,%i and %i,%i\n",
-            source1_data.v.tag,source1_data.v.data,
-            source2_data.v.tag,source2_data.v.data);
-         break;
-      }
-      source1_data.v.data += source2_data.v.data;
-      break;
-   case SUBTRACT :
-      if (source1_data.v.tag != TAG_INT || source2_data.v.tag != TAG_INT)
-      {
-         bprintf("InterpretBinaryAssign can't sub 2 vars %i,%i and %i,%i\n",
-            source1_data.v.tag,source1_data.v.data,
-            source2_data.v.tag,source2_data.v.data);
-         break;
-      }
-      source1_data.v.data -= source2_data.v.data;
-      break;
-   case MULTIPLY :
-      if (source1_data.v.tag != TAG_INT || source2_data.v.tag != TAG_INT)
-      {
-         bprintf("InterpretBinaryAssign can't mult 2 vars %i,%i and %i,%i\n",
-            source1_data.v.tag,source1_data.v.data,
-            source2_data.v.tag,source2_data.v.data);
-         break;
-      }
-      source1_data.v.data *= source2_data.v.data;
-      break;
-   case DIV :
-      if (source1_data.v.tag != TAG_INT || source2_data.v.tag != TAG_INT)
-      {
-         bprintf("InterpretBinaryAssign can't div 2 vars %i,%i and %i,%i\n",
-            source1_data.v.tag,source1_data.v.data,
-            source2_data.v.tag,source2_data.v.data);
-         break;
-      }
-      if (source2_data.v.data == 0)
-      {
-         bprintf("InterpretBinaryAssign can't div by 0\n");
-         break;
-      }
-      source1_data.v.data /= source2_data.v.data;
-      break;
-   case MOD :
-      if (source1_data.v.tag != TAG_INT || source2_data.v.tag != TAG_INT)
-      {
-         bprintf("InterpretBinaryAssign can't mod 2 vars %i,%i and %i,%i\n",
-            source1_data.v.tag,source1_data.v.data,
-            source2_data.v.tag,source2_data.v.data);
-         break;
-      }
-      if (source2_data.v.data == 0)
-      {
-         bprintf("InterpretBinaryAssign can't mod 0\n");
-         break;
-      }
-      source1_data.v.data = abs(source1_data.v.data % source2_data.v.data);
-      break;
-   case AND :
-      if (source1_data.v.tag != TAG_INT || source2_data.v.tag != TAG_INT)
-      {
-         bprintf("InterpretBinaryAssign can't and 2 vars %i,%i and %i,%i\n",
-            source1_data.v.tag,source1_data.v.data,
-            source2_data.v.tag,source2_data.v.data);
-         break;
-      }
-      source1_data.v.data = source1_data.v.data && source2_data.v.data;
-      break;
-   case OR :
-      if (source1_data.v.tag != TAG_INT || source2_data.v.tag != TAG_INT)
-      {
-         bprintf("InterpretBinaryAssign can't or 2 vars %i,%i and %i,%i\n",
-            source1_data.v.tag,source1_data.v.data,
-            source2_data.v.tag,source2_data.v.data);
-         break;
-      }
-      source1_data.v.data = source1_data.v.data || source2_data.v.data;
-      break;
-   case EQUAL :
-#if 0
-      // disabled:  used to be only TAG_NIL vs TAG_X, or TAG_X vs TAG_X is legal
-      // now:  TAG_X vs TAG_Y is legal, and returns FALSE for equal
-      
-      if (source1_data.v.tag != source2_data.v.tag &&
-         source1_data.v.tag != TAG_NIL && source2_data.v.tag != TAG_NIL)
-      {
-         bprintf("InterpretBinaryAssign can't = 2 vars %i,%i and %i,%i\n",
-            source1_data.v.tag,source1_data.v.data,
-            source2_data.v.tag,source2_data.v.data);
-         break;
-      }
-#endif
-      if (source1_data.v.tag != source2_data.v.tag)
-         source1_data.v.data = False;
-      else
-         source1_data.v.data = source1_data.v.data == source2_data.v.data;
-      source1_data.v.tag = TAG_INT;
-      break;
-
-   case NOT_EQUAL :
-#if 0
-      // disabled:  used to be only TAG_NIL vs TAG_X, or TAG_X vs TAG_X is legal
-      // now:  TAG_X vs TAG_Y is legal, and returns TRUE for not equal
-      
-      if (source1_data.v.tag != source2_data.v.tag &&
-         source1_data.v.tag != TAG_NIL && source2_data.v.tag != TAG_NIL)
-      {
-         bprintf("InterpretBinaryAssign can't <> 2 vars %i,%i and %i,%i\n",
-            source1_data.v.tag,source1_data.v.data,
-            source2_data.v.tag,source2_data.v.data);
-         break;
-      }
-#endif
-      
-      if (source1_data.v.tag != source2_data.v.tag)
-         source1_data.v.data = True; 
-      else
-         source1_data.v.data = source1_data.v.data != source2_data.v.data;
-      source1_data.v.tag = TAG_INT;
-      break;
-   case LESS_THAN :
-      if (source1_data.v.tag != TAG_INT || source2_data.v.tag != TAG_INT)
-      {
-         bprintf("InterpretBinaryAssign can't < 2 vars %i,%i and %i,%i\n",
-            source1_data.v.tag,source1_data.v.data,
-            source2_data.v.tag,source2_data.v.data);
-         break;
-      }
-      source1_data.v.data = source1_data.v.data < source2_data.v.data;
-      break;
-   case GREATER_THAN :
-      if (source1_data.v.tag != TAG_INT || source2_data.v.tag != TAG_INT)
-      {
-         bprintf("InterpretBinaryAssign can't > 2 vars %i,%i and %i,%i\n",
-            source1_data.v.tag,source1_data.v.data,
-            source2_data.v.tag,source2_data.v.data);
-         break;
-      }
-      source1_data.v.data = source1_data.v.data > source2_data.v.data;
-      break;
-   case LESS_EQUAL :
-      if (source1_data.v.tag != TAG_INT || source2_data.v.tag != TAG_INT)
-      {
-         bprintf("InterpretBinaryAssign can't <= 2 vars %i,%i and %i,%i\n",
-            source1_data.v.tag,source1_data.v.data,
-            source2_data.v.tag,source2_data.v.data);
-         break;
-      }
-      source1_data.v.data = source1_data.v.data <= source2_data.v.data;
-      break;
-   case GREATER_EQUAL :
-      if (source1_data.v.tag != TAG_INT || source2_data.v.tag != TAG_INT)
-      {
-         bprintf("InterpretBinaryAssign can't >= 2 vars %i,%i and %i,%i\n",
-            source1_data.v.tag,source1_data.v.data,
-            source2_data.v.tag,source2_data.v.data);
-         break;
-      }
-      source1_data.v.data = source1_data.v.data >= source2_data.v.data;
-      break;
-   case BITWISE_AND :
-      if (source1_data.v.tag != TAG_INT || source2_data.v.tag != TAG_INT)
-      {
-         bprintf("InterpretBinaryAssign can't and 2 vars %i,%i and %i,%i\n",
-            source1_data.v.tag,source1_data.v.data,
-            source2_data.v.tag,source2_data.v.data);
-         break;
-      }
-      source1_data.v.data = source1_data.v.data & source2_data.v.data;
-      break;
-   case BITWISE_OR :
-      if (source1_data.v.tag != TAG_INT || source2_data.v.tag != TAG_INT)
-      {
-         bprintf("InterpretBinaryAssign can't or 2 vars %i,%i and %i,%i\n",
-            source1_data.v.tag,source1_data.v.data,
-            source2_data.v.tag,source2_data.v.data);
-         break;
-      }
-      source1_data.v.data = source1_data.v.data | source2_data.v.data;
-      break;
-   default :
-      bprintf("InterpretBinaryAssign can't perform binary op %i\n", info);
-      break;
-   }
-
-   StoreValue(object_id, local_vars, opcode.dest, opnode->dest, source1_data);
-}
-
-void InterpretGoto(int object_id, local_var_type *local_vars, opcode_type opcode)
-{
-   int dest_addr;
-   int var_check;
-   val_type check_data;
-
-   // This function is called often, so the switch has been
-   // optimized away to return the value immediately.
-
-   // Addresses take into account position of bkod pointer
-   // after reading data (done in compiler rather than here).
-   dest_addr = get_int();
-
-   // unconditional gotos have source2 bits set--otherwise, it's a goto
-   // only if the source1 bits have a non-zero var.
-   if (opcode.source2 == GOTO_UNCONDITIONAL)
-   {
-      bkod += dest_addr;
+      eprintf("[%s] StoreLocal can't write to illegal local var %i\n",
+         BlakodDebugInfo(), data);
       return;
    }
-
-   var_check = get_int();
-   check_data = RetrieveValue(object_id,local_vars,opcode.source1,var_check);
-   if ((opcode.dest == GOTO_IF_TRUE && check_data.v.data != 0) ||
-      (opcode.dest == GOTO_IF_FALSE && check_data.v.data == 0))
-      bkod += dest_addr;
+   local_vars->locals[data].int_val = new_data.int_val;
 }
 
-void InterpretCall(int object_id,local_var_type *local_vars,opcode_type opcode)
+__forceinline void StoreProperty(int object_id, int data, val_type new_data)
 {
-   parm_node normal_parm_array[MAX_C_PARMS], name_parm_array[MAX_NAME_PARMS]; 
-   unsigned char info, num_normal_parms, num_name_parms, initial_type;
-   int initial_value;
-   val_type call_return, name_val;
-   int assign_index;
-   int i;
+   object_node *o;
 
-   info = get_byte(); /* get function id */
-
-   switch(opcode.source1)
+   o = GetObjectByID(object_id);
+   if (o == NULL)
    {
-   case CALL_NO_ASSIGN :
-      break;
-   case CALL_ASSIGN_LOCAL_VAR :
-   case CALL_ASSIGN_PROPERTY :
-      assign_index = get_int();
-      break;
+      eprintf("[%s] StoreValue can't find object %i\n",
+         BlakodDebugInfo(), object_id);
+      return;
    }
-
-   num_normal_parms = get_byte();
-
-   if (num_normal_parms > MAX_C_PARMS)
+   // num_props includes self, so the max property is stored at [num_props - 1]
+   if (data < 0 || data >= o->num_props)
    {
-      bprintf("InterpretCall found a call w/ more than %i parms, DEATH\n",
-         MAX_C_PARMS);
-      FlushDefaultChannels();
-      num_normal_parms = MAX_C_PARMS;
+      eprintf("[%s] StoreValue can't write to illegal property %i (max %i)\n",
+         BlakodDebugInfo(), data, o->num_props - 1);
+      return;
    }
-
-   for (i=0;i<num_normal_parms;i++)
-   {
-      normal_parm_array[i].type = get_byte();
-      normal_parm_array[i].value = get_int();
-   }
-
-   num_name_parms = get_byte();
-
-   if (num_name_parms > MAX_NAME_PARMS)
-   {
-      bprintf("InterpretCall found a call w/ more than %i name parms, DEATH\n",
-         MAX_NAME_PARMS);
-      FlushDefaultChannels();
-      num_name_parms = MAX_NAME_PARMS;
-   }
-
-   for (i=0;i<num_name_parms;i++)
-   {
-      name_parm_array[i].name_id = get_int();
-
-      initial_type = get_byte();
-      initial_value = get_int();
-
-      /* translate to literal now, because won't have local vars
-      if nested call to sendmessage again */
-
-      /* maybe only need to do this in call to sendmessage and postmessage? */
-
-      name_val = RetrieveValue(object_id,local_vars,initial_type,initial_value);
-
-      name_parm_array[i].value = name_val.int_val;
-   }
-
-   // Time messages.
-   if (kod_stat.debugtime)
-   {
-      double startTime = GetMicroCountDouble();
-      /* increment timed count of the c function, for profiling info */
-      kod_stat.c_count_timed[info]++;
-      call_return.int_val = ccall_table[info](object_id, local_vars, num_normal_parms,
-         normal_parm_array, num_name_parms, name_parm_array);
-      kod_stat.ccall_total_time[info] += (GetMicroCountDouble() - startTime);
-   }
-   else
-   {
-      /* increment untimed count of the c function, for profiling info */
-      kod_stat.c_count_untimed[info]++;
-      call_return.int_val = ccall_table[info](object_id, local_vars, num_normal_parms,
-         normal_parm_array, num_name_parms, name_parm_array);
-   }
-
-   switch(opcode.source1)
-   {
-      case CALL_NO_ASSIGN :
-         break;
-      case CALL_ASSIGN_LOCAL_VAR :
-      case CALL_ASSIGN_PROPERTY :
-         StoreValue(object_id,local_vars,opcode.source1,assign_index,call_return);
-         break;
-   }
+   o->p[data].val.int_val = new_data.int_val;
 }
 
 char *BlakodDebugInfo()
@@ -1306,4 +923,862 @@ char *BlakodStackInfo()
       }
    }
    return buf;
+}
+
+// New opcodes
+
+// Goto instructions, separate implementations depending on what type of data
+// is being checked (constant, local, property, classvar) for speed. All
+// address offsets take into account position of bkod pointer after reading
+// data (i.e. offset is from the point at which the offset is used).
+
+// OP_GOTO_UNCOND: 1 byte instruction, 4 byte address
+void InterpretGotoUncond(int object_id, local_var_type *local_vars)
+{
+   int dest_addr;
+   dest_addr = get_int();
+   bkod += dest_addr;
+}
+// OP_GOTO_IF_TRUE_C: 1 byte instruction, 4 byte address, 4 byte constant
+void InterpretGotoIfTrueConstant(int object_id, local_var_type *local_vars)
+{
+   int dest_addr;
+   val_type var_check;
+
+   dest_addr = get_int();
+
+   var_check.int_val = get_int();
+   if (var_check.v.data != 0)
+      bkod += dest_addr;
+}
+// OP_GOTO_IF_TRUE_L: 1 byte instruction, 4 byte address, 4 byte local ID
+void InterpretGotoIfTrueLocal(int object_id, local_var_type *local_vars)
+{
+   int dest_addr;
+   int var_check;
+
+   dest_addr = get_int();
+
+   var_check = get_int();
+   if (local_vars->locals[var_check].v.data != 0)
+      bkod += dest_addr;
+}
+// OP_GOTO_IF_TRUE_P: 1 byte instruction, 4 byte address, 4 property ID
+void InterpretGotoIfTrueProperty(int object_id, local_var_type *local_vars)
+{
+   int dest_addr;
+   int var_check;
+
+   dest_addr = get_int();
+   var_check = get_int();
+
+   if (GetObjectByID(object_id)->p[var_check].val.v.data != 0)
+      bkod += dest_addr;
+}
+// OP_GOTO_IF_TRUE_V: 1 byte instruction, 4 byte address, 4 classvar ID
+void InterpretGotoIfTrueClassVar(int object_id, local_var_type *local_vars)
+{
+   int dest_addr;
+   int var_check;
+   val_type check_data;
+
+   dest_addr = get_int();
+
+   var_check = get_int();
+   check_data = RetrieveClassVar(object_id, var_check);
+   if (check_data.v.data != 0)
+      bkod += dest_addr;
+}
+// OP_GOTO_IF_FALSE_C: 1 byte instruction, 4 byte address, 4 byte constant
+void InterpretGotoIfFalseConstant(int object_id, local_var_type *local_vars)
+{
+   int dest_addr;
+   val_type var_check;
+
+   dest_addr = get_int();
+
+   var_check.int_val = get_int();
+   if (var_check.v.data == 0)
+      bkod += dest_addr;
+}
+// OP_GOTO_IF_FALSE_L: 1 byte instruction, 4 byte address, 4 byte local ID
+void InterpretGotoIfFalseLocal(int object_id, local_var_type *local_vars)
+{
+   int dest_addr;
+   int var_check;
+
+   dest_addr = get_int();
+
+   var_check = get_int();
+   if (local_vars->locals[var_check].v.data == 0)
+      bkod += dest_addr;
+}
+// OP_GOTO_IF_FALSE_P: 1 byte instruction, 4 byte address, 4 property ID
+void InterpretGotoIfFalseProperty(int object_id, local_var_type *local_vars)
+{
+   int dest_addr;
+   int var_check;
+
+   dest_addr = get_int();
+   var_check = get_int();
+
+   if (GetObjectByID(object_id)->p[var_check].val.v.data == 0)
+      bkod += dest_addr;
+}
+// OP_GOTO_IF_FALSE_V: 1 byte instruction, 4 byte address, 4 classvar ID
+void InterpretGotoIfFalseClassVar(int object_id, local_var_type *local_vars)
+{
+   int dest_addr;
+   int var_check;
+   val_type check_data;
+
+   dest_addr = get_int();
+   var_check = get_int();
+
+   check_data = RetrieveClassVar(object_id, var_check);
+   if (check_data.v.data == 0)
+      bkod += dest_addr;
+}
+
+// Call instructions, separate implementations for where result is
+// stored (none, local, property)
+
+// Macro for building call instructions.
+#define CALL_PARM_CHECK(a, b, c) \
+   if (a > b) \
+   { \
+      bprintf(c, b); \
+      FlushDefaultChannels(); \
+      a = b; \
+   }
+
+// OP_CALL_STORE_NONE: 1 byte instruction, 1 byte call ID, call data.
+void InterpretCallStoreNone(int object_id, local_var_type *local_vars)
+{
+   parm_node normal_parm_array[MAX_C_PARMS], name_parm_array[MAX_NAME_PARMS];
+   unsigned char info, num_normal_parms, num_name_parms, initial_type;
+   int initial_value;
+   val_type call_return, name_val;
+
+   info = get_byte(); /* get function id */
+
+   num_normal_parms = get_byte();
+
+   CALL_PARM_CHECK(num_normal_parms, MAX_C_PARMS,
+      "InterpretCallStoreNone found a call w/ more than %i parms, DEATH\n")
+
+   for (int i = 0; i < num_normal_parms; ++i)
+   {
+      normal_parm_array[i].type = get_byte();
+      normal_parm_array[i].value = get_int();
+   }
+
+   num_name_parms = get_byte();
+
+   CALL_PARM_CHECK(num_name_parms, MAX_NAME_PARMS,
+      "InterpretCallStoreNone found a call w/ more than %i name parms, DEATH\n")
+
+   for (int i = 0; i < num_name_parms; ++i)
+   {
+      name_parm_array[i].name_id = get_int();
+
+      initial_type = get_byte();
+      initial_value = get_int();
+
+      /* translate to literal now, because won't have local vars
+      if nested call to sendmessage again */
+      /* maybe only need to do this in call to sendmessage and postmessage? */
+      name_val = RetrieveValue(object_id, local_vars, initial_type, initial_value);
+      name_parm_array[i].value = name_val.int_val;
+   }
+
+   // Time messages.
+   if (kod_stat.debugtime)
+   {
+      double startTime = GetMicroCountDouble();
+      /* increment timed count of the c function, for profiling info */
+      kod_stat.c_count_timed[info]++;
+      call_return.int_val = ccall_table[info](object_id, local_vars, num_normal_parms,
+         normal_parm_array, num_name_parms, name_parm_array);
+      kod_stat.ccall_total_time[info] += (GetMicroCountDouble() - startTime);
+   }
+   else
+   {
+      /* increment untimed count of the c function, for profiling info */
+      kod_stat.c_count_untimed[info]++;
+      call_return.int_val = ccall_table[info](object_id, local_vars, num_normal_parms,
+         normal_parm_array, num_name_parms, name_parm_array);
+   }
+}
+// OP_CALL_STORE_L: 1 byte instruction, 1 byte call ID, 4 bytes local ID, call data.
+void InterpretCallStoreLocal(int object_id, local_var_type *local_vars)
+{
+   parm_node normal_parm_array[MAX_C_PARMS], name_parm_array[MAX_NAME_PARMS];
+   unsigned char info, num_normal_parms, num_name_parms, initial_type;
+   int initial_value;
+   int assign_index;
+   val_type call_return, name_val;
+
+   info = get_byte(); /* get function id */
+
+                      // Local var ID
+   assign_index = get_int();
+
+   num_normal_parms = get_byte();
+
+   CALL_PARM_CHECK(num_normal_parms, MAX_C_PARMS,
+      "InterpretCallStoreLocal found a call w/ more than %i parms, DEATH\n")
+
+   for (int i = 0; i < num_normal_parms; ++i)
+   {
+      normal_parm_array[i].type = get_byte();
+      normal_parm_array[i].value = get_int();
+   }
+
+   num_name_parms = get_byte();
+
+   CALL_PARM_CHECK(num_name_parms, MAX_NAME_PARMS,
+      "InterpretCallStoreLocal found a call w/ more than %i name parms, DEATH\n")
+
+   for (int i = 0; i < num_name_parms; ++i)
+   {
+      name_parm_array[i].name_id = get_int();
+
+      initial_type = get_byte();
+      initial_value = get_int();
+
+      /* translate to literal now, because won't have local vars
+      if nested call to sendmessage again */
+      /* maybe only need to do this in call to sendmessage and postmessage? */
+      name_val = RetrieveValue(object_id, local_vars, initial_type, initial_value);
+      name_parm_array[i].value = name_val.int_val;
+   }
+
+   // Time messages.
+   if (kod_stat.debugtime)
+   {
+      double startTime = GetMicroCountDouble();
+      /* increment timed count of the c function, for profiling info */
+      kod_stat.c_count_timed[info]++;
+      call_return.int_val = ccall_table[info](object_id, local_vars, num_normal_parms,
+         normal_parm_array, num_name_parms, name_parm_array);
+      kod_stat.ccall_total_time[info] += (GetMicroCountDouble() - startTime);
+   }
+   else
+   {
+      /* increment untimed count of the c function, for profiling info */
+      kod_stat.c_count_untimed[info]++;
+      call_return.int_val = ccall_table[info](object_id, local_vars, num_normal_parms,
+         normal_parm_array, num_name_parms, name_parm_array);
+   }
+   StoreLocal(local_vars, assign_index, call_return);
+}
+// OP_CALL_STORE_P: 1 byte instruction, 1 byte call ID, 4 bytes property ID, call data.
+void InterpretCallStoreProperty(int object_id, local_var_type *local_vars)
+{
+   parm_node normal_parm_array[MAX_C_PARMS], name_parm_array[MAX_NAME_PARMS];
+   unsigned char info, num_normal_parms, num_name_parms, initial_type;
+   int initial_value;
+   int assign_index;
+   val_type call_return, name_val;
+
+   info = get_byte(); /* get function id */
+
+                      // Property ID
+   assign_index = get_int();
+
+   num_normal_parms = get_byte();
+
+   CALL_PARM_CHECK(num_normal_parms, MAX_C_PARMS,
+      "InterpretCallStoreProperty found a call w/ more than %i parms, DEATH\n")
+
+   for (int i = 0; i < num_normal_parms; ++i)
+   {
+      normal_parm_array[i].type = get_byte();
+      normal_parm_array[i].value = get_int();
+   }
+
+   num_name_parms = get_byte();
+
+   CALL_PARM_CHECK(num_name_parms, MAX_NAME_PARMS,
+      "InterpretCallStoreProperty found a call w/ more than %i name parms, DEATH\n")
+
+   for (int i = 0; i < num_name_parms; ++i)
+   {
+      name_parm_array[i].name_id = get_int();
+
+      initial_type = get_byte();
+      initial_value = get_int();
+
+      /* translate to literal now, because won't have local vars
+      if nested call to sendmessage again */
+      /* maybe only need to do this in call to sendmessage and postmessage? */
+      name_val = RetrieveValue(object_id, local_vars, initial_type, initial_value);
+      name_parm_array[i].value = name_val.int_val;
+   }
+
+   // Time messages.
+   if (kod_stat.debugtime)
+   {
+      double startTime = GetMicroCountDouble();
+      /* increment timed count of the c function, for profiling info */
+      kod_stat.c_count_timed[info]++;
+      call_return.int_val = ccall_table[info](object_id, local_vars, num_normal_parms,
+         normal_parm_array, num_name_parms, name_parm_array);
+      kod_stat.ccall_total_time[info] += (GetMicroCountDouble() - startTime);
+   }
+   else
+   {
+      /* increment untimed count of the c function, for profiling info */
+      kod_stat.c_count_untimed[info]++;
+      call_return.int_val = ccall_table[info](object_id, local_vars, num_normal_parms,
+         normal_parm_array, num_name_parms, name_parm_array);
+   }
+   StoreProperty(object_id, assign_index, call_return);
+}
+
+// Unary instructions. Two opcodes for each, depending on where we
+// store the result (local or property). Each unary instruction has:
+// 1 byte opcode, 1 byte source type, 4 bytes source ID, 4 bytes dest ID.
+
+// Macros for building unary instructions.
+#define UNARY_OP_INIT \
+   opcode_data *opcode = (opcode_data *)bkod++; \
+   unopdata_node *opnode = (unopdata_node*)((bkod += sizeof(unopdata_node)) - sizeof(unopdata_node));
+#define UNARY_OP_RETRIEVE(a, b, c, d) \
+   val_type source_data = RetrieveValue(a, b, c->source1, d->source);
+#define INT_CHECK_UNARY(a, b) \
+   if (a.v.tag != TAG_INT) \
+   { \
+      bprintf(b, a.v.tag, a.v.data); \
+      return; \
+   }
+
+// OP_UNARY_NOT_L: Unary not, store in local.
+void InterpretUnaryNot_L(int object_id, local_var_type *local_vars)
+{
+   UNARY_OP_INIT
+   UNARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_UNARY(source_data, "InterpretUnaryNot_L can't NOT non-int %i,%i\n")
+
+   source_data.v.data = !source_data.v.data;
+   StoreLocal(local_vars, opnode->dest, source_data);
+}
+// OP_UNARY_NOT_P: Unary not, store in property.
+void InterpretUnaryNot_P(int object_id, local_var_type *local_vars)
+{
+   UNARY_OP_INIT
+   UNARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_UNARY(source_data, "InterpretUnaryNot_P can't NOT non-int %i,%i\n")
+
+   source_data.v.data = !source_data.v.data;
+   StoreProperty(object_id, opnode->dest, source_data);
+}
+// OP_UNARY_NEG_L: Unary negation, store in local.
+void InterpretUnaryNeg_L(int object_id, local_var_type *local_vars)
+{
+   UNARY_OP_INIT
+   UNARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_UNARY(source_data, "InterpretUnaryNeg_L can't negate non-int %i,%i\n")
+
+   source_data.v.data = -source_data.v.data;
+   StoreLocal(local_vars, opnode->dest, source_data);
+}
+// OP_UNARY_NEG_P: Unary negation, store in property.
+void InterpretUnaryNeg_P(int object_id, local_var_type *local_vars)
+{
+   UNARY_OP_INIT
+   UNARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_UNARY(source_data, "InterpretUnaryNeg_P can't negate non-int %i,%i\n")
+
+   source_data.v.data = -source_data.v.data;
+   StoreProperty(object_id, opnode->dest, source_data);
+}
+// OP_UNARY_NONE_L: Unary assignment, store in local.
+void InterpretUnaryNone_L(int object_id, local_var_type *local_vars)
+{
+   UNARY_OP_INIT
+   UNARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   StoreLocal(local_vars, opnode->dest, source_data);
+}
+// OP_UNARY_NONE_P: Unary assignment, store in property.
+void InterpretUnaryNone_P(int object_id, local_var_type *local_vars)
+{
+   UNARY_OP_INIT
+   UNARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   StoreProperty(object_id, opnode->dest, source_data);
+}
+// OP_UNARY_BITNOT_L: Unary bitwise-not, store in local.
+void InterpretUnaryBitNot_L(int object_id, local_var_type *local_vars)
+{
+   UNARY_OP_INIT
+   UNARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_UNARY(source_data, "InterpretUnaryBitNot_L can't bitwise-not non-int %i,%i\n")
+
+   source_data.v.data = ~source_data.v.data;
+   StoreLocal(local_vars, opnode->dest, source_data);
+}
+// OP_UNARY_BITNOT_P: Unary bitwise-not, store in property.
+void InterpretUnaryBitNot_P(int object_id, local_var_type *local_vars)
+{
+   UNARY_OP_INIT
+   UNARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_UNARY(source_data, "InterpretUnaryBitNot_P can't bitwise-not non-int %i,%i\n")
+
+   source_data.v.data = ~source_data.v.data;
+   StoreProperty(object_id, opnode->dest, source_data);
+}
+
+// Increment/decrement only have single implementations:
+// 1 byte opcode, 1 byte source1/source2 (dest) type, 4 bytes source ID, 4 bytes dest ID.
+// OP_UNARY_POSTINC: Unary post-increment.
+void InterpretUnaryPostInc(int object_id, local_var_type *local_vars)
+{
+   UNARY_OP_INIT
+   UNARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_UNARY(source_data, "InterpretUnaryPostInc can't post-increment non-int %i,%i\n")
+
+   if (opnode->source != opnode->dest
+      || opcode->source1 != opcode->source2)
+      StoreValue(object_id, local_vars, opcode->source2, opnode->dest, source_data);
+   ++source_data.v.data;
+   StoreValue(object_id, local_vars, opcode->source1, opnode->source, source_data);
+}
+// OP_UNARY_POSTDEC: Unary post-decrement.
+void InterpretUnaryPostDec(int object_id, local_var_type *local_vars)
+{
+   UNARY_OP_INIT
+   UNARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_UNARY(source_data, "InterpretUnaryPostDec can't post-decrement non-int %i,%i\n")
+
+   if (opnode->source != opnode->dest
+      || opcode->source1 != opcode->source2)
+      StoreValue(object_id, local_vars, opcode->source2, opnode->dest, source_data);
+   --source_data.v.data;
+   StoreValue(object_id, local_vars, opcode->source1, opnode->source, source_data);
+}
+// OP_UNARY_PREINC: Unary pre-increment.
+void InterpretUnaryPreInc(int object_id, local_var_type *local_vars)
+{
+   UNARY_OP_INIT
+   UNARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_UNARY(source_data, "InterpretUnaryPostDec can't pre-increment non-int %i,%i\n")
+
+   ++source_data.v.data;
+   if (opnode->source != opnode->dest
+      || opcode->source1 != opcode->source2)
+      StoreValue(object_id, local_vars, opcode->source1, opnode->source, source_data);
+   StoreValue(object_id, local_vars, opcode->source2, opnode->dest, source_data);
+}
+// OP_UNARY_PREDEC: Unary pre-decrement.
+void InterpretUnaryPreDec(int object_id, local_var_type *local_vars)
+{
+   UNARY_OP_INIT
+   UNARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_UNARY(source_data, "InterpretUnaryPreDec can't pre-decrement non-int %i,%i\n")
+
+   --source_data.v.data;
+   if (opnode->source != opnode->dest
+      || opcode->source1 != opcode->source2)
+      StoreValue(object_id, local_vars, opcode->source1, opnode->source, source_data);
+   StoreValue(object_id, local_vars, opcode->source2, opnode->dest, source_data);
+}
+
+// Binary instructions. Two opcodes for each, depending on where we
+// store the result (local or property). Each binary instruction has:
+// 1 byte opcode, 1 byte source1/source2 type, 8 bytes source IDs, 4 bytes dest ID.
+
+// Macros for building binary instructions.
+#define BINARY_OP_INIT \
+   opcode_data *opcode = (opcode_data *)bkod++; \
+   binopdata_node *opnode = (binopdata_node*)((bkod += sizeof(binopdata_node)) - sizeof(binopdata_node));
+#define BINARY_OP_RETRIEVE(a, b, c, d) \
+   val_type source1_data = RetrieveValue(a, b, c->source1, d->source1); \
+   val_type source2_data = RetrieveValue(a, b, c->source2, d->source2);
+#define INT_CHECK_BINARY(a, b, c) \
+   if (a.v.tag != TAG_INT || b.v.tag != TAG_INT) \
+   { \
+      bprintf(c, a.v.tag, a.v.data, b.v.tag, b.v.data); \
+      return; \
+   }
+#define DIV_0_CHECK(a, b) \
+   if (a.v.data == 0) \
+   { \
+      bprintf(b); \
+      return; \
+   }
+
+// OP_BINARY_ADD_L: Binary add, store in local.
+void InterpretBinaryAdd_L(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode);
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryAdd_L can't add 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data += source2_data.v.data;
+   StoreLocal(local_vars, opnode->dest, source1_data);
+}
+// OP_BINARY_ADD_P: Binary add, store in property.
+void InterpretBinaryAdd_P(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode);
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryAdd_P can't add 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data += source2_data.v.data;
+   StoreProperty(object_id, opnode->dest, source1_data);
+}
+// OP_BINARY_SUB_L: Binary subtract, store in local.
+void InterpretBinarySub_L(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinarySub_L can't sub 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data -= source2_data.v.data;
+   StoreLocal(local_vars, opnode->dest, source1_data);
+}
+// OP_BINARY_SUB_P: Binary subtract, store in property.
+void InterpretBinarySub_P(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinarySub_P can't sub 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data -= source2_data.v.data;
+   StoreProperty(object_id, opnode->dest, source1_data);
+}
+// OP_BINARY_MUL_L: Binary multiply, store in local.
+void InterpretBinaryMul_L(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryMul_L can't mul 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data *= source2_data.v.data;
+   StoreLocal(local_vars, opnode->dest, source1_data);
+}
+// OP_BINARY_MUL_P: Binary multiply, store in property.
+void InterpretBinaryMul_P(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryMul_P can't mul 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data *= source2_data.v.data;
+   StoreProperty(object_id, opnode->dest, source1_data);
+}
+// OP_BINARY_DIV_L: Binary divide, store in local.
+void InterpretBinaryDiv_L(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryDiv_L can't div 2 vars %i,%i and %i,%i\n")
+   DIV_0_CHECK(source2_data, "InterpretBinaryDiv_L can't div by 0\n")
+
+   source1_data.v.data /= source2_data.v.data;
+   StoreLocal(local_vars, opnode->dest, source1_data);
+}
+// OP_BINARY_DIV_P: Binary divide, store in property.
+void InterpretBinaryDiv_P(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryDiv_P can't div 2 vars %i,%i and %i,%i\n")
+   DIV_0_CHECK(source2_data, "InterpretBinaryDiv_P can't div by 0\n")
+
+   source1_data.v.data /= source2_data.v.data;
+   StoreProperty(object_id, opnode->dest, source1_data);
+}
+// OP_BINARY_MOD_L: Binary modulus, store in local.
+void InterpretBinaryMod_L(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryMod_L can't mod 2 vars %i,%i and %i,%i\n")
+   DIV_0_CHECK(source2_data, "InterpretBinaryMod_L can't div by 0\n")
+
+   source1_data.v.data = abs(source1_data.v.data % source2_data.v.data);
+   StoreLocal(local_vars, opnode->dest, source1_data);
+}
+// OP_BINARY_MOD_P: Binary modulus, store in property.
+void InterpretBinaryMod_P(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryMod_P can't mod 2 vars %i,%i and %i,%i\n")
+   DIV_0_CHECK(source2_data, "InterpretBinaryMod_P can't div by 0\n")
+
+   source1_data.v.data = abs(source1_data.v.data % source2_data.v.data);
+   StoreProperty(object_id, opnode->dest, source1_data);
+}
+// OP_BINARY_AND_L: Binary AND, store in local.
+void InterpretBinaryAnd_L(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryAnd_L can't AND 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data = source1_data.v.data && source2_data.v.data;
+   StoreLocal(local_vars, opnode->dest, source1_data);
+}
+// OP_BINARY_AND_P: Binary AND, store in property.
+void InterpretBinaryAnd_P(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryAnd_P can't AND 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data = source1_data.v.data && source2_data.v.data;
+   StoreProperty(object_id, opnode->dest, source1_data);
+}
+// OP_BINARY_OR_L: Binary OR, store in local.
+void InterpretBinaryOr_L(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryOr_L can't OR 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data = source1_data.v.data || source2_data.v.data;
+   StoreLocal(local_vars, opnode->dest, source1_data);
+}
+// OP_BINARY_OR_P: Binary OR, store in property.
+void InterpretBinaryOr_P(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryOr_P can't OR 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data = source1_data.v.data || source2_data.v.data;
+   StoreProperty(object_id, opnode->dest, source1_data);
+}
+// OP_BINARY_EQ_L: Binary equality, store in local.
+void InterpretBinaryEqual_L(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+
+   if (source1_data.v.tag != source2_data.v.tag)
+      source1_data.v.data = false;
+   else
+      source1_data.v.data = source1_data.v.data == source2_data.v.data;
+   source1_data.v.tag = TAG_INT;
+   StoreLocal(local_vars, opnode->dest, source1_data);
+}
+// OP_BINARY_EQ_P: Binary equality, store in property.
+void InterpretBinaryEqual_P(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+
+   if (source1_data.v.tag != source2_data.v.tag)
+      source1_data.v.data = false;
+   else
+      source1_data.v.data = source1_data.v.data == source2_data.v.data;
+   source1_data.v.tag = TAG_INT;
+   StoreProperty(object_id, opnode->dest, source1_data);
+}
+// OP_BINARY_NEQ_L: Binary non-equality, store in local.
+void InterpretBinaryNEq_L(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+
+   if (source1_data.v.tag != source2_data.v.tag)
+      source1_data.v.data = true;
+   else
+      source1_data.v.data = source1_data.v.data != source2_data.v.data;
+   source1_data.v.tag = TAG_INT;
+   StoreLocal(local_vars, opnode->dest, source1_data);
+}
+// OP_BINARY_NEQ_P: Binary non-equality, store in property.
+void InterpretBinaryNEq_P(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+
+   if (source1_data.v.tag != source2_data.v.tag)
+      source1_data.v.data = true;
+   else
+      source1_data.v.data = source1_data.v.data != source2_data.v.data;
+   source1_data.v.tag = TAG_INT;
+   StoreProperty(object_id, opnode->dest, source1_data);
+}
+// OP_BINARY_LESS_L: Binary less than, store in local.
+void InterpretBinaryLess_L(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryLess_L can't < 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data = source1_data.v.data < source2_data.v.data;
+   StoreLocal(local_vars, opnode->dest, source1_data);
+}
+// OP_BINARY_LESS_P: Binary less than, store in property.
+void InterpretBinaryLess_P(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryLess_P can't < 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data = source1_data.v.data < source2_data.v.data;
+   StoreProperty(object_id, opnode->dest, source1_data);
+}
+// OP_BINARY_GREATER_L: Binary greater than, store in local.
+void InterpretBinaryGreater_L(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryGreater_L can't > 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data = source1_data.v.data > source2_data.v.data;
+   StoreLocal(local_vars, opnode->dest, source1_data);
+}
+// OP_BINARY_GREATER_P: Binary greater than, store in property.
+void InterpretBinaryGreater_P(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryGreater_P can't > 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data = source1_data.v.data > source2_data.v.data;
+   StoreProperty(object_id, opnode->dest, source1_data);
+}
+// OP_BINARY_LEQ_L: Binary <=, store in local.
+void InterpretBinaryLEq_L(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryLEq_L can't <= 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data = source1_data.v.data <= source2_data.v.data;
+   StoreLocal(local_vars, opnode->dest, source1_data);
+}
+// OP_BINARY_LEQ_P: Binary <=, store in property.
+void InterpretBinaryLEq_P(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryLEq_P can't <= 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data = source1_data.v.data <= source2_data.v.data;
+   StoreProperty(object_id, opnode->dest, source1_data);
+}
+// OP_BINARY_GEQ_L: Binary >=, store in local.
+void InterpretBinaryGEq_L(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryGEq_L can't >= 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data = source1_data.v.data >= source2_data.v.data;
+   StoreLocal(local_vars, opnode->dest, source1_data);
+}
+// OP_BINARY_GEQ_P: Binary >=, store in property.
+void InterpretBinaryGEq_P(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryGEq_P can't >= 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data = source1_data.v.data >= source2_data.v.data;
+   StoreProperty(object_id, opnode->dest, source1_data);
+}
+// OP_BINARY_BITAND_L: Binary bitwise-and, store in local.
+void InterpretBinaryBitAnd_L(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryBitAnd_L can't & 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data = source1_data.v.data & source2_data.v.data;
+   StoreLocal(local_vars, opnode->dest, source1_data);
+}
+// OP_BINARY_BITAND_P: Binary bitwise-and, store in property.
+void InterpretBinaryBitAnd_P(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryBitAnd_P can't & 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data = source1_data.v.data & source2_data.v.data;
+   StoreProperty(object_id, opnode->dest, source1_data);
+}
+// OP_BINARY_BITOR_L: Binary bitwise-or, store in local.
+void InterpretBinaryBitOr_L(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryBitOr_L can't | 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data = source1_data.v.data | source2_data.v.data;
+   StoreLocal(local_vars, opnode->dest, source1_data);
+}
+// OP_BINARY_BITOR_P: Binary bitwise-or, store in property.
+void InterpretBinaryBitOr_P(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   BINARY_OP_RETRIEVE(object_id, local_vars, opcode, opnode)
+   INT_CHECK_BINARY(source1_data, source2_data, "InterpretBinaryBitOr_P can't | 2 vars %i,%i and %i,%i\n")
+
+   source1_data.v.data = source1_data.v.data | source2_data.v.data;
+   StoreProperty(object_id, opnode->dest, source1_data);
+}
+
+void CreateOpcodeTable(void)
+{
+   opcode_table[OP_GOTO_UNCOND] = InterpretGotoUncond;
+   opcode_table[OP_GOTO_IF_TRUE_C] = InterpretGotoIfTrueConstant;
+   opcode_table[OP_GOTO_IF_TRUE_L] = InterpretGotoIfTrueLocal;
+   opcode_table[OP_GOTO_IF_TRUE_P] = InterpretGotoIfTrueProperty;
+   opcode_table[OP_GOTO_IF_TRUE_V] = InterpretGotoIfTrueClassVar;
+   opcode_table[OP_GOTO_IF_FALSE_C] = InterpretGotoIfFalseConstant;
+   opcode_table[OP_GOTO_IF_FALSE_L] = InterpretGotoIfFalseLocal;
+   opcode_table[OP_GOTO_IF_FALSE_P] = InterpretGotoIfFalseProperty;
+   opcode_table[OP_GOTO_IF_FALSE_V] = InterpretGotoIfFalseClassVar;
+   opcode_table[OP_CALL_STORE_NONE] = InterpretCallStoreNone;
+   opcode_table[OP_CALL_STORE_L] = InterpretCallStoreLocal;
+   opcode_table[OP_CALL_STORE_P] = InterpretCallStoreProperty;
+   opcode_table[OP_UNARY_NOT_L] = InterpretUnaryNot_L;
+   opcode_table[OP_UNARY_NOT_P] = InterpretUnaryNot_P;
+   opcode_table[OP_UNARY_NEG_L] = InterpretUnaryNeg_L;
+   opcode_table[OP_UNARY_NEG_P] = InterpretUnaryNeg_P;
+   opcode_table[OP_UNARY_NONE_L] = InterpretUnaryNone_L;
+   opcode_table[OP_UNARY_NONE_P] = InterpretUnaryNone_P;
+   opcode_table[OP_UNARY_BITNOT_L] = InterpretUnaryBitNot_L;
+   opcode_table[OP_UNARY_BITNOT_P] = InterpretUnaryBitNot_P;
+   opcode_table[OP_UNARY_POSTINC] = InterpretUnaryPostInc;
+   opcode_table[OP_UNARY_POSTDEC] = InterpretUnaryPostDec;
+   opcode_table[OP_UNARY_PREINC] = InterpretUnaryPreInc;
+   opcode_table[OP_UNARY_PREDEC] = InterpretUnaryPreDec;
+   opcode_table[OP_BINARY_ADD_L] = InterpretBinaryAdd_L;
+   opcode_table[OP_BINARY_ADD_P] = InterpretBinaryAdd_P;
+   opcode_table[OP_BINARY_SUB_L] = InterpretBinarySub_L;
+   opcode_table[OP_BINARY_SUB_P] = InterpretBinarySub_P;
+   opcode_table[OP_BINARY_MUL_L] = InterpretBinaryMul_L;
+   opcode_table[OP_BINARY_MUL_P] = InterpretBinaryMul_P;
+   opcode_table[OP_BINARY_DIV_L] = InterpretBinaryDiv_L;
+   opcode_table[OP_BINARY_DIV_P] = InterpretBinaryDiv_P;
+   opcode_table[OP_BINARY_MOD_L] = InterpretBinaryMod_L;
+   opcode_table[OP_BINARY_MOD_P] = InterpretBinaryMod_P;
+   opcode_table[OP_BINARY_AND_L] = InterpretBinaryAnd_L;
+   opcode_table[OP_BINARY_AND_P] = InterpretBinaryAnd_P;
+   opcode_table[OP_BINARY_OR_L] = InterpretBinaryOr_L;
+   opcode_table[OP_BINARY_OR_P] = InterpretBinaryOr_P;
+   opcode_table[OP_BINARY_EQ_L] = InterpretBinaryEqual_L;
+   opcode_table[OP_BINARY_EQ_P] = InterpretBinaryEqual_P;
+   opcode_table[OP_BINARY_NEQ_L] = InterpretBinaryNEq_L;
+   opcode_table[OP_BINARY_NEQ_P] = InterpretBinaryNEq_P;
+   opcode_table[OP_BINARY_LESS_L] = InterpretBinaryLess_L;
+   opcode_table[OP_BINARY_LESS_P] = InterpretBinaryLess_P;
+   opcode_table[OP_BINARY_GREATER_L] = InterpretBinaryGreater_L;
+   opcode_table[OP_BINARY_GREATER_P] = InterpretBinaryGreater_P;
+   opcode_table[OP_BINARY_LEQ_L] = InterpretBinaryLEq_L;
+   opcode_table[OP_BINARY_LEQ_P] = InterpretBinaryLEq_P;
+   opcode_table[OP_BINARY_GEQ_L] = InterpretBinaryGEq_L;
+   opcode_table[OP_BINARY_GEQ_P] = InterpretBinaryGEq_P;
+   opcode_table[OP_BINARY_BITAND_L] = InterpretBinaryBitAnd_L;
+   opcode_table[OP_BINARY_BITAND_P] = InterpretBinaryBitAnd_P;
+   opcode_table[OP_BINARY_BITOR_L] = InterpretBinaryBitOr_L;
+   opcode_table[OP_BINARY_BITOR_P] = InterpretBinaryBitOr_P;
 }
