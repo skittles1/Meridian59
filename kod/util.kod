@@ -557,14 +557,14 @@ messages:
       return;
    }
 
-   AddToSortedList(what=$, lList=$, number=1,bIgnoreDuplicate=FALSE)
+   AddToSortedList(what=$, lList=$, number=1,bIgnoreDuplicate=FALSE, bReverse=FALSE)
    "This message takes an object (what), a list (lList) and a number (number) "
    "and adds [what,number] to lList in the appropriate place.  lList is "
-   "sorted by ascending numbers.  Returns the sorted list. If passed $, returns "
-   "a list with [what,number] in it.  If passed $ what, returns the original "
-   "list.  Default number is 1, number can be positive or negative. "
-   "bIgnoreDuplicate can be set to TRUE to allow multiple entries of 'what', "
-   "which are still sorted."
+   "sorted by ascending numbers, unless bReverse is set to TRUE.  Returns the "
+   "sorted list. If passed $, returns a list with [what,number] in it.  If "
+   "passed $ what, returns the original list.  Default number is 1, number "
+   "can be positive or negative. bIgnoreDuplicate can be set to TRUE to allow "
+   "multiple entries of 'what', which are still sorted."
    {
       local lElem, lEntry, iCount;
 
@@ -604,9 +604,19 @@ messages:
       % where we need to add them.
       foreach lElem in lList
       {
-         if Nth(lElem,2) < number
+         if (bReverse)
          {
-            break;
+            if Nth(lElem,2) > number
+            {
+               break;
+            }
+         }
+         else
+         {
+            if Nth(lElem,2) < number
+            {
+               break;
+            }
          }
 
          iCount = iCount + 1;

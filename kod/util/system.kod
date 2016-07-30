@@ -8035,6 +8035,27 @@ messages:
       return;
    }
 
+   PrintRoomDetails()
+   {
+      local i, lDetails, lRooms;
+
+      foreach i in plRooms
+      {
+         lDetails = [Send(i,@GetName),Send(i,@GetRoomResource),Send(i,@GetRoomNum)];
+
+         lRooms = Send(self,@AddToSortedList,#what=lDetails,#lList=lRooms,
+                        #number=Nth(lDetails,3),#bIgnoreDuplicate=TRUE,
+                        #bReverse=TRUE);
+      }
+
+      foreach i in lRooms
+      {
+         GodLog(First(First(i))," | ", Nth(First(i),2)," | ", Nth(First(i),3));
+      }
+
+      return;
+   }
+
 #endregion Print Game Info
 
    RemoveAllResistances(resistance_list = $)
