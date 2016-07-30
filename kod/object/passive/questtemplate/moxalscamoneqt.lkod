@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 moxalscamonequest_name_rsc = de "Moxals Schnell reich werden Quest"
 moxalscamonequest_desc_rsc = de \
    "Moxal ix'Hanak sagt, er hat die perfekte \"Gelegenheit\" für euch beide gefunden "
@@ -15,7 +15,7 @@ moxalscamonequest_completed_rsc = de \
    "Du hast Moxal ix'Hanak's Schnell reich werden Quest abgeschlossen.  Du fühlst "
    "dich nicht wirklich reicher, aber etwas waiser."
 
-% Quest resources.
+// Quest resources.
 moxalscam1_assign_2 = de \
    "Ah, mein Freund und geselliger Träumer!  Ich glaube, ich habe die perfekte "
    "Gelegenheit für uns gefunden!  Es darf nicht scheitern! Sicherlich willst "

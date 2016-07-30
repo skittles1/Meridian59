@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 moxalscamtwoquest_name_rsc = de "Moxal's Investieren Quest"
 moxalscamtwoquest_desc_rsc = de \
    "Moxal ix'Hanak sagt, er habe eine geniale Idee, und hat versucht,"
@@ -26,7 +26,7 @@ moxalscamtwoquest_completed_rsc = de \
    "sein Ziel nicht erreicht wurde.  Du wurdest nicht belohnt, aber wenigstens "
    "hast Du ein wenig Erfahrung erhalten dafür, dass Du dieses nervige Quest abgeschlossen hast."
 
-% Quest resources.
+// Quest resources.
 moxalscam2_assign_2 = de \
    "Anfang letzter Woche hatte ich eine tolle Idee, und ich habe versucht "
    "%NPC zu überzeugen mir zu helfen es zu finanzieren.  Schaum wenn Du %HIMHER_NPC "

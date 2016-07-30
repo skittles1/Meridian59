@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 qorofferingqt_name_rsc = de "Qor Opfer Quest"
 qorofferingqt_desc_rsc = de \
    "Priesterin Zuxana hat Dich eingeladen mit ihr zu singen, um die Herrin zu stärken."
@@ -9,7 +9,7 @@ qorofferingqt_completed = de \
    "der Schreine in der Welt platziert wird, wird er Qor geweiht und verleiht den "
    "Zaubern Qors mehr Kraft."
 
-% Quest resources.
+// Quest resources.
 qoroffering_assign_2 = de \
    "`r%NAME, dunkler Anhänger unserer Herrin. Wirst du Dich selber aufgeben, "
    "damit unsere Herrin stärker werden kann?"

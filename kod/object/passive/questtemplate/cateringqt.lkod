@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 cateringqt_name_rsc = de "Catering Quest"
 cateringqt_desc_rsc = de \
    "Ein NPC sucht nach Hilfe um eine Lieferung für eine Party zu überbringen."
@@ -15,7 +15,7 @@ cateringqt_nodethree_rsc = de \
 cateringqt_completed_rsc = de \
    "Du hast das Catering Quest abgeschlossen."
 
-% Quest resources.
+// Quest resources.
 catering_assign_2 = de \
    "Vielleicht kannst Du mir helfen. Ich habe eine private Party und mein "
    "Laufbursche ist krank geworden.  Würdest Du mir helfen die Lebensmittel "

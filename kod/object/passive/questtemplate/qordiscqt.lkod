@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 qorquest_name_rsc = de "Qor Schüler Quest"
 qorquest_desc_rsc = de \
    "Priesterin Zuxana hat dich beauftragt zu %s zu gehen und folgende Worte "
@@ -13,7 +13,7 @@ qorquest_node_three_rsc = de \
 qorquest_completed = de \
    "Du hast das Qor Schüler Quest abgeschlossen.  Du bist nun ein Schüler Qors."
 
-% Quest resources.
+// Quest resources.
 qordisciple_trigger = de \
    "Alles sollte in Dunkelheit gehüllt sein. Dann würde unsere Meisterin "
    "unter den Menschen im Schutz eines lichtlosen Himmels und eines blutigen "
@@ -35,7 +35,7 @@ qordisciple_failure = de \
    "Wenn Du irgendwann wiederkommst, werde ich Dir vielleicht eine weitere "
    "Chance gewähren in die Reihen der Elite aufgenommen zu werden."
 
-% NPC responses.
+// NPC responses.
 qordisc_shalpr_resp = de \
    "~kPriesterin Xiana sagt, \"~bÜberdenke deine Taten, Sha'lill wird dir "
    "vergeben, wenn Du bereit dafür bist.~k\""

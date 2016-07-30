@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 offeringquest_accept_rsc = de \
    "%s%s hat dich dazu eingeladen mit %s zu singen, akzeptierst du?"
 

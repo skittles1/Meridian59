@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 loveletteronequest_name_rsc = de "Liebesbrief Quest"
 loveletteronequest_desc_rsc = de \
    "Überbringe einen Liebesbrief."
@@ -9,7 +9,7 @@ loveletteronequest_deliver_rsc = de \
 loveletteronequest_completed_rsc = de \
    "Du hast das Liebesbrief Quest beendet."
 
-% Quest resources.
+// Quest resources.
 love_letter_1_assign = de \
    "Ja, tatsächlich, ich habe %INDEF_CARGO%CARGO für mein Liebling %NPC.  "
    "Bitte nimm dies mit zur ihr, und bringe ihr meine Liebe.  Sage ihr, dass "

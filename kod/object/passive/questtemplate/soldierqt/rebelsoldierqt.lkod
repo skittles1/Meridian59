@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 rebelsoldier_name_rsc = de "Rebellen: Soldaten-Schild Quest"
 rebelsoldier_desc_rsc = de \
    "Jonas D'Accor erlaubt es Dir sich der Rebellenarmee amnzuschließen, aber zuerst "
@@ -7,7 +7,7 @@ rebelsoldier_desc_rsc = de \
 rebelsoldier_completed_rsc = de \
    "Du hast Dich als würdig erwiesen, und bist nun ein Soldat der Rebellenarmee."
 
-% Quest resources.
+// Quest resources.
 rebel_faction_soldier_assign_1 = de \
    "Ich glaube an Dich. Geh und erledige %INDEF_MONSTER%MONSTER an dem Fahnenmast, "
    "und komm zurück um vom Kampf zu berichten. Danach werde ich mit Dir über "

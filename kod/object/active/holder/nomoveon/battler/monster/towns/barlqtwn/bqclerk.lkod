@@ -6,7 +6,7 @@ bq_clerk_desc_rsc = de \
    "zählen, die Steuerunterlagen der früheren Königin zu ordnen und seit "
    "kurzem als Schreiberin im Büro des Justiziars zu dienen."
 
-% Basic stuff
+// Basic stuff
 
 bq_clerk_for_shame = de \
    "Schäme Dich, %s! Aufgrund Deines ungesetzlichen Status muss ich Dich "
@@ -20,7 +20,7 @@ bq_clerk_refuse_service = de \
    "jemandem wie Euch Geschäfte zu machen, %s! Hebt Euch hinweg oder die "
    "Wache wird Euch begleiten!"
 
-% Voting
+// Voting
 
 bq_clerk_election_no_justicar_subject = de "Das Amt ist frei"
 bq_clerk_election_no_justicar = de \
@@ -52,7 +52,7 @@ bq_clerk_votes_tied = de \
    "Die Wahl des Justiziars ist stimmengleich ausgegangen und ist deshalb "
    "noch nicht zu Ende."
 
-% Accountability
+// Accountability
 
 bq_clerk_pardon = de "Begnadigen"
 bq_clerk_pardons = de "Begnadigungen"
@@ -69,14 +69,14 @@ bq_clerk_pardons_served1 = de \
    "In dieser Amtszeit hat Justiziar %q %i %s erlassen."
 bq_clerk_pardons_served2 = de "Davon: %i %s von %s und %i von %s."
 
-% Commands
+// Commands
 
 bq_clerk_pardon_phrase = de "Als Justiziar begnadige ich "
 bq_clerk_remand_phrase = de "Als Justiziar inhaftiere ich "
 bq_clerk_report_phrase = de "Bericht des Justiziars"
 bq_clerk_tally_phrase = de "zähle die Stimmen"
 
-% Problems
+// Problems
 
 bq_clerk_no_justicar = de \
    "In der Tat gibt es zur Zeit keinen amtierenden Justiziar."
@@ -95,7 +95,7 @@ bq_clerk_no_more = de \
    "Euer Ehren, nach dem Königlichen Gesetz habt Ihr für diese Amtszeit "
    "die Höchstzahl von Begnadigungen erreicht."
 
-% Intelligence
+// Intelligence
 
 bq_clerk_summary_lawful = de \
    "Nach den Aufzeichnungen ist %q gesetzestreu und hält sich an die "
@@ -120,7 +120,7 @@ bq_clerk_summary_murderer2 = de \
 bq_clerk_was = de "war"
 bq_clerk_were = de "waren"
 
-% Announcements
+// Announcements
 
 bq_clerk_granted = de \
    "Justiziar %s hat %s, %s begnadigt. Die Person hat von nun an den Status %s!"
@@ -165,7 +165,7 @@ bq_clerk_no_stop_ad = de \
 bq_clerk_advertise = de "Benachrichtigung"
 bq_clerk_no_advertise = de "keine Benachrichtigung"
 
-% Initiation
+// Initiation
 
 bq_clerk_mail = de \
    "Betreff: Gratulation zu Eurer Wahl.\n"
@@ -210,7 +210,7 @@ bq_clerk_help2 = de \
    "aber Ihr seid vom königlichen Gesetz darauf beschränkt, nur %i Bürger "
    "bis zum Ende Eurer Amtszeit zu begnadigen. "
 
-% Dealing with the Disorderly
+// Dealing with the Disorderly
 
 bq_clerk_warn = de \
    "Ich flehe Euch an, wenn Ihr, %s, Eure Arbeit nicht ordnungsgemäß "
@@ -222,7 +222,7 @@ bq_clerk_dismiss = de \
    "Kommt nicht zurück, %s, ehe Ihr Euch nicht wieder ordentlich benehmt."
 bq_clerk_glare = de "Versucht Euch zivilisiert zu benehmen, %s."
 
-% Pardons
+// Pardons
 
 barloque_clerk_pardon_1 = de "Lasst es bekannt werden, dass "
 barloque_clerk_pardon_2 = de " eine Gnadenfrist gewährt wurde. Ehemals "
@@ -233,7 +233,7 @@ barloque_clerk_pardon_6 = de \
    ". So ward es gesprochen, so soll es geschehen.\n\n-- Caramo"
 barloque_clerk_pardon_7 = de " wurde offiziell begnadigt."
 
-% Bribes
+// Bribes
 
 indulgence_not_enough_money = de \
    "Du denkst das Gesetz wird dir vergeben? Bezahl den vollen Betrag oder "
@@ -250,7 +250,7 @@ no_more_ballots = de \
    "Anhand der Reduzierung der Bürokratie, werden Stimmzettel hier nicht "
    "weiter verwendet."
 
-% Name Change
+// Name Change
 
 bq_clerk_trigger_change = de "ändern"
 bq_clerk_trigger_name = de "Name"

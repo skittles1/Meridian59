@@ -1,4 +1,4 @@
-% Quest resources.
+// Quest resources.
 princess_standard2_success = de \
    "Ein Brief von ihrer Hoheit?! Ausgezeichnet. Danke, %NAME."
 princess_standard2_failure = de \

@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 princesssoldier_name_rsc = de "Prinzessin: Soldaten-Schild Quest"
 princesssoldier_desc_rsc = de \
   "Prinzessin Kateriina erlaubt es Dir ihrer Royalen Armee beizutreten, aber "
@@ -7,7 +7,7 @@ princesssoldier_desc_rsc = de \
 princesssoldier_completed_rsc = de \
    "Du hast dich als würdig erwiesen, und bist nun ein Soldat der royalen Armee!"
 
-% Quest resources.
+// Quest resources.
 princess_faction_soldier_assign_1 = de \
    "Ich benötige Verbündete. Bitte, beweise Deine Loyalität, indem Du %INDEF_MONSTER%MONSTER "
    "tötest. Du solltest ein paar von Ihnen an den Fahnenmasten finden. "

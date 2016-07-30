@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 sporepupilquest_name_rsc = de "Sporenwolke Schüler Quest"
 sporepupilquest_desc_rsc = de \
    "Maleval hat Dir angeboten, Dir einen mächtigen Zauber beizubringen. Aber zuerst "
@@ -18,7 +18,7 @@ sporepupilquest_completed = de \
    "Er wird dir ebenfalls den Zauber verfluchte Waffe beibringen, wenn Du wenigstens Qor Level 4, "
    "und Kraanan Level 5 besitzt."
 
-% Quest resources.
+// Quest resources.
 sporeburstlearn_assign_2 = de \
    "Oh, %LORDLADY %NAME, es ist mir ~Iwirklich~I eine Ehre Dich zu sehen.  "
    "Ich habe Deinen Fortschritt in Deinen Studien mit großem Interesse verfolgt;  "

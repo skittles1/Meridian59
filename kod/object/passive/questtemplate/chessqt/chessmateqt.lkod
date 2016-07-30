@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 chessmatequest_name_rsc = de "Schachzug Kurier Quest"
 
 chessmatequest_nodefive_rsc = de \
@@ -9,7 +9,7 @@ chessmatequest_completed_rsc = de \
    "Du hast das Schachzug Kurier Quest erfolgreich beendet, "
    "und den Spielern damit geholfen!"
 
-% Quest resources.
+// Quest resources.
 chess_checkmate_assign_5 = de \
    "Ha!  %NPC ist mir direkt in die Falle gelaufen!  Sag %HIMHER_NPC mein "
    "nächster Zug ist %CARGO.  Oh, uns sag %HIMHER_NPC das er Schachmatt ist."

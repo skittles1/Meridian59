@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 murderqt_nodetwo_rsc = de \
    "%s%s would like to learn more about Duke Kalior's murder, and "
    "%s has requested that you ask %s%s about it."
@@ -6,7 +6,7 @@ murderqt_nodethree_rsc = de \
    "When asked about the murder, %s%s said \"%s\".  Return to %s%s "
    "and pass on this information."
 
-% Quest resources.
+// Quest resources.
 murder_trigger = de "Mörder"
 murder_say = de "%CARGO"
 

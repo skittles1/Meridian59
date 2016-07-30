@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 bowmakerevilquest_desc_rsc = de \
    "Hanla zax'Ta hat dich beauftragt, eine Feder eines Avar Schamanen für Sie zu besorgen."
    "Suche und töte solange Avar Schamanen, bis Du eine Feder bei der Leiche findest."
@@ -10,7 +10,7 @@ bowmakerevilquest_kill_rsc = de \
 bowmakerevilquest_return_rsc = de \
    "Kehre zurück zu Hanla zax'Ta mit einer Feder eines Avar Schamanen."
 
-% Quest resources.
+// Quest resources.
 bowmaker_assign_4 = de \
    "Ich nutze spezielle Materialien um meine besten Pfeile herzustellen.  "
    "Die Schwanzfeder eines Avar Zauberer haben den Ruf, dem Pfeil der sie "

@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 riijaofferingqt_name_rsc = de "Riija Opfer Quest"
 riijaofferingqt_desc_rsc = de \
    "Der Riija Mönch hat dich eingeladen mit ihm zu singen, um Lord Riija zu stärken."
@@ -9,7 +9,7 @@ riijaofferingqt_completed = de \
    "der Schreine in der Welt platziert wird, wird er Riija geweiht und verleiht den "
    "Zaubern Riijas mehr Kraft."
 
-% Quest resources.
+// Quest resources.
 riijaoffering_assign_2 = de \
    "%NAME, Lord Riija will Dich stärken!? Willst Du mit mir singen?"
 riijaoffering_trigger_2 = de "ja"

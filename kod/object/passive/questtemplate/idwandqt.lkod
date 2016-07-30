@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 idwandqt_name_rsc = de "Zauberstab Identifikations Quest"
 idwandqt_desc_rsc = de \
    "Hilf einem NPC einen Zauberstab zu identifizieren."
@@ -15,7 +15,7 @@ idwandqt_nodethree_rsc = de \
 idwandqt_completed_rsc = de \
    "Du hast das Zauberstab Identifikations Quest erfolgreich abgeschlossen."
 
-% Quest resources.
+// Quest resources.
 wand_identify_assign_1 = de \
    "Nun, jetzt wo Du es sagst, ich habe den Zauberstab den ich an dem Tag "
    "gefunden habe mitgenommen. Ich kann aber leider nicht herausfinden was "

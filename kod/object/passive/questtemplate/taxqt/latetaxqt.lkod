@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 latetaxqt_name_rsc = de "Verspätete Steuern Quest"
 latetaxqt_desc_rsc = de \
    "Ein NPC ist spät dran die Steuern zu bezahlen; Überbringe einen Brief vom Herzog "
@@ -11,7 +11,7 @@ latetaxqt_deliver_rsc = de \
 latetaxqt_completed_rsc = de \
    "Du hast das Quest abgeschlossen."
 
-% Quest resources.
+// Quest resources.
 latetax_assign_2 = de \
    "Eine dringende Sache ist mir zu Ohren gekommen.  Bestimmte Geschäftseigentümer "
    "in der Gemeinschaft waren mit ihren finanziellen Verpflichtungen nachlässig.  "

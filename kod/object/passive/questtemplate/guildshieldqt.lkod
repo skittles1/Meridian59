@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 guildshieldquest_name_rsc = de "Bergwerksexpeditions Quest"
 guildshieldquest_desc_rsc = de \
    "Der Schmied hat dich beauftragt, Eisenerz aus den Orkhöhlen zu besorgen. "
@@ -14,7 +14,7 @@ guildshieldquest_completed_rsc = de \
    "Du hast das Bergwerksexpeditions Quest abgeschlossen und hast als Belohnung "
    "ein Gildenschild erhalten."
 
-% Quest resources.
+// Quest resources.
 guildshield_initial_trigger = de "Bergwerksexpedition"
 guildshield_assign = de \
    "Aye, jemand eifriges will mir diesen Gefallen tun.  Ohne Zweifel hast "

@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 madscientistdflyquest_name_rsc = de "Verrückter Wissenschaftler Drachenfliegen Quest"
 madscientistdflyquest_desc_rsc = de \
    "Bahal zax'Ot möchte, dass Du ihm eine lebendige Drachenfliegenkönigin bringst, "
@@ -9,7 +9,7 @@ madscientistdflyquest_completed_rsc = de \
    "Du hast eine Drachenfliegenkönigin zu Bahal zax'Ot gebracht, und dafür "
    "ein Splitter eines Riija Schwertes erhalten."
 
-% Quest resources.
+// Quest resources.
 madscientistquest_trigger_1 = de "Kohuzotz"
 madscientistquest_assign_2 = de \
    "Ich bin stets bemüht mit meinen Haustieren zu experimentieren.  Wenn "

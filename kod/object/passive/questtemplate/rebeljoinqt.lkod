@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 rebeljoin_name_rsc = de "Rebellen Anhänger Quest"
 rebeljoin_desc_rsc = de \
    "Bevor Jonas D'Accor dich in seine Ränge aufnimmt, musst du beweisen, dass Du "
@@ -11,7 +11,7 @@ rebeljoin_deliver_rsc = de \
 rebeljoin_completed = de \
    "Du hast das Vertrauen von Jonas gewonnen, und bist nun ein Anhänger der Rebellen."
 
-% Quest resources.
+// Quest resources.
 rebel_join2_assign = de \
    "Du willst Dich unserem Kampf für die Freiheit anschließen?  Ich kann "
    "Dir nicht vertrauen, denn Du könntest ein Spion sein. Beweise Deinen "

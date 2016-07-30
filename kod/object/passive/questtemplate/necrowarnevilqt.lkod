@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 necrowarnevilqt_name_rsc = de "Nekromanten Warnungs Quest"
 necrowarnevilqt_desc_rsc = de \
    "Maleval sagt, er habe wichtige Informationen, dass die Nekromanten zurückkehren..."
@@ -16,7 +16,7 @@ necrowarnevilqt_nodethree_rsc = de \
 necrowarnevilqt_completed_rsc = de \
    "Du hast das Nekromanten Warnungs Quest abgeschlossen"
 
-% Quest resources.
+// Quest resources.
 necrowarning_assign_2 = de \
    "Ja, ich habe Bedarf an einem Boten.  Es scheint eine neue Macht im Land "
    "zu sein, oder eher eine sehr alte Macht, voller Dunkelheit.  Vielleicht "

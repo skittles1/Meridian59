@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 seraphymquest_icon_rsc = de serappol.bgf
 seraphymquest_name_rsc = de "Polierte Edelsteine Quest"
 seraphymquest_desc_rsc = de \
@@ -12,7 +12,7 @@ seraphymquest_deliver_rsc = de \
 seraphymquest_completed_rsc = de \
    "Du hast das Quest abgeschlossen"
 
-% Quest resources.
+// Quest resources.
 polishquest_assign = de \
    "Entschuldige, ich habe meine Fähigkeiten verbessert, und frage mich ob "
    "Du vielleicht ungeschliffene Edelsteine jeglicher Art dabei hast. Wenn "

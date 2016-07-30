@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 fadepupilquest_name_rsc = de "Verblassen Schüler Quest"
 fadepupilquest_desc_rsc = de \
    "Koldor möchte gerne, dass Du ihm eine Formel besorgst, und im Gegenzug "
@@ -20,7 +20,7 @@ fadepupilquest_nodefour_rsc = de \
    "Du hast die Verblassen Schüler Quest abgeschlossen. Koldor wird "
    "Dir nun den Verblassen Zauber beibringen."
 
-% Quest resources.
+// Quest resources.
 fadelearn_trigger = de "Schüler"
 fadelearn_assign_2 = de \
    "Ich freue mich, dass Du hier bist. Ich bin bereit mit Dir zu handeln. "

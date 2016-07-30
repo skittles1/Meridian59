@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 monkinsigniaquest_name_rsc = de "Gildenschild Insignien Quest"
 monkinsigniaquest_desc_rsc = de \
    "Der Riija Mönch wird seine Insignien auf dein Gildenschild einlassen, wenn "
@@ -18,7 +18,7 @@ monkinsigniaquest_completed_rsc = de \
    "Du hast Insignien auf deinem Gildenschild erhalten, welche Dir "
    "mehr Kraft auf deine Zauber geben."
 
-% Quest resources.
+// Quest resources.
 monkinsignia_trigger = de "Abzeichen"
 monkinsignia_assign_2 = de \
    "~gIch ~rsehe ~bDu hast ~rein ~gun~bsigniertes ~kSchild.  ~rich wäre gerne "

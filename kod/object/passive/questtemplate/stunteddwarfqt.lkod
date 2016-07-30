@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 stunteddwarfquest_name_rsc = de "Verkümmerter Zwerg Quest"
 stunteddwarfquest_desc_rsc = de \
    "Du hast den Barkeeper etwas über einen Verkümmerten Zwerg reden hören. "
@@ -33,7 +33,7 @@ stunteddwarfquest_nodeseven_rsc = de \
 stunteddwarfquest_completed_rsc = de \
    "Du hast das Verkümmerter Zwerg Quest abgeschlossen."
 
-% Quest resources.
+// Quest resources.
 stunteddwarf_trigger = de "Verkümmerter Zwerg"
 stunteddwarf_assign_2 = de \
    "Heißer Tag heute, mh? Sicher, es wäre ein großartiger Tag für einen verkümmerter "

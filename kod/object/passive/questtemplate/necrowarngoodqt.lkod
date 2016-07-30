@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 necrowarngoodqt_name_rsc = de "Nekromanten Warnungs Quest"
 necrowarngoodqt_desc_rsc = de \
    "Parrin Aragone sagt, er habe wichtige Informationen, dass die Nekromanten zurückkehren..."
@@ -14,7 +14,7 @@ necrowarngoodqt_nodethree_rsc = de \
 necrowarngoodqt_completed_rsc = de \
    "Du hast das Nekromanten Warnungs Quest abgeschlossen."
 
-% Quest resources.
+// Quest resources.
 necrowarning2_assign_2 = de \
    "Ich habe Nachrichten von größter Wichtigkeit.  Meine Reisen haben mich "
    "an viele Orte geführt, und ich habe viele merkwürdige Dinge gesehen aber "

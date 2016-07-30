@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 merchanttaxqt_name_rsc = de "Händler Steuern Quest"
 merchanttaxqt_desc_rsc = de \
    "Bringe ein paar Steuern zu einem NPC."
@@ -6,7 +6,7 @@ merchanttaxqt_desc_rsc = de \
 merchanttaxqt_completed_rsc = de \
    "Du hast das Händler Steuern Quest abgeschlossen."
 
-% Quest resources.
+// Quest resources.
 merchanttax_assign_2 = de \
    "Kannst du meine Steuern zu %NPC bringen?  Ich bin mir sicher, dass ich "
    "zu spät drann bin, und brauche Dich, um diese %INDEF_CARGO%CARGO zu %NPC "

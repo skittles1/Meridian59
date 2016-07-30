@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 scimprofquest_name_rsc = de "Säbelkampf Quest"
 
 scimprofquest_desc_rsc = de \
@@ -14,7 +14,7 @@ scimprofquest_return_rsc = de \
 scimprofquest_completed = de \
    "Du hast das Säbelkampf Quest abgeschlossen. Quintor wird Dir nun beibringen wie man mit dem Säbel kämpft."
 
-% Quest resources.
+// Quest resources.
 scimitarlearn_trigger = de "Schüler"
 scimitarlearn_assign_2 = de \
    "Du sollst ein Krieger sein? HA! Du siehst nicht wirklich aus wie einer.  "
