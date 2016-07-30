@@ -20,3 +20,4 @@ for information on how to style kod.
 
 ### Client/Server
 * [Client Updating](./clientupdate.md)
+* [Room names, filenames and IDs](./roomdetails.md)
