@@ -34,11 +34,12 @@
 //    pre & post increment/decrement, switch-case, else if,
 //    do-while, C-style for loop, old for->foreach change.
 // BOF_VERSION 7 (29-7-2016) added:
-//    Refactored opcodes for improved interpreter performance.
-//    Split binary/unary/call opcodes into separate implementations
+//    - Refactored opcodes for improved interpreter performance.
+//    - Split binary/unary/call opcodes into separate implementations
 //    depending on where the result is stored (local or property).
-//    Split goto opcodes based on what type of value is retrieved
+//    - Split goto opcodes based on what type of value is retrieved
 //    (constant, local, property, classvar).
+//    - Removed kod-style % comments, switch to // and /**/ style.
 #define BOF_VERSION 7
 
 #define IDBASE        10000      /* Lowest # of user-defined id.  Builtin ids have lower #s */

@@ -130,11 +130,12 @@ strline  (([^\"\n\\]|\\.)*\")[ \t\r]*
    /* Ignore other characters. */
 <COMMENT>. ;
 
-   /* Kod-style single-line comments */
+   /* Old kod style comments - removed in BOF version 7 */
+   /*   Kod-style single-line comments */
    /* Ignore comment-only lines completely */
-^[ \t\r]*"\%".*\n	lineno++;
+   /* ^[ \t\r]*"\%".*\n	lineno++; */
    /* Otherwise just delete comment part of line */
-"\%".* ;
+   /* "\%".* ; */
 
    /* C++-style single-line comments */
    /* Ignore comment-only lines completely */
@@ -185,8 +186,7 @@ default { return DEFAULT; }
 "--"	{ yylval.int_val = DEC_OP; return DEC_OP; }
 "++"	{ yylval.int_val = INC_OP; return INC_OP; }
 
-
-[-+*/,:#&@()={}\$\[\]\|~]	{ return yytext[0]; }	/* return character itself */
+[-+*/%,:#&@()={}\$\[\]\|~]	{ return yytext[0]; }	/* return character itself */
 \;                              { return SEP; }  /* Separator */
 
 	/* names */

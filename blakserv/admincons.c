@@ -63,58 +63,57 @@ void AddAdminConstant(char *name,int value)
 
 void LoadAdminConstants(void)
 {
-	FILE *constantsfile;
-	char line[MAX_CONSTANTS_LINE];
-	int lineno;
-	char *name_str,*value_str;
-	int value;
-	
-	if (ConfigBool(CONSTANTS_ENABLED) == False)
-		return;
-	
-	if ((constantsfile = fopen(ConfigStr(CONSTANTS_FILENAME),"rt")) == NULL)
-	{
-		eprintf("LoadAdminConstants can't open %s, no constants\n",
-			ConfigStr(CONSTANTS_FILENAME));
-		return;
-	}
-	
-	lineno = 0;
-	
-	while (fgets(line,MAX_CONSTANTS_LINE,constantsfile))
-	{
-		lineno++;
-		
-		name_str = strtok(line,"= \t\n");
-		
-		if (name_str == NULL)	/* ignore blank lines */
-			continue;
-		
-		if (name_str[0] == '%')	/* ignore comments lines */
-			continue;
-		
-		if (strlen(name_str) > 1 && name_str[0] == '/' && name_str[1] == '/')
-			continue;
+   FILE *constantsfile;
+   char line[MAX_CONSTANTS_LINE];
+   int lineno;
+   char *name_str, *value_str;
+   int value;
 
-		value_str = strtok(NULL,"= \t\n");
-		
-		if (name_str == NULL || name_str[0] == '%')
-		{
-			eprintf("LoadAdminConstants error reading value on line %i\n",lineno);
-			continue;
-		}
-		
-		if (sscanf(value_str,"%i",&value) != 1)
-		{
-			eprintf("LoadAdminConstants error parsing integer on line %i\n",lineno);
-			continue;
-		}
-		
-		AddAdminConstant(name_str,value);
-		
-	}
-	
-	fclose(constantsfile);
+   if (ConfigBool(CONSTANTS_ENABLED) == False)
+      return;
+
+   if ((constantsfile = fopen(ConfigStr(CONSTANTS_FILENAME), "rt")) == NULL)
+   {
+      eprintf("LoadAdminConstants can't open %s, no constants\n",
+         ConfigStr(CONSTANTS_FILENAME));
+      return;
+   }
+
+   lineno = 0;
+
+   while (fgets(line, MAX_CONSTANTS_LINE, constantsfile))
+   {
+      lineno++;
+
+      name_str = strtok(line, "= \t\n");
+
+      /* ignore blank lines */
+      if (name_str == NULL)
+         continue;
+
+      /* ignore comments lines */
+      if (strlen(name_str) > 1 && name_str[0] == '/' && name_str[1] == '/')
+         continue;
+
+      value_str = strtok(NULL, "= \t\n");
+
+      if (name_str == NULL || name_str[0] == '/')
+      {
+         eprintf("LoadAdminConstants error reading value on line %i\n", lineno);
+         continue;
+      }
+
+      if (sscanf(value_str, "%i", &value) != 1)
+      {
+         eprintf("LoadAdminConstants error parsing integer on line %i\n", lineno);
+         continue;
+      }
+
+      AddAdminConstant(name_str, value);
+
+   }
+
+   fclose(constantsfile);
 }
 
 Bool LookupAdminConstant(const char *name,int *ret_ptr)

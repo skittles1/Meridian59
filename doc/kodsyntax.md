@@ -25,11 +25,10 @@ The special value `self` contains the identifier of the object whose message
 handler is being executed. Self is implemented as a property of every object.
 
 Blakod programs are made up of assignment statements, conditional clauses,
-loops, calls, and return statements. Kod comments are introduced with the `%`
-character, though recently C and C++ style comments were added (`//` `/* */`).
-Comments using `%` and `//` extend to the end of the line, and `/* */` comments
-can span multiple lines. Unlike C comments, kod multiline comments can be
-nested.
+loops, calls, and return statements. Kod comments use the common C and C++
+style (`//` `/* */`). Comments using `//` extend to the end of the line,
+and `/* */` comments can span multiple lines. Unlike C comments, kod multiline
+comments can be nested.
 
 Assignments take the form `lvalue = expression`, where `lvalue` is the name of
 a property or a local variable. The right hand side is evaulated, and the result
