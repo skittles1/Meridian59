@@ -1,28 +1,28 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 FarenDiscQuest is QuestTemplate
-% Quest nodes 15, 16, 17.
-% QNT_ID_FAREN_DISCIPLE_ONE, QNT_ID_FAREN_DISCIPLE_TWO, QNT_ID_FAREN_DISCIPLE_THREE
+// Quest nodes 15, 16, 17.
+// QNT_ID_FAREN_DISCIPLE_ONE, QNT_ID_FAREN_DISCIPLE_TWO, QNT_ID_FAREN_DISCIPLE_THREE
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -32,7 +32,7 @@ resources:
 
    include farendiscqt.lkod
 
-   % Quest description.
+   // Quest description.
    farenquest_icon_rsc = lightnin.bgf
    farenquest_name_rsc = "Faren disciple quest"
    farenquest_desc_rsc = \
@@ -53,7 +53,7 @@ resources:
       "disciple of Faren, and Priestess Tenuv'vyal will now teach you "
       "more powerful spells."
 
-   % Quest resources.
+   // Quest resources.
    farendisciple_trigger = "defiled the land with your ways"
    farendisciple_assign = \
       "`B`gYou wish the blessing of the land through our Lord Faren.  You "
@@ -92,7 +92,7 @@ classvars:
    vrNodeThree = farenquest_node_three_rsc
    vrCompleted = farenquest_completed
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_FAREN_DISCIPLE
 
 properties:
@@ -102,18 +102,18 @@ properties:
    plSpecialRestrict = $
    piMaxPlayers = 30
    piSchedulePct = 100
-   piTimeLimit = 3 * 3600 % 3 hours.
+   piTimeLimit = 3 * 3600 // 3 hours.
 
 messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_FAREN_DISCIPLE_ONE, QNT_ID_FAREN_DISCIPLE_TWO,
                       QNT_ID_FAREN_DISCIPLE_THREE];
 
-      % Quest nodes with matching descriptions for the player.
-      % No description needed for quest node QNT_ID_FAREN_DISCIPLE_ONE.
+      // Quest nodes with matching descriptions for the player.
+      // No description needed for quest node QNT_ID_FAREN_DISCIPLE_ONE.
       plQuestNodeDesc = [ [QNT_ID_FAREN_DISCIPLE_TWO, vrNodeTwo],
                           [QNT_ID_FAREN_DISCIPLE_THREE,vrNodeThree] ];
 
@@ -127,8 +127,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #15 is faren disciple quest kickoff, "favor".
-      % QNT_ID_FAREN_DISCIPLE_ONE
+      // Template #15 is faren disciple quest kickoff, "favor".
+      // QNT_ID_FAREN_DISCIPLE_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[disciple_trigger],
                #quest_node_index=QNT_ID_FAREN_DISCIPLE_ONE)
@@ -142,8 +142,8 @@ messages:
          Debug("Error building QN: QNT_ID_FAREN_DISCIPLE_ONE");
       }
 
-      % Template #16 is faren disciple quest, deliver message.
-      % QNT_ID_FAREN_DISCIPLE_TWO
+      // Template #16 is faren disciple quest, deliver message.
+      // QNT_ID_FAREN_DISCIPLE_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[farendisciple_trigger],#timelimit=piTimeLimit,
                #prizelist=[ [ QN_PRIZETYPE_NPC_RESPONSE ] ],
@@ -163,8 +163,8 @@ messages:
          Debug("Error building QN: QNT_ID_FAREN_DISCIPLE_TWO");
       }
 
-      % Template #17 is faren disciple quest, come back.
-      % QNT_ID_FAREN_DISCIPLE_THREE
+      // Template #17 is faren disciple quest, come back.
+      // QNT_ID_FAREN_DISCIPLE_THREE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_SHOWUP,
                #timelimit=piTimeLimit,
                #quest_node_index=QNT_ID_FAREN_DISCIPLE_THREE)
@@ -192,7 +192,7 @@ messages:
          return;
       }
 
-      % Quest node QNT_ID_FAREN_DISCIPLE_TWO dialog needs the NPC name.
+      // Quest node QNT_ID_FAREN_DISCIPLE_TWO dialog needs the NPC name.
       if index = QNT_ID_FAREN_DISCIPLE_TWO
       {
          AddPacket(4,Send(Send(oQuestNode,@GetDestNPC),@GetName));
@@ -249,4 +249,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

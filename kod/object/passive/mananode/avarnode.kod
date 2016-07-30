@@ -1,27 +1,27 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 AvarNode is ManaNode
 
-% AvarNode is kinda like the FeyNode; only people of matching karma can meld
-%  with it.  But, it won't be stripped from people of the opposite alignment.
+// AvarNode is kinda like the FeyNode; only people of matching karma can meld
+//  with it.  But, it won't be stripped from people of the opposite alignment.
 
 constants:
 
    include blakston.khd
 
-   % Must be synchronized with ke4.kod
+   // Must be synchronized with ke4.kod
    AVARNODE_GOOD = 1
    AVARNODE_EVIL = 2
 
-   % From superclass
+   // From superclass
    NODE_DEAD = 3
 
 resources:
@@ -91,10 +91,10 @@ messages:
    {
       if piState <> NODE_DEAD
       {
-         % Special case for an evil aligned node.
+         // Special case for an evil aligned node.
          if piKarma = AVARNODE_EVIL
          {
-            % Flags, intensity, and color.
+            // Flags, intensity, and color.
             AddPacket(2,LIGHT_FLAG_ON);
             AddPacket(1,100);
             AddPacket(2,LIGHT_SPECTRAL);
@@ -108,5 +108,5 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 

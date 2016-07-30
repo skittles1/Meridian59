@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Fountain is PassiveObject
 
 constants:
@@ -68,7 +68,7 @@ messages:
    {
       if poOwner <> $ AND IsClass(poOwner,&Room)
       {
-         % Remove ourselves as part of the sound list.
+         // Remove ourselves as part of the sound list.
          Send(poOwner,@RemoveObjectLoopingSound,#what=self);
       }
 
@@ -77,11 +77,11 @@ messages:
 
    NewOwner(what=$)
    {
-      % Check the old (current) owner.  It shouldn't happen,
-      % but let's be sane about it.
+      // Check the old (current) owner.  It shouldn't happen,
+      // but let's be sane about it.
       if poOwner <> $ AND IsClass(poOwner,&Room)
       {
-         % Remove ourselves as part of the sound list.
+         // Remove ourselves as part of the sound list.
          Send(poOwner,@RemoveObjectLoopingSound,#what=self);
       }
 
@@ -109,7 +109,7 @@ messages:
 
       if piSoundRadius
       {
-         % Sound data is [wave_file, row, col, cutoff radius, maximum volume, object]
+         // Sound data is [wave_file, row, col, cutoff radius, maximum volume, object]
          lPosition = Send(what,@GetRoomPos,#what=self);
          lSoundData = [fountain_sound_rsc, First(lPosition), Nth(lPosition,2),
                        piSoundRadius, piSoundIntensity, self];
@@ -125,9 +125,9 @@ messages:
       {
          if pbJetIce
          {
-            % Attach jets + ice to hotspot 1.
+            // Attach jets + ice to hotspot 1.
             AddPacket(1,1, 4,fountain_frozen_water_rsc, 1,1);
-            % No animation.
+            // No animation.
             AddPacket(1,ANIMATE_NONE, 2,1);
          }
          else
@@ -137,9 +137,9 @@ messages:
       }
       else
       {
-         % Attach water to hotspot 1.
+         // Attach water to hotspot 1.
          AddPacket(1,1, 4,fountain_water_rsc, 1,1);
-         % Cycle through all the water bmps continuously, 100 ms per frame.
+         // Cycle through all the water bmps continuously, 100 ms per frame.
          AddPacket(1,ANIMATE_CYCLE, 4,100, 2,1, 2,1);
       }
 
@@ -248,4 +248,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 guest is user
 
 constants:
@@ -48,7 +48,7 @@ messages:
 
    SetRandomHomeroom()
    {
-      %debug("setrandomhomeroom");
+      //debug("setrandomhomeroom");
       piHomeroom = RID_RAZA_INN;
       return;
    }
@@ -86,7 +86,7 @@ messages:
       foreach i in users
       {
          oRoom = Send(SYS,@UtilGetRoom,#what=i);
-         if oRoom = $ { continue; }        %% this group member is not logged in - lagged out?
+         if oRoom = $ { continue; }        /// this group member is not logged in - lagged out?
 
          if not Send(oRoom,@IsGuestRoom)
          {
@@ -104,7 +104,7 @@ messages:
 
    PlayerNewCharInfo()
    {
-      %debug("player new char info");
+      //debug("player new char info");
       propagate;
    }
 
@@ -112,7 +112,7 @@ messages:
    {
       local i;
 
-      %debug("userlogon");
+      //debug("userlogon");
 
       piHealth = piBase_max_health;
       Send(self,@NewHealth);
@@ -172,11 +172,11 @@ messages:
 
    IsFirstTime()
    {
-      %debug("isfirsttime");
+      //debug("isfirsttime");
 
-      % called by server to tell client if they NEED to go through char creation or not
+      // called by server to tell client if they NEED to go through char creation or not
       return True;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

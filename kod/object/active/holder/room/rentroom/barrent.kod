@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 BarloqueRentableRoom is RentableRoom
 
 constants:
@@ -43,8 +43,8 @@ classvars:
 properties:
 
    prRoom = BarloqueRentableRoom_roo
-   piWallpaper = 50069 % WALLPAPER_D, the default in barrent.roo.
-   piCarpet = 50052 % CARPET_C, default in barrent.roo.
+   piWallpaper = 50069 // WALLPAPER_D, the default in barrent.roo.
+   piCarpet = 50052 // CARPET_C, default in barrent.roo.
 
 messages:
 
@@ -52,9 +52,9 @@ messages:
    {
       piRoom_num = iRID;
 
-      % Format for plBedCoords: pillow coord, "nearest" coord, pillow1 finecoord,
-      %                         pillow2 finecoord, pillow angle
-      % Each top-level list (one per line) is one bed position.
+      // Format for plBedCoords: pillow coord, "nearest" coord, pillow1 finecoord,
+      //                         pillow2 finecoord, pillow angle
+      // Each top-level list (one per line) is one bed position.
       plBedCoords = [ [ [16,3], [15,3], [48,16], [48,48], ANGLE_EAST ],
                       [ [14,3], [14,4], [16,16], [48,16], ANGLE_SOUTH ],
                       [ [13,3], [13,4], [16,16], [48,16], ANGLE_SOUTH ],
@@ -64,9 +64,9 @@ messages:
                       [ [16,7], [15,7], [48,16], [48,48], ANGLE_EAST ]
                     ];
 
-      % Format for plPictureCoords: coordinates nearest picture, followed by
-      % the next nearest coordinates.
-      % Each top-level list (one per line) is one picture position
+      // Format for plPictureCoords: coordinates nearest picture, followed by
+      // the next nearest coordinates.
+      // Each top-level list (one per line) is one picture position
       plPictureCoords = [ [ [16,4], [16,3], [15,4], [16,5] ],
                           [ [14,3], [15,3] ],
                           [ [13,4], [13,5] ],
@@ -109,4 +109,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

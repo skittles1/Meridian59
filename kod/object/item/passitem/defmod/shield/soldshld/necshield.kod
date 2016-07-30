@@ -1,19 +1,19 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 NecromancerShield is SoldierShield
 
-% Currently uses Duke shield resources/stat changes. Change this if
-% we ever allow players to access this shield.
-% Stats affected: Intellect and Stamina
-% Special bonus: This shield gives a bonus 20 Spellpower to all spells.
+// Currently uses Duke shield resources/stat changes. Change this if
+// we ever allow players to access this shield.
+// Stats affected: Intellect and Stamina
+// Special bonus: This shield gives a bonus 20 Spellpower to all spells.
 
 constants:
 
@@ -48,7 +48,7 @@ classvars:
    viFaction = FACTION_NECROMANCER
    viColor = XLAT_REDTOBLACK
 
-   % Stuff for rank
+   // Stuff for rank
    vrArmyName = necshield_ArmyName
 
    vrWelcomeMessage = necshield_welcome_mail
@@ -72,7 +72,7 @@ messages:
       if poOwner <> $
          AND IsClass(poOwner,&User)
       {
-         % Reset owner's stats
+         // Reset owner's stats
          Send(poOwner,@AddStamina,#points=-piStaminaChange);
          Send(poOwner,@AddAgility,#points=-piAgilityChange);
          piStaminaChange = 0;
@@ -106,9 +106,9 @@ messages:
          iStatAdjustment = 5;
       }
 
-      % In the following:
-      %  iNewAdjustment is how much the stat changed this time around.
-      %  pi(stat)Change is the cumulative change to that stat.
+      // In the following:
+      //  iNewAdjustment is how much the stat changed this time around.
+      //  pi(stat)Change is the cumulative change to that stat.
       if iStatAdjustment <> piAgilityChange
       {
          iNewAdjustment = Send(poOwner,@AddAgility,
@@ -136,4 +136,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

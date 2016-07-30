@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 CrystalizeMana is Spell
 
 constants:
@@ -64,7 +64,7 @@ classvars:
 
    viSpellExertion = 30
 
-   % This spell is very slow and difficult to work, so it should improve well.
+   // This spell is very slow and difficult to work, so it should improve well.
    viChance_To_Increase = 60
    viMeditate_ratio = 100
 
@@ -134,18 +134,18 @@ messages:
 
       iMaxMana = Send(who,@GetMaxMana);
 
-      % Remove the benefit of any worn circlet.
+      // Remove the benefit of any worn circlet.
       oCirclet = Send(who,@FindUsing,#class=&Circlet);
       if oCirclet <> $
       {
          iMaxMana = iMaxMana - Send(oCirclet,@GetManaChange);
       }
 
-      % Now give the full circlet bonus to every caster,
-      % so that they aren't required to wear one to get the proper mana.
+      // Now give the full circlet bonus to every caster,
+      // so that they aren't required to wear one to get the proper mana.
       iManaSurge = iMaxMana + 40;
 
-      % Cap the actual mana given to keep actual mana totals reasonable
+      // Cap the actual mana given to keep actual mana totals reasonable
       iManaSurge = Bound(iManaSurge,$,MAX_SURGE_MANA-Send(who,@GetMana));
 
       Send(who,@GainMana,#amount=iManaSurge);
@@ -157,7 +157,7 @@ messages:
          Send(who,@MsgSendUser,#message_rsc=CrystalizeMana_triggered);
          Send(who,@WaveSendUser,#wave_rsc=Surge_sound);
 
-         % Chance to improve upon triggered activation
+         // Chance to improve upon triggered activation
          Send(self,@ImproveAbility,#who=who);
       }
 
@@ -194,7 +194,7 @@ messages:
       }
       else
       {
-         % Should be an integer.
+         // Should be an integer.
          iDuration = iTimer;
       }
 
@@ -220,7 +220,7 @@ messages:
 
       iIntellect = Send(self,@GetRequisiteStat,#who=who);
 
-      % 6.6 minutes to 3.3 minutes based on spell ability
+      // 6.6 minutes to 3.3 minutes based on spell ability
       iWaitTime = 396 - (Send(who,@GetSpellAbility,
                               #spell_num=SID_CRYSTALIZE_MANA) * 2);
 
@@ -239,4 +239,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

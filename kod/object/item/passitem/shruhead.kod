@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ShrunkenHead is PassiveItem
 
 constants:
@@ -17,14 +17,14 @@ constants:
    BABBLE_MINIMUM = 10000
    BABBLE_MAXIMUM = 100000
 
-   % Percentage to speak on hit/kill.
+   // Percentage to speak on hit/kill.
    KILL_CHAT_PROB_HIT = 5
    KILL_CHAT_PROB_KIL = 10
    KILL_CHAT_PROB_IMP = 20
 
-   % The 'say type', depending on the user's relation to the shrunken head
-   % SH_FIRST_PERSON = owner, SH_GENERIC = SH owned by room,
-   % SH_THIRD_PERSON = another user is owner.
+   // The 'say type', depending on the user's relation to the shrunken head
+   // SH_FIRST_PERSON = owner, SH_GENERIC = SH owned by room,
+   // SH_THIRD_PERSON = another user is owner.
    SH_FIRST_PERSON = 1
    SH_GENERIC = 2
    SH_THIRD_PERSON = 3
@@ -124,7 +124,7 @@ properties:
    piSilenced = 0
    ptBabble = $
 
-   % Shrunken head works like a walking journal... 
+   // Shrunken head works like a walking journal... 
    piStatKills = 0
    piStatImprovements = 0
    piStatToughers = 0
@@ -211,12 +211,12 @@ messages:
 
       if amount > 18
       {
-         % owww
+         // owww
          rMsg = ShrunkenHead_dealt3;
       }
       else if amount = 1
       {
-         % Weak opponent
+         // Weak opponent
          rMsg = ShrunkenHead_dealt4;
       }
       else if iChoice = 1
@@ -254,7 +254,7 @@ messages:
 
       if amount > 18
       {
-         % Powerful blow
+         // Powerful blow
          Send(self,@DoBabbleString,#string=ShrunkenHead_hit4,
                #parm1=Send(what,@GetName));
 
@@ -408,13 +408,13 @@ messages:
    {
       local oRoom;
 
-      % Keyword to get the thing to shut up.
+      // Keyword to get the thing to shut up.
       if poOwner = $
       {
          return;
       }
 
-      % Check for stat request from master.
+      // Check for stat request from master.
       if from = poOwner
          AND StringContain(string,ShrunkenHead_check)
       {
@@ -425,12 +425,12 @@ messages:
          return;
       }
 
-      % Reset stats.
+      // Reset stats.
       if from = poOwner
          AND StringContain(string,ShrunkenHead_reset)
       {
          Send(self,@DoBabbleString,#string=ShrunkenHead_reset_stats);
-         % And reset....
+         // And reset....
          piStatKills = 0;
          piStatToughers = 0;
          piStatDealt = 0;
@@ -455,14 +455,14 @@ messages:
 
       if from = poOwner
       {
-         % Don't record the master.
+         // Don't record the master.
          return;
       }
 
-      % Small chance that the head will learn what it hears.
+      // Small chance that the head will learn what it hears.
       if Random(1,100) < 10 OR psOverheard = $
       {
-         % Except if we're in a guildhall, so we don't record passwords.
+         // Except if we're in a guildhall, so we don't record passwords.
          oRoom = Send(SYS,@UtilGetRoomRecurse,#what=self);
          if oRoom <> $
             AND NOT IsClass(oRoom,&GuildHall)
@@ -513,7 +513,7 @@ messages:
       return $;
    }
 
-   % The next two message take care of sending say resources to the user.
+   // The next two message take care of sending say resources to the user.
    DoBabbleCallback(sMessage=$,lList=$,oTarget=$)
    "Use this message to babble a more complicated string.  Currently handles "
    "babbling variable lists such as inventory content or people nearby.  "
@@ -540,23 +540,23 @@ messages:
       {
          if IsClass(First(i),&User)
          {
-            % The parm1 type determines which header the callback message
-            % will add.
+            // The parm1 type determines which header the callback message
+            // will add.
             if First(i) = poOwner
             {
-               % Add 1st person, e.g. Your shrunken head babbles
+               // Add 1st person, e.g. Your shrunken head babbles
                Send(First(i),@MsgSendUserCallback,#what=self,#sCallback=sMessage,
                      #parm1=SH_FIRST_PERSON,#parm2=lList,#parm3=oTarget);
             }
             else if oRoom = poOwner
             {
-               % Add generic, e.g. A shrunken head babbles
+               // Add generic, e.g. A shrunken head babbles
                Send(First(i),@MsgSendUserCallback,#what=self,#sCallback=sMessage,
                      #parm1=SH_GENERIC,#parm2=lList,#parm3=oTarget);
             }
             else
             {
-               % Player owner, but not 'i'. e.g. A voice from Joe babbles
+               // Player owner, but not 'i'. e.g. A voice from Joe babbles
                Send(First(i),@MsgSendUserCallback,#what=self,#sCallback=sMessage,
                      #parm1=SH_THIRD_PERSON,#parm2=lList,#parm3=oTarget);
             }
@@ -584,11 +584,11 @@ messages:
       {
          if IsClass(First(i),&User)
          {
-            % (example) A voice from Joe babbles, "Hey!"
-            %
-            % Special cases:
-            % (example) A shrunken head babbles, "Hey!"
-            % (example) Your shrunken head babbles, "Hey!"
+            // (example) A voice from Joe babbles, "Hey!"
+            //
+            // Special cases:
+            // (example) A shrunken head babbles, "Hey!"
+            // (example) Your shrunken head babbles, "Hey!"
 
             if First(i) = poOwner
             {
@@ -631,7 +631,7 @@ messages:
          return;
       }
 
-      % Good chance the head will continue to babble.
+      // Good chance the head will continue to babble.
       Send(self,@BabbleRandom);
 
       if Random(1,100) < 90
@@ -777,7 +777,7 @@ messages:
       }
       else if iChoice = 7
       {
-         % Check for spider eyes.
+         // Check for spider eyes.
          oObject = Send(poOwner,@FindHolding,#class=&SpidEye);
          
          if oObject = $
@@ -786,24 +786,24 @@ messages:
          }
          else
          {
-            % Eat a spider eye!
+            // Eat a spider eye!
             Send(oObject,@SubtractNumber,#number=1);
             Send(self,@DoBabbleString,#string=ShrunkenHead_random_Spider_eyes_eat);
          }
       }
       else
       {
-         % See how many shrunken heads are around.
+         // See how many shrunken heads are around.
          iCount = Send(poOwner,@CountHoldingHowMany,#class=&ShrunkenHead);
          
          if iCount <= 1
          {
-            % Aw, the poor guy is lonely!
+            // Aw, the poor guy is lonely!
             Send(self,@DoBabbleString,#string=ShrunkenHead_random_lonely);
          }
          else
          {
-            % A crowd!  Let's be talkative!
+            // A crowd!  Let's be talkative!
             Send(self,@DoBabbleString,#string=ShrunkenHead_random_not_lonely_1);
             while iCount > 1
             {
@@ -830,7 +830,7 @@ messages:
    {
       local lNearby, i, j, lNames;
 
-      % Pick up to five nearby people.
+      // Pick up to five nearby people.
 
       lNearby = $;
       j = 0;
@@ -852,8 +852,8 @@ messages:
          return;
       }
 
-      % This has the user add a BP_MESSAGE packet, then calls
-      % SendBabblePeopleNearby to add the appropriate resources from lList.
+      // This has the user add a BP_MESSAGE packet, then calls
+      // SendBabblePeopleNearby to add the appropriate resources from lList.
       Send(self,@DoBabbleCallback,#sMessage=SetString($,@SendBabblePeopleNearby),
             #lList=lNearby);
 
@@ -916,8 +916,8 @@ messages:
          }
       }
 
-      % If we didn't add enough name resources, make up for it
-      % with blank ones.
+      // If we didn't add enough name resources, make up for it
+      // with blank ones.
       while iNumRsc++ < 10
       {
          AddPacket(4, system_blank_resource);
@@ -930,7 +930,7 @@ messages:
    {
       local oTarget, lInventory, lPicks, oItem, iCount, sString, iNumberItems;
 
-      % Pick one nearby person, and up to five things from their inventory.
+      // Pick one nearby person, and up to five things from their inventory.
 
       oTarget = Send(self,@PickSomeoneNearby);
       if oTarget = $
@@ -958,8 +958,8 @@ messages:
          }
       }
 
-      % This has the user add a BP_MESSAGE packet, then calls
-      % SendBabbleInventoryNearby to add the appropriate resources from lList.
+      // This has the user add a BP_MESSAGE packet, then calls
+      // SendBabbleInventoryNearby to add the appropriate resources from lList.
       Send(self,@DoBabbleCallback,#sMessage=SetString($,@SendBabbleInventoryNearby),
             #lList=lPicks,#oTarget=oTarget);
 
@@ -1062,8 +1062,8 @@ messages:
          }
       }
 
-      % If we didn't add enough name resources, make up for it
-      % with blank ones.
+      // If we didn't add enough name resources, make up for it
+      // with blank ones.
       while iNumRsc++ < 10
       {
          AddPacket(4, system_blank_resource);
@@ -1073,4 +1073,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

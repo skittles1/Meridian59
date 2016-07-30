@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Iceperson is Monster
 
 constants:
@@ -57,7 +57,7 @@ classvars:
    viLevel = 75
    viDifficulty = 5
    viVisionDistance = 10
-   % Attack range of 192, or 3 row/col.
+   // Attack range of 192, or 3 row/col.
    viAttackRange = 192
    viKarma = -70
    viCashmin = 200
@@ -81,7 +81,7 @@ messages:
       propagate;
    }
 
-   % Used for defense messages
+   // Used for defense messages
    GetParryAbility(stroke_obj=$)
    {
       if (stroke_obj <> $) AND NOT Send(stroke_obj,@CanParry)
@@ -122,9 +122,9 @@ messages:
 
    SendOverlays()
    {
-      % Send overlay bitmap info to user.
+      // Send overlay bitmap info to user.
 
-      % iceperson has left and right arms, head, legs, weapon, and armor
+      // iceperson has left and right arms, head, legs, weapon, and armor
       AddPacket(1,3);
       
       AddPacket(4,iceperson_legs,1,HS_LEGS);
@@ -190,4 +190,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

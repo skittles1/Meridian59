@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Wolf is Monster
 
 constants:
@@ -46,7 +46,7 @@ classvars:
    viDefault_behavior = AI_FIGHT_KARMA_AGGRESSIVE | AI_MOVE_FLEE_FRIGHTENERS
 
    viDifficulty = 8
-   % Attack range of 192, or 3 row/col.
+   // Attack range of 192, or 3 row/col.
    viAttackRange = 192
    viKarma = -45
    viCashmin = 175
@@ -95,7 +95,7 @@ messages:
 
    SendMoveAnimation()
    {
-      % Cycle through "walking" bitmaps (groups 2-5) at 50 milliseconds per frame
+      // Cycle through "walking" bitmaps (groups 2-5) at 50 milliseconds per frame
       AddPacket(1,ANIMATE_CYCLE,4,31,2,1,2,12);
 
       return;
@@ -109,7 +109,7 @@ messages:
 	 return;
       }
 
-      % if no body animation
+      // if no body animation
       
       propagate;
    }
@@ -130,4 +130,4 @@ messages:
    }
    
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

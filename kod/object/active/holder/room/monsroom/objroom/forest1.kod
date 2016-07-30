@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Forest1 is ObjectRoom
    
 constants:
@@ -56,9 +56,9 @@ messages:
    
    CreateStandardObjects()
    {
-      % Some trees--it is a forest, after all.
+      // Some trees--it is a forest, after all.
 
-      % pines
+      // pines
       Send(self,@NewHold,#what=Create(&Tree,#top=TREE_PINE,#bottom=TREE_PINE),
            #new_row=12,#new_col=6);
       Send(self,@NewHold,#what=Create(&Tree,#top=TREE_PINE,#bottom=TREE_PINE),
@@ -74,7 +74,7 @@ messages:
       Send(self,@NewHold,#what=Create(&Tree,#top=TREE_PINE,#bottom=TREE_PINE),
            #new_row=21,#new_col=26);
 
-      % elms
+      // elms
       Send(self,@NewHold,#what=Create(&Tree,#top=TREE_OAK,#bottom=TREE_ELM),
            #new_row=3,#new_col=21);
       Send(self,@NewHold,#what=Create(&Tree,#top=TREE_OAK,#bottom=TREE_ELM),
@@ -100,4 +100,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

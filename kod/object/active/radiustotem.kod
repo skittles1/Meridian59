@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 RadiusEnchantmentTotem is ActiveObject
 
 constants:
@@ -25,8 +25,8 @@ classvars:
 
 properties:
 
-   poSpell = $            %% The radius spell we're supporting
-   poCaster = $           %% The caster of the original spell
+   poSpell = $            /// The radius spell we're supporting
+   poCaster = $           /// The caster of the original spell
 
    piSpellpower = $
    ptExpirationTimer = $
@@ -34,9 +34,9 @@ properties:
    piRow = 0
    piCol = 0
 
-   % List of enchantments applied by radius spells.
-   % Each element is [song object, spellpower, caster]
-   % Support for players, monsters, and items
+   // List of enchantments applied by radius spells.
+   // Each element is [song object, spellpower, caster]
+   // Support for players, monsters, and items
    plRadiusEnchantments = $
 
 messages:
@@ -191,7 +191,7 @@ messages:
 
    DestroyDisposable()
    {
-      % These naturally time out. They are never actively deleted.
+      // These naturally time out. They are never actively deleted.
       return;
    }
 
@@ -388,7 +388,7 @@ messages:
       iRow = Send(what,@GetRow);
       iCol = Send(what,@GetCol);
 
-      % Sanity checking
+      // Sanity checking
       if iRow = $ OR iCol = $ OR Send(self,@GetRow) = $ OR Send(self,@GetCol) = $
       {
          return $;
@@ -409,4 +409,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

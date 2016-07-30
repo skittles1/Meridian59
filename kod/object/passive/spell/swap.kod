@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Swap is Spell
 
 constants:
@@ -59,7 +59,7 @@ classvars:
 
    viCast_time = 3000
 
-   % in seconds, since it works off GetTime()
+   // in seconds, since it works off GetTime()
    viPostCast_time = 5
 
    vbCastable_in_HappyLand = FALSE
@@ -70,7 +70,7 @@ messages:
 
    ResetReagents()
    {
-      % Separate message so can change, then set from admin mode
+      // Separate message so can change, then set from admin mode
 
       plReagents = $;
       plReagents = Cons([&DarkAngelFeather,1],plReagents);
@@ -89,8 +89,8 @@ messages:
    {
       local target, i;
       
-      % Can cast spell if the first target item is an item and
-      % the second is a user.
+      // Can cast spell if the first target item is an item and
+      // the second is a user.
       if Length(lTargets) <> 1
       {
          return FALSE;
@@ -182,13 +182,13 @@ messages:
                      #weight=Send(oItem_victim,@GetWeight),
                      #bulk=Send(oItem_victim,@GetBulk))
       {
-         % Swap couldn't find an object to swap, or got a failed canswap.
+         // Swap couldn't find an object to swap, or got a failed canswap.
          Send(oCaster,@MsgSendUser,#message_rsc=swap_failed_caster,
                #parm1=Send(oVictim,@GetDef),#parm2=Send(oVictim,@GetName));
          Send(oVictim,@MsgSendUser,#message_rsc=swap_failed_victim,
                #parm1=Send(oCaster,@GetCapDef),#parm2=Send(oCaster,@GetName));
 
-         % Return here instead of propagating, no chance to succeed.
+         // Return here instead of propagating, no chance to succeed.
          return;
       }
 
@@ -231,4 +231,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

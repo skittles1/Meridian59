@@ -1,18 +1,18 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-ForgetPotion is PassiveItem                   % template with subdirectory
+////////////////////////////////////////////////////////////////////////////////
+ForgetPotion is PassiveItem                   // template with subdirectory
 
 constants:
 
-   MESSAGE_DELAY = 3000    %% three seconds
+   MESSAGE_DELAY = 3000    /// three seconds
 
    include blakston.khd
 
@@ -107,12 +107,12 @@ messages:
 
       if viForget_school = SKS_FENCING
       {
-         % This is the "Weaponcraft" string.
+         // This is the "Weaponcraft" string.
          sSchoolName = skill_school_fencing;
       }
       else
       {
-         % Need any spell, so we'll use blink
+         // Need any spell, so we'll use blink
          sSchoolName = send(send(SYS,@FindSpellByNum,#num=SID_BLINK),@GetSchoolStr,#iSchool=viForget_school);
       }
 
@@ -137,7 +137,7 @@ messages:
          oSpell = send(SYS,@FindSpellByNum,#num=iSpellNum);
 
          if send(oSpell,@GetSchool) = viForget_School
-            AND send(oSpell,@CanForget)  %% riija potion doesn't wipe blink
+            AND send(oSpell,@CanForget)  /// riija potion doesn't wipe blink
          {
             send(poApply_target,@RemoveSpell,#num=iSpellNum);
             send(poApply_target,@MsgSendUser,#message_rsc=forgetpotion_forget_spell,
@@ -185,4 +185,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

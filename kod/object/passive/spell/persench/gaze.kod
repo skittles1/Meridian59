@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Paralyze is PersonalEnchantment
 
 constants:
 
    include blakston.khd
 
-   MAX_CAST_LENGTH = 30000  % 30 sec max, just to be safe.
+   MAX_CAST_LENGTH = 30000  // 30 sec max, just to be safe.
 
 resources:
 
@@ -72,9 +72,9 @@ classvars:
 
 properties:
 
-   % The effectiveness of purge on the target spell as a percentage.
-   % 100 will cause purge to remove its entire spellpower, 0 will
-   % prevent purge from removing this spell.
+   // The effectiveness of purge on the target spell as a percentage.
+   // 100 will cause purge to remove its entire spellpower, 0 will
+   // prevent purge from removing this spell.
    viPurgeFactor = 10
 
 messages:
@@ -90,8 +90,8 @@ messages:
 
    GetDuration(iSpellPower=0)
    {
-      % Duration for Gaze is simply the spellpower it was cast at.
-      % One second per spellpower, bound 1-99 here just in case.
+      // Duration for Gaze is simply the spellpower it was cast at.
+      // One second per spellpower, bound 1-99 here just in case.
       return Bound(iSpellPower,1,99) * 1000;
    }
 
@@ -113,7 +113,7 @@ messages:
          iDuration = iSpellpower * Random(20,25);
          iDuration = Bound(iDuration,500,2500);
 
-         % TODO: Make chance to paralyze based on if caster is facing opponent?
+         // TODO: Make chance to paralyze based on if caster is facing opponent?
 
          if IsClass(what,&Revenant)
          {
@@ -126,12 +126,12 @@ messages:
             {
                oWeapon = Send(what,@GetWeapon);
 
-               % Ranged weapons don't always trigger the effect.
+               // Ranged weapons don't always trigger the effect.
                if oWeapon <> $
                   AND IsClass(oWeapon,&RangedWeapon)
                   AND Random(1,100) < 50
                {
-                  % No effect.
+                  // No effect.
                   return defense_power;
                }
 
@@ -170,4 +170,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

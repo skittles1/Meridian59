@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 OneToken is Token
 
 constants:
@@ -24,8 +24,8 @@ resources:
       "token is unreadable by all except the Councilor who studies it."
    OneToken_icon_rsc = eyebox.bgf
 
-   % Overlays not implemented yet.
-   %OneToken_overlay_rsc = tokheye.bgf
+   // Overlays not implemented yet.
+   //OneToken_overlay_rsc = tokheye.bgf
 
 classvars:
 
@@ -35,7 +35,7 @@ classvars:
 
    viInitialTimeval = 20000000
 
-   %vrTokenOverlay = OneToken_overlay_rsc
+   //vrTokenOverlay = OneToken_overlay_rsc
 
 properties:
 
@@ -43,4 +43,4 @@ properties:
 messages:
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

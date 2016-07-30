@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 HermitHut is Room
 
 constants:
@@ -100,7 +100,7 @@ messages:
       Send(self,@NewHold,#what=Create(&Firepit),
            #new_row=1,#fine_row=48,#new_col=2,#fine_col=16);
 
-      % Dynamic Lighting
+      // Dynamic Lighting
 
       send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_BWHITE,#iIntensity=5),
            #new_row=4,#new_col=4,#fine_row=0,#fine_col=57);
@@ -114,4 +114,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

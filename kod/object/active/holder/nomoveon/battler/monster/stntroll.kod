@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 StoneTroll is Monster
 
 constants:
@@ -55,7 +55,7 @@ classvars:
    viLevel = 120
    viDifficulty = 8
    viVisionDistance = 20
-   % Attack range of 192, or 3 row/col.
+   // Attack range of 192, or 3 row/col.
    viAttackRange = 192
    viKarma = -100
    viDefault_behavior = AI_FIGHT_AGGRESSIVE
@@ -125,7 +125,7 @@ messages:
          return;
       }
 
-      % if no body animation
+      // if no body animation
      propagate;
    }
 
@@ -147,9 +147,9 @@ messages:
 
    CanMorphTo()
    {
-      % Too many abuses were caused by morphing into a stone troll. :(
+      // Too many abuses were caused by morphing into a stone troll. :(
       return FALSE;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

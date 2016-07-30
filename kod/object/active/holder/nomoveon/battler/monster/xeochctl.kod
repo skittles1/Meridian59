@@ -1,25 +1,25 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Xeochicatl is Monster
 
 constants:
 
    include blakston.khd
 
-   % Percent chance to drain mana with an attack.
+   // Percent chance to drain mana with an attack.
    DRAIN_CHANCE = 50
-   % Percent chance to resist a spell
+   // Percent chance to resist a spell
    MAGIC_RESIST = 30
 
-   % Cast spell animation.
+   // Cast spell animation.
    ANIM_CAST = 2
 
    FRAME_STAND = 1
@@ -29,7 +29,7 @@ constants:
    FRAME_CAST_START = 7
    FRAME_CAST_END = 10
 
-   % What's the maximum number of walls allowed?
+   // What's the maximum number of walls allowed?
    MAX_WALLS = 2
 
 resources:
@@ -73,7 +73,7 @@ classvars:
    viLevel = 150
    viDifficulty = 8
    viVisionDistance = 60
-   % Attack range of 192, or 3 row/col.
+   // Attack range of 192, or 3 row/col.
    viAttackRange = 3 * FINENESS
    viSpeed = SPEED_FASTER
    viKarma = 0
@@ -86,7 +86,7 @@ classvars:
    viCashMin = 0
    viCashMax = 0
 
-   % 1 in x chance to cast a spell.
+   // 1 in x chance to cast a spell.
    viSpellChance = 4
 
    viAttributes = MOB_ONE_TREASURE
@@ -98,12 +98,12 @@ properties:
 
    piSpellPower = 99
 
-   % is this Xeochicatl part of a node attack?
+   // is this Xeochicatl part of a node attack?
    pbNodeAttack = FALSE
 
    piColor_Translation = 0
 
-   % percent of victim's max mana it will try to drain.
+   // percent of victim's max mana it will try to drain.
    piDrainAmount = 5
 
    piReputationGroup = REP_HERETIC
@@ -113,7 +113,7 @@ messages:
    Constructor(InAttack=FALSE)
    {
       pbNodeAttack = InAttack;
-      % This makes the Xeos not affect Karma if set to true.
+      // This makes the Xeos not affect Karma if set to true.
       pbDontDispose = InAttack;
 
       propagate;
@@ -185,7 +185,7 @@ messages:
          return;
       }
 
-      % If no body animation
+      // If no body animation
       AddPacket(1,ANIMATE_NONE, 2,FRAME_FLY);
 
       return;
@@ -205,7 +205,7 @@ messages:
          return TRUE;
       }
 
-      % Charm checks up higher.
+      // Charm checks up higher.
       propagate;
    }
 
@@ -219,8 +219,8 @@ messages:
       propagate;
    }
 
-   % If we delete a xeo accidentally during a node attack
-   % we need to make sure the attack records it as dying
+   // If we delete a xeo accidentally during a node attack
+   // we need to make sure the attack records it as dying
    Delete()
    {
       if pbNodeAttack
@@ -278,7 +278,7 @@ messages:
             OR IsClass(oSpell,&Blind)
             OR IsClass(oSpell,&Hold)
          {
-            % 3 times the chance to resist.  Brings 30% up to 90%
+            // 3 times the chance to resist.  Brings 30// up to 90//
             iResistChance = (iResistChance * 3);
          }
 
@@ -293,4 +293,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

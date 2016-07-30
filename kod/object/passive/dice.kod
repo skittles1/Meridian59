@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Dice is PassiveObject
 
 constants:
@@ -54,7 +54,7 @@ properties:
    vrDesc = dice_desc
    vrIcon = dice_icon
 
-   ptRoll = $     %% This is simply used to keep the spam level tolerable.  3 seconds after each roll.
+   ptRoll = $     /// This is simply used to keep the spam level tolerable.  3 seconds after each roll.
 
 messages:
 
@@ -176,7 +176,7 @@ messages:
 	       continue;
 	    }
 
-	    % message comes from except_rsc, with parm1 missing.
+	    // message comes from except_rsc, with parm1 missing.
 	    send(first(i),@MsgSendUser,#message_rsc=except_rsc,
 	       #parm1=parm2,#parm2=parm3,#parm3=parm4,#parm4=parm5,
 	       #parm5=parm6,#parm6=parm7,#parm7=parm8);
@@ -207,5 +207,5 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 

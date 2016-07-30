@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ResistanceEnchantment is PersonalEnchantment
 
 constants:
@@ -36,9 +36,9 @@ classvars:
 
 properties:
 
-   % The effectiveness of purge on the target spell as a percentage.
-   % 100 will cause purge to remove its entire spellpower, 0 will
-   % prevent purge from removing this spell.
+   // The effectiveness of purge on the target spell as a percentage.
+   // 100 will cause purge to remove its entire spellpower, 0 will
+   // prevent purge from removing this spell.
    viPurgeFactor = 40
 
 messages:
@@ -72,7 +72,7 @@ messages:
 
    GetResistanceStrength(iSpellpower=0)
    {
-      %% Strength varies from 1 to 50
+      /// Strength varies from 1 to 50
       return iSpellPower/2 + 1;
    }
 
@@ -85,10 +85,10 @@ messages:
 
    GetDuration(iSpellPower=0)
    {
-      local iDuration;      %%% 5 to 10 minutes
+      local iDuration;      //// 5 to 10 minutes
 
       iDuration = 300 + iSpellPower * 3;
-      iDuration = iDuration * 1000;      %% translate to milliseconds
+      iDuration = iDuration * 1000;      /// translate to milliseconds
 
       return iDuration;
    }
@@ -119,4 +119,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

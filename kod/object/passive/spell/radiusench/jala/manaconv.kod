@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 ManaConvergence is Jala
 
 constants:
@@ -51,9 +51,9 @@ classvars:
    vrIcon = ManaConvergence_icon_rsc
    vrDesc = ManaConvergence_desc_rsc
 
-   viMana = 10          % Mana is amount used upon inititiation
-   viManaDrain = 9      % Drain is amount used every viDrainTime milliseconds
-   viDrainTime = 5000    % Drain some mana every viDrainTime milliseconds
+   viMana = 10          // Mana is amount used upon inititiation
+   viManaDrain = 9      // Drain is amount used every viDrainTime milliseconds
+   viDrainTime = 5000    // Drain some mana every viDrainTime milliseconds
    viSpell_num = SID_MANA_CONVERGENCE
 
    viSchool = SS_JALA
@@ -90,4 +90,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

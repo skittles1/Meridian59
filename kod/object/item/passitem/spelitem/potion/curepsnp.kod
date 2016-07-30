@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 CurePoisonPotion is Potion
 
 constants:
@@ -19,7 +19,7 @@ resources:
    include curepsnp.lkod
 
    CurePoisonPotion_name_rsc = "cure poison potion"
-   %CurePoisonPotion_icon_rsc = potion01.bgf
+   //CurePoisonPotion_icon_rsc = potion01.bgf
    CurePoisonPotion_desc_rsc = "This is a glass vial of colored liquid.  "
                         "It smells crisp, clean and refreshing."
    CurePoisonPotion_bad_desc_rsc = "This is a glass vial of slightly cloudy colored liquid.  "
@@ -55,4 +55,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

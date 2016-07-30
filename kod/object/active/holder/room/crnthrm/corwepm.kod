@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 CorWeaponsMaster is CorNothRoom
 
 constants:
@@ -53,14 +53,14 @@ messages:
    {
       plExits = $;
 
-      % The short door
+      // The short door
       plExits = Cons([ 5, 6, RID_COR_WEAPONSMASTER, 5, 8, ROTATE_NONE ],plExits);
       plExits = Cons([ 5, 7, RID_COR_WEAPONSMASTER, 5, 5, ROTATE_NONE ],plExits);
 
-      % Locked door
+      // Locked door
       plExits = Cons([ 1, 7, ROOM_LOCKED_DOOR, weaponsmaster_locked_door ],plExits);
 
-      % TO TOWN
+      // TO TOWN
       plExits = Cons([ 8, 6, RID_CORNOTH, 11, 8, ROTATE_NONE ],plExits);
 
       propagate;
@@ -89,4 +89,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

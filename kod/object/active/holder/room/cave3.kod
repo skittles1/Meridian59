@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Cave3 is Room
 
 constants:
@@ -63,7 +63,7 @@ properties:
    piOutside_factor = 1
    pbDoorOpen = FALSE
 
-   % A dynamic light that appears when the Froz jewel appears.
+   // A dynamic light that appears when the Froz jewel appears.
    poLight = $
 
 messages:
@@ -124,32 +124,32 @@ messages:
          }
       }
 
-   % Brax enterance
-   %   if IsClass(what,&Player)
-   %   {
-   %      if row = 28 AND col=73
-   %      {
-   %         lPassive = send(what,@GetHolderPassive);
-   %         foreach i in lPassive
-   %         {
-   %            each_obj = send(what,@HolderExtractObject,#data=i);
-   %            if isClass(each_obj,&SanctuaryKey)
-   %            {
-   %               send(each_obj,@Delete);
-   %               send(what,@MsgSendUser,#message_rsc=cave3_key_disappears);
-   %               Send(SYS,@UtilGoNearSquare,#what=what,
-   %               #where=Send(SYS,@FindRoomByNum,#num=RID_NECROAREA1),
-   %               #new_row=3,#new_col=43,#new_angle=ANGLE_WEST);
-   %
-   %               return TRUE;
-   %            }
-   %         }
-   %
-   %         send(what,@MsgSendUser,#message_rsc=cave3_locked_door);
-   %
-   %         return TRUE;
-   %      }
-   %   }
+   // Brax enterance
+   //   if IsClass(what,&Player)
+   //   {
+   //      if row = 28 AND col=73
+   //      {
+   //         lPassive = send(what,@GetHolderPassive);
+   //         foreach i in lPassive
+   //         {
+   //            each_obj = send(what,@HolderExtractObject,#data=i);
+   //            if isClass(each_obj,&SanctuaryKey)
+   //            {
+   //               send(each_obj,@Delete);
+   //               send(what,@MsgSendUser,#message_rsc=cave3_key_disappears);
+   //               Send(SYS,@UtilGoNearSquare,#what=what,
+   //               #where=Send(SYS,@FindRoomByNum,#num=RID_NECROAREA1),
+   //               #new_row=3,#new_col=43,#new_angle=ANGLE_WEST);
+   //
+   //               return TRUE;
+   //            }
+   //         }
+   //
+   //         send(what,@MsgSendUser,#message_rsc=cave3_locked_door);
+   //
+   //         return TRUE;
+   //      }
+   //   }
    
       propagate;
    }
@@ -172,7 +172,7 @@ messages:
       send(self,@Newhold,#what=Create(&JewelOfFroz),
            #new_row=37,#new_col=38,#fine_row=16,#fine_col=0);
 
-      % Create a light on the jewel, too.
+      // Create a light on the jewel, too.
       poLight = Create(&DynamicLight,#iColor=LIGHT_RED,#iIntensity=30);
       send(self,@NewHold,#what=poLight,#new_row=37,#new_col=38,#fine_row=16,#fine_col=0);
 
@@ -181,11 +181,11 @@ messages:
 
    RaiseTemple()
    {
-      % Door
+      // Door
       send(self,@SetSector,#sector=SECTOR_DOOR,#animation=ANIMATE_FLOOR_LIFT,
            #height=260,#speed=150);
 
-      % Temple
+      // Temple
       send(self,@SetSector,#sector=SECTOR_TEMPLE1,#animation=ANIMATE_FLOOR_LIFT,
            #height=300,#speed=10);
       send(self,@SetSector,#sector=SECTOR_TEMPLE2,#animation=ANIMATE_FLOOR_LIFT,
@@ -199,7 +199,7 @@ messages:
       send(self,@SetSector,#sector=SECTOR_TEMPLE6,#animation=ANIMATE_FLOOR_LIFT,
            #height=324,#speed=10);
 
-      % Stairs
+      // Stairs
       send(self,@SetSector,#sector=SECTOR_STAIR1,#animation=ANIMATE_FLOOR_LIFT,
            #height=244,#speed=20);
       send(self,@SetSector,#sector=SECTOR_STAIR2,#animation=ANIMATE_FLOOR_LIFT,
@@ -216,11 +216,11 @@ messages:
    
    LowerTemple()
    {
-      % Door
+      // Door
       send(self,@SetSector,#sector=SECTOR_DOOR,#animation=ANIMATE_FLOOR_LIFT,
            #height=336,#speed=150);
       
-      % Temple
+      // Temple
       send(self,@SetSector,#sector=SECTOR_TEMPLE1,#animation=ANIMATE_FLOOR_LIFT,
            #height=208,#speed=10);
       send(self,@SetSector,#sector=SECTOR_TEMPLE2,#animation=ANIMATE_FLOOR_LIFT,
@@ -234,7 +234,7 @@ messages:
       send(self,@SetSector,#sector=SECTOR_TEMPLE6,#animation=ANIMATE_FLOOR_LIFT,
            #height=208,#speed=10);
       
-      % Stairs
+      // Stairs
       send(self,@SetSector,#sector=SECTOR_STAIR1,#animation=ANIMATE_FLOOR_LIFT,
            #height=208,#speed=20);
       send(self,@SetSector,#sector=SECTOR_STAIR2,#animation=ANIMATE_FLOOR_LIFT,
@@ -260,7 +260,7 @@ messages:
 
    LeaveHold(what = $)
    {
-      % If the Froz jewel is picked up, delete it's light.
+      // If the Froz jewel is picked up, delete it's light.
       if IsClass(what,&JewelOfFroz)
       {
          send(self,@DeleteLight);
@@ -283,4 +283,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

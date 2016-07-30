@@ -1,16 +1,16 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////////
 Statistics is UtilityFunctions
 
-% This class keeps statistics about the game.
+// This class keeps statistics about the game.
 
 constants:
 
@@ -25,30 +25,30 @@ properties:
    piPlayer_deaths = 0
    piPlayer_kills = 0
 
-   % List of [spell id, successful casts, failed casts] elements, one for each spell
+   // List of [spell id, successful casts, failed casts] elements, one for each spell
    plSpell_cast_counts = $
 
-   % List of [room id, times entered by player] elements, one for each room
+   // List of [room id, times entered by player] elements, one for each room
    plRoom_entered_counts = $
 
-   % List of [class item, times dropped] elements, one for each non-stackable item
+   // List of [class item, times dropped] elements, one for each non-stackable item
    plSingle_item_drop_counts = $
 
-   % List of [class item, number dropped] elements, one for each stackable item
+   // List of [class item, number dropped] elements, one for each stackable item
    plStack_item_drop_count = $
 
-   % A current sum of all money in all player bank accounts and held on player characters.
+   // A current sum of all money in all player bank accounts and held on player characters.
    piPlayerMoneyTotal = $
 
-   % Money Created this save period
+   // Money Created this save period
    piMoneyCreated = 0
    
-   % Highest level in a Survival Arenas
+   // Highest level in a Survival Arenas
    piPublicSurvivalLevel = 0
    piGuildSurvivalLevel = 0
    piSoloSurvivalLevel = 0
    
-   % How many ancient trinkets (stat reset tokens) have been found?
+   // How many ancient trinkets (stat reset tokens) have been found?
    piFoundTrinkets = 0
 
 messages:
@@ -153,7 +153,7 @@ messages:
    {
       local lSpells, oSpell, lRooms, oRoom;
 
-      % Set up spell counts
+      // Set up spell counts
       lSpells = Send(SYS,@GetSpells);
       foreach oSpell in lSpells
       {
@@ -161,7 +161,7 @@ messages:
                                     plSpell_cast_counts);
       }
 
-      % Set up room counts
+      // Set up room counts
       lRooms = Send(SYS,@GetRooms);
       foreach oRoom in lRooms
       {
@@ -235,8 +235,8 @@ messages:
          }
       }
 
-      % If we got here, we didn't find the room in our room count.
-      % So, we add it.
+      // If we got here, we didn't find the room in our room count.
+      // So, we add it.
       plRoom_entered_counts = Cons([iNum,0],plRoom_entered_counts);
 
       return;
@@ -323,7 +323,7 @@ messages:
       lUsers = Send(SYS, @GetUsers);
       iActiveUsers = 0;
 
-      % Build histograms according to these values
+      // Build histograms according to these values
       lStatBins = [1, 10, 20, 30, 40, 50];
 
       lMightCounts = $;
@@ -351,9 +351,9 @@ messages:
 
       foreach oUser in lUsers
       {
-         % Attempt to deal with the Blakod timer value wraparound, but
-         % this doesn't really work.  We don't have a foolproof way to
-         % determine who has actually logged in recently.
+         // Attempt to deal with the Blakod timer value wraparound, but
+         // this doesn't really work.  We don't have a foolproof way to
+         // determine who has actually logged in recently.
          iLastLoginTime = Send(oUser, @GetLastLoginTime);
          if NOT IsClass(oUser, &DM) 
             AND iNow > iLastLoginTime
@@ -361,7 +361,7 @@ messages:
          {
             iActiveUsers = iActiveUsers + 1;
 
-            % Player stats
+            // Player stats
             lMightCounts = 
                Send(self, @AccumulateBin, #counts = lMightCounts, 
                     #value = Send(oUser, @GetMight), #bins = lStatBins);
@@ -381,7 +381,7 @@ messages:
                Send(self, @AccumulateBin, #counts = lAimCounts, 
                     #value = Send(oUser, @GetAim), #bins = lStatBins);
 
-            % Health and mana
+            // Health and mana
             lHealthCounts = 
                Send(self, @AccumulateBin, #counts = lHealthCounts, 
                     #value = Send(oUser, @GetBaseMaxHealth), #bins = lHealthBins);
@@ -389,7 +389,7 @@ messages:
                Send(self, @AccumulateBin, #counts = lManaCounts, 
                     #value = Send(oUser, @GetMaxMana), #bins = lManaBins);
 
-            % Player kills, unjustified (bad), justified (good)
+            // Player kills, unjustified (bad), justified (good)
             lBadKillCounts = 
                Send(self, @AccumulateBin, #counts = lBadKillCounts, 
                     #value = Send(oUser, @GetUnjustifiedKills), #bins = lBadKillBins);
@@ -397,19 +397,19 @@ messages:
                Send(self, @AccumulateBin, #counts = lGoodKillCounts, 
                     #value = Send(oUser, @GetJustifiedKills), #bins = lGoodKillBins);
             
-            % Faction
+            // Faction
             lFactionCounts = 
                Send(self, @AccumulateBin, #counts = lFactionCounts, 
                     #value = Send(oUser, @GetFaction), #bins = lFactionBins);
 
-            % Gender
+            // Gender
             lGenderCounts = 
                Send(self, @AccumulateBin, #counts = lGenderCounts, 
                     #value = Send(oUser, @GetGender), #bins = lGenderBins);
          }
       }
 
-      % Print the output
+      // Print the output
       Debug("Total Users:", Length(lUsers));
       Debug("Active Users:", iActiveUsers);
 
@@ -436,15 +436,15 @@ messages:
       Send(self, @PrintBinCounts, #name = "Player kills: unjustified", 
          #counts = lBadKillCounts, #bins = lBadKillBins);
 
-      % Faction
+      // Faction
       Send(self, @PrintBinCounts, #name = "Faction", 
          #counts = lFactionCounts, #bins = lFactionBins);
 
-      % Male / female
+      // Male / female
       Send(self, @PrintBinCounts, #name = "Gender", 
          #counts = lGenderCounts, #bins = lGenderBins);
 
-      % Money in the bank
+      // Money in the bank
 
       return;
    }
@@ -456,18 +456,18 @@ messages:
    {
       local i, bin;
 
-      % Initialize new list with 0 values?
+      // Initialize new list with 0 values?
       if counts = $
       {
          foreach bin in bins
          {
             counts = Cons(0, counts);
          }
-         % Add one for being greater than the highest bin
+         // Add one for being greater than the highest bin
          counts = Cons(0, counts);
       }
 
-      % Find the right bin
+      // Find the right bin
       i = 1;
       foreach bin in bins
       {
@@ -503,4 +503,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

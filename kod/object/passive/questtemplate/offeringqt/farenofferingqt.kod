@@ -1,30 +1,30 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 FarenOfferingQuest is OfferingQuestTemplate
-% Quest template QST_ID_FAREN_OFFERING = 28
-% Quest nodes 73, 74, 75, 76, 77.
-% QNT_ID_FAREN_OFFERING_ONE, QNT_ID_FAREN_OFFERING_TWO, QNT_ID_FAREN_OFFERING_THREE
-% QNT_ID_FAREN_OFFERING_FOUR, QNT_ID_FAREN_OFFERING_FIVE
+// Quest template QST_ID_FAREN_OFFERING = 28
+// Quest nodes 73, 74, 75, 76, 77.
+// QNT_ID_FAREN_OFFERING_ONE, QNT_ID_FAREN_OFFERING_TWO, QNT_ID_FAREN_OFFERING_THREE
+// QNT_ID_FAREN_OFFERING_FOUR, QNT_ID_FAREN_OFFERING_FIVE
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -34,7 +34,7 @@ resources:
 
    include farenofferingqt.lkod
 
-   % Quest description.
+   // Quest description.
    farenofferingqt_icon_rsc = burnwate.bgf
    farenofferingqt_name_rsc = "Faren offering quest"
    farenofferingqt_desc_rsc = \
@@ -48,7 +48,7 @@ resources:
       "world, the Shrine will be dedicated to Faren and his spells "
       "will have more power."
 
-   % Quest resources.
+   // Quest resources.
    farenoffering_assign_2 = \
       "`B`g%NAME, child of our Mistress of the Wilds, will you give "
       "of yourself so that your Mother may be stronger?"
@@ -78,7 +78,7 @@ classvars:
 
    vrCompleted = farenofferingqt_completed
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_FAREN_OFFERING
 
    viIcon_Animation_start = 1
@@ -92,14 +92,14 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_FAREN_OFFERING_ONE, QNT_ID_FAREN_OFFERING_TWO,
                       QNT_ID_FAREN_OFFERING_THREE, QNT_ID_FAREN_OFFERING_FOUR,
                       QNT_ID_FAREN_OFFERING_FOUR, QNT_ID_FAREN_OFFERING_FOUR,
                       QNT_ID_FAREN_OFFERING_FIVE];
 
-      % Quest nodes with matching descriptions for the player.
-      % No description needed for quest node QNT_ID_SHAL_DISCIPLE_ONE.
+      // Quest nodes with matching descriptions for the player.
+      // No description needed for quest node QNT_ID_SHAL_DISCIPLE_ONE.
       plQuestNodeDesc = [ [QNT_ID_FAREN_OFFERING_TWO, vrAccept],
                           [QNT_ID_FAREN_OFFERING_THREE, vrChant],
                           [QNT_ID_FAREN_OFFERING_FOUR, vrChant],
@@ -117,8 +117,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #73 is faren offering quest kickoff
-      % QNT_ID_FAREN_OFFERING_ONE
+      // Template #73 is faren offering quest kickoff
+      // QNT_ID_FAREN_OFFERING_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_SHOWUP,
                #quest_node_index=QNT_ID_FAREN_OFFERING_ONE)
       {
@@ -131,8 +131,8 @@ messages:
          Debug("Error building QN: QNT_ID_FAREN_OFFERING_ONE");
       }
 
-      % Template #74 is faren offering quest, say "yes"
-      % QNT_ID_FAREN_OFFERING_TWO
+      // Template #74 is faren offering quest, say "yes"
+      // QNT_ID_FAREN_OFFERING_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #NPC_modifier=QN_NPCMOD_SAME,#cargolist=[offering_trigger_2],
                #timelimit=piTimeLimit,#quest_node_index=QNT_ID_FAREN_OFFERING_TWO)
@@ -145,8 +145,8 @@ messages:
          Debug("Error building QN: QNT_ID_FAREN_OFFERING_TWO");
       }
 
-      % Template #75 is faren offering quest, incant
-      % QNT_ID_FAREN_OFFERING_THREE
+      // Template #75 is faren offering quest, incant
+      // QNT_ID_FAREN_OFFERING_THREE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #NPC_modifier=QN_NPCMOD_SAME,#cargolist=[farenoffering_trigger_3],
                #prizelist=[ [QN_PRIZETYPE_BOON, QN_PRIZE_BOON_MYSTICISM , -4, 4 ],
@@ -164,8 +164,8 @@ messages:
          Debug("Error building QN: QNT_ID_FAREN_OFFERING_THREE");
       }
 
-      % Template #76 is faren offering quest, incant
-      % QNT_ID_FAREN_OFFERING_FOUR
+      // Template #76 is faren offering quest, incant
+      // QNT_ID_FAREN_OFFERING_FOUR
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #NPC_modifier=QN_NPCMOD_SAME,#cargolist=[farenoffering_trigger_3],
                #prizelist=[ [QN_PRIZETYPE_BOON, QN_PRIZE_BOON_MYSTICISM , -4, 4 ],
@@ -183,8 +183,8 @@ messages:
          Debug("Error building QN: QNT_ID_FAREN_OFFERING_FOUR");
       }
 
-      % Template #77 is faren offering quest, incant
-      % QNT_ID_FAREN_OFFERING_FIVE
+      // Template #77 is faren offering quest, incant
+      // QNT_ID_FAREN_OFFERING_FIVE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #NPC_modifier=QN_NPCMOD_SAME,#cargolist=[farenoffering_trigger_3],
                #prizelist=[ [ QN_PRIZETYPE_ITEMCLASS, &OfferingFaren, 1 ],
@@ -209,4 +209,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

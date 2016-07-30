@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////////
 System is UtilityFunctions
 
 constants:
@@ -15,7 +15,7 @@ constants:
    include blakston.khd
    include protocol.khd
 
-   % sent by server
+   // sent by server
    SYSEVENT_GARBAGE = 1
    SYSEVENT_SAVE = 2
    SYSEVENT_RELOAD_SYSTEM = 3
@@ -30,7 +30,7 @@ constants:
    F_RED = 32
    F_ALL_COLOR = 60
 
-   % Six minutes, in ms.
+   // Six minutes, in ms.
    GUILD_MAINTENANCE_DELAY = 360000
 
    RECREATE_NOT = -1
@@ -74,7 +74,7 @@ resources:
    system_space_resource = " "
    system_unknown_resource = "Unknown"
 
-   % Templates for sending lots of description parts.
+   // Templates for sending lots of description parts.
    system_rsc_template_1 = "%r"
    system_rsc_template_2 = "%r%r"
    system_rsc_template_3 = "%r%r%r"
@@ -102,7 +102,7 @@ resources:
 
    system_char_module = char.dll
 
-   % charinfo stuff
+   // charinfo stuff
 
    charinfo_might_icon = light.bgf
    charinfo_might_name = "Might"
@@ -152,29 +152,29 @@ resources:
 
    charinfo_hair_name = "Hair"
 
-   charinfo_hair_ac_icon = ptac.bgf  % Hercules male long hair look
-   charinfo_hair_ba_icon = ptba.bgf  % Tower of Power
-   charinfo_hair_bc_icon = ptbc.bgf  % Ponytail
-   charinfo_hair_cd_icon = ptcd.bgf  % Mohawk
-   charinfo_hair_ca_icon = ptca.bgf  % Short, women's hair
-   charinfo_hair_db_icon = ptdb.bgf  % Braids
+   charinfo_hair_ac_icon = ptac.bgf  // Hercules male long hair look
+   charinfo_hair_ba_icon = ptba.bgf  // Tower of Power
+   charinfo_hair_bc_icon = ptbc.bgf  // Ponytail
+   charinfo_hair_cd_icon = ptcd.bgf  // Mohawk
+   charinfo_hair_ca_icon = ptca.bgf  // Short, women's hair
+   charinfo_hair_db_icon = ptdb.bgf  // Braids
 
-   charinfo_hair_ad_icon = ptad.bgf  % Short men's hair
-   charinfo_hair_bb_icon = ptbb.bgf  % Chin length men's hair
-   charinfo_hair_bd_icon = ptbd.bgf  % earlength wide women's hair.
+   charinfo_hair_ad_icon = ptad.bgf  // Short men's hair
+   charinfo_hair_bb_icon = ptbb.bgf  // Chin length men's hair
+   charinfo_hair_bd_icon = ptbd.bgf  // earlength wide women's hair.
 
-   charinfo_hair_cb_icon = ptcb.bgf  % Long hair tucked back
-   charinfo_hair_dc_icon = ptdc.bgf  % Long hair
-   charinfo_hair_dr_icon = ptdr.bgf  % dreads
-   charinfo_hair_xa_icon = ptxa.bgf  % bald head/Ben Franklin Look
-   charinfo_hair_xb_icon = ptxb.bgf  % Curly hair bun look
+   charinfo_hair_cb_icon = ptcb.bgf  // Long hair tucked back
+   charinfo_hair_dc_icon = ptdc.bgf  // Long hair
+   charinfo_hair_dr_icon = ptdr.bgf  // dreads
+   charinfo_hair_xa_icon = ptxa.bgf  // bald head/Ben Franklin Look
+   charinfo_hair_xb_icon = ptxb.bgf  // Curly hair bun look
 
-   charinfo_hair_bald_icon = blank.bgf   % bald.
+   charinfo_hair_bald_icon = blank.bgf   // bald.
 
-   % What's substitutded for swear words when cleansing strings.
+   // What's substitutded for swear words when cleansing strings.
    system_swear_symbols = "#@$%!"
 
-   % Number resources for ordinal and cardinal numbers
+   // Number resources for ordinal and cardinal numbers
    system_ordinal_0 = "zeroth"
    system_ordinal_1 = "first"
    system_ordinal_2 = "second"
@@ -224,8 +224,8 @@ resources:
    system_cardinal_90 = "ninety"
    system_cardinal_100 = "a hundred"
 
-   % These resources have a space on the end, so they can be used in place of
-   % indefinite articles.
+   // These resources have a space on the end, so they can be used in place of
+   // indefinite articles.
    system_fuzzy_cardinal_10000 = "countless "
    system_fuzzy_cardinal_1000 = "thousands of "
    system_fuzzy_cardinal_200 = "hundreds of "
@@ -264,11 +264,11 @@ resources:
    system_failure_rsc = "Failure."
    system_please_wait_rsc = "Please wait about 5 seconds for processing."
 
-   % A resource for use when a hidden admin tells something to a non-admin.
-   %  Placed here so we can filter out user names to avoid confusion.
+   // A resource for use when a hidden admin tells something to a non-admin.
+   //  Placed here so we can filter out user names to avoid confusion.
    system_hidden_admin = "An Administrator"
 
-   % Joke message
+   // Joke message
    system_joke_message = \
       "~IA strange wind blows across the land, killing all monsters.~I\n"
       "~b~BCongratulations!~B~k All the monsters have been slain!  You have "
@@ -354,24 +354,24 @@ properties:
    plItemTemplates = $
    plMoneyTemplates = $
 
-   % A list of naughty words.
+   // A list of naughty words.
    plNaughtyWords = $
 
-   % A list of names that are retired and can only be set by an admin
+   // A list of names that are retired and can only be set by an admin
    plRetiredNames = $
 
-   poHolder1 = $ % Temporary holders used in offers
+   poHolder1 = $ // Temporary holders used in offers
    poHolder2 = $
 
    piHour = 0
    piDay = 0
    piYear = 0
 
-   % outdoor brightness level (0-100), updated hourly
+   // outdoor brightness level (0-100), updated hourly
    piBrightness
-   % updated here and there
+   // updated here and there
    piDay_Phase
-   % weather around the world
+   // weather around the world
    plWeatherConditions = $
 
    poLibrary = $
@@ -386,24 +386,24 @@ properties:
    poRentableRoomMaintenance = $
    poSurvivalRoomMaintenance = $
 
-   % Singleton object that keeps track of various game statistics
+   // Singleton object that keeps track of various game statistics
    poStatistics = $
 
    poWarEvent = $
    
-   % Hash table for users.
+   // Hash table for users.
    phUsers
-   % Hash table for rooms.
+   // Hash table for rooms.
    phRooms
-   % Hash table for spells.
+   // Hash table for spells.
    phSpells
-   % Hash table for skills.
+   // Hash table for skills.
    phSkills
-   % Hash table for item attributes.
+   // Hash table for item attributes.
    phItemAtts
-   % Hash table for treasure types.
+   // Hash table for treasure types.
    phTresTypes
-   % XP tables
+   // XP tables
    phXPTable
 
    poMoney = $
@@ -419,46 +419,46 @@ properties:
    pbDecay_counter = 0
 
    piLogoffPenaltyDecayCounter = 0
-   % Players' LogoffPenaltyCounters decrement this often.
-   %  units: 2 hrs (12 = 24 hrs)
+   // Players' LogoffPenaltyCounters decrement this often.
+   //  units: 2 hrs (12 = 24 hrs)
    piLogoffPenaltyDecayTime = 12                
                                                 
    pbLogoffPenaltyEnable = TRUE
 
-   % At this value of the player's penalty counter, penalties are as severe as
-   %  death.
+   // At this value of the player's penalty counter, penalties are as severe as
+   //  death.
    piLogoffPenaltyEquivDeath = 10
 
    ptLogPenTempDisable = $
    ptServerPopulationMonitor = $
    piLastServerPopulation = 0
 
-   % if the population drop is <= this, ignore logoff penalties.
+   // if the population drop is <= this, ignore logoff penalties.
    piServerPopDropThreshold = 5
 
-   % if the population percent drop is <= this, ignore logoff penalties.
+   // if the population percent drop is <= this, ignore logoff penalties.
    piServerPopulationPercentDrop = 40
 
-   % check the population every 30 seconds.
+   // check the population every 30 seconds.
    piServerPopMonitorInterval = 30 * 1000
 
-   % plChests is only used when rooms are recreated.
+   // plChests is only used when rooms are recreated.
    plChests = $
 
-   % Normal is standard, pk if you're over 30.  NO_MURDER means people
-   %  can't kill each other.
+   // Normal is standard, pk if you're over 30.  NO_MURDER means people
+   //  can't kill each other.
    piServer_type = SERVER_NORMAL
 
-   % A list of elements of format: [player,[reflection1, reflection2...]]
+   // A list of elements of format: [player,[reflection1, reflection2...]]
    plReflections = $
 
    plShrines = $
    plShrine_Powers = $
    
-   % Save over recreations
+   // Save over recreations
    plShrine_Allegiances = $
 
-   % Bonus spellpower set by admins for events.
+   // Bonus spellpower set by admins for events.
    plBonusSpellpower = $
 
    ptRecreateTimer = $
@@ -480,26 +480,26 @@ properties:
 
    poLastMurderer = $
 
-   % What's the current server number?  Must be set manually.
-   % Currently used for admin gmail to flag message origin.
+   // What's the current server number?  Must be set manually.
+   // Currently used for admin gmail to flag message origin.
    piServerNumber = 0
 
    poSrGuardian = $
 
-   % How many "penalty points" is a having a max level of 'n' worth?
-   %  Take Nth of this list
+   // How many "penalty points" is a having a max level of 'n' worth?
+   //  Take Nth of this list
    vlLevelPoints = $
 
-   % A master list of all spell-casting active objects
+   // A master list of all spell-casting active objects
    plSpellTotems = $
 
-   % A master list of all object attributes, for maintenance, control, & statistics purposes
+   // A master list of all object attributes, for maintenance, control, & statistics purposes
    plObject_attributes_master = $
 
-   % A list of room type objects used forr room icons
+   // A list of room type objects used forr room icons
    plRoomIcons = $
    
-   % Keeps track of the last save before a frenzy.
+   // Keeps track of the last save before a frenzy.
    psSaveGame = $
 
 messages:
@@ -511,10 +511,10 @@ messages:
 
    Constructor()
    {
-      % This shouldn't be changed!
+      // This shouldn't be changed!
       vlLevelPoints = [1,2,4,6,8,10];
 
-      % Reset the list of naughty words
+      // Reset the list of naughty words
       Send(self,@ResetNaughtyWords);
 
       Send(self,@ResetRetiredNames);
@@ -528,7 +528,7 @@ messages:
       Send(self,@RecreateAllBrains);
       Send(self,@RecreateLibrary);
       Send(self,@RecreateAllRooms);
-      % Creates the Faction games
+      // Creates the Faction games
       Send(self,@RecreateParliament);
 
       Send(self,@RecreateAssassinGame);
@@ -575,7 +575,7 @@ messages:
 
       psTemp = CreateString();
 
-      Send(self,@RecreateStatistics);  % Must create after anything you want to measure
+      Send(self,@RecreateStatistics);  // Must create after anything you want to measure
 
       ptRecreateTimer = CreateTimer(self,@CreateLightAndWeather,3000);
 
@@ -589,20 +589,20 @@ messages:
       return system_success_rsc;
    }
 
-   % RecreateAll: Recreates all objects in the game as needed.  The usual last
-   %  resort to fix unknown problems.
-   % This is broken up into different groups because the server may think we're
-   %  in an infinite loop if we try to do too much at once (too many function
-   %  calls).
+   // RecreateAll: Recreates all objects in the game as needed.  The usual last
+   //  resort to fix unknown problems.
+   // This is broken up into different groups because the server may think we're
+   //  in an infinite loop if we try to do too much at once (too many function
+   //  calls).
 
    RecreateAll()
    {
       local i, lSavedFlagStates, lSavedSenate;
 
-      % Reset our level points.
+      // Reset our level points.
       vlLevelPoints = [1,2,4,6,8,10];
 
-      % Recreate settings.
+      // Recreate settings.
       Send(SETTINGS_OBJECT,@Recreate);
       Send(REALTIME_OBJECT,@Recreate);
       Send(EVENTENGINE_OBJECT,@Recreate);
@@ -627,7 +627,7 @@ messages:
       lSavedFlagStates = ListCopy(Send(poTerritoryGame,@SaveFlagStates));
       lSavedSenate = ListCopy(Send(poTokenGame,@GetSenate));
 
-      % Don't leave any active spellcasting objects
+      // Don't leave any active spellcasting objects
       Send(self,@DeleteAllSpellTotems);
 
       Send(self,@CreateUserTable);
@@ -640,25 +640,25 @@ messages:
       Send(self,@RecreateLibrary);
       Send(self,@RecreateAllRooms);
       Send(self,@RecreateAssassinGame);
-      % The following two lines are handled in Parliament
-      % Send(self,@RecreateTerritoryGame);
-      % Send(self,@RecreateTokenGame);
+      // The following two lines are handled in Parliament
+      // Send(self,@RecreateTerritoryGame);
+      // Send(self,@RecreateTokenGame);
       Send(self,@RecreateParliament);
       Send(self,@RecreateNodeAttack);
       Send(self,@RecreateRentableRoomMaintenance);
       Send(self,@RecreateSurvivalRoomMaintenance);
       Send(self,@RecreateWarEvent);
 
-      % These don't need to be done here.
-      % RecreateAllRooms calls CreateAllRoomsIfNew. Calling it again here
-      % duplicates every room (cleaned up on next system save).
-      % CreateAllSpellsIfNew is called by RecreateAllSpells in recreate phase 3,
-      % which was commented out. This was possibly because enchantments weren't
-      % being removed from players before deleting all the spells, though with
-      % so much change to the codebase since then it could have been some other
-      % bug we've since fixed.
-      %Send(self,@CreateAllSpellsIfNew);
-      %Send(self,@CreateAllRoomsIfNew);
+      // These don't need to be done here.
+      // RecreateAllRooms calls CreateAllRoomsIfNew. Calling it again here
+      // duplicates every room (cleaned up on next system save).
+      // CreateAllSpellsIfNew is called by RecreateAllSpells in recreate phase 3,
+      // which was commented out. This was possibly because enchantments weren't
+      // being removed from players before deleting all the spells, though with
+      // so much change to the codebase since then it could have been some other
+      // bug we've since fixed.
+      //Send(self,@CreateAllSpellsIfNew);
+      //Send(self,@CreateAllRoomsIfNew);
 
       if lSavedFlagStates <> $
       {
@@ -706,9 +706,9 @@ messages:
       return;
    }
 
-   % System was barfing, claiming an infinite loop when we had the spells and
-   %  skills recreation in one phase.  Separated out into their own phases with
-   %  extra buffer.
+   // System was barfing, claiming an infinite loop when we had the spells and
+   //  skills recreation in one phase.  Separated out into their own phases with
+   //  extra buffer.
 
    RecreateTimerPhaseThree()
    {
@@ -804,7 +804,7 @@ messages:
 
       Send(self,@SystemInitGameHour);
       Send(self,@ReturnShrineAllegiance);
-      Send(self,@RecreateStatistics);  % Must create after anything you want to measure
+      Send(self,@RecreateStatistics);  // Must create after anything you want to measure
 
       Send(self,@ResetRetiredNames);
 
@@ -820,7 +820,7 @@ messages:
    }
 
    Profile(count = 100)
-   % Default count = 100 is great for profiling -- about 1 minute
+   // Default count = 100 is great for profiling -- about 1 minute
    {
       local room,joe,iRow,iCol,i;
 
@@ -1022,22 +1022,22 @@ messages:
 
    LoadedFromDisk()
    {
-      % Room maintenance.
+      // Room maintenance.
       SendList(plRooms,0,@LoadRoomData);
 
       Send(&BossRoom,@ResetBoss);
 
-      % Check tables.
+      // Check tables.
       Send(self,@VerifyAllTables);
 
-      % Player maintenance.
+      // Player maintenance.
       SendList(plUsers_logged_on,0,@DisconnectSession);
       plUsers_logged_on = $;
 
       Send(&Player,@SetKillTarget,#target=$);
       Send(&LogoffGhost,@Delete);
 
-      % System object maintenance.
+      // System object maintenance.
 
       Send(poHolder1,@Delete);
       poHolder1 = Create(&Holder);
@@ -1090,7 +1090,7 @@ messages:
          if oSession <> $
          {
             SendCopyPacket(oSession);
-            % Post so it doesn't interfere with the current packet.
+            // Post so it doesn't interfere with the current packet.
             Post(i,@WaveSendUser,#wave_rsc=system_message_sound,#what=self);
          }
       }
@@ -1234,8 +1234,8 @@ messages:
          }
       }
 
-      % Remember: plReflections format is:
-      % [[player,[ref1,ref2]],[player2,[ref1,ref2]],...]
+      // Remember: plReflections format is:
+      // [[player,[ref1,ref2]],[player2,[ref1,ref2]],...]
 
       foreach i in plReflections
       {
@@ -1263,8 +1263,8 @@ messages:
    {
       local i, j;
 
-      % Remember: plReflections format is:
-      % [[player,[ref1,ref2]],[player2,[ref1,ref2]],...]
+      // Remember: plReflections format is:
+      // [[player,[ref1,ref2]],[player2,[ref1,ref2]],...]
 
       foreach i in plReflections
       {
@@ -1286,8 +1286,8 @@ messages:
    {
       local i, j;
 
-      % Remember: plReflections format is:
-      % [[player,[ref1,ref2]],[player2,[ref1,ref2]],...]
+      // Remember: plReflections format is:
+      // [[player,[ref1,ref2]],[player2,[ref1,ref2]],...]
 
       foreach i in plReflections
       {
@@ -1308,8 +1308,8 @@ messages:
    {
       local i, j;
 
-      % Remember: plReflections format is:
-      % [[player,[ref1,ref2]],[player2,[ref1,ref2]],...]
+      // Remember: plReflections format is:
+      // [[player,[ref1,ref2]],[player2,[ref1,ref2]],...]
 
       foreach i in plReflections
       {
@@ -1342,8 +1342,8 @@ messages:
    {
       local i, j;
 
-      % Remember: plReflections format is:
-      % [[player,[ref1,ref2]],[player2,[ref1,ref2]],...]
+      // Remember: plReflections format is:
+      // [[player,[ref1,ref2]],[player2,[ref1,ref2]],...]
 
       foreach i in plReflections
       {
@@ -1376,7 +1376,7 @@ messages:
          return;
       }
 
-      % Take 1 because NewGameHour will increment hour.
+      // Take 1 because NewGameHour will increment hour.
       piHour = (iNum - 1) MOD 24;
       Send(self,@NewGameHour);
 
@@ -1387,7 +1387,7 @@ messages:
    {
       piHour = (piHour + 1) MOD 24;
 
-      % Tell GameEventEngine object we have a new hour.
+      // Tell GameEventEngine object we have a new hour.
       Send(EVENTENGINE_OBJECT,@NewGameHour);
 
       if piHour = 0
@@ -1397,7 +1397,7 @@ messages:
 
       Send(self,@SysRecalcLightAndDayPhase);
 
-      % Change the color of rainbow ferns.
+      // Change the color of rainbow ferns.
       Send(&RainbowFern,@ChangeColor,#iHour=piHour);
 
       return;
@@ -1407,21 +1407,21 @@ messages:
    {
       local i;
 
-      % Clean currently does nothing.
+      // Clean currently does nothing.
       Send(self,@NewGameYearClean);
 
       piYear = piYear + 1;
 
-      % Tell GameEventEngine object we have a new year.
+      // Tell GameEventEngine object we have a new year.
       Send(EVENTENGINE_OBJECT,@NewGameYear);
 
-      % Determine if anyone needs to lose their newbie tag.
+      // Determine if anyone needs to lose their newbie tag.
       foreach i in plUsers
       {
-         % Exclude 'users' who haven't created a character yet.
+         // Exclude 'users' who haven't created a character yet.
          if Send(i,@GetLastLoginTime) <> 0
          {
-            % This checks age vs. game year and takes appropriate action.
+            // This checks age vs. game year and takes appropriate action.
             Send(i,@GetAge);
          }
       }
@@ -1782,7 +1782,7 @@ messages:
             param2 = Send(killer,@GetTrueName);
          }
 
-         % Eliminate param3 that was set by default
+         // Eliminate param3 that was set by default
          param3 = $;
       }
 
@@ -1791,7 +1791,7 @@ messages:
          rMessage = System_killed_self;
          param2 = Send(what,@GetHisHer);
 
-         % Eliminate param3 that was set by default
+         // Eliminate param3 that was set by default
          param3 = $;
       }
       else if Send(what,@FindUsing,#class=&Token)
@@ -1986,7 +1986,7 @@ messages:
          return FALSE;
       }
 
-      if school = SS_DM_COMMAND  { return FALSE; }   % no need to store this.
+      if school = SS_DM_COMMAND  { return FALSE; }   // no need to store this.
 
       foreach i in plAbility_totals
       {
@@ -2002,7 +2002,7 @@ messages:
                }
             }
 
-            % No spells at this level have been counted yet, add a node
+            // No spells at this level have been counted yet, add a node
             lNode = Cons([level,1],Nth(i,2));
             SetNth(i,2,lNode);
 
@@ -2010,7 +2010,7 @@ messages:
          }
       }
 
-      % No spells of this school added yet, add the school node
+      // No spells of this school added yet, add the school node
       plAbility_totals = cons( [ school, [[ level, 1]]], plAbility_totals);
       return;
    }
@@ -2019,13 +2019,13 @@ messages:
    {
       local i;
 
-      % AbilityTotals stores how many abilities there are at each level
-      % on a school by school basis.  Used for advancement.
+      // AbilityTotals stores how many abilities there are at each level
+      // on a school by school basis.  Used for advancement.
 
       plAbility_Totals = $;
       foreach i in plSpells
       {
-         % Don't want diseases and poison, don't want to figure in pk spells on happyland
+         // Don't want diseases and poison, don't want to figure in pk spells on happyland
          if isClass(i,&Spell)
             AND Send(i,@IsAccessible)
          {
@@ -2053,8 +2053,8 @@ messages:
 
    GetCharInfoTotalValue()
    {
-      % the total value of the charinfo properties that cost,
-      % to double check the client
+      // the total value of the charinfo properties that cost,
+      // to double check the client
       return 110;
    }
 
@@ -2130,7 +2130,7 @@ messages:
 
    AddFaceIconsToPacket(iGender = GENDER_MALE)
    {
-      %%% Hair, head, eye, nose, mouth
+      //// Hair, head, eye, nose, mouth
       Send(self, @AddIconsToPacket, 
           #lIcons = Send(self, @GetAllowedHairIcons, #iGender = iGender));
       AddPacket(4,Nth(Send(self, @GetAllowedHeadIcons, #iGender = iGender), 1));
@@ -2149,7 +2149,7 @@ messages:
 
       AddPacket(1,BP_CHARINFO);
 
-      % 14 hair translations
+      // 14 hair translations
       AddPacket(1,14);
       AddPacket(1,0, 1,PT_GRAY_TO_ORANGE, 1,PT_GRAY_TO_RED);
       AddPacket(1,PT_GRAY_TO_SKIN1, 1,PT_GRAY_TO_SKIN2, 1,PT_GRAY_TO_SKIN3);
@@ -2157,16 +2157,16 @@ messages:
       AddPacket(1,PT_GRAY_TO_KORANGE, 1,PT_GRAY_TO_KRED, 1,PT_GRAY_TO_KGRAY);
       AddPacket(1,PT_GRAY_TO_BLACK, 1,PT_GRAY_TO_BLOND);
 
-      % 4 skin translations
+      // 4 skin translations
       AddPacket(1,4);
       AddPacket(1,PT_BLUE_TO_SKIN1, 1,PT_BLUE_TO_SKIN2,
                 1,PT_BLUE_TO_SKIN3, 1,PT_BLUE_TO_SKIN4);
 
-      % Face options
+      // Face options
       Send(self, @AddFaceIconsToPacket, #iGender = GENDER_MALE);
       Send(self, @AddFaceIconsToPacket, #iGender = GENDER_FEMALE);
 
-      %%% Spells
+      //// Spells
       AddPacket(4,Length(plNewCharSpells));
 
       foreach i in plNewCharSpells
@@ -2175,7 +2175,7 @@ messages:
          AddPacket(4,Send(i,@GetName));
          AddPacket(4,Send(i,@GetIntro));
 
-         % Cost of spell
+         // Cost of spell
          if Send(i,@GetLevel) = 2
          {
             AddPacket(4,25);
@@ -2197,7 +2197,7 @@ messages:
          }
       }
 
-      %%%%% Skills
+      ////// Skills
       AddPacket(4,iCount);
 
       foreach i in plSkills
@@ -2233,7 +2233,7 @@ messages:
 
       if Send(self,@FindRoomByNum,#num=num) = $
       {
-         % note: only rentable rooms use the iRID parameter.
+         // note: only rentable rooms use the iRID parameter.
          oRoom = Create(class,#iRID=num,#poGuild=poGuild,#iPublic=iPublic,
                               #base_room=base_room,#iPvP=iPvP);
          if oRoom = $
@@ -2276,7 +2276,7 @@ messages:
       Send(self,@CreateOneRoomIfNew,#num=RID_GM_HALL,#class=&GMHall);
       Send(self,@CreateOneRoomIfNew,#num=RID_OUTOFGRACE,#class=&OutOfGrace);
 
-      % Tos stuff
+      // Tos stuff
       Send(self,@CreateOneRoomIfNew,#num=RID_TOS_FORGET,#class=&TosForgotten);
       Send(self,@CreateOneRoomIfNew,#num=RID_TOS,#class=&Tos);
       Send(self,@CreateOneRoomIfNew,#num=RID_TOS_INN,#class=&TosInn);
@@ -2299,7 +2299,7 @@ messages:
       Send(self,@CreateOneRoomIfNew,#num=RID_TOS_STORAGE,#class=&TosStorage);
       Send(self,@CreateOneRoomIfNew,#num=RID_TOS_SMUGGLERS_WAY,#class=&TosSecret);
 
-      % Marion stuff
+      // Marion stuff
       Send(self,@CreateOneRoomIfNew,#num=RID_MARION,#class=&Marion);
       Send(self,@CreateOneRoomIfNew,#num=RID_MAR_INN,#class=&MarionInn);
       Send(self,@CreateOneRoomIfNew,#num=RID_MAR_SMITHY,#class=&MarionSmithy);
@@ -2307,7 +2307,7 @@ messages:
       Send(self,@CreateOneRoomIfNew,#num=RID_MAR_HALL,#class=&MarHall);
       Send(self,@CreateOneRoomIfNew,#num=RID_MAR_HEALER_SHOP,#class=&MarionHealerShop);
 
-      % Cor Noth stuff
+      // Cor Noth stuff
       Send(self,@CreateOneRoomIfNew,#num=RID_CORNOTH,#class=&CorNoth);
       Send(self,@CreateOneRoomIfNew,#num=RID_COR_GROCER,#class=&CorGrocer);
       Send(self,@CreateOneRoomIfNew,#num=RID_COR_HALL,#class=&CorHall);
@@ -2317,7 +2317,7 @@ messages:
       Send(self,@CreateOneRoomIfNew,#num=RID_COR_UNIV,#class=&CornothUniversity);
       Send(self,@CreateOneRoomIfNew,#num=RID_FORGOTTEN_TOO,#class=&ForgottenToo);
 
-      % Jasper stuff
+      // Jasper stuff
       Send(self,@CreateOneRoomIfNew,#num=RID_JASPER,#class=&Jasper);
       Send(self,@CreateOneRoomIfNew,#num=RID_JASWEST,#class=&JasperWest);
       Send(self,@CreateOneRoomIfNew,#num=RID_JAS_INN,#class=&JasperInn);
@@ -2346,7 +2346,7 @@ messages:
       Send(self,@CreateOneRoomIfNew,#num=RID_JAS_SEWER3,#class=&JasSewer3);
       Send(self,@CreateOneRoomIfNew,#num=RID_JAS_VAULT,#class=&JasperVault);
 
-      % Barloque
+      // Barloque
       Send(self,@CreateOneRoomIfNew,#num=RID_BAR_NORTH,#class=&BarloqueNorth);
       Send(self,@CreateOneRoomIfNew,#num=RID_BAR_SOUTH,#class=&BarloqueSouth);
       Send(self,@CreateOneRoomIfNew,#num=RID_BAR_BAR,#class=&BarlBar1);
@@ -2363,7 +2363,7 @@ messages:
       Send(self,@CreateOneRoomIfNew,#num=RID_BAR_SMITHY,#class=&BarloqueSmithy);
       Send(self,@CreateOneRoomIfNew,#num=RID_BAR_VAULT,#class=&BarVault);
 
-      % Kocatan
+      // Kocatan
       Send(self,@CreateOneRoomIfNew,#num=RID_KOCATAN,#class=&Kocatan);
       Send(self,@CreateOneRoomIfNew,#num=RID_KOC_APOTH,#class=&KocatanApoth);
       Send(self,@CreateOneRoomIfNew,#num=RID_KOC_TAVERN,#class=&KocatanTavern);
@@ -2407,7 +2407,7 @@ messages:
       Send(self,@CreateOneRoomIfNew,#num=RID_KE2,#class=&OutdoorsKE2);
       Send(self,@CreateOneRoomIfNew,#num=RID_KE4,#class=&OutdoorsKE4);
 
-      % Outside world
+      // Outside world
       Send(self,@CreateOneRoomIfNew,#num=RID_A1,#class=&OutdoorsA1);
       Send(self,@CreateOneRoomIfNew,#num=RID_A5,#class=&OutdoorsA5);
       Send(self,@CreateOneRoomIfNew,#num=RID_A6,#class=&OutdoorsA6);
@@ -2458,7 +2458,7 @@ messages:
       Send(self,@CreateOneRoomIfNew,#num=RID_J3,#class=&OutdoorsJ3);
       Send(self,@CreateOneRoomIfNew,#num=RID_K5,#class=&OutdoorsK5);
 
-      % Other zones - all will be moved into another category
+      // Other zones - all will be moved into another category
       Send(self,@CreateOneRoomIfNew,#num=RID_FOREST1,#class=&Forest1);
       Send(self,@CreateOneRoomIfNew,#num=RID_FOREST2,#class=&Forest2);
       Send(self,@CreateOneRoomIfNew,#num=RID_FOREST3,#class=&Forest3);
@@ -2516,7 +2516,7 @@ messages:
 
       Send(self,@CreateOneRoomIfNew,#num=RID_ICE_CAVE1,#class=&IceCave1);
 
-   % Orc Warrens
+   // Orc Warrens
       Send(self,@CreateOneRoomIfNew,#num=RID_ORC_CAVE1,#class=&OrcCave1);
       Send(self,@CreateOneRoomIfNew,#num=RID_ORC_CAVE2,#class=&OrcCave2);
       Send(self,@CreateOneRoomIfNew,#num=RID_ORC_CAVE3,#class=&OrcCave3);
@@ -2531,7 +2531,7 @@ messages:
 
       Send(self,@CreateOneRoomIfNew,#num=RID_SEWER_KING,#class=&SewerKingLair);
 
-   % Princess' Castle
+   // Princess' Castle
       Send(self,@CreateOneRoomIfNew,#num=RID_CASTLE2A,#class=&Castle2a);
       Send(self,@CreateOneRoomIfNew,#num=RID_CASTLE2B,#class=&Castle2b);
       Send(self,@CreateOneRoomIfNew,#num=RID_CASTLE2C,#class=&Castle2c);
@@ -2540,7 +2540,7 @@ messages:
       Send(self,@CreateOneRoomIfNew,#num=RID_BAZMANS_ROOM,#class=&BazmansRoom);
       Send(self,@CreateOneRoomIfNew,#num=RID_CASTLE2E,#class=&Castle2e);
 
-   % Duke's Castle
+   // Duke's Castle
       Send(self,@CreateOneRoomIfNew,#num=RID_DUKE1,#class=&Duke1);
       Send(self,@CreateOneRoomIfNew,#num=RID_DUKE2,#class=&Duke2);
       Send(self,@CreateOneRoomIfNew,#num=RID_DUKE3,#class=&Duke3);
@@ -2586,7 +2586,7 @@ messages:
       Send(self,@CreateOneRoomIfNew,#num=RID_DESERTBRIDGE,#class=&DesertBridge);
 
 
-      if poRentableRoomMaintenance <> $  % After a clean build, for example.
+      if poRentableRoomMaintenance <> $  // After a clean build, for example.
       {
          Send(poRentableRoomMaintenance,@ReattachRentableRooms);
       }
@@ -2606,7 +2606,7 @@ messages:
          return FALSE;
       }
 
-      % Preserve state of Duke's feast hall -- people get annoyed when it locks.
+      // Preserve state of Duke's feast hall -- people get annoyed when it locks.
       bFeast_Hall_Locked = TRUE;
       oFeast_Hall = Send(self, @FindRoomByNum, #num = RID_DUKE4);
       if oFeast_Hall <> $
@@ -2619,14 +2619,14 @@ messages:
          Send(poParliament,@SetDeleting,#value=TRUE);
       }
       
-      % Save shrine powers.
+      // Save shrine powers.
       plShrine_Allegiances = $;
       foreach n in plShrines
       {
          plShrine_Allegiances = Cons(Send(n,@GetAllegiance),plShrine_Allegiances);
       }
 
-      % During a clean build, for example.
+      // During a clean build, for example.
       if poRentableRoomMaintenance <> $
       {
          Send(poRentableRoomMaintenance,@HoldRoomsDuringRecreate);
@@ -2660,7 +2660,7 @@ messages:
          Send(poParliament,@SetDeleting,#value=False);
       }
 
-      % Restore state of Duke's feast hall
+      // Restore state of Duke's feast hall
       oFeast_Hall = Send(self, @FindRoomByNum, #num = RID_DUKE4);
       if oFeast_Hall <> $
       {
@@ -2789,8 +2789,8 @@ messages:
       SetNth(plRoomIcons, ICON_ROOM_NO_COMBAT, Create(&RmNoCombat));
       SetNth(plRoomIcons, ICON_ROOM_GUILD_PK_ONLY, Create(&RmGCombat));
 
-      % use kill zone icon for both kill zone flagged rooms and rooms without
-      % guild combat or no combat flags
+      // use kill zone icon for both kill zone flagged rooms and rooms without
+      // guild combat or no combat flags
       SetNth(plRoomIcons, ICON_ROOM_KILL_ZONE, Create(&RmCombat));
 
       return;
@@ -2992,7 +2992,7 @@ messages:
       return poStatistics;
    }
 
-   % Shrine utility
+   // Shrine utility
 
    AddShrine(num=$,oShrine=$)
    {
@@ -3072,7 +3072,7 @@ messages:
       }
       else
       {
-         % Reset existing nodes to save memory
+         // Reset existing nodes to save memory
          count = 1;
 
          while count <= length(plShrine_Powers)
@@ -3088,7 +3088,7 @@ messages:
          if allegiance = bound(allegiance,SS_SHALILLE,SS_JALA)
          {
             power = Send(i,@GetPower);
-            % New shrine power is equal to old shrine power + power
+            // New shrine power is equal to old shrine power + power
             SetNth(plShrine_powers,allegiance,(Nth(plShrine_powers,allegiance)+power));
          }
       }
@@ -3098,7 +3098,7 @@ messages:
 
    ReturnShrineAllegiance()
    {
-      % Returns proper shrine allegiance at RecreateAll phase 5
+      // Returns proper shrine allegiance at RecreateAll phase 5
 
       local i, n;
       if plShrine_Allegiances <> $
@@ -3113,7 +3113,7 @@ messages:
       }
       plShrine_Allegiances = $;
 
-      % We have to recalculate the allegiance if we want the power to register
+      // We have to recalculate the allegiance if we want the power to register
       Send(self,@RecomputeShrineTotals);
 
       return;
@@ -3128,7 +3128,7 @@ messages:
 
       if plShrine_powers = $
       {
-         % Give a generic bonus.
+         // Give a generic bonus.
          return 5;
       }
 
@@ -3382,7 +3382,7 @@ messages:
       Send(self,@CreateOneSpellIfNew,#num=SID_CONVEYANCE,#class=&Conveyance);
       Send(self,@CreateOneSpellIfNew,#num=SID_PHASE,#class=&Phase);
 
-      % Trance may be searched for frequently, leave at end of list
+      // Trance may be searched for frequently, leave at end of list
       Send(self,@CreateOneSpellIfNew,#num=SID_TRANCE,#class=&Trance);
 
       return;
@@ -3403,8 +3403,8 @@ messages:
 
    CreateAllItemAttsIfNew()
    {
-      % Keep arranged somewhat in order from rarest to most common,
-      %  with cursed and castable spell types (like enchanted weapon) at the end
+      // Keep arranged somewhat in order from rarest to most common,
+      //  with cursed and castable spell types (like enchanted weapon) at the end
 
       Send(self,@CreateOneItemAttIfNew,#num=IA_DM_CREATED,#class=&ItemAttDMCreated);
       Send(self,@CreateOneItemAttIfNew,#num=WA_SPELLCASTER,#class=&WeapAttSpellCaster);
@@ -3428,7 +3428,7 @@ messages:
       Send(self,@CreateOneItemAttIfNew,#num=IA_APPEND_DESCRIPTION,#class=&ItemAttAppendDescription);
       Send(self,@CreateOneItemAttIfNew,#num=IA_QUEST_CARGO,#class=&ItemAttQuestCargo);
 
-      % More common, since they can be created by players.
+      // More common, since they can be created by players.
       Send(self,@CreateOneItemAttIfNew,#num=WA_CURSED,#class=&WeapAttCursed);
       Send(self,@CreateOneItemAttIfNew,#num=IA_ENGRAVED,#class=&ItemAttEngraved);
       Send(self,@CreateOneItemAttIfNew,#num=IA_SHROUD,#class=&ItemAttShroud);
@@ -3439,7 +3439,7 @@ messages:
       Send(self,@CreateOneItemAttIfNew,#num=WA_GLOWING,#class=&WeapAttGlowing);
       Send(self,@CreateOneItemAttIfNew,#num=IA_MADE,#class=&ItemAttMade);
 
-      % Keep these last, it's called the most often
+      // Keep these last, it's called the most often
       Send(self,@CreateOneItemAttIfNew,#num=IA_PKPOINTER,#class=&ItemAttPKPointer);
       Send(self,@CreateOneItemAttIfNew,#num=IA_CORPSEPOINTER,#Class=&ItemAttCorpsePointer);
 
@@ -3519,13 +3519,13 @@ messages:
       {
          if what = i
          {
-            % Remove it from the player's arsenal first.
+            // Remove it from the player's arsenal first.
             foreach j in plUsers
             {
                Send(j,@RemoveGuildCommand,#command_num=Send(what,@GetGuildCommandNum));
             }
 
-             % Now, remove it from the system's list.
+             // Now, remove it from the system's list.
              plGuild_Commands = DelListElem(plGuild_Commands,i);
 
              return;
@@ -3649,8 +3649,8 @@ messages:
    {
       local i;
 
-      % any time a skill is deleted, clear its enchantment on all logged in users
-      % just in case they have this skill
+      // any time a skill is deleted, clear its enchantment on all logged in users
+      // just in case they have this skill
 
       foreach i in plUsers
       {
@@ -3772,14 +3772,14 @@ messages:
    DeleteSpell(what = $)
    "Called by the spell when it is deleted, so we can remove it from our list of spells."
    {
-      % any time a spell is deleted, clear its enchantment on all logged in users
-      % just in case they have an enchantment of this spell
+      // any time a spell is deleted, clear its enchantment on all logged in users
+      // just in case they have an enchantment of this spell
 
-% Temporarily removed to prevent "infinite loop" triggering.
-%      foreach i in plUsers
-%      {
-%         Send(i,@RemoveEnchantment,#what=what);
-%      }
+// Temporarily removed to prevent "infinite loop" triggering.
+//      foreach i in plUsers
+//      {
+//         Send(i,@RemoveEnchantment,#what=what);
+//      }
 
       if (plNewCharSpells <> $
          AND FindListElem(plNewCharSpells,what))
@@ -3832,9 +3832,9 @@ messages:
    {
       local i;
 
-      % We don't want to delete a item attribute that is found on
-      %  all items in game.  Instead, we check at runtime that the
-      %  ItemAtt exists before using it.
+      // We don't want to delete a item attribute that is found on
+      //  all items in game.  Instead, we check at runtime that the
+      //  ItemAtt exists before using it.
 
       Send(self,@RemoveFromItemAttTreasureTable,
            #iItemAtt=Send(oItemAtt,@GetItemAttNumber));
@@ -3859,7 +3859,7 @@ messages:
    "If the type already exists, it is deleted and a new one "
    "made.  This makes changing treasure types easy--just call us."
    {
-      % Recreate the table.
+      // Recreate the table.
       phTresTypes = CreateTable(191);
 
       Create(&NoTreasure);
@@ -3986,18 +3986,18 @@ messages:
    {
       local i,iTime,iDay,iMinutes;
 
-      % This assumption is no longer valid, but it's how we figure things out.
-      % Remember that GetTime() returns the UDT time in seconds since
-      %  January 1, 1996.  Assume we're 5 hours behind that.
+      // This assumption is no longer valid, but it's how we figure things out.
+      // Remember that GetTime() returns the UDT time in seconds since
+      //  January 1, 1996.  Assume we're 5 hours behind that.
 
       iTime = GetTime() - 5*HOUR;
 
       iDay = (iTime/(24*HOUR)) mod 365;
 
-      % Our day is 2 hours long now, so get minutes into the four hours
+      // Our day is 2 hours long now, so get minutes into the four hours
       iMinutes = (iTime mod (2*HOUR))/60;
 
-      % That number ranges from 0 to 119, so div by 5 is our game hour
+      // That number ranges from 0 to 119, so div by 5 is our game hour
       piHour = iMinutes/5;
 
       Send(self,@SysRecalcLightAndDayPhase);
@@ -4009,7 +4009,7 @@ messages:
    {
       local i,j,iRand, iZone,lLastWeatherConditions;
 
-      % don't fiddle with weather during Qormas event
+      // don't fiddle with weather during Qormas event
       if (Send(EVENTENGINE_OBJECT,@IsQormasActive))
       {
          return;
@@ -4046,7 +4046,7 @@ messages:
       {
          iZone = Send(i,@GetWeatherZone);
 
-         % this is expensive, only continue if the weather has changed
+         // this is expensive, only continue if the weather has changed
          if (iZone <> 0)
          {
             if (Nth(plWeatherConditions,iZone) 
@@ -4089,7 +4089,7 @@ messages:
          piDay_Phase = DAY_PHASE_DAY;
       }
 
-      % shift hour so doesn't get light /dark until later
+      // shift hour so doesn't get light /dark until later
       iLight_hour = (piHour - 2) MOD 24;
 
       if iLight_hour <= 12
@@ -4128,7 +4128,7 @@ messages:
    {
       piDay = (piDay + 1) MOD 240;
 
-      % Tell GameEventEngine object we have a new day.
+      // Tell GameEventEngine object we have a new day.
       Send(EVENTENGINE_OBJECT,@NewGameDay);
 
       if piDay = 0
@@ -4198,8 +4198,8 @@ messages:
       return piBrightness;
    }
 
-   % this is called when a session wants to get into game mode.  We
-   % tell it to load a dll to accomplish this.
+   // this is called when a session wants to get into game mode.  We
+   // tell it to load a dll to accomplish this.
 
    SystemLogon(session_id = $)
    {
@@ -4209,8 +4209,8 @@ messages:
       return;
    }
 
-   % ReceiveClient in system gets special messages from the client,
-   % right now for dealing with new character stuff
+   // ReceiveClient in system gets special messages from the client,
+   // right now for dealing with new character stuff
 
    ReceiveClient(client_msg = $,number_stuff = $,session_id = $)
    {
@@ -4222,17 +4222,17 @@ messages:
       {
          oUser = Nth(client_msg,2);
 
-         % Find any reason to fail the character creation now.
+         // Find any reason to fail the character creation now.
 
          bLegal = TRUE;
 
-         % Is this char actually available for creation?
+         // Is this char actually available for creation?
          if NOT Send(oUser, @IsFirstTime)          
          {
             bLegal = FALSE;
          }
 
-         % Validate name and description
+         // Validate name and description
          sName = Nth(client_msg,3);
 
          bLegal = Send(self,@ValidateUserName,#oUser=oUser,#sName=sName);
@@ -4258,17 +4258,17 @@ messages:
             return;
          }
 
-         % Clean out and destroy the old user completely.
-         %
-         % Highest importance is to delete anything within
-         % the player itself that refers back to the player.
-         % Inventory, mail items, etc. Otherwise, you'll get
-         % "Death by Garbage Collection" errors.
-         %
-         % It's okay to leave them in news posts or other
-         % external game things that will eventually "let
-         % go".  The player object will hang around until any
-         % such references expire through gameplay.
+         // Clean out and destroy the old user completely.
+         //
+         // Highest importance is to delete anything within
+         // the player itself that refers back to the player.
+         // Inventory, mail items, etc. Otherwise, you'll get
+         // "Death by Garbage Collection" errors.
+         //
+         // It's okay to leave them in news posts or other
+         // external game things that will eventually "let
+         // go".  The player object will hang around until any
+         // such references expire through gameplay.
 
          Send(self,@RecreatedUser,#what=oUser);
          i = Send(oUser,@GetLastRestartTime);
@@ -4278,7 +4278,7 @@ messages:
             oUser = RecycleUser(oUser);
          }
 
-         % From this point on, we're creating a new character.
+         // From this point on, we're creating a new character.
 
          AddPacket(1,BP_CHARINFO_OK);
          AddPacket(4,oUser);
@@ -4293,7 +4293,7 @@ messages:
          Send(self,@ChangeUserName,#oUser=oUser,#sName=sName);
 
          Send(oUser,@SetLastRestartTime,#time=i);
-         % Set the last login time to now so the player can log in.
+         // Set the last login time to now so the player can log in.
          Send(oUser,@FirstLogon);
          lCharinfo = Rest(Rest(Rest(Rest(Rest(client_msg)))));
          Send(oUser,@PlayerNewCharInfo,#desc=sDesc,#charinfo=lCharinfo,
@@ -4357,7 +4357,7 @@ messages:
          return FALSE;
       }
 
-      % No using monster or NPC names.
+      // No using monster or NPC names.
       if Send(SYS,@FindMonsterByString,#string=sName) <> $
          OR Send(SYS,@FindNPCByString,#string=sName) <> $
          OR Send(SYS,@FindGuildByString,#string=sName) <> $
@@ -4365,7 +4365,7 @@ messages:
          return FALSE;
       }
 
-      % Check for people who put "a" or "an" in front of a monster name.
+      // Check for people who put "a" or "an" in front of a monster name.
       foreach i in plMonsterTemplates
       {
          if StringContain(sName,Send(i,@GetTrueName))
@@ -4375,8 +4375,8 @@ messages:
                psTemp = CreateString();
             }
 
-            % Use the local temp string, substitute out the name, see if
-            %  we're left with "a" or "an"
+            // Use the local temp string, substitute out the name, see if
+            //  we're left with "a" or "an"
             SetString(psTemp,sName);
             StringSubstitute(psTemp,Send(i,@GetTrueName),"");
             if StringEqual(psTemp,"a")
@@ -4387,19 +4387,19 @@ messages:
          }
       }
 
-      % This is a list of bad things for the name to contain.
-      % Start with the dirty words.
+      // This is a list of bad things for the name to contain.
+      // Start with the dirty words.
       lBadNameContain = plNaughtyWords;
 
-      % Confusing names
+      // Confusing names
       lBadNameContain = Cons("guardian angel", lBadNameContain);
       lBadNameContain = Cons("guardianangel", lBadNameContain);
 
-      % This is a list of bad names in general.
-      lBadNameIs = [ % God's names.
+      // This is a list of bad names in general.
+      lBadNameIs = [ // God's names.
                      "Faren", "Shal'ille", "Qor", "Faren",
                      "Kraanan", "Riija", "Jala",
-                     % Causes confusion.
+                     // Causes confusion.
                      "You", system_hidden_admin
                    ];
 
@@ -4419,16 +4419,16 @@ messages:
          }
       }
 
-      % Pull the string from user.  This is the name we gmail to contact
-      %  our own guild.
+      // Pull the string from user.  This is the name we gmail to contact
+      //  our own guild.
       if StringEqual(sName, system_guild_rsc)
       {
             return FALSE;
       }
 
-      % Name should be valid.
+      // Name should be valid.
 
-      % pay homage to those who came before us
+      // pay homage to those who came before us
       foreach i in plRetiredNames
       {
          if StringEqual(sName, i)
@@ -4461,7 +4461,7 @@ messages:
    GetHiddenAdminName()
    "Returns a generic name for hidden admins."
    {
-      % Placed here so we can filter character names from using this.
+      // Placed here so we can filter character names from using this.
       return system_hidden_admin;
    }
 
@@ -4887,7 +4887,7 @@ messages:
       return TRUE;
    }
 
-   RecreateQuestEngine()               % -AJM
+   RecreateQuestEngine()               // -AJM
    {
       if poQuestEngine <> $
       {
@@ -4901,7 +4901,7 @@ messages:
       return TRUE;
    }
 
-   GetQuestEngine()                     % -AJM
+   GetQuestEngine()                     // -AJM
    {
       return poQuestEngine;
    }
@@ -4918,37 +4918,37 @@ messages:
       return;
    }
 
-   RandomLibQuote(who = $,quote = $,mood = $)   % -AJM
+   RandomLibQuote(who = $,quote = $,mood = $)   // -AJM
    {
       return Send(poLibrary,@SetRandomLibQuote,#NPC_class=who,#quote=quote,#mood=mood );
    }
 
-   RandomLibAppend(quote = $)  % -AJM
+   RandomLibAppend(quote = $)  // -AJM
    {
       return Send(poLibrary,@AppendLastRandomLibQuote,#quote=quote);
    }
 
-   SpeechLibTrigger(who = $,trigger = $,mood = $)  % -AJM
+   SpeechLibTrigger(who = $,trigger = $,mood = $)  // -AJM
    {
       return Send(poLibrary,@SetSpeechLibTrigger,#NPC_class=who,#trigger=trigger,#mood=mood);
    }
 
-   SpeechLibQuote(who = $,quote = $)  % -AJM
+   SpeechLibQuote(who = $,quote = $)  // -AJM
    {
       return Send(poLibrary,@SetSpeechLibQuote,#NPC_class=who,#quote=quote,#keynum=-1);
    }
 
-   SpeechLibAppend(quote = $)  % -AJM
+   SpeechLibAppend(quote = $)  // -AJM
    {
       return Send(poLibrary,@AppendLastSpeechLibQuote,#quote=quote);
    }
 
-   GetRandomUser()                     % -AJM
+   GetRandomUser()                     // -AJM
    {
       return Nth(plUsers,Random(1,Length(plUsers)));
    }
 
-   GetRandomUserLoggedOn()               % -AJM
+   GetRandomUserLoggedOn()               // -AJM
    {
       return Nth(plUsers_logged_on,Random(1,Length(plUsers_logged_on)));
    }
@@ -5184,8 +5184,8 @@ messages:
    SaveGame_K(IKnowThisIsDangerous=$)
    {
    
-      % psSaveGame keeps track of the system save before frenzy starts.
-      % If this already exists, don't start the frenzy.
+      // psSaveGame keeps track of the system save before frenzy starts.
+      // If this already exists, don't start the frenzy.
       if psSaveGame <> $
       {
          Debug("Not saving while System is already tracking ",
@@ -5196,7 +5196,7 @@ messages:
       
       if (IKnowThisIsDangerous = 820965)
       {
-         % Save the game.
+         // Save the game.
          psSaveGame = SaveGame();
       }
       return;
@@ -5206,17 +5206,17 @@ messages:
    {
       if (IKnowThisIsDangerous=730527)
       {
-         % If we don't have a save game, don't try to reload.
+         // If we don't have a save game, don't try to reload.
          if psSaveGame = $
          {
             Debug("System has no save game, not ending chaos night!");
 
             return system_failure_rsc;
          }
-         % LoadGame will schedule a game reload in the blakserv main thread,
-         % which will kick all users offline and reload the saved game. This
-         % is performed in the main thread so that blakod interpreting isn't
-         % affected.
+         // LoadGame will schedule a game reload in the blakserv main thread,
+         // which will kick all users offline and reload the saved game. This
+         // is performed in the main thread so that blakod interpreting isn't
+         // affected.
          LoadGame(psSaveGame);
          psSaveGame = $;
       }
@@ -5321,8 +5321,8 @@ messages:
 
    SystemRemoveFromChampionLists(oldChamp=$)
    {
-      % Should send to all Watchers, but unfortuantely there is no Watcher class.
-      % The "Goad" watcher was poorly written and doesn't even handle this method.
+      // Should send to all Watchers, but unfortuantely there is no Watcher class.
+      // The "Goad" watcher was poorly written and doesn't even handle this method.
       Send(&TosWatcher, @removefromchampionlists, #oldChamp = oldChamp);
       return;
    }
@@ -5455,7 +5455,7 @@ messages:
 
       plItemTemplates = $;
 
-      % Misc
+      // Misc
       plItemTemplates = cons(create(&SwordShardA),plItemTemplates);
       plItemTemplates = cons(create(&SwordShardB),plItemTemplates);
       plItemTemplates = cons(create(&SwordShardC),plItemTemplates);
@@ -5525,7 +5525,7 @@ messages:
       plItemTemplates = cons(create(&StatsResetToken,#temporary=FALSE),
                               plItemTemplates);
 
-      % Gems
+      // Gems
       plItemTemplates = cons(create(&GemRiijaPower),plItemTemplates);
       plItemTemplates = cons(create(&GemKraananPower),plItemTemplates);
       plItemTemplates = cons(create(&GemFarenPower),plItemTemplates);
@@ -5543,7 +5543,7 @@ messages:
       plItemTemplates = cons(create(&GemPierceResistance),plItemTemplates);
       plItemTemplates = cons(create(&GemRemove),plItemTemplates);
 
-      % God Gifts
+      // God Gifts
       plItemTemplates = cons(create(&SpecialGiftTwo),plItemTemplates);
       plItemTemplates = cons(create(&XeoMask),plItemTemplates);
       plItemTemplates = cons(create(&DaemonMask),plItemTemplates);
@@ -5568,7 +5568,7 @@ messages:
       plItemTemplates = cons(create(&QorCharm),plItemTemplates);
       plItemTemplates = cons(create(&Gift),plItemTemplates);
 
-      % Scrolls
+      // Scrolls
       plItemTemplates = cons(create(&DarknessScroll),plItemTemplates);
       plItemTemplates = cons(create(&DiscordScroll),plItemTemplates);
       plItemTemplates = cons(create(&DispellIllusionScroll),plItemTemplates);
@@ -5586,7 +5586,7 @@ messages:
       plItemTemplates = cons(create(&MirthScroll),plItemTemplates);
       plItemTemplates = cons(create(&MelancholyScroll),plItemTemplates);
 
-      % Wands
+      // Wands
       plItemTemplates = cons(create(&BonkStick),plItemTemplates);
       plItemTemplates = cons(create(&SwapWand),plItemTemplates);
       plItemTemplates = cons(create(&SlitherWand),plItemTemplates);
@@ -5604,7 +5604,7 @@ messages:
       plItemTemplates = cons(create(&DementWand),plItemTemplates);
       plItemTemplates = cons(create(&ForgetWand),plItemTemplates);
 
-      % Rods
+      // Rods
       plItemTemplates = cons(create(&ArmorOfGortRod),plItemTemplates);
       plItemTemplates = cons(create(&DetectInvisibleRod),plItemTemplates);
       plItemTemplates = cons(create(&SuperStrengthRod),plItemTemplates);
@@ -5613,7 +5613,7 @@ messages:
       plItemTemplates = cons(create(&VampireWand),plItemTemplates);
       plItemTemplates = cons(create(&HealWand),plItemTemplates);
 
-      % Rings
+      // Rings
       plItemTemplates = cons(create(&RingDefense),plItemTemplates);
 
       plItemTemplates = cons(create(&RingWedding),plItemTemplates);
@@ -5626,7 +5626,7 @@ messages:
       plItemTemplates = cons(create(&FireRing),plItemTemplates);
       plItemTemplates = cons(create(&ColdRing),plItemTemplates);
 
-      % Potions
+      // Potions
       plItemTemplates = cons(create(&ForgetPotionFaren),plItemTemplates);
       plItemTemplates = cons(create(&ForgetPotionKraanan),plItemTemplates);
       plItemTemplates = cons(create(&ForgetPotionQor),plItemTemplates);
@@ -5669,7 +5669,7 @@ messages:
       plItemTemplates = cons(create(&Arsenic),plItemTemplates);
       plItemTemplates = cons(create(&Flask),plItemTemplates);
 
-      % Reagents
+      // Reagents
       plItemTemplates = cons(create(&RedHeartStone),plItemTemplates);
       plItemTemplates = cons(create(&SkyHeartStone),plItemTemplates);
       plItemTemplates = cons(create(&BlueHeartStone),plItemTemplates);
@@ -5711,7 +5711,7 @@ messages:
       plItemTemplates = cons(create(&Elderberry),plItemTemplates);
       plItemTemplates = cons(create(&Herbs),plItemTemplates);
 
-      % Edibles
+      // Edibles
       plItemTemplates = cons(create(&KocatanMug),plItemTemplates);
       plItemTemplates = cons(create(&WineGoblet),plItemTemplates);
       plItemTemplates = cons(create(&Goblet),plItemTemplates);
@@ -5740,27 +5740,27 @@ messages:
 
       plItemTemplates = cons(create(&EasterEgg),plItemTemplates);
 
-      % Head
+      // Head
       plItemTemplates = cons(create(&Helm),plItemTemplates);
       plItemTemplates = cons(create(&SimpleHelm),plItemTemplates);
       plItemTemplates = cons(create(&IvyCirclet),plItemTemplates);
       plItemTemplates = cons(create(&Circlet),plItemTemplates);
 
-      % Shields
+      // Shields
       plItemTemplates = cons(create(&GuildShield),plItemTemplates);
       plItemTemplates = cons(create(&OrcShield),plItemTemplates);
       plItemTemplates = cons(create(&KnightShield),plItemTemplates);
       plItemTemplates = cons(create(&GoldShield),plItemTemplates);
       plItemTemplates = cons(create(&MetalShield),plItemTemplates);
 
-      % Armor
+      // Armor
       plItemTemplates = cons(create(&NeruditeArmor),plItemTemplates);
       plItemTemplates = cons(create(&PlateArmor),plItemTemplates);
       plItemTemplates = cons(create(&ScaleArmor),plItemTemplates);
       plItemTemplates = cons(create(&ChainArmor),plItemTemplates);
       plItemTemplates = cons(create(&LeatherArmor),plItemTemplates);      
 
-      % Clothing
+      // Clothing
       plItemTemplates = cons(create(&LightDiscipleRobe),plItemTemplates);
       plItemTemplates = cons(create(&DiscipleRobe),plItemTemplates);
       plItemTemplates = cons(create(&LightRobe),plItemTemplates);
@@ -5773,7 +5773,7 @@ messages:
       plItemTemplates = cons(create(&Shirt),plItemTemplates);
       plItemTemplates = cons(create(&Tanktop),plItemTemplates);
 
-      % Ammo
+      // Ammo
       plItemTemplates = cons(create(&NeruditeArrow),plItemTemplates);
       plItemTemplates = cons(create(&SilverArrow),plItemTemplates);
       plItemTemplates = cons(create(&Arrow),plItemTemplates);
@@ -5782,7 +5782,7 @@ messages:
       plItemTemplates = cons(create(&AcidArrow),plItemTemplates);
       plItemTemplates = cons(create(&GoldenArrow),plItemTemplates);
 
-      % Weapons
+      // Weapons
       plItemTemplates = cons(create(&MagicBow),plItemTemplates);
       plItemTemplates = cons(create(&NeruditeBow),plItemTemplates);
       plItemTemplates = cons(create(&Longbow),plItemTemplates);
@@ -6135,24 +6135,24 @@ messages:
 
    InitializeItemAttTreasureTable()
    {
-      % this is a list of list of lists.  The first number is the difficulty
-      % seed that the Trestype will ask for.  The second element (which is
-      % reset below to nil, is a list of two element lists.  The first element
-      % is the IA_ or WA_ constant of the item attribute.  The second element
-      % is a rough numerical chance (from 1 to 100) that this has of coming up.
-      % note that this is all dependant on what other numbers at this seed
-      % level state.  For example, a line such as
-      %
-      %         [ 9,[[IA_TYPE1, 80],[IA_TYPE2,80],[IA_TYPE3,20],[IA_TYPE4,20]]]
-      %
-      % would be based at seed number 9, and would have a 40% chance of
-      % making an item_att of type 1, 40% of type 2, 10% of type 3, and 10% of type 4
+      // this is a list of list of lists.  The first number is the difficulty
+      // seed that the Trestype will ask for.  The second element (which is
+      // reset below to nil, is a list of two element lists.  The first element
+      // is the IA_ or WA_ constant of the item attribute.  The second element
+      // is a rough numerical chance (from 1 to 100) that this has of coming up.
+      // note that this is all dependant on what other numbers at this seed
+      // level state.  For example, a line such as
+      //
+      //         [ 9,[[IA_TYPE1, 80],[IA_TYPE2,80],[IA_TYPE3,20],[IA_TYPE4,20]]]
+      //
+      // would be based at seed number 9, and would have a 40// chance of
+      // making an item_att of type 1, 40// of type 2, 10// of type 3, and 10// of type 4
 
-      % this table is generated at runtime by the item_atts, when they are created.
+      // this table is generated at runtime by the item_atts, when they are created.
       
-      % Note that an item can appear multiple times in the list - just not at
-      % the same seed level.  The test case for this will be for cursed items,
-      % which will have a 10 % chance of appearing at any level.
+      // Note that an item can appear multiple times in the list - just not at
+      // the same seed level.  The test case for this will be for cursed items,
+      // which will have a 10 // chance of appearing at any level.
    
       plItemAttTreasure = $;
       plItemAttTreasure = [   [ 1,$],
@@ -6185,7 +6185,7 @@ messages:
          {            
             lData = Nth(i,2);
             
-            % Quickly check to be sure it's already there
+            // Quickly check to be sure it's already there
             foreach j in lData
             {
                if first(j) = iItemAtt
@@ -6194,7 +6194,7 @@ messages:
                }
             }
 
-            % Okay, it's not there.  Add it.
+            // Okay, it's not there.  Add it.
             SetNth(i,2,Cons([iItemAtt, percent],Nth(i,2)));
 
             return TRUE;
@@ -6289,7 +6289,7 @@ messages:
          if color1 = Send(i,@GetPrimaryGuildColor)
             AND color2 = Send(i,@GetSecondaryGuildColor)
          {
-            % If the two colors are the same, shape is irrelevant.
+            // If the two colors are the same, shape is irrelevant.
             if color1 = color2
             {
                return i;
@@ -6313,7 +6313,7 @@ messages:
          plBonusSpellpower = [ 0, 0, 0, 0, 0, 0 ];
       }
 
-      % Make sure School is set and within proper bounds
+      // Make sure School is set and within proper bounds
       if school = $ OR school <> bound(school,SS_SHALILLE,SS_JALA)
       {
          return 0;
@@ -6323,7 +6323,7 @@ messages:
       {
          if add = $
          {
-            % Nothing was set, bail
+            // Nothing was set, bail
             return 0;
          }
 
@@ -6339,7 +6339,7 @@ messages:
 
    GetBonusSpellpower(school = $)
    {
-      % Make sure School is set and within proper bounds
+      // Make sure School is set and within proper bounds
       if school = $
          OR school <> bound(school,SS_SHALILLE,SS_JALA)
          or plBonusSpellpower = $
@@ -6545,7 +6545,7 @@ messages:
 
             if bContinue = $
             {
-               % Something bad happened, just bail.
+               // Something bad happened, just bail.
                return;
             }
          }
@@ -6586,7 +6586,7 @@ messages:
 
       AppendTempString(number);
 
-      % The teens
+      // The teens
       n = (number mod 100) / 10;
       if (n = 1)  { AppendTempString(system_ordinal_general); return; }
 
@@ -6758,7 +6758,7 @@ messages:
       return;
    }
 
-   % notify all rooms of faction change, so they can tell NPCs
+   // notify all rooms of faction change, so they can tell NPCs
    FactionChanged( new_faction = $ )
    {
       local i;
@@ -6778,17 +6778,17 @@ messages:
 
    RecreateLearnAdvice()
    {
-      % Use this to dynamically update the monster's learn advice.
-      % This way, coders don't have to hardcode hints.
+      // Use this to dynamically update the monster's learn advice.
+      // This way, coders don't have to hardcode hints.
 
       Send(&Monster,@AddLearnAdvice);
 
       return;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 
-   % Remedial Editing Features
+   // Remedial Editing Features
 
    AdminDelListElem(l = $, e = $)
    {
@@ -6830,7 +6830,7 @@ messages:
       return GetTime();
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 
    GetVisibleCargoTypes()
    {
@@ -6844,7 +6844,7 @@ messages:
       return;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 
    GetInvestigator()
    {
@@ -6938,7 +6938,7 @@ messages:
       return system_success_rsc;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 
    AdminEnableSpell(num=$)
    "Admin Supported."
@@ -7140,7 +7140,7 @@ messages:
          lSkills = Send(i,@GetSkillSchoolLevels);
          lSpells = Send(i,@GetSpellSchoolLevels);
 
-         % Give debug message for each player, describing what levels they have.
+         // Give debug message for each player, describing what levels they have.
          Debug("Player ",i,Send(i,@GetTrueName)," has extra levels! Has ",
                First(lSkills),"WC ",First(lSpells),"Shal'ille ",Nth(lSpells,2),
                "Qor ",Nth(lSpells,3),"Kraanan ",Nth(lSpells,4),"Faren ",
@@ -7268,7 +7268,7 @@ messages:
       return Nth(vlLevelPoints,level);
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 
    AddResourceTemplate(iNum=1)
    {
@@ -7325,7 +7325,7 @@ messages:
       return system_please_wait_rsc;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 
    FlipOnBeta()
    {
@@ -7352,19 +7352,19 @@ messages:
       local i, temp, lFinal, iCount, iPosition, iCutoff, iNumPotions,
             iSchool, iLevel, iHP;
 
-      % We want to give players potions based on the amount of logged on
-      %  time they've logged.  So let's sort em.
+      // We want to give players potions based on the amount of logged on
+      //  time they've logged.  So let's sort em.
 
       lFinal = Send(self,@SortUsersByPlayTime);
 
       if lFinal = $
       {
-         % Something went bad with the sort.  Bail.
+         // Something went bad with the sort.  Bail.
          return;
       }
 
-      % Okay, only the percent above deadwood get anything.  The rest
-      %  are probably mostly chaff.
+      // Okay, only the percent above deadwood get anything.  The rest
+      //  are probably mostly chaff.
 
       iCount = 1;
       iHP = maxHP / 8;
@@ -7376,17 +7376,17 @@ messages:
       {
          iPosition = (iCount*100)/length(lFinal);
 
-         % iCutoff is the place where we switch segments.  There are five
-         %  different cutoff categories once you get past the deadwood.
-         % EX: Deadwood = 40, so iCutoff = 12. Segments: 100-88%, 87-76%, etc.
-         % NOTE: If you want less categories, then have deadwood be a negative
-         %  number.  Ex: deadwood = -25 means there will be 4 categories, since
-         %  (100 - (-25)) / 5 = 25% cutoff.
+         // iCutoff is the place where we switch segments.  There are five
+         //  different cutoff categories once you get past the deadwood.
+         // EX: Deadwood = 40, so iCutoff = 12. Segments: 100-88//, 87-76//, etc.
+         // NOTE: If you want less categories, then have deadwood be a negative
+         //  number.  Ex: deadwood = -25 means there will be 4 categories, since
+         //  (100 - (-25)) / 5 = 25// cutoff.
          iCutoff = (100 - deadwood) / 5;
 
          if allMax
          {
-            % If we're all max, give out max potions, but only one.
+            // If we're all max, give out max potions, but only one.
             iHP = maxHP;
             iLevel = maxLevel;
             iNumPotions = 1;
@@ -7423,7 +7423,7 @@ messages:
          }
          else
          {
-            % Deadwood!  No potion for you!
+            // Deadwood!  No potion for you!
             iHP = 0;
          }
 
@@ -7461,7 +7461,7 @@ messages:
       return;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 
    UpdateFixes(pocket=$,balance=$,bAreYouSure=FALSE)
    "Performs changes necessary to update the game due to patches.  Also caps "
@@ -7480,12 +7480,12 @@ messages:
       Send(self,@RecreateAllTreasureTypes);
       Send(self,@RecreateItemTemplates);
 
-      % Update-specific stuff
+      // Update-specific stuff
 
-      % Clear out potentially bad class references in Monster Budget
+      // Clear out potentially bad class references in Monster Budget
       Send(&DM,@ClearMonsterBudget);
 
-      % Start of standard stuff.
+      // Start of standard stuff.
 
       Send(self,@RecalibratePlayers);
       Send(&Minigame,@FixOwner);
@@ -7521,7 +7521,7 @@ messages:
       return Send(oHall,@ChooseStatues);
    }
 
-   %%% Dynamic lighting
+   //// Dynamic lighting
 
    GetRGB(iRed = 0, iGreen = 0, iBlue = 0, bPercent = TRUE, bNegative = FALSE)
    "Returns the 2 byte RGB value based on the raw values sent.  bPercent "
@@ -7532,34 +7532,34 @@ messages:
 
       if bPercent
       {
-         % Convert the values to 5 byte values
+         // Convert the values to 5 byte values
          iRed5 = bound((iRed * 31)/100, 0, 31);
          iGreen5 = bound((iGreen * 31)/100, 0, 31);
          iBlue5 = bound((iBlue * 31)/100, 0, 31);
       }
       else
       {
-         % Bound the values to 5 byte values
+         // Bound the values to 5 byte values
          iRed5 = bound(iRed, 0, 31);
          iGreen5 = bound(iGreen, 0, 31);
          iBlue5 = bound(iBlue, 0, 31);
       }
 
-      % The final format is XRRRRRGGGGGBBBBB, where X is the "negative" bit.
+      // The final format is XRRRRRGGGGGBBBBB, where X is the "negative" bit.
 
-      % In C terms: Negative << 15 + Red << 10 + Green << 5 + Blue
+      // In C terms: Negative << 15 + Red << 10 + Green << 5 + Blue
       iRGB = (bNegative * 32768) + (iRed5 * 1024) + (iGreen5 * 32) + iBlue5;
 
       return iRGB;
    }
 
-   %%% April Fool's Joke
+   //// April Fool's Joke
 
    StartJoke()
    {
       Send(&MonsterRoom,@SetMonsterGeneration,#bValue=FALSE);
 
-      % Give 5 seconds to finish processing.
+      // Give 5 seconds to finish processing.
       ptRecreateTimer = CreateTimer(self,@JokeTimerStageOne,5000);
 
       return;
@@ -7573,7 +7573,7 @@ messages:
 
       Send(&Monster,@Killed);
 
-      % Give 2 seconds to finish processing.
+      // Give 2 seconds to finish processing.
       ptRecreateTimer = CreateTimer(self,@JokeTimerStageTwo,2000);
 
       return;
@@ -7597,7 +7597,7 @@ messages:
          ptRecreateTimer = $;
       }
 
-      % Restart the monster generation again.
+      // Restart the monster generation again.
       Send(&MonsterRoom,@SetMonsterGeneration);
 
       return;
@@ -7609,8 +7609,8 @@ messages:
       local iDiv, bit1, bit2, retVal;
 
       retVal = 0;
-      % iDiv = 2 to the 26th power = the 5th most significant bit.
-      %  Blakod integers use bits 0-3 as type info, then 1 bit for sign.
+      // iDiv = 2 to the 26th power = the 5th most significant bit.
+      //  Blakod integers use bits 0-3 as type info, then 1 bit for sign.
       iDiv = 67108864;
 
       while iDiv > 0
@@ -8155,7 +8155,7 @@ messages:
          }
       }
 
-      % Anything left over
+      // Anything left over
       foreach oItem in lBaseList
       {
          lSortedItems = Cons(oItem,lSortedItems);
@@ -8261,5 +8261,5 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 

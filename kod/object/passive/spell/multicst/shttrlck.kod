@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ShatterLock is MultiCastSpell
 
 constants:
 
    include blakston.khd
 
-   % Number of members online greater than this number doesn't apply a penalty.
+   // Number of members online greater than this number doesn't apply a penalty.
    MIN_MEMBERS_ONLINE = 2
 
 resources:
@@ -55,7 +55,7 @@ classvars:
 
    vrSucceed_wav = ShatterLock_sound
 
-   viMana = 50         % Mana is amount used upon initiation
+   viMana = 50         // Mana is amount used upon initiation
 
    viSpell_num = SID_SHATTERLOCK
    viSchool = SS_KRAANAN
@@ -65,17 +65,17 @@ classvars:
    viCast_time = 2000
    viChance_To_Increase = 50
 
-   viManaDrain = 1       % Drain is amount used every viDrainTime milliseconds
-   viDrainTime = 1000    % Drain some mana every viDrainTime milliseconds
+   viManaDrain = 1       // Drain is amount used every viDrainTime milliseconds
+   viDrainTime = 1000    // Drain some mana every viDrainTime milliseconds
 
    viOutlaw = TRUE
    vbCastable_in_HappyLand = FALSE
 
 properties:
 
-   viMultiCast_Spellpower = 10800   % 3 hours (in seconds) base casting time
-   piBaseCastTime = 900             % 15 minutes (in seconds) minimum casting time.
-   piGuildWarnTime = 180            % warn once (per caster) every 3 minutes on average
+   viMultiCast_Spellpower = 10800   // 3 hours (in seconds) base casting time
+   piBaseCastTime = 900             // 15 minutes (in seconds) minimum casting time.
+   piGuildWarnTime = 180            // warn once (per caster) every 3 minutes on average
 
 messages:
 
@@ -123,10 +123,10 @@ messages:
 
       oGuildHall = Send(oPrism,@GetOwner);
 
-      % Base time: 3 hours.
+      // Base time: 3 hours.
       iReqSpellPower = viMultiCast_Spellpower;
 
-      % Add up to an hour depending on quality of hall
+      // Add up to an hour depending on quality of hall
       iReqSpellPower = iReqSpellPower + (Send(oGuildHall,@GetQuality) * 360);
 
       oGuild = Send(oGuildHall,@GetGuildOwner);
@@ -134,7 +134,7 @@ messages:
 
       if oGuild <> $
       {
-         % Reduce casting time with more enemy guildmembers online.
+         // Reduce casting time with more enemy guildmembers online.
          lMembers = Send(oGuild,@GetMemberList);
          foreach i in lMembers
          {
@@ -146,8 +146,8 @@ messages:
 
          iMembers = length(lMembers);
 
-         % If the guild has very few people on, apply a penalty.
-         %  Otherwise, scale the time based on the number of people online.
+         // If the guild has very few people on, apply a penalty.
+         //  Otherwise, scale the time based on the number of people online.
          if (iMembers - iMembersNotOnline) <= MIN_MEMBERS_ONLINE
          {
             iReqSpellPower = iReqSpellPower * 3;
@@ -158,10 +158,10 @@ messages:
             iReqSpellPower = (iReqSpellPower * iMembersNotOnline) / iMembers;
          }
 
-         % Always takes at least 15 minutes to cast.
+         // Always takes at least 15 minutes to cast.
          iReqSpellPower = bound(iReqSpellPower,piBaseCastTime,$);
 
-         % Convert to spellpower: average of 15 points per second added.
+         // Convert to spellpower: average of 15 points per second added.
          iReqSpellPower = iReqSpellPower * 15;
       }
 
@@ -193,7 +193,7 @@ messages:
    {
       local oGuild,lMembers,i;
 
-      % Every 3 minutes on average, tell a guild member that something's up.
+      // Every 3 minutes on average, tell a guild member that something's up.
       if Random(1,piGuildWarnTime) > 1
       {
          propagate;
@@ -235,4 +235,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

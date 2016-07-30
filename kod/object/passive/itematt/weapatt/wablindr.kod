@@ -1,25 +1,25 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 WeapAttBlinder is WeaponAttribute
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%  This weapon has a chance to blind the opponent every time it does
-%     damage.
-%
-%  Form is:
-%
-%      [ WA_BLINDER]
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////
+//
+//  This weapon has a chance to blind the opponent every time it does
+//     damage.
+//
+//  Form is:
+//
+//      [ WA_BLINDER]
+//
+///////////////////////////////////////////////////////////////////////
 
 constants:
 
@@ -46,7 +46,7 @@ classvars:
 
 properties:
 
-   piValue_modifier = 200   %% modify the object's price by 100%
+   piValue_modifier = 200   /// modify the object's price by 100//
    piValue_power_modifier = 10
    piEffect_percent = 15
 
@@ -54,7 +54,7 @@ messages:
 
    ItemReqUse(oItem=$,oPlayer=$)
    {
-      %% This person needs 50% in the weapon's proficiency to use
+      /// This person needs 50// in the weapon's proficiency to use
       if Send(oItem,@GetProf,#who=oPlayer) < 50
       {
          Send(oPlayer,@MsgSendUser,#message_rsc=blinder_fail_use,
@@ -66,11 +66,11 @@ messages:
       return TRUE;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Effect Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Effect Functions
+///
+////////////////////////////////////////////////
 
    ModifyDamage(damage=0,target=$,wielder=$,lData=$)
    "Wielder has a 1% chance of blinding target with any hit."
@@ -87,7 +87,7 @@ messages:
       {
          oSpell = Send(SYS,@FindSpellByNum,#num=SID_blind);
 
-         %% No duplicates
+         /// No duplicates
          if NOT Send(target,@IsEnchanted,#what=oSpell)
          {
             Send(oSpell,@CastSpell,#who=self,#ltargets=[target],
@@ -107,4 +107,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

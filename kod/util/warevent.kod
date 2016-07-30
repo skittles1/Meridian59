@@ -1,17 +1,17 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////////
 WarEvent is UtilityFunctions
 
-% This is an event that keeps track of a war between various groups.
-% Potential issues:  Invis, Fade, Shadowform?
+// This is an event that keeps track of a war between various groups.
+// Potential issues:  Invis, Fade, Shadowform?
 
 constants:
 
@@ -71,36 +71,36 @@ classvars:
 
 properties:
 
-   % A listing of the current sides of the dispute.
+   // A listing of the current sides of the dispute.
    plSides = $
 
-   % A list of the players in each side.
+   // A list of the players in each side.
    plSoldiers = $
 
-   % A count of the kills scored by each side.
+   // A count of the kills scored by each side.
    plKills = $
    
-   % A count of the kills scored by each player.
+   // A count of the kills scored by each player.
    plKillsByName = $
 
-   % A count of the deaths taken by each player.
+   // A count of the deaths taken by each player.
    plDeathsByName = $
 
-   % Who do we mail final statistics to?
+   // Who do we mail final statistics to?
    poReporter = $
 
-   % Are people restricted from joining a particular side?
-   % If not we want to enforce size limits on the groups.
+   // Are people restricted from joining a particular side?
+   // If not we want to enforce size limits on the groups.
    pbRestricted = WAR_UNRESTRICTED
 
-   % Do we allow allies to attack each other?
+   // Do we allow allies to attack each other?
    pbCanAttackAllies = FALSE
 
-   % Is war active?
+   // Is war active?
    pbActive = FALSE
 
-   % This is the information about each side.
-   % A list of side identifier, text description, shirt color.
+   // This is the information about each side.
+   // A list of side identifier, text description, shirt color.
    plSideInfo = $
 
 messages:
@@ -123,7 +123,7 @@ messages:
       plDeathsByName = $;
       pbRestricted = WAR_UNRESTRICTED;
 
-      % Delete out WarJoin Items
+      // Delete out WarJoin Items
       Send(&WarJoinPendant,@Delete);
 
       plSideInfo = [ [FACTION_DUKE, WarEvent_Duke_name, XLAT_TO_PURPLE],
@@ -150,32 +150,32 @@ messages:
    {
       local lGiveList, oPlayer, iSide;
       
-      % Only during frenzies, or during special occasions (testing),
-      % or when we have enough sides for a war.
+      // Only during frenzies, or during special occasions (testing),
+      // or when we have enough sides for a war.
       if NOT (override OR Send(SYS,@GetChaosNight))
          OR Length(plSides) < 2
       {
          return FALSE;
       }
 
-      % Set as active
+      // Set as active
       pbActive = TRUE;
 
-      % Get rid of those shirts!  Set everyone to neutral color.
+      // Get rid of those shirts!  Set everyone to neutral color.
       Send(&Player,@RemoveShirt);
       Send(&Player,@SetDefaultClothes,#shirt_color=viNeutralColor);
 
-      % Give out joining objects.
+      // Give out joining objects.
       lGiveList = Send(SYS,@GetUsers);
 
       foreach oPlayer in lGiveList
       {
-         % Give out global message.
+         // Give out global message.
          Send(oPlayer,@MsgSendUser,#message_rsc=WarEvent_start_message);
 
          if NOT pbRestricted
          {
-            % Give out one pendant for everyone.
+            // Give out one pendant for everyone.
             foreach iSide in plSides
             {
                Send(oPlayer,@NewHold,#what=Create(&WarJoinPendant,#side=iSide));
@@ -183,8 +183,8 @@ messages:
          }
          else
          {
-            % Restrict objects to qualified players.
-            % Must be part of the group to join.
+            // Restrict objects to qualified players.
+            // Must be part of the group to join.
             if pbRestricted = WAR_FACTION_RESTRICTED
             {
                iSide = Send(oPlayer,@GetFaction);
@@ -222,7 +222,7 @@ messages:
          poReporter = reporter;
       }
 
-      % Broadcast the end and the final scores.
+      // Broadcast the end and the final scores.
       Send(SYS,@SystemBroadcast,#type=SAY_MESSAGE,#string=WarEvent_end_message);
 
       ClearTempString();
@@ -234,13 +234,13 @@ messages:
       Send(SYS,@SystemBroadcast,#type=SAY_MESSAGE,#string=Send(SYS,@GetPercentQRsc),
             #parm1=GetTempString());
 
-      % Send out info mail to the reporter.
+      // Send out info mail to the reporter.
       if poReporter <> $
       {
          sMessage = CreateString();
          SetString(sMessage,GetTempString());
 
-         % Remove color codes.
+         // Remove color codes.
          StringSubstitute(sMessage,"~B~k","");
          StringSubstitute(sMessage,"~n","");
          StringSubstitute(sMessage,"~v","");
@@ -249,7 +249,7 @@ messages:
                #dest_list=[poReporter],#nest_list=[sMessage]);
       }
 
-      % Reset everything.
+      // Reset everything.
       Send(self,@Reset);
 
       return;
@@ -306,7 +306,7 @@ messages:
    AddSide(side=$)
    "Adds a side.  Either a faction value or a homeroom value."
    {
-      % Don't allow duplicate sides.
+      // Don't allow duplicate sides.
       if plSides = $
          OR FindListElem(plSides,side) = 0
       {
@@ -324,7 +324,7 @@ messages:
    {
       local iSidePosition, lSoldiers, iNumSoldiers;
 
-      % Bail for missing info or if not active.
+      // Bail for missing info or if not active.
       if who = $ OR side = $
          OR NOT pbActive
       {
@@ -333,25 +333,25 @@ messages:
 
       iSidePosition = FindListElem(plSides,side);
 
-      % Bail if not side not found.
+      // Bail if not side not found.
       if iSidePosition = $ OR iSidePosition = 0
       {
          return FALSE;
       }
 
-      % See if the player is already a member of a side.
+      // See if the player is already a member of a side.
       if Send(self,@GetPlayerSide,#who=who) <> $
       {
-         % Player was found.
+         // Player was found.
          return FALSE;
       }
 
-      % See if player is restricted from this side.
+      // See if player is restricted from this side.
       if pbRestricted
       {
          if pbRestricted = WAR_FACTION_RESTRICTED
          {
-            % Side is a faction.
+            // Side is a faction.
             if Send(who,@GetFaction) <> side
                OR Send(who,@GetFaction) = FACTION_NEUTRAL
             {
@@ -360,7 +360,7 @@ messages:
          }
          else
          {
-            % Side is a homeroom.
+            // Side is a homeroom.
             if pbRestricted = WAR_TOWN_RESTRICTED
             {
                if Send(who,@GetHomeRoom) <> side
@@ -373,16 +373,16 @@ messages:
       }
       else
       {
-         % We're unrestricted, so check for balance of numbers.
-         % Don't mess around if we have less than 6 soldiers on a side.
+         // We're unrestricted, so check for balance of numbers.
+         // Don't mess around if we have less than 6 soldiers on a side.
          iNumSoldiers = Length(Nth(plSoldiers,iSidePosition));
          if iNumSoldiers >= 6
          {
             foreach lSoldiers in plSoldiers
             {
-               % Allow them to join if other groups have at least 80%
-               % of the desired side's population. This prevents one
-               % side from growing ungainly large.
+               // Allow them to join if other groups have at least 80//
+               // of the desired side's population. This prevents one
+               // side from growing ungainly large.
                if (Length(lSoldiers) * 100) / iNumSoldiers < 80
                {
                   Send(who,@MsgSendUser,#message_rsc=WarEvent_cant_join);
@@ -393,10 +393,10 @@ messages:
          }
       }
 
-      % Add to the appropriate list.
+      // Add to the appropriate list.
       SetNth(plSoldiers,iSidePosition,Cons(who,Nth(plSoldiers,iSidePosition)));
 
-      % Give a message and set the color.
+      // Give a message and set the color.
       Send(who,@MsgSendUser,#Message_rsc=WarEvent_join_rsc,
             #parm1=Send(self,@GetSideName,#side=side));
       Send(who,@SetDefaultClothes,#shirt_color=Send(self,@GetSideColor,#side=side));
@@ -410,7 +410,7 @@ messages:
    {
       local lSoldiers, iSidePosition, iVictimSide, i, bFound;
 
-      % Bail for missing info, if victim isn't a player, or if not active.
+      // Bail for missing info, if victim isn't a player, or if not active.
       if who = $ OR victim = $
          OR NOT IsClass(victim,&Player)
          OR NOT pbActive
@@ -418,36 +418,36 @@ messages:
          return FALSE;
       }
 
-      % Find who's side.
+      // Find who's side.
       iSidePosition = Send(self,@GetPlayerSide,#who=who,#position=TRUE);
 
-      % Bail if not found on a side.
+      // Bail if not found on a side.
       if iSidePosition = $
       {
          return FALSE;
       }
 
-      % Find victim's side.
+      // Find victim's side.
       iVictimSide = Send(self,@GetPlayerSide,#who=victim,#position=TRUE);
 
-      % Bail if not found on a side or on who's side.
+      // Bail if not found on a side or on who's side.
       if iVictimSide = $
          OR iSidePosition = iVictimSide
       {
          return FALSE;
       }
 
-      % Increment the kills
+      // Increment the kills
       SetNth(plKills,iSidePosition,Nth(plKills,iSidePosition)+1);
 
-      % Send a message
+      // Send a message
       Send(who,@MsgSendUser,#message_rsc=WarEvent_got_kill_rsc);
 
       bFound = FALSE;
-      % Record a kill for the killer.
+      // Record a kill for the killer.
       if plKillsByName = $
       {
-         % First kill!
+         // First kill!
          plKillsByName = [ [ who, 1 ] ];
       }
       else
@@ -469,10 +469,10 @@ messages:
       }
 
       bFound = FALSE;
-      % Record a death for the victim.
+      // Record a death for the victim.
       if plDeathsByName = $
       {
-         % First death!
+         // First death!
          plDeathsByName = [ [ victim, 1 ] ];
       }
       else
@@ -591,7 +591,7 @@ messages:
    {
       local lSideInfo;
 
-      % This is the neutral color.
+      // This is the neutral color.
       if side = $
       {
          return viNeutralColor;
@@ -696,4 +696,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////////

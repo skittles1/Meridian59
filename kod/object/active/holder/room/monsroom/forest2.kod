@@ -1,14 +1,14 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Forest2 is MonsterRoom
 
 
@@ -212,7 +212,7 @@ messages:
       Send(self,@NewHold,#what=Create(&Tree,#top=TREE_OAK,#bottom=TREE_PINE),
           #new_row=19,#new_col=3,#fine_row=5,#fine_col=10);
 
-      % some mushrooms
+      // some mushrooms
 
       Send(self,@NewHold,#what=Create(&Mushroom),
 	   #new_row=23,#new_col=22);
@@ -241,4 +241,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

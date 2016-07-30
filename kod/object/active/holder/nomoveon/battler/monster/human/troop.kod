@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 FactionTroop is Human
 
 constants:
@@ -38,8 +38,8 @@ classvars:
    viAttributes = 0
    viDefault_behavior = AI_FIGHT_NEWBIESAFE | AI_MOVE_REGROUP
 
-   viColorTranslate1 = XLAT_TO_RED     % Shirt
-   viColorTranslate2 = XLAT_TO_BLACK   % Pants
+   viColorTranslate1 = XLAT_TO_RED     // Shirt
+   viColorTranslate2 = XLAT_TO_BLACK   // Pants
 
    vcShieldClass = &GuildShield
    viShieldColor1 = XLAT_TO_RED
@@ -57,12 +57,12 @@ properties:
    piBaseLevel = 80
    piBaseDifficulty = 6
 
-   %Here so they can be set
+   //Here so they can be set
    vrIcon = human_male_icon_rsc
    vrDead_Icon = human_dead_male_icona_rsc
    vrDead_Legs = human_dead_male_iconb_rsc
-   viLevel = 80         % piBaseLevel
-   viDifficulty = 4     % piBaseDifficulty
+   viLevel = 80         // piBaseLevel
+   viDifficulty = 4     // piBaseDifficulty
    piGender = GENDER_MALE
    viKarma = 0
 
@@ -152,7 +152,7 @@ messages:
       viLevel = piBaseLevel + iBonusModifier;
       Send(self,@AddEquipmentObject,#what=oEquipmentItem);
 
-      % Gauntlets?
+      // Gauntlets?
       iRandomNumber = Random(1,100);
       if iRandomNumber < 20
       {
@@ -162,7 +162,7 @@ messages:
          Send(self,@AddEquipmentObject,#what=oEquipmentItem);
       }
 
-      % Helmet?
+      // Helmet?
       if Random(1,100) < 30
       {
          oEquipmentItem = Create(&SimpleHelm);
@@ -188,8 +188,8 @@ messages:
       return;
    }
 
-   % Override from monster superclass
-   % We drop some of our carried items when we die.
+   // Override from monster superclass
+   // We drop some of our carried items when we die.
    CreateTreasure(who = $, corpse = $)
    {
       local oUsedItem, oItemAtt;
@@ -198,8 +198,8 @@ messages:
 
       foreach oUsedItem in plUsing
       {
-         % Only a percentage chance to drop each item.  Too much stuff otherwise.
-         % Don't drop the shield!  It's a quest/special item!
+         // Only a percentage chance to drop each item.  Too much stuff otherwise.
+         // Don't drop the shield!  It's a quest/special item!
          if (Random(1,100) <= EQUIPMENT_DROP_PERCENT)
             AND (NOT IsClass(oUsedItem,vcShieldClass))
             AND NOT pbIllusion
@@ -280,4 +280,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

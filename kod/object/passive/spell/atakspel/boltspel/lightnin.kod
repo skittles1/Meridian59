@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Lightning is BoltSpell
 
 constants:
@@ -46,13 +46,13 @@ classvars:
 
    vrSucceed_wav = lightning_sound
 
-   viPostCast_time = 2        % in seconds, since it works off gettime()
+   viPostCast_time = 2        // in seconds, since it works off gettime()
 
-   % Projectile lighting information.
+   // Projectile lighting information.
    viProjectileLightFlags = LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC
-   % Medium light range, out of 255.
+   // Medium light range, out of 255.
    viProjectileLightIntensity = 100
-   % Color is lightning.
+   // Color is lightning.
    viProjectileLightColor = LIGHT_LIGHTNING
 
 properties:
@@ -66,7 +66,7 @@ messages:
 
    ResetReagents()
    {
-      % separate message so can change, then set from admin mode
+      // separate message so can change, then set from admin mode
 
       plReagents = $;
       plReagents = Cons([&BlueMushroom,2],plReagents);
@@ -82,10 +82,10 @@ messages:
 
    SendProjectileAnimation()
    {
-      AddPacket(1, ANIMATE_CYCLE, 4, 40, 2, 2, 2, 3);   % 40ms between animations
+      AddPacket(1, ANIMATE_CYCLE, 4, 40, 2, 2, 2, 3);   // 40ms between animations
       return;
    }
 
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

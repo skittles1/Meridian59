@@ -1,19 +1,19 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Assassin is BarloqueTown
 
-%  The assassin is little more than an empty vessel, who responds to the 
-%  'say' commands of players.  This way, recreates don't have to be handled
-%  special in any way, shape or form.  All of the real work of the assassin's
-%  game is done by the AssassinGame object, found in the \util directory.
+//  The assassin is little more than an empty vessel, who responds to the 
+//  'say' commands of players.  This way, recreates don't have to be handled
+//  special in any way, shape or form.  All of the real work of the assassin's
+//  game is done by the AssassinGame object, found in the \util directory.
 
 constants:
 
@@ -75,7 +75,7 @@ resources:
       "~IThe game is already in accept mode.  Have players say 'blade' to the "
       "assassin to enter the match."   
 
-   % Append "word" on the end of help since assassin_help was already taken.
+   // Append "word" on the end of help since assassin_help was already taken.
    assassin_help_word = "help"
    assassin_blade = "blade"
    assassin_quit = "quit"
@@ -107,7 +107,7 @@ properties:
 
    poAssassin_game = $
 
-   % If true, players can make themselves killable here.
+   // If true, players can make themselves killable here.
    pbBeta = FALSE
 
 messages:
@@ -128,31 +128,31 @@ messages:
    {
       local oGame;
 
-      % If not a player, ignore it all.
+      // If not a player, ignore it all.
       if NOT IsClass(what,&User)
       {
          propagate;
       }
 
-      % Beta test check:  during a beta test, a player can say 'goodbye angel'
-      % to get rid of his guardian angel.
+      // Beta test check:  during a beta test, a player can say 'goodbye angel'
+      // to get rid of his guardian angel.
       if StringEqual(string, assassin_goodbye_angel) AND pbBeta
          AND NOT Send(what,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
       {
          Send(what,@PkillEnable);
       }
 
-      % If a player says 'help', then give him a generic bit of advice
-      % on how to interface with Roq.
+      // If a player says 'help', then give him a generic bit of advice
+      // on how to interface with Roq.
       if StringEqual(string,assassin_help_word)
       {
          Send(self,@SayToOne,#target=what,#message_rsc=assassin_help);
       }
 
-      % If a player says 'blade', check to see
-      %  a. if he's a legal combatant,
-      %  b. if he's not already a combatant and
-      %  c. if there's no match in session.
+      // If a player says 'blade', check to see
+      //  a. if he's a legal combatant,
+      //  b. if he's not already a combatant and
+      //  c. if there's no match in session.
       if StringEqual(string, assassin_blade)
       {
          if NOT Send(poAssassin_game,@IsLegalCombatant,#who=what)
@@ -208,8 +208,8 @@ messages:
          }
       }
 
-      % Here, the player is trying to say 'Quit' to quit the proceedings.
-      % be sure that he's actually a combatant before you kick him out.
+      // Here, the player is trying to say 'Quit' to quit the proceedings.
+      // be sure that he's actually a combatant before you kick him out.
 
       if StringEqual(string,assassin_quit)
       {
@@ -234,9 +234,9 @@ messages:
          }
       }
 
-      % Does the player want to know when a match starts?  If so, add him
-      % to this list.  This way, people who are non-combatants can get info
-      % for the next bout, if they came in late.
+      // Does the player want to know when a match starts?  If so, add him
+      // to this list.  This way, people who are non-combatants can get info
+      // for the next bout, if they came in late.
       if StringEqual(string,assassin_advertise)
       {
          if NOT Send(poAssassin_game,@IsAdvertised,#who=what)
@@ -285,7 +285,7 @@ messages:
          }
       }
 
-      % The following are DM/actor commands to control the game.
+      // The following are DM/actor commands to control the game.
       if type = SAY_DM
          AND Send(what,@CheckDMFlag,#flag=DMFLAG_ALLOW_AGAME_CMDS)
       {
@@ -374,4 +374,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,27 +1,27 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 CessMurderQuestTemplate is MurderQuestTemplate
-% Parent class for Princess murder mystery quests.
+// Parent class for Princess murder mystery quests.
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -31,7 +31,7 @@ resources:
 
    include cessmurderqt.lkod
 
-   % Quest description.
+   // Quest description.
    cessmurderqt_name_rsc = "Princess murder mystery quest"
    cessmurderqt_desc_rsc = \
       "The Princess would like you to question people regarding the "
@@ -40,7 +40,7 @@ resources:
    cessmurderqt_completed_rsc = \
       "You have completed a Princess murder mystery quest."
 
-   % Quest resources.
+   // Quest resources.
    murder_princess_assign = \
       "Like the rest of the people in my fair lands, I am curious to learn "
       "who killed the former Duke.  Though he and I were often rivals, it "
@@ -72,8 +72,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #182 is Princess's Murder Mystery quest kickoff, "murder"
-      % QNT_ID_CESS_MURDER_ONE
+      // Template #182 is Princess's Murder Mystery quest kickoff, "murder"
+      // QNT_ID_CESS_MURDER_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[ murder_trigger ],#bDuplicate=TRUE,
                #quest_node_index=QNT_ID_CESS_MURDER_ONE)
@@ -91,8 +91,8 @@ messages:
          Debug("Error building QN: QNT_ID_CESS_MURDER_ONE");
       }
 
-      % Template #183 is Princess's Murder Mystery quest, "deliver" the trigger.
-      % QNT_ID_CESS_MURDER_TWO
+      // Template #183 is Princess's Murder Mystery quest, "deliver" the trigger.
+      // QNT_ID_CESS_MURDER_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[ murder_trigger ],#timelimit=6 * 3600,
                #bDuplicate=TRUE,#quest_node_index=QNT_ID_CESS_MURDER_TWO)
@@ -125,4 +125,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 Qormas is GameEvent
 
 constants:
@@ -37,31 +37,31 @@ classvars:
 
 properties:
 
-   % Draw Wreaths?
+   // Draw Wreaths?
    pbWreaths = TRUE
 
-   % turn on snow?
+   // turn on snow?
    pbSnow = TRUE
 
-   % Distribute Gifts?
+   // Distribute Gifts?
    pbGifts = TRUE
 
-   % Do currently generated gifts have a chance to give a mask?
+   // Do currently generated gifts have a chance to give a mask?
    pbGiftMasks = FALSE
 
-   % gifts allowed per ip per day
+   // gifts allowed per ip per day
    piIPGiftsPerDay = 5
 
-   % number of game days before presents auto-reset
+   // number of game days before presents auto-reset
    piGiftRefreshDays = 12
 
-   % Queue to handle delayed gift assignment
+   // Queue to handle delayed gift assignment
    plLogonQueue = $
 
-   % Automatically refill gifts when low?
+   // Automatically refill gifts when low?
    pbRefillGiftsWhenLow = TRUE
 
-   % Present amount before refill is triggered
+   // Present amount before refill is triggered
    piMinimumGifts = 30
 
    plDecorations = $
@@ -109,7 +109,7 @@ messages:
       return;
    }
 
-   % required GameEvent Overload
+   // required GameEvent Overload
    StartEvent()
    {
       local sMessage;
@@ -125,11 +125,11 @@ messages:
       propagate;
    }
 
-   % not required to overload, but a good idea for cleanup
+   // not required to overload, but a good idea for cleanup
    EndEvent()
    {
-      % In case this is called manually, let RealTime know to delete
-      % the callback.
+      // In case this is called manually, let RealTime know to delete
+      // the callback.
       Post(REALTIME_OBJECT,@DeleteCallback,#what=self);
 
       Send(self,@EndQormas);
@@ -143,10 +143,10 @@ messages:
    {
       local oDecoration, oRoom;
 
-      % Set as active
+      // Set as active
       pbActive = TRUE;
 
-      % Tos
+      // Tos
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_TOS);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_TREE_BIG);
       Send(oRoom,@NewHold,#what=oDecoration,#new_row=53,#new_col=12,#fine_row=17,
@@ -166,7 +166,7 @@ messages:
          plWreaths = Cons([oRoom,25],plWreaths);
       }
 
-      % Tos Inn
+      // Tos Inn
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_TOS_INN);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_TREE);
       Send(oRoom,@NewHold,#what=oDecoration,#new_row=4,#new_col=10,#fine_row=44,
@@ -178,7 +178,7 @@ messages:
          plWreaths = Cons([oRoom,26],plWreaths);
       }
 
-      % East Tos
+      // East Tos
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_EAST_TOS);
       if pbWreaths
       {
@@ -190,7 +190,7 @@ messages:
          plWreaths = Cons([oRoom,23],plWreaths);
       }
 
-      % Tos Adv Hall
+      // Tos Adv Hall
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_TOSHALL);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_TREE);
       Send(oRoom,@NewHold,#what=oDecoration,#new_row=5,#new_col=21,#fine_row=50,
@@ -202,7 +202,7 @@ messages:
          plWreaths = Cons([oRoom,22],plWreaths);
       }
 
-      % Barloque Inn
+      // Barloque Inn
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_BAR_INN);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_TREE);
       Send(oRoom,@NewHold,#what=oDecoration,#new_row=16,#new_col=8,#fine_row=37,
@@ -214,7 +214,7 @@ messages:
          plWreaths = Cons([oRoom,32],plWreaths);
       }
 
-      % Bhrama & Falcon
+      // Bhrama & Falcon
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_BAR_BAR);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_TREE);
       Send(oRoom,@NewHold,#what=oDecoration,#new_row=12,#new_col=11,#fine_row=47,
@@ -226,15 +226,15 @@ messages:
       plDecorations = Cons(oDecoration,plDecorations);
       if pbWreaths
       {
-         % Entry door.
+         // Entry door.
          Send(oRoom,@ChangeTexture,#id=34,#new_texture=61014,#flags=CTF_NORMALWALL);
          plWreaths = Cons([oRoom,34],plWreaths);
-         % Stairs door.
+         // Stairs door.
          Send(oRoom,@ChangeTexture,#id=21,#new_texture=61001,#flags=CTF_NORMALWALL);
          plWreaths = Cons([oRoom,21],plWreaths);
       }
 
-      % Barl Adv Hall
+      // Barl Adv Hall
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_BARHALL);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_TREE_BIG);
       Send(oRoom,@NewHold,#what=oDecoration,#new_row=18,#new_col=6,#fine_row=32,
@@ -242,12 +242,12 @@ messages:
       plDecorations = Cons(oDecoration,plDecorations);
       if pbWreaths
       {
-         % Entry door.
+         // Entry door.
          Send(oRoom,@ChangeTexture,#id=33,#new_texture=61013,#flags=CTF_NORMALWALL);
          plWreaths = Cons([oRoom,33],plWreaths);
       }
 
-      % North Barloque
+      // North Barloque
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_BAR_NORTH);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_SNOWMAN);
       Send(oRoom,@NewHold,#what=oDecoration,#new_row=18,#new_col=25,#fine_row=43,
@@ -267,18 +267,18 @@ messages:
       plDecorations = Cons(oDecoration,plDecorations);
       if pbWreaths
       {
-         % Inn door.
+         // Inn door.
          Send(oRoom,@ChangeTexture,#id=32,#new_texture=61012,#flags=CTF_BELOWWALL);
          plWreaths = Cons([oRoom,32],plWreaths);
-         % Adv hall door.
+         // Adv hall door.
          Send(oRoom,@ChangeTexture,#id=33,#new_texture=61013,#flags=CTF_BELOWWALL);
          plWreaths = Cons([oRoom,33],plWreaths);
-         % Bar door.
+         // Bar door.
          Send(oRoom,@ChangeTexture,#id=34,#new_texture=61014,#flags=CTF_BELOWWALL);
          plWreaths = Cons([oRoom,34],plWreaths);
       }
 
-      % Ports of Barloque
+      // Ports of Barloque
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_BAR_PORT);
       if pbWreaths
       {
@@ -290,14 +290,14 @@ messages:
          plWreaths = Cons([oRoom,23],plWreaths);
       }
 
-      % South Barloque
+      // South Barloque
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_BAR_SOUTH);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_SNOWMAN);
       Send(oRoom,@NewHold,#what=oDecoration,#new_row=34,#new_col=32,#fine_row=29,
             #fine_col=38,#new_angle=ANGLE_SOUTH_WEST);
       plDecorations = Cons(oDecoration,plDecorations);
 
-      % Cor Noth
+      // Cor Noth
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_CORNOTH);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_SNOWMAN);
       Send(oRoom,@NewHold,#what=oDecoration,#new_row=12,#new_col=59,#fine_row=59,
@@ -317,7 +317,7 @@ messages:
          plWreaths = Cons([oRoom,23],plWreaths);
       }
 
-      % Cor Noth Inn
+      // Cor Noth Inn
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_COR_INN);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_TREE);
       Send(oRoom,@NewHold,#what=oDecoration,#new_row=7,#new_col=2,#fine_row=19,
@@ -329,7 +329,7 @@ messages:
          plWreaths = Cons([oRoom,21],plWreaths);
       }
 
-      % Cor Noth Adv Hall
+      // Cor Noth Adv Hall
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_CORHALL);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_TREE);
       Send(oRoom,@NewHold,#what=oDecoration,#new_row=2,#new_col=4,#fine_row=0,
@@ -341,7 +341,7 @@ messages:
          plWreaths = Cons([oRoom,23],plWreaths);
       }
 
-      % Marion Inn/Tavern
+      // Marion Inn/Tavern
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_MAR_INN);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_TREE);
       Send(oRoom,@NewHold,#what=oDecoration,#new_row=14,#new_col=15,#fine_row=55,
@@ -353,17 +353,17 @@ messages:
       plDecorations = Cons(oDecoration,plDecorations);
       if pbWreaths
       {
-         % Rented room doors.
+         // Rented room doors.
          Send(oRoom,@ChangeTexture,#id=22,#new_texture=61002,#flags=CTF_NORMALWALL);
          plWreaths = Cons([oRoom,22],plWreaths);
-         % Inn doors.
+         // Inn doors.
          Send(oRoom,@ChangeTexture,#id=29,#new_texture=61009,#flags=CTF_NORMALWALL);
          plWreaths = Cons([oRoom,29],plWreaths);
          Send(oRoom,@ChangeTexture,#id=30,#new_texture=61010,#flags=CTF_NORMALWALL);
          plWreaths = Cons([oRoom,30],plWreaths);
       }
 
-      % Marion
+      // Marion
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_MARION);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_SNOWMAN);
       Send(oRoom,@NewHold,#what=oDecoration,#new_row=60,#new_col=57,#fine_row=52,
@@ -375,17 +375,17 @@ messages:
       plDecorations = Cons(oDecoration,plDecorations);
       if pbWreaths
       {
-         % Inn doors.
+         // Inn doors.
          Send(oRoom,@ChangeTexture,#id=29,#new_texture=61009,#flags=CTF_BELOWWALL);
          plWreaths = Cons([oRoom,29],plWreaths);
          Send(oRoom,@ChangeTexture,#id=30,#new_texture=61010,#flags=CTF_BELOWWALL);
          plWreaths = Cons([oRoom,30],plWreaths);
-         % Adv hall door.
+         // Adv hall door.
          Send(oRoom,@ChangeTexture,#id=31,#new_texture=61011,#flags=CTF_BELOWWALL);
          plWreaths = Cons([oRoom,31],plWreaths);
       }
 
-      % Marion Adv Hall
+      // Marion Adv Hall
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_MARHALL);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_TREE);
       Send(oRoom,@NewHold,#what=oDecoration,#new_row=14,#new_col=2,#fine_row=4,
@@ -397,7 +397,7 @@ messages:
          plWreaths = Cons([oRoom,31],plWreaths);
       }
 
-      % West Jasper
+      // West Jasper
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_JAS_WEST);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_SNOWMAN);
       Send(oRoom,@NewHold,#what=oDecoration,#new_row=45,#new_col=27,#fine_row=13,
@@ -405,12 +405,12 @@ messages:
       plDecorations = Cons(oDecoration,plDecorations);
       if pbWreaths
       {
-         % Inn door.
+         // Inn door.
          Send(oRoom,@ChangeTexture,#id=27,#new_texture=61007,#flags=CTF_BELOWWALL);
          plWreaths = Cons([oRoom,27],plWreaths);
       }
 
-      % East Japser
+      // East Japser
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_JAS_EAST);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_SNOWMAN);
       Send(oRoom,@NewHold,#what=oDecoration,#new_row=59,#new_col=30,#fine_row=42,
@@ -418,12 +418,12 @@ messages:
       plDecorations = Cons(oDecoration,plDecorations);
       if pbWreaths
       {
-         % Adv hall door.
+         // Adv hall door.
          Send(oRoom,@ChangeTexture,#id=28,#new_texture=61008,#flags=CTF_BELOWWALL);
          plWreaths = Cons([oRoom,28],plWreaths);
       }
 
-      % Jasper Inn
+      // Jasper Inn
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_JAS_INN);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_TREE);
       Send(oRoom,@NewHold,#what=oDecoration,#new_row=6,#new_col=12,#fine_row=29,
@@ -431,12 +431,12 @@ messages:
       plDecorations = Cons(oDecoration,plDecorations);
       if pbWreaths
       {
-         % Inn door.
+         // Inn door.
          Send(oRoom,@ChangeTexture,#id=27,#new_texture=61007,#flags=CTF_NORMALWALL);
          plWreaths = Cons([oRoom,27],plWreaths);
       }
 
-      % Jasper Adv Hall
+      // Jasper Adv Hall
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_JASHALL);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_TREE);
       Send(oRoom,@NewHold,#what=oDecoration,#new_row=14,#new_col=2,#fine_row=29,
@@ -444,21 +444,21 @@ messages:
       plDecorations = Cons(oDecoration,plDecorations);
       if pbWreaths
       {
-         % Adv hall door.
+         // Adv hall door.
          Send(oRoom,@ChangeTexture,#id=28,#new_texture=61008,#flags=CTF_NORMALWALL);
          plWreaths = Cons([oRoom,28],plWreaths);
       }
 
-      % Ko'catan
+      // Ko'catan
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_SETTLE1);
       if pbWreaths
       {
-         % Inn door.
+         // Inn door.
          Send(oRoom,@ChangeTexture,#id=24,#new_texture=61004,#flags=CTF_BELOWWALL);
          plWreaths = Cons([oRoom,24],plWreaths);
       }
 
-      % Aerie Guest House
+      // Aerie Guest House
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_KOC_INN);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_TREE);
       Send(oRoom,@NewHold,#what=oDecoration,#new_row=2,#new_col=2,#fine_row=48,
@@ -470,7 +470,7 @@ messages:
          plWreaths = Cons([oRoom,24],plWreaths);
       }
 
-      % The Barking Monster
+      // The Barking Monster
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_KOCTAV);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_TREE_BIG);
       Send(oRoom,@NewHold,#what=oDecoration,#new_row=12,#new_col=5,#fine_row=51,
@@ -482,10 +482,10 @@ messages:
          plWreaths = Cons([oRoom,24],plWreaths);
       }
 
-      % place gifts under the trees in inns and halls
+      // place gifts under the trees in inns and halls
       Send(self,@PlaceGifts);
 
-      % If snow is turned on, set all rooms to start snowing.
+      // If snow is turned on, set all rooms to start snowing.
       if pbSnow
       {
          SendList(Send(SYS,@GetRooms),0,@StartSnow);
@@ -501,10 +501,10 @@ messages:
    {
       Send(self,@RemoveDecorations);
 
-      % remove any remaining gifts from rooms
+      // remove any remaining gifts from rooms
       Send(self,@RemoveGifts);
 
-      % If snow is turned on, stop snowing in all rooms.
+      // If snow is turned on, stop snowing in all rooms.
       SendList(Send(SYS,@GetRooms),0,@EndSnow);
 
       pbActive = FALSE;
@@ -546,54 +546,54 @@ messages:
          return;
       }
 
-      % Tos Inn
+      // Tos Inn
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_TOS_INN);
       oTree = First(Send(self,@FindTrees,#oRoom=oRoom));
       Send(self,@PlaceGiftsAroundTree,#oTree=oTree,#bE=FALSE,
             #bSE=FALSE,#bNE=FALSE);
 
-      % Tos Hall
+      // Tos Hall
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_TOS_HALL);
       oTree = First(Send(self,@FindTrees,#oRoom=oRoom));
       Send(self,@PlaceGiftsAroundTree,#oTree=oTree,#bE=FALSE,
             #bSE=FALSE,#bNE=FALSE);
 
-      % Barloque Inn
+      // Barloque Inn
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_BAR_INN);
       oTree = First(Send(self,@FindTrees,#oRoom=oRoom));
       Send(self,@PlaceGiftsAroundTree,#oTree=oTree,#bW=FALSE,
             #bSW=FALSE,#bNW=FALSE);
 
-      % Barloque Hall
+      // Barloque Hall
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_BAR_HALL);
       oTree = First(Send(self,@FindTrees,#oRoom=oRoom));
       Send(self,@PlaceGiftsAroundTree,#oTree=oTree);
 
-      % Cor Noth Inn
+      // Cor Noth Inn
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_COR_INN);
       oTree = First(Send(self,@FindTrees,#oRoom=oRoom));
       Send(self,@PlaceGiftsAroundTree,#oTree=oTree,#bW=FALSE,
             #bSW=FALSE,#bS=FALSE);
 
-      % Cor Noth Hall
+      // Cor Noth Hall
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_COR_HALL);
       oTree = First(Send(self,@FindTrees,#oRoom=oRoom));
       Send(self,@PlaceGiftsAroundTree,#oTree=oTree,#bW=FALSE,
             #bN=FALSE,#bNW=FALSE);
 
-      % Jasper Inn
+      // Jasper Inn
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_JAS_INN);
       oTree = First(Send(self,@FindTrees,#oRoom=oRoom));
       Send(self,@PlaceGiftsAroundTree,#oTree=oTree,#bE=FALSE,
             #bS=FALSE,#bSE=FALSE);
 
-      % Jasper Hall
+      // Jasper Hall
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_JAS_HALL);
       oTree = First(Send(self,@FindTrees,#oRoom=oRoom));
       Send(self,@PlaceGiftsAroundTree,#oTree=oTree,#bW=FALSE,
             #bSW=FALSE,#bS=FALSE);
 
-      % Marion Inn
+      // Marion Inn
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_MAR_INN);
       oTree = First(Send(self,@FindTrees,#oRoom=oRoom));
       if (Send(oTree,@GetRow) = 14 AND Send(oTree,@GetCol) = 15)
@@ -617,19 +617,19 @@ messages:
          Send(self,@PlaceGiftsAroundTree,#oTree=oTree,#bE=FALSE,#bSE=FALSE);
       }
 
-      % Marion Hall
+      // Marion Hall
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_MAR_HALL);
       oTree = First(Send(self,@FindTrees,#oRoom=oRoom));
       Send(self,@PlaceGiftsAroundTree,#oTree=oTree,#bW=FALSE,
             #bSW=FALSE,#bS=FALSE);
 
-      % Kocatan Inn
+      // Kocatan Inn
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_KOC_INN);
       oTree = First(Send(self,@FindTrees,#oRoom=oRoom));
       Send(self,@PlaceGiftsAroundTree,#oTree=oTree,#bW=FALSE,
             #bN=FALSE,#bNW=FALSE);
 
-      % Kocatan Tavern
+      // Kocatan Tavern
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_KOC_TAVERN);
       oTree = First(Send(self,@FindTrees,#oRoom=oRoom));
       Send(self,@PlaceGiftsAroundTree,#oTree=oTree);
@@ -697,7 +697,7 @@ messages:
          TREE_DISTANCE = 40;
       }
 
-      % North
+      // North
       if bN
       {
          iNewRow = iRow;
@@ -725,7 +725,7 @@ messages:
          plGifts = Cons(oGift,plGifts);
       }
 
-      % NorthEast
+      // NorthEast
       if bNE
       {
          iNewRow=iRow;
@@ -757,7 +757,7 @@ messages:
          plGifts = Cons(oGift,plGifts);
       }
 
-      % East
+      // East
       if bE
       {
          iNewRow=iRow;
@@ -784,7 +784,7 @@ messages:
          plGifts = Cons(oGift,plGifts);
       }
 
-      % SouthEast
+      // SouthEast
       if bSE
       {
          iNewRow=iRow;
@@ -816,7 +816,7 @@ messages:
          plGifts = Cons(oGift,plGifts);
       }
 
-      % South
+      // South
       if bS
       {
          iNewRow=iRow;
@@ -843,7 +843,7 @@ messages:
          plGifts = Cons(oGift,plGifts);
       }
 
-      % SouthWest
+      // SouthWest
       if bSW
       {
          iNewRow=iRow;
@@ -875,7 +875,7 @@ messages:
          plGifts = Cons(oGift,plGifts);
       }
 
-      % West
+      // West
       if bW
       {
          iNewRow=iRow;
@@ -902,7 +902,7 @@ messages:
          plGifts = Cons(oGift,plGifts);
       }
 
-      % NorthWest
+      // NorthWest
       if bNW
       {
          iNewRow=iRow;
@@ -1058,7 +1058,7 @@ messages:
 
       oGift = $;
 
-      % Only 1 claim per user per day.
+      // Only 1 claim per user per day.
       foreach i in plGiftClaims
       {
          if i = who
@@ -1067,7 +1067,7 @@ messages:
          }
       }
 
-      % Check per IP limit
+      // Check per IP limit
       lIP = Send(who,@GetIP);
       if (lIP = $)
       {
@@ -1172,13 +1172,13 @@ messages:
 
       iRoomNum = Send(oRoom,@GetRoomNum);
 
-      % 2100 to 2599 is Island/Caves
+      // 2100 to 2599 is Island/Caves
       if (iRoomNum >= 2000 AND iRoomNum <=2599)
       {
          bIsland = True;
       }
 
-      % Build lists of island and mainland gifts available.
+      // Build lists of island and mainland gifts available.
       foreach i in plGifts
       {
          if (Send(i,@GetRecipient) = $)
@@ -1199,7 +1199,7 @@ messages:
       if (bIsland AND lIslandGifts = $)
          OR (NOT bIsland AND lMainlandGifts = $)
       {
-         % No unassigned presents available.
+         // No unassigned presents available.
          Debug("No more Qormas presents available for players! Increase total amount",
                " or set pbRefillGiftsWhenLow to TRUE if it is FALSE.");
 
@@ -1223,12 +1223,12 @@ messages:
          }
       }
 
-      % Random Failed, try first gift on the closest present list
-      % then try the non local presents.  Honestly Should not get
-      % to this point unless the local list is empty and we would
-      % be choosing a non-local gift anyway, or both lists are empty
-      % in which case we will be returning $ and the player gets no
-      % gift at all
+      // Random Failed, try first gift on the closest present list
+      // then try the non local presents.  Honestly Should not get
+      // to this point unless the local list is empty and we would
+      // be choosing a non-local gift anyway, or both lists are empty
+      // in which case we will be returning $ and the player gets no
+      // gift at all
       if (bIsland)
       {
          if (Length(lIslandGifts) > 0)
@@ -1237,7 +1237,7 @@ messages:
          }
          else if (Length(lMainlandGifts) > 0)
          {
-            % No gifts on island, try mainland.
+            // No gifts on island, try mainland.
             return First(lMainlandGifts);
          }
       }
@@ -1249,12 +1249,12 @@ messages:
          }
          else if (Length(lIslandGifts) > 0)
          {
-            % No gifts on island, try mainland.
+            // No gifts on island, try mainland.
             return First(lIslandGifts);
          }
       }
 
-      % Give up, no Gift chosen.
+      // Give up, no Gift chosen.
       return $;
    }
 
@@ -1379,4 +1379,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

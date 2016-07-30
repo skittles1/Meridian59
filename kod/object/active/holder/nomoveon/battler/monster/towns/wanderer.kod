@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Wanderer is Towns
 
 constants:
@@ -26,11 +26,11 @@ properties:
 
    ptTeleport = $
 
-   % list of lists
-   % each list element is a list of format [RID, ROW, COLUMN]
-   % ex. [ [ RID_TOS, 20, 20], [RID_KACATAN, 30, 30], ... ]
-   % or [RID, ROW, COLUMN, FINEROW, FINECOL]
-   % ex. [ [ RID_TOS, 20, 20], [RID_KACATAN, 30, 30, 16, 48], ... ]
+   // list of lists
+   // each list element is a list of format [RID, ROW, COLUMN]
+   // ex. [ [ RID_TOS, 20, 20], [RID_KACATAN, 30, 30], ... ]
+   // or [RID, ROW, COLUMN, FINEROW, FINECOL]
+   // ex. [ [ RID_TOS, 20, 20], [RID_KACATAN, 30, 30, 16, 48], ... ]
 
    plDestinations = $
 
@@ -64,7 +64,7 @@ messages:
 
       if (piTeleport_Counter > 4)
       {
-         %Debug("Counter = ",piTeleport_Counter,", teleporting regardless...");
+         //Debug("Counter = ",piTeleport_Counter,", teleporting regardless...");
          Send(self, @NextDest);
 
          return;
@@ -77,7 +77,7 @@ messages:
          if IsClass(First(i),&User)
          {
             piTeleport_Counter = piTeleport_Counter + 1;
-            %Debug("Teleport failed, counter = ", piTeleport_Counter);
+            //Debug("Teleport failed, counter = ", piTeleport_Counter);
 
             return;
          }
@@ -91,7 +91,7 @@ messages:
    {
       local iNext_Dest, oRoom;
 
-      %Debug("Finding new destination...");
+      //Debug("Finding new destination...");
       piTeleport_Counter = 0;
       iNext_Dest = piCurrent_Dest;
 
@@ -104,7 +104,7 @@ messages:
       }
       else
       {
-         %Debug("Only one destination to choose from, bailing...");
+         //Debug("Only one destination to choose from, bailing...");
 
          return;
       }
@@ -117,12 +117,12 @@ messages:
       {
          if Length(Nth(plDestinations, piCurrent_Dest)) = 3
          {
-            % No fine coordinates.
+            // No fine coordinates.
             Send(oRoom,@NewHold,#what=self,
                   #new_Row=nth(nth(plDestinations,piCurrent_Dest),2),
                   #new_Col=nth(nth(plDestinations,piCurrent_Dest),3));
          }
-         else   % Has fine coordinates.
+         else   // Has fine coordinates.
          {
             Send(oRoom,@NewHold,#what=self,
                   #new_Row=nth(nth(plDestinations,piCurrent_Dest),2),
@@ -198,4 +198,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

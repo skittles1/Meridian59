@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 CASTLE1 is ObjectRoom
 
 constants:
@@ -133,11 +133,11 @@ messages:
                   fine_col = FINENESS/2, cause = CAUSE_UNKNOWN, speed = 0,
                   non_monsters_only = FALSE)
    {
-      % Moves monsters through the doors. If this message is modified,
-      % take care not to choose new_row values that would cause an infinite
-      % loop. Random check also present to help prevent that from happening
-      % by mistake, and to stop the mobs potentially moving back and forward
-      % quickly. This can be turned on/off via pbMobUseDoors.
+      // Moves monsters through the doors. If this message is modified,
+      // take care not to choose new_row values that would cause an infinite
+      // loop. Random check also present to help prevent that from happening
+      // by mistake, and to stop the mobs potentially moving back and forward
+      // quickly. This can be turned on/off via pbMobUseDoors.
       if (NOT pbMobUseDoors)
       {
          propagate;
@@ -276,4 +276,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

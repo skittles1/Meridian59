@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 DeathsDoor is MultiCastSpell
 
 constants:
@@ -68,17 +68,17 @@ classvars:
    viCast_time = 20000
    viChance_To_Increase = 25
 
-   viManaDrain = 1       % Drain is amount used every viDrainTime milliseconds
-   viDrainTime = 1000    % Drain some mana every viDrainTime milliseconds
+   viManaDrain = 1       // Drain is amount used every viDrainTime milliseconds
+   viDrainTime = 1000    // Drain some mana every viDrainTime milliseconds
 
-   viCast_time = 0    % in milliseconds
+   viCast_time = 0    // in milliseconds
 
 
 properties:
 
    pbAccessible = FALSE
    pbEnabled = FALSE
-   viMultiCast_Spellpower = 1500 % 5 minutes for 3 @ 20%, 70 secs for 7 @ 99%
+   viMultiCast_Spellpower = 1500 // 5 minutes for 3 @ 20//, 70 secs for 7 @ 99//
 messages:      
 
 
@@ -111,8 +111,8 @@ messages:
          return;
       }
 
-      % Ask room if we're allowed to cast here.  For example, portals into
-      % guild halls are a bad idea.
+      // Ask room if we're allowed to cast here.  For example, portals into
+      // guild halls are a bad idea.
       if (NOT Send(Send(oPrism,@GetOwner),@CanHavePlayerPortal))
       {
          foreach oCaster in lCasters
@@ -126,16 +126,16 @@ messages:
 
       if Send(oPrism,@GetTeleportLocation)
       {
-         % Second cast: create a portal to the place where the first cast
-         % occurred.
+         // Second cast: create a portal to the place where the first cast
+         // occurred.
 
-         % Where the portal leads
+         // Where the portal leads
          lTargetLocation = Send(oPrism,@GetTeleportLocation);
 
-         % Where the portal gets put
+         // Where the portal gets put
          lPortalLocation = Send(self,@GetPortalLocation,#what=oPrism);
 
-         % Fail if target is the current room to prevent portal to itself
+         // Fail if target is the current room to prevent portal to itself
          oTargetRoom = Send(SYS, @FindRoomByNum, #num = first(lTargetLocation));
          if oTargetRoom = Send(oPrism, @GetOwner)
          {
@@ -147,7 +147,7 @@ messages:
             return;
          }
 
-         % Fail if target room already has a portal, to prevent infinite loops
+         // Fail if target room already has a portal, to prevent infinite loops
          if Send(oTargetRoom,@FindHoldingActive,#class=&Portal)
          {
             foreach oCaster in lCasters
@@ -173,8 +173,8 @@ messages:
       }
       else
       {
-         % First cast: prism records location where portal will lead after
-         % the second cast.
+         // First cast: prism records location where portal will lead after
+         // the second cast.
          Send(oPrism,@LearnLocation,#lLocation=Send(self,@GetPortalLocation,
                #what=oPrism));
 
@@ -212,4 +212,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

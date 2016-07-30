@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Bow is RangedWeapon
 
 constants:
@@ -51,7 +51,7 @@ classvars:
    viInventory_group = 3
    viBroken_group = 2
 
-   % Base damage determined by ammo, but this can add to the bow's strength.
+   // Base damage determined by ammo, but this can add to the bow's strength.
    viWeaponDamage = 0
    viRange = 100 * FINENESS
 
@@ -61,7 +61,7 @@ classvars:
 
    viSpell_modifier = -25
 
-   % What's the basic color of the wood?
+   // What's the basic color of the wood?
    viBaseXLAT = XLAT_TO_SKIN4
 
 properties:
@@ -104,8 +104,8 @@ messages:
 
    ReqUseSomething(what = $)
    {
-      % Checks for using other weapons in weapon superclass.
-      % Here we are just concerned with shields and lutes.
+      // Checks for using other weapons in weapon superclass.
+      // Here we are just concerned with shields and lutes.
       if (IsClass(what,&Shield)
          AND NOT IsClass(what,&SoldierShield))
          OR IsClass(what,&Book)
@@ -132,11 +132,11 @@ messages:
       {
          iFaction = FACTION_NEUTRAL;
 
-         % Check for shield
+         // Check for shield
          oSoldierShield = Send(poOwner,@FindUsing,#class=&SoldierShield);
 
-         % Sling it on the back if it's there.
-         %  Also, record faction so we can set our bands if needed.
+         // Sling it on the back if it's there.
+         //  Also, record faction so we can set our bands if needed.
          if oSoldierShield <> $
          {
             iFaction = Send(oSoldierShield,@GetFaction);
@@ -148,7 +148,7 @@ messages:
             prBowTop = bow_top;
             prBowBottom = bow_bottom;
             prBowOverlay = bow_window_overlay_rsc;
-            % No faction translation
+            // No faction translation
             iTranslation = 0;
          }
          else
@@ -265,7 +265,7 @@ messages:
 
    GetNumberOverlays(iAnimation = $)
    {
-      %% most overlay items only offer one overlay.  weapons and bows may offer two.
+      /// most overlay items only offer one overlay.  weapons and bows may offer two.
       if iAnimation <> $
          AND (piUsed = ATTACKING
             OR iAnimation = PANM_BOW_FIRE)
@@ -278,7 +278,7 @@ messages:
 
    GetWindowOverlayHotspot()
    {
-      % turns off the window overlay
+      // turns off the window overlay
       if piUsed = UNUSED
       {
          return 0;
@@ -289,7 +289,7 @@ messages:
 
    GetDisarmBonus()
    {
-      % Keep this a big negative.  Disarming with a bow is possible, just not likely. ;)
+      // Keep this a big negative.  Disarming with a bow is possible, just not likely. ;)
       return -90;
    }
 
@@ -304,4 +304,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

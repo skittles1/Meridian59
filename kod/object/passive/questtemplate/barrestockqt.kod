@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 BarRestockQuest is QuestTemplate
-% Quest template QST_ID_BAR_RESTOCK = 47.
-% Quest nodes 149, 150, 151.
-% QNT_ID_BAR_RESTOCK_ONE, QNT_ID_BAR_RESTOCK_TWO, QNT_ID_BAR_RESTOCK_THREE
+// Quest template QST_ID_BAR_RESTOCK = 47.
+// Quest nodes 149, 150, 151.
+// QNT_ID_BAR_RESTOCK_ONE, QNT_ID_BAR_RESTOCK_TWO, QNT_ID_BAR_RESTOCK_THREE
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -33,7 +33,7 @@ resources:
 
    include barrestockqt.lkod
 
-   % Quest description.
+   // Quest description.
    barrestockqt_icon_rsc = pitcher.bgf
    barrestockqt_name_rsc = "bar restock quest"
    barrestockqt_desc_rsc = \
@@ -49,7 +49,7 @@ resources:
    barrestockqt_completed_rsc = \
       "You have completed the bar restock quest."
 
-   % Quest resources.
+   // Quest resources.
    barrestock_assign_2 = \
       "Yes, I'm running very low on supplies.  %NPC knows what I need and "
       "it's already paid for.  Just ask %HIMHER_NPC about the shipment, and "
@@ -89,7 +89,7 @@ classvars:
 
    vrCompleted = barrestockqt_completed_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_BAR_RESTOCK
 
    viIcon_Animation_start = 1
@@ -107,11 +107,11 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_BAR_RESTOCK_ONE,QNT_ID_BAR_RESTOCK_TWO,
                       QNT_ID_BAR_RESTOCK_THREE];
 
-      % Quest nodes with matching descriptions for the player.
+      // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_BAR_RESTOCK_TWO, vrNodeTwo],
                           [QNT_ID_BAR_RESTOCK_THREE, vrNodeThree] ];
 
@@ -125,8 +125,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #149 is bar restock quest
-      % QNT_ID_BAR_RESTOCK_ONE
+      // Template #149 is bar restock quest
+      // QNT_ID_BAR_RESTOCK_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #NPC_modifier=QN_NPCMOD_NONE,#cargolist=[ letter_trigger ],
                #quest_node_index=QNT_ID_BAR_RESTOCK_ONE)
@@ -144,8 +144,8 @@ messages:
          Debug("Error building QN: QNT_ID_BAR_RESTOCK_ONE");
       }
 
-      % Template #150 is bar restock quest
-      % QNT_ID_BAR_RESTOCK_TWO
+      // Template #150 is bar restock quest
+      // QNT_ID_BAR_RESTOCK_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #NPC_modifier=QN_NPCMOD_DIFFERENT,#cargolist=[barrestock_trigger_2],
                #timelimit=3600,#quest_node_index=QNT_ID_BAR_RESTOCK_TWO)
@@ -162,8 +162,8 @@ messages:
          Debug("Error building QN: QNT_ID_BAR_RESTOCK_TWO");
       }
 
-      % Template #151 is bar restock quest
-      % QNT_ID_BAR_RESTOCK_THREE
+      // Template #151 is bar restock quest
+      // QNT_ID_BAR_RESTOCK_THREE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_ITEMCLASS,
                #NPC_modifier=QN_NPCMOD_PREVIOUS,
                #cargolist= [ [  QN_PRIZETYPE_ITEMCLASS, &StoutGoblet, 50 ],
@@ -186,7 +186,7 @@ messages:
                #penaltylist=[ [ QN_PRIZETYPE_OUTLAW ] ],
                #timelimit=2 * 3600,#quest_node_index=QNT_ID_BAR_RESTOCK_THREE)
       {
-         % Happy land subs.
+         // Happy land subs.
          if NOT Send(SYS,@IsPKAllowed)
          {
             Send(oQE,@SetQuestNodeAssignHint,#index=QNT_ID_BAR_RESTOCK_THREE,
@@ -251,4 +251,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

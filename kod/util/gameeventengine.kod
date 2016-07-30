@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 GameEventEngine is UtilityFunctions
 
 constants:
@@ -474,8 +474,8 @@ messages:
 
       oEvent = $;
 
-      % first make sure this would not create a second copy of an event that
-      % is unique
+      // first make sure this would not create a second copy of an event that
+      // is unique
       foreach i in plActiveEvents
       {
          if (IsClass(i,parm1) AND Send(i,@IsUnique))
@@ -485,9 +485,9 @@ messages:
          }
       }
       
-      %%%
-      % This must be called just prior to a ChaosNight object creation
-      %%%
+      ////
+      // This must be called just prior to a ChaosNight object creation
+      ////
       if (parm1 = &ChaosNight)
       {
          Send(SYS,@SaveGame_K,#IKnowThisIsDangerous=820965);
@@ -599,26 +599,26 @@ messages:
       
          if(GetClass(parm1)=&ChaosNight)
          {
-         % Don't run if frenzy isn't running.
+         // Don't run if frenzy isn't running.
             if NOT Send(self,@IsChaosNightActive)
             {
                return event_failure_rsc;
             }
             
             Send(SYS,@LoadGame_K,#IKnowThisIsDangerous=730527);
-            % we just loaded a saved game ABORT! ABORT!
+            // we just loaded a saved game ABORT! ABORT!
             return;
          }
 
          switch(GetClass(parm1))
          {
             case &ChaosNight:
-               % Note: This would never get called the server has reloaded
-               % the pre-frenzy savegame by now
-               %piActiveEventsFlagHi = 
-               %   piActiveEventsFlagHi & ~GAMEEVENT_HIBYTE_CHAOS;
-               %piActiveEventsFlagLo = 
-               %   piActiveEventsFlagLo & ~GAMEEVENT_LOBYTE_CHAOS;
+               // Note: This would never get called the server has reloaded
+               // the pre-frenzy savegame by now
+               //piActiveEventsFlagHi = 
+               //   piActiveEventsFlagHi & ~GAMEEVENT_HIBYTE_CHAOS;
+               //piActiveEventsFlagLo = 
+               //   piActiveEventsFlagLo & ~GAMEEVENT_LOBYTE_CHAOS;
                break;
                
             case &WarEvent:
@@ -706,9 +706,9 @@ messages:
          return;
       }
       
-      % if the event is unique (they are by default) then there should only be
-      % one in this list.  If the event is not unique this will only return the
-      % first match found, consider using FindAllEventsOfType instead.
+      // if the event is unique (they are by default) then there should only be
+      // one in this list.  If the event is not unique this will only return the
+      // first match found, consider using FindAllEventsOfType instead.
       foreach i in plActiveEvents
       {
          if (GetClass(i) = event_type)
@@ -826,9 +826,9 @@ messages:
                                     #iDay=iDay,
                                     #iHour=iHour,
                                     #iMinute=iMinute,
-                                    % parm1 gets the class to be called by
-                                    % the scheduler, don't use it
-                                    % #parm1=parm1,
+                                    // parm1 gets the class to be called by
+                                    // the scheduler, don't use it
+                                    // #parm1=parm1,
                                     #parm2=2,
                                     #parm3=GAMEEVENT_SCALE_MINUTES,
                                     #parm4=1,
@@ -848,4 +848,4 @@ messages:
    }
    
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

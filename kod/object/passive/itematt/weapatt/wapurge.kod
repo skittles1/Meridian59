@@ -1,25 +1,25 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 WeapAttPurger is WeaponAttribute
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%  This weapon has a chance to purge positive enchantments from the 
-%     opponent every time it does damage.
-%
-%   Form is:
-%
-%      [ WA_PURGER]
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////
+//
+//  This weapon has a chance to purge positive enchantments from the 
+//     opponent every time it does damage.
+//
+//   Form is:
+//
+//      [ WA_PURGER]
+//
+///////////////////////////////////////////////////////////////////////
 
 constants:
 
@@ -45,7 +45,7 @@ classvars:
 
 properties:
 
-   piValue_modifier = 200   %% modify the object's price by 100%
+   piValue_modifier = 200   /// modify the object's price by 100//
    piValue_power_modifier = 10
    piEffect_percent = 15
 
@@ -55,7 +55,7 @@ messages:
 
    ItemReqUse(oItem=$,oPlayer=$)
    {
-      % this person needs 50% in the weapon's proficiency to use
+      // this person needs 50// in the weapon's proficiency to use
       if Send(oItem,@GetProf,#who=oPlayer) < 50
       {
          Send(oPlayer,@MsgSendUser,#message_rsc=purger_fail_use,
@@ -67,7 +67,7 @@ messages:
       return TRUE;
    }
 
-   %%% Effect Functions
+   //// Effect Functions
 
    ModifyDamage(damage=0,target=$,wielder=$,lData=$)
    "Wielder has a 1% chance of purging target with any hit."
@@ -112,4 +112,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

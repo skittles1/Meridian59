@@ -1,27 +1,27 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 MurderQuestTemplate is QuestTemplate
-% Parent class for the murder mystery quests.
+// Parent class for the murder mystery quests.
 
-% QuestTemplate is
-% [ quest template index,
-%   quest template object,
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing),
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index,
+//   quest template object,
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing),
+//   special restrictions ]
 
 constants:
 
@@ -31,7 +31,7 @@ resources:
 
    include murderqt.lkod
 
-   % Quest description.
+   // Quest description.
    murderqt_icon_rsc = bkswd.bgf
    murderqt_nodetwo_rsc = \
       "%s%s would like to learn more about Duke Kalior's murder, and "
@@ -40,7 +40,7 @@ resources:
       "When asked about the murder, %s%s said \"%s\".  Return to %s%s "
       "and pass on this information."
 
-   % Quest resources.
+   // Quest resources.
    murder_trigger = "murder"
    murder_say = "%CARGO"
 
@@ -434,7 +434,7 @@ resources:
    murder_roq_c_1 = \
       "I heard somebody say that Roq had been buying a bunch of new weapons "
       "lately.  I wonder where he got the money?"
-   % Tie-in to weapon selling NPC.
+   // Tie-in to weapon selling NPC.
 
    murder_roq_c_2 = \
       "I've heard people say that Roq must have killed the Duke, just because "
@@ -449,16 +449,16 @@ resources:
       "Someone told me they saw Roq make a large deposit in Obert's vault "
       "shortly after the murder.  It was wrapped in cloth, but was apparently "
       "very heavy and made a clanking sound."
-      % Obert, when asked, will say that he must honor the privacy of his 
-      % customers - but later in the mystery, players will be given a search
-      % warrant and will be able to retrieve the deposit.
+      // Obert, when asked, will say that he must honor the privacy of his 
+      // customers - but later in the mystery, players will be given a search
+      // warrant and will be able to retrieve the deposit.
 
    murder_roq_c_5 = \
       "One of the Duke's guards told me that Roq paid a visit to Blackstone "
       "Keep earlier that evening.  Maleval encountered him on the steps and "
       "the two had harsh words, ending with the dark wizard storming off "
       "into the night."
-      % Any of the guards questioned will refuse to speak about that night.
+      // Any of the guards questioned will refuse to speak about that night.
 
    murder_random_w_1 = \
       "Bah!  This whole thing is ridiculous.  The fact is the Duke just "
@@ -467,7 +467,7 @@ resources:
    murder_random_c_1 = \
       "I heard that Akardius took the Duke's body to a healer, even though "
       "he was dead.  I guess he was really desperate to save him."
-      % Tie-in to Lady Aftyn dialogue.
+      // Tie-in to Lady Aftyn dialogue.
 
    murder_random_m_1 = \
       "Well, there have been a lot of rumors flying around about Maleval or "
@@ -519,7 +519,7 @@ messages:
 
       if index = First(Nth(plQuestNodeDesc,2))
       {
-         % Cargo is a resource.
+         // Cargo is a resource.
          rCargo = Send(oQuestNode,@GetCargo);
          AddPacket(4,Send(oSourceNPC,@GetCapDef), 4,Send(oSourceNPC,@GetName),
                    4,rCargo, 4,Send(oDestNPC,@GetDef),
@@ -531,4 +531,4 @@ messages:
       return;
    }
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

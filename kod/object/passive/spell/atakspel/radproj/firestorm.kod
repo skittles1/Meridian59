@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 FireStorm is RadiusProjectile
 
 constants:
@@ -31,7 +31,7 @@ resources:
    firestorm_third_rsc = \
       "%s%s channels the power of Faren and unleashes a barrage of fire!"
 
-   % These aren't in use at the moment.
+   // These aren't in use at the moment.
    firestorm_killed_someone = \
       "The flames consume %s%s."
    firestorm_cast_rsc = \
@@ -63,11 +63,11 @@ classvars:
    viHarmful = TRUE
    viNoNewbieOffense = TRUE
 
-   % Projectile lighting information.
+   // Projectile lighting information.
    viProjectileLightFlags = LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC
-   % Medium light range, out of 255.
+   // Medium light range, out of 255.
    viProjectileLightIntensity = 175
-   % Color is orange.
+   // Color is orange.
    viProjectileLightColor = LIGHT_BORANGE
 
    vrProjectile_icon = firestorm_projectile_rsc
@@ -75,7 +75,7 @@ classvars:
 
 properties:
 
-   % Range in FINENESS units, default 6 row/col units.
+   // Range in FINENESS units, default 6 row/col units.
    piRange = 640
 
    piSpeed = 6
@@ -102,15 +102,15 @@ messages:
 
    SendProjectileAnimation()
    {
-      AddPacket(1, ANIMATE_CYCLE, 4,40, 2,1, 2,2);  % 40ms between animations
+      AddPacket(1, ANIMATE_CYCLE, 4,40, 2,1, 2,2);  // 40ms between animations
 
       return;
    }
 
    CastSpell(who=$,lTargets=$,iSpellPower=0,bItemCast=FALSE)
    {
-      % This is an area damage spell, so add room messages
-      % showing the spell being cast.
+      // This is an area damage spell, so add room messages
+      // showing the spell being cast.
       Send(self,@DoFireStorm,#who=who,#bItemCast=bItemCast);
 
       propagate;
@@ -131,7 +131,7 @@ messages:
 
       lActive = Send(oRoom,@GetHolderActive);
 
-      % Send a message to all in room of spellcasters actions
+      // Send a message to all in room of spellcasters actions
       foreach i in lActive
       {
          each_obj = Send(oRoom,@HolderExtractObject,#data=i);
@@ -154,4 +154,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

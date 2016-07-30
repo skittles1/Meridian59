@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Engrave is Spell
 
 constants:
@@ -54,7 +54,7 @@ messages:
 
    GetNumSpellTargets()
    {
-      % Tell client how many targets this spell needs
+      // Tell client how many targets this spell needs
       return 1;
    }
 
@@ -73,11 +73,11 @@ messages:
    {
       local oTarget;
      
-      % check for enchantment already applied
+      // check for enchantment already applied
       
       oTarget = first(lTargets);
 
-      % Only castable on items.
+      // Only castable on items.
       if NOT IsClass(oTarget,&Item)
       {
          return FALSE;
@@ -111,7 +111,7 @@ messages:
 
    GetTranceTime(iSpellpower=0,who=$)
    {
-      % Since this spell uses the trance, don't scale it down depending on iSpellpower
+      // Since this spell uses the trance, don't scale it down depending on iSpellpower
       return viCast_time;
    }
 
@@ -143,7 +143,7 @@ messages:
 
    SomethingSaidDuringTrance(who=$,string=$,lTargets = $)
    {
-      % Don't print fizzle message.
+      // Don't print fizzle message.
       send(who,@BreakTrance,#event=EVENT_STEER);
       send(self,@PerformEngrave,#caster=who,#oTarget=first(lTargets),#sMessage=string);
 
@@ -152,4 +152,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

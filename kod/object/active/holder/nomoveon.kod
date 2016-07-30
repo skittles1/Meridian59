@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 NoMoveOn is Holder
 
 constants:
@@ -20,15 +20,15 @@ classvars:
 
 properties:
 
-   % keep our row and col for speed and angle
+   // keep our row and col for speed and angle
    piRow
    piCol
    piFine_row = 0
    piFine_col = 0
 
-   % List of enchantments applied by radius spells.
-   % Each element is [song object, spellpower, caster]
-   % Support for players, monsters, and items
+   // List of enchantments applied by radius spells.
+   // Each element is [song object, spellpower, caster]
+   // Support for players, monsters, and items
    plRadiusEnchantments = $
 
 messages:
@@ -77,9 +77,9 @@ messages:
    {
       if what = self
       {
-         %% posted so we know it happens last, and that new_row is going to be
-         %% the pre-coords, and piRow is going to be the post.  This was crucial
-         %% to making the spam protection on the walls work.
+         /// posted so we know it happens last, and that new_row is going to be
+         /// the pre-coords, and piRow is going to be the post.  This was crucial
+         /// to making the spam protection on the walls work.
 
          Post(self,@ChangeCoords,#new_row=new_row,#new_col=new_col,
                #fine_row=fine_row,#fine_col = fine_col);
@@ -90,9 +90,9 @@ messages:
 
    ChangeCoords(new_row = $,new_col = $,fine_row = $,fine_col = $)
    {
-      %% posted so we know it happens last, and that new_row is going to be
-      %% the pre-coords, and piRow is going to be the post.  This was crucial
-      %% to making the spam protection on the walls work.
+      /// posted so we know it happens last, and that new_row is going to be
+      /// the pre-coords, and piRow is going to be the post.  This was crucial
+      /// to making the spam protection on the walls work.
 
       piRow = new_row;
       piCol = new_col;
@@ -253,7 +253,7 @@ messages:
       iRow = Send(what,@GetRow);
       iCol = Send(what,@GetCol);
 
-      % Sanity checking
+      // Sanity checking
       if iRow = $ OR iCol = $
          OR piRow = $ OR piCol = $
       {
@@ -300,19 +300,19 @@ messages:
    {
       local iRow, iCol, iRow_diff, iCol_diff, iResult;
 
-      % Sanity check, big row/col can be $.
+      // Sanity check, big row/col can be $.
       if row = $ OR col = $ OR piRow = $ OR piCol = $
       {
          return $;
       }
 
-      % Scale to fine
+      // Scale to fine
       iRow = (piRow * FINENESS) + piFine_row;
       iCol = (piCol * FINENESS) + piFine_col;
       row = (row * FINENESS) + fine_row;
       col = (col * FINENESS) + fine_col;
 
-      % Deltas
+      // Deltas
       iRow_diff = iRow - row;
       iCol_diff = iCol - col;
 
@@ -332,13 +332,13 @@ messages:
    {
       local iRow, iCol, iWhatRow, iWhatCol, iRow_diff, iCol_diff, iResult;
 
-      % Scale to fine.
+      // Scale to fine.
       iRow = piRow * FINENESS + piFine_row;
       iCol = piCol * FINENESS + piFine_col;
       iWhatRow = Send(what,@GetRow) * FINENESS + Send(what,@GetFineRow);
       iWhatCol = Send(what,@GetCol) * FINENESS + Send(what,@GetFineCol);
 
-      % Deltas.
+      // Deltas.
       iRow_diff = iRow - iWhatRow;
       iCol_diff = iCol - iWhatCol;
 
@@ -356,13 +356,13 @@ messages:
       local iRow, iCol, iWhatRow, iWhatCol, iRow_diff, iCol_diff, iHeight_diff,
       iResult;
 
-      % Scale to fine.
+      // Scale to fine.
       iRow = piRow * FINENESS + piFine_row;
       iCol = piCol * FINENESS + piFine_col;
       iWhatRow = Send(what,@GetRow) * FINENESS + Send(what,@GetFineRow);
       iWhatCol = Send(what,@GetCol) * FINENESS + Send(what,@GetFineCol);
 
-      % Deltas.
+      // Deltas.
       iRow_diff = iRow - iWhatRow;
       iCol_diff = iCol - iWhatCol;
       iHeight_diff = Send(self,@GetHeightFloorAtObjectBSP)
@@ -384,16 +384,16 @@ messages:
       local iRow, iCol, iWhatRow, iWhatCol, iRow_diff, iCol_diff, iHeight_diff,
             iResult, iQflags, iRflags, iHeightF, iHeightFWD, iHeightC, iServerID;
 
-      % Scale to fine
+      // Scale to fine
       iRow = piRow * FINENESS + piFine_row;
       iCol = piCol * FINENESS + piFine_col;
       iWhatRow = (row * FINENESS) + fine_row;
       iWhatCol = (col * FINENESS) + fine_col;
 
-      % set query-flags, here we're only interested in the sectorinfo
+      // set query-flags, here we're only interested in the sectorinfo
       iQflags = LIQ_GET_SECTORINFO;
 
-      % query data from bsp in c-function
+      // query data from bsp in c-function
       if NOT GetLocationInfoBSP(
                       Send(poOwner,@GetRoomData), iQflags, 
                       Send(self,@GetRow), Send(self,@GetCol),
@@ -408,7 +408,7 @@ messages:
          iHeight_diff = Send(self,@GetHeightFloorAtObjectBSP) - iHeightFWD;
 	  }
       	
-      % Deltas.
+      // Deltas.
       iRow_diff = iRow - iWhatRow;
       iCol_diff = iCol - iWhatCol;
 
@@ -423,4 +423,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

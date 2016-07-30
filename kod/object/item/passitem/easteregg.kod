@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 EasterEgg is PassiveItem
 
 constants:
@@ -19,7 +19,7 @@ constants:
    EGG_VIGOR = 3
    EGG_SPELL = 4
 
-   % Egg spell not included here - not available via loot.
+   // Egg spell not included here - not available via loot.
    EGG_MAX_TYPES = 3
 
 resources:
@@ -77,12 +77,12 @@ classvars:
    viValue_average = 60
    viItem_type = ITEMTYPE_FOOD | ITEMTYPE_SUNDRY
    viUse_type = ITEM_SINGLE_USE
-   % Default amounts added.
+   // Default amounts added.
    viHealthAmount = 30
    viManaAmount = 40
    viVigorAmount = 80
    viFilling = 5
-   % Spellpower for egg-cast spells. Default 99.
+   // Spellpower for egg-cast spells. Default 99.
    viSpellPower = 99
 
 properties:
@@ -90,11 +90,11 @@ properties:
    vrIcon = ee_g_one_bgf
    piEggType = EGG_HEALTH
    piResourceAmount = 30
-   % For spell eggs.
+   // For spell eggs.
    viSpellEffect = SID_LIGHT
-   % No nutrition unless vigor egg.
+   // No nutrition unless vigor egg.
    viNutrition = 0
-   % Spellpower for egg-cast spells. Default 99.
+   // Spellpower for egg-cast spells. Default 99.
    piSpellPower = 99
 
 messages:
@@ -134,10 +134,10 @@ messages:
             bOverrideAll=FALSE)
    "Sets the colors of the egg depending on which BGF it uses."
    {
-      % Set egg color to 0 initially, or whatever we were given.
+      // Set egg color to 0 initially, or whatever we were given.
       piItem_flags = iEggColor;
 
-      % Use this to force an egg to color.
+      // Use this to force an egg to color.
       if bOverrideAll
       {
          return;
@@ -159,8 +159,8 @@ messages:
       }
       else
       {
-         % Set up this way to make sure we don't try to use a color
-         % that does nothing to the item.
+         // Set up this way to make sure we don't try to use a color
+         // that does nothing to the item.
          if vrIcon = ee_rb_one_bgf
             OR vrIcon = ee_rb_two_bgf
             OR vrIcon = ee_rb_three_bgf
@@ -172,34 +172,34 @@ messages:
             OR vrIcon = ee_rb_nine_bgf
             OR bRBOverride
          {
-            % We only allow guild shield colors and the extra two-color
-            % translations here. To translate with other colors, use
-            % bOverrideAll.
+            // We only allow guild shield colors and the extra two-color
+            // translations here. To translate with other colors, use
+            // bOverrideAll.
             if piItem_flags = 0
                OR (piItem_flags < PT_REDTODGREEN1
                   OR piItem_flags > ITEM_PALETTE_MASK)
                OR (piItem_flags > PT_BLBLK_REDWHT
                   AND piItem_flags < XLAT_BASE_VALUE)
             {
-               % 12.5% chance of using the new two-color xlats.
+               // 12.5// chance of using the new two-color xlats.
                if Random (1,8) = 1
                {
                   piItem_Flags = Random(PT_REDTODGREEN1,PT_BLBLK_REDWHT);
                }
                else
                {
-                  % These are the two-tone colors available to guild shields.
+                  // These are the two-tone colors available to guild shields.
                   piItem_flags = Random(XLAT_BASE_VALUE,ITEM_PALETTE_MASK);
                }
             }
          }
       }
 
-      % This one is invalid. Use it to introduce a few more choices.
+      // This one is invalid. Use it to introduce a few more choices.
       if piItem_flags = 0x01F
       {
-         % These are the red/blue/green full palette translations.
-         % Will color any object.
+         // These are the red/blue/green full palette translations.
+         // Will color any object.
          piItem_flags = Random(PT_BLEND25RED,PT_BLEND25GREEN);
       }
 
@@ -244,17 +244,17 @@ messages:
    {
       local lBGFChoices;
 
-      % Make a list of valid egg types.
+      // Make a list of valid egg types.
       lBGFChoices = [ ee_g_one_bgf, ee_g_two_bgf, ee_g_three_bgf,
                       ee_g_four_bgf, ee_g_five_bgf, ee_rb_one_bgf,
                       ee_rb_two_bgf, ee_rb_three_bgf, ee_rb_four_bgf,
                       ee_rb_five_bgf, ee_rb_six_bgf, ee_rb_seven_bgf,
                       ee_rb_eight_bgf, ee_rb_nine_bgf ];
 
-      % Then, pick a type.
+      // Then, pick a type.
       vrIcon = Nth(lBGFChoices,Random(1,Length(lBGFChoices)));
 
-      % Check we have a valid vrIcon, if not assign the grey one.
+      // Check we have a valid vrIcon, if not assign the grey one.
       if vrIcon = $
       {
          vrIcon = ee_g_one_bgf;
@@ -331,7 +331,7 @@ messages:
       Send(what,@WaveSendUser,#wave_rsc=vrEat_wav);
       Send(apply_on,@EatSomething,#nutrition=viNutrition,#filling=viFilling);
       
-      % Vigor egg type handled by EatSomething.
+      // Vigor egg type handled by EatSomething.
       if piEggType = EGG_VIGOR
       {
          Send(apply_on,@MsgSendUser,#message_rsc=easteregg_vigor);
@@ -391,7 +391,7 @@ messages:
          return;
       }
 
-      % Shouldn't be able to get here, catch bad egg types.
+      // Shouldn't be able to get here, catch bad egg types.
       Debug("Easter egg eaten with bad type!  Type is ",piEggType,
             " and owner is ",Send(poOwner,@GetTrueName));
 
@@ -419,7 +419,7 @@ messages:
          return;
       }
 
-      % No harmful spells.
+      // No harmful spells.
       if Send(oSpell,@IsHarmful)
       {
          Debug("Easter egg had a harmful spell!  Spell is ",
@@ -435,8 +435,8 @@ messages:
            #iSpellPower=piSpellPower,#bItemCast=TRUE))
          AND (Send(Send(who,@GetOwner),@ReqSpellCast,#who=who,#oSpell=oSpell))
       {
-         % Deal with Elusion's odd spell structure, so we can have it
-         % as an item-castable spell.
+         // Deal with Elusion's odd spell structure, so we can have it
+         // as an item-castable spell.
          if viSpellEffect = SID_ELUSION
          {
             Send(oSpell,@BeginCastingTrance,#who=poOwner,#lTargets=lTargets,
@@ -456,13 +456,13 @@ messages:
    "Can use this to change one egg, or send it to class EasterEgg "
    "to modify all eggs."
    {
-      % Must specify a valid amount.
+      // Must specify a valid amount.
       if iAmount = $
       {
          return;
       }
 
-      % If we specify a type, change all eggs of this type only.
+      // If we specify a type, change all eggs of this type only.
       if iType <> $
          AND iType <> piEggType
       {
@@ -481,9 +481,9 @@ messages:
 
    DestroyDisposable()
    {
-      % Don't destroy easter eggs.
+      // Don't destroy easter eggs.
       return;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

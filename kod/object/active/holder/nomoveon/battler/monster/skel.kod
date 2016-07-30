@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Skeleton is Monster
 
 constants:
@@ -95,7 +95,7 @@ messages:
       return;
    }
 
-   % Used for defense messages
+   // Used for defense messages
    GetParryAbility(stroke_obj=$)
    {
       if stroke_obj <> $ AND NOT Send(stroke_obj,@CanParry)
@@ -136,7 +136,7 @@ messages:
 
    SendMoveOverlays()
    {
-      % 1 overlay: the head.
+      // 1 overlay: the head.
       AddPacket(1,1);
       AddPacket(4,vrHeadIcon, 1,HS_HEAD, 1,ANIMATE_CYCLE, 4,100, 2,2, 2,7);
 
@@ -145,7 +145,7 @@ messages:
 
    SendOverlays()
    {
-      % 1 overlay: the head.
+      // 1 overlay: the head.
       AddPacket(1,1);
 
       if piAnimation = ANIM_ATTACK
@@ -198,4 +198,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

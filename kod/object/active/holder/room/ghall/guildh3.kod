@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////////////////////////////////////////////////////////////
 GuildHall3 is Guildhall
 
 constants:
@@ -21,7 +21,7 @@ constants:
    DOOR_CLOSED = 500
    DOOR_OPEN = 580
 
-   LIFT_DELAY = 10000              % ten seconds
+   LIFT_DELAY = 10000              // ten seconds
 
    include blakston.khd
 
@@ -77,8 +77,8 @@ messages:
    {
       plGuild_doors = [ [ 5,7] ];
 
-      % This is a box containing the guild door, used
-      % for removing players from it when it closes.
+      // This is a box containing the guild door, used
+      // for removing players from it when it closes.
       plEntrance = [ 506, 593, 787, 812 ];
 
       propagate;
@@ -105,7 +105,7 @@ messages:
    {
       plExits = $;
 
-      %% TO JALA'S SONG
+      /// TO JALA'S SONG
       plExits = Cons([ 5, 1, RID_F8, 6, 47, ROTATE_NONE ],plExits);
       plExits = Cons([ 25, 1, RID_F8, 26, 49, ROTATE_NONE ],plExits);
 
@@ -146,8 +146,8 @@ messages:
             #height=DOOR_CLOSED,#speed=50);
       Send(self,@CloseEntranceDoorSound);
 
-      % We now propagate this to handle removing players from the door,
-      % and so the door can still be entered while it is closing.
+      // We now propagate this to handle removing players from the door,
+      // and so the door can still be entered while it is closing.
       propagate;
    }
 
@@ -219,4 +219,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

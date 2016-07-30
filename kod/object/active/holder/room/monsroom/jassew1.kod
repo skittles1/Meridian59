@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 JasSewer1 is MonsterRoom
 
 constants:
@@ -113,7 +113,7 @@ messages:
    {
       plExits = $;
 
-      % TO TOWN
+      // TO TOWN
       plExits = Cons([ 30, 5, RID_JASWEST, 35, 28, ROTATE_NONE ],plExits);
 
       plEdge_Exits = $;
@@ -130,7 +130,7 @@ messages:
       Send(self,@NewHold,#what=oBook,#new_row=30,#new_col=8,
            #fine_row=0,#fine_col=32,#new_angle=ANGLE_SOUTH_WEST);
 
-      % Lighting
+      // Lighting
       Send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,#iIntensity=60),
            #new_row=30,#new_col=9,#fine_row=16,#fine_col=0);
       Send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,#iIntensity=60),
@@ -151,4 +151,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

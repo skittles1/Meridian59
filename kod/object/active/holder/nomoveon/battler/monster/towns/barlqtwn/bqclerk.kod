@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 BarloqueClerk is BarloqueTown
 
 constants:
@@ -15,9 +15,9 @@ constants:
    include blakston.khd
    include protocol.khd
 
-   % Number of pardons allowed in one term
-   % (unlike "pardon" spell, a justicar pardon takes you down one notch,
-   % from murderer to outlaw, or from outlaw to lawful)
+   // Number of pardons allowed in one term
+   // (unlike "pardon" spell, a justicar pardon takes you down one notch,
+   // from murderer to outlaw, or from outlaw to lawful)
    PARDON_LIMIT = 8
 
    BOOTH_WEST = 6
@@ -45,7 +45,7 @@ resources:
       "Duke's money, filing the former Queen's taxation scrolls, and more "
       "recently, serving as clerk for the Office of the Justicar."
 
-   % Basic stuff
+   // Basic stuff
 
    bq_clerk_for_shame = \
       "For shame, %s!  Because of your unlawful status, I am forced to "
@@ -57,7 +57,7 @@ resources:
       "I would not even ~Bconsider~B the loathsome idea of dealing with the "
       "likes of thee, %s!  Remove thyself, or the guard will provide escort!"
 
-   % Voting
+   // Voting
 
    bq_clerk_election_no_justicar_subject = "Office Hath Been Vacated"
    bq_clerk_election_no_justicar = \
@@ -88,7 +88,7 @@ resources:
       "The votes for justicar are tied, and therefore the voting has not "
       "been closed."
 
-   % Accountability
+   // Accountability
 
    bq_clerk_pardon = "pardon"
    bq_clerk_pardons = "pardons"
@@ -104,14 +104,14 @@ resources:
    bq_clerk_pardons_served1 = "In this term, Justicar %q hath served %i %s."
    bq_clerk_pardons_served2 = "Of those, %i %s to %s, and %i to %s."
 
-   % Commands
+   // Commands
 
    bq_clerk_pardon_phrase = "As Justicar, I pardon "
    bq_clerk_remand_phrase = "As Justicar, I remand "
    bq_clerk_report_phrase = "Justicar Report"
    bq_clerk_tally_phrase = "count the votes"
 
-   % Problems
+   // Problems
 
    bq_clerk_no_justicar = \
       "In faith, there is no one serving as Justicar currently."
@@ -130,7 +130,7 @@ resources:
       "Your Honor, by Royal Law, thou hath reached thy limit on "
       "pardons this term."
 
-   % Intelligence
+   // Intelligence
 
    bq_clerk_summary_lawful = \
       "According to records, %q is a lawful citizen in keeping with the "
@@ -153,7 +153,7 @@ resources:
    bq_clerk_was = "was"
    bq_clerk_were = "were"
 
-   % Announcements
+   // Announcements
 
    bq_clerk_granted = \
       "Justicar %s hath granted a pardon to %s, %s, who shall now have the "
@@ -194,7 +194,7 @@ resources:
    bq_clerk_advertise = "advertise"
    bq_clerk_no_advertise = "no advertise"
 
-   % Initiation
+   // Initiation
 
    bq_clerk_mail = \
       "Subject: Congratulations on thy Election.\n"
@@ -241,7 +241,7 @@ resources:
       "limited by Royal law to pardon only %i citizens in the remainder of "
       "thy term. "
 
-   % Dealing with the Disorderly
+   // Dealing with the Disorderly
 
    bq_clerk_warn = \
       "I do beseech thee, if thou cannot be orderly, %s, thou should "
@@ -253,7 +253,7 @@ resources:
       "Don't return, %s, until thou can conduct thyself properly."
    bq_clerk_glare = "Try to conduct thyself in a civilized manner, %s."
 
-   % Pardons
+   // Pardons
 
    bq_clerk_pardon_1 = "Let it be known that "
    bq_clerk_pardon_2 = " has been granted reprieve.  Formerly "
@@ -262,10 +262,10 @@ resources:
    bq_clerk_pardon_5 = ", by the order of "
    bq_clerk_pardon_6 = \
       ", thy Justicar.  So it has been spoken, so shall it be done.\n\n-- Caramo"
-   % This string must be < 20 chars long to fit in the subject line with a player name
+   // This string must be < 20 chars long to fit in the subject line with a player name
    bq_clerk_pardon_7 = " granted reprieve"
 
-   % Bribes
+   // Bribes
 
    indulgence_not_enough_money = \
       "You think the law will forgive you for partial measures? Pay the "
@@ -283,7 +283,7 @@ resources:
       "According to the Royal Paperwork Reduction Act, ballots are no "
       "longer used in this office."
 
-   % Name changing.
+   // Name changing.
 
    bq_clerk_trigger_change = "change"
    bq_clerk_trigger_name = "name"
@@ -326,9 +326,9 @@ properties:
 
    piAnimation = ANIM_NONE
 
-   % A list containing players who have received the name change cost
-   % warning, to avoid players obtaining a ballot and giving it to
-   % Caramo "accidentally".
+   // A list containing players who have received the name change cost
+   // warning, to avoid players obtaining a ballot and giving it to
+   // Caramo "accidentally".
    plNameChangeWarn = $
 
    // Justicar-related properties
@@ -344,27 +344,27 @@ properties:
    piPardonedMurderers = 0
    piPardonedOutlaws = 0
 
-   % A list of pardoned murderers, so that serial killers can't get
-   %  multiple pardons in one justicar term.
+   // A list of pardoned murderers, so that serial killers can't get
+   //  multiple pardons in one justicar term.
    plPardons = $
 
-   % A list of people that want advertising about when voting happens.
+   // A list of people that want advertising about when voting happens.
    plAdvertise = $
 
-   % plVotes is a list of two element lists.  The first element is the 
-   % player who voted, and the second element is the player who is being voted for.
-   % Note that a player can only have one vote at a time.
+   // plVotes is a list of two element lists.  The first element is the 
+   // player who voted, and the second element is the player who is being voted for.
+   // Note that a player can only have one vote at a time.
    plVotes = $
 
-   % Duration of the voting period.  24*12 game hours is one earth day.
+   // Duration of the voting period.  24*12 game hours is one earth day.
    piVotingDuration = 288
-   % Duration Justicar is in office.  A little over six earth days.
+   // Duration Justicar is in office.  A little over six earth days.
    piOfficeDuration = 1790
-   % Duration of the tiebreaker voting period.  It's one earth day.
+   // Duration of the tiebreaker voting period.  It's one earth day.
    piTiebreakerDuration = 288
 
-   % Alternate Justicar system - buying a pardon with an indulgence
-   % is now possible for a flat fee (initially 1 million).
+   // Alternate Justicar system - buying a pardon with an indulgence
+   // is now possible for a flat fee (initially 1 million).
    pbIndulgenceActive = TRUE
    piPardonIndulgenceCost = 1000000
 
@@ -375,7 +375,7 @@ messages:
    {
       Send(self,@SetWantedItems);
 
-      % Clear the name change warning list and delete outstanding scrolls.
+      // Clear the name change warning list and delete outstanding scrolls.
       Send(&NameChangeScroll,@Delete);
       plNameChangeWarn = $;
 
@@ -419,7 +419,7 @@ messages:
 
    IsCustomerOkay(who=$)
    {
-      % Don't even stoop to the impropriety of dealing with scofflaws and worse.
+      // Don't even stoop to the impropriety of dealing with scofflaws and worse.
       if IsClass(who,&Player)
          AND Send(who,@CheckPlayerFlag,#flag=PFLAG_MURDERER)
       {
@@ -436,8 +436,8 @@ messages:
    {
       if IsClass(obj,&NameChangeScroll)
       {
-         % Deed poll can be used to change a player's name.
-         % Returns TRUE if successful, otherwise give the scroll back.
+         // Deed poll can be used to change a player's name.
+         // Returns TRUE if successful, otherwise give the scroll back.
          Send(self,@TryChangePlayerName,#who=who,#oItem=obj);
 
          return;
@@ -483,7 +483,7 @@ messages:
 
       iAmount = Send(SETTINGS_OBJECT,@GetNameChangeCost);
 
-      % No existing list, add player and warn.
+      // No existing list, add player and warn.
       if plNameChangeWarn = $
       {
          plNameChangeWarn = [who];
@@ -499,7 +499,7 @@ messages:
          {
             continue;
          }
-         % Check if name is valid.
+         // Check if name is valid.
          if NOT Send(SYS,@ValidateUserName,#oUser=who,
                      #sName=Send(oItem,@GetInscription))
          {
@@ -508,35 +508,35 @@ messages:
             return;
          }
 
-         % Get player's bank account.
+         // Get player's bank account.
          oBank = Send(SYS,@FindBankByNum,#num=BID_TOS);
          if Send(oBank,@GetAccount,#what=who) >= iAmount
          {
-            % Player has enough money, change their name and take the
-            % money.
+            // Player has enough money, change their name and take the
+            // money.
             Send(oBank,@WithdrawAccount,#what=who,#amount=iAmount);
             Send(self,@SayToOne,#target=who,#message_rsc=bq_clerk_name_changed);
-            % Record the name change in the Book of Jala.
+            // Record the name change in the Book of Jala.
             Send(self,@RecordNameChangeBook,#parm1=Send(who,@GetTrueName),
                   #parm2=Send(oItem,@GetInscription));
-            % System will handle changing the name.
+            // System will handle changing the name.
             Send(SYS,@ChangeUserName,#oUser=who,
                   #sName=Send(oItem,@GetInscription));
-            % Scroll handles removing player from plNameChangeWarn list.
+            // Scroll handles removing player from plNameChangeWarn list.
             Send(oItem,@Delete);
 
             return;
          }
          else
          {
-            % Not enough money.
+            // Not enough money.
             Send(self,@SayToOne,#target=who,#message_rsc=bq_clerk_not_enough);
 
             return;
          }
       }
 
-      % Player wasn't in list, add them.
+      // Player wasn't in list, add them.
       plNameChangeWarn = Cons(who,plNameChangeWarn);
       Send(self,@SayToOne,#message_rsc=bq_clerk_warning_cost,#target=who,
             #parm1=iAmount);
@@ -590,7 +590,7 @@ messages:
          return FALSE;
       }
 
-      % Check for hacked offers
+      // Check for hacked offers
       oMoney = Send(who,@GetMoneyObject);
       if oMoney = $
       {
@@ -729,7 +729,7 @@ messages:
       Send(SYS,@UtilGoNearSquare,#what=who,#where=oNewRoom,
             #new_row=35,#new_col=48);
 
-      % don't erase poDisorderly, in case they just run back in
+      // don't erase poDisorderly, in case they just run back in
 
       return;
    }
@@ -794,11 +794,11 @@ messages:
          AND (Send(poJusticar,@CheckPlayerFlag,#flag=PFLAG_OUTLAW)
                OR Send(poJusticar,@CheckPlayerFlag,#flag=PFLAG_MURDERER))
       {
-         % Scold them as they enter.
+         // Scold them as they enter.
          Post(self,@Say,#message_rsc=bq_clerk_for_shame,
                #parm1=Send(poJusticar,@GetTrueName));
 
-         % Strip Justicar of power.
+         // Strip Justicar of power.
          Send(self,@SetJusticar,#who=$);
 
          return FALSE;
@@ -900,7 +900,7 @@ messages:
          return;
       }
 
-      % The Boss's Commands?
+      // The Boss's Commands?
       if poJusticar <> $
          AND what = poJusticar
       {
@@ -916,7 +916,7 @@ messages:
          }
       }
 
-      % Disorderly conduct?
+      // Disorderly conduct?
       if (poJusticar = $
          OR Send(poJusticar,@GetOwner) <> poOwner)
       {
@@ -940,7 +940,7 @@ messages:
          return;
       }
 
-      % Public Commands
+      // Public Commands
 
       if type <> SAY_NORMAL
       {
@@ -958,7 +958,7 @@ messages:
             Send(self,@SayToOne,#target=what,#message_rsc=bq_clerk_change_name,
                   #parm1=iAmount);
 
-            % Don't give out multiple scrolls.
+            // Don't give out multiple scrolls.
             if Send(what,@FindHolding,#class=&NameChangeScroll) = $
             {
                Send(what,@NewHold,#what=oScroll);
@@ -1003,7 +1003,7 @@ messages:
          return;
       }
 
-      %  MANY REASONS WHY A JUSTICAR CANNOT PARDON
+      //  MANY REASONS WHY A JUSTICAR CANNOT PARDON
 
       if piPardoned >= PARDON_LIMIT
       {
@@ -1019,8 +1019,8 @@ messages:
          return;
       }
 
-      % Check to see if the person is a murderer and has already been
-      % pardoned for murder this term.
+      // Check to see if the person is a murderer and has already been
+      // pardoned for murder this term.
       if Send(who,@CheckPlayerFlag,#flag=PFLAG_MURDERER)
          AND plPardons <> $ AND FindListElem(plPardons,who) <> 0
       {
@@ -1036,7 +1036,7 @@ messages:
          return;
       }
 
-      % Go through with it.
+      // Go through with it.
       if Send(who,@CheckPlayerFlag,#flag=PFLAG_MURDERER)
       {
          Send(self,@PerformPardonMurderer,#who=who);
@@ -1051,7 +1051,7 @@ messages:
          return;
       }
 
-      % After all that, the target wasn't in need of a pardon.
+      // After all that, the target wasn't in need of a pardon.
       Send(self,@Say,#message_rsc=bq_clerk_summary_lawful,
            #parm1=Send(who,@GetTrueName),#type1=STRING_RESOURCE);
 
@@ -1118,7 +1118,7 @@ messages:
 
       piCommand = COMMAND_NONE;
 
-      % as justicar, i pardon <player name>
+      // as justicar, i pardon <player name>
       if (StringContain(string, bq_clerk_pardon_phrase))
       {
          piCommand = COMMAND_PARDON;
@@ -1127,7 +1127,7 @@ messages:
 
       oTarget = Send(SYS,@FindUserByString,#string=string);
 
-      % who is to be pardoned?
+      // who is to be pardoned?
       if piCommand = COMMAND_PARDON
       {
          if oTarget = $
@@ -1152,7 +1152,7 @@ messages:
 
       piCommand = COMMAND_NONE;
 
-      % player's record (name exactly)
+      // player's record (name exactly)
       if oTarget <> $
       {
          Send(self,@JusticarRequestsRecord,#who=oTarget);
@@ -1434,8 +1434,8 @@ messages:
 
       if --piDayCounter <= 0
       {
-         % Okay, we've just left the old state.  See what the old state is
-         %  and enter the new state.
+         // Okay, we've just left the old state.  See what the old state is
+         //  and enter the new state.
          if piJusticar_State = STATE_ACCEPTING_VOTES
          {
             piJusticar_State = STATE_TERM_IN_OFFICE;
@@ -1458,7 +1458,7 @@ messages:
 
             Send(self,@Say,#message_rsc=bq_clerk_accepting_votes);
 
-            % Send notification to all those logged on.
+            // Send notification to all those logged on.
             foreach oPlayer in plAdvertise
             {
                if Send(oPlayer,@IsLoggedOn)
@@ -1501,7 +1501,7 @@ messages:
       {
          if NOT Send(self,@IsLegalVoter,#voter=voter)
          {
-            % There are two reasons, let that function tell why.
+            // There are two reasons, let that function tell why.
             Send(voter,@MsgSendUser,#message_rsc=bq_clerk_hands_back);
 
             return FALSE;
@@ -1535,7 +1535,7 @@ messages:
          {
             if Nth(i,2) = oVote
             {
-               % Already supporting this person.
+               // Already supporting this person.
                Send(self,@SayToOne,#target=voter,#message_rsc=bq_clerk_vote_already,
                     #parm1=Send(oVote,@GetTrueName),#type1=STRING_RESOURCE);
 
@@ -1602,9 +1602,9 @@ messages:
       local i, j, lTallied, oHighest, iHighestCount, bTie, bFound, oBook,
             sString, sString2, iNum, oObj;
 
-      % Okay, first lets count the votes.  lTallied is a list of two element
-      % lists,where the first element is the person being voted for, and the
-      % second is how many votes he currently has.
+      // Okay, first lets count the votes.  lTallied is a list of two element
+      // lists,where the first element is the person being voted for, and the
+      // second is how many votes he currently has.
       foreach i in plVotes
       {
          oObj = Nth(i,2);
@@ -1843,4 +1843,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

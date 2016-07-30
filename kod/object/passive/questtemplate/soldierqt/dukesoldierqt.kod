@@ -1,28 +1,28 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 DukeSoldierQuest is SoldierQuestTemplate
-% Quest nodes 208, 209, 210.
-% QNT_ID_DUKE_SOLDIER_ONE, QNT_ID_DUKE_SOLDIER_TWO, QNT_ID_DUKE_SOLDIER_THREE
+// Quest nodes 208, 209, 210.
+// QNT_ID_DUKE_SOLDIER_ONE, QNT_ID_DUKE_SOLDIER_TWO, QNT_ID_DUKE_SOLDIER_THREE
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -32,7 +32,7 @@ resources:
 
    include dukesoldierqt.lkod
 
-   % Quest description.
+   // Quest description.
    dukesoldier_icon_rsc = flagdinv.bgf
    dukesoldier_name_rsc = "Duke soldier shield quest"
    dukesoldier_desc_rsc = \
@@ -42,7 +42,7 @@ resources:
    dukesoldier_completed_rsc = \
       "You have proven your worth, and are now a soldier in the Ducal army."
 
-   % Quest resources.
+   // Quest resources.
    duke_faction_soldier_assign_1 = \
       "Yes, perhaps you'll do.  Prove your loyalty by murdering "
       "%INDEF_MONSTER%MONSTER.  You can usually find some guarding a "
@@ -66,7 +66,7 @@ classvars:
 
    vrCompleted = dukesoldier_completed_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_DUKE_SOLDIER
 
 properties:
@@ -77,7 +77,7 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_DUKE_SOLDIER_ONE, QNT_ID_DUKE_SOLDIER_TWO,
                       QNT_ID_DUKE_SOLDIER_THREE];
 
@@ -91,8 +91,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #208 is 1st Duke Soldier Shield quest, say "soldier"
-      % QNT_ID_DUKE_SOLDIER_ONE
+      // Template #208 is 1st Duke Soldier Shield quest, say "soldier"
+      // QNT_ID_DUKE_SOLDIER_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[faction_soldier_trigger],
                #quest_node_index=QNT_ID_DUKE_SOLDIER_ONE)
@@ -106,8 +106,8 @@ messages:
          Debug("Error building QN: QNT_ID_DUKE_SOLDIER_ONE");
       }
 
-      % Template #209 is 2nd Duke Soldier Shield quest, kill first faction soldier
-      % QNT_ID_DUKE_SOLDIER_TWO
+      // Template #209 is 2nd Duke Soldier Shield quest, kill first faction soldier
+      // QNT_ID_DUKE_SOLDIER_TWO
       if Send(oQE,@AddQuestNodeTemplate,#NPC_modifier=QN_NPCMOD_SAME,
                #questnode_type=QN_TYPE_MONSTER,#monsterlist=[&RebelTroop],
                #timelimit=piTimeLimit,#quest_node_index=QNT_ID_DUKE_SOLDIER_TWO)
@@ -122,8 +122,8 @@ messages:
          Debug("Error building QN: QNT_ID_DUKE_SOLDIER_TWO");
       }
 
-      % Template #210 is 3rd Duke Soldier Shield quest, kill second faction soldier
-      % QNT_ID_DUKE_SOLDIER_THREE
+      // Template #210 is 3rd Duke Soldier Shield quest, kill second faction soldier
+      // QNT_ID_DUKE_SOLDIER_THREE
       if Send(oQE,@AddQuestNodeTemplate,#NPC_modifier=QN_NPCMOD_SAME,
                #questnode_type=QN_TYPE_MONSTER,#monsterlist=[&PrincessTroop],
                #prizelist=[ [ QN_PRIZETYPE_ITEMCLASS, &DukeShield, 1 ] ],
@@ -145,4 +145,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

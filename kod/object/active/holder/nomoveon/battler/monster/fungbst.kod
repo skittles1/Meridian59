@@ -1,18 +1,18 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 FungusBeast is Monster
 
-% The fungusbeast is composed of a couple pieces.  The head is attached to hot spot 1,
-% the mouth is attached to hotspot 12.  These are only seen in a couple views.
-% The abdomen is attached to hotspot 210, which is underneath.
+// The fungusbeast is composed of a couple pieces.  The head is attached to hot spot 1,
+// the mouth is attached to hotspot 12.  These are only seen in a couple views.
+// The abdomen is attached to hotspot 210, which is underneath.
 
 constants:
 
@@ -32,7 +32,7 @@ resources:
       "moves slowly and deliberately.  Giant spores cling to "
       "its back."
 
-   % fungusbeast_head_icon_rsc = fungh.bgf
+   // fungusbeast_head_icon_rsc = fungh.bgf
 
    fungusbeast_spore = spore.bgf
 
@@ -148,14 +148,14 @@ messages:
          return;
       }
 
-      % No body animation
+      // No body animation
       
       AddPacket(1,ANIMATE_NONE,2,1);
 
       return;
    }
 
-   % stuff for spore sending
+   // stuff for spore sending
 
    GetProjectileIcon()
    {
@@ -176,9 +176,9 @@ messages:
 
    GetProjectileLightFlags()
    {
-      % No lighting information.
+      // No lighting information.
       return LIGHT_FLAG_NONE;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

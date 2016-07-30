@@ -1,16 +1,16 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Villify is DMSpell
 
-% (sic-- it's supposed to be 'vilify'.)
+// (sic-- it's supposed to be 'vilify'.)
 
 constants:
    include blakston.khd
@@ -84,7 +84,7 @@ messages:
 
       foreach i in lTargets
       {
-         % already a murderer
+         // already a murderer
          if Send(i,@CheckPlayerFlag,#flag=PFLAG_MURDERER)
          {
             Send(who,@MsgSendUser,#message_rsc=villify_failed,
@@ -93,7 +93,7 @@ messages:
             continue;
          }
 
-         % from outlaw to murderer
+         // from outlaw to murderer
          if Send(i,@CheckPlayerFlag,#flag=PFLAG_OUTLAW)
          {
             Send(who,@MsgSendUser,#message_rsc=villify_msg_DM,#parm1=Send(i,@GetTrueName));
@@ -105,7 +105,7 @@ messages:
             continue;
          }
 
-         % from lawful to outlaw
+         // from lawful to outlaw
          Send(who,@MsgSendUser,#message_rsc=villify_msg_DM,#parm1=Send(i,@GetTrueName));		
          Send(i,@MsgSendUser,#message_rsc=villify_msg_target,#parm1=Send(who,@GetTrueName));
          Send(i,@SetPlayerFlag,#flag=PFLAG_OUTLAW,#value=True);
@@ -117,4 +117,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

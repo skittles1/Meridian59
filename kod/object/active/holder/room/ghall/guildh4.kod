@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////////////////////////////////////////////////////////////
 GuildHall4 is GuildHall
 
 constants:
@@ -23,7 +23,7 @@ constants:
    NEXT_TIME = 1000
    RESET_TIME_LONG = 20000
 
-   % Values for light flickering
+   // Values for light flickering
    FLICKER_LOW = 80
    FLICKER_HIGH = 220
    FLICKER_NONE = 124
@@ -97,8 +97,8 @@ messages:
    {
       plGuild_doors = [[44,23], [44,24], [44,25], [44,26]];
 
-      % This is a box containing the guild door, used
-      % for removing players from it when it closes.
+      // This is a box containing the guild door, used
+      // for removing players from it when it closes.
       plEntrance = [ 4375, 4425, 2350, 2650 ];
 
       propagate;
@@ -236,7 +236,7 @@ messages:
       if piPos2 = 6
       {
          piPos2 = 0;
-         % Use this to clear players from door.
+         // Use this to clear players from door.
          ptEntrance = CreateTimer(self,@ClearDoor,1500);
       }
 
@@ -468,7 +468,7 @@ messages:
 
    LightFlicker()
    {
-      % Is the hall being raided?
+      // Is the hall being raided?
       if piStatus = 1
       {
          if piBaseLight = FLICKER_LOW
@@ -526,4 +526,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

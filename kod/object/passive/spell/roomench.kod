@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 RoomEnchantment is Spell
 
 constants:
@@ -33,7 +33,7 @@ classvars:
    vrIcon = RoomEnchantment_icon_rsc
    vrDesc = RoomEnchantment_desc_rsc
    vrNotGuilded = RoomEnchantment_not_guilded
-   vrAlreadyEnchanted = spell_already_in_effect % From spell.kod
+   vrAlreadyEnchanted = spell_already_in_effect // From spell.kod
    vrRoomEnchKilled = RoomEnchantment_kill_rsc
    vrRoomEnchKiller = RoomEnchantment_killer_rsc
    vrRoomEnchHit = RoomEnchantment_hit_rsc
@@ -65,7 +65,7 @@ messages:
          return FALSE;
       }
 
-      % Check for enchantment already applied.
+      // Check for enchantment already applied.
       if Send(oRoom,@IsEnchanted,#what=self)
       {
          Send(who,@MsgSendUser,#message_rsc=vrAlreadyEnchanted);
@@ -78,7 +78,7 @@ messages:
          AND Send(SYS,@IsPKAllowed)
          AND NOT IsClass(who,&DM)
       {
-         % Tried to cast unguilded in town with no monsters.  Denied!
+         // Tried to cast unguilded in town with no monsters.  Denied!
          Send(who,@MsgSendUser,#message_rsc=vrNotGuilded);
 
          return FALSE;
@@ -146,7 +146,7 @@ messages:
 
       iSpellPower = Send(self,@GetSpellPowerFromState,#state=state);
 
-      % oCaster is original caster of the spell.
+      // oCaster is original caster of the spell.
       oCaster = Nth(state,2);
       if (oCaster = $)
       {
@@ -227,4 +227,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

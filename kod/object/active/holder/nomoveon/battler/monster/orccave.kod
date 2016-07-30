@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 CaveOrc is Monster
 
 constants:
@@ -50,7 +50,7 @@ classvars:
    viLevel = 80
    viDifficulty = 7
    viVisionDistance = 16
-   % Attack range of 192, or 3 row/col.
+   // Attack range of 192, or 3 row/col.
    viAttackRange = 192
    viKarma = -55
    viDefault_behavior = \
@@ -85,7 +85,7 @@ messages:
       propagate;
    }
 
-   % Used for defense messages
+   // Used for defense messages
    GetParryAbility(stroke_obj=$)
    {
       if (stroke_obj <> $) and not Send(stroke_obj,@CanParry)
@@ -122,8 +122,8 @@ messages:
 
    SendMoveAnimation()
    {
-      % Make it look like CaveOrc is walking
-      % Cycle through "walking" bitmaps (groups 2-6) at 50 ms per frame
+      // Make it look like CaveOrc is walking
+      // Cycle through "walking" bitmaps (groups 2-6) at 50 ms per frame
       AddPacket(1,ANIMATE_CYCLE,4,50,2,2,2,6);
 
       return;
@@ -138,7 +138,7 @@ messages:
          return;
       }
 
-      % if no body animation.
+      // if no body animation.
       propagate;
    }
 
@@ -154,4 +154,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

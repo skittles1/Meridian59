@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
 NecromancerAmulet is ActiveItem
 
-% originally derived from necklace, moved here to
+// originally derived from necklace, moved here to
 
 constants:
 
    include blakston.khd
 
-%   HUNGER_1 = 2   %one session (assuming 3-4 hours of play per day)
-%   HUNGER_2 = 4   %one to two sessions
-%   HUNGER_3 = 6   %two sessions
-%   HUNGER_4 = 8   %two to three sessions
-%   HUNGER_5 = 10  %three sessions
+//   HUNGER_1 = 2   //one session (assuming 3-4 hours of play per day)
+//   HUNGER_2 = 4   //one to two sessions
+//   HUNGER_3 = 6   //two sessions
+//   HUNGER_4 = 8   //two to three sessions
+//   HUNGER_5 = 10  //three sessions
 
-   %BASE_HUNGER_GAIN = 2 % in units of FineHunger
-   %                     % gain should be equivalent to one 60hp neutral player solo-kill per session-day (3-4 hrs)
-   %                     %     (i.e. iGain modifier = 108)
+   //BASE_HUNGER_GAIN = 2 // in units of FineHunger
+   //                     // gain should be equivalent to one 60hp neutral player solo-kill per session-day (3-4 hrs)
+   //                     //     (i.e. iGain modifier = 108)
 
 resources:
 
@@ -171,7 +171,7 @@ properties:
    piFineHunger = 0
    ptHungerTimer = $
    ptHoldingDamage = $
-   piHoldingDamageInterval = 10 * 1000     % ten seconds
+   piHoldingDamageInterval = 10 * 1000     // ten seconds
    piHpWorthyThreshold = 60
    piKarmaWorthyThreshold = -30
 
@@ -199,7 +199,7 @@ messages:
          return FALSE;
       }
 
-      % This is to prevent us from being dropped in a cheap death.
+      // This is to prevent us from being dropped in a cheap death.
       if pbIn_use
       {
          if Send(poOwner,@IsDead)
@@ -216,7 +216,7 @@ messages:
       {
          propagate;
       }
-      % Don't let them pick it up if they're a newbie!
+      // Don't let them pick it up if they're a newbie!
       if NOT Send(what,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
       {
          if Send(what,@GetKarma) < 0
@@ -302,11 +302,11 @@ messages:
          if Send(poOwner,@AssessDamage,#what=self,
                   #damage=(Random(1,3)+pbIn_Use*8),#report=FALSE) = $
          {
-            % We killed them off... heh heh heh.
+            // We killed them off... heh heh heh.
             if pbIn_Use
             {
-               % Unusing it kills the owner, we don't want to do that yet.
-               %Send(poOwner,@UnuseItem,#what=self);
+               // Unusing it kills the owner, we don't want to do that yet.
+               //Send(poOwner,@UnuseItem,#what=self);
             }
             Send(Send(poOwner,@GetOwner),@SomethingKilled,
                   #what=self,#victim=poOwner);
@@ -398,15 +398,15 @@ messages:
       iKarmaFactor =  (100 * (Send(poOwner,@GetKarma) - piKarmaWorthyThreshold))
                            / (-100 - piKarmaWorthyThreshold);
 
-      % iHungerFactor =( 100 * (piHunger- HUNGER_5))/(-HUNGER_5 - HUNGER_5);
+      // iHungerFactor =( 100 * (piHunger- HUNGER_5))/(-HUNGER_5 - HUNGER_5);
       iHungerFactor = ( 100 * (piHunger - HUNGER_5 ))/(-2 * HUNGER_5);
 
-      % iModifier goes from 0 to 100
-      % 100 is the max, but it can go below 0.
-      % At piHunger = 0 and Karma = 65, iModifier = 50
+      // iModifier goes from 0 to 100
+      // 100 is the max, but it can go below 0.
+      // At piHunger = 0 and Karma = 65, iModifier = 50
       iLichFactor = 0;
-      % Bonus for being allied with the lich, ranges from -10 to +15,
-      % depending on how paid-up you are on rent.
+      // Bonus for being allied with the lich, ranges from -10 to +15,
+      // depending on how paid-up you are on rent.
       if Send(poOwner,@GetGuild) <> $
          AND IsClass(Send(poOwner,@GetGuild),&NecromancerGuild)
       {
@@ -575,12 +575,12 @@ messages:
       }
 
       Send(poOwner,@MsgSendUser,#message_rsc=necamulet_illusion_slipped);
-      % Send(poOwner,@RemoveHair,#what=self);
+      // Send(poOwner,@RemoveHair,#what=self);
       if piSavedSkinColor = $
       {
-         % Save skin color.
+         // Save skin color.
          piSavedSkinColor = Send(poOwner,@GetSkinColor);
-         % Turn skin white, eyes red.
+         // Turn skin white, eyes red.
          Send(poOwner,@SetSkinColor,#color=PT_BLUE_TO_ASHEN);
       }
       else
@@ -609,10 +609,10 @@ messages:
          Send(poOwner,@MsgSendUser,#message_rsc=necamulet_illusion_restored);
       }
 
-      % Send(poOwner,@ResetHair);
+      // Send(poOwner,@ResetHair);
       if piSavedSkinColor <> $
       {
-         % Restore skin color.
+         // Restore skin color.
          Send(poOwner,@SetSkinColor,#color=piSavedSkinColor);
          piSavedSkinColor = $;
       }
@@ -642,14 +642,14 @@ messages:
          return;
       }
 
-      % Don't accrue hunger or associated penalties if we're already
-      % being slammed with holding penalties.
+      // Don't accrue hunger or associated penalties if we're already
+      // being slammed with holding penalties.
       if ptHoldingDamage <> $
       {
          return;
       }
 
-      % Check that owner still satisfies amulet restrictions.
+      // Check that owner still satisfies amulet restrictions.
       if NOT ((Send(poOwner,@GetKarma) < piKarmaWorthyThreshold)
             AND (Send(poOwner,@GetBaseMaxHealth) > piHpWorthyThreshold))
          AND ptHoldingDamage = $
@@ -668,18 +668,18 @@ messages:
 
       if piHunger > HUNGER_5
       {
-         % Start doing serious damage, losing vigor.
-         Send(poOwner,@AddExertion,#amount = 20000); % 2 vigor points
+         // Start doing serious damage, losing vigor.
+         Send(poOwner,@AddExertion,#amount = 20000); // 2 vigor points
          Send(poOwner,@MsgSendUser,#message_rsc=necamulet_hunger_5);
 
          if Send(poOwner,@AssessDamage,#what=self,#damage=Random(5,10),
                   #report=FALSE) = $
          {
-            % We killed someone off... heh heh heh.
+            // We killed someone off... heh heh heh.
             if pbIn_Use
             {
-               % Unusing it kills the owner, we don't want to do that yet.
-               %Send(poOwner,@UnuseItem,#what=self);
+               // Unusing it kills the owner, we don't want to do that yet.
+               //Send(poOwner,@UnuseItem,#what=self);
             }
             Send(Send(poOwner,@GetOwner),@SomethingKilled,#what=self,#victim=poOwner);
             Send(poOwner,@Killed,#what=self);
@@ -691,7 +691,7 @@ messages:
 
       if piHunger > HUNGER_4
       {
-         % Start doing mild damage.
+         // Start doing mild damage.
          if (piFineHunger MOD 5) = 0
          {
             Send(poOwner,@MsgSendUser,#message_rsc=necamulet_hunger_4);
@@ -700,11 +700,11 @@ messages:
          if Send(poOwner,@AssessDamage,#what=self,#damage=Random(1,5),
                   #report=FALSE) = $
          {
-            % We killed someone off... heh heh heh.
+            // We killed someone off... heh heh heh.
             if pbIn_Use
             {
-               % Unusing it kills the owner, we don't want to do that yet.
-               %Send(poOwner,@UnuseItem,#what=self);
+               // Unusing it kills the owner, we don't want to do that yet.
+               //Send(poOwner,@UnuseItem,#what=self);
             }
             Send(Send(poOwner,@GetOwner),@SomethingKilled,#what=self,#victim=poOwner);
             Send(poOwner,@Killed,#what=self);
@@ -771,22 +771,22 @@ messages:
          return;
       }
 
-      % No reward for Arena deaths.  (This will also catch other 'safe'
-      % areas should they be added.)
+      // No reward for Arena deaths.  (This will also catch other 'safe'
+      // areas should they be added.)
       if Send(oPlayerOwner,@SafePlayerAttack)
          AND Send(oPlayerOwner,@InPlay,#what=poOwner)
       {
          return;
       }
 
-      % Assuage hunger according to a couple modifiers:
-      %   greater gain if you're the killer (3:1)
-      %   greater gain if victim is a player (2:1)
-      %   greater gain if victim has good karma
-      %     (karma 100:karma -100 = 2:1 - continuum of values)
-      %   greater gain for more powerful victims
-      %     (difficulty 9:difficulty 1 = 9:1 - continuum of values)
-      %     (hp 100: hp 20 = 5:1 - continuum of values)
+      // Assuage hunger according to a couple modifiers:
+      //   greater gain if you're the killer (3:1)
+      //   greater gain if victim is a player (2:1)
+      //   greater gain if victim has good karma
+      //     (karma 100:karma -100 = 2:1 - continuum of values)
+      //   greater gain for more powerful victims
+      //     (difficulty 9:difficulty 1 = 9:1 - continuum of values)
+      //     (hp 100: hp 20 = 5:1 - continuum of values)
       if pbIn_Use
          AND poOwner <> $
          AND IsClass(poOwner,&User)
@@ -821,15 +821,15 @@ messages:
          return;
       }
 
-      % If the Order disbanded (or any other cheap death),
-      % let them keep their amulet.
+      // If the Order disbanded (or any other cheap death),
+      // let them keep their amulet.
       if pbOrderDisbanded
       {
          pbOrderDisbanded = FALSE;
       }
       else
       {
-         % If they are just holding the item, do nothing.
+         // If they are just holding the item, do nothing.
          if NOT pbIn_Use
          {
             return;
@@ -842,8 +842,8 @@ messages:
             Send(oGuild,@MemberKilled,#victim=poOwner,#killer=what);
          }
 
-         % Instead of deleting the amulet, we put it back in circulation.
-         % Post(self,@Delete);
+         // Instead of deleting the amulet, we put it back in circulation.
+         // Post(self,@Delete);
          Post(Send(SYS,@GetNecromancerBalance),@PlaceAmulet,#what=self);
       }
 
@@ -852,10 +852,10 @@ messages:
 
    SatisfyHunger(amount=0)
    {
-      % Gain vigor.
+      // Gain vigor.
       Send(poOwner,@AddExertion,#amount=-amount*10000);
 
-      % Satsify hunger.
+      // Satsify hunger.
       piFineHunger = piFineHunger - amount;
       while piFineHunger < 0
       {
@@ -863,7 +863,7 @@ messages:
          piFineHunger = piFineHunger + 60;
       }
 
-      % Can 'save up', but only to a point.
+      // Can 'save up', but only to a point.
       piHunger = Bound(piHunger,-HUNGER_5,$);
       Send(self,@AdjustStats);
       Send(self,@AdjustColor);
@@ -890,9 +890,9 @@ messages:
          ptHoldingDamage = $;
       }
 
-      % Have to post this so that in case the item gets deleted out of
-      % the blue while in use, it still has the stat mod data when
-      % delete() propagates down to unusing the item.
+      // Have to post this so that in case the item gets deleted out of
+      // the blue while in use, it still has the stat mod data when
+      // delete() propagates down to unusing the item.
       Post(self,@PostDelete);
 
       propagate;
@@ -908,7 +908,7 @@ messages:
    ReqLeaveOwner()
    "Don't allow new owner while we're in use."
    {
-      % if not IsClass(poOwner,&user) or Send(poOwner,@PlayerIsImmortal) {propagate;}
+      // if not IsClass(poOwner,&user) or Send(poOwner,@PlayerIsImmortal) {propagate;}
       if NOT IsClass(poOwner,&User)
       {
          propagate;
@@ -928,7 +928,7 @@ messages:
    "When something tries to unuse the Amulet, it will not come off, and will"
    "teach the user a lesson in the process."
    {
-      % if Send(poOwner,@PlayerIsImmortal) {return True;}
+      // if Send(poOwner,@PlayerIsImmortal) {return True;}
       Post(self,@TortureOwner);
 
       return FALSE;
@@ -950,14 +950,14 @@ messages:
       if Send(poOwner,@AssessDamage,#what=self,
                #damage=Random(viDamage_min,viDamage_max),#report=FALSE) = $
       {
-         % We killed someone off... heh heh heh.
+         // We killed someone off... heh heh heh.
          if pbIn_Use
             AND Send(self,@DropOnDeath)
          {
-            % Unusing it kills the owner, we don't want to do that yet.
-            %Send(poOwner,@UnuseItem,#what=self);
+            // Unusing it kills the owner, we don't want to do that yet.
+            //Send(poOwner,@UnuseItem,#what=self);
             
-            % Amulet goes back into circulation.
+            // Amulet goes back into circulation.
             Post(Send(SYS,@GetNecromancerBalance),@PlaceAmulet,#what=self);
          }
 
@@ -983,17 +983,17 @@ messages:
       Send(self,@ReplaceIllusions,#notify=FALSE);
       Send(self,@RestoreStats,#who=what);
 
-      % The player has to die to take this off - the death code handles
-      % sending info to the guild.
-      %if NOT Recalibrate
-      %{
-      %   oGuild = Send(what,@GetGuild);
-      %   if oGuild <> $
-      %      AND IsClass(oGuild,&NecromancerGuild)
-      %   {
-      %      Send(oGuild,@MemberKilled,#victim=what,#killer=what);
-      %   }
-      %}
+      // The player has to die to take this off - the death code handles
+      // sending info to the guild.
+      //if NOT Recalibrate
+      //{
+      //   oGuild = Send(what,@GetGuild);
+      //   if oGuild <> $
+      //      AND IsClass(oGuild,&NecromancerGuild)
+      //   {
+      //      Send(oGuild,@MemberKilled,#victim=what,#killer=what);
+      //   }
+      //}
 
       pbIn_use = FALSE;
       pbIllusioned = FALSE;
@@ -1151,7 +1151,7 @@ messages:
 
          Send(oNecBal,@StartPlacingNecromancerTreasure);
 
-         % Mow kill the necromancer.
+         // Mow kill the necromancer.
          if Send(oNecro,@GetOwner) <> $
          {
             Send(Send(oNecro,@GetOwner),@SomethingKilled,
@@ -1180,7 +1180,7 @@ messages:
             if Send(oGuild,@GetRank,#who=poOwner) = RANK_MASTER
                AND Length(Send(oGuild,@GetMemberList)) > 1
             {
-               % Kill the GM last.
+               // Kill the GM last.
                return;
             }
 
@@ -1199,7 +1199,7 @@ messages:
 
             if Length(Send(oGuild,@GetMemberList)) = 1
             {
-               % Just the master left in the guild, kill him off!
+               // Just the master left in the guild, kill him off!
                oMaster = First(First(Send(oGuild,@GetMemberList)));
                if oMaster <> oOwner
                {
@@ -1209,7 +1209,7 @@ messages:
          }
          else
          {
-            % they lose 2/3 of their HP.
+            // they lose 2/3 of their HP.
             Send(poOwner,@AssessDamage,#what=self,
                   #damage=(Send(poOwner,@GetHealth)*2/3),#report=FALSE);
          }
@@ -1283,7 +1283,7 @@ messages:
    {
       local oNecBal;
 
-      % Called every 2 minutes, so this means an average of 30 minutes.
+      // Called every 2 minutes, so this means an average of 30 minutes.
       if Random(1,15) = 1
       {
          oNecBal = Send(SYS,@GetNecromancerBalance);
@@ -1365,4 +1365,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

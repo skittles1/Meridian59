@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 NameChangeScroll is InscriptionItem
 
 constants:
@@ -90,7 +90,7 @@ messages:
 
       if poOwner <> $
       {
-         % Take user off Caramo's name change warn list.
+         // Take user off Caramo's name change warn list.
          Send(Send(SYS,@GetCaramo),@RemoveFromWarnList,#who=poOwner);
       }
 
@@ -127,13 +127,13 @@ messages:
 
    CanSwap()
    {
-      % No more using these for swap mules
+      // No more using these for swap mules
       return FALSE;
    }
 
    DropOnDeath()
    {
-      % No drop so that people can't load up on these and avoid real penalties
+      // No drop so that people can't load up on these and avoid real penalties
       return FALSE;
    }
 
@@ -143,4 +143,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

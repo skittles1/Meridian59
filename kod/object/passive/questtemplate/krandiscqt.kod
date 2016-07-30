@@ -1,27 +1,27 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 KranDiscQuest is QuestTemplate
-% Quest nodes 10, 11 (QNT_ID_KRAN_DISCIPLE_ONE, QNT_ID_KRAN_DISCIPLE_TWO)
+// Quest nodes 10, 11 (QNT_ID_KRAN_DISCIPLE_ONE, QNT_ID_KRAN_DISCIPLE_TWO)
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -31,7 +31,7 @@ resources:
 
    include krandiscqt.lkod
 
-   % Quest description.
+   // Quest description.
    kranquest_icon_rsc = iglow.bgf
    kranquest_name_rsc = "Kraanan disciple quest"
    kranquest_desc_rsc = \
@@ -47,7 +47,7 @@ resources:
       "disciple of Kraanan, and Priestess Qerti'nya will now teach you more "
       "powerful spells."
 
-   % Quest resources.
+   // Quest resources.
    kraanandisciple_assign = \
       "`B`bYou have two hours in which to kill a %MONSTER.  Go immediately.  "
       "Return and tell me when you are done."
@@ -70,7 +70,7 @@ classvars:
    vrNodeTwo = kranquest_node_two_rsc
    vrCompleted = kranquest_completed
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_KRAANAN_DISCIPLE
 
 properties:
@@ -80,13 +80,13 @@ properties:
    plSpecialRestrict = $
    piMaxPlayers = 30
    piSchedulePct = 100
-   piTimeLimit = 2 * 3600 % 2 hours.
+   piTimeLimit = 2 * 3600 // 2 hours.
 
 messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_KRAN_DISCIPLE_ONE, QNT_ID_KRAN_DISCIPLE_TWO];
 
       propagate;
@@ -99,8 +99,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #10 is kraanan disciple quest kickoff, "favor"
-      % QNT_ID_KRAN_DISCIPLE_ONE
+      // Template #10 is kraanan disciple quest kickoff, "favor"
+      // QNT_ID_KRAN_DISCIPLE_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[disciple_trigger],
                #quest_node_index=QNT_ID_KRAN_DISCIPLE_ONE)
@@ -114,8 +114,8 @@ messages:
          Debug("Error building QN: QNT_ID_KRAN_DISCIPLE_ONE");
       }
 
-      % Template #11 is kraanan disciple quest, kill monster
-      % QNT_ID_KRAN_DISCIPLE_TWO
+      // Template #11 is kraanan disciple quest, kill monster
+      // QNT_ID_KRAN_DISCIPLE_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MONSTER,
                #NPC_modifier=QN_NPCMOD_SAME,#timelimit=piTimeLimit,
                #monsterlist=[&FungusBeast, &RedAnt, &Skeleton],
@@ -154,4 +154,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

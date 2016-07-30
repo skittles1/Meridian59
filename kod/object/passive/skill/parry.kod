@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Parry is Skill
 
 constants:
@@ -40,7 +40,7 @@ classvars:
    viSkillExertion = 0
    vbCheck_exertion = FALSE
 
-   vbAutomatic = TRUE        %% not available on pulldown menus
+   vbAutomatic = TRUE        /// not available on pulldown menus
 
 properties:
 
@@ -50,7 +50,7 @@ messages:
 
    CanPayCosts(who=$,oTarget=$)
    {
-      % No parrying if you aren't moving.
+      // No parrying if you aren't moving.
       if Send(who,@CheckPlayerFlag,#flag=PFLAG_NO_FIGHT)
       {
          return 0;
@@ -61,4 +61,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

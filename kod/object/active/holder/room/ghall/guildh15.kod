@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////////////////////////////////////////////////////////////////
 GuildHall15 is GuildHall
 
 constants:
@@ -21,7 +21,7 @@ constants:
    
    LIFT_DELAY = 13000
 
-   LEVER_REACTIVATE_DELAY = 2000    % 2 seconds
+   LEVER_REACTIVATE_DELAY = 2000    // 2 seconds
 
    TREASURE_ROW_MIN = 6
    TREASURE_ROW_MAX = 9
@@ -105,12 +105,12 @@ messages:
       plGuild_doors = [[12,30],[13,30],[14,30]];
       plLooping_sounds = [[ Guildhall15_loop, 0, 0, 200, 100 ]];
       
-      % This is a box containing the guild door, used
-      % for removing players from it when it closes.
+      // This is a box containing the guild door, used
+      // for removing players from it when it closes.
       plEntrance = [ 0, 3200, 3038, 3275 ];
 
-      % These two are the rectangles bounding the chest room and its
-      % entry way. Used if the necromancer guild is active.
+      // These two are the rectangles bounding the chest room and its
+      // entry way. Used if the necromancer guild is active.
       plChestArea1 = [1951, 2240, 1371, 1501];
       plChestArea2 = [2187, 2612, 1125, 1750];
 
@@ -121,8 +121,8 @@ messages:
    {
       plExits = $;
 
-  %% TO TOWN
-%      plExits = Cons([ 2, 3, RID_LICH_MAZE, 42, 27, ROTATE_NONE ],plExits);
+  /// TO TOWN
+//      plExits = Cons([ 2, 3, RID_LICH_MAZE, 42, 27, ROTATE_NONE ],plExits);
       plExits = Cons([ 1, 3, RID_LICH_MAZE, 42, 27, ROTATE_NONE ],plExits);
       plExits = Cons([ 1, 4, RID_LICH_MAZE, 42, 27, ROTATE_NONE ],plExits);
       plExits = Cons([ 1, 5, RID_LICH_MAZE, 42, 27, ROTATE_NONE ],plExits);
@@ -234,8 +234,8 @@ messages:
             #height=ENTRANCE_H_UP,#speed=120);
       Send(self,@CloseEntranceDoorSound);
 
-      % We now propagate this to handle removing players from the door,
-      % and so the door can still be entered while it is closing.
+      // We now propagate this to handle removing players from the door,
+      // and so the door can still be entered while it is closing.
       propagate;
    }
 
@@ -269,7 +269,7 @@ messages:
    {
       local oLever;
 
-      % Create ornamental items.
+      // Create ornamental items.
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_SACRIFICIALBOWL),
             #new_row=4,#new_col=14,
             #fine_row=0,#fine_col=0,
@@ -295,7 +295,7 @@ messages:
             #fine_row=16,#fine_col=24,
             #new_angle=ANGLE_SOUTH_EAST);
 
-      % Create either lich body or lich herself.
+      // Create either lich body or lich herself.
       if poGuild_owner = $
       {
          Send(self,@NewHold,#what=Create(&DeadLich),
@@ -311,11 +311,11 @@ messages:
                #new_angle=ANGLE_WEST);
       }
 
-      % Create the chest.
+      // Create the chest.
       Send(self,@NewHold,#what=Create(&Chest),
             #new_row=23,#new_col=14,#new_angle=ANGLE_NORTH);
 
-      % Create the levers.
+      // Create the levers.
       oLever = Create(&Lever,#description=Guildh15_lever_desc,
                      #icon=Guildh15_lever_icon,#range=2);
       plLevers = Cons(oLever,plLevers);
@@ -404,10 +404,10 @@ messages:
       return;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Maze control lever code %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
+////////////////////////////
+// Maze control lever code //
+////////////////////////////
+//
    SomethingChanged(what=$)
    {
       local oLever, i;
@@ -461,7 +461,7 @@ messages:
    "someone in the Conquering guild."
    "return -1 if this player cannot rent this guild hall."
    {
-      return -1;   %% A player can never normally rent this guild hall.
+      return -1;   /// A player can never normally rent this guild hall.
    }
 
    NewHold(what=$)
@@ -526,7 +526,7 @@ messages:
          return TRUE;
       }
 
-      % If they fail the above check, they're probably too far away.
+      // If they fail the above check, they're probably too far away.
       Debug("ALERT!  ",Send(who,@GetTrueName),who,
             "tried to use Guild Hall chest in GH ",
             Send(self,@GetName)," player coordinates ",
@@ -542,4 +542,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

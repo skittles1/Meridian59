@@ -1,17 +1,17 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 PrincessShield is SoldierShield
 
-% Stats affected: Mysticism and Agility
-% Special bonus: Using a Princess shield makes your spells cost up to 2 less mana.
+// Stats affected: Mysticism and Agility
+// Special bonus: Using a Princess shield makes your spells cost up to 2 less mana.
 
 constants:
 
@@ -79,7 +79,7 @@ classvars:
    viFaction = FACTION_PRINCESS
    viColor = XLAT_TO_ORANGE
 
-   % Stuff for rank
+   // Stuff for rank
    vrArmyName = PrincessShield_ArmyName
 
    vrWelcomeMessage = PrincessShield_welcome_mail
@@ -96,7 +96,7 @@ messages:
       if poOwner <> $
          AND IsClass(poOwner,&User)
       {
-         % Reset owner's stats
+         // Reset owner's stats
          Send(poOwner,@AddIntellect,#points=-piIntellectChange);
          Send(poOwner,@AddMysticism,#points=-piMysticismChange);
          piIntellectChange = 0;
@@ -130,9 +130,9 @@ messages:
          iStatAdjustment = 5;
       }
 
-      % In the following:
-      %  iNewAdjustment is how much the stat changed this time around.
-      %  pi(stat)Change is the cumulative change to that stat.
+      // In the following:
+      //  iNewAdjustment is how much the stat changed this time around.
+      //  pi(stat)Change is the cumulative change to that stat.
       if iStatAdjustment <> piIntellectChange
       {
          iNewAdjustment = Send(poOwner,@AddIntellect,
@@ -160,4 +160,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

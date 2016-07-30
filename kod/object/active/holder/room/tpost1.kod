@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 TradingPost is Room
 
 constants:
@@ -63,7 +63,7 @@ messages:
       plExits = Cons([ 03, 09, ROOM_LOCKED_DOOR, TradingPost_locked_2],plExits);
       plExits = Cons([ 12, 12, ROOM_LOCKED_DOOR, TradingPost_locked_3],plExits);
 
-      %% to jungle
+      /// to jungle
       plExits = Cons([ 05, 02, RID_KD4, 29, 39, ROTATE_NONE ],plExits);
       plExits = Cons([ 13, 13, RID_KD4, 39, 49, ROTATE_NONE ],plExits);
       plExits = Cons([ 02, 13, RID_KD4, 26, 49, ROTATE_NONE ],plExits);
@@ -95,14 +95,14 @@ messages:
       Send(self,@NewHold,#what=Create(&Candle),#new_row=04,#new_col=06,
            #fine_row=24,#fine_col=32);
 
-      % Lighting
-      %  Fireplaces
+      // Lighting
+      //  Fireplaces
       send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,#iIntensity=30),
            #new_row=13,#new_col=9,#fine_row=32,#fine_col=32);
       send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,#iIntensity=35),
            #new_row=5,#new_col=7,#fine_row=64,#fine_col=32);
 
-      %  Wall candles
+      //  Wall candles
       send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,#iIntensity=5),
            #new_row=6,#new_col=2,#fine_row=28,#fine_col=16);
       send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,#iIntensity=5),
@@ -121,7 +121,7 @@ messages:
 
    Constructed()
    {
-      %  each sound is [wave_file, row, col, cutoff radius, maximum volume]
+      //  each sound is [wave_file, row, col, cutoff radius, maximum volume]
       plLooping_sounds = [ [ frying_sound_tradingpost, 13, 9, 10, 50 ],
                            [ fire_sound_tradingpost, 6, 7, 10, 100 ]
                          ];
@@ -131,4 +131,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

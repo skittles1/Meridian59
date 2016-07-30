@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 AnonymityPotion is Potion
 
 constants:
@@ -19,7 +19,7 @@ resources:
    include anonp.lkod
 
    AnonymityPotion_name_rsc = "anonymity potion"
-   %AnonymityPotion_icon_rsc = potion01.bgf
+   //AnonymityPotion_icon_rsc = potion01.bgf
    AnonymityPotion_desc_rsc = "This is a glass vial of colored liquid.  "
                         "Its odor seems familiar, but you can't quite place a finger on it."
    AnonymityPotion_bad_desc_rsc = "This is a glass vial of slightly cloudy colored liquid.  "
@@ -50,4 +50,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

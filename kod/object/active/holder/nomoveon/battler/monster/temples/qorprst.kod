@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 QorPriestess is Temples
 
 constants:
@@ -190,16 +190,16 @@ messages:
             if Send(oSpell,@GetSchool) = SS_RIIJA
                AND Send(oSpell,@GetLevel) > 3
             {
-               % Player has a high enough level spell in the required
-               % school, can learn the spell.
+               // Player has a high enough level spell in the required
+               // school, can learn the spell.
                bFound = TRUE;
 
                break;
             }
          }
 
-         % Player doesn't have a high enough level spell in the
-         % required school, denied.
+         // Player doesn't have a high enough level spell in the
+         // required school, denied.
          if NOT bFound
          {
             if report
@@ -227,4 +227,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

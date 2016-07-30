@@ -1,26 +1,26 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ObjectAttribute is PassiveObject
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  Object Attributes
-%
-%  Object attributes are a new modern system for special modifications.
-%     These attributes are themselves objects, and are attached to their host
-%     object in a list, plObject_attributes. It's up to the object to call them.
-%
-%  Unlike item attributes, these are not limited solely to items, but will
-%     probably be mostly item-focused. Examples of other uses could be as 
-%     modifications to monsters, players, or even rooms.
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
+//  Object Attributes
+//
+//  Object attributes are a new modern system for special modifications.
+//     These attributes are themselves objects, and are attached to their host
+//     object in a list, plObject_attributes. It's up to the object to call them.
+//
+//  Unlike item attributes, these are not limited solely to items, but will
+//     probably be mostly item-focused. Examples of other uses could be as 
+//     modifications to monsters, players, or even rooms.
+//
+////////////////////////////////////////////////////////////////////////////////
 
 constants:
 
@@ -44,7 +44,7 @@ classvars:
 properties:
 
    poHostObject = $
-   piValue_modifier = 100   %% modify the object's price by 100%
+   piValue_modifier = 100   /// modify the object's price by 100//
 
 messages:
   
@@ -143,4 +143,4 @@ messages:
    }
    
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

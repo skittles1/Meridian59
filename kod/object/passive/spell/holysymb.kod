@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 HolySymbol is Spell
 
 constants:
 
    include blakston.khd
 
-   % If we miss our roll by this much, we really pissed the monster off
+   // If we miss our roll by this much, we really pissed the monster off
    HATE_MARGIN = 25
 
 resources:
@@ -91,13 +91,13 @@ messages:
             AND NOT (Send(oMonster,@GetBehavior) & AI_NPC)
             AND (Send(oMonster,@IsUndead))
          {
-            % Use the "detect" option for the monster's karma in case we're trying to turn an event monster.
+            // Use the "detect" option for the monster's karma in case we're trying to turn an event monster.
             iChance = (iSpellPower*3/4) + (Send(who,@GetBaseMaxHealth) - Send(oMonster,@GetLevel)/2)
                                         + (Send(who,@GetKarma) + Send(oMonster,@GetKarma,#detect=TRUE));
 
             if Send(oMonster, @GetTarget) <> $
             {
-               % harder if monster already has a target
+               // harder if monster already has a target
                iChance = (iChance - 5);
             }
 
@@ -106,14 +106,14 @@ messages:
 
             if iRoll < iChance
             {
-               % they're scared and will now run away
+               // they're scared and will now run away
                Send(oMonster,@TurnedBy,#who=who);
                Send(oMonster,@TargetSwitch,#what=who,#iHatred=Send(who,@GetKarma));
             }
 
             if iRoll > (iChance + HATE_MARGIN)
             {
-               % oops!  since you failed, now they really hate you!
+               // oops!  since you failed, now they really hate you!
                Send(oMonster,@TargetSwitch,#what=who,#iHatred=Send(who,@GetKarma));
                Send(oMonster,@EnterStateChase,#target=who,#actnow=TRUE);
             }
@@ -127,10 +127,10 @@ messages:
    {
       local iDuration;
 
-      iDuration = iSpellpower/10;  %seconds
+      iDuration = iSpellpower/10;  //seconds
 
       return iDuration;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

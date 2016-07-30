@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Reveal is ItemEnchantment
 
 constants:
@@ -82,7 +82,7 @@ messages:
 
       oTarget = First(lTargets);
 
-      % Check that target is a weapon or armor
+      // Check that target is a weapon or armor
       if (NOT IsClass(oTarget,&Item))
          OR NOT Send(oTarget,@CanIdentify)
       {
@@ -114,12 +114,12 @@ messages:
       Send(who,@MsgSendUser,#message_rsc=reveal_working, 
             #parm1=Send(oTarget,@GetDef),#parm2=Send(oTarget,@GetName));
 
-      %% if piAdvance = FALSE, no hope of advancement.
-      %% This way, you can't advance if you cast spell
-      %% on something with no hope of revealing anything.
+      /// if piAdvance = FALSE, no hope of advancement.
+      /// This way, you can't advance if you cast spell
+      /// on something with no hope of revealing anything.
       piAdvance = Send(oTarget,@RevealHiddenAttributes);
 
-      % Show newly revealed color
+      // Show newly revealed color
       if piAdvance
       {
          Send(oTarget,@RevealHiddenColor);
@@ -147,4 +147,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

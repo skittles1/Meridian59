@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Canyon2 is ObjectRoom
 
 constants:
@@ -17,7 +17,7 @@ constants:
 
    SECTOR_DOOR = 1
 
-   % 10 seconds
+   // 10 seconds
    DOORWAY_DELAY = 10000
 
    include blakston.khd
@@ -80,7 +80,7 @@ messages:
                        [52, 8], [60, 37], [62, 43], [32, 12], [10,10]
                      ];
 
-      % Create the mana node.  We can find it and place it later.
+      // Create the mana node.  We can find it and place it later.
       Create(&ManaNode,#node_num=NODE_Q,#iRoomNum=piRoom_num);
 
       oPortal = Create(&Portal,#icon=canyon2_portal_icon_rsc,
@@ -92,7 +92,7 @@ messages:
 
    ActivatePortal()
    {
-      % If the node exists, do nothing.
+      // If the node exists, do nothing.
       if poNode <> $
       {
          return;
@@ -107,7 +107,7 @@ messages:
 
    DeactivatePortal()
    {
-      % Remove the reference to the node, so we know it exists or not.
+      // Remove the reference to the node, so we know it exists or not.
       if poNode = $ 
       {
          Debug("Somehow, poNode is equal nil!  Something is wrong!");
@@ -185,9 +185,9 @@ messages:
 
    CanHavePlayerPortal()
    {
-      % Don't allow portals into this room, bypassing puzzle
+      // Don't allow portals into this room, bypassing puzzle
       return false;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

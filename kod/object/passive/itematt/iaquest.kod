@@ -1,26 +1,26 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ItemAttQuestCargo is ItemAttribute
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%  This item is the object of a quest.
-%
-%   Form is:
-%
-%      [IA_QUEST_CARGO, oQuestNode]
-%
-%      oQuestNode::the questnode of which this item is an object.
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////
+//
+//  This item is the object of a quest.
+//
+//   Form is:
+//
+//      [IA_QUEST_CARGO, oQuestNode]
+//
+//      oQuestNode::the questnode of which this item is an object.
+//
+///////////////////////////////////////////////////////////////////////
 
 
 constants:
@@ -43,11 +43,11 @@ properties:
 
 messages:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Effect Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Effect Functions
+///
+///////////////////////////////////////////////
 
    InitiallyIdentified(random_gen=FALSE)
    {
@@ -59,7 +59,7 @@ messages:
       return FALSE;
    }
 
-   % Make sure you can't affect the item negatively.
+   // Make sure you can't affect the item negatively.
 
    ItemCanWeaken()
    {
@@ -81,18 +81,18 @@ messages:
       return FALSE;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Infrastructure
-%%  (Adding and removing a ItemAtt from an item.)
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////
+///
+///  Infrastructure
+///  (Adding and removing a ItemAtt from an item.)
+///
+////////////////////////////////////////////////////
 
    AddToItem(oItem=$,oQuestnode=$,oPlayer=$,identified=false)
    {
       local lData, iValue;
 
-      % lData is [ compound, QN ]
+      // lData is [ compound, QN ]
       lData = $;
 
       lData = Cons(oQuestnode,lData);
@@ -116,15 +116,15 @@ messages:
    {
       local i,lData;
 
-      % If oQuestNode = $, this means not called from quest,
-      % so notify relevant quests of attribute removal...
+      // If oQuestNode = $, this means not called from quest,
+      // so notify relevant quests of attribute removal...
       if oQuestNode = $
       {
-         % Since we can have more than one, we should change this to a while loop
+         // Since we can have more than one, we should change this to a while loop
          if Send(oItem,@HasAttribute,#ItemAtt=viItem_Att_num)
          {
-            % Tell each quest to bail.
-            % Each quest will then call this message again to actually delete stuff.
+            // Tell each quest to bail.
+            // Each quest will then call this message again to actually delete stuff.
             oQuestNode = Nth(Send(oItem,@GetAttributeData,#ItemAtt=viItem_Att_num),2);
             Send(oQuestNode,@DeadlineExpired);
          }
@@ -132,7 +132,7 @@ messages:
          return TRUE;
       }
 
-      % Quest is notifying item to remove its link to that quest only...
+      // Quest is notifying item to remove its link to that quest only...
       i = 0;
       lData = $;
       while TRUE
@@ -166,11 +166,11 @@ messages:
       return;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Maintenance Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Maintenance Functions
+///
+////////////////////////////////////////////////
 
    AppendDesc(oItem=$)
    {
@@ -184,11 +184,11 @@ messages:
       return;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%   Treasure Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////
+///
+///   Treasure Functions
+///
+/////////////////////////////////////////////////
 
    AddToTreasureTable()
    {
@@ -200,11 +200,11 @@ messages:
       return FALSE;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Name Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////
+///
+///  Name Functions
+///
+/////////////////////////////////////////////////
 
    ItemBuildDescName(oItem=$)
    {
@@ -214,4 +214,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

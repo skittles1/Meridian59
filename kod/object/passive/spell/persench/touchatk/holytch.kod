@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 HolyTouch is TouchAttackSpell
 
 constants:
@@ -70,8 +70,8 @@ classvars:
    viSpell_level = 2
    viMana = 4
 
-   % It's alright if Holy Touch has high base damage.
-   % It gets no intrinsic proficiency damage, instead doing double base against undead.
+   // It's alright if Holy Touch has high base damage.
+   // It gets no intrinsic proficiency damage, instead doing double base against undead.
    viMin_Damage = 6
    viMax_Damage = 10
 
@@ -109,19 +109,19 @@ messages:
 
       iDamage = damage;
 
-      % Avoid the condition of checking damage on a nil victim (like when
-      %  just querying average damage).
+      // Avoid the condition of checking damage on a nil victim (like when
+      //  just querying average damage).
       if victim <> $
       {
          if Send(victim,@IsUndead)
          {
-            % Automatically do extra 100% damage to undead.
+            // Automatically do extra 100// damage to undead.
             iDamage = 2*iDamage;
          }
          else
          {
-            % Reduce/increase damage by 50% depending on opponent's Karma.
-            % Use the detect option in case we're hitting an event monster.
+            // Reduce/increase damage by 50// depending on opponent's Karma.
+            // Use the detect option in case we're hitting an event monster.
             iKarma = Send(victim,@GetKarma,#detect=TRUE);
             iDamage = iDamage + ((-iKarma)*iDamage/200);
          }
@@ -132,4 +132,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

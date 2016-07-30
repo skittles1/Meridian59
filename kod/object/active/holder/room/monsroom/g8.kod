@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 OutdoorsG8 is MonsterRoom
 
 constants:
@@ -71,7 +71,7 @@ messages:
    CreateStandardExits()
    {
       plExits = $;
-%      plExits = Cons([ 28, 30, RID_NECROAREA1, 6, 18, ROTATE_NONE ],plExits); %% north
+//      plExits = Cons([ 28, 30, RID_NECROAREA1, 6, 18, ROTATE_NONE ],plExits); /// north
    
       plEdge_exits = $;
       plEdge_Exits = Cons([LEAVE_WEST, RID_F8, 43, 46, ROTATE_NONE], plEdge_exits);
@@ -86,4 +86,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

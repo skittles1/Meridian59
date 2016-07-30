@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Heat is RoomEnchantment
 
 constants:
 
    include blakston.khd
 
-   % Total duration: 10 realtime minutes
+   // Total duration: 10 realtime minutes
    HEAT_TIME = 300000
 
 resources:
@@ -93,9 +93,9 @@ messages:
 
       Send(oRoom,@SomeoneSaid,#type=SAY_MESSAGE,#string=heat_on,#what=self);
 
-      % ranges from 7 to 17 seconds
+      // ranges from 7 to 17 seconds
       iPeriod = (170-iSpellPower)/10;
-      % can't store in greater fineness - value stores state too!
+      // can't store in greater fineness - value stores state too!
       iPeriod = iPeriod * 1000;
 
       Send(oRoom,@RoomStartEnchantment,#what=self,#time=iPeriod,
@@ -110,18 +110,18 @@ messages:
    {
       local iNext_time, iCombined, iPower, iPeriod;
 
-      % First, extract the spellpower from the state
+      // First, extract the spellpower from the state
       iCombined = First(state);
       iPower = iCombined MOD 100;
       iCombined = iCombined - iPower;
 
-      % Ranges from 7 to 17 seconds
+      // Ranges from 7 to 17 seconds
       iPeriod = (170-iPower)/10;
-      % Can't store in greater fineness - value stores state too!
+      // Can't store in greater fineness - value stores state too!
       iPeriod = iPeriod * 1000;
       
-      % Global effects of the enchantment
-      % State is elapsed time in ms
+      // Global effects of the enchantment
+      // State is elapsed time in ms
       iNext_time = iCombined + iPeriod;
       if iNext_time >= HEAT_TIME
       {
@@ -203,4 +203,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

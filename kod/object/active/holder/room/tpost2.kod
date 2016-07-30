@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 TradingPostCellar is Room
 
 constants:
@@ -57,19 +57,19 @@ messages:
       plExits = Cons([ 1, 4, ROOM_LOCKED_DOOR, TradingPostCellar_locked_2],plExits);
       plExits = Cons([ 2, 2, ROOM_LOCKED_DOOR, TradingPostCellar_locked_3],plExits);
 
-      %% to jungle
+      /// to jungle
       plExits = Cons([ 7, 3, RID_KD4, 35, 42, ROTATE_NONE ],plExits);
   
       propagate;
    }
 
-%   CreateStandardObjects()
-%   {
-%      Send(self,@NewHold,#what=Create(&),#new_row=,#new_col=,#fine_row=,#fine_col=);
-%
-%      propagate;
-%   }
+//   CreateStandardObjects()
+//   {
+//      Send(self,@NewHold,#what=Create(&),#new_row=,#new_col=,#fine_row=,#fine_col=);
+//
+//      propagate;
+//   }
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

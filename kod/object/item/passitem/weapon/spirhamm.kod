@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 SpiritualHammer is Weapon
 
 constants:
@@ -35,14 +35,14 @@ classvars:
    vrIcon = spirithammer_icon_rsc
    vrDesc = spirithammer_desc_rsc
 
-   % Spiritual Hammers are high quality bludgeoning weapons
+   // Spiritual Hammers are high quality bludgeoning weapons
    viWeaponType = WEAPON_TYPE_BLUDGEON
    viWeaponQuality = WEAPON_QUALITY_HIGH
 
    viProficiency_Needed = SKID_PROFICIENCY_HAMMER
 
    viValue_average = 0
-   % Light because it's magical.
+   // Light because it's magical.
    viWeight = 15
    viBulk = 60
 
@@ -68,7 +68,7 @@ messages:
 
       if iLongevity = $
       {
-         % Default is 1 hour.
+         // Default is 1 hour.
          iLongevity = 3600000;
       }
 
@@ -133,7 +133,7 @@ messages:
 
    WeaponHitTarget()
    {
-      % Return here so that spiritual hammers don't get damaged.
+      // Return here so that spiritual hammers don't get damaged.
       return;
    }
 
@@ -164,9 +164,9 @@ messages:
 
    GetBaseSpellModifier()
    {
-      % It's mystically created and temporary.  No penalties.
+      // It's mystically created and temporary.  No penalties.
       return 0;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

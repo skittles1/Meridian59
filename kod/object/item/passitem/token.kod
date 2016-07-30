@@ -1,19 +1,19 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Token is PassiveItem
 
-% The token is a used in the faction games.  It drains vigor from the holder.
-% The token takes both hand slots and the holder cannot cast spells while
-% holding it.  This is to prevent cheezy PvP tactics while holding a token.
-% Players holding a token at death take a no-penalty death.
+// The token is a used in the faction games.  It drains vigor from the holder.
+// The token takes both hand slots and the holder cannot cast spells while
+// holding it.  This is to prevent cheezy PvP tactics while holding a token.
+// Players holding a token at death take a no-penalty death.
 
 constants:
 
@@ -258,9 +258,9 @@ messages:
 
       iVigorRestThreshold = Send(poOwner, @GetVigorRestThreshold);
 
-      % This is to ensure both that the player's rest threshold does
-      % not drop below 10 as well as to make sure we don't make it
-      % above maximum when the token is dropped (see player.kod for why).
+      // This is to ensure both that the player's rest threshold does
+      // not drop below 10 as well as to make sure we don't make it
+      // above maximum when the token is dropped (see player.kod for why).
 
       piVigorRestThresholdChange = iVigorRestThreshold - 10;
 
@@ -272,7 +272,7 @@ messages:
 
       ptTortureTimer = CreateTimer(self,@TortureHolder,TOKEN_FATIGUE_TIME);
 
-      % Cancels rescue and elusion when a player picks up a token.
+      // Cancels rescue and elusion when a player picks up a token.
       Send(poOwner,@BreakTrance);
       Send(poOwner,@CancelRescue);
 
@@ -369,10 +369,10 @@ messages:
       propagate;
    }
 
-   % This hack makes sure we are after any attempts to use the token,
-   % especially needed for offering to players.... So, if were still
-   % the owner when we get here, it means we unused it ourselves, and
-   % need to drop it.
+   // This hack makes sure we are after any attempts to use the token,
+   // especially needed for offering to players.... So, if were still
+   // the owner when we get here, it means we unused it ourselves, and
+   // need to drop it.
 
    CheckForDrop(owned = $, oldroom = $, oldrow = 20, oldcol = 20,
                 oldfinerow = 32, oldfinecol = 32)
@@ -553,7 +553,7 @@ messages:
       return;
    }
 
-   % Overlay stuff.
+   // Overlay stuff.
 
    GetOverlay()
    {
@@ -567,7 +567,7 @@ messages:
 
    SendOverlayAnimation()
    {
-      % Group 1 is the player-overlay group.
+      // Group 1 is the player-overlay group.
       if vrTokenOverlay <> $
       {
          AddPacket(1,ANIMATE_NONE,2,1);
@@ -576,7 +576,7 @@ messages:
       return;
    }
 
-   % Misc. infrastructure to keep the tokens in play.
+   // Misc. infrastructure to keep the tokens in play.
 
    CanShatter()
    "Tokens may NOT be shattered."
@@ -610,4 +610,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

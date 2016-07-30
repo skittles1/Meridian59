@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Foresight is Spell
 
 constants:
@@ -240,7 +240,7 @@ messages:
       AddPacket(4,Send(oTarget,@GetCapDef));
       AddPacket(4,Send(oTarget,@GetName));
 
-      // Mobs have the same spellpower/% for all spells they cast from spellbook.
+      // Mobs have the same spellpower/// for all spells they cast from spellbook.
       rAbility = Send(self,@GetAbilityResource,
                         #iAbility=Send(oTarget,@GetBaseSpellPower));
 
@@ -308,4 +308,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

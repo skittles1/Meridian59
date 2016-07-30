@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 BarVault is BarloqueRoom
 
 constants:
@@ -62,7 +62,7 @@ messages:
    {
       plExits = $;
 
-      %% TO TOWN
+      /// TO TOWN
       plExits = Cons([ 3, 12, RID_BAR_PORT, 10, 55, ROTATE_NONE ],plExits);
       plExits = Cons([ 2, 12, RID_BAR_PORT, 10, 55, ROTATE_NONE ],plExits);
 
@@ -85,7 +85,7 @@ messages:
       Send(self,@NewHold,#what=create(&Sign,#desc=BarVault_sign_desc,#name=BarVault_sign_name),
             #new_row=5,#new_col=9,#fine_row=32,#fine_col=32);
 
-      % Lighting
+      // Lighting
       send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,#iIntensity=25),
            #new_row=1,#new_col=8,#fine_row=56,#fine_col=8);
 
@@ -94,4 +94,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

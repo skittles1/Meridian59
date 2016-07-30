@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Hold is Debuff
 
 constants:
@@ -59,7 +59,7 @@ properties:
 
    piBaseDuration = 2000 // 103 value 2000.
    piSpellPowerModifier = 30 // 103 value 40.
-   piDeviation = 10 // 103 value 50%.
+   piDeviation = 10 // 103 value 50//.
    viCast_time = 600 // 103 value 0 (milliseconds).
 
 messages:
@@ -78,7 +78,7 @@ messages:
 
       oTarget = First(lTargets);
 
-      % Spell effects.
+      // Spell effects.
       Send(self,@DoSpell,#what=who,#oTarget=oTarget,#report=report,
             #iDuration=Send(self,@GetDuration,#iSpellPower=iSpellPower));
 
@@ -95,19 +95,19 @@ messages:
          return FALSE;
       }
 
-      % Check for enchantment already applied
+      // Check for enchantment already applied
       if Send(oTarget,@IsEnchanted,#what=self)
       {
          return FALSE;
       }
 
-      % Check for spell called with $ iDuration, apply default time if so.
+      // Check for spell called with $ iDuration, apply default time if so.
       if iDuration = $
       {
          iDuration = 5000;
       }
 
-      % Check if the target has free action, unless not allowed.
+      // Check if the target has free action, unless not allowed.
       if bAllowFreeAction
       {
          oSpell = Send(SYS,@FindSpellByNum,#num=SID_FREE_ACTION);
@@ -117,7 +117,7 @@ messages:
                               #oTarget=oTarget,#iDuration=iDuration);
             if iDuration = $
             {
-               % Resisted completely
+               // Resisted completely
                return FALSE;
             }
 
@@ -135,7 +135,7 @@ messages:
             Send(oTarget,@MsgSendUser,#message_rsc=vrEnchantment_On);
          }
 
-         % Do not paralyze DMs.
+         // Do not paralyze DMs.
          if NOT (IsClass(oTarget,&DM)
             AND Send(oTarget,@PlayerIsImmortal))
          {
@@ -160,9 +160,9 @@ messages:
    {
       local iDuration;
 
-      % All duration calculations now use class properties, modifiable in game
-      % By default, base duration 2000ms, total time 2000-6000ms using 40x
-      % spellpower multiplier, with the final duration 50-100% max
+      // All duration calculations now use class properties, modifiable in game
+      // By default, base duration 2000ms, total time 2000-6000ms using 40x
+      // spellpower multiplier, with the final duration 50-100// max
       iDuration = piBaseDuration + iSpellPower * piSpellPowerModifier;
       iDuration = Random(iDuration * (100 - piDeviation) / 100,iDuration);
 
@@ -173,7 +173,7 @@ messages:
    {
       if IsClass(who,&User)
       {
-         % Don't override phasing hold.
+         // Don't override phasing hold.
          if NOT Send(who,@CheckPlayerFlag,#flag=PFLAG_PHASED)
          {
             Send(who,@EffectSendUser,#what=self,#effect=EFFECT_PARALYZE_OFF);
@@ -185,10 +185,10 @@ messages:
             Send(who,@MsgSendUser,#message_rsc=vrEnchantment_Off);
          }
       }
-      else  % class is &Monster
+      else  // class is &Monster
       {
-         % This has to be done AFTER the enchantment is gone from the
-         % monster's ench list - Post it
+         // This has to be done AFTER the enchantment is gone from the
+         // monster's ench list - Post it
          Post(who,@ResetBehaviorFlags);
       }
 
@@ -224,4 +224,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

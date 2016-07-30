@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Earthquake is AttackSpell
 
 constants:
@@ -71,11 +71,11 @@ classvars:
    viHarmful = TRUE
    viNoNewbieOffense = TRUE
 
-   % Earthquake still handles range in row/col units, as it affects
-   % everyone in the radius regardless of height difference.
-   % Damage is 100% within this distance
+   // Earthquake still handles range in row/col units, as it affects
+   // everyone in the radius regardless of height difference.
+   // Damage is 100// within this distance
    viMax_damage_distance = 8
-   % Damage is 0 outside this distance
+   // Damage is 0 outside this distance
    viZero_damage_distance = 20
 
    vbIsAreaEffect = TRUE
@@ -130,14 +130,14 @@ messages:
       {
          each_obj = Send(oRoom,@HolderExtractObject,#data=i);
 
-         % We do the guildhall check here now, not added to lFinalTargets
-         % if they're not in the same zone as the caster.
+         // We do the guildhall check here now, not added to lFinalTargets
+         // if they're not in the same zone as the caster.
          if IsClass(each_obj,&Battler)
             AND NOT (IsClass(oRoom,&GuildHall)
                AND Send(oRoom,@InFoyer,#who=each_obj)
                   <> Send(oRoom,@InFoyer,#who=who))
          {
-            % Skip players who are phased/in spectator mode.
+            // Skip players who are phased/in spectator mode.
             if IsClass(each_obj,&Player)
                AND Send(each_obj,@IsInCannotInteractMode)
             {
@@ -155,8 +155,8 @@ messages:
    {
       local iDamage, oRoom;
 
-      % First off, get the room this was cast in. If a room cast this, set
-      % that room to oRoom.
+      // First off, get the room this was cast in. If a room cast this, set
+      // that room to oRoom.
       if who <> $
       {
          if IsClass(who,&Room)
@@ -173,7 +173,7 @@ messages:
          return;
       }
 
-   % Call DoEarthQuake to handle special messages
+   // Call DoEarthQuake to handle special messages
    Send(self,@DoEarthQuake,#who=who,#lTargets=lTargets,#oRoom=oRoom);
 
       propagate;
@@ -185,11 +185,11 @@ messages:
 
       lActive = Send(oRoom,@GetHolderActive);
 
-      % Do the rumble effect, with a chance to disrupt casting. :)
-      % Post it so that it won't affect this casting.
+      // Do the rumble effect, with a chance to disrupt casting. :)
+      // Post it so that it won't affect this casting.
       Post(oRoom,@Rumble,#duration=3000,#disruption=100);
 
-      % Send a message to all in room of spellcasters actions
+      // Send a message to all in room of spellcasters actions
       foreach i in lActive
       {
          each_obj = Send(oRoom,@HolderExtractObject,#data=i);
@@ -213,7 +213,7 @@ messages:
          }
       }
 
-      % Everybody in the room hears the earthquake sound.
+      // Everybody in the room hears the earthquake sound.
       Send(oRoom,@SomethingWaveRoom,#wave_rsc=earthquake_sound);
 
       return;
@@ -231,16 +231,16 @@ messages:
          return 3000;
       }
       
-      % Do full damage within viMax_damage_distance, zero damage outside
-      % viZero_damage_distance, and an amount that falls off with distance
-      % between the two.
+      // Do full damage within viMax_damage_distance, zero damage outside
+      // viZero_damage_distance, and an amount that falls off with distance
+      // between the two.
       iPercent = 100;
 
       if who <> $
       {
          iDistance_squared = Send(who,@SquaredDistanceTo,#what=target);
 
-         % SquaredDistanceTo returns $ for target not in same room
+         // SquaredDistanceTo returns $ for target not in same room
          if iDistance_squared = $
          {
             return 0;
@@ -248,7 +248,7 @@ messages:
       }
       else
       {
-         % Full damage for earthquakes without a caster
+         // Full damage for earthquakes without a caster
          iDistance_squared = 0;
       }
 
@@ -266,11 +266,11 @@ messages:
                               (iZero_Distance_squared - iMax_distance_squared);
          }
       }
-      %Debug("percent = ", iPercent, " and iDamage is ", iDamage);
+      //Debug("percent = ", iPercent, " and iDamage is ", iDamage);
       iDamage = (iDamage*iPercent)/100;
-      %Debug("damage after % is ",iDamage);
+      //Debug("damage after % is ",iDamage);
       return iDamage;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

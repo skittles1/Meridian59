@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 PassiveWallofFire is PassiveObject
 
 constants:
@@ -70,8 +70,8 @@ messages:
 
    Constructed()
    {
-      % At this point, the wall should have already been created.
-      %  therefore, it should be safe to delete it.
+      // At this point, the wall should have already been created.
+      //  therefore, it should be safe to delete it.
       Post(self,@ArenaCheck);
 
       propagate;
@@ -147,9 +147,9 @@ messages:
    SendLightingInformation()
    {
       AddPacket(2,(LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC));
-      % 0 out of 255 intensity of light
+      // 0 out of 255 intensity of light
       AddPacket(1,0);
-      % Lightning color
+      // Lightning color
       AddPacket(2,LIGHT_RED);
 
       return;
@@ -161,4 +161,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 BossRoom is MonsterRoom
 
 constants:
@@ -22,13 +22,13 @@ classvars:
 
 properties:
 
-   % template is list of lists, format:
-   %     [&classname, row, col]
+   // template is list of lists, format:
+   //     [&classname, row, col]
    plBossTemplate = $
    plHenchmenTemplate = $
    plBossTreasureTemplate = $
 
-   % lists of references to current instances of above templates.
+   // lists of references to current instances of above templates.
    plBoss = $
    plHenchmen = $
    plBossTreasure = $
@@ -40,10 +40,10 @@ properties:
 
 messages:
 
-%%%%%%%%%%%%%%%%%%%
-% Boss setup code %
-%%%%%%%%%%%%%%%%%%%
-%
+////////////////////
+// Boss setup code //
+////////////////////
+//
 
    Constructor()
    {
@@ -58,39 +58,39 @@ messages:
 
    SetupBossTemplates()
    {
-      % MUST override this in subclasses
+      // MUST override this in subclasses
       Debug ("MUST override SetupBossTemplates() in subclass of BossRoom!!");
       Post(self, @Delete);
 
       return;
    }
 
-%
-%%%%%%%%%%%%%%%%%%%
-% Boss setup code %
-%%%%%%%%%%%%%%%%%%%
+//
+////////////////////
+// Boss setup code //
+////////////////////
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Boss death trigger code %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
+////////////////////////////
+// Boss death trigger code //
+////////////////////////////
+//
    SomethingKilled(killer = $,victim = $)
    {
       if plBoss <> $
       {
-         % If victim is a boss,
+         // If victim is a boss,
          if FindListElem(plBoss, victim)
          {
             plBoss = DelListElem(plBoss, victim);
 
-            % if all bosses are dead,
+            // if all bosses are dead,
             if plBoss = $
             {
-               % trigger special behavior
+               // trigger special behavior
                Send(self, @BossKilledTrigger);
 
-               % start to wait to reset
+               // start to wait to reset
                piWaitingToStartBossResetTimer = TRUE;
                piReadyToResetBoss = FALSE;
             }
@@ -102,30 +102,30 @@ messages:
 
    BossKilledTrigger()
    {
-      % Can override this in subclasses to do special reward stuff here,
-      % but MUST propagate.
+      // Can override this in subclasses to do special reward stuff here,
+      // but MUST propagate.
 
-      % Make boss treasure gettable (by forgetting it was
-      % boss treasure to begin with)
+      // Make boss treasure gettable (by forgetting it was
+      // boss treasure to begin with)
       while plBossTreasure <> $
       {
-         % Delete our reference to each object, but not the object itself.
+         // Delete our reference to each object, but not the object itself.
          plBossTreasure = Rest(plBossTreasure);
       }
 
       return;
    }
 
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% end Boss death trigger code %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//
+////////////////////////////////
+// end Boss death trigger code //
+////////////////////////////////
 
 
-%%%%%%%%%%%%%%%%%%%%%%%
-% Boss resetting code %
-%%%%%%%%%%%%%%%%%%%%%%%
-%
+////////////////////////
+// Boss resetting code //
+////////////////////////
+//
 
    LastUserLeft()
    {
@@ -137,7 +137,7 @@ messages:
          ptResetBossTimer = CreateTimer(self,@ResetBossTrigger,viBossResetTime);
       }
 
-      % Heal the bosses to max!
+      // Heal the bosses to max!
       foreach oBoss in plBoss
       {
          Send(oBoss,@SetMaxHitPoints,#amount=Send(oBoss,@ReturnMaxHitPoints));
@@ -173,31 +173,31 @@ messages:
    {
       local i, oTempMonster, oTempTreasure;
 
-      % These are unnecessary, but just to be safe...
+      // These are unnecessary, but just to be safe...
       piWaitingToStartBossResetTimer = FALSE;
       piReadyToResetBoss = FALSE;
 
-      % First, delete Boss and Henchmen.
+      // First, delete Boss and Henchmen.
       while plBoss <> $
       {
-         Post(First(plBoss), @Delete);                      % Delete the first object
-         plBoss = Rest(plBoss);                             % Delete our reference to it
+         Post(First(plBoss), @Delete);                      // Delete the first object
+         plBoss = Rest(plBoss);                             // Delete our reference to it
       }
 
       while plHenchmen <> $
       {
-         Post(First(plHenchmen), @Delete);                  % Delete the first object
-         plHenchmen = Rest(plHenchmen);                     % Delete our reference to it
+         Post(First(plHenchmen), @Delete);                  // Delete the first object
+         plHenchmen = Rest(plHenchmen);                     // Delete our reference to it
       }
 
-      % Just in case there's boss treasure still hangin' around, delete it too.
+      // Just in case there's boss treasure still hangin' around, delete it too.
       while plBossTreasure <> $
       {
-         Post(First(plBossTreasure), @Delete);              % Delete the first object
-         plBossTreasure = Rest(plBossTreasure);             % Delete our reference to it
+         Post(First(plBossTreasure), @Delete);              // Delete the first object
+         plBossTreasure = Rest(plBossTreasure);             // Delete our reference to it
       }
 
-      % Next, create Boss/Henchmen at start locations.
+      // Next, create Boss/Henchmen at start locations.
 
       if plBossTemplate = $
       {
@@ -209,8 +209,8 @@ messages:
       foreach i in plBossTemplate
       {
          oTempMonster = Create(First(i));
-         % For now, assume no problems with ReqSomethingEntered failing
-         % (another monster blocking creation site).
+         // For now, assume no problems with ReqSomethingEntered failing
+         // (another monster blocking creation site).
          Send(self,@NewHold,#what=oTempMonster,
                #new_row=nth(i,2),#new_col=nth(i,3),
                #fine_row=FINENESS/2,#fine_col=FINENESS/2);
@@ -222,8 +222,8 @@ messages:
          foreach i in plHenchmenTemplate
          {
             oTempMonster = Create(First(i));
-            % For now, assume no problems with ReqSomethingEntered failing
-            % (another monster blocking creation site).
+            // For now, assume no problems with ReqSomethingEntered failing
+            // (another monster blocking creation site).
             Send(self,@NewHold,#what=oTempMonster,
                   #new_row=nth(i,2),#new_col=nth(i,3),
                   #fine_row=FINENESS/2,#fine_col=FINENESS/2);
@@ -231,7 +231,7 @@ messages:
          }
       }
 
-      % Last, make treasure. For now, no sweeping first - FIX??
+      // Last, make treasure. For now, no sweeping first - FIX??
       if plBossTreasureTemplate <> $
       {
          foreach i in plBossTreasureTemplate
@@ -247,16 +247,16 @@ messages:
       return;
    }
 
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% end Boss resetting code %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//
+////////////////////////////
+// end Boss resetting code //
+////////////////////////////
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Make boss treasure ungettable %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
+//////////////////////////////////
+// Make boss treasure ungettable //
+//////////////////////////////////
+//
    ReqLeaveHold(what = $)
    {
       local i;
@@ -277,21 +277,21 @@ messages:
       propagate;
    }
 
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% end Make boss treasure ungettable %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//
+//////////////////////////////////////
+// end Make boss treasure ungettable //
+//////////////////////////////////////
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%
-% Custom disposal code %
-%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Ensures that bosses, henchmen, and boss treasure won't be deleted
-% automatically. Nnote that boss treasure becomes normal treasure when
-% the boss is killed. The dispose code here is the old (inefficient)
-% code, not the improved one used by room.kod. Need to upgrade this.
-%
+/////////////////////////
+// Custom disposal code //
+/////////////////////////
+//
+// Ensures that bosses, henchmen, and boss treasure won't be deleted
+// automatically. Nnote that boss treasure becomes normal treasure when
+// the boss is killed. The dispose code here is the old (inefficient)
+// code, not the improved one used by room.kod. Need to upgrade this.
+//
    DisposeTimer()
    {
       local iLen,i,count,delete_index;
@@ -301,9 +301,9 @@ messages:
 
       foreach i in plPassive
       {
-         % If there is a player's corpse anywhere, don't clear it.
-         % player's corpse has own delete timer.  Monster corpses
-         % do not trigger this effect.
+         // If there is a player's corpse anywhere, don't clear it.
+         // player's corpse has own delete timer.  Monster corpses
+         // do not trigger this effect.
 
          if IsClass(First(i),&DeadBody)
             AND Send(First(i),@WasPlayer)
@@ -314,16 +314,16 @@ messages:
 
       if NOT pbUser_in_room
       {
-         % If no one is here, then try to destroy everything.
+         // If no one is here, then try to destroy everything.
          Send(self,@DestroyDisposable);
 
          return;
       }
       else
       {
-         % Someone's in the room.  If there are more than 5 things in the room,
-         % delete the 20% that are the oldest.  Note:  this may be screwed up
-         % by permanent, non-deleting objects like trees and braziers.
+         // Someone's in the room.  If there are more than 5 things in the room,
+         // delete the 20// that are the oldest.  Note:  this may be screwed up
+         // by permanent, non-deleting objects like trees and braziers.
 
          iLen = Length(plPassive);
          if iLen > 5
@@ -336,7 +336,7 @@ messages:
 
                if (count > delete_index)
                   AND (FindListElem(plBossTreasure,First(i)) = 0)
-               {        %*****
+               {        //*****
                   Send(First(i),@DestroyDisposable);
                }
             }
@@ -352,36 +352,36 @@ messages:
 
       foreach i in plActive
       {
-         % Never dispose of Boss or Henchmen automatically,
-         % handle this in reset code.
+         // Never dispose of Boss or Henchmen automatically,
+         // handle this in reset code.
          if (FindListElem(plBoss,First(i)) = 0)
             AND (FindListElem(plHenchmen,First(i)) = 0)
-         {      %*****
+         {      //*****
             Send(First(i),@DestroyDisposable);
          }
       }
 
       foreach i in plPassive
       {
-         % Never dispose of Boss Treasure automatically,
-         % handle this in reset code.
+         // Never dispose of Boss Treasure automatically,
+         // handle this in reset code.
          if FindListElem(plBossTreasure,First(i)) = 0
-         {                                               %*****
+         {                                               //*****
             Send(First(i),@DestroyDisposable);
          }
       }
 
       return;
    }
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% end Custom disposal code %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//
+/////////////////////////////
+// end Custom disposal code //
+/////////////////////////////
 
-%%%%%%%%%%%
-% cleanup %
-%%%%%%%%%%%
-%
+////////////
+// cleanup //
+////////////
+//
    Delete()
    {
       plBossTemplate = $;
@@ -414,16 +414,16 @@ messages:
 
       propagate;
    }
-%
-%%%%%%%%%%%
-% cleanup %
-%%%%%%%%%%%
+//
+////////////
+// cleanup //
+////////////
 
    CanHavePlayerPortal()
    {
-      % Don't allow portals here, or boss might get out
+      // Don't allow portals here, or boss might get out
       return false;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

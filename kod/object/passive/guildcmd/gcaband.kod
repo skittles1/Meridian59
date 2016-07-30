@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 GuildAbandon is GuildCommand
 
 constants:
@@ -77,7 +77,7 @@ messages:
          return FALSE;
       }
 
-      % Can't abandon the necromancer's guild hall.
+      // Can't abandon the necromancer's guild hall.
       if IsClass(oGuild,&NecromancerGuild)
       {
          Send(who,@MsgSendUser,#message_rsc=guildabandon_necro_nak);
@@ -85,8 +85,8 @@ messages:
          return FALSE;
       }
 
-      % If the guild hall is under attack, you can't abandon it
-      % (players were abusing this to avoid being conquered).
+      // If the guild hall is under attack, you can't abandon it
+      // (players were abusing this to avoid being conquered).
       oHall = Send(oGuild, @GetGuildHall);
       if oHall <> $
          AND Send(oHall,@AreDefensesDown)
@@ -102,4 +102,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

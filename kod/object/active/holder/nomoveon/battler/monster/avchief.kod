@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 AvarChieftain is Monster
 
 constants:
 
    include blakston.khd
 
-   % Fire bow animation.  Normal attack animation with claws is anim_attack.
+   // Fire bow animation.  Normal attack animation with claws is anim_attack.
    ANIM_FIRE = 2
 
    FRAME_STAND = 1
@@ -33,7 +33,7 @@ resources:
    avarchief_default_name = "avar chieftain"
    avarchief_icon_rsc = avchief.bgf
 
-   avarchief_name_rsc = "peet-seeeep avar chieftain"    %% default
+   avarchief_name_rsc = "peet-seeeep avar chieftain"    /// default
    avarchief_desc_rsc = \
       "Known for their noble grace, the Peet-Seeeep tribe "
       "efficiently controls the south-eastern shores of the island.  This "
@@ -87,7 +87,7 @@ classvars:
    viDifficulty = 9
    viVisionDistance = 28
 
-   % Attack range of 192, or 3 row/col.
+   // Attack range of 192, or 3 row/col.
    viAttackRange = 192
 
    viKarma = 85
@@ -99,7 +99,7 @@ classvars:
    vrSound_aware = avarchief_sound_aware
    vrSound_death = avarchief_sound_death
 
-   % Chance to do his 'spell' which is really a ranged attack
+   // Chance to do his 'spell' which is really a ranged attack
    viSpellChance = 6
 
 properties:
@@ -192,7 +192,7 @@ messages:
          return;
       }
 
-      % Ask our owner what clan we should be in.
+      // Ask our owner what clan we should be in.
       Send(self,@SetClan,#clan=Send(poOwner,@GetClan));
 
       return;
@@ -227,7 +227,7 @@ messages:
       return;
    }
 
-   % You cannot parry the chief's attacks.
+   // You cannot parry the chief's attacks.
    CanParry()
    {
       return FALSE;
@@ -268,15 +268,15 @@ messages:
          return;
       }
 
-      % If no body animation
+      // If no body animation
       AddPacket(1,ANIMATE_NONE,2,3);
 
       return;
    }
 
-   % This is technically a ranged attack, and we use RangedAttackChance
-   % to see if we can do it. Use the same range as that for spells. We
-   % also use piSpellChance for the base chance to do our ranged attack.
+   // This is technically a ranged attack, and we use RangedAttackChance
+   // to see if we can do it. Use the same range as that for spells. We
+   // also use piSpellChance for the base chance to do our ranged attack.
    MonsterCastSpell()
    {
       local iBase;
@@ -326,13 +326,13 @@ messages:
 
    GetProjectileLightFlags()
    {
-      % No lighting information.
+      // No lighting information.
       return LIGHT_FLAG_NONE;
    }
 
    GetOptimalRange()
    {
-      % Random range between 8-15 row/col units.
+      // Random range between 8-15 row/col units.
       return random(512,960);
    }
 
@@ -346,14 +346,14 @@ messages:
          return TRUE;
       }
 
-      % Charm checks up higher.
+      // Charm checks up higher.
       propagate;
    }
 
    SpecialHatredBehavior(what=$)
    {
-      % Avars attack other avars of other clans, but only in the
-      %  temple of riija ruins (rid_KC3).
+      // Avars attack other avars of other clans, but only in the
+      //  temple of riija ruins (rid_KC3).
       if IsClass(what,&AvarShaman)
          OR IsClass(what,&AvarChieftain)
          OR IsClass(what,&Avar)
@@ -382,7 +382,7 @@ messages:
    {
       local oTreasure, iNumber;
 
-      % Apparitions, etc, provide no treasure
+      // Apparitions, etc, provide no treasure
       if pbIllusion
       {
          return;
@@ -424,4 +424,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

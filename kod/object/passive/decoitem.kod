@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 DecoItem is PassiveObject
 
 constants:
@@ -24,8 +24,8 @@ properties:
    vrIcon
    vrDesc
 
-   % Which display group do we use?  This is in case we want to show something that
-   %  doesn't have the drop group set as 1.
+   // Which display group do we use?  This is in case we want to show something that
+   //  doesn't have the drop group set as 1.
    piDisplayGroup = 1
 
 messages:
@@ -54,7 +54,7 @@ messages:
 
    SendAnimation()
    {
-      % Send animation info to user.  No animation on the display group defined.
+      // Send animation info to user.  No animation on the display group defined.
       AddPacket(1, ANIMATE_NONE, 2, piDisplayGroup);
 
       return;
@@ -67,4 +67,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

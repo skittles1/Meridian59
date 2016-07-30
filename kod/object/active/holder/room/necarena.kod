@@ -1,26 +1,26 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 NecArena is Room
 
 constants:
 
    include blakston.khd
 
-   % Boundaries of the playing field
+   // Boundaries of the playing field
    NORTH_BOUNDARY = 8
    SOUTH_BOUNDARY = 17
    WEST_BOUNDARY = 7
    EAST_BOUNDARY = 19
 
-   % Sector ids for moving platforms and lava pit.
+   // Sector ids for moving platforms and lava pit.
    NW_PLATFORM = 12
    NE_PLATFORM = 11
    E_PLATFORM = 10
@@ -30,19 +30,19 @@ constants:
    CENTER_PLATFORM = 8
    LAVA_PIT = 5
 
-   % Sector states
+   // Sector states
    UP = 1
    DOWN = 2
 
-   % How long between lava checks?
+   // How long between lava checks?
    LAVA_TIMER = 1000
 
-   % What's the delay before we send them to the shrine?
+   // What's the delay before we send them to the shrine?
    SHRINE_DELAY = 3000
 
    SHRINE_USED = 3 * 60 * 1000
 
-   % Delay after shrine is used before people are teleported back.
+   // Delay after shrine is used before people are teleported back.
    TELEPORT_DELAY = 5000
 
 resources: 
@@ -88,17 +88,17 @@ properties:
 
    ptSafeLimit = $
 
-   % Used to override the advancement and death checks.
+   // Used to override the advancement and death checks.
    pbRealDeath = FALSE
 
    pbShrineInUse = FALSE
 
-   % Keeps track of people who get to go to the shrine.
+   // Keeps track of people who get to go to the shrine.
    plGoToShrine = $
-   % Delays sending winners to the shrine - for suspense.
+   // Delays sending winners to the shrine - for suspense.
    ptGoToShrineTimer = $
 
-   % Keeps track of whether or not a given start possition is occupied.
+   // Keeps track of whether or not a given start possition is occupied.
    plOccupied = $
 
    poShrine = $
@@ -151,7 +151,7 @@ messages:
       return;
    }
 
-   % There are no consequences for killing in the arena.
+   // There are no consequences for killing in the arena.
    SafePlayerAttack()
    {
       return TRUE;
@@ -163,7 +163,7 @@ messages:
    {
       if IsClass(what,&Item)
       {
-         % Have to post this to handle numberitems and SYS can't handle posts.
+         // Have to post this to handle numberitems and SYS can't handle posts.
          Post(self,@PostShrineCheckItem,#what=what);
       }
 
@@ -255,7 +255,7 @@ messages:
          }
          else
          {
-            %% special for walls
+            /// special for walls
             if bNonPlayerOkay
                AND (iRow = NORTH_BOUNDARY
                     OR iRow = SOUTH_BOUNDARY
@@ -276,7 +276,7 @@ messages:
 
    IsArena()
    {
-      % This does not need to change for Goad's Grinder.
+      // This does not need to change for Goad's Grinder.
       return TRUE;
    }
 
@@ -288,7 +288,7 @@ messages:
 
       if goinplay
       {
-         % teleport to the playing field
+         // teleport to the playing field
          rand = random(1,6);
 
          if Length(plOccupied) <> 6
@@ -348,7 +348,7 @@ messages:
          Send(SYS,@UtilGoNearSquare,#what=what,#where=self,
               #new_row=row,#new_col=col);
 
-         % Mark position as occupied, with the player object number.
+         // Mark position as occupied, with the player object number.
          SetNth(plOccupied,rand,what);
 
          if ptCheckLavaTimer = $
@@ -393,7 +393,7 @@ messages:
 
       if Send(poWatcher,@IsCombatant,#who=what)
       {
-         % Teleport to the playing field
+         // Teleport to the playing field
          rand = random(1,6);
 
          if rand = 1
@@ -519,7 +519,7 @@ messages:
          ptGoToShrineTimer = CreateTimer(self,@GoToShrineTimer,SHRINE_DELAY);
       }
 
-      % Remove radius enchantments
+      // Remove radius enchantments
       foreach i in Send(self,@GetHolderActive)
       {
          j = Send(self,@HolderExtractObject,#data=i);
@@ -533,7 +533,7 @@ messages:
          }
       }
 
-      % Remove room enchantments
+      // Remove room enchantments
       Send(self,@RemoveAllEnchantments);
 
       if ptCheckLavaTimer <> $
@@ -567,8 +567,8 @@ messages:
 
    SomethingKilled(what=$,victim=$)
    {
-      % You get to go to the shrine if you kill someone with 10 more hps
-      %  than you have.
+      // You get to go to the shrine if you kill someone with 10 more hps
+      //  than you have.
       if IsClass(what,&User)
          AND IsClass(victim,&User)
       {
@@ -613,7 +613,7 @@ messages:
                     #new_row=19,#new_col=13,#fine_row=32,#fine_col=32,
                     #new_angle = ANGLE_SOUTH);
 
-               % Only want one of these at a time.
+               // Only want one of these at a time.
                if ptShrineUsedTimer = $ 
                {
                   ptShrineUsedTimer = CreateTimer(self,@ShrineUsedTimer,SHRINE_USED);
@@ -644,7 +644,7 @@ messages:
 
       if ptShrineUsedTimer <> $
       {
-         % So we know to delay teleportation a moment or two
+         // So we know to delay teleportation a moment or two
          bCalledByShrine = TRUE;
          DeleteTimer(ptShrineUsedTimer);
          ptShrineUsedTimer = $;
@@ -758,7 +758,7 @@ messages:
 
    CookVictim(what=$)
    {
-      % Message: You die!!!!
+      // Message: You die!!!!
       if IsClass(what,&Monster)
          AND NOT IsClass(what,&Goad)
       {
@@ -805,4 +805,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

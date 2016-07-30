@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Tanktop is ShirtBase
 
 constants:
@@ -56,7 +56,7 @@ messages:
    {
       if vrIcon_female = exotic_top_female
       {
-         % No bonuses for the skimpy top
+         // No bonuses for the skimpy top
 
          return defense_power;
       }
@@ -99,7 +99,7 @@ messages:
 
       iSkinColor = Send(poOwner,@GetSkinColor);
 
-      % The exotic shirts look better if you shift down one level.
+      // The exotic shirts look better if you shift down one level.
       iSkinColor = bound(iSkinColor-1,1,3);
 
       translation = Send(SYS,@EncodeTwoColorXlat,
@@ -117,4 +117,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

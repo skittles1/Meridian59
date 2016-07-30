@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 
 Castle2a is Room
 
@@ -140,16 +140,16 @@ messages:
       propagate;
    }
 
-   % This room is majority indoors, so we're not using sector 0 for snow here.
+   // This room is majority indoors, so we're not using sector 0 for snow here.
    StartSnow(bOnGround=TRUE)
    {
-      % Check if we can have weather effects here.
+      // Check if we can have weather effects here.
       if NOT pbWeatherEffects
       {
          return;
       }
 
-      % If there's a sandstorm weather effect here, clear it.
+      // If there's a sandstorm weather effect here, clear it.
       if Send(self,@CheckRoomFlag,#flag=ROOM_SANDSTORM)
       {
          Send(self,@EndSandstorm);
@@ -184,7 +184,7 @@ messages:
       if pbSnowGroundTexture
          OR override
       {
-         % Remove snow from lighting sectors.
+         // Remove snow from lighting sectors.
          Send(self,@RemoveTextureChange,#id=1);
          Send(self,@RemoveTextureChange,#id=5);
          Send(self,@RemoveTextureChange,#id=15);
@@ -194,4 +194,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

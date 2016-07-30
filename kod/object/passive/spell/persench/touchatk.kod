@@ -1,16 +1,16 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 TouchAttackSpell is PersonalEnchantment
 
-% A touch attack spell is essentially a 'combat stroke' enchantment.
+// A touch attack spell is essentially a 'combat stroke' enchantment.
 
 constants:
 
@@ -73,30 +73,30 @@ classvars:
    viChance_To_Increase = 10
    viMeditate_ratio = 20
 
-   % Touch spells typically do good damage but are unaffected by typical weapon
-   %  bonuses. These base damages will have proficiency added to them,
-   %  and will then be increased by up to 40% depending on the caster's Mysticism.
+   // Touch spells typically do good damage but are unaffected by typical weapon
+   //  bonuses. These base damages will have proficiency added to them,
+   //  and will then be increased by up to 40// depending on the caster's Mysticism.
    viMin_Damage = 4
    viMax_Damage = 8
    
-   % Max amount of damage that Punch or 2*Myst can add
+   // Max amount of damage that Punch or 2*Myst can add
    viMaxProficiencyDamage = 5
 
-   % Touch spell range can vary, but are typically good
+   // Touch spell range can vary, but are typically good
    viRange = 2 * FINENESS
 
-   % Touch spells are now linked to punch attacks, so make it do punch damage
-   %  for default.
+   // Touch spells are now linked to punch attacks, so make it do punch damage
+   //  for default.
    viAttackType = ATCK_WEAP_UNARMED+ATCK_WEAP_PUNCH
-   % Touch spells typically DO have a spell type.
+   // Touch spells typically DO have a spell type.
    viSpellType = 0          
 
    viPostCast_time = 1
 
-   % Cannot enchant others with touch attacks.
+   // Cannot enchant others with touch attacks.
    vbCanCastOnOthers = FALSE
    
-   % The amount of light added to player's screen.
+   // The amount of light added to player's screen.
    viEnchantmentLight = 0
 
 properties:
@@ -104,9 +104,9 @@ properties:
    plPrerequisites = $
    plReagents = $
 
-   % The effectiveness of purge on the target spell as a percentage.
-   % 100 will cause purge to remove its entire spellpower, 0 will
-   % prevent purge from removing this spell.
+   // The effectiveness of purge on the target spell as a percentage.
+   // 100 will cause purge to remove its entire spellpower, 0 will
+   // prevent purge from removing this spell.
    viPurgeFactor = 15
 
 messages:
@@ -160,10 +160,10 @@ messages:
    {
       local iDamage, iMysticism;
 
-      % Proficiency damage adjusted to high precision
+      // Proficiency damage adjusted to high precision
       iDamage = damage + (Send(self,@GetProf,#who=who)+1)*viMaxProficiencyDamage;
       
-      % Get myst damage bonus.
+      // Get myst damage bonus.
       iMysticism = Send(who,@GetMysticism);
       iDamage = ((100+bound(iMysticism-25,0,40))*iDamage)/100;
 
@@ -175,14 +175,14 @@ messages:
       return touchattack_hit_sound;
    }
 
-   %%% This section for combat
+   //// This section for combat
 
-   %%% These are the weapon functions
+   //// These are the weapon functions
 
-   % What's the stroke number?
-   % Touch attacks are "backwards", they use Punch as the proficiency, or the
-   %  secondary bonus to hit.  Added bonus for "pure" mages, can substitute
-   %  2 * Mysticism instead of punch. 
+   // What's the stroke number?
+   // Touch attacks are "backwards", they use Punch as the proficiency, or the
+   //  secondary bonus to hit.  Added bonus for "pure" mages, can substitute
+   //  2 * Mysticism instead of punch. 
    GetProf(who=$)
    {
       local iProf, iMysticism;
@@ -202,8 +202,8 @@ messages:
 
    GetStroke(who=$)
    {
-      % Touch attacks are "backwards", they use the specialized spell as the
-      %  stroke, or primary bonus to hit.
+      // Touch attacks are "backwards", they use the specialized spell as the
+      //  stroke, or primary bonus to hit.
       Send(who,@FlipSpellAtrophyFlag,#SID=viSpell_num);
 
       return Send(who,@GetSpellAbility,#spell_num=viSpell_num);
@@ -221,31 +221,31 @@ messages:
 
    GetParryAbility()
    {
-      % Touch attacks have no parrying ability.
+      // Touch attacks have no parrying ability.
       return 0;
    }
 
-   %%% These are the stroke functions
+   //// These are the stroke functions
 
-   % Can this touch attack be blocked?
+   // Can this touch attack be blocked?
    CanBlock()
    {
       return TRUE;
    }
 
-   % Can this touch attack be parried?
+   // Can this touch attack be parried?
    CanParry()
    {
       return TRUE;
    }
 
-   % Can this touch attack be blocked?
+   // Can this touch attack be blocked?
    CanDodge()
    {
       return TRUE;
    }
 
-   % This returns the "weapon" name for combat attacks.
+   // This returns the "weapon" name for combat attacks.
    GetAttackName()
    {
       return vrName;
@@ -286,20 +286,20 @@ messages:
    {
       local damage, iAbility;
 
-      % Base weapon damage adjusted to high precision
+      // Base weapon damage adjusted to high precision
       damage = random(viMin_Damage*100,viMax_damage*100);
 
-      % Rather than an active spellpower check, use the player's
-      % ability in the spell. This makes touch spells function
-      % more like a stroke, and gives them immunity to anti-magic effects.
+      // Rather than an active spellpower check, use the player's
+      // ability in the spell. This makes touch spells function
+      // more like a stroke, and gives them immunity to anti-magic effects.
       iAbility = Send(who,@GetSpellAbility,#spell_num=viSpell_num);
       
-      % Factor in the person's ability with the spell
-      % It's alright if damage here is low.
-      % Most players will get proficiency damage from punch or 2*Mysticism.
+      // Factor in the person's ability with the spell
+      // It's alright if damage here is low.
+      // Most players will get proficiency damage from punch or 2*Mysticism.
       damage = (damage * (iAbility+1)) / 100;
 
-      % Myst boosts base damage
+      // Myst boosts base damage
       damage = Send(self,@DamageFactors,#damage=damage,#who=who,
                     #victim=victim);
       
@@ -343,10 +343,10 @@ messages:
    {
       local iRandom, rSound;
       
-      % 'miss' sound
+      // 'miss' sound
       if vrMiss_Sound = $
       {
-         % Play a random miss sound.
+         // Play a random miss sound.
          iRandom = random(1,3);
          if iRandom = 1
          {
@@ -371,7 +371,7 @@ messages:
       
       Send(Send(who,@GetOwner),@SomethingWaveRoom,#what=who,#wave_rsc=rSound);
       
-      % Text messages
+      // Text messages
       if vrMissed_Message_Attacker <> $
       {
          Send(who,@MsgSendUser,#message_rsc=vrMissed_Message_Attacker,
@@ -428,23 +428,23 @@ messages:
        return TRUE;
    }
 
-   %%% Enchantment support
+   //// Enchantment support
 
    GetDuration(iSpellpower=$)
    {
       local iDuration;
 
-      % Up to 16.5 minutes
+      // Up to 16.5 minutes
       iDuration = iSpellPower * 10 * 1000; 
 
-      % Min 2 minutes
+      // Min 2 minutes
       return Bound(iDuration,120000,$);
    }
 
    GetStateValue(iSpellpower=$,target=$)
    {
-      % Remove other touch attack spells.  Won't remove self, because
-      % we've checked for re-enchantment in CanPayCosts.
+      // Remove other touch attack spells.  Won't remove self, because
+      // we've checked for re-enchantment in CanPayCosts.
       Send(target,@RemoveEnchantmentClass,#class=&TouchAttackSpell);
       Send(target,@GainLight,#amount=viEnchantmentLight);
 
@@ -469,4 +469,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

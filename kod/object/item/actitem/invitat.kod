@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 GuildInvitation is ActiveItem
 
 constants:
 
    include blakston.khd
 
-   SELF_DELETE_DELAY = 120000    %% 2 minutes     
+   SELF_DELETE_DELAY = 120000    /// 2 minutes     
 
 resources:
 
@@ -56,8 +56,8 @@ classvars:
 
 properties:
 
-   poInductor = $            %% person who offers guild position
-   poInductee = $            %% person offered a guild position   
+   poInductor = $            /// person who offers guild position
+   poInductee = $            /// person offered a guild position   
    poGuild = $
    ptJoin = $
 
@@ -207,5 +207,5 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 

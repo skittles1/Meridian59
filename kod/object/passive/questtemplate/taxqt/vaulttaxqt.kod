@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 VaultTaxQuest is TaxQuestTemplate
-% Quest template QST_ID_VAULT_TAX = 51.
-% Quest nodes 159, 160.
-% QNT_ID_VAULT_TAX_ONE, QNT_ID_VAULT_TAX_TWO
+// Quest template QST_ID_VAULT_TAX = 51.
+// Quest nodes 159, 160.
+// QNT_ID_VAULT_TAX_ONE, QNT_ID_VAULT_TAX_TWO
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -33,7 +33,7 @@ resources:
 
    include vaulttaxqt.lkod
 
-   % Quest description.
+   // Quest description.
    vaulttaxqt_name_rsc = "vault tax quest"
    vaulttaxqt_desc_rsc = \
       "Courier some shillings for an NPC."
@@ -41,7 +41,7 @@ resources:
    vaulttaxqt_completed_rsc = \
       "You have completed the vault tax quest."
 
-   % Quest resources.
+   // Quest resources.
    vaulttax_assign_2 = \
       "Yes, I have need of a courier.  %NPC is due a certain percentage of "
       "profits from my business.  Please take this tithe of %INDEF_CARGO%CARGO "
@@ -64,7 +64,7 @@ classvars:
 
    vrCompleted = vaulttaxqt_completed_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_VAULT_TAX
 
 properties:
@@ -73,10 +73,10 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_VAULT_TAX_ONE, QNT_ID_VAULT_TAX_TWO];
 
-      % Quest nodes with matching descriptions for the player.
+      // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_VAULT_TAX_TWO, vrNodeTwo] ];
 
       propagate;
@@ -89,8 +89,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #159 is vault tax quest
-      % QNT_ID_VAULT_TAX_ONE
+      // Template #159 is vault tax quest
+      // QNT_ID_VAULT_TAX_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #NPC_modifier=QN_NPCMOD_NONE,#cargolist=[ letter_trigger ],
                #quest_node_index=QNT_ID_VAULT_TAX_ONE)
@@ -136,8 +136,8 @@ messages:
          Debug("Error building QN: QNT_ID_VAULT_TAX_ONE");
       }
 
-      % Template #160 is vault tax quest
-      % QNT_ID_VAULT_TAX_TWO
+      // Template #160 is vault tax quest
+      // QNT_ID_VAULT_TAX_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_ITEMCLASS,
             #cargolist=[ [ QN_PRIZETYPE_ITEMCLASS, &Money, 1302 ],
                            [ QN_PRIZETYPE_ITEMCLASS, &Money, 1133 ],
@@ -170,7 +170,7 @@ messages:
          Send(oQE,@SetQuestNodeNPCList,#index=QNT_ID_VAULT_TAX_TWO,
                #new_NPC_list=lNPCs);
 
-         % Happy land subs.
+         // Happy land subs.
          if NOT Send(SYS,@IsPKAllowed)
          {
             Send(oQE,@SetQuestNodeAssignHint,#index=QNT_ID_VAULT_TAX_TWO,
@@ -197,4 +197,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 FountainJet is PassiveObject
 
 constants:
@@ -34,7 +34,7 @@ classvars:
 
 properties:
 
-   % These settings are specific to the Duke's Feast Hall (RID_DUKE2).
+   // These settings are specific to the Duke's Feast Hall (RID_DUKE2).
    piSoundRadius = 18
    piSoundIntensity = 80
 
@@ -52,7 +52,7 @@ messages:
    {
       if poOwner <> $ AND IsClass(poOwner,&Room)
       {
-         % Remove ourselves as part of the sound list.
+         // Remove ourselves as part of the sound list.
          Send(poOwner,@RemoveObjectLoopingSound,#what=self);
       }
 
@@ -63,17 +63,17 @@ messages:
    {
       local lPosition, lSoundData;
 
-      % Check the old (current) owner.  It shouldn't
-      % happen, but let's be sane about it.
+      // Check the old (current) owner.  It shouldn't
+      // happen, but let's be sane about it.
       if poOwner <> $ AND IsClass(poOwner,&Room)
       {
-         % Remove ourselves as part of the sound list.
+         // Remove ourselves as part of the sound list.
          Send(poOwner,@RemoveObjectLoopingSound,#what=self);
       }
 
       if piSoundRadius AND what <> $ AND IsClass(what,&Room)
       {
-         % Sound data is [wave_file, row, col, cutoff radius, maximum volume, object]
+         // Sound data is [wave_file, row, col, cutoff radius, maximum volume, object]
          lPosition = Send(what,@GetRoomPos,#what=self);
          lSoundData = [fountainjet_sound_rsc, First(lPosition), Nth(lPosition,2),
                        piSoundRadius, piSoundIntensity, self];
@@ -91,4 +91,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

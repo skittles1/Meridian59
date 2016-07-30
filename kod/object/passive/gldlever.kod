@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 GuildLever is PassiveObject
 
 constants:
@@ -108,7 +108,7 @@ messages:
          OR abs((Send(who,@GetCol)-Send(self,@GetCol))) > LEVER_RANGE)
          OR Send(poOwner,@InFoyer,#who=who)
       {
-         % Lever is out of range
+         // Lever is out of range
 
          Send(who,@MsgSendUser,#message_rsc=guildlever_not_in_range);
 
@@ -156,7 +156,7 @@ messages:
 
    SendLightingInformation()
    {
-      % Give it a light source.
+      // Give it a light source.
       AddPacket(2,LIGHT_FLAG_ON);
 
       if piState = SHIELD_ON
@@ -174,4 +174,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

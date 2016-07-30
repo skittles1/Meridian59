@@ -1,34 +1,34 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ItemAttDurable is ItemAttribute
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%  This item gets it's max_hit_points multiplied by three, at the 
-%  point when the item is first 'enchanted' (usually on or near
-%  the creation of the object.
-%
-%  Another effect can change the durability factor, by giving a value
-%  for state1 when the itematt is applied.  If none is given, the
-%  default of 300 is used (or three times the current Hp of the 
-%  item).   Note that this value is not stored, because this value
-%  is completely unimportant after the value of max_hit_points 
-%  changes.
-%
-%  Form is:
-%
-%      [IA_DURABLE]
-%
+///////////////////////////////////////////////////////////////////////
+//
+//  This item gets it's max_hit_points multiplied by three, at the 
+//  point when the item is first 'enchanted' (usually on or near
+//  the creation of the object.
+//
+//  Another effect can change the durability factor, by giving a value
+//  for state1 when the itematt is applied.  If none is given, the
+//  default of 300 is used (or three times the current Hp of the 
+//  item).   Note that this value is not stored, because this value
+//  is completely unimportant after the value of max_hit_points 
+//  changes.
+//
+//  Form is:
+//
+//      [IA_DURABLE]
+//
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////
 
 constants:
 
@@ -49,7 +49,7 @@ classvars:
    viItem_Att_Num = IA_DURABLE
    vrName = itematt_durable_name
    vrDesc = itematt_durable_desc
-   viDefault_bonus = 300    %%% 300 percent bonus to enchanted item.
+   viDefault_bonus = 300    //// 300 percent bonus to enchanted item.
    vrDM_Trigger = durable_DM
 
 properties:
@@ -90,4 +90,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

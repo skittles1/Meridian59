@@ -1,17 +1,17 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Debuff is Spell
 
-% Spells that target another player, and have some negative effect but do not
-% directly do damage go here.
+// Spells that target another player, and have some negative effect but do not
+// directly do damage go here.
 
 constants:
 
@@ -44,7 +44,7 @@ classvars:
    vrIcon = debuff_icon_rsc
    vrDesc = debuff_desc_rsc
 
-   % Overwrite these in subclasses to give specific messages.
+   // Overwrite these in subclasses to give specific messages.
    vrAlreadyEnchanted = debuff_already_enchanted_rsc
    vrEnchantment_On = debuff_On_rsc
    vrEnchantment_Off = debuff_Off_rsc
@@ -97,7 +97,7 @@ messages:
          return FALSE;
       }
 
-      % Check for enchantment already applied
+      // Check for enchantment already applied
       if Send(oTarget,@IsEnchanted,#what=self)
       {
          if NOT bItemCast
@@ -165,4 +165,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

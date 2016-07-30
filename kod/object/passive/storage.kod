@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Storage is PassiveObject
 
 constants:
@@ -30,10 +30,10 @@ classvars:
 
 properties:
 
-   piVault_num   % vault ID (VID)
+   piVault_num   // vault ID (VID)
 
-   % Each element of this list is a list, containing
-   % the player, and a list of all of his stuff.
+   // Each element of this list is a list, containing
+   // the player, and a list of all of his stuff.
    plStored = $
 
    piCapacity = 3000
@@ -138,7 +138,7 @@ messages:
       oPlayerBox = $;
       foreach oIndexBox in plStored
       {
-         %% does the player have an account already?
+         /// does the player have an account already?
          if Send(oIndexBox,@GetSafeBoxOwner) = who
          {
             oPlayerBox = oIndexBox;
@@ -149,20 +149,20 @@ messages:
 
       if oPlayerBox = $
       {
-         % Player has no account yet, make a new one.
+         // Player has no account yet, make a new one.
          oPlayerBox = Create(&SafetyDepositBox,#who=who,#vid=piVault_num);
          plStored = Cons(oPlayerBox,plStored);
       }
 
-      % Take the items, put them in storage.  Assume ReqNewHold has already
-      % been passed.  Remove number items from that player's possession.
+      // Take the items, put them in storage.  Assume ReqNewHold has already
+      // been passed.  Remove number items from that player's possession.
       foreach oItem in lItems
       {
          if IsClass(oItem,&NumberItem)
          {
-            % The number item will be deleted at the end of the ReqGive Call
-            % (in CleanUpCancelOffer).  Make a copy of the item and give that
-            % to the mob.
+            // The number item will be deleted at the end of the ReqGive Call
+            // (in CleanUpCancelOffer).  Make a copy of the item and give that
+            // to the mob.
             oNewItem = Create(GetClass(oItem),#number=Send(oItem,@GetNumber));
             Send(oPlayerBox,@newhold,#what=oNewItem);
             Send(who,@RemoveNumberItemFromPossession,#ToBeRemoved=oNewItem);
@@ -239,7 +239,7 @@ messages:
       oBox = Send(self,@GetPlayerSafeBox,#who=who);
       if oBox = $
       {
-         % Player does not have a deposit box
+         // Player does not have a deposit box
          Debug("Player does not have a deposit box");
          Send(self,@MsgSendUser,#message_rsc=msg_has_no_deposit,
                #parm1=Send(what,@GetCapDef),#parm2=Send(what,@GetName));
@@ -249,7 +249,7 @@ messages:
 
       if Send(what,@GetOwner) <> oBox
       {
-         % This item is NOT in the deposit box
+         // This item is NOT in the deposit box
          Debug("Item is NOT in the deposit box");
          Send(self,@MsgSendUser,#message_rsc=msg_does_not_have_item,
                #parm1=Send(what,@GetCapDef),#parm2=Send(what,@GetName));
@@ -261,7 +261,7 @@ messages:
       {
          iCanHold = Send(who,@GetNumberCanHold,#what=what);
 
-         % Check for DMs with $ bulk/weight max.
+         // Check for DMs with $ bulk/weight max.
          if iCanHold = $
             AND IsClass(who,&DM)
             AND Send(who,@PlayerIsImmortal)
@@ -269,7 +269,7 @@ messages:
             iCanHold = count;
          }
 
-         % Check for GetNumberCanHold returning less than 0.
+         // Check for GetNumberCanHold returning less than 0.
          if iCanHold < 0
          {
             iCanHold = 0;
@@ -300,7 +300,7 @@ messages:
          }
          else
          {
-            % Send message to user that they don't have that many items on deposit
+            // Send message to user that they don't have that many items on deposit
             Debug("Failed test for count > 0 and count <= currentAmount ",
                   "user is ",Send(who,@GetTrueName)," count is ",count,
                   " currentAmount is ",currentAmount,"item is ",what);
@@ -355,4 +355,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

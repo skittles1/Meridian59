@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 OutdoorsA5 is MonsterRoom
 
 constants:
@@ -83,7 +83,7 @@ messages:
 
       if plEnchantments <> $
       {
-         % Do this the easy way instead of going through the spell.
+         // Do this the easy way instead of going through the spell.
          send(self,@RemoveAllEnchantments);
          send(self,@SomeoneSaid,#type=SAY_MESSAGE,#string=room_discord_message,#what=self);
       }
@@ -140,13 +140,13 @@ messages:
    {
       local iBonus;
 
-      % Hinder learning room enchants because of the auto-discordance
+      // Hinder learning room enchants because of the auto-discordance
       if IsClass(oSpellSkill,&RoomEnchantment)
       {
          return (chance / 10);
       }
 
-      % Help skill learning by 20% because it's out of the way
+      // Help skill learning by 20// because it's out of the way
       if IsClass(oSpellSkill,&Skill)
       {
          iBonus = (chance * 2)/10;
@@ -160,4 +160,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

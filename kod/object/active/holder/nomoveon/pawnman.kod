@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 PawnMan is NoMoveOn
 
 constants:
@@ -109,7 +109,7 @@ messages:
    {
       local i,oHolder,iLists,lTake_items;
 
-      % drop the stuff
+      // drop the stuff
 
       oHolder = Send(SYS,@GetSystemHolder2);
       foreach i in plOffer_items
@@ -117,7 +117,7 @@ messages:
 	 Send(oHolder,@NewHold,#what=i);
       }
 
-      % take his stuff
+      // take his stuff
 
       oHolder = Send(SYS,@GetSystemHolder1);
       iLists = 1;
@@ -142,7 +142,7 @@ messages:
 	    {
 	       if Send(poOwner,@ReqNewHold,#what=i,#new_row=piRow,#new_col=piCol)
 	       {
-		  % send self warning
+		  // send self warning
 		  Send(poOwner,@NewHold,#what=i,#new_row=piRow,#new_col=piCol);
 	       }
 	    }
@@ -164,4 +164,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

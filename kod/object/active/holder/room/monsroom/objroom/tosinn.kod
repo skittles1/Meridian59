@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////////
 TosInn is ObjectRoom
 
 constants:
@@ -58,7 +58,7 @@ messages:
    {
       plObject_gen = $;
 
-      % some mugs
+      // some mugs
       
       plObject_gen = Cons([ &Mug, GEN_ONE, 1, 7, 9, 48, 48 ],plObject_gen);
       plObject_gen = Cons([ &Mug, GEN_ONE, 1, 7, 9, 16, 0 ],plObject_gen);
@@ -75,10 +75,10 @@ messages:
       plExits = Cons([ 7, 10, ROOM_LOCKED_DOOR, tosinn_locked_cabinet ],plExits);
       plExits = Cons([ 4, 4, ROOM_LOCKED_DOOR, tosinn_locked_confused ],plExits);
 
-      %% TO BASEMENT
+      /// TO BASEMENT
       plExits = Cons([ 1, 3, RID_TOS_INN_CELLAR, 2, 5, ROTATE_NONE ],plExits);
 
-      %% TO TOWN
+      /// TO TOWN
       plExits = Cons([ 3, 10, RID_TOS, 45, 31, ROTATE_NONE ],plExits);
       plExits = Cons([ 3, 1, RID_TOS, 46, 22, ROTATE_NONE ],plExits);
       plExits = Cons([ 10, 8, RID_TOS, 55, 31, ROTATE_NONE ],plExits);
@@ -135,4 +135,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

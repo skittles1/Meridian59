@@ -1,21 +1,21 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 RentableRoomMaintenance is UtilityFunctions
 
 constants:
 
    include blakston.khd
 
-   % This is the max number of days that a player can rent a room at a time.
-   % Equal to about 20 offline days.
+   // This is the max number of days that a player can rent a room at a time.
+   // Equal to about 20 offline days.
    DAYS_MAX = 1440
 
 resources:
@@ -84,14 +84,14 @@ messages:
    {
       local iRID, oRoom, oMoney;
 
-      % Check if the player already has a room.  If so, complain and bail.
+      // Check if the player already has a room.  If so, complain and bail.
       oRoom = Send(self,@FindRoomByPlayer,#who=who,#iLocation=iLocation);
       if oRoom <> $
       {
          return RoomMaintenance_room_already;
       }
 
-      % Check for the fee.  If too poor, complain and bail.
+      // Check for the fee.  If too poor, complain and bail.
       oMoney = Send(who,@GetMoneyObject);
 
       if oMoney = $ OR Send(oMoney,@GetNumber) < iCost
@@ -99,24 +99,24 @@ messages:
          return RoomMaintenance_no_rental_fee;
       }
 
-      % Deduct the fee
+      // Deduct the fee
       Send(oMoney,@SubtractNumber,#number=iCost);
 
-      % Set up the room
+      // Set up the room
       iRID = Send(self,@GetNextAvailableRID,#iLocation=iLocation);
       Send(SYS,@CreateOneRoomIfNew,#num=iRID,
             #class=Send(self,@GetRoomClassByLocation,#iLocation=iLocation));
       Send(Send(SYS,@FindRoomByNum,#num=iRID),@SetRenter,#who=who);
       plRoomsRented = Cons(iRID,plRoomsRented);
 
-      % Add it to the room enter count statistics.
+      // Add it to the room enter count statistics.
       Send(Send(SYS,@GetStatistics),@AddToRoomCount,#iNum=iRID);
 
-      % Create the key and give it to the player
+      // Create the key and give it to the player
       Send(who,@NewHold,#what=Create(&RoomKey,#iRID=iRID));
 
-      % Return $ so that the innkeeper gives a friendly
-      % message in the local flavor.
+      // Return $ so that the innkeeper gives a friendly
+      // message in the local flavor.
       return $;
    }
 
@@ -124,7 +124,7 @@ messages:
    {
       local lPassive, oObject, oKey, bHasRoomKey, bFound, oMoney;
 
-      % Check if the player has a gold key.
+      // Check if the player has a gold key.
       bHasRoomKey = FALSE;
       bFound = FALSE;
       lPassive = Send(who,@GetHolderPassive);
@@ -133,7 +133,7 @@ messages:
       {
          oKey = Send(who,@HolderExtractObject,#data=oObject);
 
-         % Is it from the proper inn?
+         // Is it from the proper inn?
          if IsClass(oKey,&RoomKey)
          {
             bHasRoomKey = TRUE;
@@ -150,21 +150,21 @@ messages:
 
       if NOT bFound
       {
-         % If not found, check if player has silver key.
+         // If not found, check if player has silver key.
          oKey = Send(who,@FindHolding,#class=&RoomKeyCopy);
          if oKey <> $ AND NOT bHasRoomKey
          {
-            % If so, complain and bail.
+            // If so, complain and bail.
             return RoomMaintenance_no_copy_copy;
          }
          else
          {
-            % If not, complain and bail.
+            // If not, complain and bail.
             return RoomMaintenance_no_key;
          }
       }
 
-      % Check for the fee.  If too poor, complain and bail.
+      // Check for the fee.  If too poor, complain and bail.
       oMoney = Send(who,@GetMoneyObject);
 
       if oMoney = $ OR Send(oMoney,@GetNumber) < iCost
@@ -172,10 +172,10 @@ messages:
          return RoomMaintenance_copy_no_money;
       }
 
-      % Deduct the fee.
+      // Deduct the fee.
       Send(oMoney,@SubtractNumber,#number=iCost);
 
-      % Copy the key and give it to the player.
+      // Copy the key and give it to the player.
       Send(who,@NewHold,#what=Send(oKey,@Copy));
 
       return RoomMaintenance_key_copied;
@@ -187,7 +187,7 @@ messages:
 
       oRoom = Send(self,@FindRoomByPlayer,#who=who,#iLocation=iLocation);
 
-      % No room?  Return out and do nothing.
+      // No room?  Return out and do nothing.
       if oRoom = $
       {
          return $;
@@ -195,37 +195,37 @@ messages:
 
       iDays = iAmount / iCost;
 
-      % Make sure we don't go over max.
+      // Make sure we don't go over max.
       if Send(oRoom,@GetDaysLeft) + iDays > DAYS_MAX
       {
          iDays = DAYS_MAX - Send(oRoom,@GetDaysLeft);
-         % Returning 0 gives up the special error message.
+         // Returning 0 gives up the special error message.
          if iDays <= 0
          {
             return 0;
          }
       }
 
-      % Did they even pay us enough for 1 additional day?  Cheap bastards!
+      // Did they even pay us enough for 1 additional day?  Cheap bastards!
       if iDays <= 0
       {
          return $;
       }
 
-      % Set the amount to the even cost.
+      // Set the amount to the even cost.
       iAmount = iDays * iCost;
 
       oMoney = Send(who,@GetMoneyObject);
 
       if oMoney = $ OR Send(oMoney,@GetNumber) < iAmount
       {
-         % Something weird went on here.  Don't give a message, just bail.
+         // Something weird went on here.  Don't give a message, just bail.
          return $;
       }
 
       Send(oMoney,@SubtractNumber,#number=iAmount);
 
-      % RenewRental returns the new days left.
+      // RenewRental returns the new days left.
       return Send(oRoom,@RenewRental,#iTimeAdded=iDays);
    }
 
@@ -261,7 +261,7 @@ messages:
          return iRID;
       }
 
-      while TRUE  % Keep going until we find something!
+      while TRUE  // Keep going until we find something!
       {
          if NOT FindListElem(plRoomsRented,iRID)
          {
@@ -325,4 +325,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

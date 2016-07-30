@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 SporeCloud is PassiveObject
 
 constants:
@@ -54,8 +54,8 @@ messages:
 
    Constructed()
    {
-      % At this point, the wall should have already been created.
-      %  therefore, it should be safe to delete it.
+      // At this point, the wall should have already been created.
+      //  therefore, it should be safe to delete it.
       Post(self,@ArenaCheck);
 
       propagate;
@@ -98,8 +98,8 @@ messages:
 
    NewOwner(what = $)
    {
-      % Arena has lots of funky walls, so ignore line of site stuff.
-      % We catch walls that fall outside of the play area anyway.
+      // Arena has lots of funky walls, so ignore line of site stuff.
+      // We catch walls that fall outside of the play area anyway.
       if IsClass(what,&GuildHall)
          AND Send(what,@InFoyer,#who=poCaster) <> Send(what,@InFoyer,#who=self)
       {
@@ -118,4 +118,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

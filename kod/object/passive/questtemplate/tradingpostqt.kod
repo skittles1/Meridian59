@@ -1,27 +1,27 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 TradingPostQuestTemplate is QuestTemplate
-% Parent for the good and evil trading post quests.
+// Parent for the good and evil trading post quests.
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -31,7 +31,7 @@ resources:
 
    include tradingpostqt.lkod
 
-   % Quest description.
+   // Quest description.
    tradingpostquest_icon_rsc = openches.bgf
    tradingpostquest_name_rsc = "trading post inventory quest"
    tradingpostquest_desc_rsc = \
@@ -53,7 +53,7 @@ resources:
       "You have helped Wulfgang zax'Ak replenish his supplies, and in return "
       "have obtained a Riija sword shard."
 
-   % Quest resources.
+   // Quest resources.
    tradingpost_trigger_1 = "inventory"
    tradingpost_assign_2 = \
       "I'm always looking for people to help replenish my inventory.  "
@@ -83,7 +83,7 @@ properties:
    plSpecialRestrict = $
    piMaxPlayers = 20
    piSchedulePct = 10
-   piTimeLimit = 3600 % 1 hour.
+   piTimeLimit = 3600 // 1 hour.
 
 messages:
 
@@ -94,8 +94,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #35 is trading post quest kickoff
-      % QNT_ID_TRADINGPOST_KICKOFF
+      // Template #35 is trading post quest kickoff
+      // QNT_ID_TRADINGPOST_KICKOFF
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[tradingpost_trigger_1],#bDuplicate=TRUE,
                #quest_node_index=QNT_ID_TRADINGPOST_KICKOFF)
@@ -151,11 +151,11 @@ messages:
          }
       }
 
-      % If we got this far, just show the backup description.
+      // If we got this far, just show the backup description.
       AddPacket(4,vrDesc);
 
       return;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

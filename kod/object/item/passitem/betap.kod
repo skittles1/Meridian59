@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 BetaPotion is PassiveItem
 
 constants:
@@ -85,12 +85,12 @@ messages:
 
       if piSchool >= SKS_FENCING
       {
-         % Any skill will do.
+         // Any skill will do.
          oSpellOrSkill = Send(SYS,@FindSkillByNum,#num=SKID_PUNCH); 
       }
       else
       {
-         % Any spell will do.
+         // Any spell will do.
          oSpellOrSkill = Send(SYS,@FindSpellByNum,#num=SID_BONK); 
       }
 
@@ -111,14 +111,14 @@ messages:
          Send(apply_on,@MsgSendUser,#message_rsc=BetaPotion_worked);
          if pbGiveHealth AND (iBaseMaxHealth < piHealthCap)
          {
-            % How many hps?  Don't give them over potion max, and don't give
-            %  them over stamina max.
+            // How many hps?  Don't give them over potion max, and don't give
+            //  them over stamina max.
             HealthBoost = bound(piHealth,0,(100+Send(apply_on,@GetStamina)));
             HealthBoost = bound(HealthBoost,0,(piHealthCap-iBaseMaxHealth));
             Send(apply_on,@GainBaseMaxHealth,#amount=HealthBoost);
             Send(apply_on,@ResetXPToLevel);
 
-            % Don't use iBaseMaxHealth, because it changed.
+            // Don't use iBaseMaxHealth, because it changed.
             if (Send(apply_on,@GetBaseMaxHealth) >= Send(SETTINGS_OBJECT,@GetPKillEnableHP))
                AND (NOT Send(apply_on,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE))
             {
@@ -144,7 +144,7 @@ messages:
       return;
    }
 
-   %%% Old Potion stuff
+   //// Old Potion stuff
 
    ReqNewApply(what = $,apply_on = $)
    {
@@ -188,4 +188,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

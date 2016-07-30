@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 QuestX is PassiveObject 
 
 constants:
@@ -21,24 +21,24 @@ classvars:
 
 properties:
 
-   % Index of the applicable quest template in QuestEngine::plQuestTemplates
+   // Index of the applicable quest template in QuestEngine::plQuestTemplates
    piQuestTemplateIndex    = 0
 
-   % List of questers participating
+   // List of questers participating
    plQuesters              = $
 
-   % Which node of the quest we're currently on in quest template's plQuestNodes
+   // Which node of the quest we're currently on in quest template's plQuestNodes
    piQuestNodeCounter      = 0
 
-   % The current questnode object
+   // The current questnode object
    poQuestNode             = $
 
-   % local list of quest node indices, to allow random order
-   % of traversal (NOT yet implemented)
-   %  plQuestNodes            = $
+   // local list of quest node indices, to allow random order
+   // of traversal (NOT yet implemented)
+   //  plQuestNodes            = $
 
-   % We keep a copy here so that other quests can modify the defaults
-   % read from the template
+   // We keep a copy here so that other quests can modify the defaults
+   // read from the template
    plPlayerRestrict2       = $
 
 messages:
@@ -65,7 +65,7 @@ messages:
       plPlayerRestrict2 = ListCopy(Send(oQE,@GetQuestPlayerRestrictions2,
                                        #index=piQuestTemplateIndex));
 
-      % Create and initialize first node
+      // Create and initialize first node
       piQuestNodeCounter = 1;
       iFirstNodeTemplateIndex = Send(oQE,@GetNextQuestNode,
                                     #quest_template=piQuestTemplateIndex);
@@ -110,7 +110,7 @@ messages:
                " for ",Send(quester_wannabe,@GetName));
       }
 
-      % Never assign a quest to the same person twice!
+      // Never assign a quest to the same person twice!
       if bDebug > 1
       {
          Debug("Checking that ",Send(quester_wannabe,@GetName),
@@ -122,10 +122,10 @@ messages:
       {
          foreach oQuester in Send(oQuest,@GetQuesters)
          {
-            %if bDebug
-            %{
-            %   Debug("Found a quest assigned to ",Send(oQuester,@getName));
-            %}
+            //if bDebug
+            //{
+            //   Debug("Found a quest assigned to ",Send(oQuester,@getName));
+            //}
             if quester_wannabe = oQuester
             {
                if bDebug
@@ -138,7 +138,7 @@ messages:
          }
       }
 
-      % Are there karma restrictions?
+      // Are there karma restrictions?
       if (iPlayerRestrict & Q_PLAYER_KARMA_MASK)
       {
          if bDebug > 1
@@ -207,7 +207,7 @@ messages:
          }
       }
 
-      % Are there faction restrictions?
+      // Are there faction restrictions?
       if (iPlayerRestrict & Q_PLAYER_FACTION_MASK)
       {
          if bDebug > 1
@@ -308,7 +308,7 @@ messages:
          }
       }
 
-      % Are there PK restrictions?
+      // Are there PK restrictions?
       if (iPlayerRestrict & Q_PLAYER_KILL_MASK)
       {
          if bDebug > 1
@@ -394,7 +394,7 @@ messages:
             }
             else
             {
-               % Substitute for outlaw status in happyland
+               // Substitute for outlaw status in happyland
                if Send(quester_wannabe,@IsEnchanted,#byClass=&Boon)
                {
                   bHasNegativeBoon = FALSE;
@@ -427,7 +427,7 @@ messages:
       oQuestTemplate = Send(oQuestEngine,@GetQuestTemplateObject,
                               #index=piQuestTemplateIndex);
 
-      % Are there quest history restrictions?
+      // Are there quest history restrictions?
       if (iPlayerRestrict & Q_PLAYER_QUEST_MASK)
       {
          if bDebug > 1
@@ -458,13 +458,13 @@ messages:
 
          if (iSucceed = 0)
          {
-            % To handle case where TimeLoggedIn < iRecentTime.
+            // To handle case where TimeLoggedIn < iRecentTime.
             iSucceed = -iRecentTime;
          }
 
          if (iFail = 0)
          {
-            % To handle case where TimeLoggedIn < iRecentTime.
+            // To handle case where TimeLoggedIn < iRecentTime.
             iFail = - iRecentTime;
          }
 
@@ -499,12 +499,12 @@ messages:
             return FALSE;
          }
 
-         %if ((iRestrict = Q_PLAYER_NOTTRIED_RECENTLY)
-         %   AND (((iTime - iFail) < iRecentTime)
-         %      OR ((iTime - iSucceed) < iRecentTime)))
-         %{
-         %   return FALSE;
-         %}
+         //if ((iRestrict = Q_PLAYER_NOTTRIED_RECENTLY)
+         //   AND (((iTime - iFail) < iRecentTime)
+         //      OR ((iTime - iSucceed) < iRecentTime)))
+         //{
+         //   return FALSE;
+         //}
 
          if (((iRestrict & Q_PLAYER_NOTSUCCEEDED) = Q_PLAYER_NOTSUCCEEDED)
             AND ((iHistory & QUEST_HISTORY_SUCCESS) <> 0))
@@ -528,13 +528,13 @@ messages:
             return FALSE;
          }
 
-         %if ((iRestrict = Q_PLAYER_NOTTRIED) AND (iHistory <> 0))
-         %{
-         %   return FALSE;
-         %}
+         //if ((iRestrict = Q_PLAYER_NOTTRIED) AND (iHistory <> 0))
+         //{
+         //   return FALSE;
+         //}
       }
 
-      % Can player join a faction?
+      // Can player join a faction?
       if ((iPlayerRestrict & Q_PLAYER_INTRIGUING)
          AND (NOT Send(quester_wannabe,@PlayerIsIntriguing)))
       {
@@ -546,7 +546,7 @@ messages:
          return FALSE;
       }
 
-      % Is player a guildmaster?
+      // Is player a guildmaster?
       if (iPlayerRestrict & Q_PLAYER_GUILDMASTER)
          AND (Send(quester_wannabe,@GetGuild) = $
             OR (Send(Send(quester_wannabe,@GetGuild),@GetGuildMaster)
@@ -579,7 +579,7 @@ messages:
          if First(iR2) = Q_R2_IS_GUILD_MEMBER_OF
          {
             if (Send(quester_wannabe,@GetGuild) <> Nth(iR2, 2))
-               OR (Nth(iR2, 2) = $) % If quester's guild = $, we return false.
+               OR (Nth(iR2, 2) = $) // If quester's guild = $, we return false.
             {
                if bDebug
                {
@@ -726,12 +726,12 @@ messages:
                return FALSE;
             }
 
-            %oLich = Send(Send(SYS,@FindRoomByNum,#num=RID_GUILDH15),
-            %              @FindHoldingActive,#class=&DeadLich);
-            %if oLich = $ or Send(oLich,@GetNumAmulets) < Nth(iR2, 2) {
-            %   if bDebug { Debug("failed Q_R2_NUM_AMULETS."); }
-            %   return FALSE;
-            %}
+            //oLich = Send(Send(SYS,@FindRoomByNum,#num=RID_GUILDH15),
+            //              @FindHoldingActive,#class=&DeadLich);
+            //if oLich = $ or Send(oLich,@GetNumAmulets) < Nth(iR2, 2) {
+            //   if bDebug { Debug("failed Q_R2_NUM_AMULETS."); }
+            //   return FALSE;
+            //}
          }
 
          if First(iR2) = Q_R2_NECRO_GUILD_ACTIVE
@@ -768,7 +768,7 @@ messages:
    {
       local i;
 
-      % Don't mess with a quest in progress!
+      // Don't mess with a quest in progress!
       if Send(poQuestNode,@GetStatus) <> QN_STATUS_WAITING_FOR_PLAYERS
       {
          return FALSE;
@@ -832,7 +832,7 @@ messages:
                if restrict_type = Q_R2_HAS_SPELL_SCHOOL
                {
                   if (parm1 = $ and parm2 = $)
-                  OR (parm1 <> $ AND (parm1 < 1 or parm1 > 7)) % Incl. dmspells
+                  OR (parm1 <> $ AND (parm1 < 1 or parm1 > 7)) // Incl. dmspells
                   OR (parm2 <> $ AND (parm2 < 1))
                   {
                      return FALSE;
@@ -907,19 +907,19 @@ messages:
 
       bDebug = Send(Send(SYS,@GetQuestEngine),@GetDebugStatus);
 
-      % Bump quest node counter.
+      // Bump quest node counter.
       piQuestNodeCounter = piQuestNodeCounter + 1;
 
-      % Check if more nodes remain.
+      // Check if more nodes remain.
       iNextQuestNodeTemplate =
             Send(Send(SYS,@GetQuestEngine),@GetNextQuestNode,
                   #quest_template=piQuestTemplateIndex,
                   #counter=piQuestNodeCounter);
 
-      % Remove previous node from NPC's quest node list.
+      // Remove previous node from NPC's quest node list.
       Send(current_NPC,@RemoveQuestNodeFromActiveList,#node=poQuestNode);
 
-      % If we're all done, clean up and quit.
+      // If we're all done, clean up and quit.
       if (iNextQuestNodeTemplate = $)
       {
          if bDebug
@@ -929,7 +929,7 @@ messages:
 
          Send(poQuestNode,@Delete);
 
-         % Remove quest from list of active quests of this type.
+         // Remove quest from list of active quests of this type.
          Send(Send(SYS,@GetQuestEngine),@RemoveQuestFromActiveList,
                #quest_template=piQuestTemplateIndex,#done_quest=self);
 
@@ -938,11 +938,11 @@ messages:
          return;
       }
 
-      % Initialize the next node.
+      // Initialize the next node.
       Send(poQuestNode,@Init,#index=iNextQuestNodeTemplate,
             #owning_quest=self,#waiting_for_players=FALSE);
 
-      % Tell next questnode to assign itself to players.
+      // Tell next questnode to assign itself to players.
       Send(poQuestNode,@Assign);
 
       return;
@@ -984,7 +984,7 @@ messages:
 
             Send(poQuestNode,@DeadlineExpired);
             Send(self,@DeadlineExpired);
-            % Should be true already, due to DeadlineExpired, but make sure.
+            // Should be true already, due to DeadlineExpired, but make sure.
             poQuestNode = $;
 
             return;
@@ -1008,33 +1008,33 @@ messages:
       oQE = Send(SYS, @GetQuestEngine);
       bDebug = Send(oQE,@GetDebugStatus);
 
-      %if bDebug
-      %{
-      %   Debug("Quest expiring.");
-      %}
+      //if bDebug
+      //{
+      //   Debug("Quest expiring.");
+      //}
 
       if poQuestNode <> $
       {
-         % Remove node from NPC's quest node list.
+         // Remove node from NPC's quest node list.
          oNPC = Send(poQuestNode,@GetDestNPC);
          if (oNPC <> $)
          {
             Send(oNPC,@RemoveQuestNodeFromActiveList,#node=poQuestNode);
          }
 
-         % Remove node from awaiting monster death list.
+         // Remove node from awaiting monster death list.
          Send(oQE,@RemoveQNFromAwaitingMonsterDeathList,#QN=poQuestNode);
 
-         % Clean up and quit.
+         // Clean up and quit.
          Send(poQuestNode,@Delete);
 
-         % Remove quest from list of active quests of this type.
+         // Remove quest from list of active quests of this type.
          Send(oQE,@RemoveQuestFromActiveList,
                #quest_template=piQuestTemplateIndex,#done_quest=self);
       }
       else
       {
-         % Debug("Quest::DeadlineExpired: possible double-expiry going on...");
+         // Debug("Quest::DeadlineExpired: possible double-expiry going on...");
       }
 
       if bRecreate
@@ -1101,8 +1101,8 @@ messages:
    {
       if index = piQuestTemplateIndex
       {
-         % Note that this only counts initialized nodes, since until
-         % Init() is called, piQuestTemplateIndex=0
+         // Note that this only counts initialized nodes, since until
+         // Init() is called, piQuestTemplateIndex=0
          if poQuestNode = $
          {
             Send(Send(SYS,@GetQuestEngine),@CensusCountDeleted);
@@ -1123,4 +1123,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

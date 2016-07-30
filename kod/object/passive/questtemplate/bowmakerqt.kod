@@ -1,27 +1,27 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 BowmakerQuestTemplate is QuestTemplate
-% Parent class for bow maker good and evil quests.
+// Parent class for bow maker good and evil quests.
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -31,14 +31,14 @@ resources:
 
    include bowmakerqt.lkod
 
-   % Quest description.
+   // Quest description.
    bowmakerquest_name_rsc = "avar shaman tailfeather quest"
 
    bowmakerquest_completed_rsc = \
       "You have obtained an avar shaman tailfeather for Hanla zax'Ta "
       "and received a Riija sword shard in return."
 
-   % Quest resources.
+   // Quest resources.
    bowmaker_trigger_1 = "arrows"
    bowmaker_success_3 = \
       "Thanks.  Here, take this scrap of metal as your reward."
@@ -65,8 +65,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #38 is bow maker quest kickoff
-      % QNT_ID_BOWMAKER_KICKOFF
+      // Template #38 is bow maker quest kickoff
+      // QNT_ID_BOWMAKER_KICKOFF
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[bowmaker_trigger_1],#bDuplicate=TRUE,
                #quest_node_index=QNT_ID_BOWMAKER_KICKOFF)
@@ -84,4 +84,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

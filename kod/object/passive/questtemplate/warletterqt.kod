@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 WarLetterQuest is QuestTemplate
-% Quest template QST_ID_WARLETTER = 57.
-% Quest nodes 174, 175.
-% QNT_ID_WARLETTER_ONE, QNT_ID_WARLETTER_TWO
+// Quest template QST_ID_WARLETTER = 57.
+// Quest nodes 174, 175.
+// QNT_ID_WARLETTER_ONE, QNT_ID_WARLETTER_TWO
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -33,7 +33,7 @@ resources:
 
    include warletterqt.lkod
 
-   % Quest description.
+   // Quest description.
    warletterqt_icon_rsc = scr01.bgf
    warletterqt_name_rsc = "war letter quest"
    warletterqt_desc_rsc = \
@@ -47,7 +47,7 @@ resources:
    warletterqt_completed_rsc = \
       "You have completed the war letter quest."
 
-   % Quest resources.
+   // Quest resources.
    warletter_trigger1 = "need a courier"
    warletter_assign = \
       "Ah, yes!  I have just written this letter to %NPC.  Please deliver it "
@@ -72,7 +72,7 @@ classvars:
 
    vrCompleted = warletterqt_completed_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_WARLETTER
 
 properties:
@@ -87,10 +87,10 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_WARLETTER_ONE,QNT_ID_WARLETTER_TWO];
 
-      % Quest nodes with matching descriptions for the player.
+      // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_WARLETTER_TWO, vrNodeTwo] ];
 
       propagate;
@@ -103,8 +103,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #174 is the warletter quest
-      % QNT_ID_WARLETTER_ONE
+      // Template #174 is the warletter quest
+      // QNT_ID_WARLETTER_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
             #cargolist=[ warletter_trigger1 ],#quest_node_index=QNT_ID_WARLETTER_ONE)
       {
@@ -169,8 +169,8 @@ messages:
          Debug("Error building QN: QNT_ID_WARLETTER_ONE");
       }
 
-      % Template #175 is warletter quest
-      % QNT_ID_WARLETTER_TWO
+      // Template #175 is warletter quest
+      // QNT_ID_WARLETTER_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_ITEM,
                #NPC_modifier=QN_NPCMOD_DIFFERENT,
                #cargolist=[ [ QN_PRIZETYPE_ITEMCLASS, &WarLetter, 1 ] ],
@@ -287,4 +287,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

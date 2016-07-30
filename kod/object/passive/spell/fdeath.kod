@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%S%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////S///////////////////////////////////////////////////////
 FeignDeath is Spell
 
 constants:
@@ -37,9 +37,9 @@ classvars:
    vrIcon = feigndeath_icon_rsc
    vrDesc = feigndeath_desc_rsc
 
-   viMana = 5          % Mana is amount used upon inititiation
-   viManaDrain = 5     % Drain is amount used every viDrainTime milliseconds
-   viDrainTime = 5000    % Drain some mana every viDrainTime milliseconds
+   viMana = 5          // Mana is amount used upon inititiation
+   viManaDrain = 5     // Drain is amount used every viDrainTime milliseconds
+   viDrainTime = 5000    // Drain some mana every viDrainTime milliseconds
    viSpell_num = SID_FEIGN_DEATH
    viSpellExertion = 1
    viChance_To_Increase = 40
@@ -85,10 +85,10 @@ messages:
 
       oBody = $;
 
-      % Get rid of illusion spells that can cause strange side-effects.
+      // Get rid of illusion spells that can cause strange side-effects.
       if Send(who,@IsEnchanted,#class=&Morph)
       {
-         % If we're morphed, create the illusion body.
+         // If we're morphed, create the illusion body.
          oMonster = Send(who,@GetIllusionForm);
 
          if oMonster <> $
@@ -115,7 +115,7 @@ messages:
 
       if NOT Send(who,@PlayerIsImmortal)
       {
-         % Chance to drop item, 1-10%, decreasing with increasing spellpower.
+         // Chance to drop item, 1-10//, decreasing with increasing spellpower.
          iDropChance = bound((10 - (iSpellPower/10)),1,10);
 
          foreach i in Send(who,@GetPlayerUsing)
@@ -199,7 +199,7 @@ messages:
             }
             else
             {
-               % if iRand = 3
+               // if iRand = 3
                Send(self,@SendMessage,#who=who,
                     #string=feigndeath_user_killed,
                     #parm1=Send(who,@GetUserName),
@@ -276,7 +276,7 @@ messages:
 
    BreakTrance(who = $, state = $)
    {
-      % If caster runs out of mana or loses trance, spell ends.
+      // If caster runs out of mana or loses trance, spell ends.
       Send(who,@RemoveEnchantment,#what=self,#state=state);
 
       propagate;
@@ -284,7 +284,7 @@ messages:
 
    StartPeriodicEnchantment(who = $, state = $)
    {
-      % If caster runs out of mana or loses trance, spell ends.
+      // If caster runs out of mana or loses trance, spell ends.
       if Send(who,@GetMana) < viManaDrain * 2
       {
          Send(who,@StartEnchantment,#what=self,#time=viDrainTime,
@@ -309,7 +309,7 @@ messages:
       return;
    }
 
-   %%% Stuff we handle to be a defense modifier.
+   //// Stuff we handle to be a defense modifier.
 
    ModifyDefensePower(who = $, what = $, defense_power = 0)
    {
@@ -341,7 +341,7 @@ messages:
       return;
    }
 
-   %%% Stuff we handle for illusions.
+   //// Stuff we handle for illusions.
 
    IllusionGetIcon(who = $)
    {
@@ -517,7 +517,7 @@ messages:
 
    IllusionGetLightingInformation()
    {
-      % No lighting information
+      // No lighting information
       return 0;
    }
 
@@ -527,4 +527,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

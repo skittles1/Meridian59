@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 JasperUrchin is JasperTown
 
 constants:
@@ -59,8 +59,8 @@ classvars:
    viChase_delay_min = 1200
    viChase_delay_max = 2500
 
-   viSpasm_delay = 18000     % spasm every 18 seconds on average
-   viSpasm_vary = 10000       % plus or minus 10 seconds
+   viSpasm_delay = 18000     // spasm every 18 seconds on average
+   viSpasm_vary = 10000       // plus or minus 10 seconds
 
    viKarma = 10
    viAttributes = MOB_SPASM
@@ -108,4 +108,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

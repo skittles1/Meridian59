@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 BarlSewer is MonsterRoom
 
 constants:
@@ -77,13 +77,13 @@ messages:
    {
       plExits = $;
 
-      % TO TOWN
+      // TO TOWN
       plExits = Cons([ 56, 8, RID_BAR_NORTH, 47, 40, ROTATE_NONE ],plExits);
 
-      % TO ASSASSIN'S HEADQUARTERS
+      // TO ASSASSIN'S HEADQUARTERS
       plExits = Cons([ 21, 37, RID_ASSHQ, 13, 2, ROTATE_NONE ],plExits);
 
-      % TO GUILD HALL IN SEWERS
+      // TO GUILD HALL IN SEWERS
       plExits = Cons([ 5, 42, RID_GUILDH8, 26, 8, ROTATE_NONE ],plExits);
       plExits = Cons([ 5, 43, RID_GUILDH8, 26, 9, ROTATE_NONE ],plExits);
    
@@ -104,4 +104,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

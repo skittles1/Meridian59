@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Battler is NoMoveOn
 
 constants:
@@ -15,11 +15,11 @@ constants:
    include blakston.khd
    include protocol.khd
 
-   % Raise or lower this number to raise or lower the chance the 'avoids 
-   %  your attack' message comes up.
+   // Raise or lower this number to raise or lower the chance the 'avoids 
+   //  your attack' message comes up.
    BATTLER_AVOID_CHANCE = 50  
 
-   % Threshold for the "wound" and "damage" levels of feedback.
+   // Threshold for the "wound" and "damage" levels of feedback.
    DAMAGE_THRESHOLD_WOUND = 500
    DAMAGE_THRESHOLD_DAMAGE = 1500
 
@@ -27,20 +27,20 @@ resources:
 
    include battler.lkod
 
-   % KNOWN BUG: placing a comment on the same line as a resource definition
-   %  will comment out the next line.
+   // KNOWN BUG: placing a comment on the same line as a resource definition
+   //  will comment out the next line.
 
    battler_blue_text = "~b"
    battler_plain_text = "~n"
 
-   % battler_attacker_hit - Your scimitar wounds Psychochild for (10) damage.
-   % battler_attacker_slay - Your scimitar slays Psychochild.
-   % battler_attacker_miss - Your attack is blocked by Psychochild.
-   % battler_attacker_fail - Your scimitar scrapes Psychochild, failing to cause any real harm.
-   % battler_defender_hit - Psychochild's scimitar wounds you for (10) damage.
-   % battler_defender_slay - Psychochild's scimitar slays you.
-   % battler_defender_miss - Psychochild's attack is blocked by you.
-   % battler_defender_fail - Psychochild's scimitar scrapes you, failing to cause any real harm.
+   // battler_attacker_hit - Your scimitar wounds Psychochild for (10) damage.
+   // battler_attacker_slay - Your scimitar slays Psychochild.
+   // battler_attacker_miss - Your attack is blocked by Psychochild.
+   // battler_attacker_fail - Your scimitar scrapes Psychochild, failing to cause any real harm.
+   // battler_defender_hit - Psychochild's scimitar wounds you for (10) damage.
+   // battler_defender_slay - Psychochild's scimitar slays you.
+   // battler_defender_miss - Psychochild's attack is blocked by you.
+   // battler_defender_fail - Psychochild's scimitar scrapes you, failing to cause any real harm.
 
    battler_attacker_hit = "%sYour %s %s %s%q for ~k~B%i~B%s damage."
    battler_attacker_slay = "%sYour %s %s %s%q."
@@ -171,49 +171,49 @@ classvars:
 
 properties:
 
-   % Evil twin object
+   // Evil twin object
    poEvilTwin = $
 
-   % List of active evil twins (i.e. ETs we've created).
+   // List of active evil twins (i.e. ETs we've created).
    plEvilTwins = $
 
-   % Apparition list and target
+   // Apparition list and target
    plApparitionList = $
    poApparitionOriginal = $
 
-   % Store minions
+   // Store minions
    plControlledMinions = $
    ptMinionControlCheck = $
 
-   % list of resistances, Each element is [value, type].
+   // list of resistances, Each element is [value, type].
    plResistances = $
 
-   % List of enchantments.
-   % Each element is [ timer, object of spell, [optional state] ].
+   // List of enchantments.
+   // Each element is [ timer, object of spell, [optional state] ].
    plEnchantments = $
 
-   % Default mana values.
+   // Default mana values.
    piMana = 20
    piMax_Mana = 20
 
-   % Mana regen timer.
+   // Mana regen timer.
    ptMana = $
    
-   % Reputation hashtable for monster territory/influence system
+   // Reputation hashtable for monster territory/influence system
    phReputation = $
 
-   % Keeps track of who damaged this battler recently, and for how much.
-   % Used to determine who logged / killed this monster or player.
-   % Form [damager, amount, timer]
+   // Keeps track of who damaged this battler recently, and for how much.
+   // Used to determine who logged / killed this monster or player.
+   // Form [damager, amount, timer]
    plHurtMeRecently = $
-   % 20 seconds default for players, 60 for monsters
+   // 20 seconds default for players, 60 for monsters
    piHurtMeTime = 20000
 
 messages:
 
-   % The first lump of code here deals with resistances and immunities/etc.
-   % They are included here in battler so both user and mobiles can enjoy
-   %  the effect.
+   // The first lump of code here deals with resistances and immunities/etc.
+   // They are included here in battler so both user and mobiles can enjoy
+   //  the effect.
 
    TryDeflect()
    {
@@ -224,10 +224,10 @@ messages:
    {
       local i;
 
-      % Clear minion control list. Delete each of our minions
-      % unless they are reflections, which are handled separately.
-      % Deleted minions will remove themselves from our list, we
-      % just need to let them know they're to be deleted.
+      // Clear minion control list. Delete each of our minions
+      // unless they are reflections, which are handled separately.
+      // Deleted minions will remove themselves from our list, we
+      // just need to let them know they're to be deleted.
       if plControlledMinions <> $
       {
          foreach i in plControlledMinions
@@ -241,7 +241,7 @@ messages:
          plControlledMinions = $;
       }
 
-      % If this Battler has created any evil twins, delete them.
+      // If this Battler has created any evil twins, delete them.
       if plEvilTwins <> $
       {
          foreach i in plEvilTwins
@@ -251,13 +251,13 @@ messages:
          plEvilTwins = $;
       }
 
-      % If this Battler has an Evil Twin, delete it too.
+      // If this Battler has an Evil Twin, delete it too.
       if poEvilTwin <> $
       {
          Send(poEvilTwin,@Delete);
       }
 
-      % If this Battler has Apparitions attacking it, delete them.
+      // If this Battler has Apparitions attacking it, delete them.
       if plApparitionList <> $
       {
          foreach i in plApparitionList
@@ -297,7 +297,7 @@ messages:
 
    IsLikelyVictim()
    {
-      % nearly all battlers can be attacked by a monster without provocation
+      // nearly all battlers can be attacked by a monster without provocation
       return TRUE;
    }
 
@@ -306,8 +306,8 @@ messages:
       return FALSE;
    }
 
-   % This checks if the battler can completely resist the effects of the spell.
-   %  By default, the spell is not resisted.
+   // This checks if the battler can completely resist the effects of the spell.
+   //  By default, the spell is not resisted.
    SpellResist(oSpell=$,who=$,iSpellpower=$)
    {
       return FALSE;
@@ -378,7 +378,7 @@ messages:
          iResType = First(j);
          if iResType > 0
          {
-            % It's a resistance to weapon type
+            // It's a resistance to weapon type
 
             if (atype & iResType) <> 0
                OR (atype <> 0 AND iResType = ATCK_WEAP_ALL)
@@ -398,7 +398,7 @@ messages:
          }
          else
          {
-            % It's a resistance to spell type
+            // It's a resistance to spell type
             iResType = -iResType;
 
             if (aspell & iResType) <> 0
@@ -419,7 +419,7 @@ messages:
          }
       }
 
-      % clip to max/min values
+      // clip to max/min values
       iMaxRes = Bound(iMaxRes,$,MAX_RESISTANCE);
       iMinRes = Bound(iMinRes,MIN_RESISTANCE,$);
 
@@ -443,7 +443,7 @@ messages:
       return iDamage;
    }
 
-   %%% Spell enchantment functions.
+   //// Spell enchantment functions.
 
    RemoveEnchantmentClass(class = &Object, report=TRUE)
    "If have a current enchantment set by anything in class, end it."
@@ -587,7 +587,7 @@ messages:
       return 0;
    }
 
-   %%% Mana related stuff common to players and mobs.
+   //// Mana related stuff common to players and mobs.
 
    GetMaxMana()
    {
@@ -701,27 +701,27 @@ messages:
       return;
    }
 
-   %%% Combat functionality.
+   //// Combat functionality.
 
-   % All conditions have been checked at this point and the battler is eligible
-   % to attack his target. TryAttack figures out whether he hits the target
-   % based on his offense and the target's defense and passes this information
-   % on to AssessDamage, AssessHit/AssessMiss etc.
-   %
-   % NOTES on settings: piEqualChanceToHit, piBaseRating and piDamageScaling can
-   % be adjusted in settings.kod to tweak the calculations.
-   % piEqualChanceToHit: This is the chance for an attacker to hit his target if
-   % his defense equals the target's offense. A setting of 500 is equivalent to 
-   % a 50 percent chance to hit.
-   % piBaseRating: This is a flat number that serves as a base value for defense
-   % and offense, softening the effect of any modifiers and avoiding
-   % pathological ratios when one of the two battler's rating is extremely low.
-   % piDamageScaling: This allows damage to scale when chance to hit exceeds 100
-   % percent, allowing offense to be useful even when the target has very low
-   % defense and we hit with every attack. People are less and less likely to 
-   % run into this cap as piBaseRating is increased though.
-   %
-   % NOTE: For a monster, the stroke_obj is the monster itself for now.
+   // All conditions have been checked at this point and the battler is eligible
+   // to attack his target. TryAttack figures out whether he hits the target
+   // based on his offense and the target's defense and passes this information
+   // on to AssessDamage, AssessHit/AssessMiss etc.
+   //
+   // NOTES on settings: piEqualChanceToHit, piBaseRating and piDamageScaling can
+   // be adjusted in settings.kod to tweak the calculations.
+   // piEqualChanceToHit: This is the chance for an attacker to hit his target if
+   // his defense equals the target's offense. A setting of 500 is equivalent to 
+   // a 50 percent chance to hit.
+   // piBaseRating: This is a flat number that serves as a base value for defense
+   // and offense, softening the effect of any modifiers and avoiding
+   // pathological ratios when one of the two battler's rating is extremely low.
+   // piDamageScaling: This allows damage to scale when chance to hit exceeds 100
+   // percent, allowing offense to be useful even when the target has very low
+   // defense and we hit with every attack. People are less and less likely to 
+   // run into this cap as piBaseRating is increased though.
+   //
+   // NOTE: For a monster, the stroke_obj is the monster itself for now.
    TryAttack(what = $,stroke_obj=$)
    {
       local iOffense, iDefense, iChanceToHit, iDamage, iScalefactor, oWeapon;
@@ -736,11 +736,11 @@ messages:
       iChanceToHit = bound(iChanceToHit,125,2000);
       if iChanceToHit >= random(1,1000)
       {
-         % We hit!
+         // We hit!
          iDamage = Send(self,@GetDamage,#what=what,#stroke_obj=stroke_obj);
          iScalefactor = 1000;
          
-         % Scale damage with chance to hit beyond 100 percent.
+         // Scale damage with chance to hit beyond 100 percent.
          if iChanceToHit > 1000 AND Send(SETTINGS_OBJECT,@GetDamageScaling)
          {
             iScalefactor = iChanceToHit;
@@ -763,7 +763,7 @@ messages:
       }
       else
       {
-         % Oops, a miss.  See if something happens.
+         // Oops, a miss.  See if something happens.
          Send(self,@AssessMiss,#what=what,#stroke_obj=stroke_obj);
       }
 
@@ -802,14 +802,14 @@ messages:
    GetDamageType(what = $)
    "Returns the weapon type of damage done."
    {
-      % Default type for the stub function.
+      // Default type for the stub function.
       return ATCK_WEAP_HIT;
    }
 
    GetSpellType(what = $)
    "This is the magical type of damage done."
    {
-      % Default, no spells
+      // Default, no spells
       return 0;
    }
 
@@ -823,7 +823,7 @@ messages:
    GetDamageDesc(damage=0, type=0)
    "This returns the severity of damage by type.  Gives a verb descriptor."
    {
-      % For each type, Send unique words to describe the damage
+      // For each type, Send unique words to describe the damage
       if type < 0
       {
          type = -type;
@@ -1079,7 +1079,7 @@ messages:
             return battler_sting_fail;
          }
 
-         % Repeat the acid spell words here
+         // Repeat the acid spell words here
          if (type & ATCK_WEAP_ACID)
          {
             if damage = $
@@ -1231,7 +1231,7 @@ messages:
          }
       }
       
-      % Use these as the "default"
+      // Use these as the "default"
       if damage = $
       {
          return battler_slay;
@@ -1255,7 +1255,7 @@ messages:
       return battler_fail;
    }
 
-   % This returns defense reason of why opponent missed this battler.
+   // This returns defense reason of why opponent missed this battler.
    GetDefenseDesc(stroke_obj=$)
    {
       local iRandom, iParry, iBlock, iDodge;
@@ -1284,9 +1284,9 @@ messages:
       return battler_misses;
    }
 
-   % The next three messages deal with the three defense skills.  These
-   %  messages return the relative values of the three skills.  Used in
-   %  player for defense, used in battler for defense messages.
+   // The next three messages deal with the three defense skills.  These
+   //  messages return the relative values of the three skills.  Used in
+   //  player for defense, used in battler for defense messages.
 
    GetParryAbility(stroke_obj=$)
    {
@@ -1324,24 +1324,24 @@ messages:
       }
       else
       {
-         % This returns the name of a melee weapon, the ammo of a ranged
-         %  weapon, or the attack name for a monster.
+         // This returns the name of a melee weapon, the ammo of a ranged
+         //  weapon, or the attack name for a monster.
          rWeaponName = Send(oWeapon,@GetAttackName);
       }
 
-      % Spell types are usually represented by negative values, to
-      %  differentiate between physical and spell damage.
+      // Spell types are usually represented by negative values, to
+      //  differentiate between physical and spell damage.
       iType = Send(self,@GetSpellType,#use_weapon=use_weapon);
 
-      % We only want to use a unique word if the spell damage is NOT generic
-      %  or Hunter sword damage.  Otherwise, use the physical damage type.
+      // We only want to use a unique word if the spell damage is NOT generic
+      //  or Hunter sword damage.  Otherwise, use the physical damage type.
       if (iType & (~ATCK_SPELL_HUNTERSWORD | ~ATCK_SPELL_ALL)) = 0
       {
          iType = Send(self,@GetDamageType,#use_weapon=use_weapon);
       }
       else
       {
-         % Make it negative to distinguish between physical types.
+         // Make it negative to distinguish between physical types.
          iType = -iType;
       }
 
@@ -1349,8 +1349,8 @@ messages:
          AND damage <> $
          AND damage >= (Send(what,@GetMaxHealth)*33)
       {
-         % If we did at least 1/3 a player's hps in damage, then give
-         %  the best damage message.
+         // If we did at least 1/3 a player's hps in damage, then give
+         //  the best damage message.
          iDmg = (DAMAGE_THRESHOLD_DAMAGE + 1);
       }
       else
@@ -1365,7 +1365,7 @@ messages:
       {
          if Send(self,@CheckPlayerFlag,#flag=PFLAG_MORPHED)
          {
-            % Don't use "punch" if we're morphed, use a more generic term.
+            // Don't use "punch" if we're morphed, use a more generic term.
             if oWeapon = $
             {
                rWeaponName = battler_attack;
@@ -1512,7 +1512,7 @@ messages:
    {
       local rColor;
 
-      % This is kinda kludgy, should call messages in subclasses instead.
+      // This is kinda kludgy, should call messages in subclasses instead.
       if IsClass(self,&User)
       {
          if IsClass(what,&User)
@@ -1571,32 +1571,32 @@ messages:
                   #parm4=Send(what,@GetDefenseDesc,#stroke_obj=stroke_obj));
          }
 
-         % Flag them as "dodging", so they can potentially improve.
+         // Flag them as "dodging", so they can potentially improve.
          Send(what,@SetPlayerFlag,#flag=PFLAG_DODGED,#value=TRUE);
       }
 
       return;
    }
 
-   % This function handles when damage is done by attacker.
+   // This function handles when damage is done by attacker.
    DidDamage(what=$, amount=0)
    {
       return;
    }
 
-   % This function is called when we killed something.
+   // This function is called when we killed something.
    KilledSomething(what=$,use_weapon=$,stroke_obj=$)
    {
       return;
    }
 
-   % This returns the wielded weapon
+   // This returns the wielded weapon
    GetWeapon()
    {
       return self;
    }
 
-   % Oo, 'e died
+   // Oo, 'e died
    Killed(what = $)
    {
       return;
@@ -1625,8 +1625,8 @@ messages:
       return 0;
    }
 
-   % This section deals with minion control code.
-   % Player and Monster both have a copy of CommandMinionAttack.
+   // This section deals with minion control code.
+   // Player and Monster both have a copy of CommandMinionAttack.
 
    NewControlledMinion(minion=$)
    {
@@ -1644,8 +1644,8 @@ messages:
    {
       if plControlledMinions <> $
       {
-         % Use FindListElem; there are rare cases where we have
-         % a valid minion that doesn't go on our control list.
+         // Use FindListElem; there are rare cases where we have
+         // a valid minion that doesn't go on our control list.
          if FindListElem(plControlledMinions,what)
          {
             plControlledMinions = DelListElem(plControlledMinions,what);
@@ -1729,7 +1729,7 @@ messages:
       return;
    }
 
-   % This section deals with illusions cast by/on the battler
+   // This section deals with illusions cast by/on the battler
 
    AddEvilTwin(what=$)
    "If something casts evil twin on us, we store it here."
@@ -1788,7 +1788,7 @@ messages:
       return;
    }
 
-   % If Apparition is cast on the monster, this list keeps track of it.
+   // If Apparition is cast on the monster, this list keeps track of it.
    AddApparition(what=$)
    {
       if what <> $
@@ -1799,7 +1799,7 @@ messages:
       return;
    }
 
-   % If this monster is an Apparition, this keeps track of the original target.
+   // If this monster is an Apparition, this keeps track of the original target.
    AddApparitionOriginal(what=$)
    {
       poApparitionOriginal = what;
@@ -1807,7 +1807,7 @@ messages:
       return;
    }
 
-   % If an Apparition targeting this monster is deleted, remove it from list.
+   // If an Apparition targeting this monster is deleted, remove it from list.
    RemoveApparition(what=$)
    {
       local i;
@@ -1890,8 +1890,8 @@ messages:
          {
             if Nth(i,2) + amount > 100000
             {
-               % Somebody is doing something stupid. Let's return this.
-               % Catch for players botting attacks on alts, shenanigans.
+               // Somebody is doing something stupid. Let's return this.
+               // Catch for players botting attacks on alts, shenanigans.
                return;
             }
             SetNth(i,2,Nth(i,2)+amount);
@@ -1935,4 +1935,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

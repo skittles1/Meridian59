@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////////
 Tos is TosRoom
 
 constants:
@@ -101,18 +101,18 @@ messages:
       plExits = Cons([ 12, 18, RID_DUKE1, 42, 29, ROTATE_NONE ],plExits);
       plExits = Cons([ 12, 19, RID_DUKE1, 42, 29, ROTATE_NONE ],plExits);
 
-      % entrances to the inn
+      // entrances to the inn
 
       plExits = Cons([ 45, 32, RID_TOS_INN, 4, 10, ROTATE_NONE ],plExits);
       plExits = Cons([ 46, 23, RID_TOS_INN, 3, 2, ROTATE_NONE ],plExits);
       plExits = Cons([ 54, 31, RID_TOS_INN, 9, 8, ROTATE_NONE ],plExits);
 
-      % Blacksmith
+      // Blacksmith
 
       plExits = Cons([ 61, 12, RID_TOS_SMITHY, 3, 3, ROTATE_NONE ],plExits);
       plExits = Cons([ 61, 13, RID_TOS_SMITHY, 3, 3, ROTATE_NONE ],plExits);
 
-      % Abandoned buildings
+      // Abandoned buildings
 
       plExits = Cons([ 41, 22, RID_TOS_TAN, 6, 3, ROTATE_NONE ],plExits);
 
@@ -279,7 +279,7 @@ messages:
 
    StartSnow(bOnGround=TRUE)
    {
-      % Check if we can have weather effects here.
+      // Check if we can have weather effects here.
       if NOT pbWeatherEffects
       {
          return;
@@ -289,7 +289,7 @@ messages:
       {
          if pbSnowGroundTexture
          {
-            % Add snow to lighting sectors.
+            // Add snow to lighting sectors.
             Send(self,@ChangeTexture,#id=1,#new_texture=61015,#flags=CTF_FLOOR);
             Send(self,@ChangeTexture,#id=2,#new_texture=61015,#flags=CTF_FLOOR);
             Send(self,@ChangeTexture,#id=3,#new_texture=61015,#flags=CTF_FLOOR);
@@ -297,7 +297,7 @@ messages:
          }
       }
 
-      % Propagate to Room, do the rest there.
+      // Propagate to Room, do the rest there.
       propagate;
    }
 
@@ -313,16 +313,16 @@ messages:
       if pbSnowGroundTexture
          OR override
       {
-         % Remove snow from lighting sectors.
+         // Remove snow from lighting sectors.
          Send(self,@RemoveTextureChange,#id=1);
          Send(self,@RemoveTextureChange,#id=2);
          Send(self,@RemoveTextureChange,#id=3);
          Send(self,@RemoveTextureChange,#id=4);
       }
 
-      % Propagate to Room, do the rest there.
+      // Propagate to Room, do the rest there.
       propagate;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

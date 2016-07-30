@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 TempleKraanan is Room
 
 constants:
@@ -155,24 +155,24 @@ messages:
    
    CreateStandardObjects()
    {
-      % priestess
+      // priestess
       
       Send(self,@NewHold,#what=Create(&KraananPriestess),
            #new_row=13,#new_col=20,#fine_row=24,#fine_col=32,#new_angle=ANGLE_SOUTH);
 
-      % Braziers,Weapons, and Armor, Inside Temple
+      // Braziers,Weapons, and Armor, Inside Temple
 
-      % Braziers
+      // Braziers
       Send(self,@NewHold,#what=Create(&Brazier),#new_row=11,#new_col=18);
       Send(self,@NewHold,#what=Create(&Brazier),#new_row=11,#new_col=22);
 
-      % Altar
+      // Altar
       Send(self,@NewHold,#what=Create(&DecoItem,#name=tempkra_scimitar_name,
                                       #icon=tempkra_scimitar_icon,
                                       #desc=tempkra_scimitar_desc),
            #new_row=14,#new_col=20,#fine_row=16);
       
-      % Left side, Weapons
+      // Left side, Weapons
       Send(self,@NewHold,#what=Create(&DecoItem,#name=tempkra_axe_name,
                                       #icon=tempkra_axe_icon,
                                       #desc=tempkra_axe_desc),
@@ -198,7 +198,7 @@ messages:
                                       #desc=tempkra_mace_desc),
            #new_row=31,#new_col=16,#fine_row=0,#fine_col=0);
 
-      % Right side, Armor
+      // Right side, Armor
       Send(self,@NewHold,#what=Create(&DecoItem,#name=tempkra_knightshield_name,
                                       #icon=tempkra_knightshield_icon,
                                       #desc=tempkra_knightshield_desc),
@@ -226,7 +226,7 @@ messages:
                                       #desc=tempkra_metalshield_desc),
            #new_row=31,#new_col=25,#fine_row=0,#fine_col=0);
       
-      % Pillars around perimeter
+      // Pillars around perimeter
       Send(self,@NewHold,#what=Create(&Pillar),
            #new_row=6,#new_col=20,#fine_row=16);
       Send(self,@NewHold,#what=Create(&Pillar),
@@ -295,7 +295,7 @@ messages:
       if IsClass(oSpellSkill,&Spell)
          AND send(oSpellSkill,@GetSchool) = SS_KRAANAN
       {
-         % Give a 10% bonus.
+         // Give a 10// bonus.
          return ((chance * 11)/10);
       }
 
@@ -304,4 +304,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

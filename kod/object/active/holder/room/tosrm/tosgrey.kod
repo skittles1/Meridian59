@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////////////////////////////////////////////////////////////
 TosGrey is TosRoom
 
 constants:
@@ -49,18 +49,18 @@ messages:
    {
       plExits = $;
 
-      % exits back to tos
+      // exits back to tos
       plExits = Cons([  4, 7, RID_TOS,  24, 17, ROTATE_NONE ],plExits);
       plExits = Cons([  5, 7, RID_TOS,  24, 17, ROTATE_NONE ],plExits);
 
-%      plExits = Cons([  9, 28, RID_TOS,  9, 26, ROTATE_NONE ],plExits);
-%      plExits = Cons([ 14, 22, RID_TOS, 14, 24, ROTATE_NONE ],plExits);
-%      plExits = Cons([ 24, 28, RID_TOS, 24, 26, ROTATE_NONE ],plExits);
-%      plExits = Cons([ 24, 21, RID_TOS, 25, 24, ROTATE_NONE ],plExits);
+//      plExits = Cons([  9, 28, RID_TOS,  9, 26, ROTATE_NONE ],plExits);
+//      plExits = Cons([ 14, 22, RID_TOS, 14, 24, ROTATE_NONE ],plExits);
+//      plExits = Cons([ 24, 28, RID_TOS, 24, 26, ROTATE_NONE ],plExits);
+//      plExits = Cons([ 24, 21, RID_TOS, 25, 24, ROTATE_NONE ],plExits);
 
-%      plExits = Cons([ 28, 28, RID_TOS, 28, 26, ROTATE_NONE ],plExits);
-%      plExits = Cons([ 28, 22, RID_TOS, 28, 24, ROTATE_NONE ],plExits);
-%      plExits = Cons([ 40, 13, RID_TOS, 42, 13, ROTATE_NONE ],plExits);
+//      plExits = Cons([ 28, 28, RID_TOS, 28, 26, ROTATE_NONE ],plExits);
+//      plExits = Cons([ 28, 22, RID_TOS, 28, 24, ROTATE_NONE ],plExits);
+//      plExits = Cons([ 40, 13, RID_TOS, 42, 13, ROTATE_NONE ],plExits);
 
       propagate;
    }
@@ -83,4 +83,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

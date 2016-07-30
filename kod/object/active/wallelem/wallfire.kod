@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 WallofFire is ActiveWallElement
 
 constants:
@@ -61,7 +61,7 @@ messages:
    {
       piMaxDamage = MaxDamage;
 
-      % Note, if illusionary, piMaxDamage is spellpower, not the true max damage.
+      // Note, if illusionary, piMaxDamage is spellpower, not the true max damage.
       viIllusion = illusionary;
 
       propagate;
@@ -97,8 +97,8 @@ messages:
 
          if iDamage > 0
          {
-            % We technically don't have a damage type, but we count as spell damage.
-            %  Also, don't lower damage based on resistances.
+            // We technically don't have a damage type, but we count as spell damage.
+            //  Also, don't lower damage based on resistances.
             iDamage = Send(what,@AssessDamage,#what=poCaster,#damage=Random(0,iDamage),
                            #aspell=ATCK_SPELL_ALL,#absolute=TRUE,#report=FALSE,
                            #report_resistance=FALSE,#precision=TRUE);
@@ -146,7 +146,7 @@ messages:
          }
          else
          {
-            % Damage is greater than 0
+            // Damage is greater than 0
             Send(what,@WaveSendUser,#wave_rsc=firewall_burn_snd);
 
             if iDamage < 5
@@ -188,16 +188,16 @@ messages:
 
    NewOwner(what = $)
    {
-      % Add a bit of light if this isn't an illusion.  Firewalls should add some light.
+      // Add a bit of light if this isn't an illusion.  Firewalls should add some light.
       if NOT viIllusion
       {
-         % new room
+         // new room
          if what <> $
          {
             Send(what,@AddBaseLight,#amount=viLightBonus);
          }
    
-         % old room
+         // old room
          if poOwner <> $
          {
             Send(poOwner,@AddBaseLight,#amount=-viLightBonus);
@@ -209,7 +209,7 @@ messages:
 
    Delete()
    {
-      % Take away the light we added if we weren't an illusion.
+      // Take away the light we added if we weren't an illusion.
       if NOT viIllusion
       {
          if poOwner <> $
@@ -224,19 +224,19 @@ messages:
    SendLightingInformation()
    {
       AddPacket(2,(LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC));
-      % Intensity
+      // Intensity
       if viIllusion
       {
-         % Send less light if we're illusionary.
+         // Send less light if we're illusionary.
          AddPacket(1,0);
       }
       else
       {
-         % 5 out of 255 intensity of light
+         // 5 out of 255 intensity of light
          AddPacket(1,5);
       }
 
-      % Red color
+      // Red color
       AddPacket(2,LIGHT_RED);
 
       return;
@@ -244,4 +244,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

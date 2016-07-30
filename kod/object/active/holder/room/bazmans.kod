@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 BazmansRoom is Room
 
 constants:
@@ -45,7 +45,7 @@ properties:
    prRoom = room_bazmans
    piRoom_num = RID_BAZMANS_ROOM
 
-%   prBackground = background_mountains
+//   prBackground = background_mountains
 
    pblocked = False
 
@@ -90,7 +90,7 @@ messages:
    {
       plExits = $;
 
-      % Out to the princess's castle.
+      // Out to the princess's castle.
       plExits = Cons([ 26, 7, RID_CASTLE2A, 26, 15, ROTATE_180, DISTANCE_NORMAL ],plExits);
 
 
@@ -100,7 +100,7 @@ messages:
 
    CreateStandardObjects()
    {
-      % throne
+      // throne
       Send(self,@NewHold,#what=Create(&Throne),
            #new_row=5,#new_col=11,#fine_row=36,#fine_col=54,#new_angle=ANGLE_SOUTH);
 
@@ -117,7 +117,7 @@ messages:
       Send(self,@NewHold,#what=Create(&Pillar),
            #new_row=13,#new_col=15,#fine_row=36,#fine_col=12);
 
-      % left row of braziers
+      // left row of braziers
       Send(self,@NewHold,#what=Create(&brazier),
            #new_row=14,#new_col=6);
       Send(self,@NewHold,#what=Create(&brazier),
@@ -143,5 +143,5 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 

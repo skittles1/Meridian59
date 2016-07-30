@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 QormasGift is PassiveItem
 
 constants:
@@ -71,7 +71,7 @@ properties:
 
    poRecipient = $
 
-   % individual gift payload toggles
+   // individual gift payload toggles
    pbRose = TRUE
    pbBonkStick = TRUE
    pbSeduceWand = TRUE
@@ -88,7 +88,7 @@ properties:
    pbTrollMask = TRUE
    pbKriipaMask = TRUE
 
-   % Set this in qormas kod, leave this one alone
+   // Set this in qormas kod, leave this one alone
    pbMaskPossible = FALSE
 
 messages:
@@ -111,7 +111,7 @@ messages:
 
    Delete()
    {
-      % Clear object references.
+      // Clear object references.
       poQormas = $;
       poRecipient = $;
 
@@ -411,7 +411,7 @@ messages:
          {
             Send(poQormas,@GiftClaimed,#what=self,#who=what);
 
-            % Clear Qormas reference
+            // Clear Qormas reference
             poQormas = $;
          }
       }
@@ -435,4 +435,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Bait is Spell
 
 constants:
@@ -81,22 +81,22 @@ messages:
             iBaseChance = 25;
             if send(first(oMonster), @GetTarget) = $
             {
-               % easier if monster doesn't have a target
+               // easier if monster doesn't have a target
                iModifier = 2;
             } else {
-               % harder if monster already has a target
+               // harder if monster already has a target
                iModifier = 4;
             }
 
-            % Faction Kludge: Should put in a special trait for "player-like" monsters.
-            % Doesn't fall for bait as much, since has "player-like" characteristics.
+            // Faction Kludge: Should put in a special trait for "player-like" monsters.
+            // Doesn't fall for bait as much, since has "player-like" characteristics.
             if IsClass(first(oMonster),&FactionTroop)
             {
                iBaseChance = 0;
                iModifier = iModifier + 4;
             }
 
-            % Avoid faction problems, don't make it work on aligned people.
+            // Avoid faction problems, don't make it work on aligned people.
             iMonsterFaction = send(first(oMonster),@GetFaction);
             if not(iMonsterFaction = FACTION_NEUTRAL) and (send(who,@GetFaction) = iMonsterFaction)
             {
@@ -105,7 +105,7 @@ messages:
             
             if random(1,100) < (iBaseChance + (iSpellPower/iModifier))
             {
-	            %% don't allow in happyland, unless the monster has no master.
+	            /// don't allow in happyland, unless the monster has no master.
 	            if send(SYS,@IsPKAllowed) or send(first(oMonster),@GetMaster) = $
 	            {
                     if Send(who,@SquaredDistanceTo,#what=First(oMonster)) < (piBaitRange * piBaitRange)
@@ -127,4 +127,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

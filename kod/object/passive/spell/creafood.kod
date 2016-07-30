@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 CreateFood is Spell
 
 constants:
@@ -55,7 +55,7 @@ messages:
 
    ResetReagents()
    {
-      % separate message so can change, then set from admin mode
+      // separate message so can change, then set from admin mode
 
       plReagents = $;
       plReagents = Cons([&ElderBerry,2],plReagents);
@@ -89,9 +89,9 @@ messages:
          {
             if iNum < 60
             {
-               % If they're on the island, let them create 5 grapes instead
-               %  of 1.  This allows people to accomplish part of the Riija
-               %  sword quest easier.
+               // If they're on the island, let them create 5 grapes instead
+               //  of 1.  This allows people to accomplish part of the Riija
+               //  sword quest easier.
                iAmount = 1;
                if send(send(who,@GetOwner),@GetRegion) = RID_KOCATAN
                {
@@ -114,8 +114,8 @@ messages:
                   }
                   else
                   {
-                     % Create cheese if number is less than 95
-                     %  Also create cheese (instead of an inky) 66% of the time over 95%
+                     // Create cheese if number is less than 95
+                     //  Also create cheese (instead of an inky) 66// of the time over 95//
                      if iNum < 95 OR random(1,3) <> 1
                      {
                         oFood = Create(&Cheese,#number=1);
@@ -146,10 +146,10 @@ messages:
       propagate;
    }
 
-%  If we use the IA_MADE attribute again:
-%  GetDuration(iSpellpower=$)
-%     iDuration = iSpellpower;  %%In minutes
+//  If we use the IA_MADE attribute again:
+//  GetDuration(iSpellpower=$)
+//     iDuration = iSpellpower;  ///In minutes
 
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

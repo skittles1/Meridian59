@@ -1,19 +1,19 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Phase is UtilitySpell
 
 constants:
    include blakston.khd
    
-   % 112 to 121, growing in brightness
+   // 112 to 121, growing in brightness
    PHASE_OUT_XLAT = 116
 
 resources:
@@ -231,7 +231,7 @@ messages:
          Send(who,@FreezeAllEnchantments);
          Send(who,@SetPlayerFlag,#flag=PFLAG_PHASED,#value=TRUE);
          Send(who,@PhaseMinions);
-         % Post this because FreezeAllEnchantments checks for phase applied
+         // Post this because FreezeAllEnchantments checks for phase applied
          Post(who,@StartEnchantment,#what=self);
          Post(who,@StartPhaseTimer);
          Post(who,@EffectSendUser,#what=self,#effect=EFFECT_PARALYZE_ON);
@@ -364,7 +364,7 @@ messages:
       Send(who,@SetPlayerFlag,#flag=PFLAG_PHASED,#value=FALSE);
       Send(who,@FreezePhaseTimer);
 
-      % Don't override Hold.
+      // Don't override Hold.
       if NOT Send(who,@IsEnchanted,#byClass=&Hold)
          AND NOT Send(who,@IsEnchanted,#byClass=&DMHold)
       {
@@ -481,7 +481,7 @@ messages:
          propagate;
       }
 
-      % Always returns the remaining time as an integer.
+      // Always returns the remaining time as an integer.
       iDuration = Send(who,@GetRemainingPhaseTime);
       if iDuration = $
       {
@@ -512,4 +512,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

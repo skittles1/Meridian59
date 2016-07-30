@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 OrcPitA is MonsterRoom
 
 constants:
@@ -60,8 +60,8 @@ messages:
    Constructed()
    {
       plMonsters = [ [&CaveOrc, 60], [&OrcWizard,40] ];
-%      plGenerators = [[50,43], [36,31], [28,39], [15,35], [21,19], [15,12], [39,17], [44,29],
-%		     [44,34], [27,8],   [36,28], [48,22], [47,23], [45,31], [24,33], [20,39]];
+//      plGenerators = [[50,43], [36,31], [28,39], [15,35], [21,19], [15,12], [39,17], [44,29],
+//		     [44,34], [27,8],   [36,28], [48,22], [47,23], [45,31], [24,33], [20,39]];
     
       propagate;
    }
@@ -107,9 +107,9 @@ messages:
    }
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Puzzle stuff.  More info on puzzle in orcpitb.kod
-%
+//////////////////////////////////
+//Puzzle stuff.  More info on puzzle in orcpitb.kod
+//
 
    DoSolution(height=500,Speed=50)
    {
@@ -172,4 +172,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 OutdoorsKD4 is KCForest
 
 constants:
@@ -73,7 +73,7 @@ messages:
       plItem_coords = [ [&RainbowFern,20,4], [&RainbowFern,54,44],
                         [&RainbowFern,10,62] ];
 
-      % Do not propagate
+      // Do not propagate
       return;
    }
 
@@ -88,18 +88,18 @@ messages:
       plExits = Cons([ 32, 33, ROOM_LOCKED_DOOR, OutdoorsKD4_guardshack_locked ],plExits);
       plExits = Cons([ 33, 33, ROOM_LOCKED_DOOR, OutdoorsKD4_guardshack_locked ],plExits);
 
-      % Teleport to tpost2:
+      // Teleport to tpost2:
       plExits = Cons([ 33, 42, RID_JUNGLE_TRADING_POST_CELLAR, 06, 03, ROTATE_NONE ],plExits);
       plExits = Cons([ 34, 42, RID_JUNGLE_TRADING_POST_CELLAR, 06, 03, ROTATE_NONE ],plExits);
-      % Teleport to tpost1 (front door):
+      // Teleport to tpost1 (front door):
       plExits = Cons([ 30, 39, RID_JUNGLE_TRADING_POST, 05, 03, ROTATE_NONE ],plExits);
       plExits = Cons([ 31, 39, RID_JUNGLE_TRADING_POST, 05, 03, ROTATE_NONE ],plExits);
       plExits = Cons([ 30, 40, RID_JUNGLE_TRADING_POST, 05, 03, ROTATE_NONE ],plExits);
       plExits = Cons([ 31, 40, RID_JUNGLE_TRADING_POST, 05, 03, ROTATE_NONE ],plExits);
-      % Teleport to tpost1 (lower right door):
+      // Teleport to tpost1 (lower right door):
       plExits = Cons([ 37, 49, RID_JUNGLE_TRADING_POST, 12, 13, ROTATE_NONE ],plExits);
       plExits = Cons([ 38, 49, RID_JUNGLE_TRADING_POST, 12, 13, ROTATE_NONE ],plExits);
-      % Teleport to tpost1 (upper right door):
+      // Teleport to tpost1 (upper right door):
       plExits = Cons([ 28, 49, RID_JUNGLE_TRADING_POST, 03, 13, ROTATE_NONE ],plExits);
       plExits = Cons([ 27, 49, RID_JUNGLE_TRADING_POST, 03, 13, ROTATE_NONE ],plExits);
 
@@ -111,4 +111,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

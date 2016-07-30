@@ -1,23 +1,23 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Purify is Spell
 
 constants:
 
    include blakston.khd
 
-   % At least how many enchantments should there be on a person to check for auto-remove?
+   // At least how many enchantments should there be on a person to check for auto-remove?
    MIN_ENCHANTMENTS_FOR_AUTOREMOVE = 2
 
-   % What's the minimum chance to remove spells we want before checking for auto-remove?
+   // What's the minimum chance to remove spells we want before checking for auto-remove?
    MIN_CHANCE_FOR_AUTOREMOVE = 60
 
 resources:
@@ -76,7 +76,7 @@ messages:
          return 1;
       }
 
-      % Can only cast on self, no need to target
+      // Can only cast on self, no need to target
       return 0;
    }
 
@@ -84,13 +84,13 @@ messages:
    {
       local oTarget, i, lEnchantment, bHasEnchantment, oSpell;
 
-      % If it's only self cast, spoof self as target for following code
+      // If it's only self cast, spoof self as target for following code
       if NOT pbCan_Cast_on_others
       {
          lTargets = Cons(who,lTargets);
       }
 
-      % Can cast spell if the 1 target item is a user
+      // Can cast spell if the 1 target item is a user
       if Length(lTargets) <> 1
       {
          return FALSE;
@@ -109,7 +109,7 @@ messages:
          return FALSE;
       }
 
-      % The target must have an enchantment
+      // The target must have an enchantment
       lEnchantment = Send(oTarget,@GetEnchantmentList);
       bHasEnchantment = IsClass(who,&DM);
 
@@ -137,7 +137,7 @@ messages:
          return FALSE;
       }
 
-      % Can only cast purify on yourself, to curb massive mule abuse.
+      // Can only cast purify on yourself, to curb massive mule abuse.
       if NOT pbCan_cast_on_others
          AND oTarget <> who
       {
@@ -155,7 +155,7 @@ messages:
    {
       local oTarget, lInfo, oSpell, lList, lEnchantmentList;
 
-      % If it's only self cast, spoof self as target for following code
+      // If it's only self cast, spoof self as target for following code
       if NOT pbCan_Cast_on_others
       {
          lTargets = Cons(who, lTargets);
@@ -171,7 +171,7 @@ messages:
 
       Send(oTarget,@MsgSendUser,#message_rsc=purify_on);
 
-      % keep tabs on guides/bards, but not admins.
+      // keep tabs on guides/bards, but not admins.
       if IsClass(who, &DM)
       {
          if GetClass(who) = &DM
@@ -183,7 +183,7 @@ messages:
 
          if Send(who,@PlayerIsImmortal)
          {
-            % If they're immortal, let them clear everything.
+            // If they're immortal, let them clear everything.
             iSpellPower = $;
          }
       }
@@ -204,7 +204,7 @@ messages:
          return FALSE;
       }
 
-      % Chance of $ means that we want to remove it all.
+      // Chance of $ means that we want to remove it all.
       if iChance = $
       {
          Send(who,@RemoveAllPersonalEnchantments);
@@ -230,8 +230,8 @@ messages:
 
       iNumEnchantments = Length(lEnchantments);
 
-      % Anti-clumpy code: If there is at least two enchantments in the room and the chance to
-      %  dispell is greater than 60%, then auto-remove one enchantment.
+      // Anti-clumpy code: If there is at least two enchantments in the room and the chance to
+      //  dispell is greater than 60//, then auto-remove one enchantment.
       if iNumEnchantments >= MIN_ENCHANTMENTS_FOR_AUTOREMOVE
          AND iChance >= MIN_CHANCE_FOR_AUTOREMOVE
       {
@@ -262,4 +262,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

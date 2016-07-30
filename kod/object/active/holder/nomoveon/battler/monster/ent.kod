@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Ent is Monster
 
 constants:
@@ -60,7 +60,7 @@ classvars:
    viCashmin = 100
    viCashmax = 500
 
-   % 1 in x chance to cast a spell.
+   // 1 in x chance to cast a spell.
    viSpellChance = 9
 
    vrSound_hit = ent_sound_hit
@@ -86,7 +86,7 @@ messages:
    {
       local iTrunk, iLeaves, lTrunk, lLeaves;
 
-      % Pick random colors.
+      // Pick random colors.
       iTrunk = iTrunkColor;
       if iTrunk = $
       {
@@ -174,7 +174,7 @@ messages:
          return;
       }
 
-      % if no body animation
+      // if no body animation
       AddPacket(1,ANIMATE_NONE,2,1);
 
       return;
@@ -182,7 +182,7 @@ messages:
 
    SendOverlays()
    {
-      % Send overlay bitmap info to user.
+      // Send overlay bitmap info to user.
       AddPacket(1,1);
 
       AddPacket(4,vrLeaves, 1,HS_HEAD);
@@ -206,7 +206,7 @@ messages:
 
    AssessDamage(aSpell=0)
    {
-      % Living trees get more dangerous if you burn 'em.
+      // Living trees get more dangerous if you burn 'em.
 
       if (aSpell & ATCK_SPELL_FIRE) AND piSpellChance > 2
       {
@@ -227,4 +227,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

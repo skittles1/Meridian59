@@ -1,14 +1,14 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%code by Justin, 98jsh@williams.edu
+////////////////////////////////////////////////////////////////////////////////
+//code by Justin, 98jsh@williams.edu
  
 BerserkerRing is Ring
 
@@ -61,7 +61,7 @@ messages:
    {
       if vrName <> vrRealName
       {
-         % Identify upon equip, 'testing out' the ring
+         // Identify upon equip, 'testing out' the ring
          Send(self,@RevealHiddenAttributes);
       }
       
@@ -117,5 +117,5 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 

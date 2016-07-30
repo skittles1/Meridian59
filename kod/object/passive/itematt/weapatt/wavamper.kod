@@ -1,24 +1,24 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 WeapAttVamper is WeaponAttribute
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%   This weapon steals life away from the target, bit by bit.
-%
-%   Form is:
-%
-%      [ WA_Vamper]
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////
+//
+//   This weapon steals life away from the target, bit by bit.
+//
+//   Form is:
+//
+//      [ WA_Vamper]
+//
+///////////////////////////////////////////////////////////////////////
 
 constants:
 
@@ -49,7 +49,7 @@ classvars:
 
 properties:
 
-   piValue_modifier = 200   %% modify the object's price by 100%
+   piValue_modifier = 200   /// modify the object's price by 100//
    piValue_power_modifier = 10
    piEffect_percent = 10
 
@@ -58,11 +58,11 @@ properties:
 
 messages:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Effect Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Effect Functions
+///
+////////////////////////////////////////////////
 
    ModifyDamage(damage=0,target=$,wielder=$,lData=$)
    "Wielder has a 10% chance of stealing life from target with any hit."
@@ -92,7 +92,7 @@ messages:
 
    ItemReqUse(oItem=$,oPlayer=$)
    {
-      % Need 50% weapon proficiency to use this weapon attribute.
+      // Need 50// weapon proficiency to use this weapon attribute.
       if Send(oItem,@GetProf,#who=oPlayer) < 50
       {
          Send(oPlayer,@MsgSendUser,#message_rsc=Vamper_fail_use,
@@ -110,4 +110,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

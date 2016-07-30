@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 EnchantWeapon is ItemEnchantment
 
 constants:
@@ -61,7 +61,7 @@ messages:
 
    ResetReagents()
    {
-      % Separate message so can change, then set from admin mode
+      // Separate message so can change, then set from admin mode
 
       plReagents = $;
       plReagents = Cons([&Elderberry,2],plReagents);
@@ -100,7 +100,7 @@ messages:
          return FALSE;
       }
 
-      propagate;   % Check other things higher up
+      propagate;   // Check other things higher up
    }
 
    CastSpell(who=$,lTargets=$,iSpellPower=0)
@@ -136,7 +136,7 @@ messages:
       oWeapAtt = Send(SYS,@FindItemAttByNum,#num=WA_ENCHANTED);
       oSpellWeapAtt = Send(SYS,@FindItemAttByNum,#num=WA_ATTACKSPELLTYPE);
 
-      % Remove any existing enchants before we go on.
+      // Remove any existing enchants before we go on.
       iCurrentSpell = Send(oWeapon,@GetAttributeData,#ItemAtt=WA_ENCHANTED);
       iSpellDamageType = Send(oWeapon,@GetAttributeData,#ItemAtt=WA_ATTACKSPELLTYPE);
 
@@ -161,4 +161,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

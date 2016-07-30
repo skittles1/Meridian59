@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////////////////
 DungeonVictoria is Room
 
 constants:
@@ -119,19 +119,19 @@ messages:
          return TRUE;
       }
 
-      %
-      % Rummaging around in the crate.
-      % If it's not the last person who found something, and enough time has elapsed,
-      % "find" (create) something of interest for them.
-      %
-      % The plFind is a list of classes.
-      % We create one instance of a randomly chosen class.
-      % If it's an item, we give it to them.
-      % Some items have special properties, such as random coloring.
-      % If it's a monster, we generate it at their feet.
-      %
+      //
+      // Rummaging around in the crate.
+      // If it's not the last person who found something, and enough time has elapsed,
+      // "find" (create) something of interest for them.
+      //
+      // The plFind is a list of classes.
+      // We create one instance of a randomly chosen class.
+      // If it's an item, we give it to them.
+      // Some items have special properties, such as random coloring.
+      // If it's a monster, we generate it at their feet.
+      //
 
-      % Don't let angeled characters climb up on the crates and search around.
+      // Don't let angeled characters climb up on the crates and search around.
       if (row = 10) and (col = 6)
          AND send(what,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
       {
@@ -185,7 +185,7 @@ messages:
 
             if isClass(find,&Monster)
             {
-               % Offset the monster a bit so that it appears, instead of trying to fit two things in the same space.
+               // Offset the monster a bit so that it appears, instead of trying to fit two things in the same space.
                iNewRow = 11;
                iNewCol = 6;
                
@@ -210,4 +210,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

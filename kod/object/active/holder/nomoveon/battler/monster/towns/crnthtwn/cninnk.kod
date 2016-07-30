@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 CorNothInnkeeper is CorNothTown
 
 constants:
@@ -80,7 +80,7 @@ messages:
    {
       local bFound, oSpell, i;
    
-      % Only add the spell if we're already Jala mage.
+      // Only add the spell if we're already Jala mage.
       if num = SID_INVIGORATE
       {
          bFound = FALSE;
@@ -90,15 +90,15 @@ messages:
                            #num=Send(who,@DecodeSpellNum,#compound=i));
               if Send(oSpell,@GetSchool) = SS_JALA
               {
-                 % Player has a spell in the required school,
-                 % can learn the spell.
+                 // Player has a spell in the required school,
+                 // can learn the spell.
                  bFound = TRUE;
 
                  break;
             }
          }
 
-         % Player doesn't know a spell in the required school, denied.
+         // Player doesn't know a spell in the required school, denied.
          if NOT bFound
          {
             if report
@@ -159,4 +159,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

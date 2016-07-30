@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 BarloqueInnkeeper is BarloqueTown
 
 constants:
@@ -93,7 +93,7 @@ messages:
       if Send(who,@GetFaction) = FACTION_DUKE
       {
          Send(self,@SetMood,#new_mood=piMood - 2);
-         % Don't welcome these guys
+         // Don't welcome these guys
 
          propagate;
       }
@@ -197,7 +197,7 @@ messages:
             rSayRsc = Send(oRoomMaint,@RentRoom,#who=what,
                            #iLocation=RID_BAR_INN,#iCost=piInitialRoomCost);
 
-            % rSayRsc is $ on success.  Use the innkeeper's saying.
+            // rSayRsc is $ on success.  Use the innkeeper's saying.
             if rSayRsc = $
             {
                rSayRsc = BarloqueInnkeeper_room_rented;
@@ -215,7 +215,7 @@ messages:
             rSayRsc = Send(oRoomMaint,@CopyKey,#who=what,
                            #iLocation=RID_BAR_INN,#iCost=piKeyCopyCosts);
 
-            % Tell the player.
+            // Tell the player.
             Post(poOwner,@SomeoneSaid,#type=SAY_RESOURCE,
                   #what=self,#string=rSayRsc);
 
@@ -243,7 +243,7 @@ messages:
    {
       local i, iMoney, oRoomMaint, iNewDays;
 
-      % Check for if in the same room.
+      // Check for if in the same room.
       if Send(what,@GetOwner) <> poOwner
       {
          Debug("ALERT! ",Send(what,@GetTrueName),what," offered items to NPC ",
@@ -259,7 +259,7 @@ messages:
          {
             if GetClass(i) = &RoomKeyCopy
             {
-               % Say something and delete the key.
+               // Say something and delete the key.
                Send(what,@MsgSendUser,
                      #message_rsc=BarloqueInnkeeper_destroy_key_copy);
                Send(i,@Delete);
@@ -284,7 +284,7 @@ messages:
 
       if iNewDays <> $
       {
-         % iNewDays = 0 means that we've trying to pay for than max days.
+         // iNewDays = 0 means that we've trying to pay for than max days.
          if iNewDays = 0
          {
             Post(poOwner,@SomeoneSaid,#type=SAY_RESOURCE,#what=self,
@@ -305,4 +305,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

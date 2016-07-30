@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Necklace is PassiveItem
 
 constants:
@@ -29,12 +29,12 @@ messages:
 
    ReqUseSomething(what = $)
    {
-      % Check for necklaces or Jala necklace.  The Jala necklace is an "instrument".
+      // Check for necklaces or Jala necklace.  The Jala necklace is an "instrument".
       if IsClass(what,&Necklace)
          OR IsClass (what,&JalaNecklace)
       {
-         % Try to remove ourselves, unless we're cursed.
-         % This is to avoid problems with the Amulets of Shadow exploits.
+         // Try to remove ourselves, unless we're cursed.
+         // This is to avoid problems with the Amulets of Shadow exploits.
          if NOT send(self,@IsCursed)
             AND Send(poOwner,@TryUnuseItem,#what=self)
          {
@@ -48,4 +48,4 @@ messages:
    }
    
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

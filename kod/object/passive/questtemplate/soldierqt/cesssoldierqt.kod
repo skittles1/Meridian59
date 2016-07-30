@@ -1,28 +1,28 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 PrincessSoldierQuest is SoldierQuestTemplate
-% Quest nodes 211, 212, 213.
-% QNT_ID_CESS_SOLDIER_ONE, QNT_ID_CESS_SOLDIER_TWO, QNT_ID_CESS_SOLDIER_THREE
+// Quest nodes 211, 212, 213.
+// QNT_ID_CESS_SOLDIER_ONE, QNT_ID_CESS_SOLDIER_TWO, QNT_ID_CESS_SOLDIER_THREE
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -32,7 +32,7 @@ resources:
 
    include cesssoldierqt.lkod
 
-   % Quest description.
+   // Quest description.
    princesssoldier_icon_rsc = flagpinv.bgf
    princesssoldier_name_rsc = "Princess soldier shield quest"
    princesssoldier_desc_rsc = \
@@ -42,7 +42,7 @@ resources:
    princesssoldier_completed_rsc = \
       "You have proven your worth, and are now a soldier in the Royal army."
 
-   % Quest resources.
+   // Quest resources.
    princess_faction_soldier_assign_1 =\
       "I am in need of allies.  Please, prove your loyalty by fighting "
       "%INDEF_MONSTER%MONSTER.  You should find one guarding a flagpole "
@@ -69,7 +69,7 @@ classvars:
 
    vrCompleted = princesssoldier_completed_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_PRINCESS_SOLDIER
 
 properties:
@@ -80,7 +80,7 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_CESS_SOLDIER_ONE, QNT_ID_CESS_SOLDIER_TWO,
                       QNT_ID_CESS_SOLDIER_THREE];
 
@@ -94,8 +94,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #211 is 1st Princess Soldier Shield quest, say "soldier"
-      % QNT_ID_CESS_SOLDIER_ONE
+      // Template #211 is 1st Princess Soldier Shield quest, say "soldier"
+      // QNT_ID_CESS_SOLDIER_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
             #cargolist=[ faction_soldier_trigger ],
             #quest_node_index=QNT_ID_CESS_SOLDIER_ONE)
@@ -109,8 +109,8 @@ messages:
          Debug("Error building QN: QNT_ID_CESS_SOLDIER_ONE");
       }
 
-      % Template #212 is 2nd Princess Soldier Shield quest, kill first faction soldier
-      % QNT_ID_CESS_SOLDIER_TWO
+      // Template #212 is 2nd Princess Soldier Shield quest, kill first faction soldier
+      // QNT_ID_CESS_SOLDIER_TWO
       if Send(oQE,@AddQuestNodeTemplate,#NPC_modifier=QN_NPCMOD_SAME,
                #questnode_type=QN_TYPE_MONSTER,#monsterlist=[&DukeTroop],
                #timelimit=piTimeLimit,#quest_node_index=QNT_ID_CESS_SOLDIER_TWO)
@@ -125,8 +125,8 @@ messages:
          Debug("Error building QN: QNT_ID_CESS_SOLDIER_TWO");
       }
 
-      % Template #213 is 3rd Princess Soldier Shield quest, kill second faction soldier
-      % QNT_ID_CESS_SOLDIER_THREE
+      // Template #213 is 3rd Princess Soldier Shield quest, kill second faction soldier
+      // QNT_ID_CESS_SOLDIER_THREE
       if Send(oQE,@AddQuestNodeTemplate,#NPC_modifier=QN_NPCMOD_SAME,
                #questnode_type=QN_TYPE_MONSTER,#monsterlist=[&RebelTroop],
                #prizelist=[ [ QN_PRIZETYPE_ITEMCLASS, &PrincessShield, 1 ] ],
@@ -148,4 +148,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

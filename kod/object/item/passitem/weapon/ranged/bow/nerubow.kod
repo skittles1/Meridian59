@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 NeruditeBow is Bow
 
 constants:
@@ -27,8 +27,8 @@ resources:
 
 classvars:
 
-   % This is more of a joke item than anything.  It's pretty crappy, but it's worth
-   %  a bit of money.  An occasional reward from Moxal.
+   // This is more of a joke item than anything.  It's pretty crappy, but it's worth
+   //  a bit of money.  An occasional reward from Moxal.
 
    vrName = NeruditeBow_name_rsc
    vrDesc = NeruditeBow_desc_rsc
@@ -43,13 +43,13 @@ classvars:
    viBulk = 100
    viWeight = 100
 
-   % This is about 50% normal durability.
+   // This is about 50// normal durability.
    viHits_init_min = 100
    viHits_init_max = 150
 
    viSpell_modifier = -30
 
-   % What's the basic color of the bow?
+   // What's the basic color of the bow?
    viBaseXLAT = XLAT_TO_GREEN
 
 properties:
@@ -88,4 +88,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

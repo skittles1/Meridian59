@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 KocatanTown is Towns
 
 constants:
@@ -49,7 +49,7 @@ messages:
 
       foreach i in Send(what,@GetHolderPassive)
       {
-         % Don't include the assassin's weapon as a real weapon.
+         // Don't include the assassin's weapon as a real weapon.
          if IsClass(i,&Weapon) AND NOT IsClass(i,&BlackDagger)
          {
             iWeapon = iWeapon + 1;
@@ -102,8 +102,8 @@ messages:
          return TRUE;
       }
 
-      % Okay, at this point, we know they are illegal.  If we are the evil
-      % guy, we may allow them in anyway.
+      // Okay, at this point, we know they are illegal.  If we are the evil
+      // guy, we may allow them in anyway.
       if Send(self,@AllowContrabandToPass,#what=what)
       {
          return TRUE;
@@ -167,4 +167,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

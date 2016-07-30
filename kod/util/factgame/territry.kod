@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 TerritoryGame is FactionGame
 
 constants:
@@ -49,9 +49,9 @@ resources:
 
 properties:
 
-   piTotalPoints = 1000    % Number of points the game contributes toward total
+   piTotalPoints = 1000    // Number of points the game contributes toward total
 
-   plTosRIDs = $              % first of these is the main city.  Rest are key capture points.
+   plTosRIDs = $              // first of these is the main city.  Rest are key capture points.
    plMarionRIDs = $
    plJasperRIDs = $
    plCorNothRIDs = $
@@ -65,7 +65,7 @@ properties:
    piPrincessFlagItemCount = 0
    piRebelFlagItemCount = 0
 
-   % Time in minutes.
+   // Time in minutes.
    piFlagItemGenTime = 60
 
    piClaimTroopGenTime = 8000
@@ -73,16 +73,16 @@ properties:
    piNonclaimTroopGenTime = 30000
    piNonclaimTroopCap = 4
 
-   % Number of minutes to wait before a flag claim is done.
+   // Number of minutes to wait before a flag claim is done.
    piClaimWait = 8
 
-   % Number of minutes to wait before you can claim a flag again.
+   // Number of minutes to wait before you can claim a flag again.
    piClaimRetry = 30
 
-   % Minimum number of users needed online before you can take a flag
+   // Minimum number of users needed online before you can take a flag
    piMinUsers = 20
 
-   % Minimum number of allies you must have in the same room to make a claim
+   // Minimum number of allies you must have in the same room to make a claim
    piMinAllies = 2
 
    plFlagStates = $
@@ -94,7 +94,7 @@ messages:
       local i;
 
       plFlagStates = $;
-      %Send(self,@Recreate);
+      //Send(self,@Recreate);
 
       return;
    }
@@ -175,14 +175,14 @@ messages:
       {
          if plFlagStates <> $
          {
-            % do this before, so that flag counts are accurate
+            // do this before, so that flag counts are accurate
             Send(self,@ReloadSavedFlagStates);
             Send(self,@CountFlags);
          }
          else
          {
             Send(self,@CountFlags);
-            % do this after, so that bonus town recalcs saved
+            // do this after, so that bonus town recalcs saved
             Send(self,@SaveFlagStates);
          }
 
@@ -237,11 +237,11 @@ messages:
          return;
       }
 
-      % Setting the faction on a flagpole causes a callback to us to
-      % count all of the flags' factions.  But we might not be done
-      % placing the other flags yet.  So we do this in two passes:
-      % 1) Create and place all flags
-      % 2) Set flags' factions
+      // Setting the faction on a flagpole causes a callback to us to
+      // count all of the flags' factions.  But we might not be done
+      // placing the other flags yet.  So we do this in two passes:
+      // 1) Create and place all flags
+      // 2) Set flags' factions
       foreach lRIDs in [plTosRIDs, plMarionRIDs, plJasperRIDs, plCorNothRIDs, plBarloqueRIDs, plRazaRIDs]
       {
          foreach iRID in lRIDs
@@ -301,11 +301,11 @@ messages:
          return;
       }
 
-      % Setting the faction on a flagpole causes a callback to us to
-      % count all of the flags' factions.  But we might not be done
-      % placing the other flags yet.  So we do this in two passes:
-      % 1) Create and place all flags
-      % 2) Set flags' factions
+      // Setting the faction on a flagpole causes a callback to us to
+      // count all of the flags' factions.  But we might not be done
+      // placing the other flags yet.  So we do this in two passes:
+      // 1) Create and place all flags
+      // 2) Set flags' factions
       foreach iRID in plFlagRIDs
       {
          Send(self, @CreateOneFlagpole, #room_id = iRID);
@@ -328,7 +328,7 @@ messages:
             Send(oFlag,@SetFaction,#faction=FACTION_DUKE);
             if iLocation = 1
             {
-               % town flag
+               // town flag
                Send(oFlag,@SetClaimable,#claimable=FALSE);
             }
          }
@@ -339,7 +339,7 @@ messages:
             Send(oFlag,@SetFaction,#faction=FACTION_PRINCESS);
             if iLocation = 1
             {
-               % town flag
+               // town flag
                Send(oFlag,@SetClaimable,#claimable=FALSE);
             }
          }
@@ -350,7 +350,7 @@ messages:
             Send(oFlag,@SetFaction,#faction=FACTION_REBEL);
             if iLocation = 1
             {
-               % town flag
+               // town flag
                Send(oFlag,@SetClaimable,#claimable=FALSE);
             }
          }
@@ -361,7 +361,7 @@ messages:
             Send(oFlag,@SetFaction,#faction=FACTION_NEUTRAL);
             if iLocation = 1
             {
-               % town flag
+               // town flag
                Send(oFlag,@SetClaimable,#claimable=FALSE);
             }
          }
@@ -372,7 +372,7 @@ messages:
             Send(oFlag,@SetFaction,#faction=FACTION_NEUTRAL);
             if iLocation = 1
             {
-               % town flag
+               // town flag
                Send(oFlag,@SetClaimable,#claimable=FALSE);
             }
          }
@@ -383,7 +383,7 @@ messages:
             Send(oFlag,@SetFaction,#faction=FACTION_NEUTRAL);
             if iLocation = 1
             {
-               % town flag
+               // town flag
                Send(oFlag,@SetClaimable,#claimable=FALSE);
             }
          }
@@ -520,7 +520,7 @@ messages:
    {
       Send(self,@CountFlags);
 
-      % do this after, so that bonus town recalcs saved
+      // do this after, so that bonus town recalcs saved
       Send(self,@SaveFlagStates);
 
       return;
@@ -530,10 +530,10 @@ messages:
    {
       local iRID, oRoom, oFlagpole, lFlagCounts, iFaction;
 
-      % first, recalc the state of town flags.
+      // first, recalc the state of town flags.
       Send(self,@RecalcTownFlags);
 
-      % next, count all flags and update counters.
+      // next, count all flags and update counters.
       lFlagCounts = [0, 0, 0, 0];
 
       foreach iRID in plFlagRIDs
@@ -547,7 +547,7 @@ messages:
          }
       }
 
-      % last, tell the faction scenario if necessary.
+      // last, tell the faction scenario if necessary.
       iFaction = 0;
       while iFaction <= FACTION_NORMAL_MAX
       {
@@ -834,7 +834,7 @@ messages:
          return;
       }
 
-      % first, figure out how many flags each gets
+      // first, figure out how many flags each gets
       iPrincesspower = Send(Send(SYS,@GetParliament),@GetPower,#faction=FACTION_PRINCESS);
       iDukePower = Send(Send(SYS,@GetParliament),@GetPower,#faction=FACTION_DUKE);
       iNeutralPower = Send(Send(SYS,@GetParliament),@GetPower,#faction=FACTION_NEUTRAL);
@@ -846,9 +846,9 @@ messages:
       iDukeFlags = ((iDukePower * iTotalFlags) / iTotalPower);
       iNeutralFlags = (iTotalFlags - iPrincessFlags - iDukeFlags);
 
-      % Next, distribute the flags accordingly
+      // Next, distribute the flags accordingly
 
-      %  First, clear all to neutral
+      //  First, clear all to neutral
       foreach lRIDs in [plTosRIDs, plMarionRIDs, plJasperRIDs, plCorNothRIDs, plBarloqueRIDs, plRazaRIDs]
       {
          foreach iRID in lRIDs
@@ -860,7 +860,7 @@ messages:
          }
       }
 
-      %  Then place duke flags
+      //  Then place duke flags
       foreach lRIDs in [plTosRIDs, plMarionRIDs, plJasperRIDs, plCorNothRIDs, plBarloqueRIDs, plRazaRIDs]
       {
          foreach iRID in lRIDs
@@ -876,7 +876,7 @@ messages:
          }
       }
 
-      %  And finally princess flags
+      //  And finally princess flags
       foreach lRIDs in [plBarloqueRIDs, plCorNothRIDs, plJasperRIDs, plMarionRIDs, plTosRIDs, plRazaRIDs]
       {
          foreach iRID in lRIDs
@@ -892,7 +892,7 @@ messages:
          }
       }
 
-      % Now count flags and update bonus towns
+      // Now count flags and update bonus towns
       Send(self,@RecalcTownFlags,#report=FALSE);
 
       return;
@@ -921,7 +921,7 @@ messages:
       return ((iFactionTotal * piTotalPoints) / iFlagTotal);
    }
 
-   %%% Functions for the customizable parameters.
+   //// Functions for the customizable parameters.
 
    GetClaimWait()
    {
@@ -955,4 +955,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

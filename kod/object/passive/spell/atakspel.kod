@@ -1,16 +1,16 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 AttackSpell is Spell
 
-% Generic attacking spell, such as blast or bolt spells.
+// Generic attacking spell, such as blast or bolt spells.
 
 constants:
 
@@ -37,7 +37,7 @@ classvars:
    viAttack_type = 0
    viAttack_spell = ATCK_SPELL_ALL
 
-   % In seconds, since it works off GetTime(),
+   // In seconds, since it works off GetTime(),
    viPostCast_time = 2
 
    viHarmful = TRUE
@@ -54,7 +54,7 @@ properties:
    piDamageMax = 0
    piRange = $
 
-   % Maximum amount of bonus damage mana focus gives us for casting this spell.
+   // Maximum amount of bonus damage mana focus gives us for casting this spell.
    piManaFocusBonus = 5
 
    piCasterDmgPct = 100
@@ -67,8 +67,8 @@ messages:
    {
       local target, i, iTotalRange;
 
-      % Propagate area effect spells to Spell, if valid targets. CanPayCosts
-      % in AttackSpell handles single target attacks, Spell handles multiples.
+      // Propagate area effect spells to Spell, if valid targets. CanPayCosts
+      // in AttackSpell handles single target attacks, Spell handles multiples.
       if vbIsAreaEffect
       {
          if lTargets = $
@@ -82,7 +82,7 @@ messages:
          propagate;
       }
 
-      % Can cast spell if the 1 target item is a battler
+      // Can cast spell if the 1 target item is a battler
       if Length(lTargets) <> 1
       {
          return FALSE;
@@ -90,10 +90,10 @@ messages:
 
       target = First(lTargets);
 
-      % Don't allow casting on self.  This also avoids a potential problem:
-      %  if this spell were to kill the caster, he would die before the
-      %  reagents were used.  This would take some rewriting of AttackSpell
-      %  and Spell.  But, if cast from an item, smoke yourself all you want!
+      // Don't allow casting on self.  This also avoids a potential problem:
+      //  if this spell were to kill the caster, he would die before the
+      //  reagents were used.  This would take some rewriting of AttackSpell
+      //  and Spell.  But, if cast from an item, smoke yourself all you want!
       if target = who AND (NOT bItemCast)
       {
          Send(who,@WaveSendUser,#wave_rsc=spell_fail_wav);
@@ -113,8 +113,8 @@ messages:
          return FALSE;
       }
 
-      % If the target died or switched rooms while the spell is being cast
-      % then it fails.
+      // If the target died or switched rooms while the spell is being cast
+      // then it fails.
       if Send(target,@GetOwner) <> $
          AND Send(target,@GetOwner) <> Send(who,@GetOwner)
       {
@@ -129,7 +129,7 @@ messages:
       {
          iTotalRange = piRange;
 
-         % A little fudge factor to account for lag drift, etc.
+         // A little fudge factor to account for lag drift, etc.
          if IsClass(target,&Player) AND Send(target,@HasMovedRecently)
          {
             iTotalRange = iTotalRange + RANGE_MOVEMENT_BONUS;
@@ -162,7 +162,7 @@ messages:
    {
       local i, iDamage, iManaFocus, iTemp, oRoom;
 
-      % Rooms can cast earthquake, so check if we have a room for 'who'
+      // Rooms can cast earthquake, so check if we have a room for 'who'
       if IsClass(who,&Room)
       {
          oRoom = who;
@@ -180,35 +180,35 @@ messages:
 
          if NOT bItemCast
          {
-            % Myst and Int boost base damage
+            // Myst and Int boost base damage
             iDamage = Send(self,@DamageFactors,#damage=iDamage,#who=who);
 
-            % Reduce damage based on spell power.
+            // Reduce damage based on spell power.
             iDamage = (iDamage * (50 + (iSpellPower / 2))) / SPELLPOWER_MAXIMUM;
 
             if Send(who,@CheckPlayerFlag,#flag=PFLAG_MANA_FOCUS)
             {
-               % Bonus if we have mana focus up.
+               // Bonus if we have mana focus up.
                iManaFocus = Send(who,@GetEnchantedState,
                                   #what=Send(SYS,@FindSpellByNum,#num=SID_MANA_FOCUS));
 
-               % This takes the spellpower of Mana Focus (iManaFocus), and uses
-               %  that to scale our "bonus" damage.
-               % Bonus damage is 1 to piManaFocusBonus, scaled by the power of iManaFocus.
+               // This takes the spellpower of Mana Focus (iManaFocus), and uses
+               //  that to scale our "bonus" damage.
+               // Bonus damage is 1 to piManaFocusBonus, scaled by the power of iManaFocus.
                iDamage = iDamage + ((iManaFocus * piManaFocusBonus * 100) / SPELLPOWER_MAXIMUM);
             }
          }
       }
 
-      % A spell (eg. earthquake) might harm the caster also. If so, use this function.
+      // A spell (eg. earthquake) might harm the caster also. If so, use this function.
       if vbSelfHarming
          AND IsClass(who,&Player)
       {
          Send(Self,@HurtCaster,#who=who,#iDamage=iDamage);
       }
 
-      % After figuring damage, do an AssessDamage.  This will handle the necessary
-      %  attack messages.
+      // After figuring damage, do an AssessDamage.  This will handle the necessary
+      //  attack messages.
       foreach i in lTargets
       {
          if IsClass(who,&Player)
@@ -216,19 +216,19 @@ messages:
             Send(who,@SetKillTarget,#target=i);
          }
 
-         % Earthquake needs to deal damage based on range from caster. Any
-         % spell that needs to modify damage in some way and/or add extra
-         % battle messages can add the class here. iTemp holds the calculated
-         % damage while iDamage gets modified, then returns the original value
-         % to iDamage at the beginning of each loop.
+         // Earthquake needs to deal damage based on range from caster. Any
+         // spell that needs to modify damage in some way and/or add extra
+         // battle messages can add the class here. iTemp holds the calculated
+         // damage while iDamage gets modified, then returns the original value
+         // to iDamage at the beginning of each loop.
          if iTemp <> $
          {
-            % iTemp not $, so set damage to it.
+            // iTemp not $, so set damage to it.
             iDamage = iTemp;
          }
          else
          {
-            % First loop, store initial damage in iTemp.
+            // First loop, store initial damage in iTemp.
             iTemp = iDamage;
          }
 
@@ -238,7 +238,7 @@ messages:
                            #iDamage=iDamage);
             if iDamage < 100
             {
-               % To prevent spam, we don't consider 0 damage earthquake hits.
+               // To prevent spam, we don't consider 0 damage earthquake hits.
                continue;
             }
             iDamage = Send(i,@AssessDamage,#what=who,#damage=iDamage,
@@ -287,7 +287,7 @@ messages:
          Send(self,@DoSideEffect,#who=who,#victim=i,#damage=iDamage);
       }
 
-      % This used to not propagate, but as of July 2014 it does. No bugs yet noted.
+      // This used to not propagate, but as of July 2014 it does. No bugs yet noted.
       propagate;
    }
 
@@ -295,9 +295,9 @@ messages:
    {
       local iDamage, iMysticism, iIntellect;
 
-      % Get dual stats damage bonus.
-      % These difficult to master attack spells require both high mysticism
-      % and high intellect to reach their full potential.
+      // Get dual stats damage bonus.
+      // These difficult to master attack spells require both high mysticism
+      // and high intellect to reach their full potential.
       iMysticism = Send(who,@GetMysticism);
       iIntellect = Send(who,@GetIntellect);
       iDamage = ((100+bound(((iMysticism+iIntellect)/2)-25,0,40))*damage)/100;
@@ -320,7 +320,7 @@ messages:
       return vbIsRangedAttack;
    }
 
-   % The chance to do something in addition to normal damage.
+   // The chance to do something in addition to normal damage.
    DoSideEffect(who=$,victim=$,damage=0)
    {
       return;
@@ -330,12 +330,12 @@ messages:
    {
       local iFinalDamage;
 
-      % Adjust damage based on how much it should hurt the caster.
+      // Adjust damage based on how much it should hurt the caster.
       iDamage = (iDamage * piCasterDmgPct) / 100;
 
       if IsClass(who,&Player)
       {
-         % Apply the spell damage to the caster. Kill them if necessary.
+         // Apply the spell damage to the caster. Kill them if necessary.
          iFinalDamage = Send(who,@AssessDamage,#what=who,#damage=iDamage,#atype=0,
                            #aspell=viAttack_spell,#report=TRUE,#precision=TRUE);
 
@@ -361,4 +361,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

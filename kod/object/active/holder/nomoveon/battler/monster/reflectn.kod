@@ -1,16 +1,16 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Reflection is Monster
 
-% TODO BUG FIX: Somehow reflections are ending up with a nil owner.  How?
+// TODO BUG FIX: Somehow reflections are ending up with a nil owner.  How?
 
 constants:
 
@@ -79,7 +79,7 @@ properties:
    piDrawfx = 4
    vrIcon = reflection_male_icon_rsc
    piAnimation = PANM_NONE
-   % Who the reflection is of.
+   // Who the reflection is of.
    poOriginal = $
    piGender = GENDER_MALE
    pbIllusion = TRUE
@@ -190,9 +190,9 @@ messages:
       if IsClass(poOriginal,&Player)
          AND NOT Send(poOriginal,@IsLoggedOn)
       {
-         % This happens when the original leaves (i.e. logs off), and the
-         % reflection is deleted when it is removed from the system list.
-         % We don't need to delete it again here.
+         // This happens when the original leaves (i.e. logs off), and the
+         // reflection is deleted when it is removed from the system list.
+         // We don't need to delete it again here.
          return;
       }
 
@@ -218,19 +218,19 @@ messages:
       {
          if poMaster <> $
          {
-            % Reflections return to owner's control, attacking the player
-            % who stole them.
+            // Reflections return to owner's control, attacking the player
+            // who stole them.
 
             if poMaster = Send(self,@GetOriginal)
             {
-               % Don't need to do anything.
+               // Don't need to do anything.
                return;
             }
 
             Send(poMaster,@RemoveControlledMinion,#what=self);
             Send(self,@TargetSwitch,#what=poMaster,#iHatred=150);
             poMaster = Send(self,@GetOriginal);
-            % Add ourselves back to master's control list.
+            // Add ourselves back to master's control list.
             Send(poMaster,@NewControlledMinion,#minion=self);
             Send(self,@EnterStateChase);
 
@@ -240,17 +240,17 @@ messages:
       {
          poMaster = oMaster;
 
-         % Break target.
+         // Break target.
          Send(self,@EnterStateWait);
 
-         % Uncomment this if post-capture attack behavior changes.
-         %if NOT Send(SYS,@IsPKAllowed)
-         %   AND (poTarget <> $
-         %      AND IsClass(poTarget,&Player))
-         %{
-         %   % Forget our target
-         %   Send(self,@EnterStateWait);
-         %}
+         // Uncomment this if post-capture attack behavior changes.
+         //if NOT Send(SYS,@IsPKAllowed)
+         //   AND (poTarget <> $
+         //      AND IsClass(poTarget,&Player))
+         //{
+         //   // Forget our target
+         //   Send(self,@EnterStateWait);
+         //}
       }
 
       if poOwner <> $
@@ -270,7 +270,7 @@ messages:
          return;
       }
 
-      % Ignore mana drain for non-players.
+      // Ignore mana drain for non-players.
       if IsClass(poOriginal,&Monster)
       {
          return;
@@ -502,20 +502,20 @@ messages:
          return;
       }
 
-      % Our source object changed; tell everyone that we've changed, too.
+      // Our source object changed; tell everyone that we've changed, too.
       if (what = poOriginal)
       {
          piDrawfx = Send(poOriginal,@GetDrawingEffects);
          if IsClass(poOriginal,&User)
          {
-            % Players report that if a character casts a lot of
-            % reflections and then changes state, e.g. by putting on lots
-            % of clothing, other clients in the room may crash.  Our
-            % suspicion is that a server buffer gets filled, and then
-            % clients go out of sync.  We increased server buffer sizes
-            % and this appeared to fix it, but players report there may
-            % still be a problem.  Thus we jitter reflection updates to
-            % try to avoid lots of messages being sent out at once.
+            // Players report that if a character casts a lot of
+            // reflections and then changes state, e.g. by putting on lots
+            // of clothing, other clients in the room may crash.  Our
+            // suspicion is that a server buffer gets filled, and then
+            // clients go out of sync.  We increased server buffer sizes
+            // and this appeared to fix it, but players report there may
+            // still be a problem.  Thus we jitter reflection updates to
+            // try to avoid lots of messages being sent out at once.
             if ptSomethingChanged <> $
             {
                ptSomethingChanged = CreateTimer(self,@SomethingChangedTimer,750);
@@ -599,15 +599,15 @@ messages:
 
    MonsterAttack(what=$)
    {
-      % Do the animation!
+      // Do the animation!
       Send(self,@DoAttack);
 
       return;
    }
 
-   % The next three messages deal with the three defense skills.
-   % These messages return the relative values of the three skills.
-   %  Used in player for defense, used in battler for defense messages.
+   // The next three messages deal with the three defense skills.
+   // These messages return the relative values of the three skills.
+   //  Used in player for defense, used in battler for defense messages.
    GetParryAbility(stroke_obj=$)
    {
       return Send(poOriginal,@GetParryAbility,#stroke_obj=stroke_obj);
@@ -669,7 +669,7 @@ messages:
       {
          piAnimation = ANIM_ATTACK;
          Send(poOriginal,@SetAnimation,#animation=piAnimation);
-         % If original fires a projectile, we send one too.
+         // If original fires a projectile, we send one too.
          if Send(poOriginal,@GetProjectileIcon) <> $
          {
             Send(poOwner,@SomethingShot,#who=self,#target=poTarget,
@@ -769,8 +769,8 @@ messages:
 
    SpecialHatredBehavior(what=$)
    {
-      % Trying to reduce the tendency of reflections to turn on themselves
-      %  or their master.
+      // Trying to reduce the tendency of reflections to turn on themselves
+      //  or their master.
       if (IsClass(what,&Reflection)
           AND Send(what,@GetIllusionForm) = poOriginal)
          OR what = poOriginal
@@ -796,4 +796,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

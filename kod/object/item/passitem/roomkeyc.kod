@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 RoomKeyCopy is PassiveItem
 
 constants:
@@ -159,7 +159,7 @@ messages:
       if Send(what,@GetOwner) = oInn
          AND Send(oInn,@EnterRentableRoom,#who=what)
       {
-         % Can't bring a token in; no one can follow you
+         // Can't bring a token in; no one can follow you
          if Send(what,@PossessesA,#class=&Token)
          {
             Send(what,@MsgSendUser,#message_rsc=RoomKeyCopy_no_token);
@@ -192,7 +192,7 @@ messages:
 
    ReqNewOwner(what=$)
    {
-      % No dropping in rentable rooms to circumvent the room expiration code
+      // No dropping in rentable rooms to circumvent the room expiration code
       if what <> $
          AND IsClass(what,&RentableRoom)
       {
@@ -231,4 +231,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

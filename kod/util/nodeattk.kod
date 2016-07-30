@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 NodeAttack is UtilityFunctions
 
 constants:
@@ -66,55 +66,55 @@ classvars:
 
 properties:
 
-   % Are there node attacks?
+   // Are there node attacks?
    pbAttackEnabled = FALSE
-   % Base number of Meridian days to use when figuring frequency of attacks.
+   // Base number of Meridian days to use when figuring frequency of attacks.
    piAttackFrequency = 24
-   % The number of Xeochicatl spawned during an attack.
+   // The number of Xeochicatl spawned during an attack.
    piAttackIntensity = 8
-   % Number of minutes the whole attack lasts.
-   %  Divided into 1/3 time that node holders know, 2/3 time everyone knows.
+   // Number of minutes the whole attack lasts.
+   //  Divided into 1/3 time that node holders know, 2/3 time everyone knows.
    piAttackDuration = 60
 
-   % Number of Meridian days a node loss lasts.
+   // Number of Meridian days a node loss lasts.
    piLossDuration = 4
-   % Base percent chance to actually be severed from the node.
+   // Base percent chance to actually be severed from the node.
    piSeveredChance = 2
-   % Number of users that must be on before a node attack goes on.
+   // Number of users that must be on before a node attack goes on.
    piNumIPsOnForAttack = 20
 
-   % NOTE: See specific notes in Recreate() for more information.
-   % The current node being attacked.
+   // NOTE: See specific notes in Recreate() for more information.
+   // The current node being attacked.
    poAttackedNode = $
-   % List of all nodes (by ID) that can be attacked.
+   // List of all nodes (by ID) that can be attacked.
    plAttackableNodes = $
-   % First piRandomNodes in plAttackable Nodes can be randomly attacked.
+   // First piRandomNodes in plAttackable Nodes can be randomly attacked.
    piRandomNodes = 0
 
-   % NOTE: the next three properties are lists, parallel to the list of
-   %  attackable nodes.
-   % This is a list of generation points for the Xeochicatl near the nodes.
-   %  Structure: list parallel to plAttackable nodes, each element is a list of
-   %  monster spawn locations, presented as a binary list of [Row,Col].
+   // NOTE: the next three properties are lists, parallel to the list of
+   //  attackable nodes.
+   // This is a list of generation points for the Xeochicatl near the nodes.
+   //  Structure: list parallel to plAttackable nodes, each element is a list of
+   //  monster spawn locations, presented as a binary list of [Row,Col].
    plMonsterGen = $
 
-   % This is a list of locations where we place Miriana, presented as binary
-   %  lists of [Row,Col]
+   // This is a list of locations where we place Miriana, presented as binary
+   //  lists of [Row,Col]
    plMirianaLocation = $
 
-   % This is the number of Meridian Days the node is dead after a failure.
+   // This is the number of Meridian Days the node is dead after a failure.
    plDownTime = $
-   % This is the number of days to wait for an attack, start small.
+   // This is the number of days to wait for an attack, start small.
    piWaitTime = 2
 
-   % This indicates if Xeochicatl can respawn from dropped heartstones.
+   // This indicates if Xeochicatl can respawn from dropped heartstones.
    pbXeoRespawn = FALSE
-   % This indicates if Miriana even goes to view node attacks.
+   // This indicates if Miriana even goes to view node attacks.
    pbMirianaAppears = FALSE
-   % This indicates if Miriana gets that possessed look during attacks.
+   // This indicates if Miriana gets that possessed look during attacks.
    pbMirianaPossessed = FALSE
 
-   % Timer for the attack.
+   // Timer for the attack.
    ptAttack = $
 
 messages:
@@ -137,35 +137,35 @@ messages:
                             NODE_ORCCAVES, NODE_A5, NODE_ICECAVE1, NODE_Q
                           ];
 
-      % First piRandomNodes in plAttackable Nodes can be randomly attacked.
-      % Currently, Q's node in the Martyr's Battleground can be attacked, but it
-      % Won't be randomly selected.
+      // First piRandomNodes in plAttackable Nodes can be randomly attacked.
+      // Currently, Q's node in the Martyr's Battleground can be attacked, but it
+      // Won't be randomly selected.
       piRandomNodes = 6;
 
-      % This is a list of generation points for the Xeochicatl near the nodes.
-      plMonsterGen = [ [[45,34],[45,30],[43,32]],  % NODE_H9
-                       [[14,45],[12,44],[14,43]],  % NODE_VICTORIA
-                       [[62,47],[63,43],[66,47]],  % NODE_BADLANDS
-                       [[25,53],[23,51],[22,49]],  % NODE_ORCCAVES
-                       [[20,15],[17,17],[20,18]],  % NODE_A5
-                       [[23,27],[24,20],[27,20]],  % NODE_ICECAVE1
-                       [[31,61],[26,64],[26,59]]   % NODE_Q
+      // This is a list of generation points for the Xeochicatl near the nodes.
+      plMonsterGen = [ [[45,34],[45,30],[43,32]],  // NODE_H9
+                       [[14,45],[12,44],[14,43]],  // NODE_VICTORIA
+                       [[62,47],[63,43],[66,47]],  // NODE_BADLANDS
+                       [[25,53],[23,51],[22,49]],  // NODE_ORCCAVES
+                       [[20,15],[17,17],[20,18]],  // NODE_A5
+                       [[23,27],[24,20],[27,20]],  // NODE_ICECAVE1
+                       [[31,61],[26,64],[26,59]]   // NODE_Q
                      ];
 
-      % This is the location where we place Miriana.
-      plMirianaLocation = [ [39,36],  % NODE_H9
-                            [14,41],  % NODE_VICTORIA
-                            [62,35],  % NODE_BADLANDS
-                            [27,52],  % NODE_ORCCAVES
-                            [17,19],  % NODE_A5
-                            [27,28],  % NODE_ICECAVE1
-                            [30,66]   % NODE_Q
+      // This is the location where we place Miriana.
+      plMirianaLocation = [ [39,36],  // NODE_H9
+                            [14,41],  // NODE_VICTORIA
+                            [62,35],  // NODE_BADLANDS
+                            [27,52],  // NODE_ORCCAVES
+                            [17,19],  // NODE_A5
+                            [27,28],  // NODE_ICECAVE1
+                            [30,66]   // NODE_Q
                           ];
 
-      % This is the number of Meridian Days the node is dead after a failure.
+      // This is the number of Meridian Days the node is dead after a failure.
       plDownTime = [0,0,0,0,0,0,0];
 
-      % This is the number of days to wait for an attack, start small.
+      // This is the number of days to wait for an attack, start small.
       piWaitTime = 2;
 
       if ptAttack <> $
@@ -175,7 +175,7 @@ messages:
 
       ptAttack = $;
 
-      % Reset all nodes to be active.
+      // Reset all nodes to be active.
       foreach iNode in plAttackableNodes
       {
          Send(Send(SYS,@FindNodeByNum,#num=iNode),@Activate);
@@ -190,7 +190,7 @@ messages:
    {
       local iDelay, iIndex, iNodeNumber, bNodeActivated;
 
-      % Decrease counters in plDownTime, if zero, re-activeate node
+      // Decrease counters in plDownTime, if zero, re-activeate node
       iIndex = 1;
       bNodeActivated = FALSE;
 
@@ -223,13 +223,13 @@ messages:
          return;
       }
 
-      % Check the wait time, see if we're up for attacking the node again!
+      // Check the wait time, see if we're up for attacking the node again!
       piWaitTime = piWaitTime - 1;
       if piWaitTime <= 0
          AND poAttackedNode = $
          AND ptAttack = $
       {
-         % Generate a wait between a minute and 4 hours
+         // Generate a wait between a minute and 4 hours
          ptAttack = CreateTimer(self,@StartAttackTimer,Random(60,14400)*1000);
          piWaitTime = piAttackFrequency;
       }
@@ -241,8 +241,8 @@ messages:
    {
       local lAllItems, oPlayer;
 
-      % We take care of logged on users here.  Other users will be adjusted
-      % when they log on.
+      // We take care of logged on users here.  Other users will be adjusted
+      // when they log on.
       lAllItems = Send(SYS,@GetUsersLoggedOn);
       foreach oPlayer in lAllItems
       {
@@ -259,7 +259,7 @@ messages:
       ptAttack = $;
       if NOT Send(self,@DoNodeAttack)
       {
-         % Between 1 and 2 hours
+         // Between 1 and 2 hours
          ptAttack = CreateTimer(self,@StartAttackTimer,Random(3600,7200)*1000);
       }
 
@@ -271,8 +271,8 @@ messages:
       local Active, iNum, iIndex, oRoom, oMonsters, lPosition, lAllItems,
             oItem, iNumber, iNumberXeos;
 
-      % General fail conditions, not enough users, bad node, attacking an
-      %  already dead node.
+      // General fail conditions, not enough users, bad node, attacking an
+      //  already dead node.
       iNum = Send(SYS,@GetUniqueIPs);
       if poAttackedNode <> $
          OR (iNum < piNumIPsOnForAttack AND NOT bOverride)
@@ -301,12 +301,12 @@ messages:
          return FALSE;
       }
 
-      % Setup node, get location.
+      // Setup node, get location.
       poAttackedNode = Send(SYS,@FindNodeByNum,#num=iNode);
-      % TODO: Make sure node is in the room?
+      // TODO: Make sure node is in the room?
       oRoom = Send(poAttackedNode,@GetOwner);
 
-      % Find Miriana, turn off wandering, move her to room.
+      // Find Miriana, turn off wandering, move her to room.
       if pbMirianaAppears
       {
          oMonsters = First(Send(Send(SYS,@GetLibrary),@GetOccupationList,
@@ -322,7 +322,7 @@ messages:
          }
       }
 
-      % Turn off Monster spawning in room, Send message to room, kill monsters.
+      // Turn off Monster spawning in room, Send message to room, kill monsters.
       Send(oRoom,@SetMonsterGeneration,#bValue=FALSE);
       Send(oRoom,@Rumble,#duration=1000);
       lAllItems = Send(oRoom,@GetHolderActive);
@@ -341,12 +341,12 @@ messages:
          }
       }
 
-      % Spawn Xeos around node, then in room.
+      // Spawn Xeos around node, then in room.
       iNumberXeos = 0;
       lAllItems = Nth(plMonsterGen,iIndex);
       foreach oItem in lAllItems
       {
-         % For each spawn point, create 1/5 the total Xeochicatl.
+         // For each spawn point, create 1/5 the total Xeochicatl.
          iNumber=piAttackIntensity/5;
          while iNumber > 0
          {
@@ -358,7 +358,7 @@ messages:
          }
       }
 
-      % Other 2/5ths are spawned at the Gen Points.
+      // Other 2/5ths are spawned at the Gen Points.
       while iNumberXeos <= piAttackIntensity
       {
          oMonsters = Send(self,@CreateXeo);
@@ -366,8 +366,8 @@ messages:
          iNumberXeos = iNumberXeos + 1;
       }
 
-      % Set timer for when everyone will be alerted, and send message to node
-      %  holders. Convert minutes to milliseconds.
+      // Set timer for when everyone will be alerted, and send message to node
+      //  holders. Convert minutes to milliseconds.
       if (ptAttack <> $)
       {
          DeleteTimer(ptAttack);
@@ -477,7 +477,7 @@ messages:
       if iNumber = 0
       {
          iNumStones = Send(oRoom,@CouNtholdingHowMany,#class=&HeartStone);
-         % If we have more than one stone, respawn a Xeochicatl!
+         // If we have more than one stone, respawn a Xeochicatl!
          if iNumStones > 1 AND pbXeoRespawn
          {
             iNumber = 1;
@@ -487,9 +487,9 @@ messages:
                oHeartStone = Send(oRoom,@HolderExtractObject,#data=Passive);
                if IsClass(oHeartStone,&HeartStone)
                {
-                  % Don't respawn first in the list (this is the last one
-                  %  created), and spawn the last one (this is the first one
-                  %  created).  The rest have a chance to respawn.
+                  // Don't respawn first in the list (this is the last one
+                  //  created), and spawn the last one (this is the first one
+                  //  created).  The rest have a chance to respawn.
                   if iNumber > 0
                      AND (Random(1,100) < RESPAWN_CHANCE
                           OR iNumber = iNumStones)
@@ -517,8 +517,8 @@ messages:
       ptAttack = $;
       lAllItems = Send(SYS,@GetUsersLoggedOn);
 
-      % Get the room name from where the node thinks it is.  Useful for nodes
-      %  that disappear under certain conditions.
+      // Get the room name from where the node thinks it is.  Useful for nodes
+      //  that disappear under certain conditions.
       rName = Send(poAttackedNode,@GetLocationName);
       foreach oItem in lAllItems
       {
@@ -526,7 +526,7 @@ messages:
               #parm1=rName);
       }
 
-      % Convert minutes to milliseconds for timer,
+      // Convert minutes to milliseconds for timer,
       iTime = (piAttackDuration * 60000 * 2) / 3;
       ptAttack = CreateTimer(self,@EndAttackTimer,iTime);
 
@@ -546,14 +546,14 @@ messages:
       local oMonsters, oRoom, lAllItems, oItem, bSevered, iIndex, iNodeNumber,
             Active, rRoomName;
 
-      % Check timer
+      // Check timer
       if ptAttack <> $
       {
          DeleteTimer(ptAttack);
          ptAttack = $;
       }
 
-      % Fix what we stopped: Miriana's wandering, monster spawning, etc.
+      // Fix what we stopped: Miriana's wandering, monster spawning, etc.
       oMonsters = First(Send(Send(SYS,@GetLibrary),@GetOccupationList,
                         #cNPC_class=&Heretic));
 
@@ -562,7 +562,7 @@ messages:
       oRoom = Send(poAttackedNode,@GetOwner);
       Send(oRoom,@SetMonsterGeneration,#bValue=TRUE);
 
-      % Kill the Xeo's flags about being part of a node attack
+      // Kill the Xeo's flags about being part of a node attack
       lAllItems = Send(oRoom,@GetHolderActive);
       foreach Active in lAllItems
       {
@@ -573,7 +573,7 @@ messages:
          }
       }
 
-      % Get the room name from the node, where it expects to be.
+      // Get the room name from the node, where it expects to be.
       rRoomName = Send(poAttackedNode,@GetLocationName);
       if rRoomName = $
       {
@@ -582,18 +582,18 @@ messages:
       lAllItems = Send(SYS,@GetUsersLoggedOn);
       if bFailure
       {
-         % Shut off node
+         // Shut off node
          Send(poAttackedNode,@Deactivate);
          iIndex = FindListElem(plAttackableNodes,
                                Send(poAttackedNode,@GetNodeNum));
          SetNth(plDownTime,iIndex,piLossDuration);
 
-         % Run through all people melded with node, checked for severed, then
-         %  give them message or mail.
+         // Run through all people melded with node, checked for severed, then
+         //  give them message or mail.
          lAllItems = Send(SYS,@GetUsers);
          foreach oItem in lAllItems
          {
-            % Tell everyone they blew it.
+            // Tell everyone they blew it.
             if Send(oItem,@IsLoggedOn)
             {
                Send(oItem,@MsgSendUser,#message_rsc=NodeAttack_failure_rsc,
@@ -652,7 +652,7 @@ messages:
       }
       else
       {
-         % Not a failure, players succeeded!
+         // Not a failure, players succeeded!
          foreach oItem in lAllItems
          {
             Send(oItem,@MsgSendUser,#message_rsc=NodeAttack_success_rsc,
@@ -688,4 +688,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////////////////////////////////////////////////////////////

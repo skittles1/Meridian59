@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 EvilTwin is Monster
 
 constants:
@@ -55,7 +55,7 @@ classvars:
    viDifficulty = 8
    viDamagePercent = 75
 
-   % Can't escape this monster's vision range.
+   // Can't escape this monster's vision range.
    viVisionDistance = 100
    viKarma = 0
    viCashmin = 0
@@ -77,7 +77,7 @@ properties:
    vrIcon = EvilTwin_male_icon_rsc
    piAnimation = PANM_NONE
    poCaster = $
-   poOriginal = $         % Who the EvilTwin is of.
+   poOriginal = $         // Who the EvilTwin is of.
    piGender = GENDER_MALE
    pbIllusion = TRUE
    piDamagePercent
@@ -155,14 +155,14 @@ messages:
    {
       if poOriginal <> $
       {
-         % Clear the original's chasing evil twin property.
+         // Clear the original's chasing evil twin property.
          Send(poOriginal,@ClearEvilTwin);
       }
 
       if poCaster <> $
       {
-         % Let the caster know to remove us from their list of
-         % created ETs.
+         // Let the caster know to remove us from their list of
+         // created ETs.
          Send(poCaster,@RemoveCreatedEvilTwin,#what=self);
       }
 
@@ -195,7 +195,7 @@ messages:
 
    SomethingKilled(what=$,victim=$)
    {
-      % Delete the evil twin if the original dies.
+      // Delete the evil twin if the original dies.
       if victim = poOriginal
          OR (poCaster <> $
             AND victim = poCaster)
@@ -303,8 +303,8 @@ messages:
       oRoom = Send(poOriginal,@GetOwner);
       if (oRoom = $)
       {
-         % If the original logs off, we go to 'limbo' and await their return.
-         % If the caster logs off or is deleted/killed/phases, we get deleted.
+         // If the original logs off, we go to 'limbo' and await their return.
+         // If the caster logs off or is deleted/killed/phases, we get deleted.
          Send(self,@EnterStateLimbo);
          Send(self,@NewOwner,#what=$);
 
@@ -313,7 +313,7 @@ messages:
 
       if (what = poOriginal)
       {
-         % If target leaves room, hunt them down.
+         // If target leaves room, hunt them down.
          if IsClass(oRoom,&UnderWorld)
          {
             Send(self,@Delete);
@@ -380,7 +380,7 @@ messages:
                Post(poOwner,@SomethingChanged,#what=self);
             }
 
-            % Evil twins will go after the original target.
+            // Evil twins will go after the original target.
             if IsClass(self,&EvilTwin)
             {
                poMaster = Send(self,@GetCaster);
@@ -396,14 +396,14 @@ messages:
 
          if poMaster <> poCaster
          {
-            % We've been captured, break target in case the new master
-            % doesn't want to attack them.
+            // We've been captured, break target in case the new master
+            // doesn't want to attack them.
             Send(self,@EnterStateWait);
          }
          else
          {
-            % Original caster captured us back, break target unless we're
-            % attacking the original.
+            // Original caster captured us back, break target unless we're
+            // attacking the original.
             if poTarget <> poOriginal
             {
                Send(self,@EnterStateWait);
@@ -419,7 +419,7 @@ messages:
             AND (poTarget <> $
                AND IsClass(poTarget,&Player))
          {
-            % Forget our target
+            // Forget our target
             Send(self,@EnterStateWait);
          }
       }
@@ -523,13 +523,13 @@ messages:
       return 64;
    }
 
-   % This returns the battler's ability to-hit.
+   // This returns the battler's ability to-hit.
    GetOffense(what = $, stroke_obj=$)
    {
       return Send(poOriginal,@GetOffense,#what=what,#stroke_obj=stroke_obj);
    }
 
-   % This returns the battler's ability to avoid being hit.
+   // This returns the battler's ability to avoid being hit.
    GetDefense(what = $, stroke_obj=$)
    {
       return Send(poOriginal,@GetDefense,#what=what,#stroke_obj=stroke_obj);
@@ -671,15 +671,15 @@ messages:
 
    MonsterAttack(what=$)
    {
-      % Do the animation!
+      // Do the animation!
       Send(self,@DoAttack);
 
       return;
    }
 
-   % The next three messages deal with the three defense skills.
-   % These messages return the relative values of the three
-   % skills.  Used in player for defense, used in battler for defense messages.
+   // The next three messages deal with the three defense skills.
+   // These messages return the relative values of the three
+   // skills.  Used in player for defense, used in battler for defense messages.
    GetParryAbility(stroke_obj=$)
    {
       return Send(poOriginal,@GetParryAbility,#stroke_obj=stroke_obj);
@@ -742,7 +742,7 @@ messages:
          piAnimation = ANIM_ATTACK;
          Send(poOriginal,@SetAnimation,#animation=piAnimation);
 
-         % If original fires a projectile, we send one too.
+         // If original fires a projectile, we send one too.
          if Send(poOriginal,@GetProjectileIcon) <> $
          {
             Send(poOwner,@SomethingShot,#who=self,#target=poTarget,
@@ -774,7 +774,7 @@ messages:
 
    SendMoveAnimation()
    {
-      % Make it look like EvilTwin is walking
+      // Make it look like EvilTwin is walking
 
       Send(poOriginal,@SendMoveAnimation);
 
@@ -839,8 +839,8 @@ messages:
 
    SpecialHatredBehavior(what=$)
    {
-      % Trying to reduce the tendency of reflections to turn on themselves
-      %  or their master.
+      // Trying to reduce the tendency of reflections to turn on themselves
+      //  or their master.
       if IsClass(what,&Revenant)
          OR IsClass(what,&EvilTwin)
       {
@@ -861,4 +861,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

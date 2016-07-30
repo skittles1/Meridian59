@@ -1,18 +1,18 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 DiscipleRobe is RobeBase
 
-%% This item is significant in that it is a torso with something
-%% hotspotted onto it.  WHy they did it that way, but I guess we 
-%% all learn from other people's stupid implementations, neh?
+/// This item is significant in that it is a torso with something
+/// hotspotted onto it.  WHy they did it that way, but I guess we 
+/// all learn from other people's stupid implementations, neh?
 
 constants:
 
@@ -172,7 +172,7 @@ messages:
 
       bFound = FALSE;
 
-      %% Okay, decipher the high level.
+      /// Okay, decipher the high level.
       if iHigh_level = 0
       {
          Send(self,@SetXLATTranslation,#translation=viXLAT_no_knowledge);
@@ -194,7 +194,7 @@ messages:
          Send(self,@SetXLATTranslation,#translation=viXLAT_level_four);
       }
 
-      % Okay, it's above level four.  Let's be school specific, shall we?
+      // Okay, it's above level four.  Let's be school specific, shall we?
       if iHigh_level > 4
       {
          if piSchool = SS_JALA
@@ -231,7 +231,7 @@ messages:
    {
       local i, oItemAtt;
 
-      % Check to be sure nothing in ItemAtts disallows this.
+      // Check to be sure nothing in ItemAtts disallows this.
       foreach i in plItem_Attributes
       {
          oItemAtt = Send(SYS,@FindItemAttByNum,
@@ -393,8 +393,8 @@ messages:
    {
       local oSpell;
 
-      % Find a spell, any spell, so we can get the string out of it
-      % for which school we are.
+      // Find a spell, any spell, so we can get the string out of it
+      // for which school we are.
       oSpell = Send(SYS,@FindSpellByNum,#num=SID_BLINK);
       AddPacket(4,vrDesc,4,Send(oSpell,@GetSchoolStr,#iSchool=piSchool));
 
@@ -407,4 +407,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

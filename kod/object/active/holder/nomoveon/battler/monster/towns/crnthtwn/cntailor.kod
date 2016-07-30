@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 CorNothTailor is CorNothTown
 
 constants:
@@ -55,7 +55,7 @@ messages:
 
    SetForSale()
    {
-      %% Cor Noth favors earth tones and dark, grim colors.
+      /// Cor Noth favors earth tones and dark, grim colors.
 
       plFor_sale = [
          [ 
@@ -86,7 +86,7 @@ messages:
             Create(&Skirt,#color=XLAT_TO_BLUE),
             Create(&Skirt,#color=XLAT_TO_YELLOW),
 
-            %% Basic style shirts.
+            /// Basic style shirts.
             Create(&Shirt,#color=XLAT_TO_RED),
             Create(&Shirt,#color=XLAT_TO_BLACK),
             Create(&Shirt,#color=XLAT_TO_GRAY) 
@@ -121,4 +121,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

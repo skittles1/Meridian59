@@ -1,17 +1,17 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  This class tries to keep the Necromancer/Hunter scenario in balance,
-%  with all the relevant parameters collected to facilitate manual tweaking.
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
+//  This class tries to keep the Necromancer/Hunter scenario in balance,
+//  with all the relevant parameters collected to facilitate manual tweaking.
+//
+/////////////////////////////////////////////////////////////////////////////////
 NecromancerBalance is UtilityFunctions
 
 constants:
@@ -30,85 +30,85 @@ properties:
 
    ptMaintain = $
 
-   % Number of days into the current month.
+   // Number of days into the current month.
    piDays = 0
 
-   %
-   % Kill Counters.
-   %
-   % piDays*piPKcountPerDay + piPKcountTally is the total pks so far this month.
-   %
+   //
+   // Kill Counters.
+   //
+   // piDays*piPKcountPerDay + piPKcountTally is the total pks so far this month.
+   //
 
-   % Current PK tally for this 24 hr period.
+   // Current PK tally for this 24 hr period.
    piPKcountTally = 0
 
-   % Average PKs per day so far this month.
+   // Average PKs per day so far this month.
    piPKcountPerDay = 0
 
-   % List of last 12 months' piPKcountPerDay, most recent first.
+   // List of last 12 months' piPKcountPerDay, most recent first.
    plArchivedPKCounts = $
 
-   % Current tally for this 24 hr period.
+   // Current tally for this 24 hr period.
    piNKcountTally = 0
 
-   % Average per day so far this month.
+   // Average per day so far this month.
    piNKcountPerDay = 0
 
-   % List of last 12 months' piPKcountPerDay, most recent first.
+   // List of last 12 months' piPKcountPerDay, most recent first.
    plArchivedNKCounts = $
 
-   % Current tally for this 24 hr period.
+   // Current tally for this 24 hr period.
    piHKcountTally = 0
 
-   % Average per day so far this month.
+   // Average per day so far this month.
    piHKcountPerDay = 0
 
-   % List of last 12 months' piPKcountPerDay, most recent first.
+   // List of last 12 months' piPKcountPerDay, most recent first.
    plArchivedHKCounts = $
 
-   %
-   % Item timers and counters.
-   %
+   //
+   // Item timers and counters.
+   //
 
    ptTriggerAmuletGeneration = $
    ptTriggerSwordGeneration = $
    ptGenerateAmulet = $
    ptGenerateSword = $
-   piSteadyStateNumOfArtifacts = 60       % (# of amulets) + (# of swords)
-   piCriticalMassOfArtifacts = 120        % (# of amulets) + (# of swords)
-   piRechargeTime = 20                    % in days
-   piSteadyStateTime = 60                 % in days
+   piSteadyStateNumOfArtifacts = 60       // (# of amulets) + (# of swords)
+   piCriticalMassOfArtifacts = 120        // (# of amulets) + (# of swords)
+   piRechargeTime = 20                    // in days
+   piSteadyStateTime = 60                 // in days
    piNumAmuletsGenerated = 0
    piNumSwordsGenerated = 0
 
-   % When 0, only Swords generate, when 100 only amulets generate.
+   // When 0, only Swords generate, when 100 only amulets generate.
    piAmuletPercentOfArtifacts = 50
 
-   % Lists of format [ [RID, row, col, finerow, finecol], [...], ... ]
+   // Lists of format [ [RID, row, col, finerow, finecol], [...], ... ]
    plAmuletLocations = $
    plSwordLocations = $
 
-   % Item hunger interval, default one minute.
+   // Item hunger interval, default one minute.
    piHungerInterval = 60 * 1000
 
-   % In units of FineHunger.
+   // In units of FineHunger.
    piNecBaseHungerGain = 2
    piHuntBaseHungerGain = 2
 
-   % multiplier * 1000
+   // multiplier * 1000
    piPkHungerFactor = 1000
 
-   % Percentages
+   // Percentages
    piPkPercentDueToScenario = 0
    piTargetPkPercentDueToScenario = 80
    plArchivedPkPercents = $
 
-   % Items below this level in value will be low priority for teleporting
-   % to guildh15 when the lich is killed.
+   // Items below this level in value will be low priority for teleporting
+   // to guildh15 when the lich is killed.
    piTeleportThresholdValue = 100
 
-   % Determines whether numberitems are judged by total or unit value
-   % (TRUE=total, FALSE=unit)
+   // Determines whether numberitems are judged by total or unit value
+   // (TRUE=total, FALSE=unit)
    pbTeleportNumberItems = FALSE
 
    plNecromancerTreasure = $
@@ -137,7 +137,7 @@ messages:
 
    Recreate()
    {
-      %% called only by recreateall in updates.
+      /// called only by recreateall in updates.
       if plArchivedPKCounts = $ { plArchivedPKCounts = [ 20 ]; }
       if plArchivedNKCounts = $ { plArchivedNKCounts = [ 8 ]; }
       if plArchivedHKCounts = $ { plArchivedHKCounts = [ 8 ]; }
@@ -148,8 +148,8 @@ messages:
       plSwordLocations = [[RID_LICH_MAZE,24,19,62,20],[RID_LICH_MAZE,28,42,07,06],[RID_LICH_MAZE,17,42,12,10]];
       plNecromancerTreasure = $;
 
-      % Check if we have an active necro guild that isn't being tracked here.
-      % If the hall does have an owner, it will recreate the correct lich.
+      // Check if we have an active necro guild that isn't being tracked here.
+      // If the hall does have an owner, it will recreate the correct lich.
       if poNecromancerGuild = $
       {
          poNecromancerGuild = Send(Send(SYS,@FindRoomByNum,#num=RID_GUILDH15),
@@ -179,8 +179,8 @@ messages:
          DeleteTimer(ptTriggerSwordGeneration);
          ptTriggerSwordGeneration = $;
       }
-      %piNumAmuletsGenerated = 0;
-      %piNumSwordsGenerated = 0;
+      //piNumAmuletsGenerated = 0;
+      //piNumSwordsGenerated = 0;
       Send(self,@TriggerAmuletGeneration);
       Send(self,@TriggerSwordGeneration);
 
@@ -272,14 +272,14 @@ messages:
    {
       local iPeriod;
 
-      % General principle: # of artifacts generated rises from 0 to
-      % piSteadyStateNumOfArtifacts in about piRechargeTime days, then
-      % rises from piSteadyStateNumOfArtifacts to piCriticalMassOfArtifacts
-      % in the next piSteadyStateTime days.
+      // General principle: # of artifacts generated rises from 0 to
+      // piSteadyStateNumOfArtifacts in about piRechargeTime days, then
+      // rises from piSteadyStateNumOfArtifacts to piCriticalMassOfArtifacts
+      // in the next piSteadyStateTime days.
       if piNumAmuletsGenerated < (piAmuletPercentOfArtifacts
          * (piNumAmuletsGenerated+piNumSwordsGenerated) / 100)
       {
-         % We're off-balance, better hurry up!
+         // We're off-balance, better hurry up!
          Debug("Had to bump up Amulet generation to balance numbers.");
          iPeriod = 1000;
       }
@@ -366,14 +366,14 @@ messages:
    {
       local iPeriod;
 
-      % General principle: # of artifacts generated rises from 0 to
-      % piSteadyStateNumOfArtifacts in about piRechargeTime days, then
-      % rises from piSteadyStateNumOfArtifacts to piCriticalMassOfArtifacts
-      % in the next piSteadyStateTime days.
+      // General principle: # of artifacts generated rises from 0 to
+      // piSteadyStateNumOfArtifacts in about piRechargeTime days, then
+      // rises from piSteadyStateNumOfArtifacts to piCriticalMassOfArtifacts
+      // in the next piSteadyStateTime days.
       if piNumSwordsGenerated < ((100-piAmuletPercentOfArtifacts)
          * (piNumAmuletsGenerated+piNumSwordsGenerated) / 100)
       {
-         % We're off-balance, better hurry up!
+         // We're off-balance, better hurry up!
          Debug("Had to bump up Sword generation to balance numbers.");
          iPeriod = 1000;
       }
@@ -549,22 +549,22 @@ messages:
    {
       local AvgPKPerDay;
 
-      % Average current running average with last archived
-      % average - this prevents wild swings.
+      // Average current running average with last archived
+      // average - this prevents wild swings.
       AvgPKPerDay = ((piPKcountPerDay * piDays)
                            + (First(plArchivedPKCounts) * 30))/(piDays + 30);
 
-      % Consider only the approximate percentage we want
-      % to be due to the scenario.
+      // Consider only the approximate percentage we want
+      // to be due to the scenario.
       AvgPKPerDay = AvgPKPerDay * piTargetPkPercentDueToScenario/100;
 
-      % Divide by a little more than the steady-state number of scenario
-      % participants (scale up by 1000 for precision - remember this factor).
+      // Divide by a little more than the steady-state number of scenario
+      // participants (scale up by 1000 for precision - remember this factor).
       AvgPKPerDay = (AvgPKPerDay * 1000)
             / ((2*piSteadyStateNumOfArtifacts + piCriticalMassOfArtifacts)/3);
       if AvgPKPerDay > 0
       {
-         % This is (one minute)/(AvgPkPerDay/1000).
+         // This is (one minute)/(AvgPkPerDay/1000).
          piHungerInterval = 60 * 1000 * 1000 / AvgPKPerDay;
       }
 
@@ -796,8 +796,8 @@ messages:
             }
             else
             {
-               % If the second-to-last elem is also low priority,
-               % it's time to switch gears.
+               // If the second-to-last elem is also low priority,
+               // it's time to switch gears.
                if Length(plNecromancerTreasure) = 1
                   OR NOT Send(self,@TreasureIsHighPriority,
                               #oTreasure=Nth(plNecromancerTreasure,
@@ -871,4 +871,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

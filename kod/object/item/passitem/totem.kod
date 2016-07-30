@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Totem is DefenseModifier
 
 constants:
@@ -132,61 +132,61 @@ messages:
       propagate;
    }
 
-   % these 5 called by player, for window overlays
-   % Totem subclasses--do NOT set a window overlay unless you either
-   % set vrTotem_window_overlay correctly or override all these message handlers
-%  GetWindowOverlay()
-%  {
-%     return $; %vrTotem_window_overlay;
-%  }
+   // these 5 called by player, for window overlays
+   // Totem subclasses--do NOT set a window overlay unless you either
+   // set vrTotem_window_overlay correctly or override all these message handlers
+//  GetWindowOverlay()
+//  {
+//     return $; //vrTotem_window_overlay;
+//  }
 
-%  GetWindowOverlayID()
-%  {
-%     return PWO_LEFT_HAND;
-%  }
+//  GetWindowOverlayID()
+//  {
+//     return PWO_LEFT_HAND;
+//  }
 
-%  GetWindowOverlayHotspot()
-%  {
-%     return 0;  % turns off the window overlay
-%  }
+//  GetWindowOverlayHotspot()
+//  {
+//     return 0;  // turns off the window overlay
+//  }
 
-%  SendWindowOverlayAnimation()
-%  {
-%     return;      
-%  }
+//  SendWindowOverlayAnimation()
+//  {
+//     return;      
+//  }
 
-%  SendWindowOverlayOverlays()
-%  {
-%     AddPacket(1,0); % no first person overlays on top of Totem 
-%
-%     return; 
-%  }
+//  SendWindowOverlayOverlays()
+//  {
+//     AddPacket(1,0); // no first person overlays on top of Totem 
+//
+//     return; 
+//  }
 
-   % these 3 called by player, for normal 3rd-person overlays on user.
-   % Totem subclasses--do NOT set an overlay unless you either
-   % set vrTotem_overlay correctly or override all these message handlers
+   // these 3 called by player, for normal 3rd-person overlays on user.
+   // Totem subclasses--do NOT set an overlay unless you either
+   // set vrTotem_overlay correctly or override all these message handlers
 
-%  GetOverlay()
-%  {
-%     return vrTotem_overlay;
-%  }
+//  GetOverlay()
+//  {
+//     return vrTotem_overlay;
+//  }
    
-%  GetOverlayHotspot()
-%  {
-%     return HS_LEFT_WEAPON;
-%  }
+//  GetOverlayHotspot()
+//  {
+//     return HS_LEFT_WEAPON;
+//  }
 
-%  SendOverlayAnimation()
-%  {
-%     if (piItem_flags & ITEM_PALETTE_MASK) <> 0
-%     {
-%        AddPacket(1,ANIMATE_TRANSLATION,1,piItem_flags & ITEM_PALETTE_MASK);
-%     }
-%     AddPacket(1,ANIMATE_NONE,2,5); % group 2 is the player-overlay group
-%     return;
-%  }
+//  SendOverlayAnimation()
+//  {
+//     if (piItem_flags & ITEM_PALETTE_MASK) <> 0
+//     {
+//        AddPacket(1,ANIMATE_TRANSLATION,1,piItem_flags & ITEM_PALETTE_MASK);
+//     }
+//     AddPacket(1,ANIMATE_NONE,2,5); // group 2 is the player-overlay group
+//     return;
+//  }
 
-   % Don't want these to be in vaults.
+   // Don't want these to be in vaults.
    CanBeStoredInVault()
    {
       return FALSE;
@@ -208,4 +208,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

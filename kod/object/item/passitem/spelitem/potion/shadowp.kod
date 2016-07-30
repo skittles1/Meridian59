@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ShadowFormPotion is Potion
 
 constants:
@@ -19,7 +19,7 @@ resources:
    include shadowp.lkod
 
    ShadowFormPotion_name_rsc = "shadow form potion"
-   %ShadowFormPotion_icon_rsc = potion01.bgf
+   //ShadowFormPotion_icon_rsc = potion01.bgf
    ShadowFormPotion_desc_rsc = "This is a glass vial of colored liquid.  "
                         "It smells like a cross between licorice and musk."
    ShadowFormPotion_bad_desc_rsc = "This is a glass vial of dark, cloudy liquid.  "
@@ -50,4 +50,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

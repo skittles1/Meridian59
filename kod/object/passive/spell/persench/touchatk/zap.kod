@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Zap is TouchAttackSpell
 
 constants:
@@ -64,10 +64,10 @@ classvars:
    viMana = 4
    viMeditate_ratio = 10
 
-   viMin_Damage = 5         %% touch spells typically do good damage    
-   viMax_Damage = 8         %% but are unaffected by weapon or strength bonuses
+   viMin_Damage = 5         /// touch spells typically do good damage    
+   viMax_Damage = 8         /// but are unaffected by weapon or strength bonuses
 
-   % Max amount of damage that punch or 2*myst can add
+   // Max amount of damage that punch or 2*myst can add
    viMaxProficiencyDamage = 6
 
    viSpellType = ATCK_SPELL_SHOCK + ATCK_SPELL_ALL
@@ -94,4 +94,4 @@ messages:
   }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 SignetRing is Ring
 
 constants:
@@ -68,9 +68,9 @@ messages:
 
    Delete()
    {
-      % This needs to take the ring out of the wanted item of the owner.
-      % Also, take it out of the master list of signets
-      % It also needs to send a message to the owner if its a logged in player.
+      // This needs to take the ring out of the wanted item of the owner.
+      // Also, take it out of the master list of signets
+      // It also needs to send a message to the owner if its a logged in player.
       if poRingOwner<>$
       {
         Send(poRingOwner,@CutWantedItem,#class=&SignetRing);
@@ -96,7 +96,7 @@ messages:
    {
       local iValue, oMoney;
 
-      % PAYOFF: newbie=5*value, oldbie=value
+      // PAYOFF: newbie=5*value, oldbie=value
       iValue = Send(self,@GetValue);
 
       if NOT Send(who,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
@@ -167,4 +167,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

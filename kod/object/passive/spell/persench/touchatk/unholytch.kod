@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 
 UnholyTouch is TouchAttackSpell
 
@@ -73,9 +73,9 @@ classvars:
    viSpell_level = 1
    viMana = 4
 
-   % While Unholy Touch seems to have similar base damages to other spells,
-   % it does not get any proficiency damage bonuses. Instead, it
-   % swings damage based on karma, and also heals its wielder per hit.
+   // While Unholy Touch seems to have similar base damages to other spells,
+   // it does not get any proficiency damage bonuses. Instead, it
+   // swings damage based on karma, and also heals its wielder per hit.
    viMin_Damage = 5
    viMax_Damage = 8
 
@@ -109,20 +109,20 @@ messages:
    {
       local iHeal;
 
-      % We reach this point when the player has successfully hit something.
-      % We don't have final damage amounts, so we'll keep the drain small.
-      % We're hitting somebody, so we're dealing at least 1 damage. With
-      % that in mind, let's have this level one spell heal 1 health per hit.
-      % Sometimes two health if the mage is lucky.
-      % Even 1 health per hit is pretty substantial for a newbie.
-      % This should give Qors a strong building tool right out of the gate.
-      % Acid Touch at level two will not heal its users, but its damage
-      % is significantly higher.
+      // We reach this point when the player has successfully hit something.
+      // We don't have final damage amounts, so we'll keep the drain small.
+      // We're hitting somebody, so we're dealing at least 1 damage. With
+      // that in mind, let's have this level one spell heal 1 health per hit.
+      // Sometimes two health if the mage is lucky.
+      // Even 1 health per hit is pretty substantial for a newbie.
+      // This should give Qors a strong building tool right out of the gate.
+      // Acid Touch at level two will not heal its users, but its damage
+      // is significantly higher.
       
       if Send(victim,@IsUndead)
          OR Send(victim,@IsDrainImmune)
       {
-         % Can't drain from undead or drain immunes!
+         // Can't drain from undead or drain immunes!
          propagate;
       }
 
@@ -148,19 +148,19 @@ messages:
 
       iDamage = damage;
 
-      % Avoid the condition of checking damage on a nil victim (like when
-      %  just querying average damage).
+      // Avoid the condition of checking damage on a nil victim (like when
+      //  just querying average damage).
       if victim <> $
       {
          if Send(victim,@IsUndead)
          {
-            % Automatically do 50% of damage to undead.
+            // Automatically do 50// of damage to undead.
             iDamage = iDamage/2;
          }
          else
          {
-            % Inncrease damage by 50% on opponent's with good Karma.
-            % Use the detect option in case we're hitting an event monster.
+            // Inncrease damage by 50// on opponent's with good Karma.
+            // Use the detect option in case we're hitting an event monster.
             iKarma = Send(victim,@GetKarma,#detect=TRUE);
             iDamage = iDamage + ((iKarma)*iDamage/200);
          }
@@ -184,4 +184,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

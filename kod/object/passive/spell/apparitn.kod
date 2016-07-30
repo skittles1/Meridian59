@@ -1,21 +1,21 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 SummonApparition is Spell
 
 constants:
 
    include blakston.khd
 
-   % What number do we divide the true hps by in order to get the hps of
-   %  the apparition?
+   // What number do we divide the true hps by in order to get the hps of
+   //  the apparition?
    APPARITION_FRACTION = 10
 
 resources:
@@ -87,8 +87,8 @@ messages:
 
       if lTargets  = $
       {
-         % For some reason, the client is Sending a null list if you
-         %  target a number item with a spell.  for now, assume it's bad.
+         // For some reason, the client is Sending a null list if you
+         //  target a number item with a spell.  for now, assume it's bad.
          Send(who,@MsgSendUser,#message_rsc=apparition_fizzle);
       }
 
@@ -149,7 +149,7 @@ messages:
          }
       }
 
-      % These three functions allow monsters to keep track of Apparitions.
+      // These three functions allow monsters to keep track of Apparitions.
       Send(oTarget,@AddApparition,#what=oApparition);
       Send(oApparition,@AddApparitionOriginal,#what=oTarget);
       Send(oApparition,@ApparitionCaster,#who=who);
@@ -251,4 +251,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 KocatanTailorShop is KocatanRoom
 
 constants:
@@ -55,14 +55,14 @@ messages:
    {
       plExits = $;
 
-      % To town -- teleport in to (18,4).
+      // To town -- teleport in to (18,4).
       plExits = Cons([ 17, 3, RID_KOC_SOUTH, 30, 35, ROTATE_NONE ],plExits);
       plExits = Cons([ 18, 3, RID_KOC_SOUTH, 30, 35, ROTATE_NONE ],plExits);
 
-      % This is the key door - leave this here.  It will give the locked
-      % message if they don't have a key.
+      // This is the key door - leave this here.  It will give the locked
+      // message if they don't have a key.
       plExits = Cons([ 15, 9, ROOM_LOCKED_DOOR, koctail_locked_2],plExits);
-      % Don't need key going the other way.
+      // Don't need key going the other way.
       plExits = Cons([ 14, 9, RID_KOC_TAILOR, 16, 9, ROTATE_NONE ],plExits);
 
       plExits = Cons([ 18, 10, ROOM_LOCKED_DOOR, koctail_locked_1],plExits);
@@ -132,4 +132,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

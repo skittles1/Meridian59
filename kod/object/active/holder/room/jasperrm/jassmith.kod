@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 JasperSmithy is JasperRoom
 
 constants:
@@ -48,7 +48,7 @@ messages:
    {
       Send(self,@NewHold,#what=Create(&JasperBlackSmith),
            #new_row=13,#new_col=13,#new_angle=ANGLE_NORTH_WEST);
-      % and some braziers
+      // and some braziers
 
       Send(self,@NewHold,#what=Create(&Brazier),
            #new_row=14,#fine_row=0,#new_col=6, #fine_col=0);
@@ -62,11 +62,11 @@ messages:
    {
       plExits = $;
 
-  %% TO TOWN
+  /// TO TOWN
       plExits = Cons([ 5, 5, RID_JASPER, 40, 56, ROTATE_NONE ],plExits);
 
       propagate;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

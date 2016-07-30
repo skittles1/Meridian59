@@ -1,16 +1,16 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%an Arrow is a NumberItem used by a bow--it needs properties and procedures
-%for ShowSomething() and GetDamage()
-%
+////////////////////////////////////////////////////////////////////////////////
+//an Arrow is a NumberItem used by a bow--it needs properties and procedures
+//for ShowSomething() and GetDamage()
+//
 Arrow is Ammo
 
 constants:
@@ -22,7 +22,7 @@ resources:
    include arrow.lkod
 
    arrow_name_rsc = "arrows"
-   arrow_icon_rsc = arrow.bgf           %NEEDS A PICTURE
+   arrow_icon_rsc = arrow.bgf           //NEEDS A PICTURE
    arrow_desc_rsc = \
       "Slender and straight with jungle bird feathers for guidance, "
       "this is standard ammunition for a bow."
@@ -67,4 +67,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

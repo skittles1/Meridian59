@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Chalice is PassiveItem
 
 constants:
@@ -77,18 +77,18 @@ messages:
          propagate;
       }
 
-      % If we drop it in a room with a high Shal'ille bonus, refill the chalice
+      // If we drop it in a room with a high Shal'ille bonus, refill the chalice
       if IsClass(what,&Room)
          AND Send(what,@GetShalilleBonus) > 20
       {
          piHits = piHits_init;
       }
 
-      % If a user already has a chalice, then "combine" them.
+      // If a user already has a chalice, then "combine" them.
       if IsClass(what,&User)
       {
-         % Get the second chalice in sequence.  This is the one the
-         % user was originally holding, if any.
+         // Get the second chalice in sequence.  This is the one the
+         // user was originally holding, if any.
 
          oOtherChalice = Send(what,@FindHolding,#class=&Chalice,#sequence=2);
 
@@ -118,8 +118,8 @@ messages:
    {
       if (IsClass(what,&User))
       {
-         % Prevent use if you're red.  This is because player killers
-         % were using this to escape too easily after kills.
+         // Prevent use if you're red.  This is because player killers
+         // were using this to escape too easily after kills.
          if Send(what,@CheckPlayerFlag,#flag=PFLAG_MURDERER)
             OR Send(what,@CheckPlayerFlag,#flag=PFLAG_OUTLAW)
          {
@@ -128,7 +128,7 @@ messages:
             return FALSE;
          }
 
-         % Prevent use if you can't fight.
+         // Prevent use if you can't fight.
          if Send(what,@CheckPlayerFlag,#flag=PFLAG_NO_FIGHT)
          {
             return FALSE;
@@ -153,7 +153,7 @@ messages:
          Post(self,@Delete);
       }
 
-      % Cast Rescue at really low power.
+      // Cast Rescue at really low power.
       oRescue = Send(SYS,@FindSpellByNum,#num=SID_RESCUE);
       Send(oRescue,@CastSpell,#who=apply_on,#iSpellPower=1,#bItemCast=TRUE);
 
@@ -201,4 +201,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

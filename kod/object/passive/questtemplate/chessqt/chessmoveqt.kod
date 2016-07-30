@@ -1,30 +1,30 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 ChessMoveQuest is ChessQuestTemplate
-% Quest template QST_ID_CHESS = 40.
-% Quest nodes 126, 127, 128, 129.
-% QNT_ID_CHESS_QUEST_ONE, QNT_ID_CHESS_QUEST_TWO, QNT_ID_CHESS_QUEST_THREE
-% QNT_ID_CHESS_QUEST_FOUR
+// Quest template QST_ID_CHESS = 40.
+// Quest nodes 126, 127, 128, 129.
+// QNT_ID_CHESS_QUEST_ONE, QNT_ID_CHESS_QUEST_TWO, QNT_ID_CHESS_QUEST_THREE
+// QNT_ID_CHESS_QUEST_FOUR
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -34,13 +34,13 @@ resources:
 
    include chessmoveqt.lkod
 
-   % Quest description.
+   // Quest description.
    chessmovequest_name_rsc = "chess move courier quest"
 
    chessmovequest_completed_rsc = \
       "You have completed a chess move courier quest."
 
-   % Quest resources.
+   // Quest resources.
    chess_success_4 = \
       "Very clever!  I'll have to think a bit before I respond.  Thank "
       "you for helping us conduct our game, here's a little something "
@@ -52,7 +52,7 @@ classvars:
 
    vrCompleted = chessmovequest_completed_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_CHESS
 
 properties:
@@ -61,11 +61,11 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_CHESS_QUEST_ONE, QNT_ID_CHESS_QUEST_TWO,
                       QNT_ID_CHESS_QUEST_THREE, QNT_ID_CHESS_QUEST_FOUR];
 
-      % Quest nodes with matching descriptions for the player.
+      // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_CHESS_QUEST_TWO, vrNodeTwo],
                           [QNT_ID_CHESS_QUEST_THREE, vrNodeThree],
                           [QNT_ID_CHESS_QUEST_FOUR, vrNodeFour] ];
@@ -80,8 +80,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #126 is chess quest
-      % QNT_ID_CHESS_QUEST_ONE
+      // Template #126 is chess quest
+      // QNT_ID_CHESS_QUEST_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_SHOWUP,
                #quest_node_index=QNT_ID_CHESS_QUEST_ONE)
       {
@@ -126,8 +126,8 @@ messages:
          Debug("Error building QN: QNT_ID_CHESS_QUEST_ONE");
       }
 
-      % Template #127 is chess quest
-      % QNT_ID_CHESS_QUEST_TWO
+      // Template #127 is chess quest
+      // QNT_ID_CHESS_QUEST_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #NPC_modifier=QN_NPCMOD_SAME,#cargolist=[chess_trigger],
                #timelimit=2 * 60,#quest_node_index=QNT_ID_CHESS_QUEST_TWO)
@@ -140,8 +140,8 @@ messages:
          Debug("Error building QN: QNT_ID_CHESS_QUEST_TWO");
       }
 
-      % Template #128 is chess quest
-      % QNT_ID_CHESS_QUEST_THREE
+      // Template #128 is chess quest
+      // QNT_ID_CHESS_QUEST_THREE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_CHESSMOVE,
                #NPC_modifier=QN_NPCMOD_DIFFERENT,
                #timelimit=6 * 3600,#quest_node_index=QNT_ID_CHESS_QUEST_THREE)
@@ -158,8 +158,8 @@ messages:
          Debug("Error building QN: QNT_ID_CHESS_QUEST_THREE");
       }
 
-      % Template #129 is chess quest
-      % QNT_ID_CHESS_QUEST_FOUR
+      // Template #129 is chess quest
+      // QNT_ID_CHESS_QUEST_FOUR
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_CHESSMOVE,
                #NPC_modifier=QN_NPCMOD_PREVIOUS,
                #prizelist=[ [ [ QN_PRIZETYPE_ITEMCLASS, &Money, 500 ],
@@ -184,4 +184,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

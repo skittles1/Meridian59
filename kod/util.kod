@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 UtilityFunctions
 
 constants:
@@ -46,7 +46,7 @@ messages:
          return FALSE;
       }
 
-      % get room boundaries
+      // get room boundaries
       room_rows = Send(where,@GetRoomRows);
       room_cols = Send(where,@GetRoomCols);
 
@@ -58,7 +58,7 @@ messages:
          {
             if i = 0 OR i = (2*distance)
             {
-               % First or last row, check all the way across
+               // First or last row, check all the way across
                j = 0;
                while j <= (2*distance)
                {
@@ -79,7 +79,7 @@ messages:
             }
             else
             {
-               % middle row, check left and right side
+               // middle row, check left and right side
 
                row = new_row - distance + i;
                if (row >= 1 and row <= room_rows)
@@ -118,7 +118,7 @@ messages:
    "the room move could go to adjacent rooms!! blah. If <new_angle> = $, "
    "then no angle is passed to rooms (will leave old one if in room)."
    {
-      % MOVE in same room
+      // MOVE in same room
       if Send(what,@GetOwner) = where
       {
          if IsClass(what,&User)
@@ -140,7 +140,7 @@ messages:
             return TRUE;
          }
       }
-      % MOVE into other room
+      // MOVE into other room
       else
       {
          if Send(where,@ReqNewHold,#what=what,#new_row=new_row,#new_col=new_col)
@@ -158,12 +158,12 @@ messages:
                }
                else
                {
-                  % move with no angle data, so room uses default
+                  // move with no angle data, so room uses default
                   Send(where,@NewHold,#what=what,#new_row=new_row,
                         #new_col=new_col,#fine_row=fine_row,#fine_col=fine_col);
                }
 
-               % make sure the position is updated
+               // make sure the position is updated
                Send(where,@SomethingMoved,#what=what,#new_row=new_row,
                      #new_col=new_col,#fine_row=fine_row,#fine_col=fine_col);
             }
@@ -225,7 +225,7 @@ messages:
             return ANGLE_SOUTH_EAST;
          }
 
-         % so row < 0
+         // so row < 0
          if col >= (-2*row)
          {
             return ANGLE_EAST;
@@ -239,7 +239,7 @@ messages:
          return ANGLE_NORTH_EAST;
       }
 
-      % so col < 0
+      // so col < 0
       if row >= 0
       {
          if -col > (2*row)
@@ -255,7 +255,7 @@ messages:
          return ANGLE_SOUTH_WEST;
       }
 
-      % so col < 0 and row < 0
+      // so col < 0 and row < 0
       if -col >= (-2*row)
       {
          return ANGLE_WEST;
@@ -276,9 +276,9 @@ messages:
          return TRUE;
       }
 
-      % These translations are red->color while blue->skin and
-      % red->black while blue->white and vice versa, or
-      % red->black/blue->black.
+      // These translations are red->color while blue->skin and
+      // red->black while blue->white and vice versa, or
+      // red->black/blue->black.
       if Xlat = XLAT_REDTOBLACK
          OR Xlat = XLAT_BLUETOBLACK
          OR (Xlat >= PT_REDTODGREEN1
@@ -298,11 +298,11 @@ messages:
 
       if color1 >  XLAT_TO_SKY
       {
-         % Handle new black/white translations. These include red->black and
-         % red->black while blue->skin, red->black while blue->white and
-         % vice versa. We include them here so they can be used to translate
-         % guild shields and other items correctly. These single two-color
-         % XLATS are sent as color1, with no color2 added (raw value returned).
+         // Handle new black/white translations. These include red->black and
+         // red->black while blue->skin, red->black while blue->white and
+         // vice versa. We include them here so they can be used to translate
+         // guild shields and other items correctly. These single two-color
+         // XLATS are sent as color1, with no color2 added (raw value returned).
          if color1 = XLAT_REDTOBLACK
             OR color1 = XLAT_BLUETOBLACK
             OR color1 = PT_REDBLK_BLWHT
@@ -311,7 +311,7 @@ messages:
             return color1;
          }
 
-         % We might need to modify these based on a given skin color.
+         // We might need to modify these based on a given skin color.
          if color2 >= XLAT_TO_SKIN1
             AND color2 <= XLAT_TO_SKIN4
          {
@@ -332,7 +332,7 @@ messages:
             }
          }
 
-         % Skin colors handled, return the raw value for new two-color XLATs.
+         // Skin colors handled, return the raw value for new two-color XLATs.
          if color1 >= PT_REDTODGREEN1
             AND color1 <= PT_REDTODKBLACK3
          {
@@ -431,7 +431,7 @@ messages:
          Debug("create object", GetClass(i));
          if (IsClass(i,&NumberItem))
          {
-            %Debug(GetClass(i),Send(i,@GetNumber));
+            //Debug(GetClass(i),Send(i,@GetNumber));
             Debug("create object",GetClass(i),"number int",
                   Send(i,@GetNumber),"tl = %");
          }
@@ -478,7 +478,7 @@ messages:
       lSpells = ListCopy(plSpells);
       foreach i in lSpells
       {
-         %AdminSetSpell(num = 0, ability = 0, add = 0)
+         //AdminSetSpell(num = 0, ability = 0, add = 0)
          Debug("send o % AdminSetSpell num int",
                Send(self,@DecodeSpellNum,#compound=i),"ability int",
                Send(self,@DecodeSpellAbility,#compound=i));
@@ -494,8 +494,8 @@ messages:
       lUsers = ListCopy(Send(SYS,@GetUsers));
       lFinal = $;
 
-      % First, let's delete any deadweight from the list.
-      % People who never logged on get nothing.
+      // First, let's delete any deadweight from the list.
+      // People who never logged on get nothing.
       foreach i in lUsers
       {
          if Send(i,@GetTimeLoggedIn) < 1
@@ -505,8 +505,8 @@ messages:
          }
       }
 
-      % Okay, insertion sort.  Let's go through the list until there 
-      % ain't no more list.
+      // Okay, insertion sort.  Let's go through the list until there 
+      // ain't no more list.
 
       while lUsers <> $
       {
@@ -580,8 +580,8 @@ messages:
          return lList;
       }
 
-      % Check if it's already in the list, if so remove. Skip removal if
-      % bIgnoreDuplicate is set.
+      // Check if it's already in the list, if so remove. Skip removal if
+      // bIgnoreDuplicate is set.
       if (NOT bIgnoreDuplicate)
       {
          lEntry = GetListNode(lList,1,what);
@@ -590,7 +590,7 @@ messages:
       if (lEntry <> $)
       {
          lList = DelListElem(lList,lEntry);
-         % Set new points.
+         // Set new points.
          number = Nth(lEntry,2) + number;
          SetNth(lEntry,2,number);
       }
@@ -600,8 +600,8 @@ messages:
       }
 
       iCount = 1;
-      % User wasn't on scoreboard. Get the position in list of
-      % where we need to add them.
+      // User wasn't on scoreboard. Get the position in list of
+      // where we need to add them.
       foreach lElem in lList
       {
          if (bReverse)
@@ -622,8 +622,8 @@ messages:
          iCount = iCount + 1;
       }
 
-      % Number should be less than that at iCount - 1 but more than
-      % iCount, so insert them at iCount and push that entry back.
+      // Number should be less than that at iCount - 1 but more than
+      // iCount, so insert them at iCount and push that entry back.
       lList = InsertListElem(lList, iCount, lEntry);
 
       return lList;
@@ -650,4 +650,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

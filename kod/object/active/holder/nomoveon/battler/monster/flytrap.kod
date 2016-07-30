@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 flytrap is Monster
 
 constants:
 
    include blakston.khd
 
-   % any attack or spasm animation?
+   // any attack or spasm animation?
 
 resources:
 
@@ -27,7 +27,7 @@ resources:
    flytrap_dead_icon_rsc = shrub.bgf
    flytrap_dead_name_rsc = "hedged man-eating plant"
 
-   % any weapon movement resources?
+   // any weapon movement resources?
 
 classvars:
    vrName = flytrap_name_rsc
@@ -36,7 +36,7 @@ classvars:
    vrDead_icon = flytrap_dead_icon_rsc
    vrDead_name = flytrap_dead_name_rsc
 
-   %select a treasure type
+   //select a treasure type
    viTreasure_type = TID_LOW_HUMAN
 
    viSpeed = SPEED_VERY_SLOW
@@ -64,11 +64,11 @@ messages:
 
    MonsterAttack(what = $)
    {
-      % add in any attack animation calls
+      // add in any attack animation calls
       return;
    }
 
-% Add in all the animations for moving, or looking, etc.
+// Add in all the animations for moving, or looking, etc.
 
    SendLookAnimation()
    {
@@ -96,4 +96,4 @@ messages:
    }      
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

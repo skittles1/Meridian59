@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 KocatanApoth is KocatanRoom
 
 constants:
@@ -48,7 +48,7 @@ messages:
    {
       plExits = $;
 
-      % TO TOWN
+      // TO TOWN
       plExits = Cons([ 8, 2, RID_KOCATAN, 21, 7, ROTATE_NONE ],plExits);
       plExits = Cons([ 8, 3, RID_KOCATAN, 21, 7, ROTATE_NONE ],plExits);
       plExits = Cons([ 8, 4, RID_KOCATAN, 21, 7, ROTATE_NONE ],plExits);
@@ -84,7 +84,7 @@ messages:
             #new_row=4,#new_col=2,#fine_row=32,#fine_col=24,
             #new_angle=ANGLE_EAST);
 
-      % Lighting
+      // Lighting
       Send(self,@NewHold,#what=Create(&DynamicLight,
             #iColor=LIGHT_FIRE,#iIntensity=25),
             #new_row=2,#new_col=5,#fine_row=16,#fine_col=32);
@@ -96,4 +96,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

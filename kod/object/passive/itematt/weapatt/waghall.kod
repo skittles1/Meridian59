@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 WeapAttGuildHallDefender is WeaponAttribute
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%   This Weapon Attribute offers a +2 damage bonus if you attack with it
-%   in your guild hall, and it is also the guild hall of the weapon.
-%   The weapon's guild hall is shown in the description of the weapon.
-%
-%   Form is:
-%
-%      [ WA_GUILD_HALL_DEFENDER, $, RID_GUILDHALL ]
-%
-%       rid_guildhall:: the room id of the guild hall that 'owns' the weapon,
-%               as found in blakston.khd.  Example, RID_GUILDH4 = Wryn's Keep
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////
+//
+//   This Weapon Attribute offers a +2 damage bonus if you attack with it
+//   in your guild hall, and it is also the guild hall of the weapon.
+//   The weapon's guild hall is shown in the description of the weapon.
+//
+//   Form is:
+//
+//      [ WA_GUILD_HALL_DEFENDER, $, RID_GUILDHALL ]
+//
+//       rid_guildhall:: the room id of the guild hall that 'owns' the weapon,
+//               as found in blakston.khd.  Example, RID_GUILDH4 = Wryn's Keep
+//
+///////////////////////////////////////////////////////////////////////
 
 constants:
 
@@ -52,16 +52,16 @@ classvars:
 
 properties:
 
-   piValue_modifier = 200   %% modify the object's price by 100%
+   piValue_modifier = 200   /// modify the object's price by 100//
    piValue_power_modifier = 5
 
 messages:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Treasure Gen Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Treasure Gen Functions
+///
+////////////////////////////////////////////////
 
    AddSelfToRandomItem(oItem=$,who=$)
    {
@@ -74,17 +74,17 @@ messages:
          return FALSE;
       }
 
-      %% Most of the time, the player will get a weapon that is tied
-      %% to the guild hall he owns.  If he doesn't own a hall, then
-      %% it will choose a hall at random.
+      /// Most of the time, the player will get a weapon that is tied
+      /// to the guild hall he owns.  If he doesn't own a hall, then
+      /// it will choose a hall at random.
 
       iHall = 0;
       if Random(1,100) > 50
       {
-         %% see if the player belongs to a guild.
+         /// see if the player belongs to a guild.
          oGuild = Send(who,@GetGuild);
 
-         %% see if that guild has a hall already
+         /// see if that guild has a hall already
          if oGuild <> $
          {
             iHall = Send(oGuild,@GetGuildHallNum);
@@ -93,13 +93,13 @@ messages:
 
       if iHall = $ or (iHall < RID_GUILDH_MIN or iHall > RID_GUILDH_MAX)
       {
-         %% choose a random guild hall
+         /// choose a random guild hall
 
          iHall = Random(RID_GUILDH_MIN,RID_GUILDH_MAX);
       }
 
-      %% Okay, it's crazy, but someone could screw up and leave space
-      %% in the RIDlist.  So for as long as oHall = $, get a new iHall.
+      /// Okay, it's crazy, but someone could screw up and leave space
+      /// in the RIDlist.  So for as long as oHall = $, get a new iHall.
       oHall = Send(SYS,@FindRoomByNum,#num=iHall);
       while oHall = $
       {
@@ -127,11 +127,11 @@ messages:
       propagate;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Effect Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Effect Functions
+///
+////////////////////////////////////////////////
 
    ModifyDamage(damage=0,target=$,wielder=$,lData=$)
    "If wielder is in his own guild hall, which is also the chosen guild hall "
@@ -155,14 +155,14 @@ messages:
       oGuild = Send(wielder,@GetGuild);
       oRoom = Send(SYS,@FindRoomByNum,#num=Nth(lData,3));
 
-      % Does this person's guild own the guild hall?
+      // Does this person's guild own the guild hall?
       if oGuild <> $
          AND Send(oRoom,@GetGuildOwner) = oGuild
       {
          iPower = Send(self,@TranslatePowerFromCompound,#iCompound=First(lData));
          iPower = Send(self,@DecipherDamageFromPower,#iPower=iPower);
 
-         % Only give half bonus if we're not actively defending a guild hall.
+         // Only give half bonus if we're not actively defending a guild hall.
          if Send(wielder,@GetOwner) <> oRoom
          {
             iPower = iPower/2;
@@ -196,14 +196,14 @@ messages:
       oGuild = Send(wielder,@GetGuild);
       oRoom = Send(SYS,@FindRoomByNum,#num=Nth(lData,3));
 
-      % Does this person's guild own the guild hall?
+      // Does this person's guild own the guild hall?
       if oGuild <> $
          AND Send(oRoom,@GetGuildOwner) = oGuild
       {
          iPower = Send(self,@TranslatePowerFromCompound,#iCompound=First(lData));
          iPower = Send(self,@DecipherHitRollFromPower,#iPower=iPower);
 
-         % Only give half bonus if we're not actively defending a guild hall.
+         // Only give half bonus if we're not actively defending a guild hall.
          if Send(wielder,@GetOwner) <> oRoom
          {
             iPower = iPower/2;
@@ -215,11 +215,11 @@ messages:
       return hitroll;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Initialization Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Initialization Functions
+///
+////////////////////////////////////////////////
 
    InitialPower(oItem=$)
    {
@@ -246,11 +246,11 @@ messages:
       return state1;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Description Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Description Functions
+///
+////////////////////////////////////////////////
 
    AppendDesc(oItem=$,lData=$,iFakeData=0,iFakePower=0)
    {
@@ -289,11 +289,11 @@ messages:
       return;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Artifice Spell Functions (also see desc functions)
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////
+///
+///  Artifice Spell Functions (also see desc functions)
+///
+////////////////////////////////////////////////////////
 
    FakeAttData()
    {
@@ -318,4 +318,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

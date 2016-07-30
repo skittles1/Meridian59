@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Yrxlsap is Reagent
 
 constants:
@@ -83,11 +83,11 @@ messages:
    {
       if pbGathered
       {
-         AddPacket(1,ANIMATE_NONE,2,1);  % Bottled
+         AddPacket(1,ANIMATE_NONE,2,1);  // Bottled
       }
       else
       {
-         AddPacket(1,ANIMATE_NONE,2,2);  % Ground
+         AddPacket(1,ANIMATE_NONE,2,2);  // Ground
       }
 
       return;
@@ -97,11 +97,11 @@ messages:
    {
       if pbGathered
       {
-         AddPacket(1,ANIMATE_NONE,2,1);  % Bottled
+         AddPacket(1,ANIMATE_NONE,2,1);  // Bottled
       }
       else
       {
-         AddPacket(1,ANIMATE_NONE,2,2);  % Ground
+         AddPacket(1,ANIMATE_NONE,2,2);  // Ground
       }
 
       return;
@@ -111,11 +111,11 @@ messages:
    {
       if pbGathered
       {
-         AddPacket(1,ANIMATE_NONE,2,1);  % Bottled
+         AddPacket(1,ANIMATE_NONE,2,1);  // Bottled
       }
       else
       {
-         AddPacket(1,ANIMATE_NONE,2,2);  % Ground
+         AddPacket(1,ANIMATE_NONE,2,2);  // Ground
       }
 
       return;
@@ -150,4 +150,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

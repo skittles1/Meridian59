@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 IdentifyWandQuest is QuestTemplate
-% Quest template QST_ID_WAND_ID = 59.
-% Quest nodes 179, 180, 181.
-% QNT_ID_WAND_ID_ONE, QNT_ID_WAND_ID_TWO, QNT_ID_WAND_ID_THREE
+// Quest template QST_ID_WAND_ID = 59.
+// Quest nodes 179, 180, 181.
+// QNT_ID_WAND_ID_ONE, QNT_ID_WAND_ID_TWO, QNT_ID_WAND_ID_THREE
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -33,7 +33,7 @@ resources:
 
    include idwandqt.lkod
 
-   % Quest description.
+   // Quest description.
    idwandqt_icon_rsc = joltstaf.bgf
    idwandqt_name_rsc = "wand identification quest"
    idwandqt_desc_rsc = \
@@ -51,7 +51,7 @@ resources:
    idwandqt_completed_rsc = \
       "You have completed the wand identification quest."
 
-   % Quest resources.
+   // Quest resources.
    wand_identify_assign_1 =\
       "Well, now that you mention it, I do have this wand I picked up the "
       "other day but I can't figure out what it does - it seems to repel "
@@ -88,7 +88,7 @@ classvars:
 
    vrCompleted = idwandqt_completed_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_WAND_ID
 
 properties:
@@ -103,11 +103,11 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_WAND_ID_ONE, QNT_ID_WAND_ID_TWO,
                       QNT_ID_WAND_ID_THREE];
 
-      % Quest nodes with matching descriptions for the player.
+      // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_WAND_ID_TWO, vrNodeTwo],
                           [QNT_ID_WAND_ID_THREE, vrNodeThree] ];
 
@@ -121,8 +121,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #179 is wand ID quest kickoff, "need a courier"
-      % QNT_ID_WAND_ID_ONE
+      // Template #179 is wand ID quest kickoff, "need a courier"
+      // QNT_ID_WAND_ID_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[ letter_trigger ],
                #quest_node_index=QNT_ID_WAND_ID_ONE)
@@ -164,8 +164,8 @@ messages:
          Debug("Error building QN: QNT_ID_WAND_ID_ONE");
       }
 
-      % Template #180 is wand ID quest, deliver the mystery potion
-      % QNT_ID_WAND_ID_TWO
+      // Template #180 is wand ID quest, deliver the mystery potion
+      // QNT_ID_WAND_ID_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_ITEM,
                #cargolist=[ [ QN_PRIZETYPE_ITEMCLASS, &MysteryWand, 1 ] ],
                #timelimit=6 * 3600,#quest_node_index=QNT_ID_WAND_ID_TWO)
@@ -184,8 +184,8 @@ messages:
          Debug("Error building QN: QNT_ID_WAND_ID_TWO");
       }
 
-      % Template #181 is wand ID quest, come back and give the labeled potion
-      % QNT_ID_WAND_ID_THREE
+      // Template #181 is wand ID quest, come back and give the labeled potion
+      // QNT_ID_WAND_ID_THREE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_ITEM,
                #cargolist=[ [ QN_PRIZETYPE_ITEMCLASS, &LabeledWand, 1 ] ],
                #prizelist=[ [ [ QN_PRIZETYPE_ITEMCLASS, &Money, 1000 ],
@@ -244,4 +244,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

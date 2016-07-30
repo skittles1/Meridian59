@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 MysticSword is Weapon
 
 constants:
@@ -33,14 +33,14 @@ classvars:
    vrIcon = mysticsword_icon_rsc
    vrDesc = mysticsword_desc_rsc
 
-   % Mystic swords are high quality thrusting weapons
+   // Mystic swords are high quality thrusting weapons
    viWeaponType = WEAPON_TYPE_THRUST
    viWeaponQuality = WEAPON_QUALITY_HIGH
 
    viProficiency_needed = SKID_PROFICIENCY_SWORD
 
    viValue_average = 1250
-   % light because it is made from an ancient, better metal
+   // light because it is made from an ancient, better metal
    viWeight = 60 
    viBulk = 60
 
@@ -61,4 +61,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 GraphicTester is Monster
 
 constants:
@@ -112,7 +112,7 @@ messages:
          return;
       }
 
-      % if no body animation
+      // if no body animation
       
       AddPacket(1,ANIMATE_NONE,2,piProne_Frame);
       return;
@@ -131,7 +131,7 @@ messages:
    {
       local bChanged;
       bChanged = FALSE;
-      if effect = EFFECT_INVERT    %% got bonked.
+      if effect = EFFECT_INVERT    /// got bonked.
       {
          if vrName = vrName1 AND NOT bChanged
          {
@@ -177,5 +177,5 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 

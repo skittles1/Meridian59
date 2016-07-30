@@ -1,16 +1,16 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 GlowTree is Flickerer
 
-% This used to be ornamental object OO_NECTREE3.  It is now a light source.
+// This used to be ornamental object OO_NECTREE3.  It is now a light source.
 
 constants:
 
@@ -40,28 +40,28 @@ classvars:
    viStart_frame = 1
    viEnd_frame = 1
 
-   % Lighting flags.  Default "on" flag
+   // Lighting flags.  Default "on" flag
    viLightFlags = LIGHT_FLAG_ON
 
-   % Light color.
+   // Light color.
    viLightColor = LIGHT_DGREEN
 
 properties:
 
    piAnim_speed = 0
 
-   % Intensity, from 0-255.
+   // Intensity, from 0-255.
    piLightIntensity = 50
 
 messages:
 
    SetAnimationSpeed()
    {
-      % Does not animate
+      // Does not animate
       piAnim_speed = 0;
 
       return;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

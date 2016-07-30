@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 BreathOfLife is Spell
 
 constants:
 
    include blakston.khd
 
-   MAX_TOTAL_AMOUNT = 130     % Max target can reach after getting benefit.
+   MAX_TOTAL_AMOUNT = 130     // Max target can reach after getting benefit.
 
 resources:
 
@@ -63,7 +63,7 @@ messages:
 
    ResetReagents()
    {
-      % separate message so can change, then set from admin mode
+      // separate message so can change, then set from admin mode
 
       plReagents = $;
       plReagents = Cons([&Herbs,1],plReagents);
@@ -80,7 +80,7 @@ messages:
    {
       local target, i;
       
-      % Can cast spell if the 1 target item is a user
+      // Can cast spell if the 1 target item is a user
       if Length(lTargets) <> 1
       {
          return FALSE;
@@ -102,7 +102,7 @@ messages:
          return FALSE;
       }
 
-      % no giving if less than 10 hps
+      // no giving if less than 10 hps
       if Send(who,@GetHealth) <= 10
       {
          Send(who,@MsgSendUser,#message_rsc=breathoflife_toohurt_rsc);
@@ -110,8 +110,8 @@ messages:
          return FALSE;
       }
 
-      % max hps of 1.5 times target's hps or 150.
-      % Don't cast if we're at/over max and have Mark of Dishonor active.
+      // max hps of 1.5 times target's hps or 150.
+      // Don't cast if we're at/over max and have Mark of Dishonor active.
       if Send(target,@GetHealth) >= ((Send(target,@GetMaxHealth) * 3) / 2)
          OR Send(target,@GetHealth) >= MAX_TOTAL_AMOUNT
          OR ((Send(target,@GetHealth) >= Send(target,@GetMaxHealth))
@@ -132,17 +132,17 @@ messages:
 
       oTarget = First(lTargets);
       
-      % Amount of life transferred depends on the Karma of our target.
+      // Amount of life transferred depends on the Karma of our target.
       iPercent = bound(send(oTarget,@GetKarma),10,80);
       iHpAmount = (Send(who,@GetExactHealth) * iPercent) / 100;
 
-      % Don't drain caster below 10 hps,
+      // Don't drain caster below 10 hps,
       iHpAmount = bound(iHpAmount,$,(Send(who,@GetExactHealth)-1000));
 
-      % Alter amount transferred to (75 + spell power/2) percent of sacrifice.
+      // Alter amount transferred to (75 + spell power/2) percent of sacrifice.
       iTransfer = (iHpAmount * (75 + iSpellPower/2)) / 100;
 
-      % Don't let target get more than 150% over max, don't let target get over 150
+      // Don't let target get more than 150// over max, don't let target get over 150
       iTransfer = bound(iTransfer,$,((Send(oTarget,@GetMaxHealth)*3)/2)*100-Send(oTarget,@GetExactHealth));
       iTransfer = bound(iTransfer,$,(MAX_TOTAL_AMOUNT*100-Send(oTarget,@GetExactHealth)));
 
@@ -159,4 +159,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

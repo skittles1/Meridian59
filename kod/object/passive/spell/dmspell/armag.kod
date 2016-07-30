@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Armageddon is DMSpell
 
 constants:
@@ -125,7 +125,7 @@ messages:
 
    SendProjectileAnimation()
    {
-      % 40ms between animations
+      // 40ms between animations
       AddPacket(1, ANIMATE_CYCLE, 4, 40, 2, 1, 2, 2);
 
       return;
@@ -133,13 +133,13 @@ messages:
 
    GetProjectileLightFlags()
    {
-      % General lighting information.
+      // General lighting information.
       return LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC;
    }
 
    GetProjectileLightIntensity()
    {
-      % Medium light radius for projectiles.  Out of 255 levels.
+      // Medium light radius for projectiles.  Out of 255 levels.
       return 100;
    }
 
@@ -178,9 +178,9 @@ messages:
          iColor = LIGHT_PURPLE;
       }
 
-      % Color is actually random!
+      // Color is actually random!
       return iColor;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

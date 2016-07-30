@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 JasperWest is JasperRoom
 
 constants:
@@ -61,17 +61,17 @@ messages:
    {
       plExits = $;
 
-      % Gates to East Jasper
-      % Large Gate
+      // Gates to East Jasper
+      // Large Gate
       plExits = Cons([ 43, 39, RID_JASPER, 36, 34, ROTATE_NONE ],plExits);
       plExits = Cons([ 44, 39, RID_JASPER, 37, 34, ROTATE_NONE ],plExits);
       plExits = Cons([ 45, 39, RID_JASPER, 38, 34, ROTATE_NONE ],plExits);
 
-      % Small Gate
+      // Small Gate
       plExits = Cons([ 51, 37, RID_JASPER, 44, 33, ROTATE_NONE ],plExits);
       plExits = Cons([ 52, 37, RID_JASPER, 44, 33, ROTATE_NONE ],plExits);
 
-      % Hidden Gate
+      // Hidden Gate
       plExits = Cons([ 59, 32, RID_JASPER, 51, 28, ROTATE_NONE ],plExits);
       plExits = Cons([ 59, 33, RID_JASPER, 51, 28, ROTATE_NONE ],plExits);
 
@@ -89,7 +89,7 @@ messages:
       plExits = Cons([ 43, 37, RID_JAS_AB3, 16, 15, ROTATE_NONE ],plExits);
       plExits = Cons([ 43, 38, RID_JAS_AB3, 16, 15, ROTATE_NONE ],plExits);
 
-      % Abandoned buildings
+      // Abandoned buildings
       plExits = Cons([ 49, 36, ROOM_LOCKED_DOOR ],plExits);
       plExits = Cons([ 51, 33, ROOM_LOCKED_DOOR ],plExits);
       plExits = Cons([ 43, 32, ROOM_LOCKED_DOOR ],plExits);
@@ -123,4 +123,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

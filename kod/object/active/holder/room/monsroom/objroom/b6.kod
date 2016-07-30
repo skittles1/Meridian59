@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 OutdoorsB6 is ObjectRoom
 
 constants:
@@ -74,7 +74,7 @@ messages:
    {
       plObject_gen = $;
 
-      %% mushroom growing spots
+      /// mushroom growing spots
       plObject_gen = Cons([ &RedMushroom, GEN_INF, 3, 5, 9 ],plObject_gen);
       plObject_gen = Cons([ &RedMushroom, GEN_INF, 2, 7, 5 ],plObject_gen);
       plObject_gen = Cons([ &PurpleMushroom, GEN_INF, 2, 11, 37 ],plObject_gen);
@@ -93,4 +93,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

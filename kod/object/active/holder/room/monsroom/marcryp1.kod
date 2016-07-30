@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 MarionCrypt1 is MonsterRoom
 
 constants:
@@ -54,7 +54,7 @@ resources:
    MarionCrtyp1_martyr_on = \
       "The good ancestral spirits of this place call upon the gods to protect the innocent."
 
-   % Let players call upon the "gods" to receive protection
+   // Let players call upon the "gods" to receive protection
    MarionCrypt1_gods = "gods"
    MarionCrypt1_venyacyr = "Venya'cyr the Damned"
 
@@ -220,7 +220,7 @@ messages:
          return;
       }
 
-      % Don't cast it if no users present.
+      // Don't cast it if no users present.
       if NOT pbUser_in_room
       {
          return;
@@ -233,7 +233,7 @@ messages:
          return;
       }
 
-      % global effects of the enchantment
+      // global effects of the enchantment
       Send(self,@SomeoneSaid,#type=SAY_MESSAGE,#string=MarionCrtyp1_martyr_on,#what=self);
       Send(self,@RoomStartEnchantment,#what=oMartyr,#state=150);
 
@@ -245,24 +245,24 @@ messages:
    {
       local i, each_obj;
 
-      % Let players call upon the "gods" to receive protection
-      % VERY IMPORTANT: Make sure we don't catch our own string!
+      // Let players call upon the "gods" to receive protection
+      // VERY IMPORTANT: Make sure we don't catch our own string!
       if what <> self
          AND StringContain(string,MarionCrypt1_gods)
       {
          Send(self,@DoMartyr);
       }
 
-      % Set the IsClass check to Player when finished testing.
+      // Set the IsClass check to Player when finished testing.
       if NOT IsClass(what,&DM) OR type = SAY_YELL
       {
          propagate;
       }
 
-      % Password for the Necro door.
+      // Password for the Necro door.
       if StringEqual(string,MarionCrypt1_venyacyr)
          AND ptNecroDoor = $
-         %AND Check for location?
+         //AND Check for location?
       {
          Send(self,@OpenNecroCeiling);
          Send(self,@OpenNecroFloor);
@@ -277,7 +277,7 @@ messages:
 
    TryCreateMonster()
    {
-      % When we try to create a monster, then make sure Martyr's is up.
+      // When we try to create a monster, then make sure Martyr's is up.
       Send(self,@DoMartyr);
 
       propagate;
@@ -351,7 +351,7 @@ messages:
    {
       if IsClass(victim,&Monster)
       {
-         % gotta post because here it's not removed from room yet
+         // gotta post because here it's not removed from room yet
          Post(self,@CheckAllDeadMonsters);
       }
 
@@ -395,7 +395,7 @@ messages:
       if iSwitched = 2
       {
          Send(self,@OpenFinalDoor);
-         % Close the door down.  Gotta fight in the last area to go down.
+         // Close the door down.  Gotta fight in the last area to go down.
          Send(self,@CloseDoorDown);
       }
 
@@ -599,7 +599,7 @@ messages:
    {
       local iBonus;
 
-      % Hinder learning Discordance due to the automatic room enchantment
+      // Hinder learning Discordance due to the automatic room enchantment
       if IsClass(oSpellSkill,&Discordance)
       {
          return (chance / 10);
@@ -609,4 +609,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

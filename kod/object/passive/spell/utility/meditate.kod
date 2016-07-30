@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Meditate is UtilitySpell
 
 constants:
@@ -87,8 +87,8 @@ messages:
 
    GetTranceTime(iSpellpower=0,who=$)
    {
-      % Since this spell uses the trance, don't scale it down
-      % depending on iSpellpower
+      // Since this spell uses the trance, don't scale it down
+      // depending on iSpellpower
       return viCast_time;
    }
 
@@ -96,8 +96,8 @@ messages:
    {
       local oTrance;
 
-      % Get rid of the regular casting trance, we need a special
-      % one put on below.
+      // Get rid of the regular casting trance, we need a special
+      // one put on below.
       Send(who,@BreakTrance,#event=EVENT_STEER);
 
       oTrance = Send(SYS,@FindSpellByNum,#num=SID_TRANCE);
@@ -115,7 +115,7 @@ messages:
       local i, bFound, oSpell, sSpell, oSkill, sSkill, iPercent,
             iRatio, iGain, iNum, iPoints;
 
-      Send(who,@BreakTrance,#event=EVENT_STEER);  %% Don't print fizzle message
+      Send(who,@BreakTrance,#event=EVENT_STEER);  /// Don't print fizzle message
 
       bFound = FALSE;
 
@@ -262,4 +262,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

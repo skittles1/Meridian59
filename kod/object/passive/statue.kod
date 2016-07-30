@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Statue is PassiveObject
 
 constants:
@@ -55,7 +55,7 @@ properties:
    vrName = statue_name_rsc
    vrIcon = statue_default_male_icon
 
-   poOriginal = $         % Who the Statue is of.
+   poOriginal = $         // Who the Statue is of.
    piPose = POSE_NONE
    piExpression = 1
    prToupee = $
@@ -116,14 +116,14 @@ messages:
       i = Send(SYS,@FindUserByString,#string=name);
       if i <> $
       {
-         %% see if someone with this name exists in the database
+         /// see if someone with this name exists in the database
          original = i;
          Send(self,@SetStatue,#Original=original);
       }
       else
       {
-         %% no one with this name exists in the database.  Let's grab someone
-         %% of the same gender at random
+         /// no one with this name exists in the database.  Let's grab someone
+         /// of the same gender at random
 
          tries = 0;
          lUsers = Send(SYS,@GetUsers);
@@ -144,14 +144,14 @@ messages:
             tries = tries + 1;
          }
 
-         %% Last ditch, use defaults.  May be necessary for some statues.
+         /// Last ditch, use defaults.  May be necessary for some statues.
          if poOriginal = $
          {
             Send(self,@SetStatue,#original=First(lUsers),#name=name);
          }
       }
 
-      % Now set correct information.
+      // Now set correct information.
       if name <> $
       {
          vrName = name;
@@ -360,12 +360,12 @@ messages:
 
    ValidateGraphics()
    {
-      % For those odd non-character admins
+      // For those odd non-character admins
       if (poOriginal <> $) AND IsClass(poOriginal,&DM)
          AND Send(poOriginal,@IsMorphed) AND (vrIcon <> admin_icon_blank)
       {
-         % Making the head blank will eliminate the face elements,
-         %  but blank them all out anyway.
+         // Making the head blank will eliminate the face elements,
+         //  but blank them all out anyway.
          prHead = admin_icon_blank;
          prEyes = admin_icon_blank;
          prMouth = admin_icon_blank;
@@ -407,7 +407,7 @@ messages:
       }
       else
       {
-         % Female
+         // Female
          if prhead = $
          {  prHead = charinfo_head_kx_icon;    }
       
@@ -513,15 +513,15 @@ messages:
    {
       local i,iOverlays,hotspot,iLeft_group,iRight_group,iSkin_xlat, iArms_xlat;
 
-      % Send overlay bitmap info to user.
+      // Send overlay bitmap info to user.
 
-      % Player has 8 standard overlays: right arm, left arm, legs, head, eyes,
-      % mouth, nose, hair
+      // Player has 8 standard overlays: right arm, left arm, legs, head, eyes,
+      // mouth, nose, hair
 
-      %% number of overlays
+      /// number of overlays
       AddPacket(1, piOverlays);
 
-      %% left hand
+      /// left hand
       AddPacket(4,prLeft_arm,1,HS_LEFT_HAND);
       if piArms_translation <> 0
       {
@@ -530,7 +530,7 @@ messages:
 
       AddPacket(1,ANIMATE_NONE,2,piLeft_frame);
 
-      %% right hand
+      /// right hand
       AddPacket(4,prRight_arm,1,HS_RIGHT_HAND);
       if piArms_translation <> 0
       {
@@ -539,7 +539,7 @@ messages:
 
       AddPacket(1,ANIMATE_NONE,2,piRight_frame);
 
-      %% legs
+      /// legs
       AddPacket(4,prLegs,1,HS_LEGS);
       if piLegs_translation <> 0
       {
@@ -548,7 +548,7 @@ messages:
 
       AddPacket(1,ANIMATE_NONE,2,piLegs_frame);
 
-      %% face
+      /// face
       iSkin_xlat = piSkin_translation;
       AddPacket(4,prHead,1,HS_HEAD,1,ANIMATE_TRANSLATION,1,iSkin_xlat,1,ANIMATE_NONE,2,1);
       AddPacket(4,prMouth,1,HS_MOUTH,1,ANIMATE_TRANSLATION,1,iSkin_xlat,1,ANIMATE_NONE,2,piExpression);
@@ -692,4 +692,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

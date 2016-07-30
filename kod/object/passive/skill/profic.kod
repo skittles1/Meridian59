@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Proficiency is Skill
 
 constants:
@@ -36,12 +36,12 @@ classvars:
    
    viMeditate_ratio = 30
 
-   vbAutomatic = TRUE    % does not show up in pull-down menu
+   vbAutomatic = TRUE    // does not show up in pull-down menu
 
 properties:
 
-   % Format of reagents:  Each element of plReagents is a list, describing a single reagent.
-   % First elem of this list is class of reagent; second is # of reagent required for skill.
+   // Format of reagents:  Each element of plReagents is a list, describing a single reagent.
+   // First elem of this list is class of reagent; second is # of reagent required for skill.
    plPrerequisites = $
    piSchool = 0
 
@@ -51,4 +51,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

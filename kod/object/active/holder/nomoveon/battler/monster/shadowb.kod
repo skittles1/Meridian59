@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Shadowbeast is Monster
 
 constants:
@@ -61,7 +61,7 @@ classvars:
    viLevel = 200
    viDifficulty = 7
    viVisionDistance = 28
-   % Attack range of 192, or 3 row/col.
+   // Attack range of 192, or 3 row/col.
    viAttackRange = 192
    viKarma = -100
    viWimpy = 10
@@ -128,7 +128,7 @@ messages:
          return;
       }
 
-      % if no body animation
+      // if no body animation
       AddPacket(1,ANIMATE_NONE,2,3);
 
       return;
@@ -152,19 +152,19 @@ messages:
          return TRUE;
       }
 
-      % Charm checks up higher.
+      // Charm checks up higher.
       propagate;
    }
 
    NewOwner(what = $)
    {
-      % new room
+      // new room
       if what <> $
       {
          Send(what,@AddBaseLight,#amount=-viLight_Penalty);
       }
 
-      % old room
+      // old room
       if poOwner <> $
       {
          Send(poOwner,@AddBaseLight,#amount=viLight_Penalty);
@@ -175,7 +175,7 @@ messages:
 
    Delete()
    {
-      % old room
+      // old room
       if poOwner <> $
       {
          Send(poOwner,@AddBaseLight,#amount=viLight_Penalty);
@@ -185,4 +185,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Hunt is MultiCastSpell
 
 constants:
 
    include blakston.khd
 
-   % Half an hour
+   // Half an hour
    HUNT_TIME = 1800000
 
 resources:
@@ -67,23 +67,23 @@ classvars:
    viCast_time = 10000
    viChance_To_Increase = 50
 
-   % Drain is amount used every viDrainTime milliseconds
+   // Drain is amount used every viDrainTime milliseconds
    viManaDrain = 1
-   % Drain some mana every viDrainTime milliseconds
+   // Drain some mana every viDrainTime milliseconds
    viDrainTime = 1000
 
 properties:
 
    viMultiCast_Spellpower = 5000 
 
-   % Spell is harmful to the player it's cast upon.
+   // Spell is harmful to the player it's cast upon.
    viHarmful = TRUE
 
 messages:
 
    Constructed()
    {
-      % Allow the spell on Sacred Haven.
+      // Allow the spell on Sacred Haven.
       if NOT Send(SYS,@IsPKAllowed)
       {
          viHarmful = FALSE;
@@ -139,9 +139,9 @@ messages:
    }
 
    CastSpell(who = $, lTargets = $, iSpellPower = 0)
-   % This is the entry point, sets players to trance while they
-   % focus on casting on the prism.  The prism calls PrismCast()
-   % below when it has enough energy from the casters.
+   // This is the entry point, sets players to trance while they
+   // focus on casting on the prism.  The prism calls PrismCast()
+   // below when it has enough energy from the casters.
    {
       local oPrism;
 
@@ -185,7 +185,7 @@ messages:
 
       if oPrey <> $
       {
-         % Use EVENT_STEER so we don't print message
+         // Use EVENT_STEER so we don't print message
          Send(who,@BreakTrance,#event=EVENT_STEER);
          lTargets = Cons(oPrey,lTargets);
          Send(self,@CastSpell,#who=who,#lTargets=lTargets,
@@ -238,9 +238,9 @@ messages:
    CanBeRemovedByPlayer()
    "Returns if a spell can be removed by normal Purge/Purify"
    {
-      % You cannot remove this spell by spells.
+      // You cannot remove this spell by spells.
       return FALSE;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

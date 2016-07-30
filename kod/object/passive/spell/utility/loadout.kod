@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Loadout is UtilitySpell
 
 constants:
@@ -125,20 +125,20 @@ messages:
       }
 
       lLoadout_list = Send(who,@GetLoadoutList);
-      % Copy inventory since we're going to modify the list.
+      // Copy inventory since we're going to modify the list.
       lInventory = ListCopy(Send(who,@GetHolderPassive));
 
       foreach i in lLoadout_list
       {
          class = First(i);
 
-         % Number can be -1 for single-stack items, school number for
-         % disciple robes, the number of charges in a spellitem or the
-         % number of a saved stackable item.
+         // Number can be -1 for single-stack items, school number for
+         // disciple robes, the number of charges in a spellitem or the
+         // number of a saved stackable item.
          number = Nth(i,2);
          bFound = FALSE;
 
-         % Disciple robes have school as the number, so are handled separately.
+         // Disciple robes have school as the number, so are handled separately.
          if (class = &LightDiscipleRobe)
          {
             lLRobes = Cons(number, lLRobes);
@@ -152,10 +152,10 @@ messages:
             continue;
          }
 
-         % See if the player has the item in inventory.
+         // See if the player has the item in inventory.
          oItem = GetListElemByClass(lInventory,class);
 
-         % Non-stackables have number of -1.
+         // Non-stackables have number of -1.
          if (number = -1)
          {
             if (oItem = $)
@@ -170,7 +170,7 @@ messages:
          }
          else if (oItem = $)
          {
-            % Need to determine whether we have a numberitem or spellitem.
+            // Need to determine whether we have a numberitem or spellitem.
             oItem = Send(SYS,@FindTemplateItemByClass,#cClass=class);
             if (oItem = $)
             {
@@ -192,7 +192,7 @@ messages:
          }
          else if (IsClass(oItem,&SpellItem))
          {
-            % Handle these later.
+            // Handle these later.
             lSpellItems = Send(SYS,@AddToSortedList,#what=class,
                                  #lList=lSpellItems,#number=number,
                                  #bIgnoreDuplicate=TRUE);
@@ -201,7 +201,7 @@ messages:
          {
             Send(self,@GetNumberItemFromHallChest,#who=who,#class=class,
                   #oGuildHall=oGuildHall,#number=number-Send(oItem,@GetNumber));
-            % Remove this item from inventory.
+            // Remove this item from inventory.
             lInventory = DelListElem(lInventory,oItem);
          }
       }
@@ -212,15 +212,15 @@ messages:
                #lInventory=lInventory,#oGuildHall=oGuildHall);
       }
 
-      % Now deal with disciple robes. If lDRobes and lLRobes are both $,
-      % just propagate.
+      // Now deal with disciple robes. If lDRobes and lLRobes are both $,
+      // just propagate.
       if (lDRobes = $ AND lLRobes = $)
       {
          propagate;
       }
 
-      % For each robe the player currently has, remove it if present in
-      % the robe loadout lists.
+      // For each robe the player currently has, remove it if present in
+      // the robe loadout lists.
       foreach oItem in lInventory
       {
          if IsClass(oItem,&LightDiscipleRobe)
@@ -249,8 +249,8 @@ messages:
          }
       }
 
-      % lDRobes and lLRobes should now contain a list of robes we actually
-      % need, so try get them from the chest.
+      // lDRobes and lLRobes should now contain a list of robes we actually
+      // need, so try get them from the chest.
       foreach school in lDRobes
       {
          Send(self,@GetDiscipleRobeFromHallChest,#who=who,#oGuildHall=oGuildHall,
@@ -269,7 +269,7 @@ messages:
    {
       local bFound, class, i, j, oItem, lInvSorted, number;
 
-      % First need a sorted list of what the player has.
+      // First need a sorted list of what the player has.
       foreach oItem in lInventory
       {
          if (IsClass(oItem,&SpellItem))
@@ -279,10 +279,10 @@ messages:
          }
       }
 
-      % Strategy: go through loadout list (lList), and either:
-      %   1. match it with an element in lInvSorted and add the items from
-      %      chest, then remove from lInvSorted;
-      %   2. if not found in lInvSorted, give it to the player directly.
+      // Strategy: go through loadout list (lList), and either:
+      //   1. match it with an element in lInvSorted and add the items from
+      //      chest, then remove from lInvSorted;
+      //   2. if not found in lInvSorted, give it to the player directly.
       foreach i in lList
       {
          class = First(i);
@@ -355,7 +355,7 @@ messages:
 
       if NOT bFound
       {
-         % Get item template for message.
+         // Get item template for message.
          oItem = Send(SYS,@FindTemplateItemByClass,#cClass=class);
          if (oItem <> $)
          {
@@ -405,7 +405,7 @@ messages:
 
       if NOT bFound
       {
-         % Get item template for message.
+         // Get item template for message.
          oItem = Send(SYS,@FindTemplateItemByClass,#cClass=class);
          if (oItem <> $)
          {
@@ -495,7 +495,7 @@ messages:
 
       if NOT bFound
       {
-         % Get item template for message.
+         // Get item template for message.
          oItem = Send(SYS,@FindTemplateItemByClass,#cClass=class);
          if (oItem <> $)
          {
@@ -505,7 +505,7 @@ messages:
       }
       else if number > 0
       {
-         % Get item template for message.
+         // Get item template for message.
          oItem = Send(SYS,@FindTemplateItemByClass,#cClass=class);
          if (oItem <> $)
          {
@@ -538,8 +538,8 @@ messages:
          {
             oItem = GetListElemByClass(Send(oBox,@GetHolderPassive),class);
 
-            % We either use up all the items and move to next box, or we
-            % get what we need and return.
+            // We either use up all the items and move to next box, or we
+            // get what we need and return.
             while (oItem <> $)
             {
                iGetNumber = number;
@@ -613,7 +613,7 @@ messages:
          }
          else
          {
-            % Get item template for message.
+            // Get item template for message.
             oItem = Send(SYS,@FindTemplateItemByClass,#cClass=class);
          }
          if (oItem <> $)
@@ -630,7 +630,7 @@ messages:
          }
          else
          {
-            % Get item template for message.
+            // Get item template for message.
             oItem = Send(SYS,@FindTemplateItemByClass,#cClass=class);
          }
          if (oItem <> $)
@@ -644,4 +644,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Lich is Monster
 
 constants:
@@ -15,7 +15,7 @@ constants:
    include blakston.khd
    include protocol.khd
 
-   LICH_ILLUSION_TIME = 5 * 60 * 1000  % five minutes
+   LICH_ILLUSION_TIME = 5 * 60 * 1000  // five minutes
    MAGIC_RESIST = 60
 
 resources:
@@ -131,7 +131,7 @@ classvars:
    viLevel = 200
    viDifficulty = 9
    viVisionDistance = 60
-   % Attack range of 192, or 3 row/col.
+   // Attack range of 192, or 3 row/col.
    viAttackRange = 192
    viKarma = -100
    vbIsUndead = TRUE
@@ -152,20 +152,20 @@ classvars:
 properties:
 
    piAnimation = ANIM_NONE
-   plAttackers = $  % [player,player....]
+   plAttackers = $  // [player,player....]
 
    plTempRoster = $
    
    pbIllusioned = TRUE
    ptGoIllusioned = $
 
-   piBlindAttackChance = 15    % Chance she'll attack with blind
-   piBlindCounterChance = 7    % Chance she'll counter a spell or arrow with blind
-   piBlindDurationMin = 20000  % Milliseconds.
-   piBlindDurationMax = 30000  % Milliseconds.
+   piBlindAttackChance = 15    // Chance she'll attack with blind
+   piBlindCounterChance = 7    // Chance she'll counter a spell or arrow with blind
+   piBlindDurationMin = 20000  // Milliseconds.
+   piBlindDurationMax = 30000  // Milliseconds.
 
    ptDeathSequence = $
-   piDeathSequenceTimestep = 200  % milliseconds
+   piDeathSequenceTimestep = 200  // milliseconds
 
    piReputationGroup = REP_LICH
 
@@ -173,8 +173,8 @@ messages:
 
    Constructed()
    {
-      % Keep the scenario deactivated for now.
-      %Send(Send(SYS,@GetNecromancerBalance),@ActivateScenario);
+      // Keep the scenario deactivated for now.
+      //Send(Send(SYS,@GetNecromancerBalance),@ActivateScenario);
 
       pimax_Hit_Points = pimax_hit_Points * 2;
       piHit_Points = pimax_hit_points * 100;
@@ -373,15 +373,15 @@ messages:
    SendProjectileAnimation()
    {
       AddPacket(1,ANIMATE_TRANSLATION,1,PT_GRAY_TO_BLACK);
-      AddPacket(1, ANIMATE_CYCLE, 4, 40, 2, 1, 2, 5);   % 40ms between animations
+      AddPacket(1, ANIMATE_CYCLE, 4, 40, 2, 1, 2, 5);   // 40ms between animations
 
       return;
    }
 
    GetProjectileLightFlags()
    {
-      % No lighting information.
-      % There probably should be ligthing information, since it's magical-type.
+      // No lighting information.
+      // There probably should be ligthing information, since it's magical-type.
       return LIGHT_FLAG_NONE;
    }
 
@@ -493,7 +493,7 @@ messages:
       oSpell = Send(SYS,@FindSpellByNum,#num=SID_BLIND);
       Send(self,@ClearBehavior,#timer=timer);
 
-      % Sanity checks.
+      // Sanity checks.
       if poOwner = $
       {
          Debug("Unreachable. Null Owner");
@@ -549,10 +549,10 @@ messages:
    {
       local oBlind, lActive, iRandom, iDistance, iBestDistance, i, each_obj;
 
-      % Only one in three people are considered eligible
-      % targets.  The closest is targeted.  Held people
-      % aren't considered - she deals with her current
-      % target first.  Only people in view are considered.
+      // Only one in three people are considered eligible
+      // targets.  The closest is targeted.  Held people
+      // aren't considered - she deals with her current
+      // target first.  Only people in view are considered.
    
       oBlind = Send(SYS,@FindSpellByNum,#num=SID_BLIND);
       lActive = Send(poOwner,@GetHolderActive);
@@ -624,7 +624,7 @@ messages:
          lichActivated = TRUE;
       }
 
-      % Disband the guild.
+      // Disband the guild.
       if NOT guildDisbandDeath
       {
          Send(oNecBal,@ClearNecromancerGuild);
@@ -659,7 +659,7 @@ messages:
 
       if lichActivated
       {
-         % Send a message to the world.
+         // Send a message to the world.
          AddPacket(4,lich_killed_world_saved, 4,Send(what,@GetTrueName));
 
          ClearTempString();
@@ -697,7 +697,7 @@ messages:
       }
       else
       {
-         % Send a message to the world.
+         // Send a message to the world.
          AddPacket(4,lich_killed_world_saved_nolich,
                    4,Send(what,@GetTrueName));
          Send(SYS,@SystemSendCopyPacketAll);
@@ -711,7 +711,7 @@ messages:
       ptDeathSequence = $;
       ptDeathSequence = CreateTimer(self,@DeathSequence3,piDeathSequenceTimestep);
 
-      % Tell all amulets and swords the bad/good news.
+      // Tell all amulets and swords the bad/good news.
       Send(&NecromancerAmulet,@LichKilled);
 
       return;
@@ -741,7 +741,7 @@ messages:
 
       if Send(oSpell,@IsHarmful)
       {
-         % Unaffected by Qor spells.  Period.
+         // Unaffected by Qor spells.  Period.
          if Send(oSpell,@GetSchool) = SS_QOR
          {
             return TRUE;
@@ -750,7 +750,7 @@ messages:
          iResistChance = MAGIC_RESIST;
          if IsClass(oSpell,&Dazzle)
          {
-            % Extra 50% chance to resist.
+            // Extra 50// chance to resist.
             iResistChance = (iResistChance * 150) / 100;
          }
 
@@ -764,10 +764,10 @@ messages:
       return FALSE;
    }
 
-%%%%%%%%%%%%%%%%
-% Special code %
-%%%%%%%%%%%%%%%%
-%
+/////////////////
+// Special code //
+/////////////////
+//
 
    SomeoneSaid(what = $,type = $,string = $)
    {
@@ -781,7 +781,7 @@ messages:
       {
          if StringContain(string,vrTributeTrigger)
          {
-            % Tell the amulet to pay up, find out how much we sucked out.
+            // Tell the amulet to pay up, find out how much we sucked out.
             oAmulet = $;
             foreach oAmulet in Send(what,@GetPlayerUsing)
             {
@@ -799,7 +799,7 @@ messages:
 
             iAmountDrained = Send(oAmulet,@LichTributeDrain);
 
-            % Tell the guild object how much was paid.
+            // Tell the guild object how much was paid.
             if iAmountDrained = 0
             {
                propagate;
@@ -911,8 +911,8 @@ messages:
    {
       local i;
 
-      % She hates anyone with a hunter sword, and goody-goodies too.
-      % But she REALLY hates backstabbers.
+      // She hates anyone with a hunter sword, and goody-goodies too.
+      // But she REALLY hates backstabbers.
       if IsClass(what,&User)
       {
          if Send(what,@FindHoldingActive,#class=&HunterSword) <> $
@@ -950,8 +950,8 @@ messages:
       oBody = Create(&DeadLich,#Attackers=plAttackers);
       oQE = Send(SYS,@GetQuestEngine);
 
-      % Get rid of any active quests so any new ones get scheduled with the
-      % body instead.
+      // Get rid of any active quests so any new ones get scheduled with the
+      // body instead.
       foreach oQ in Nth(Send(oQE,@GetQuestTemplate,#index=QST_ID_ESTABLISH_NECROGUILD)
                      ,QT_ACTIVE_QUESTS)
       {
@@ -972,7 +972,7 @@ messages:
 
    NewOwner(what=$)
    {
-      % This should never happen, but if it does...
+      // This should never happen, but if it does...
       if what <> $
          AND NOT IsClass(what,&GuildHall15)
       {
@@ -1033,4 +1033,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

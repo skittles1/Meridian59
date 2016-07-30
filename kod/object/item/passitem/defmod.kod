@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 DefenseModifier is PassiveItem
 
 constants:
 
    include blakston.khd
 
-   % Percent chance that an item gets damaged when defending.
+   // Percent chance that an item gets damaged when defending.
    DAMAGE_CHANCE = 50
 
 resources:
@@ -30,16 +30,16 @@ classvars:
    viItem_type = ITEMTYPE_ARMOR
    vrItem_broken = defmod_broken
 
-   viDefense_base = 0               % This is the default value for piDefense_bonus
-   viDamage_base = 0                % This is the default value for piDamage_reduce
+   viDefense_base = 0               // This is the default value for piDefense_bonus
+   viDamage_base = 0                // This is the default value for piDamage_reduce
    
-   viLayer = 0                      % Layer represents clothing and gear that may override visually
-                                    % Higher numbers override lower numbers
+   viLayer = 0                      // Layer represents clothing and gear that may override visually
+                                    // Higher numbers override lower numbers
 
 properties:
 
-   piDefense_bonus = 0              %% piDefense_bonus adds to player's defense. Ranges from 1 to 50
-   piDamage_reduce = 0              %% piDamage_reduce is the maximum amount of damage that will be reduced.
+   piDefense_bonus = 0              /// piDefense_bonus adds to player's defense. Ranges from 1 to 50
+   piDamage_reduce = 0              /// piDamage_reduce is the maximum amount of damage that will be reduced.
 
 messages:
 
@@ -93,7 +93,7 @@ messages:
 
    GetResistanceModifiers()
    {
-      % format is [ [TYPE,resistance], [ATCK_WEAP_BLUDGEON,-20], ...]
+      // format is [ [TYPE,resistance], [ATCK_WEAP_BLUDGEON,-20], ...]
       return [];
    }
 
@@ -121,16 +121,16 @@ messages:
 
       if aspell <> 0
       {
-         % Reduce damage if part of the damage is spell
+         // Reduce damage if part of the damage is spell
          if atype <> 0
          {
-            % Only 2/3 of the damage reduction if we're doing both weapon
-            % and spell damage types.
+            // Only 2/3 of the damage reduction if we're doing both weapon
+            // and spell damage types.
             iDamageReduce = iDamageReduce * 2 / 3;
          }
          else
          {
-            % If we're doing pure spell damage, we get no reduction.
+            // If we're doing pure spell damage, we get no reduction.
             iDamageReduce = 0;
          }
       }
@@ -138,11 +138,11 @@ messages:
       return damage - iDamageReduce;
    }
 
-   % This assumes that none of the superclasses define a message for "defending hit" to do anything special.
-   % This will reduce the damage that armor is taking in battle currently.
+   // This assumes that none of the superclasses define a message for "defending hit" to do anything special.
+   // This will reduce the damage that armor is taking in battle currently.
    DefendingHit(who = $,what = $)
    {
-      % 50% chance to get damaged.
+      // 50// chance to get damaged.
       if (random(1,100) < DAMAGE_CHANCE)
       {
          propagate;
@@ -193,4 +193,4 @@ messages:
    
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

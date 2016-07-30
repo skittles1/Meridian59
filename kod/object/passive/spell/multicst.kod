@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 MultiCastSpell is Spell
 
 constants:
@@ -25,20 +25,20 @@ resources:
 
 classvars:
 
-   % This is the total sum of spellpower that has to be focused at the prism
-   %  for the cast to complete.  Prism fires the spell when this spellpower
-   %  is reached.  In general, the formula for this is:
-   %    (Casting time in seconds) * 15
-   %  where 15 = (5 casters * 3 points contributed each)
+   // This is the total sum of spellpower that has to be focused at the prism
+   //  for the cast to complete.  Prism fires the spell when this spellpower
+   //  is reached.  In general, the formula for this is:
+   //    (Casting time in seconds) * 15
+   //  where 15 = (5 casters * 3 points contributed each)
    viMultiCast_Spellpower = 1000   
 
-   % Give a little better than usual since its a pain to get many casters.
+   // Give a little better than usual since its a pain to get many casters.
    viChance_To_Increase = 30
    viMeditate_ratio = 100
 
-   % Mana is amount used upon inititiation
+   // Mana is amount used upon inititiation
    viMana = 10
-   % viManaDrain is amount used every viDrainTime milliseconds
+   // viManaDrain is amount used every viDrainTime milliseconds
    viManaDrain = 7
    viDrainTime = 1000
 
@@ -55,7 +55,7 @@ classvars:
 
    viShow_enchantment_icon = ENCHANTMENT_SHOW_ALL
 
-   % Default animation speed for icon.  If set to 0, then no animation.
+   // Default animation speed for icon.  If set to 0, then no animation.
    viAnimationSpeed = 0
 
    viAnimation_start = 1
@@ -102,13 +102,13 @@ messages:
 
    GetNumSpellTargets()
    {
-      % Casters target the prism
+      // Casters target the prism
       return 0;
    }
 
    BreakTrance(who = $, state = $)
    {
-      % If caster runs out of mana or loses trance, spell ends.
+      // If caster runs out of mana or loses trance, spell ends.
       if IsClass(First(state),&Prism)
       {
          Send(First(state),@CasterBrokeTrance,#who=who);
@@ -126,7 +126,7 @@ messages:
     {
       local iAmount;
       
-      % If caster runs out of mana or loses trance, spell ends.
+      // If caster runs out of mana or loses trance, spell ends.
       if Send(who,@GetMana) < viManaDrain * 2
       {
          Send(who,@StartEnchantment,#what=self,#time=viDrainTime,
@@ -140,7 +140,7 @@ messages:
 
       Send(who,@LoseMana,#amount=viManaDrain);
 
-      % Each caster contributes from 1 - 4 spellpoints per second.
+      // Each caster contributes from 1 - 4 spellpoints per second.
       iAmount = Send(self,@GetSpellPower,#who=who) + 1;
       iAmount = bound(iAmount/25,1,4);
       Send(first(state),@ContributeSpellpower,#amount=iAmount,#who=who);
@@ -202,9 +202,9 @@ messages:
    }
 
    CastSpell(who = $, lTargets = $, iSpellPower = 0)
-   % This is the entry point, sets players to trance while they
-   % focus on casting on the prism.  The prism calls PrismCast()
-   % below when it has enough energy from the casters.
+   // This is the entry point, sets players to trance while they
+   // focus on casting on the prism.  The prism calls PrismCast()
+   // below when it has enough energy from the casters.
    {
       local oRoom, oPrism;
 
@@ -247,4 +247,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 TradingPostEvilQuest is TradingPostQuestTemplate
-% Quest template QST_ID_TRADING_POST_EVIL = 20
-% Quest nodes 35, 37.
-% QNT_ID_TRADINGPOST_KICKOFF, QNT_ID_TRADINGPOST_EVIL
+// Quest template QST_ID_TRADING_POST_EVIL = 20
+// Quest nodes 35, 37.
+// QNT_ID_TRADINGPOST_KICKOFF, QNT_ID_TRADINGPOST_EVIL
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -33,7 +33,7 @@ resources:
 
 classvars:
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_TRADING_POST_EVIL
 
 properties:
@@ -44,7 +44,7 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_TRADINGPOST_KICKOFF, QNT_ID_TRADINGPOST_EVIL];
 
       propagate;
@@ -57,8 +57,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #37 is trading post quest (evil)
-      % QNT_ID_TRADINGPOST_EVIL
+      // Template #37 is trading post quest (evil)
+      // QNT_ID_TRADINGPOST_EVIL
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_ITEMFINDCLASS,
                #cargolist=[ [ QN_PRIZETYPE_ITEMCLASS, &MysticSword, 1 ],
                             [ QN_PRIZETYPE_ITEMCLASS, &PlateArmor, 1 ],
@@ -89,4 +89,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

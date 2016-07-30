@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Orccave1 is MonsterRoom
 
 constants:
@@ -80,52 +80,52 @@ messages:
 
       include oc01.ktm;
 
-%      if not (send(SYS,@AreRoomIllusionsEnabled))
-%      {
-%      oPortal = Create(&Portal,#dest_room_num=RID_G9,#dest_col=56, #dest_row=19);
-%      Send(self,@NewHold,#what=oPortal,#new_row=39, #new_col=39,#new_angle=ANGLE_SOUTH_EAST);
-%      }
+//      if not (send(SYS,@AreRoomIllusionsEnabled))
+//      {
+//      oPortal = Create(&Portal,#dest_room_num=RID_G9,#dest_col=56, #dest_row=19);
+//      Send(self,@NewHold,#what=oPortal,#new_row=39, #new_col=39,#new_angle=ANGLE_SOUTH_EAST);
+//      }
       propagate;
    }
 
-%   DisableIllusions()
-%   {
-%   local oPortal;
-%      if not (send(self,@CountHoldingHowMany,#class=&portal) > 0)
-%      {
-%	 oPortal = Create(&Portal,#dest_room_num=RID_G9,#dest_col=56, #dest_row=19);
-%	 Send(self,@NewHold,#what=oPortal,#new_row=39, #new_col=39,#new_angle=ANGLE_SOUTH_EAST);
-%      }
-%      send(self,@setsector,#sector=1,#animation=ANIMATE_FLOOR_LIFT,
-%	 #height = 1608,#speed=0);
-%      return;
-%
-%   }
+//   DisableIllusions()
+//   {
+//   local oPortal;
+//      if not (send(self,@CountHoldingHowMany,#class=&portal) > 0)
+//      {
+//	 oPortal = Create(&Portal,#dest_room_num=RID_G9,#dest_col=56, #dest_row=19);
+//	 Send(self,@NewHold,#what=oPortal,#new_row=39, #new_col=39,#new_angle=ANGLE_SOUTH_EAST);
+//      }
+//      send(self,@setsector,#sector=1,#animation=ANIMATE_FLOOR_LIFT,
+//	 #height = 1608,#speed=0);
+//      return;
+//
+//   }
 
-%   EnableIllusions()
-%   {
-%   local i, each_obj;
-%   foreach i in plActive
-%   {
-%      each_obj = send(self,@HolderExtractObject,#Data=i);
-%      if isclass(each_obj,&portal)
-%      {  send(each_obj,@Delete); }
-%   }
-%   send(self,@setsector,#sector=1,#animation=ANIMATE_FLOOR_LIFT,
-%      #height = 1492,#speed=0);
-%   return;
-%   }
+//   EnableIllusions()
+//   {
+//   local i, each_obj;
+//   foreach i in plActive
+//   {
+//      each_obj = send(self,@HolderExtractObject,#Data=i);
+//      if isclass(each_obj,&portal)
+//      {  send(each_obj,@Delete); }
+//   }
+//   send(self,@setsector,#sector=1,#animation=ANIMATE_FLOOR_LIFT,
+//      #height = 1492,#speed=0);
+//   return;
+//   }
 
-%   FirstUserEntered()
-%   {
-%   if not (send(SYS,@AreRoomIllusionsEnabled))
-%   {
-%   send(self,@setsector,#sector=1,#animation=ANIMATE_FLOOR_LIFT,
-%	#height = 1608,#speed=0);
-%   }
-%   propagate;
-%   
-%   }
+//   FirstUserEntered()
+//   {
+//   if not (send(SYS,@AreRoomIllusionsEnabled))
+//   {
+//   send(self,@setsector,#sector=1,#animation=ANIMATE_FLOOR_LIFT,
+//	#height = 1608,#speed=0);
+//   }
+//   propagate;
+//   
+//   }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

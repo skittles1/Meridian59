@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////////////////////////////////////////////////////////////
 GuildHall11 is GuildHall
 
 constants:
@@ -79,8 +79,8 @@ messages:
    {
       plGuild_doors = [ [7,16] ];
 
-      % This is a box containing the guild door, used
-      % for removing players from it when it closes.
+      // This is a box containing the guild door, used
+      // for removing players from it when it closes.
       plEntrance = [ 787, 812, 1600, 1700 ];
 
       propagate;
@@ -88,9 +88,9 @@ messages:
 
    Constructed()
    {
-      % Each sound is [wave_file, row, col, cutoff radius, maximum volume]
-      % We have a special looping sound here because we don't want the forest
-      %  sound to play in the foyer.
+      // Each sound is [wave_file, row, col, cutoff radius, maximum volume]
+      // We have a special looping sound here because we don't want the forest
+      //  sound to play in the foyer.
       plLooping_sounds = [ [ guildh11_forest_sound, 25, 16, 20, 100 ] ];
 
       propagate;
@@ -158,8 +158,8 @@ messages:
             #height=118,#speed=50);
        Send(self,@CloseEntranceDoorSound);
        
-      % We now propagate this to handle removing players from the door,
-      % and so the door can still be entered while it is closing.
+      // We now propagate this to handle removing players from the door,
+      // and so the door can still be entered while it is closing.
       propagate;
    }
 
@@ -211,4 +211,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

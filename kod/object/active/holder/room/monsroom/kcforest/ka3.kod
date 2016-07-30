@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 OutdoorsKA3 is KCForest
 
 constants:
@@ -70,21 +70,21 @@ messages:
    {
       plItem_coords = [ [&FireSand,24,8], [&FireSand,21,11] ];
 
-      % Do not propagate
+      // Do not propagate
       return;
    }
 
    CreateStandardExits()
    {
-      % Teleport to Bowmaker:
+      // Teleport to Bowmaker:
       plExits = Cons([ 28, 12, RID_JUNGLE_BOWMAKER_HUT, 6, 5, ROTATE_NONE ],plExits);
       plExits = Cons([ 27, 12, RID_JUNGLE_BOWMAKER_HUT, 6, 5, ROTATE_NONE ],plExits);
 
       plEdge_Exits = $;
-      % Teleport in to 6,39
+      // Teleport in to 6,39
       plEdge_Exits = Cons([LEAVE_NORTH, RID_KA2, 56, 30, ROTATE_NONE], plEdge_exits);
 
-      % Teleport in to 71,48
+      // Teleport in to 71,48
       plEdge_Exits = Cons([LEAVE_SOUTH, RID_KA4, 1, 26, ROTATE_NONE], plEdge_exits);
 
       propagate;
@@ -100,4 +100,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

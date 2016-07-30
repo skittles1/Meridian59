@@ -1,26 +1,26 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ItemAttRenamed is ItemAttribute
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%   This item has a string engraved onto it with the engrave skill.
-%
-%   Form is:
-%
-%     [IA_RENAMED, sNew_name]
-%
-%      sNew_name::the name of the item.
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////
+//
+//   This item has a string engraved onto it with the engrave skill.
+//
+//   Form is:
+//
+//     [IA_RENAMED, sNew_name]
+//
+//      sNew_name::the name of the item.
+//
+///////////////////////////////////////////////////////////////////////
 
 constants:
 
@@ -42,13 +42,13 @@ messages:
 
    AddToTreasureTable()
    {
-      %% do nothing
+      /// do nothing
       return FALSE;
    }
 
    SetItemsToAttribute()
    {
-      %% plItems_to_attribute should never be used by this itematt
+      /// plItems_to_attribute should never be used by this itematt
       plItems_to_Attribute = $;
       return;
    }
@@ -64,11 +64,11 @@ messages:
       return;
    }
 
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   %%
-   %%  Use this function to add the name to the item.
-   %%
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   /////////////////////////////////////////////////////////////////
+   ///
+   ///  Use this function to add the name to the item.
+   ///
+   /////////////////////////////////////////////////////////////////
 
    SetPrimaryState(state1=$)
    "State1 contains the attack spell type being added to the weapon."
@@ -82,8 +82,8 @@ messages:
          return FALSE;
       }
 
-      %% state1 is a temporary string.  Create a new perm string, or recycle
-      %% an existing one.
+      /// state1 is a temporary string.  Create a new perm string, or recycle
+      /// an existing one.
 
       if plDiscarded_Strings = $
       {
@@ -119,11 +119,11 @@ messages:
       return FALSE;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Name Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Name Functions
+///
+////////////////////////////////////////////////
 
    ItemBuildDescName(oItem=$)
    {
@@ -131,7 +131,7 @@ messages:
 
       lData = Send(oItem,@GetAttributeData,#ItemAtt=viItem_Att_num);
 
-      sName = Nth(lData,2);   %% a string with the faked name
+      sName = Nth(lData,2);   /// a string with the faked name
 
       Addpacket(4,sName);
 
@@ -144,4 +144,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

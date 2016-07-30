@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Eavesdrop is PersonalEnchantment
 
 constants:
@@ -50,7 +50,7 @@ classvars:
    viMana = 8
    viSpellExertion = 1
 
-   viManaDrain = 1       % Drain is amount used every so often
+   viManaDrain = 1       // Drain is amount used every so often
    
    viChance_To_Increase = 20
    viMeditate_ratio = 20
@@ -60,9 +60,9 @@ classvars:
 
 properties:
 
-   % The effectiveness of purge on the target spell as a percentage.
-   % 100 will cause purge to remove its entire spellpower, 0 will
-   % prevent purge from removing this spell.
+   // The effectiveness of purge on the target spell as a percentage.
+   // 100 will cause purge to remove its entire spellpower, 0 will
+   // prevent purge from removing this spell.
    viPurgeFactor = 5
 
 messages:
@@ -93,7 +93,7 @@ messages:
 
    StartPeriodicEnchantment(who=$,state=$)
    {
-      % If caster runs out of mana or loses trance, spell ends.
+      // If caster runs out of mana or loses trance, spell ends.
       if Send(who,@GetMana) < viManaDrain * 2
       {
          Send(who,@StartEnchantment,#what=self,#time=nth(state,1),
@@ -146,12 +146,12 @@ messages:
       return 500 + iPower;
    }
 
-   % State value is: list containing the drain time as the first element,
-   % and the listener object as the second element.
-   %   IE [ drain time (in ms), listener object ]
+   // State value is: list containing the drain time as the first element,
+   // and the listener object as the second element.
+   //   IE [ drain time (in ms), listener object ]
 
    GetStateValue(iSpellPower=$,who=$)
-   % Create and place the listener.
+   // Create and place the listener.
    {
       local oRoom, lRooms, ilength, iRow, iCol, iDrainTime, oListener;
 
@@ -166,7 +166,7 @@ messages:
       iLength = Random(1,iLength);
       oRoom = Send(SYS,@FindRoomByNum,#num=Nth(lRooms,iLength));
 
-      % Use "safe" t'port coords.
+      // Use "safe" t'port coords.
       iRow = Send(oRoom,@GetTeleportRow);
       iCol = Send(oRoom,@GetTeleportCol);
 
@@ -182,7 +182,7 @@ messages:
    }
 
    GetLastCall()
-   % Overwrite to false for periodic enchantments.
+   // Overwrite to false for periodic enchantments.
    {
       return FALSE;
    }
@@ -225,4 +225,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,30 +1,30 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 NecroWarnEvilQuest is QuestTemplate
-% Quest template QST_ID_NECRO_WARNING = 46.
-% Quest nodes 146, 147, 148.
-% QNT_ID_NECRO_WARN_EVIL_ONE, QNT_ID_NECRO_WARN_EVIL_TWO,
-% QNT_ID_NECRO_WARN_EVIL_THREE
+// Quest template QST_ID_NECRO_WARNING = 46.
+// Quest nodes 146, 147, 148.
+// QNT_ID_NECRO_WARN_EVIL_ONE, QNT_ID_NECRO_WARN_EVIL_TWO,
+// QNT_ID_NECRO_WARN_EVIL_THREE
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -34,7 +34,7 @@ resources:
 
    include necrowarnevilqt.lkod
 
-   % Quest description.
+   // Quest description.
    necrowarnevilqt_icon_rsc = necscrol.bgf
    necrowarnevilqt_name_rsc = "necromancer warning quest"
    necrowarnevilqt_desc_rsc = \
@@ -53,7 +53,7 @@ resources:
    necrowarnevilqt_completed_rsc = \
       "You have completed the necromancer warning quest."
 
-   % Quest resources.
+   // Quest resources.
    necrowarning_assign_2 = \
       "Yes, I have need of a messenger.  It would seem we have a new power in "
       "the land, or rather a very old power, full of darkness.  Perhaps those "
@@ -88,7 +88,7 @@ classvars:
 
    vrCompleted = necrowarnevilqt_completed_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_NECRO_WARNING
 
    viIcon_Animation_start = 1
@@ -106,11 +106,11 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_NECRO_WARN_EVIL_ONE,QNT_ID_NECRO_WARN_EVIL_TWO,
                       QNT_ID_NECRO_WARN_EVIL_THREE];
 
-      % Quest nodes with matching descriptions for the player.
+      // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_NECRO_WARN_EVIL_TWO, vrNodeTwo],
                           [QNT_ID_NECRO_WARN_EVIL_THREE, vrNodeThree] ];
 
@@ -124,8 +124,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #146 is necro warning quest
-      % QNT_ID_NECRO_WARN_EVIL_ONE
+      // Template #146 is necro warning quest
+      // QNT_ID_NECRO_WARN_EVIL_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #NPC_modifier=QN_NPCMOD_NONE,#cargolist=[ letter_trigger ],
                #quest_node_index=QNT_ID_NECRO_WARN_EVIL_ONE)
@@ -143,8 +143,8 @@ messages:
          Debug("Error building QN: QNT_ID_NECRO_WARN_EVIL_ONE");
       }
 
-      % Template #147 is necro warning quest
-      % QNT_ID_NECRO_WARN_EVIL_TWO
+      // Template #147 is necro warning quest
+      // QNT_ID_NECRO_WARN_EVIL_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_ITEM,
                #NPC_modifier=QN_NPCMOD_NONE,
                #cargolist=[ [ QN_PRIZETYPE_ITEMCLASS, &NecromancerLetter, 1 ] ],
@@ -182,8 +182,8 @@ messages:
          Debug("Error building QN: QNT_ID_NECRO_WARN_EVIL_TWO");
       }
 
-      % Template #148 is necro warning quest
-      % QNT_ID_NECRO_WARN_EVIL_THREE
+      // Template #148 is necro warning quest
+      // QNT_ID_NECRO_WARN_EVIL_THREE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_SHOWUP,
                #NPC_modifier=QN_NPCMOD_PREVIOUS,
                #prizelist=[ [ [ QN_PRIZETYPE_ITEMCLASS, &Money, 800 ],
@@ -238,4 +238,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

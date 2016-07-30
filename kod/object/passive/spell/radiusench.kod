@@ -1,41 +1,41 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 RadiusEnchantment is Spell
 
-% Radius Enchantments are spells that apply an effect to players within a certain distance of the caster.
-% Caster must typically maintain a trance, but requirements to keep the trance are variable.
-%
-% Internally, the spell maintains an instanced state of 7 entries, of the form:
-% [source, mana drain time, periodic effect time, enchanted object list, power, range, original room].
-% This should not be altered. It is used to track the radius, who should be affected, who the caster was,
-% when to drain mana, and when to employ periodic effects.
-% Power and Range have their own Calculate functions if they need to be modified.
-% For example, a spell may have a Power range 1-20, or a Power range not based on spellpower at all.
-%
-% EnterRadius and LeaveRadius add or remove from an object's plRadiusEnchantments list.
-% Each element is of the form [spell object, spellpower, caster].
-% These states should be used when effects are actually being performed,
-% and should be called by the objects themselves. For example, a player swinging a mace will
-% check his plRadiusEnchantments list for spells that affect mace swings, and call them appropriately.
-%
-% Useful Radius enchantment functions to call (these are in Object.kod):
-% IsAffectedByRadiusEnchantment(what=$,byClass=&RadiusEnchantment)  -- returns TRUE or FALSE
-% GetMostPowerfulRadiusEnchantmentState(byClass=&RadiusEnchantment) -- returns [spell object, power, caster] with highest power
-% GetRadiusEnchantments()                                           -- returns object's list of [spell object, power, caster]
+// Radius Enchantments are spells that apply an effect to players within a certain distance of the caster.
+// Caster must typically maintain a trance, but requirements to keep the trance are variable.
+//
+// Internally, the spell maintains an instanced state of 7 entries, of the form:
+// [source, mana drain time, periodic effect time, enchanted object list, power, range, original room].
+// This should not be altered. It is used to track the radius, who should be affected, who the caster was,
+// when to drain mana, and when to employ periodic effects.
+// Power and Range have their own Calculate functions if they need to be modified.
+// For example, a spell may have a Power range 1-20, or a Power range not based on spellpower at all.
+//
+// EnterRadius and LeaveRadius add or remove from an object's plRadiusEnchantments list.
+// Each element is of the form [spell object, spellpower, caster].
+// These states should be used when effects are actually being performed,
+// and should be called by the objects themselves. For example, a player swinging a mace will
+// check his plRadiusEnchantments list for spells that affect mace swings, and call them appropriately.
+//
+// Useful Radius enchantment functions to call (these are in Object.kod):
+// IsAffectedByRadiusEnchantment(what=$,byClass=&RadiusEnchantment)  -- returns TRUE or FALSE
+// GetMostPowerfulRadiusEnchantmentState(byClass=&RadiusEnchantment) -- returns [spell object, power, caster] with highest power
+// GetRadiusEnchantments()                                           -- returns object's list of [spell object, power, caster]
 
 constants:
 
    include blakston.khd
    
-   RADIUS_CHECK_TIME = 250   % Time between checks for who is affected, no worse than an active object lag-wise
+   RADIUS_CHECK_TIME = 250   // Time between checks for who is affected, no worse than an active object lag-wise
 
 resources:
 
@@ -78,7 +78,7 @@ classvars:
    viMana = 5
    viManaDrain = 3
    viDrainTime = 5000
-   viPeriodicEffect = FALSE     % If true, will call PeriodicEffect()
+   viPeriodicEffect = FALSE     // If true, will call PeriodicEffect()
    viPostCast_time = 1
    viBaseRange = 5
 
@@ -87,28 +87,28 @@ classvars:
 
    viChance_To_Increase = 15
 
-   viAffectsCasterOnly = FALSE  % Override for self-only spell
-   viAffectsEveryone = FALSE    % Override for affect all
+   viAffectsCasterOnly = FALSE  // Override for self-only spell
+   viAffectsEveryone = FALSE    // Override for affect all
 
-   viAffectsCaster = TRUE       % Caster is affected by the spell
-   viAffectsGuildmates = FALSE  % Guildmates of caster
-   viAffectsAllies = FALSE      % Members of guilds allied with caster's guild
-   viAffectsEnemies = FALSE     % Hostile, can cause outlaw status
-   viAffectsInnocents = FALSE   % Unaffiliated white characters
-   viAffectsNewbies = FALSE     % Angeled characters
+   viAffectsCaster = TRUE       // Caster is affected by the spell
+   viAffectsGuildmates = FALSE  // Guildmates of caster
+   viAffectsAllies = FALSE      // Members of guilds allied with caster's guild
+   viAffectsEnemies = FALSE     // Hostile, can cause outlaw status
+   viAffectsInnocents = FALSE   // Unaffiliated white characters
+   viAffectsNewbies = FALSE     // Angeled characters
 
-   viCasterPersist = FALSE      % If true, spell will 'follow' caster between rooms
+   viCasterPersist = FALSE      // If true, spell will 'follow' caster between rooms
 
-   viAffectsItems = FALSE       % If true, will apply effects to items in the room, such as a mace on the ground
-                                % It is possible for an item to be the source of a radius enchantment
+   viAffectsItems = FALSE       // If true, will apply effects to items in the room, such as a mace on the ground
+                                // It is possible for an item to be the source of a radius enchantment
 
    vbIsAreaEffect = TRUE
 
 properties:
 
-   plCurrentEnchantments = $    % Each radius spell keeps track of every instance of its own application
+   plCurrentEnchantments = $    // Each radius spell keeps track of every instance of its own application
                                 
-   ptRecalculationTimer = $     % Each radius spell checks boundaries and effects every RADIUS_CHECK_TIME if active
+   ptRecalculationTimer = $     // Each radius spell checks boundaries and effects every RADIUS_CHECK_TIME if active
 
 messages:
 
@@ -119,7 +119,7 @@ messages:
 
    GetNumSpellTargets()
    {
-      % Enchantment is applied by radius, not by target
+      // Enchantment is applied by radius, not by target
       return 0;
    }
 
@@ -131,7 +131,7 @@ messages:
       if oRoom = $
          OR NOT IsClass(oRoom,&Room)
       {
-         % Don't cast without a room, may create hanging objects
+         // Don't cast without a room, may create hanging objects
          return FALSE;
       }
 
@@ -269,7 +269,7 @@ messages:
             Debug("Radius check went off without a proper room!",self);
          }
 
-         % Check for active objects that have entered the radius of effect
+         // Check for active objects that have entered the radius of effect
          foreach oActive in Send(oRoom,@GetPlActive)
          {
             oObject = Send(oRoom,@HolderExtractObject,#data=oActive);
@@ -287,7 +287,7 @@ messages:
             }
          }
 
-         % Check for passive objects that have entered the radius of effect
+         // Check for passive objects that have entered the radius of effect
          if viAffectsItems
          {
             foreach oPassive in Send(oRoom,@GetPlPassive)
@@ -308,7 +308,7 @@ messages:
             }
          }
 
-         % Check for objects that have left the radius of effect
+         // Check for objects that have left the radius of effect
          foreach oObject in lEnchanted
          {
             iDistance = Send(source,@SquaredDistanceTo,#what=oObject);
@@ -321,7 +321,7 @@ messages:
             }
          }
 
-         % Perform periodic effects
+         // Perform periodic effects
          if viPeriodicEffect
             AND iPeriodic > Send(self,@CalculatePeriodicEffectTime,#iPower=iPower)
          {
@@ -413,7 +413,7 @@ messages:
          return FALSE;
       }
 
-      % Arena checks.
+      // Arena checks.
       oRoom = Send(SYS,@UtilGetRoomRecurse,#what=target);
 
       if oRoom <> $
@@ -422,20 +422,20 @@ messages:
          {
             oWatcher = Send(oRoom,@GetWatcher);
 
-            % If a fight isn't in session, attack fails.
+            // If a fight isn't in session, attack fails.
             if NOT Send(oWatcher,@FightInSession)
             {
                return FALSE;
             }
 
-            % If the target is not a combatant, attack fails.
+            // If the target is not a combatant, attack fails.
             if IsClass(target,&Battler)
                AND NOT Send(oWatcher,@IsCombatant,#who=target)
             {
                return FALSE;
             }
 
-            % If the source is not a combatant, attack fails.
+            // If the source is not a combatant, attack fails.
             if Send(source,@GetOwner) = oRoom
             AND NOT Send(oWatcher,@IsCombatant,#who=source)
             {
@@ -598,8 +598,8 @@ messages:
    {
       local oRoom;
 
-      % The spell keeps going if you get damaged, move, cast, use an item, or make an attack.
-      % Players must rest to end most radius spells.
+      // The spell keeps going if you get damaged, move, cast, use an item, or make an attack.
+      // Players must rest to end most radius spells.
       if event = EVENT_DAMAGE
          OR event = EVENT_ATTACK
          OR event = EVENT_RUN
@@ -612,7 +612,7 @@ messages:
 
       oRoom = Send(who,@GetOwner);
 
-      % Only cancel Persist spells if they are offensive & caster is entering a non-combat room
+      // Only cancel Persist spells if they are offensive & caster is entering a non-combat room
       if viCasterPersist
          AND (event = EVENT_NEWOWNER
              OR event = EVENT_REQNEWOWNER)
@@ -695,18 +695,18 @@ messages:
       return;
    }
 
-   % Replace this to modify power calculations - currently on 0 to 99 scale
+   // Replace this to modify power calculations - currently on 0 to 99 scale
    CalculatePower(who=$, iSpellPower=25)
    {
       return iSpellPower;
    }
 
-   % Replace this to modify range by spellpower calculations
+   // Replace this to modify range by spellpower calculations
    CalculateRange(who=$, iSpellPower=25)
    {
       local iRange;
 
-      % Default is up to twice base range
+      // Default is up to twice base range
       iRange = viBaseRange + ((viBaseRange*iSpellPower)/99);
       
       return iRange;
@@ -732,7 +732,7 @@ messages:
       return ((50 + iSpellpower)*1000);
    }
 
-   %%%%% Effect Functions
+   ////// Effect Functions
 
    ModifyDefensePower(attacker=$,iPower=0,caster=$,defense_power=0)
    {
@@ -780,4 +780,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

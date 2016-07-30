@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////////////////////////////////////////////////////////////
 GuildHall7 is GuildHall
 
 constants:
@@ -89,8 +89,8 @@ messages:
    {
       plGuild_doors = [ [18,8], [6,11], [5,23] ];
 
-      % These are boxes containing the guild doors, used
-      % for removing players from them when they close.
+      // These are boxes containing the guild doors, used
+      // for removing players from them when they close.
       plSouthDoor = [ 1800, 1900, 887, 912 ];
       plEastDoor = [ 587, 612, 2300, 2400 ];
       plWestDoor = [ 687, 712, 1100, 1200 ];
@@ -102,18 +102,18 @@ messages:
             new_row = 1, new_col = 1, new_fine_row = 1, new_fine_col = 1,
             who = $)
    {
-      % Hardcoded movement check, prevent hacking into hall.
-      % Basic requirement door must not be open
+      // Hardcoded movement check, prevent hacking into hall.
+      // Basic requirement door must not be open
       if ptEastDoor = $
          AND ptWestDoor = $
          AND ptSouthDoor = $
       {
          if Send(self,@InFoyer,#iRow=old_row,#iCol=old_col)
          {
-            % We're in the foyer. Check if we're trying to move into the hall.
+            // We're in the foyer. Check if we're trying to move into the hall.
             if NOT Send(self,@InFoyer,#iRow=new_row,#iCol=new_col)
             {
-               % Bad player! Fail the attempt.
+               // Bad player! Fail the attempt.
                Debug("ALERT!",Send(who,@GetTrueName),who,
                      "tried to move through closed Guild Hall door ",
                      Send(self,@GetName)," from ",old_row,old_col,old_fine_row,
@@ -168,12 +168,12 @@ messages:
 
       if Send(self,@InFoyer,#who=what)
       {
-         % Since we have multiple foyers, let people enter the appropriate foyer
+         // Since we have multiple foyers, let people enter the appropriate foyer
          return;
       }
 
-      % Superclass teleports people to the One True Foyer(tm) if they enter
-      % (or log on) inside when they're not normally allowed to enter.
+      // Superclass teleports people to the One True Foyer(tm) if they enter
+      // (or log on) inside when they're not normally allowed to enter.
       propagate;
    }
 
@@ -187,11 +187,11 @@ messages:
       {
          if row = First(i) AND col = Nth(i,2)
          {
-            % check to see if the doors should open
+            // check to see if the doors should open
             if piStatus = STATUS_OKAY
                AND NOT Send(self,@CanEnter,#who=what)
             {
-               % Send a message saying 'only members and their allies may enter.' 
+               // Send a message saying 'only members and their allies may enter.' 
                Send(what,@MsgSendUser,#message_rsc=guildhall_cant_open,#parm1=vrName);
 
                return TRUE;
@@ -377,7 +377,7 @@ messages:
       Send(self,@NewHold,#what=Create(&Table),
             #new_row=12,#new_col=19);
 
-      % South Hall Braziers
+      // South Hall Braziers
       Send(self,@NewHold,#what=Create(&Brazier),
             #new_row=21,#new_col=7,#fine_row=0,#fine_col=24);
       Send(self,@NewHold,#what=Create(&Brazier),
@@ -386,23 +386,23 @@ messages:
       Send(self,@NewHold,#what=Create(&Brazier),
             #new_row=16,#new_col=11,#fine_row=44,#fine_col=56);
 
-      % NWest Entrance Brazier
+      // NWest Entrance Brazier
       Send(self,@NewHold,#what=Create(&Brazier),
             #new_row=5,#new_col=8,#fine_row=12,#fine_col=48);
       Send(self,@NewHold,#what=Create(&Brazier),
             #new_row=2,#new_col=9,#fine_row=0,#fine_col=4);
 
-      % Central North Brazier
+      // Central North Brazier
       Send(self,@NewHold,#what=Create(&Brazier),
             #new_row=7,#new_col=19,#fine_row=54,#fine_col=0);
 
-      % NEast Entrance Brazier
+      // NEast Entrance Brazier
       Send(self,@NewHold,#what=Create(&Brazier),
             #new_row=1,#new_col=20,#fine_row=44,#fine_col=60);
       Send(self,@NewHold,#what=Create(&Brazier),
             #new_row=4,#new_col=20,#fine_row=60,#fine_col=48);
 
-      % Assembly Room Fires
+      // Assembly Room Fires
       Send(self,@NewHold,#what=Create(&Firepit),
             #new_row=12,#new_col=27,#fine_row=0,#fine_col=0);
       Send(self,@NewHold,#what=Create(&Firepit),
@@ -452,4 +452,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

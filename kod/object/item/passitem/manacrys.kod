@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ManaCrystal is PassiveItem
 
 constants:
 
    include blakston.khd
 
-   % This is similar to what is allowed by Nodeburst
+   // This is similar to what is allowed by Nodeburst
    MAX_MANA_ALLOWED = 250
 
 resources:
@@ -41,17 +41,17 @@ classvars:
 
 properties:
 
-   % How much mana is stored in the crystal?
+   // How much mana is stored in the crystal?
    piStoredMana = 0
 
-   % Current color translation to show how much mana is in the crystal.
-   %  Index into plTranslations.
+   // Current color translation to show how much mana is in the crystal.
+   //  Index into plTranslations.
    piColorTranslation = 1
 
-   % A list of translations of increasing amount of mana stored.
+   // A list of translations of increasing amount of mana stored.
    plTranslations = $
 
-   % This can only be used by the caster.
+   // This can only be used by the caster.
    poCaster = $
 
 messages:
@@ -76,13 +76,13 @@ messages:
 
       piStoredMana = piStoredMana + amount;
 
-      % Bind amount stored to either 130% of owner's max mana or 250, whichever
-      %  is less.
+      // Bind amount stored to either 130// of owner's max mana or 250, whichever
+      //  is less.
       iMana = (130 * Send(poOwner,@GetMaxMana)) / 100;
       piStoredMana = Bound(piStoredMana,1,iMana);
       piStoredMana = Bound(piStoredMana,1,MAX_MANA_ALLOWED);
 
-      % See which color translation we should be, one level every 30 mana.
+      // See which color translation we should be, one level every 30 mana.
       iTranslation = Bound((piStoredMana / 30) + 1,1,Length(plTranslations));
 
       if piColorTranslation <> iTranslation
@@ -98,7 +98,7 @@ messages:
 
    ReqNewApply()
    {
-      % Just in case it gets dropped somehow...
+      // Just in case it gets dropped somehow...
       if poOwner <> poCaster
       {
          Post(self,@Delete);
@@ -113,7 +113,7 @@ messages:
    {
       local iMana;
 
-      % Bound total mana to a maximum.
+      // Bound total mana to a maximum.
       iMana = Send(poOwner,@GetMana);
       piStoredMana = Bound(piStoredMana,$,MAX_MANA_ALLOWED-iMana);
 
@@ -123,11 +123,11 @@ messages:
       return;
    }
 
-   %%% Making the crystal undroppable
+   //// Making the crystal undroppable
 
    ReqNewOwner(what=$)
    {
-      % Only give this to the caster or a DM.
+      // Only give this to the caster or a DM.
       if what <> $
          AND what <> poCaster
          AND NOT IsClass(what,&DM)
@@ -160,4 +160,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

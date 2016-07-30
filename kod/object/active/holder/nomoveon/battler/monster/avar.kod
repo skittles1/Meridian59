@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Avar is Monster
 
 constants:
@@ -28,7 +28,7 @@ resources:
    avar_koc_name_rsc = "avar"
    avar_icon_rsc = avwar.bgf
 
-   % Default name and desc!
+   // Default name and desc!
    avar_name_rsc = "peet-seeeep avar warrior"
    avar_desc_rsc = \
       "Fierce warriors, these flightless bird men demand caution as you "
@@ -73,7 +73,7 @@ classvars:
    viDifficulty = 7
    viVisionDistance = 16
 
-   % Attack range of 160, or 2.5 row/col.
+   // Attack range of 160, or 2.5 row/col.
    viAttackRange = 160
 
    viKarma = 80
@@ -173,7 +173,7 @@ messages:
          return;
       }
 
-      % Ask our owner what clan we should be in.
+      // Ask our owner what clan we should be in.
       Send(self,@SetClan,#clan=Send(poOwner,@GetClan));
 
       return;
@@ -225,7 +225,7 @@ messages:
          return;
       }
 
-      % if no body animation
+      // if no body animation
       AddPacket(1,ANIMATE_NONE,2,3);
 
       return;
@@ -246,8 +246,8 @@ messages:
 
       if IsClass(target,&Avar)
       {
-         % Regroup makes the avars run to their shamans when they are wounded,
-         % instead of each other.
+         // Regroup makes the avars run to their shamans when they are wounded,
+         // instead of each other.
          if regroup
          {
             return FALSE;
@@ -261,14 +261,14 @@ messages:
          propagate;
       }
 
-      % Charm checks up higher.
+      // Charm checks up higher.
       propagate;
    }
 
    SpecialHatredBehavior(what=$)
    {
-      %% Avars attack other avars of other clans, but only 
-      %% in the temple of riija ruins (rid_KC3).
+      /// Avars attack other avars of other clans, but only 
+      /// in the temple of riija ruins (rid_KC3).
       if IsClass(what,&AvarShaman)
          OR IsClass(what,&AvarChieftain)
          OR IsClass(what,&Avar)
@@ -311,4 +311,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

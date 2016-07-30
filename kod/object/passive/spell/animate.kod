@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Animate is Spell
 
 constants:
 
    include blakston.khd
 
-   MAX_RISEN_CONTROL_SECS = 1200  % 20 minutes
+   MAX_RISEN_CONTROL_SECS = 1200  // 20 minutes
 
 resources:
 
@@ -206,17 +206,17 @@ messages:
       }
 
       Send(oRisen,@SetIllusion,#value=TRUE);
-      % Add this creature to your minion list
+      // Add this creature to your minion list
       Send(who,@NewControlledMinion,#minion=oRisen);
 
-      % Set initial minion behavior
+      // Set initial minion behavior
       Send(oRisen,@ResetBehaviorFlags);
       Send(self,@ModifyMonsterBehavior,#mob=oRisen);
 
-      % Post this due to it needing to be done after the minion is placed.
+      // Post this due to it needing to be done after the minion is placed.
       Post(oRisen,@SetMaster,#oMaster=who);
 
-      % Place the minion
+      // Place the minion
       Send(oRoom,@NewHold,#what=oRisen,#new_row=iRow,#new_col=iCol,
             #fine_row=iFine_Row,#fine_col=iFine_Col);
 
@@ -231,7 +231,7 @@ messages:
                #parm1=Send(oTarget,@GetName));
       }
 
-      % Delete the corpse
+      // Delete the corpse
       Post(oTarget,@Delete);
 
       propagate;
@@ -248,4 +248,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

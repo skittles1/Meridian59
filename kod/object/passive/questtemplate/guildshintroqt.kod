@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 GuildShieldIntroQuest is QuestTemplate
-% QST_ID_GUILDSHIELD_INTRO = 13
-% Quest nodes 20.
-% QNT_ID_GSHIELD_INTRO_ONE
+// QST_ID_GUILDSHIELD_INTRO = 13
+// Quest nodes 20.
+// QNT_ID_GSHIELD_INTRO_ONE
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -33,9 +33,9 @@ resources:
 
    include guildshintroqt.lkod
 
-   % Quest description. No description is actually displayed for this
-   % quest, its purpose is to activate another quest which isn't given
-   % to the player directly.
+   // Quest description. No description is actually displayed for this
+   // quest, its purpose is to activate another quest which isn't given
+   // to the player directly.
    guildshintroquest_name_rsc = "blacksmith ore quest"
    guildshintroquest_desc_rsc = \
       "The bartender has told you of a blacksmith looking for ore."
@@ -43,7 +43,7 @@ resources:
    guildshintroquest_completed_rsc = \
       "The bartender has told you of a blacksmith looking for ore."
 
-   % Quest resources.
+   // Quest resources.
    guildshield_intro = \
       "I heard that %QBNPC wants someone to go on a mining expedition for "
       "%QBHIMHER_NPC, and that it may be of particular interest to your "
@@ -57,10 +57,10 @@ classvars:
 
    vrCompleted = guildshintroquest_completed_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_GUILDSHIELD_INTRO
 
-   % Don't need to show this quest to the user once completed.
+   // Don't need to show this quest to the user once completed.
    vbShowCompleted = FALSE
 
 properties:
@@ -75,7 +75,7 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_GSHIELD_INTRO_ONE];
 
       propagate;
@@ -88,9 +88,9 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #20 is guild shield intro quest, guildmaster shows up
-      % to be told which blacksmith to go to.
-      % QNT_ID_GSHIELD_INTRO_ONE
+      // Template #20 is guild shield intro quest, guildmaster shows up
+      // to be told which blacksmith to go to.
+      // QNT_ID_GSHIELD_INTRO_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_SHOWUP,
                #prizelist=[ [ QN_PRIZETYPE_SCHEDULE_QUEST, QST_ID_GUILDSHIELD ], 
                             [ QN_PRIZETYPE_ACTIVATE_QUEST, QST_ID_GUILDSHIELD ],
@@ -102,8 +102,8 @@ messages:
                      #iJob=MOB_ROLE_BARTENDER,#onIsland=FALSE));
          Send(oQE,@SetQuestNodeSuccessHint,#index=QNT_ID_GSHIELD_INTRO_ONE,
                #new_hint=guildshield_intro);
-         % Send(oQE,@SetQuestNodeFailureHint,#index=QNT_ID_GSHIELD_INTRO_ONE,
-         %      #new_hint=guildshield_failure);
+         // Send(oQE,@SetQuestNodeFailureHint,#index=QNT_ID_GSHIELD_INTRO_ONE,
+         //      #new_hint=guildshield_failure);
       }
       else
       {
@@ -114,4 +114,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

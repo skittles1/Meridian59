@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 RazaSmith is RazaRoom
 
 constants:
@@ -82,7 +82,7 @@ messages:
    {
       plExits = $;
 
-      %% TO TOWN
+      /// TO TOWN
       plExits = Cons([ 4, 3, RID_RAZA, 18, 47, ROTATE_NONE ],plExits);
       plExits = Cons([ 4, 4, RID_RAZA, 18, 47, ROTATE_NONE ],plExits);
 
@@ -99,12 +99,12 @@ messages:
       oSign = Create(&Sign,#desc=razasmith_sign,#name=razasmith_signname,#newbie=TRUE);
       Send(self,@NewHold,#what=oSign,#new_row=7,#new_col=5,#fine_row=24,#fine_col=24);
 
-      % Lighting
-      %  Forge
+      // Lighting
+      //  Forge
       Send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_BORANGE,#iIntensity=30),
             #new_row=9,#new_col=6,#fine_row=16,#fine_col=24);
 
-      %  Torches
+      //  Torches
       Send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,#iIntensity=30),
             #new_row=7,#new_col=4,#fine_row=53,#fine_col=35);
       Send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,#iIntensity=30),
@@ -114,4 +114,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

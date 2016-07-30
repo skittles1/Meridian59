@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Torch is Shield
 
 constants:
@@ -16,7 +16,7 @@ constants:
 
    HS_FLAME = 1
 
-   % use a torch charge every x milliseconds
+   // use a torch charge every x milliseconds
    TORCH_CHARGE_RATE = 60000
 
    TORCH_LIGHT = 40
@@ -109,8 +109,8 @@ messages:
       Send(poOwner,@RecalcFlickerFlag);
       Send(poOwner,@SomethingChanged,#what=self);
 
-      % Avoid the case where we got here by being deleted in BurnTimer(),
-      % in which case piHits = 0.
+      // Avoid the case where we got here by being deleted in BurnTimer(),
+      // in which case piHits = 0.
       if piHits > 0
       {
          piHits = piHits - 1;
@@ -151,7 +151,7 @@ messages:
       propagate;
    }
 
-   % Torches don't allow you to use block.
+   // Torches don't allow you to use block.
    GetBlockAbility(who=$)
    {
       return 0;
@@ -266,7 +266,7 @@ messages:
       return;  
    }
 
-   % Gives a bonus to Faren spells since it's firey!
+   // Gives a bonus to Faren spells since it's firey!
    GetBaseSpellModifier(oSpell=$)
    {
       if oSpell <> $ AND Send(oSpell,@GetSchool) = SS_FAREN
@@ -284,11 +284,11 @@ messages:
 
    ReqRepair()
    {
-      % To prevent cheesy working of Mend by using/unusing torch repeatedly.
+      // To prevent cheesy working of Mend by using/unusing torch repeatedly.
       return FALSE;
    }
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 

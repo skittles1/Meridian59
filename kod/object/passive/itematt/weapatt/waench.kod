@@ -1,33 +1,33 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 WeapAttEnchanted is WeaponAttribute
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%   This weapon attribute merely flags the weapon as having the 'magic'
-%   flag flipped - some monsters are susceptible to magic attacks.
-%
-%   Form is:
-%
-%      [WA_ENCHANTED, timer ]
-%
-%      timer::the length of time, from 1 to 25 realtime hours,
-%      that the enchantment lasts (depending on spell factors).
-%
-%   Note that if a weapon ends up permanently holy or unholy, then this
-%   attribute is no longer necessary, since the attack values flags
-%   in weapon stores this information.  This information is only
-%   stored here so that eventually, it may be forgotten.
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////
+//
+//   This weapon attribute merely flags the weapon as having the 'magic'
+//   flag flipped - some monsters are susceptible to magic attacks.
+//
+//   Form is:
+//
+//      [WA_ENCHANTED, timer ]
+//
+//      timer::the length of time, from 1 to 25 realtime hours,
+//      that the enchantment lasts (depending on spell factors).
+//
+//   Note that if a weapon ends up permanently holy or unholy, then this
+//   attribute is no longer necessary, since the attack values flags
+//   in weapon stores this information.  This information is only
+//   stored here so that eventually, it may be forgotten.
+//
+///////////////////////////////////////////////////////////////////////
 
 constants:
 
@@ -54,11 +54,11 @@ properties:
 
 messages:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Effect Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Effect Functions
+///
+////////////////////////////////////////////////
 
    AddSelfToRandomItem(oItem=$,who=$)
    {
@@ -103,7 +103,7 @@ messages:
 
    TimerExpired(oItem=$,lData=$)
    {
-      SetNth(lData,2,$);   %% timer is gone, now remove reference
+      SetNth(lData,2,$);   /// timer is gone, now remove reference
       Send(self,@RemoveFromItem,#oItem=oItem,#lData=lData);
 
       return;
@@ -138,7 +138,7 @@ messages:
 
       if oItem = $ or lData = $
       {
-%        Debug("RemoveEffects failed!");
+//        Debug("RemoveEffects failed!");
 
          return FALSE;
       }
@@ -163,12 +163,12 @@ messages:
       return;
    }
 
-%% moved up to the ItemAtt superclass, where it belongs!!
-%   RemoveFromItem(oItem=$,lData=$)
-%   {
-%      Send(self,@RemoveEffects,#oItem=oItem,#lData=lData);
-%      propagate;
-%   }
+/// moved up to the ItemAtt superclass, where it belongs!!
+//   RemoveFromItem(oItem=$,lData=$)
+//   {
+//      Send(self,@RemoveEffects,#oItem=oItem,#lData=lData);
+//      propagate;
+//   }
 
    InitiallyIdentified()
    {
@@ -181,4 +181,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

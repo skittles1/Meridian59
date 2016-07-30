@@ -1,28 +1,28 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 QorDiscQuest is QuestTemplate
-% Quest nodes 42, 43, 44.
-% QNT_ID_QOR_DISCIPLE_ONE, QNT_ID_QOR_DISCIPLE_TWO, QNT_ID_QOR_DISCIPLE_THREE
+// Quest nodes 42, 43, 44.
+// QNT_ID_QOR_DISCIPLE_ONE, QNT_ID_QOR_DISCIPLE_TWO, QNT_ID_QOR_DISCIPLE_THREE
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -32,7 +32,7 @@ resources:
 
    include qordiscqt.lkod
 
-   % Quest description.
+   // Quest description.
    qorquest_icon_rsc = ikarahol.bgf
    qorquest_name_rsc = "Qor disciple quest"
    qorquest_desc_rsc = \
@@ -50,7 +50,7 @@ resources:
       "disciple of Qor, and Priestess Zuxana will now teach you more "
       "powerful spells."
 
-   % Quest resources.
+   // Quest resources.
    qordisciple_trigger = "darkness all shall be bound"
    qordisciple_assign = \
       "`rYou wish to be surrounded by the ineffable embrace of our patron "
@@ -93,7 +93,7 @@ classvars:
    vrNodeThree = qorquest_node_three_rsc
    vrCompleted = qorquest_completed
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_QOR_DISCIPLE
 
 properties:
@@ -104,18 +104,18 @@ properties:
    piMaxPlayers = 30
    piSchedulePct = 100
 
-   piTimeLimit = 2 * 3600 % 2 hours
+   piTimeLimit = 2 * 3600 // 2 hours
 
 messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_QOR_DISCIPLE_ONE, QNT_ID_QOR_DISCIPLE_TWO,
                       QNT_ID_QOR_DISCIPLE_THREE];
 
-      % Quest nodes with matching descriptions for the player.
-      % No description needed for quest node QNT_ID_QOR_DISCIPLE_ONE.
+      // Quest nodes with matching descriptions for the player.
+      // No description needed for quest node QNT_ID_QOR_DISCIPLE_ONE.
       plQuestNodeDesc = [ [QNT_ID_QOR_DISCIPLE_TWO, vrNodeTwo],
                           [QNT_ID_QOR_DISCIPLE_THREE, vrNodeThree] ];
 
@@ -129,8 +129,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #42 is qor disciple quest kickoff, "favor"
-      % QNT_ID_QOR_DISCIPLE_ONE
+      // Template #42 is qor disciple quest kickoff, "favor"
+      // QNT_ID_QOR_DISCIPLE_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[disciple_trigger],
                #quest_node_index=QNT_ID_QOR_DISCIPLE_ONE)
@@ -144,8 +144,8 @@ messages:
          Debug("Error building QN: QNT_ID_QOR_DISCIPLE_ONE");
       }
 
-      % Template #43 is qor disciple quest, deliver message
-      % QNT_ID_QOR_DISCIPLE_TWO
+      // Template #43 is qor disciple quest, deliver message
+      // QNT_ID_QOR_DISCIPLE_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[qordisciple_trigger],#timelimit=piTimeLimit,
                #prizelist=[ [ QN_PRIZETYPE_NPC_RESPONSE ] ],
@@ -169,8 +169,8 @@ messages:
          Debug("Error building QN: QNT_ID_QOR_DISCIPLE_TWO");
       }
 
-      % Template #44 is qor disciple quest, come back
-      % QNT_ID_QOR_DISCIPLE_THREE
+      // Template #44 is qor disciple quest, come back
+      // QNT_ID_QOR_DISCIPLE_THREE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_SHOWUP,
                #timelimit=piTimeLimit,#quest_node_index=QNT_ID_QOR_DISCIPLE_THREE)
       {
@@ -197,7 +197,7 @@ messages:
          return;
       }
 
-      % Quest node QNT_ID_QOR_DISCIPLE_TWO dialog needs the NPC name.
+      // Quest node QNT_ID_QOR_DISCIPLE_TWO dialog needs the NPC name.
       if index = QNT_ID_QOR_DISCIPLE_TWO
       {
          AddPacket(4,Send(Send(oQuestNode,@GetDestNPC),@GetName));
@@ -256,4 +256,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

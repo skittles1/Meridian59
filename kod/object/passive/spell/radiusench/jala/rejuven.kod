@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 Rejuvenate is Jala
 
 constants:
@@ -52,9 +52,9 @@ classvars:
    viSchool = SS_JALA
    viSpell_level = 5
 
-   viMana = 5           % Mana is amount used upon inititiation
-   viManaDrain = 8      % Drain is amount used every viDrainTime milliseconds
-   viDrainTime = 5000   % Drain some mana every viDrainTime milliseconds
+   viMana = 5           // Mana is amount used upon inititiation
+   viManaDrain = 8      // Drain is amount used every viDrainTime milliseconds
+   viDrainTime = 5000   // Drain some mana every viDrainTime milliseconds
 
    viPeriodicEffect = TRUE
 
@@ -106,4 +106,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 IllusionaryForm is Spell
 
 constants:
 
    include blakston.khd
 
-   % multiplied by the ability of the spellcaster
+   // multiplied by the ability of the spellcaster
    ILLUSIONARYFORM_TIME = 1500  
 
 resources:
@@ -65,7 +65,7 @@ messages:
 
    CanPayCosts(who = $, lTargets = $)
    {
-      % check for enchantment already applied
+      // check for enchantment already applied
 
       if Send(who,@IsEnchanted,#what=self)
          OR Send(who,@CheckPlayerFlag,#flag=PFLAG_MORPHED)
@@ -157,16 +157,16 @@ messages:
          if (StringEqual(string,Send(i,@GetName)) AND bDM)
             OR StringEqual(string,Send(i,@GetKocName))
          {
-            % Be sure the player deserves to be able to 
-            %  'steer' to this monster.
+            // Be sure the player deserves to be able to 
+            //  'steer' to this monster.
             if Send(i,@GetLevel) >= (iSpellPower - random(0,10))
                AND NOT bDM
             {
                return;
             }
             
-            % Be sure the player CAN morph to it.  No frogmen,
-            %  ice creatures, or yetis (size).
+            // Be sure the player CAN morph to it.  No frogmen,
+            //  ice creatures, or yetis (size).
             if not Send(i,@CanMorphTo)
             {
                return;
@@ -182,7 +182,7 @@ messages:
 
       if iForm <> -1
       {
-         % don't print fizzle message.
+         // don't print fizzle message.
          Send(who,@BreakTrance,#event=EVENT_STEER);  
          Send(self,@PerformIllusionaryForm,#caster=who,#victim=who,
               #iIllusion_type=iForm,#iSpellpower=iSpellpower);
@@ -275,7 +275,7 @@ messages:
       return;
    }
 
-   % Called by player, for illusion callback.
+   // Called by player, for illusion callback.
 
    IllusionGetIcon(who = $)
    {
@@ -519,24 +519,24 @@ messages:
       iIllusion_type = Send(who,@GetEnchantedState,#what=self);
       if iIllusion_type = $
       {
-         % If no illusion, then Send no lighting information.
+         // If no illusion, then Send no lighting information.
          return FALSE;
       }
       
       oIllusion = Nth(Send(SYS,@GetMonsterTemplates),iIllusion_type);
       if oIllusion = $
       {
-         % If no illusion, then send no lighting information.
+         // If no illusion, then send no lighting information.
          return FALSE;
       }
 
-      % Adds the appropriate information packets.
+      // Adds the appropriate information packets.
       Send(oIllusion,@SendLightingInformation);
 
-      % Return TRUE since we returned lighting information.
+      // Return TRUE since we returned lighting information.
       return TRUE;
    }
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

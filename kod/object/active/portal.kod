@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Portal is ActiveObject
 
 constants:
@@ -201,7 +201,7 @@ messages:
    TeleportSomething(what=$)
    "Called when something walks on top of us."
    {
-      % Test if the move is OK first (do_move=FALSE)
+      // Test if the move is OK first (do_move=FALSE)
       if NOT Send(SYS,@UtilGoNearSquare,#what=what,
                   #where=Send(SYS,@FindRoomByNum,#num=piDest_room),
                   #new_row=piDest_row,#new_col=piDest_col,
@@ -213,7 +213,7 @@ messages:
       }
       else
       {
-         % Now actually do the move
+         // Now actually do the move
          Send(SYS,@UtilGoNearSquare,#what=what,
               #where=Send(SYS,@FindRoomByNum,#num=piDest_room),
               #new_row=piDest_row,#new_col=piDest_col,
@@ -256,8 +256,8 @@ messages:
       local iIntensity;
 
       AddPacket(2,LIGHT_FLAG_ON);
-      % Intensity (out of 255)
-      % More intense if we're actually active.
+      // Intensity (out of 255)
+      // More intense if we're actually active.
       if pbAnimate
       {
          AddPacket(1,10);
@@ -267,11 +267,11 @@ messages:
          AddPacket(1,5);
       }
 
-      % Color
+      // Color
       AddPacket(2,LIGHT_PURPLE);
 
       return;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

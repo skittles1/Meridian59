@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 CreateSpiritualHammer is Spell
 
 constants:
@@ -52,7 +52,7 @@ messages:
 
    ResetReagents()
    {
-      % separate message so can change, then set from admin mode
+      // separate message so can change, then set from admin mode
 
       plReagents = $;
       plReagents = Cons([&Emerald,2],plReagents);
@@ -70,8 +70,8 @@ messages:
    {
       local iLongevity;
 
-      iLongevity = 10 + ((50 * iSpellpower) / 100);  % lasts 10 - 60 minutes
-      iLongevity = iLongevity * 60 * 1000;  % Convert to ms
+      iLongevity = 10 + ((50 * iSpellpower) / 100);  // lasts 10 - 60 minutes
+      iLongevity = iLongevity * 60 * 1000;  // Convert to ms
 
       return iLongevity;   
    }
@@ -101,4 +101,4 @@ messages:
 
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Fire is Stroke
 
 constants:
@@ -60,9 +60,9 @@ properties:
 
 messages:
 
-   % General combat messages:
+   // General combat messages:
 
-   % Finds ammo and uses it if not used.
+   // Finds ammo and uses it if not used.
    FindLikelyAmmo(who=$,report=FALSE)
    {
       local oWeapon, oLikelyAmmo, oAmmo, cAmmoType, iAmmoValue, i;
@@ -93,10 +93,10 @@ messages:
 
       if oLikelyAmmo = $
       {
-         iAmmoValue = 1000000; % higher than any ammo value
+         iAmmoValue = 1000000; // higher than any ammo value
 
-         %% if the player doesn't have any arrows available and equipped,
-         %% auto-equip the cheapest ones.
+         /// if the player doesn't have any arrows available and equipped,
+         /// auto-equip the cheapest ones.
 
          foreach i in Send(who,@GetHolderPassive)
          {
@@ -108,7 +108,7 @@ messages:
                iAmmoValue = Send(i,@GetValue)/Send(i,@GetNumber);
             }
          }
-         % Use the ammo!
+         // Use the ammo!
          if oLikelyAmmo <> $
          {
             Send(who,@TryUseItem,#what=oLikelyAmmo);
@@ -173,4 +173,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

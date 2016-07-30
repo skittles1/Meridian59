@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Dazzle is Debuff
 
 constants:
@@ -101,12 +101,12 @@ messages:
                            #iDuration=iDuration,#iFactor=2);
          if iDuration = $
          {
-            % Resisted completely.
+            // Resisted completely.
             return;
          }
       }
 
-      % Re-check the bound on duration.
+      // Re-check the bound on duration.
       iDuration = Bound(iDuration,piMinDazzle,piMaxDazzle);
 
       if IsClass(oTarget,&User)
@@ -117,7 +117,7 @@ messages:
       }
       else
       {
-         % Class is Monster
+         // Class is Monster
          Post(oTarget,@ResetBehaviorFlags);
       }
 
@@ -132,7 +132,7 @@ messages:
    {
       local iDuration, iKarmaDif, iKarma, iTargetKarma;
 
-      % 1-8 seconds based on spellpower. Recommended 3-7.
+      // 1-8 seconds based on spellpower. Recommended 3-7.
       iDuration = piBaseDuration + iSpellPower * piSpellPowerMultiplier;
 
       if IsClass(caster,&Battler)
@@ -141,7 +141,7 @@ messages:
       }
       else
       {
-         % Non battlers, like the sun
+         // Non battlers, like the sun
          iKarma = Random(30,90);
       }
 
@@ -149,11 +149,11 @@ messages:
 
       iKarmaDif = iKarma - iTargetKarma;
 
-      % Add 1-10 seconds based on karma difference.
+      // Add 1-10 seconds based on karma difference.
       iDuration = Bound(iDuration + (iKarmaDif * piKarmaPowerMultiplier),
                         piMinDazzle,piMaxDazzle);
 
-      % Add any random duration.
+      // Add any random duration.
       iDuration = Random(iDuration * (100 - piDeviation) / 100,iDuration);
 
       return iDuration;
@@ -174,9 +174,9 @@ messages:
       }
       else
       {
-         % Class is monster
-         % Post this so it's done AFTER the enchantment is gone from the
-         % monster's ench list
+         // Class is monster
+         // Post this so it's done AFTER the enchantment is gone from the
+         // monster's ench list
          Post(who,@ResetBehaviorFlags);
       }
 
@@ -222,4 +222,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

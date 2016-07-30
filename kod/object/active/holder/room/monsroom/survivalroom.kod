@@ -1,25 +1,25 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 SurvivalRoom is MonsterRoom
 
-% Players enter a Survival Arena from any inn.
-% Members of a guild may join a Survival Arena together.
-% Survival Arena begins after 60 seconds of waiting for participants.
-% The Survival Arena begins at Level 1.
-% When players complete certain objectives, the level increases.
-% Monsters are more difficult at each level, and loot drops and XP increase.
-% Players can complete special objectives to gain extra lives.
+// Players enter a Survival Arena from any inn.
+// Members of a guild may join a Survival Arena together.
+// Survival Arena begins after 60 seconds of waiting for participants.
+// The Survival Arena begins at Level 1.
+// When players complete certain objectives, the level increases.
+// Monsters are more difficult at each level, and loot drops and XP increase.
+// Players can complete special objectives to gain extra lives.
 
-% If players aren't attacked for a long period of time, they're clearly
-% abusing something. Enemies will begin spawning with MOVES_THROUGH_WALLS.
+// If players aren't attacked for a long period of time, they're clearly
+// abusing something. Enemies will begin spawning with MOVES_THROUGH_WALLS.
 
 constants:
 
@@ -30,16 +30,16 @@ constants:
    GOAL_MINIBOSSES = 3
    GOAL_KILL_FRIENDLY = 4
 
-   % 3 minutes to begin public survivals
+   // 3 minutes to begin public survivals
    PB_START_TIME = 180000
    
-   % 1 minute to begin other survivals
+   // 1 minute to begin other survivals
    DEFLT_START_TIME = 30000
    
-   % Report goals every 1 minute
+   // Report goals every 1 minute
    REPORT_TIME = 60000
 
-   % Starts when Miniboss is killed
+   // Starts when Miniboss is killed
    RESPAWN_MINIBOSS_TIME = 60000
 
 resources:
@@ -137,7 +137,7 @@ properties:
    ptWallBlitzTimer = $
    piChaosZone = FALSE
 
-   % Custom opening level spawns
+   // Custom opening level spawns
    plRoundOneMonsters = $
    plRoundTwoMonsters = $
    plRoundThreeMonsters = $
@@ -152,16 +152,16 @@ properties:
    ptRespawnMiniBossTimer = $
    plLivesPerPlayer = $
 
-   % of the form [player,timer]
+   // of the form [player,timer]
    plCrashProtection = $
 
-   % Combat has not yet begun
+   // Combat has not yet begun
    piHasBegun = FALSE
 
-   % Last level that players can join the public/guild arenas
+   // Last level that players can join the public/guild arenas
    piLastJoinLevel = 6
 
-   % Boolean for resource restoration on level completion.
+   // Boolean for resource restoration on level completion.
    pbRestoreResources = TRUE
 
    // Save creation time so we can prevent leaving within a given period
@@ -202,10 +202,10 @@ messages:
 
       plGenerators = Send(poBaseRoom,@GetGenerators);
 
-      % Set the regroup time from the SurvivalRoomMaintenance default
+      // Set the regroup time from the SurvivalRoomMaintenance default
       piRegroupTime = Send(Send(SYS,@GetSurvivalRoomMaintenance),
                            @GetRegroupTime);
-      % Set wall blitz time.
+      // Set wall blitz time.
       piWallBlitzTime = Send(Send(SYS,@GetSurvivalRoomMaintenance),
                               @GetWallBlitzTime);
       piLastJoinLevel = Send(Send(SYS,@GetSurvivalRoomMaintenance),
@@ -589,7 +589,7 @@ messages:
 
       iRewardTime = 0;
 
-      % Prevent multi-level completion
+      // Prevent multi-level completion
       if NOT pbSpawnWaves
          OR ptNextLevelTimer <> $
       {
@@ -789,7 +789,7 @@ messages:
 
       if IsClass(victim,&Monster)
       {
-         % These kills don't count towards the room goals.
+         // These kills don't count towards the room goals.
          if Send(victim,@IsMinion)
             OR IsClass(victim,&Brambles)
          {
@@ -817,8 +817,8 @@ messages:
             {
                SetNth(i,2,iKills);
 
-               % Player:mob ratio is usually 1:8 or worse, so use
-               % SendListByClass for speed.
+               // Player:mob ratio is usually 1:8 or worse, so use
+               // SendListByClass for speed.
                SendListByClass(plActive,1,&User,@MsgSendUser,
                      #message_rsc=kills_remaining,#parm1=iKills);
             }
@@ -862,15 +862,15 @@ messages:
             }
             else if iGoal = GOAL_BOSS
             {
-               % Player:mob ratio is usually 1:8 or worse, so use
-               % SendListByClass for speed.
+               // Player:mob ratio is usually 1:8 or worse, so use
+               // SendListByClass for speed.
                SendListByClass(plActive,1,&User,@MsgSendUser,
                      #message_rsc=boss_slain_goal_msg);
             }
             else if iGoal = GOAL_MINIBOSSES
             {
-               % Player:mob ratio is usually 1:8 or worse, so use
-               % SendListByClass for speed.
+               // Player:mob ratio is usually 1:8 or worse, so use
+               // SendListByClass for speed.
                SendListByClass(plActive,1,&User,@MsgSendUser,
                      #message_rsc=minibosses_slain_goal_msg);
             }
@@ -882,7 +882,7 @@ messages:
             AND Length(plParticipants) = 1
             AND plLevelGoals <> $
          {
-            % Finish it up if only one guy remains in a public room.
+            // Finish it up if only one guy remains in a public room.
             if piPublic
             {
                foreach mob in plActive
@@ -892,7 +892,7 @@ messages:
                      AND (NOT Send(oMonster,@IsOwnedByPlayer))
                      AND oMonster <> victim
                      AND Random(1,2) = 1
-                     AND plParticipants <> $ % Sometimes $ by this stage?
+                     AND plParticipants <> $ // Sometimes $ by this stage?
                   {
                      oTarget = First(plParticipants);
                      if oTarget <> $
@@ -906,7 +906,7 @@ messages:
             }
             else
             {
-               % Aggro one mob on the player.
+               // Aggro one mob on the player.
                Send(self,@AggroOne,#who=(First(plParticipants)),
                      #victim=victim);
             }
@@ -1104,8 +1104,8 @@ messages:
          if ((NOT piPublic)
             AND poGuildAssociation = $)
          {
-            % Cut aggro to 1/5th in solo. Post these so they
-            % run after mob is set up in room.
+            // Cut aggro to 1/5th in solo. Post these so they
+            // run after mob is set up in room.
             if Random(1,5) = 1
             {
                Post(what,@TargetSwitch,#what=oTarget,#iHatred=100);
@@ -1115,8 +1115,8 @@ messages:
          }
          else
          {
-            % Public arenas get full aggro. Post these so they
-            % run after mob is set up in room.
+            // Public arenas get full aggro. Post these so they
+            // run after mob is set up in room.
             Post(what,@TargetSwitch,#what=oTarget,#iHatred=100);
             Post(what,@EnterStateChase,#target=oTarget,#actnow=TRUE);
          }
@@ -1148,8 +1148,8 @@ messages:
             AND (NOT Send(oMonster,@IsOwnedByPlayer))
             AND Random(1,5) = 1
          {
-            % If this is called from SomethingKilled, don't aggro
-            % the mob that was just killed.
+            // If this is called from SomethingKilled, don't aggro
+            // the mob that was just killed.
             if victim <> $
                AND oMonster = victim
             {
@@ -1213,7 +1213,7 @@ messages:
             AND FindListElem(plParticipants,what) <> 0
          {
             Post(self,@CountdownToBoot,#who=what);
-            %Post(self,@BootUser,#who=what);
+            //Post(self,@BootUser,#who=what);
          }
       }
 
@@ -1303,8 +1303,8 @@ messages:
          {
             Send(self,@GainALife);
 
-            % Player:mob ratio is usually 1:8 or worse, so use
-            % SendListByClass for speed.
+            // Player:mob ratio is usually 1:8 or worse, so use
+            // SendListByClass for speed.
             SendListByClass(plActive,1,&User,@MsgSendUser,
                   #message_rsc=player_murdered_player_goal,
                   #parm1=Send(who,@GetTrueName),#parm2=Send(what,@GetTrueName));
@@ -1321,8 +1321,8 @@ messages:
          AND who <> what
          AND NOT bFoundGoal
       {
-         % Player:mob ratio is usually 1:8 or worse, so use
-         % SendListByClass for speed.
+         // Player:mob ratio is usually 1:8 or worse, so use
+         // SendListByClass for speed.
          SendListByClass(plActive,1,&User,@MsgSendUser,
                #message_rsc=player_murdered_player_no_goal);
 
@@ -1493,7 +1493,7 @@ messages:
    {
       local oRoom, i, p, crashprot;
 
-      % Take this person out of the crash protection list if they're there.
+      // Take this person out of the crash protection list if they're there.
       foreach crashprot in plCrashProtection
       {
          if who = First(crashprot)
@@ -1524,7 +1524,7 @@ messages:
       Send(who,@MsgSendUser,#message_rsc=you_were_booted);
 
       oRoom = Send(who,@GetOwner);
-      % They logged off.
+      // They logged off.
       if oRoom = $
          OR oRoom = self
       {
@@ -1559,13 +1559,13 @@ messages:
    {
       local i, logged_player;
 
-      % Boot all participants
+      // Boot all participants
       foreach i in plParticipants
       {
          Send(self,@BootUser,#who=i,#inform=FALSE,#booting_all=TRUE);
       }
 
-      % Boot all crash protection players
+      // Boot all crash protection players
       foreach i in plCrashProtection
       {
          DeleteTimer(Nth(i,2));
@@ -1577,7 +1577,7 @@ messages:
                              #booting_all=TRUE);
       }
 
-      % Boot everyone who remains (spectators)
+      // Boot everyone who remains (spectators)
       foreach i in plActive
       {
          if IsClass(First(i),&User)
@@ -1744,7 +1744,7 @@ messages:
          OR IsClass(oSpell,&SporeBurst)
          OR IsClass(oSpell,&SummonWeb)
       {
-         % We have to provide the fail message here.
+         // We have to provide the fail message here.
          Send(who,@MsgSendUser,#message_rsc=survival_no_cast_rsc,
                #parm1=Send(oSpell,@GetName));
 
@@ -1793,4 +1793,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

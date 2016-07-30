@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 GuildTreaty is ActiveItem
 
 constants:
 
    include blakston.khd
 
-   SELF_DELETE_DELAY = 120000    %% 2 minutes     
+   SELF_DELETE_DELAY = 120000    /// 2 minutes     
 
 resources:
 
@@ -52,10 +52,10 @@ classvars:
 
 properties:
 
-   poInductor = $            %% person who offers the treaty
-   poInductee = $            %% person who is offered the treaty
-   poInductorGuild = $       %% guild offering the treaty
-   poInducteeGuild = $       %% guild recieving the treaty
+   poInductor = $            /// person who offers the treaty
+   poInductee = $            /// person who is offered the treaty
+   poInductorGuild = $       /// guild offering the treaty
+   poInducteeGuild = $       /// guild recieving the treaty
 
    ptRatify = $
 
@@ -183,5 +183,5 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 
 Castle2b is MonsterRoom
 
@@ -107,7 +107,7 @@ messages:
 
    CreateStandardObjects()
    {
-      % NORTH WALL
+      // NORTH WALL
       Send(self,@NewHold,#what=Create(&PrincessGuard),#new_row=40,#new_col=45);
       Send(self,@NewHold,#what=Create(&PrincessGuard),#new_row=40,#new_col=51,
            #fine_col=0,#fine_row=0);
@@ -154,7 +154,7 @@ messages:
       Send(self,@NewHold,#what=Create(&Shrub),#new_row=4,#new_col=59,
            #new_angle=ANGLE_SOUTH);
 
-      % NORTH OF GATE BY WALL
+      // NORTH OF GATE BY WALL
       Send(self,@NewHold,#what=Create(&TallBush),#new_row=7,#new_col=61,
            #new_angle=ANGLE_SOUTH);
       Send(self,@NewHold,#what=Create(&TallBush),#new_row=13,#new_col=61,
@@ -163,7 +163,7 @@ messages:
       Send(self,@NewHold,#what=Create(&Shrub),#new_row=10,#new_col=61,
            #new_angle=ANGLE_SOUTH);
 
-      %SOUTH OF GATE BY WALL
+      //SOUTH OF GATE BY WALL
       Send(self,@NewHold,#what=Create(&TallBush),#new_row=28,#new_col=61,
            #new_angle=ANGLE_SOUTH);
       Send(self,@NewHold,#what=Create(&TallBush),#new_row=34,#new_col=61,
@@ -178,17 +178,17 @@ messages:
       Send(self,@NewHold,#what=Create(&Shrub),#new_row=43,#new_col=61,
            #new_angle=ANGLE_SOUTH);
 
-      % WEST OF THRONE ROOM BY WALL
+      // WEST OF THRONE ROOM BY WALL
       Send(self,@NewHold,#what=Create(&TallBush),#new_row=43,#new_col=58,
            #new_angle=ANGLE_SOUTH);
 
-      % EAST OF THRONE ROOM BY WALL
+      // EAST OF THRONE ROOM BY WALL
       Send(self,@NewHold,#what=Create(&TallBush),#new_row=44,#new_col=38,
            #new_angle=ANGLE_SOUTH);
       Send(self,@NewHold,#what=Create(&Shrub),#new_row=44,#new_col=35,
            #new_angle=ANGLE_SOUTH);
 
-      % Other side of library window
+      // Other side of library window
       Send(self,@NewHold,#what=Create(&TallBush),#new_row=40,#new_col=31,
            #new_angle=ANGLE_SOUTH);
       Send(self,@NewHold,#what=Create(&TallBush),#new_row=48,#new_col=57,
@@ -215,11 +215,11 @@ messages:
       Send(self,@NewHold,#what=Create(&Shrub),#new_row=9,#new_col=46,
            #new_angle=ANGLE_SOUTH);
 
-      % In the enclove
+      // In the enclove
       Send(self,@NewHold,#what=Create(&TallBush),#new_row=30,#new_col=26,
            #fine_row=0,#fine_col=0,#new_angle=ANGLE_SOUTH);
 
-      % By Wall behind fence
+      // By Wall behind fence
       Send(self,@NewHold,#what=Create(&TallBush),#new_row=36,#new_col=26,
            #new_angle=ANGLE_SOUTH);
       Send(self,@NewHold,#what=Create(&TallBush),#new_row=40,#new_col=26,
@@ -233,5 +233,5 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 

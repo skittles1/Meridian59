@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Bonk is DMSpell
 
 constants:
@@ -75,7 +75,7 @@ messages:
 
       oTarget = First(lTargets);
 
-      % Can't bonk someone if they already have an effect, i.e. a debuff.
+      // Can't bonk someone if they already have an effect, i.e. a debuff.
       if IsClass(oTarget,&Battler)
          AND Send(oTarget,@IsEnchanted,#byClass=&Debuff)
       {
@@ -93,7 +93,7 @@ messages:
       lActive = Send(oRoom,@GetHolderActive);
       oTarget = First(lTargets);
 
-      % Show lightning flying through the air
+      // Show lightning flying through the air
 
       Send(oRoom,@SomethingShot,#who=who,#target=oTarget,
             #projectile=self,#flags=PROJ_FLAG_LIGHT_SOURCE);
@@ -176,7 +176,7 @@ messages:
 
    SendEffectData()
    {
-      % for EFFECT_INVERT, 4 bytes of time to be inverted
+      // for EFFECT_INVERT, 4 bytes of time to be inverted
       AddPacket(4,10000);
 
       return;
@@ -201,29 +201,29 @@ messages:
 
    SendProjectileAnimation()
    {
-      AddPacket(1, ANIMATE_CYCLE, 4, 40, 2, 2, 2, 3);   % 40ms between animations
+      AddPacket(1, ANIMATE_CYCLE, 4, 40, 2, 2, 2, 3);   // 40ms between animations
 
       return;
    }
 
    GetProjectileLightFlags()
    {
-      % General lighting information.
+      // General lighting information.
       return LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC;
    }
 
    GetProjectileLightIntensity()
    {
-      % Medium light radius for projectiles.  Out of 255 levels.
+      // Medium light radius for projectiles.  Out of 255 levels.
       return 125;
    }
 
    GetProjectileLightColor()
    {
-      % Color is random!
+      // Color is random!
       return Send(SYS,@GetRGB,#iRed=random(33,100),#iGreen=random(33,100),
                   #iBlue=random(33,100));
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

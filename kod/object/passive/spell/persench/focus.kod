@@ -1,14 +1,14 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%S%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% The only way to lose this enchantment is to break the trance.
+//////////////////////////S///////////////////////////////////////////////////////
+// The only way to lose this enchantment is to break the trance.
 ManaFocus is PersonalEnchantment
 
 constants:
@@ -49,7 +49,7 @@ classvars:
    viSchool = SS_FAREN
    viSpell_level = 3
 
-   viCast_time = 3000            %% 3 seconds
+   viCast_time = 3000            /// 3 seconds
    viChance_To_Increase = 15
    viMeditate_ratio = 20
 
@@ -57,9 +57,9 @@ classvars:
 
 properties:
  
- % The effectiveness of purge on the target spell as a percentage.
-   % 100 will cause purge to remove its entire spellpower, 0 will
-   % prevent purge from removing this spell.
+ // The effectiveness of purge on the target spell as a percentage.
+   // 100 will cause purge to remove its entire spellpower, 0 will
+   // prevent purge from removing this spell.
    viPurgeFactor = 5
 
 messages:
@@ -82,7 +82,7 @@ messages:
 
    BreakTrance(who=$,state=$,event=0,what=$)
    {
-      %% Attack Spells (fireballs and lightning bolts) must not break this trance
+      /// Attack Spells (fireballs and lightning bolts) must not break this trance
       if event = EVENT_CAST
          AND IsClass(what,&AttackSpell)
       {
@@ -123,4 +123,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

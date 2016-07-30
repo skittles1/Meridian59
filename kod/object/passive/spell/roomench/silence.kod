@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Silence is RoomEnchantment
 
 constants:
@@ -50,8 +50,8 @@ classvars:
    viMana = 10
    viSpell_level = 3
 
-   viManaDrain = 10      % Drain is amount used every viDrainTime milliseconds
-   viDrainTime = 1000    % Drain some mana every viDrainTime milliseconds
+   viManaDrain = 10      // Drain is amount used every viDrainTime milliseconds
+   viDrainTime = 1000    // Drain some mana every viDrainTime milliseconds
    
    viChance_To_Increase = 10
    viMeditate_ratio = 50
@@ -80,30 +80,30 @@ messages:
 
       oRoom = Send(who,@GetOwner);
 
-      % global effects of the enchantment
+      // global effects of the enchantment
       Send(oRoom,@SomeoneSaid,#type=SAY_MESSAGE,#string=Silence_on,#what=self);
       Send(oRoom,@RoomStartEnchantment,#what=self,#state=[who,iSpellPower],
            #time=send(self,@GetDuration,#iSpellPower=iSpellPower),#iSpellPower=iSpellPower,#lastcall=FALSE);
       Send(who,@SetTranceFlag);
 
-      % See if there's a Jala song going on and try to kill it
-      % Format of lJalaInfo is: [timer, spell object, state]
+      // See if there's a Jala song going on and try to kill it
+      // Format of lJalaInfo is: [timer, spell object, state]
       lJalaInfo = send(oRoom,@GetJalaInfo);
 
       if lJalaInfo <> $
       {
-         % Format of lJalaState is: [volume, caster, spellpower]
+         // Format of lJalaState is: [volume, caster, spellpower]
          lJalaState = Nth(lJalaInfo,3);
 
          if random(iSpellPower/2,iSpellPower) > Nth(lJalaState,1)
          {
-            % We have blocked the Jala song.
+            // We have blocked the Jala song.
             send(Nth(lJalaState,2),@MsgSendUser,#message_rsc=Silence_blocked_jala_victim);
             send(oRoom,@RemoveEnchantment,#what=Nth(lJalaInfo,2));
          }
          else
          {
-            % The Jala song continues on!
+            // The Jala song continues on!
             send(who,@MsgSendUser,#message_rsc=Silence_cant_block_jala_caster);
             send(Nth(lJalaState,2),@MsgSendUser,#message_rsc=Silence_cant_block_jala_victim);
          }
@@ -143,7 +143,7 @@ messages:
       
       oCaster = first(state);
    
-      % If caster runs out of mana or loses trance, spell ends.
+      // If caster runs out of mana or loses trance, spell ends.
       if send(oCaster,@GetMana) < viManaDrain * 2
       {
          Send(where,@RoomStartEnchantment,#what=self,#time=send(self,@GetDuration,#iSpellPower=Nth(state,2)),
@@ -181,7 +181,7 @@ messages:
    {
       local iDuration;
 
-      % Better spellpower means longer time between drains.
+      // Better spellpower means longer time between drains.
       iDuration = viDrainTime + ((viDrainTime * iSpellPower) / SPELLPOWER_MAXIMUM);
 
       return iDuration;
@@ -194,4 +194,4 @@ messages:
 
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 DMHold is DMSpell
 
 constants:
@@ -66,7 +66,7 @@ messages:
    {
       local target, i;
       
-      % Can cast spell if the 1 target item is a user
+      // Can cast spell if the 1 target item is a user
       if Length(lTargets) <> 1
       {
          return FALSE;
@@ -89,10 +89,10 @@ messages:
          return FALSE;
       }
 
-      % DM's can't cast on monsters, but admins can.
-      %  This may seem counterintuitive, but the rationale is that
-      %  superior hold is the best way to see if a player has pkk.
-      %  However, we don't want dms to help players kill the lich, etc.
+      // DM's can't cast on monsters, but admins can.
+      //  This may seem counterintuitive, but the rationale is that
+      //  superior hold is the best way to see if a player has pkk.
+      //  However, we don't want dms to help players kill the lich, etc.
       if (getClass(who) = &DM) AND isClass(target,&Monster)
       {
          return FALSE;
@@ -108,7 +108,7 @@ messages:
 
       oTarget = First(lTargets);
 
-      % keep tabs on guides/bards, but not admins.
+      // keep tabs on guides/bards, but not admins.
       if GetClass(who) = &DM
       {
          debug(send(who,@GetTrueName)," cast superior hold on ",send(oTarget,@GetTrueName));
@@ -128,7 +128,7 @@ messages:
          }
          else  
          {
-            % Class is &Monster
+            // Class is &Monster
             Send(oTarget,@ResetBehaviorFlags);
             Send(oTarget,@SetBehaviorFlag,#flag=AI_NOMOVE,#value=TRUE);
          }      
@@ -157,8 +157,8 @@ messages:
       }
       else  
       {
-         % class is &Monster
-         % Post this, has to be done AFTER the enchantment is gone from the monster's ench list
+         // class is &Monster
+         // Post this, has to be done AFTER the enchantment is gone from the monster's ench list
          Post(who,@ResetBehaviorFlags);   
       }
      
@@ -197,4 +197,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

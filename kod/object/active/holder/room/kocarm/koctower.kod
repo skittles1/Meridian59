@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 KocatanGuardtowerEast is KocatanRoom
 
 constants:
@@ -145,7 +145,7 @@ messages:
       plExits = Cons([ 16, 33, ROOM_LOCKED_DOOR, koctowereast_lockedgate],plExits);
       plExits = Cons([ 17, 33, ROOM_LOCKED_DOOR, koctowereast_lockedgate],plExits);
 
-      %% To north town and KA5
+      /// To north town and KA5
       plExits = Cons([ 2, 41, RID_KA5, 44, 24, ROTATE_NONE ],plExits);
       plExits = Cons([ 2, 40, RID_KA5, 44, 24, ROTATE_NONE ],plExits);
       plExits = Cons([ 3, 41, RID_KA5, 44, 24, ROTATE_NONE ],plExits);
@@ -174,7 +174,7 @@ messages:
             {
                if Send(First(i),@CanPass,#what=what)
                {
-                  % Someone bribed the evil guard.
+                  // Someone bribed the evil guard.
                   propagate;
                }
 
@@ -196,7 +196,7 @@ messages:
                [18,16,16,32,OO_GREY_JUG],[10,26,48,08,OO_GREY_JUG],
                [31,29,00,24,OO_barrel],[29,29,56,16,OO_barrel2],
                [27,28,48,24,OO_rice],
-               %[21,23,24,08,OO_lamp1],[21,26,24,00,OO_lamp1],
+               //[21,23,24,08,OO_lamp1],[21,26,24,00,OO_lamp1],
                [20,28,24,32,OO_tallurn],[06,32,24,40,OO_tallurn],
                [15,33,16,32,OO_bigurn],[16,35,24,16,OO_bigiron]
                ];
@@ -234,4 +234,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

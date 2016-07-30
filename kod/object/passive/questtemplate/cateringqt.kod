@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 CateringQuest is QuestTemplate
-% Quest template QST_ID_PARTY = 48.
-% Quest nodes 152, 153, 154.
-% QNT_ID_CATERING_ONE, QNT_ID_CATERING_TWO, QNT_ID_CATERING_THREE
+// Quest template QST_ID_PARTY = 48.
+// Quest nodes 152, 153, 154.
+// QNT_ID_CATERING_ONE, QNT_ID_CATERING_TWO, QNT_ID_CATERING_THREE
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -33,7 +33,7 @@ resources:
 
    include cateringqt.lkod
 
-   % Quest description.
+   // Quest description.
    cateringqt_icon_rsc = drumspla.bgf
    cateringqt_name_rsc = "catering quest"
    cateringqt_desc_rsc = \
@@ -52,7 +52,7 @@ resources:
    cateringqt_completed_rsc = \
       "You have completed the catering quest."
 
-   % Quest resources.
+   // Quest resources.
    catering_assign_2 = \
       "Perhaps you can help me.  I am having a private party and my errand "
       "boy has become ill.  Will you help me by delivering the food?  %NPC is "
@@ -98,7 +98,7 @@ classvars:
 
    vrCompleted = cateringqt_completed_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_PARTY
 
    viIcon_Animation_start = 1
@@ -116,11 +116,11 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_CATERING_ONE,QNT_ID_CATERING_TWO,
                       QNT_ID_CATERING_THREE];
 
-      % Quest nodes with matching descriptions for the player.
+      // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_CATERING_TWO, vrNodeTwo],
                           [QNT_ID_CATERING_THREE, vrNodeThree] ];
 
@@ -134,8 +134,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #152 is catering quest
-      % QNT_ID_CATERING_ONE
+      // Template #152 is catering quest
+      // QNT_ID_CATERING_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #NPC_modifier=QN_NPCMOD_NONE,#cargolist=[ letter_trigger ],
                #quest_node_index=QNT_ID_CATERING_ONE)
@@ -177,8 +177,8 @@ messages:
          Debug("Error building QN: QNT_ID_CATERING_ONE");
       }
 
-      % Template #153 is catering quest
-      % QNT_ID_CATERING_TWO
+      // Template #153 is catering quest
+      // QNT_ID_CATERING_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #NPC_modifier=QN_NPCMOD_NONE,#cargolist=[ catering_trigger_2 ],
                #timelimit=3600,#quest_node_index=QNT_ID_CATERING_TWO)
@@ -200,8 +200,8 @@ messages:
          Debug("Error building QN: QNT_ID_CATERING_TWO");
       }
 
-      % Template #154 is catering quest
-      % QNT_ID_CATERING_THREE
+      // Template #154 is catering quest
+      // QNT_ID_CATERING_THREE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_ITEMCLASS,
                #NPC_modifier=QN_NPCMOD_DIFFERENT,
                #cargolist=[ [ QN_PRIZETYPE_ITEMCLASS, &SpidEye, 50 ],
@@ -257,7 +257,7 @@ messages:
          Send(oQE,@SetQuestNodeNPCList,#index=QNT_ID_CATERING_THREE,
                #new_NPC_list=lNPCs);
 
-         % Happy land subs.
+         // Happy land subs.
          if NOT Send(SYS,@IsPKAllowed)
          {
             Send(oQE,@SetQuestNodeAssignHint,#index=QNT_ID_CATERING_THREE,
@@ -322,4 +322,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

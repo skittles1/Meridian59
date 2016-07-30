@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 VampiricDrain is AttackSpell
 
 constants:
 
    include blakston.khd
 
-   % How much health does the caster get back?
+   // How much health does the caster get back?
    DAMAGE_FACTOR_TO_HEAL = 2
 
 resources:
@@ -50,7 +50,7 @@ classvars:
 
    vrSucceed_wav = VampiricDrain_sound
 
-   % In seconds, since it works off GetTime().
+   // In seconds, since it works off GetTime().
    viPostCast_time = 2
    
    viChance_To_Increase = 20
@@ -62,7 +62,7 @@ properties:
 
    piRange = 4 * FINENESS
 
-   % No bonus from Mana Focus
+   // No bonus from Mana Focus
    piManaFocusBonus = 0
 
 messages:
@@ -75,7 +75,7 @@ messages:
       return;
    }
 
-   % The chance to do something in addition to normal damage.
+   // The chance to do something in addition to normal damage.
    DoSideEffect(who=$,victim=$,damage=0)
    {
       local iToHeal;
@@ -86,15 +86,15 @@ messages:
          propagate;
       }
 
-      % Take some of that damage and add it to our health!
+      // Take some of that damage and add it to our health!
       if damage <> $
       {
-         % Add half of the damage done.
+         // Add half of the damage done.
          iToHeal = bound(damage/DAMAGE_FACTOR_TO_HEAL,0,$);
       }
       else
       {
-         % Ah!  We killed someone.  Give them a large bonus based on max damage.
+         // Ah!  We killed someone.  Give them a large bonus based on max damage.
          iToHeal = bound(piDamageMax*100/DAMAGE_FACTOR_TO_HEAL,0,$);
          Post(who,@MsgSendUser,#message_rsc=VampiricDrain_death,
               #parm1=Send(victim,@GetDef),#parm2=Send(victim,@GetName));
@@ -108,4 +108,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

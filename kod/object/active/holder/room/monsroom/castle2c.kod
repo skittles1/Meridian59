@@ -1,17 +1,17 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Send(self,@CreateOneRoomIfNew,#num=RID_CASTLE2C,#class=&Castle2c);
+////////////////////////////////////////////////////////////////////////////////
+//Send(self,@CreateOneRoomIfNew,#num=RID_CASTLE2C,#class=&Castle2c);
 
 
-%RID_CASTLE2C = 852
+//RID_CASTLE2C = 852
 
 Castle2c is MonsterRoom
 
@@ -52,7 +52,7 @@ properties:
    prRoom = room_castle2c
    piRoom_num = RID_CASTLE2C
 
-%   prBackground = background_mountains
+//   prBackground = background_mountains
 
 
 messages:
@@ -60,7 +60,7 @@ messages:
 
    CreateStandardObjects()
    {
-      % throne
+      // throne
 
       Send(self,@NewHold,#what=Create(&PrincessGuard),
            #new_row=34,#new_col=21,#fine_col=0);
@@ -96,5 +96,5 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 

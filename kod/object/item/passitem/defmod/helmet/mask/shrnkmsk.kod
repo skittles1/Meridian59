@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ShrunkenHeadMask is FaceMask
 
 constants:
@@ -37,7 +37,7 @@ classvars:
 
 properties:
 
-   % Resources that save the users face when the mask is one.
+   // Resources that save the users face when the mask is one.
    prSaveEyes = $
    prSaveNose = $
    prSaveMouth = $
@@ -83,12 +83,12 @@ messages:
 
    NewUsed()
    {
-      % Get face info, put it on the mask.
+      // Get face info, put it on the mask.
       prSaveEyes = Send(poOwner,@GetEyesRsc);
       prSaveNose = Send(poOwner,@GetNoseRsc);
       prSaveMouth = Send(poOwner,@GetMouthRsc);
 
-      % Make all the face overlays invis, and remove hair.
+      // Make all the face overlays invis, and remove hair.
       Send(poOwner,@SetEyes,#eyes=admin_icon_blank);
       Send(poOwner,@SetNose,#nose=admin_icon_blank);
       Send(poOwner,@SetMouth,#mouth=admin_icon_blank);      
@@ -111,13 +111,13 @@ messages:
 
    NewUnused()
    {
-      % Put the face back on.
+      // Put the face back on.
       Send(poOwner,@SetEyes,#eyes=prSaveEyes);
       Send(poOwner,@SetNose,#nose=prSaveNose);
       Send(poOwner,@SetMouth,#mouth=prSaveMouth);
       Send(poOwner,@ResetHair,#what=self);
 
-      % Clear out mask resources, so we don't get ladies with man faces.
+      // Clear out mask resources, so we don't get ladies with man faces.
       prSaveEyes = $;
       prSaveNose = $;
       prSaveMouth = $;
@@ -137,11 +137,11 @@ messages:
 
    GetOverlay(animation = $)
    {
-      % Returning $ causes errors, and we don't want the mask wearing a mask.
+      // Returning $ causes errors, and we don't want the mask wearing a mask.
       return admin_icon_blank;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 
 

@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 OutdoorsI9 is MonsterRoom
 
 constants:
 
    SECTOR_DOOR = 1
 
-   % 10 seconds
+   // 10 seconds
    DOORWAY_DELAY = 10000
 
    include blakston.khd
@@ -104,7 +104,7 @@ messages:
                         [$],
                         [$] ];
                      
-      % Just construct the Node.  We can find and place it later.
+      // Just construct the Node.  We can find and place it later.
       Create(&ManaNode,#node_num=NODE_i9,#name_rsc=i9_node_name,
              #desc_rsc=i9_node_desc,#iRoomNum=piRoom_num);
 
@@ -132,22 +132,22 @@ messages:
       local iRowDec, iColDec, iNewRowDec, iNewColDec, iLineRow, iLineCol,
             iLineRowNew, iLineColNew;
 
-      % Convert player's coordinates to xxyy format, where xx is
-      % the row or col, and yy is the finerow or finecol converted
-      % from yy/64 to yy/100.
+      // Convert player's coordinates to xxyy format, where xx is
+      // the row or col, and yy is the finerow or finecol converted
+      // from yy/64 to yy/100.
       iRowDec = (old_row * 100) + (old_fine_row * 15625 / 10000);
       iColDec = (old_col * 100) + (old_fine_col * 15625 / 10000);
       iNewRowDec = (new_row * 100) + (new_fine_row * 15625 / 10000);
       iNewColDec = (new_col * 100) + (new_fine_col * 15625 / 10000);
 
-      % This is a line going to CV from near UK entrance.
-      % Points on line are 900, 2500; 800, 2800.
+      // This is a line going to CV from near UK entrance.
+      // Points on line are 900, 2500; 800, 2800.
       if (iColDec >= 1400 AND iColDec <= 4000)
       {
          if iColDec > 1400 AND iNewColDec <= 1400
             AND iRowDec > 900 AND iRowDec < 3800
          {
-            % Allow players who are jumping the gap.
+            // Allow players who are jumping the gap.
             if iNewRowDec >= 3800
             {
                return TRUE;
@@ -230,7 +230,7 @@ messages:
       oNode = Send(SYS,@FindNodeByNum,#num=NODE_I9);
       if oNode <> $
       {
-         % delete 'our' node
+         // delete 'our' node
          Send(oNode,@Delete);
       }
 
@@ -304,10 +304,10 @@ messages:
       propagate;
    }
 
-   % Added because our players are too smart for their own good.
-   % player casts Martyr's Battleground (or Truce on Sacred Haven)
-   % while the tokens are on the ground, and a portal to the Martyr's
-   % Battleground area (and node) appears.
+   // Added because our players are too smart for their own good.
+   // player casts Martyr's Battleground (or Truce on Sacred Haven)
+   // while the tokens are on the ground, and a portal to the Martyr's
+   // Battleground area (and node) appears.
 
    SpellCast(who = $, oSpell = $, lItems = $)
    {
@@ -367,8 +367,8 @@ messages:
             propagate;
          }
 
-         % Okay, all the tokens should be here and in stonehenge.
-         % Open the portals.
+         // Okay, all the tokens should be here and in stonehenge.
+         // Open the portals.
          Send(self,@OpenPortalToTemple);
       }
 
@@ -406,7 +406,7 @@ messages:
       {
          if IsClass(First(i),&Portal)
          {
-            % Refresh the portal counter, then return
+            // Refresh the portal counter, then return
             piPortal_counter = 10;
 
             return;
@@ -451,4 +451,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

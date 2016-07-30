@@ -1,23 +1,23 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ActiveWallElement is ActiveObject
 
-% Brambles, a monster-type wall element, uses code from this file.  If you
-%  update this file, double-check the code in Brambles as well.
+// Brambles, a monster-type wall element, uses code from this file.  If you
+//  update this file, double-check the code in Brambles as well.
 
 constants:
 
    include blakston.khd
 
-   % 1.5 seconds
+   // 1.5 seconds
    EFFECT_INTERVAL = 1500
 
 resources:
@@ -44,13 +44,13 @@ classvars:
    vrDissipateMessage = ActiveWallElement_dissipate_rsc
    vrUnaffectedMessage = ActiveWallElement_unaffected_rsc
 
-   % Flag to see if the wall element effect is harmful.
+   // Flag to see if the wall element effect is harmful.
    vbIsHarmful = TRUE
 
-   % Does this have a Periodic timer check?
+   // Does this have a Periodic timer check?
    vbPeriodic = TRUE
 
-   % Does the element affect the caster?
+   // Does the element affect the caster?
    vbCanAffectCaster = FALSE
    vbIsAreaEffect = TRUE
 
@@ -61,15 +61,15 @@ properties:
    poCaster = $
    ptExpire = $
 
-   % This is the squared range that the element will affect.
+   // This is the squared range that the element will affect.
    piRange = 0
 
-   % This is a periodic timer that triggers periodic effects and
-   %  clears the affected list.
+   // This is a periodic timer that triggers periodic effects and
+   //  clears the affected list.
    ptPeriodic = $
 
-   % This is a list of objects already affected by the element
-   %  this period.
+   // This is a list of objects already affected by the element
+   //  this period.
    plAffected = $
 
 messages:
@@ -93,7 +93,7 @@ messages:
 
    GetPeriodicDuration()
    {
-      % 90 - 110% of base interval
+      // 90 - 110// of base interval
       return (EFFECT_INTERVAL * Random(90,110))/100;
    }
 
@@ -107,7 +107,7 @@ messages:
    {
       local iRow, iCol;
 
-      % Determine victim's row and column
+      // Determine victim's row and column
       if new_row = $
       {
          iRow = Send(what,@GetRow);
@@ -126,7 +126,7 @@ messages:
          iCol = new_col;
       }
 
-      % Check for range
+      // Check for range
       if IsClass(what,&Battler)
          AND NOT (IsClass(what,&Player)
                   AND Send(what,@IsInCannotInteractMode))
@@ -146,21 +146,21 @@ messages:
 
       oRoom = Send(self,@GetOwner);
 
-      % Might not affect caster.
+      // Might not affect caster.
       if (NOT IsClass(what,&Battler))
          OR ((NOT vbCanAffectCaster) AND what = poCaster)
       {
          return FALSE;
       }
 
-      % Don't affect them again this cycle.
+      // Don't affect them again this cycle.
       if plAffected <> $
          AND FindListElem(plAffected,what) <> 0
       {
          return FALSE;
       }
 
-      % Don't affect users that haven't moved yet.
+      // Don't affect users that haven't moved yet.
       if IsClass(what,&Player)
       {
          if NOT Send(what,@CheckPlayerFlag,#flag=PFLAG_MOVED_SINCE_ENTRY)
@@ -169,16 +169,16 @@ messages:
          }
       }
 
-      % If this is harmful, and both caster and victim are players, then
-      % disallow damage if caster's safety is on or if cannot do attack.
-      % AllowPlayerAttack also performs all the other required checks,
-      % so they are no longer needed in this class.
+      // If this is harmful, and both caster and victim are players, then
+      // disallow damage if caster's safety is on or if cannot do attack.
+      // AllowPlayerAttack also performs all the other required checks,
+      // so they are no longer needed in this class.
       if vbIsHarmful
          AND IsClass(poCaster,&Player)
          AND NOT Send(poCaster,@AllowPlayerAttack,#victim=what,
                         #report=FALSE,#stroke_obj=self)
       {
-         % We've been "affected" for this cycle.  This prevents super-spam.
+         // We've been "affected" for this cycle.  This prevents super-spam.
          plAffected = Cons(what,plAffected);
 
          if IsClass(what,&Player)
@@ -230,11 +230,11 @@ messages:
    DoEffect(what = $, new_row = $, new_col = $)
    "Apply the wall's effect to 'what'."
    {
-      % Keep track that we've affected this object.
+      // Keep track that we've affected this object.
       plAffected = Cons(what,plAffected);
 
-      % Event monsters with boosted levels are granted walkthrough walls
-      % when a wall element damages or affects them
+      // Event monsters with boosted levels are granted walkthrough walls
+      // when a wall element damages or affects them
       if IsClass(what,&Monster)
          AND Send(what,@GetBoostedLevel) > 0
       {
@@ -259,14 +259,14 @@ messages:
 
       iDistanceSquared = iRow_diff * iRow_diff + iCol_diff * iCol_diff;
 
-      % This first check is to see if they're within a one square range if
-      % this check was caused by movement.  If so, we reset the user's move
-      % counter, since we make them spam move messages which can throw
-      % off speedhack detection.
+      // This first check is to see if they're within a one square range if
+      // this check was caused by movement.  If so, we reset the user's move
+      // counter, since we make them spam move messages which can throw
+      // off speedhack detection.
       if bMovement
       {
-         % Make sure we're checking at least 1 square away
-         % from current position.
+         // Make sure we're checking at least 1 square away
+         // from current position.
          iLongRange = Bound(piRange,1,$);
       }
       else
@@ -358,4 +358,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

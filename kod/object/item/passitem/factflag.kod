@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 FactionFlag is PassiveItem
 
 constants:
 
    include blakston.khd
 
-   IDLE_TIME = 2 * 60 * 60 * 1000  % 2 hours
+   IDLE_TIME = 2 * 60 * 60 * 1000  // 2 hours
 
 resources:
 
@@ -105,7 +105,7 @@ messages:
 
       oRoom = Send(SYS,@UtilGetRoomRecurse,#what=what);
 
-      % Check for a valid room, perhaps we were sold to an NPC.
+      // Check for a valid room, perhaps we were sold to an NPC.
       if oRoom <> $
       {
          oFlagpole = Send(oRoom,@FindHoldingActive,#class=&Flagpole);
@@ -129,7 +129,7 @@ messages:
 
    TeleportHome()
    {
-      % Override this for each flag.
+      // Override this for each flag.
       return;
    }
 
@@ -210,4 +210,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

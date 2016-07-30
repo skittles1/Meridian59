@@ -1,36 +1,36 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 WeapAttSpellType is WeaponAttribute
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%  This weapon attribute merely flags a weapon as having the spell
-%       attack type that corresponds with it.  It also has a timer,
-%       which, when it expires, flips the Attack type back.
-% 
-%  Form is:
-%
-%      [WA_ATTACKSPELLTYPE, timer, spell_attack_type ]
-%
-%       timer::the length of time, from 1 to 25 realtime hours,
-%       that the enchantment lasts (depending on spell factors).
-%       spell_attack_type : as defined in blakston.khd.
-%       examples: ATCK_SPELL_FIRE, ATCK_SPELL_UNHOLY, ATCK_SPELL_ACID
-%
-%  Note that if a weapon ends up permanently holy or unholy, then this
-%       attribute is no longer necessary, since the attack values flags
-%       in weapon stores this information.  This information is only
-%       stored here so that eventually, it may be forgotten.
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////
+//
+//  This weapon attribute merely flags a weapon as having the spell
+//       attack type that corresponds with it.  It also has a timer,
+//       which, when it expires, flips the Attack type back.
+// 
+//  Form is:
+//
+//      [WA_ATTACKSPELLTYPE, timer, spell_attack_type ]
+//
+//       timer::the length of time, from 1 to 25 realtime hours,
+//       that the enchantment lasts (depending on spell factors).
+//       spell_attack_type : as defined in blakston.khd.
+//       examples: ATCK_SPELL_FIRE, ATCK_SPELL_UNHOLY, ATCK_SPELL_ACID
+//
+//  Note that if a weapon ends up permanently holy or unholy, then this
+//       attribute is no longer necessary, since the attack values flags
+//       in weapon stores this information.  This information is only
+//       stored here so that eventually, it may be forgotten.
+//
+///////////////////////////////////////////////////////////////////////
 
 constants:
 
@@ -71,7 +71,7 @@ properties:
 
 messages:
 
-   %%% Description functions
+   //// Description functions
 
    AppendDesc(oItem=$,iFakeData=$)
    {
@@ -123,7 +123,7 @@ messages:
          return;
       }
 
-      % If not faked, then add maker information if available.
+      // If not faked, then add maker information if available.
       if iFakeData = $
       {
          lData = Send(oItem,@GetAttributeData,#ItemAtt=viItem_Att_num);
@@ -137,7 +137,7 @@ messages:
 
          sMakerInfo = Nth(lData,5);
 
-         %%Then we add information about the maker to the desc.
+         ///Then we add information about the maker to the desc.
          if sMakerInfo <> $
          {
             AddPacket(4,system_rsc_template_2, 4,rName,
@@ -154,7 +154,7 @@ messages:
       return;
    }
 
-   %%% Effect Functions
+   //// Effect Functions
    
    DMCreateItemAtt(who=$,string=$,oWeapon=$)
    {
@@ -224,10 +224,10 @@ messages:
 
       iSpellType = 0;
 
-      % 40% chance the weapon will choose to be karma allied with whoever found it.
+      // 40// chance the weapon will choose to be karma allied with whoever found it.
       if random(1,100) > 40
       {
-         % If player is good, give 'em a holy blade.  If not, unholy will be fine.
+         // If player is good, give 'em a holy blade.  If not, unholy will be fine.
          if Send(who,@GetKarma) > 0
          {
             iSpellType = ATCK_SPELL_HOLY;
@@ -318,7 +318,7 @@ messages:
 
    TimerExpired(oItem=$,lData=$)
    {
-      % Timer is gone, now remove reference.
+      // Timer is gone, now remove reference.
       SetNth(lData,2,$);   
       Send(self,@RemoveFromItem,#oItem=oItem,#lData=lData);
 
@@ -401,7 +401,7 @@ messages:
    }
 
 
-   %%% Artifice Spell Functions
+   //// Artifice Spell Functions
 
    FakeAttData()
    {
@@ -442,7 +442,7 @@ messages:
       return iSpellType;
    }
 
-   %%% Name Functions
+   //// Name Functions
 
    ItemBuildDescName(oItem=$,iFakeData=$)
    {
@@ -508,4 +508,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

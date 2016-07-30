@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 DuskRat is Monster
 
 constants:
@@ -15,8 +15,8 @@ constants:
    include blakston.khd
 
    POISON_CHANCE = 6
-   POISON_DURATION = 30000   %%% in milliseconds
-   POISON_LOSSRATE = 10000    %%% in health points * 10^-4 / second
+   POISON_DURATION = 30000   //// in milliseconds
+   POISON_LOSSRATE = 10000    //// in health points * 10^-4 / second
 
 resources:
 
@@ -64,7 +64,7 @@ classvars:
    viAttributes = 0
    viLevel = 90
    viDifficulty = 6
-   % Attack range of 192, or 3 row/col.
+   // Attack range of 192, or 3 row/col.
    viAttackRange = 192
    viVisionDistance = 11
    viKarma = -40
@@ -141,13 +141,13 @@ messages:
    NewOwner(what=$)
    "Make room darker when present, about 2X darker than a ShadowBeast"
    {
-      %New room
+      //New room
       if what <> $
       {
          Send(what,@AddBaseLight,#amount=-viLight_Penalty);
       }
 
-      %Old room
+      //Old room
       if poOwner <> $
       {
          Send(poOwner,@AddBaseLight,#amount=viLight_Penalty);
@@ -186,13 +186,13 @@ messages:
 
    IsAlly(target=$)
    {
-      % Qor Characters?
+      // Qor Characters?
       return FALSE;
    }
 
    Killed()
    {
-      % old room
+      // old room
       if poOwner <> $
       {
          Send(poOwner,@AddBaseLight,#amount=viLight_Penalty);
@@ -212,4 +212,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

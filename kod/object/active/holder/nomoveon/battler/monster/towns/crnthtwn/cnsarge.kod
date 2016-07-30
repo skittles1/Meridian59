@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 CorNothSergeant is CorNothTown
 
 constants:
@@ -134,7 +134,7 @@ messages:
       {
          iAmount = Send(obj,@GetNumber);
 
-         % Avoid potential issues with players giving him 1000s of items.
+         // Avoid potential issues with players giving him 1000s of items.
          if iAmount > 20
          {
             Send(self,@SayToOne,#target=who,#message_rsc=CnSer_Alcohol_toomuch);
@@ -144,8 +144,8 @@ messages:
 
          Send(self,@SayToOne,#target=who,#message_rsc=CnSer_Alcohol_taken);
 
-         % Increment this if player can't carry a sword, will be used
-         % to choose which carry-fail message to display.
+         // Increment this if player can't carry a sword, will be used
+         // to choose which carry-fail message to display.
          iIsFull = 0;
 
          while (iAmount > 0)
@@ -168,7 +168,7 @@ messages:
             iAmount = iAmount - 1;
          }
 
-         % If the player couldn't carry any of the swords, give them a message.
+         // If the player couldn't carry any of the swords, give them a message.
          if iIsFull
             AND oWeapon <> $
          {
@@ -182,7 +182,7 @@ messages:
             }
          }
 
-         % Returning TRUE means GotWantedItem will delete the alcohol.
+         // Returning TRUE means GotWantedItem will delete the alcohol.
          return TRUE;
       }
 
@@ -190,4 +190,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

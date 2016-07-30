@@ -1,16 +1,16 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 OrnamentalObject is PassiveObject
 
-%% ornamental object is something with no other properties other than normal.
+/// ornamental object is something with no other properties other than normal.
 
 constants:
 
@@ -896,7 +896,7 @@ messages:
    {
       if type = 0 { debug("Not assigned an id!"); return;}
 
-      % Reset the flags
+      // Reset the flags
       pbHanging = FALSE;
       pbNoMoveOn = FALSE;
       pbFlicker = FALSE;
@@ -1178,8 +1178,8 @@ messages:
       if type = OO_NECTREE4
       {  vrName = oo_nectree4_name;  vrIcon = oo_nectree4_icon;  vrDesc = oo_nectree4_desc;  }
 
-      % OO_NECTREE3 was removed.  It was given a dynamic light.  This is here for reasons
-      %  of sanity-checking.  Now shows icon for tree 4.
+      // OO_NECTREE3 was removed.  It was given a dynamic light.  This is here for reasons
+      //  of sanity-checking.  Now shows icon for tree 4.
       if type = OO_NECTREE3
       {  vrName = oo_nectree4_name;  vrIcon = oo_nectree4_icon;  vrDesc = oo_nectree4_desc;  }
       
@@ -1379,7 +1379,7 @@ messages:
          vrDesc = oo_modportal_desc;
       }
 
-      %% tell the room we changed, unless this is in constructor
+      /// tell the room we changed, unless this is in constructor
       if (NOT const) AND poOwner <> $
       {
          send(poOwner,@SomethingChanged,#what=self);
@@ -1416,9 +1416,9 @@ messages:
       if pbFlicker
       {
          AddPacket(2,LIGHT_FLAG_ON);
-         % intensity out of 255
+         // intensity out of 255
          AddPacket(1,20);
-         % Color.  Most ornamental objects are fire-type objects.
+         // Color.  Most ornamental objects are fire-type objects.
          AddPacket(2,LIGHT_FIRE);
 
          return;
@@ -1427,9 +1427,9 @@ messages:
       propagate;
    }
 
-   %%%%%%%%%%%%%%%%%%%%%%%%
-   % Object copying stuff %
-   %%%%%%%%%%%%%%%%%%%%%%%%
+   /////////////////////////
+   // Object copying stuff //
+   /////////////////////////
    Duplicate()
    {
       local oDuplicate;
@@ -1449,4 +1449,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

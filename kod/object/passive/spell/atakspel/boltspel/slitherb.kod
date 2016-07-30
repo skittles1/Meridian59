@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Slitherbolt is BoltSpell
 
 constants:
@@ -44,10 +44,10 @@ classvars:
 
    vrSucceed_wav = Slitherbolt_sound
 
-   viPostCast_time = 5        % in seconds, since it works off gettime()
+   viPostCast_time = 5        // in seconds, since it works off gettime()
 
    viProjectileFlag = PROJ_FLAG_FOLLOW_GROUND
-   % No projectile light information, currently
+   // No projectile light information, currently
    viProjectileLightFlags = LIGHT_FLAG_NONE
    
 
@@ -62,7 +62,7 @@ messages:
 
    ResetReagents()
    {
-      % separate message so can change, then set from admin mode
+      // separate message so can change, then set from admin mode
 
       plReagents = $;
       plReagents = Cons([&BlueMushroom,2],plReagents);
@@ -84,10 +84,10 @@ messages:
 
    SendProjectileAnimation()
    {
-      AddPacket(1, ANIMATE_CYCLE, 4, 40, 2, 1, 2, 8);   % 40ms between animations
+      AddPacket(1, ANIMATE_CYCLE, 4, 40, 2, 1, 2, 8);   // 40ms between animations
       return;
    }
 
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

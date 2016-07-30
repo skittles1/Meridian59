@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////////////////////////////////////////////////////////////
 TosForgotten is TosRoom
 
 constants:
@@ -257,14 +257,14 @@ messages:
    {
       plExits = $;
 
-      %% TO TOWN
+      /// TO TOWN
       plExits = Cons([ 14, 7, RID_KOCATAN, 23, 30, ROTATE_NONE ],plExits);
       
-      %% TO BOW MASTER
+      /// TO BOW MASTER
       plExits = Cons([ 3, 3, RID_KOC_HALL_OF_HEROES_A, 2, 4, ROTATE_NONE ],plExits);
       plExits = Cons([ 4, 3, RID_KOC_HALL_OF_HEROES_A, 2, 4, ROTATE_NONE ],plExits);
       
-      %% TO LANGUAGE MASTER
+      /// TO LANGUAGE MASTER
       plExits = Cons([ 3, 11, RID_KOC_HALL_OF_HEROES_B, 2, 4, ROTATE_NONE ],plExits);
       plExits = Cons([ 4, 11, RID_KOC_HALL_OF_HEROES_B, 2, 4, ROTATE_NONE ],plExits);
 
@@ -284,7 +284,7 @@ messages:
 
    FirstUserEntered()
    {
-      %% replace existing statues
+      /// replace existing statues
       send(self,@CreateStatues);
 
       propagate;
@@ -292,10 +292,10 @@ messages:
 
    CreateStatues()
    {
-      %% create the statues the first time someone enters.
+      /// create the statues the first time someone enters.
       local oStatue, i, iRandom;
 
-      %% delete any existing statues
+      /// delete any existing statues
       foreach i in plPassive
       {
          oStatue = send(self,@HolderExtractObject,#data=i);
@@ -306,12 +306,12 @@ messages:
          }
       }
 
-      %% the ones below switch out occasionally
-      %% to show more people
+      /// the ones below switch out occasionally
+      /// to show more people
 
-      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      %%%   Testers
-      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      //////////////////////////////////////////////////////////////////////////
+      ////   Testers
+      //////////////////////////////////////////////////////////////////////////
 
       iRandom = Random(1,5);      
       if iRandom = 1 or iRandom = 2
@@ -335,9 +335,9 @@ messages:
            #new_row=5,#new_col=1,#fine_row=16,#fine_col=24);
 
 
-      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      %%%   Higher mucky mucks
-      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      //////////////////////////////////////////////////////////////////////////
+      ////   Higher mucky mucks
+      //////////////////////////////////////////////////////////////////////////
 
 
       iRandom = Random(1, 6);
@@ -371,9 +371,9 @@ messages:
       Send(self,@NewHold,#what=oStatue,#new_angle=ANGLE_WEST,
            #new_row=5,#new_col=13,#fine_row=16,#fine_col=40);
 
-      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      %%%   Guardians
-      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      //////////////////////////////////////////////////////////////////////////
+      ////   Guardians
+      //////////////////////////////////////////////////////////////////////////
 
       iRandom = Random(1, 10);
 
@@ -416,9 +416,9 @@ messages:
       Send(self,@NewHold,#what=oStatue,#new_angle=ANGLE_EAST,
            #new_row=7,#new_col=1,#fine_row=48,#fine_col=24);
 
-      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      %%%   Guardians 2
-      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      //////////////////////////////////////////////////////////////////////////
+      ////   Guardians 2
+      //////////////////////////////////////////////////////////////////////////
 
       iRandom = Random(1, 11);
 
@@ -467,9 +467,9 @@ messages:
       Send(self,@NewHold,#what=oStatue,#new_angle=ANGLE_WEST,
            #new_row=7,#new_col=13,#fine_row=48,#fine_col=40);
 
-      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      %%%   Archetype people
-      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      //////////////////////////////////////////////////////////////////////////
+      ////   Archetype people
+      //////////////////////////////////////////////////////////////////////////
 
       iRandom = Random(1, 4);
 
@@ -494,9 +494,9 @@ messages:
       Send(self,@NewHold,#what=oStatue,#new_angle=ANGLE_EAST,
            #new_row=10,#new_col=1,#fine_row=16,#fine_col=24);
 
-      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      %%%   Revelation/Renaissance people
-      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+      //////////////////////////////////////////////////////////////////////////
+      ////   Revelation/Renaissance people
+      //////////////////////////////////////////////////////////////////////////
 
       iRandom = Random(1, 10);
 
@@ -540,7 +540,7 @@ messages:
            #new_row=10,#new_col=13,#fine_row=16,#fine_col=40);
       
 
-      %% the ones below are permanent.
+      /// the ones below are permanent.
 
       oStatue = Create(&Statue,#special=COLOR_GREEN,#specialname=name_rg,
                        #specialgender=GENDER_MALE,#desc=desc_rg);
@@ -612,4 +612,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

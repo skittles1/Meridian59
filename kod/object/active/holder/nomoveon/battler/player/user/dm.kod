@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 DM is User
 
 constants:
 
    include blakston.khd
 
-   % These two constants were stolen from player, should be synchronized.
+   // These two constants were stolen from player, should be synchronized.
    DM_TRANSLATION_BODY_MASK = 0xff00
    DM_TRANSLATION_BODY_MUL = 0x100
 
@@ -53,7 +53,7 @@ resources:
    dm_makesignetwork = "You have created a signet ring (i.e. newbie quest egg)."
    dm_makesignetfail = "You were unable to create a signet ring at this time."
 
-   % Commands
+   // Commands
    dm_makemonster = "monster"
    dm_event_sign_command = "event sign"
    dm_makeitem = "item"
@@ -305,7 +305,7 @@ resources:
    
    invisible_admin_rsc = res0002o.bgf
 
-   % Spell messages
+   // Spell messages
    dm_spell_base = "~B[%s cast %s%s%s.]"
    dm_spell_blank = ""
    dm_spell_on = " on "
@@ -349,15 +349,15 @@ properties:
    piMonsterBudgetTotalLevels = 0
    plMonsterBudgetTypes = $
 
-   % What's this DM's "standard" icon? Nil means it's human.
+   // What's this DM's "standard" icon? Nil means it's human.
    prStandardIcon = $
 
 messages:
 
    GetIcon(trueicon=FALSE)
    {
-      % Trueicon is set to true anytime you want to know what
-      %  a person really looks like.  Good example: statues.
+      // Trueicon is set to true anytime you want to know what
+      //  a person really looks like.  Good example: statues.
 
       if trueicon
          AND prStandardIcon <> $
@@ -375,8 +375,8 @@ messages:
 
    GetName()
    {
-      % Give a generic resource if the player is hidden.  Clients will not
-      %  have the proper name resource.
+      // Give a generic resource if the player is hidden.  Clients will not
+      //  have the proper name resource.
       if Send(self,@IsHidden)
       {
          return Send(SYS,@GetHiddenAdminName);
@@ -487,7 +487,7 @@ messages:
       {
          Send(self,@DontInterfere);
 
-         % Log this attempt.
+         // Log this attempt.
          GodLog("DM ",Send(self,@GetTrueName)," tried to pick up a token.");
 
          return FALSE;
@@ -553,12 +553,12 @@ messages:
    {
       if bValue
       {
-         % Set the flag
+         // Set the flag
          piDMFlags = piDMFlags | DMFLAG_LABELMAIL;
       }
       else
       {
-         % Clear the flag
+         // Clear the flag
          piDMFlags = piDMFlags & ~DMFLAG_LABELMAIL;
       }
 
@@ -567,7 +567,7 @@ messages:
 
 #endregion DM Flags
 
-   % Overridden from User, so that we can flag the "from" field with a server tag.
+   // Overridden from User, so that we can flag the "from" field with a server tag.
    ReceiveMail(from=$,dest_list=$,perm_string=$)
    "<from> is a resource."
    {
@@ -631,7 +631,7 @@ messages:
       propagate;
    }
 
-   %%% Hidden attribute
+   //// Hidden attribute
 
    IsHidden()
    "Returns TRUE if player is hidden, that is, doesn't appear on the who list."
@@ -641,11 +641,11 @@ messages:
 
    PlayerCanLearn()
    {
-      % Stop lower level DMs from buying skills/spells. Note that this will
-      % log a separate attempt for each spell or skill the NPC sells.
+      // Stop lower level DMs from buying skills/spells. Note that this will
+      // log a separate attempt for each spell or skill the NPC sells.
       if NOT (piDMFlags & DMFLAG_ALLOW_GET_ABILITIES)
       {
-         % Log this attempt.
+         // Log this attempt.
          GodLog("DM ",Send(self,@GetTrueName),
                " tried to learn a spell or skill.");
          Send(self,@DontInterfere);
@@ -684,7 +684,7 @@ messages:
       {
          Send(self,@DontInterfere);
 
-         % Log this attempt.
+         // Log this attempt.
          GodLog("DM ",Send(self,@GetTrueName)," tried to offer to ",
                Send(what,@GetTrueName));
 
@@ -714,15 +714,15 @@ messages:
       propagate;
    }
 
-   %%% Event Character Stuff
+   //// Event Character Stuff
 
    MakeEventCharacter()
    "Turns this character into an event character."
    {
-      % Set our flag
+      // Set our flag
       piDMFlags = piDMFlags | DMFLAG_EVENTCHAR;
 
-      % Exclude us from the Lore object.
+      // Exclude us from the Lore object.
       Send(Send(SYS,@GetLore),@ExcludePlayer,#who=self);
 
       return TRUE;
@@ -736,13 +736,13 @@ messages:
 
    TryAttack(what=$,use_weapon=$,stroke_obj=$,iSpellpower=0)
    {
-      % Don't allow normal DMs to attack.  Ignore restriction for green names.
+      // Don't allow normal DMs to attack.  Ignore restriction for green names.
       if NOT (piDMFlags & DMFLAG_ALLOW_COMBAT)
       {
          Send(self,@DontInterfere);
          if what <> $
          {
-            % Log this attempt.
+            // Log this attempt.
             GodLog("DM ",Send(self,@GetTrueName)," tried to attack ",
                   Send(what,@GetTrueName));
          }
@@ -755,7 +755,7 @@ messages:
 
    AllowPlayerAttack(victim=$,stroke_obj=$,use_weapon=$,report=TRUE)
    {
-      % Don't allow normal DMs to attack.  Ignore restriction for green names.
+      // Don't allow normal DMs to attack.  Ignore restriction for green names.
       if NOT (piDMFlags & DMFLAG_ALLOW_COMBAT)
       {
          Send(self,@DontInterfere);
@@ -999,9 +999,9 @@ messages:
          return;
       }
 
-      %
-      % Karma change commands; all DMs can use.
-      %
+      //
+      // Karma change commands; all DMs can use.
+      //
 
       if StringEqual(string,dm_good_command)
       {
@@ -1150,7 +1150,7 @@ messages:
          {
             foreach i in Send(SYS,@GetSpells)
             {
-               % Don't give any spells that aren't player spells (diseases, etc).
+               // Don't give any spells that aren't player spells (diseases, etc).
                if IsClass(i,&Spell)
                {
                   Send(self,@AddSpell,#num=Send(i,@GetSpellNum),#iability=99,
@@ -1169,7 +1169,7 @@ messages:
          {
             foreach i in Send(SYS,@GetSkills)
             {
-               % Don't give any spells that aren't player spells (diseases, etc).
+               // Don't give any spells that aren't player spells (diseases, etc).
                if IsClass(i,&Skill)
                {
                   Send(self,@AddSkill,#num=Send(i,@GetSkillNum),#iability=99);
@@ -1814,7 +1814,7 @@ messages:
          piDMFlags = piDMFlags | DMFLAG_HIDDEN;
          Send(self,@MsgSendUser,#message_rsc=dm_hidden);
 
-         % Make it look like we just logged off without really logging off.
+         // Make it look like we just logged off without really logging off.
          Send(SYS,@SystemUserLogoffAdvertise,#what=self,#bTrue=FALSE);
       }
       else
@@ -1822,11 +1822,11 @@ messages:
          piDMFlags = piDMFlags & ~DMFLAG_HIDDEN;
          Send(self,@MsgSendUser,#message_rsc=dm_not_hidden);
 
-         % Make it look like we just logged back on.
+         // Make it look like we just logged back on.
          Send(SYS,@SystemUserLogonAdvertise,#what=self,#bTrue=FALSE);
       }
 
-      % Do this so that our name changes properly.
+      // Do this so that our name changes properly.
       Send(poOwner,@SomethingChanged,#what=self);
 
       return;
@@ -1836,7 +1836,7 @@ messages:
    {
       local i, lObjects, oObject;
 
-      % Make everyone think we left the room.
+      // Make everyone think we left the room.
       lObjects = Send(poOwner,@GetHolderActive);
 
       foreach i in lObjects
@@ -1880,13 +1880,13 @@ messages:
       StringSubstitute(string,dm_disguise_command," ");
       StringSubstitute(string,"disguise"," ");
 
-      % Checks art archive, if no matches goes to NPCs.
+      // Checks art archive, if no matches goes to NPCs.
       temp = Send(Send(SYS,@GetArtArchive),@FindArchiveByString,#string=string);
 
-      % Nothing in art archive?  Check for NPCs.
+      // Nothing in art archive?  Check for NPCs.
       if temp = $
       {
-         % Checks NPC list, if no matches, goes to monsters.
+         // Checks NPC list, if no matches, goes to monsters.
          oObject = Send(SYS,@FindNPCByString,#string=string);
          if oObject <> $
          {
@@ -1895,7 +1895,7 @@ messages:
 
          if oObject = $
          {
-            % Checks Monster list, if no matches, return.
+            // Checks Monster list, if no matches, return.
             oObject = Send(SYS,@FindMonsterByString,#string=string);
             if oObject <> $
             {
@@ -1932,7 +1932,7 @@ messages:
       Send(self,@ResetPlayerIcon,#alldone=FALSE);
       pbMorph = FALSE;
 
-      % For characters we want to have a non-standard icon
+      // For characters we want to have a non-standard icon
       if prStandardIcon <> $
       {
          vrIcon = prStandardIcon;
@@ -1994,7 +1994,7 @@ messages:
                AND plMonsterBudgetTypes <> $
                AND FindListElem(plMonsterBudgetTypes,GetClass(i)))
             {
-               % Check if they're budgeted for a monster of this type
+               // Check if they're budgeted for a monster of this type
                if piMonsterBudgetTotalLevels >= Send(i,@GetLevel)
                {
                   piMonsterBudgetTotalLevels = piMonsterBudgetTotalLevels
@@ -2021,12 +2021,12 @@ messages:
 
             if bAllowed
             {
-               % Create one of these monsters.
+               // Create one of these monsters.
                oObject = Create(GetClass(i));
 
-               % Set it so that created monsters aren't disposed of if there are
-               % no players in the room.
-               % Also makes the monster not affect Karma when killed.
+               // Set it so that created monsters aren't disposed of if there are
+               // no players in the room.
+               // Also makes the monster not affect Karma when killed.
                Send(oObject,@SetDontDispose);
 
                Send(poOwner,@NewHold,#what=oObject,#new_row=piRow,
@@ -2066,7 +2066,7 @@ messages:
       StringSubstitute(sTemp,"monster authorize","");
       StringSubstitute(sTemp," ","");
 
-      % This means: Did we just want to find and report the bard's holdings?
+      // This means: Did we just want to find and report the bard's holdings?
       bFound = FALSE;
 
       foreach i in Send(SYS,@GetMonsterTemplates)
@@ -2085,7 +2085,7 @@ messages:
          }
       }
 
-      % If we got here, no valid monster name given
+      // If we got here, no valid monster name given
       if StringContain(sTemp,dm_none)
       {
          StringSubstitute(sTemp,dm_none,"");
@@ -2098,17 +2098,17 @@ messages:
       }
       else
       {
-         % We just found the bard to list their budget
+         // We just found the bard to list their budget
          bFound = TRUE;
          oBard = Send(SYS,@FindUserByString,#string=sTemp);
       }
 
-      % Whether we wiped it or not, report the budget status
+      // Whether we wiped it or not, report the budget status
       if oBard <> $ AND IsClass(oBard,&DM)
       {
          Send(oBard,@ReportMonsterBudget,#who=self);
 
-         % Don't spam the poor bard if we want to check their budget.
+         // Don't spam the poor bard if we want to check their budget.
          if NOT bFound
          {
             Send(oBard,@ReportMonsterBudget);
@@ -2240,7 +2240,7 @@ messages:
    {
       if pbImmortal
       {
-         % Don't add exertion if we're immortal.
+         // Don't add exertion if we're immortal.
          return;
       }
 
@@ -2261,7 +2261,7 @@ messages:
          }
          else
          {
-            % Spell will be cast "on" something.
+            // Spell will be cast "on" something.
             rOn = dm_spell_on;
 
             if Length(lItems) > 1
@@ -2270,7 +2270,7 @@ messages:
             }
             else if First(lItems) = self
             {
-               % Length of targets is exactly 1
+               // Length of targets is exactly 1
                rTarget = dm_spell_you;
             }
             else
@@ -2328,7 +2328,7 @@ messages:
 
       iFlags = 0;
 
-      % Check for any shadow form effects.
+      // Check for any shadow form effects.
       iDrawfX = Send(self,@GetDrawingEffects);
       if (iDrawFX & DRAWFX_BLACK) = DRAWFX_BLACK
       {
@@ -2602,16 +2602,16 @@ messages:
 
    RemoveInaccessibleSpells()
    {
-      % Do not remove "bad" spells from a DM or above.
+      // Do not remove "bad" spells from a DM or above.
       return;
    }
 
 #region Create DM Types
 
-   %
-   % Moderators can basically just Squelch players and see appeals.
-   % They have trivial DM commands such as karma change and totem summoning.
-   %
+   //
+   // Moderators can basically just Squelch players and see appeals.
+   // They have trivial DM commands such as karma change and totem summoning.
+   //
    BecomeModerator()
    {
       Send(self,@RemoveAllSpells);
@@ -2629,10 +2629,10 @@ messages:
       return Send(SYS,@GetSuccessRsc);
    }
 
-   %
-   % Guides have 'say commands', so they can create monsters and use the 'go'
-   % command to teleport themselves to rooms.
-   %
+   //
+   // Guides have 'say commands', so they can create monsters and use the 'go'
+   // command to teleport themselves to rooms.
+   //
    BecomeGuide()
    {
       Send(self,@RemoveAllSpells);
@@ -2738,7 +2738,7 @@ messages:
       Send(self,@AddSpell,#num=SID_IDENTIFY,#iability=99);
       Send(self,@AddSpell,#num=SID_JIG,#iability=99);
       Send(self,@AddSpell,#num=SID_PURIFY,#iability=99);
-      % Ability level determines level of detail for Scry.
+      // Ability level determines level of detail for Scry.
       Send(self,@AddSpell,#num=SID_SCRY,#iability=15);
 
       return Send(SYS,@GetSuccessRsc);
@@ -2897,7 +2897,7 @@ messages:
       return;
    }
 
-   % Used by the WarEvent event.  Don't remove DM+ shirts.
+   // Used by the WarEvent event.  Don't remove DM+ shirts.
    RemoveShirt()
    {
       return;
@@ -3170,4 +3170,4 @@ messages:
 #endregion Make Old Designers
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

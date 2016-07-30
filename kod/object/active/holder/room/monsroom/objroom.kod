@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ObjectRoom is MonsterRoom
 
 constants:
@@ -23,16 +23,16 @@ properties:
 
    ptGen_object
 
-   % list of number items to be created randomly.  Each item in list is
-   % list of class, GEN_INF or GEN_ONE, number (meaningless if not numberitem),
-   % row, col.    Optional extra 2 elements, fine row and fine col
+   // list of number items to be created randomly.  Each item in list is
+   // list of class, GEN_INF or GEN_ONE, number (meaningless if not numberitem),
+   // row, col.    Optional extra 2 elements, fine row and fine col
 
-   % Set this in CreateObjectGeneration
+   // Set this in CreateObjectGeneration
 
-   % An object must be passive if GEN_ONE
+   // An object must be passive if GEN_ONE
    plObject_gen = $
 
-   piGen_object_time = 1350000 % defaults to every five minutes
+   piGen_object_time = 1350000 // defaults to every five minutes
 
 messages:
 
@@ -88,11 +88,11 @@ messages:
             
       foreach lObjectInfo in plObject_gen
       {	 
-	 %% create apples so we know that it's not naturally created or dropped
+	 /// create apples so we know that it's not naturally created or dropped
 	 if bApple   { oObject = create(&Apple); }
 	 else	     { oObject = create(first(lObjectInfo)); }
 
-	 %% Go ahead and gen 'em
+	 /// Go ahead and gen 'em
 	 row = nth(lObjectInfo,4);
 	 col = nth(lObjectInfo,5);
 
@@ -128,14 +128,14 @@ messages:
       
       if Nth(lObject_info,2) = GEN_ONE
       {
-	 % check to make sure no other object with same class in this square
+	 // check to make sure no other object with same class in this square
 	 foreach i in plPassive
 	 {
-	    % get row and col from the list 
+	    // get row and col from the list 
 	    if Nth(i,3) = iRow and Nth(i,4) = iCol and 
 	       GetClass(First(i)) = First(lObject_info)
 	    {
-	       %debug("Try to create object already there",First(lObject_info),iRow,iCol);
+	       //debug("Try to create object already there",First(lObject_info),iRow,iCol);
 	       return;
 	    }
 	 }
@@ -148,7 +148,7 @@ messages:
 	 iFine_row = Nth(lObject_info,6);
 	 iFine_col = Nth(lObject_info,7);
 
-	 %debug("Object gen make at fineness",iFine_row,iFine_col);
+	 //debug("Object gen make at fineness",iFine_row,iFine_col);
       }		   
 
       oNew_creation = Create(First(lObject_info),#number=iNumber);
@@ -171,7 +171,7 @@ messages:
    {
       if ptGen_object <> $
       { 
-	 %debug("Timer exists.  Someone tried to leave and then reenter."); 
+	 //debug("Timer exists.  Someone tried to leave and then reenter."); 
       }
       else
       {
@@ -181,4 +181,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

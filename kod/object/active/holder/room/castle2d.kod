@@ -1,16 +1,16 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%Send(self,@CreateOneRoomIfNew,#num=RID_CASTLE2D,#class=&Castle2D);
+////////////////////////////////////////////////////////////////////////////////
+//Send(self,@CreateOneRoomIfNew,#num=RID_CASTLE2D,#class=&Castle2D);
 
-%RID_CASTLE2D = 852
+//RID_CASTLE2D = 852
 
 Castle2d is Room
 
@@ -174,7 +174,7 @@ properties:
    prRoom = room_castle2d
    piRoom_num = RID_CASTLE2D
 
-%   prBackground = background_mountains
+//   prBackground = background_mountains
 
 
 messages:
@@ -230,7 +230,7 @@ messages:
    {
       plExits = $;
 
-% West entrance to Tower
+// West entrance to Tower
       plExits = Cons([ 29, 20, RID_CASTLE2D, 31, 22, ROTATE_NONE ],plExits);
       plExits = Cons([ 29, 21, RID_CASTLE2D, 31, 22, ROTATE_NONE ],plExits);
       plExits = Cons([ 30, 20, RID_CASTLE2D, 31, 22, ROTATE_NONE ],plExits);
@@ -238,7 +238,7 @@ messages:
       plExits = Cons([ 31, 22, RID_CASTLE2D, 29, 20, ROTATE_NONE ],plExits);
       plExits = Cons([ 30, 22, RID_CASTLE2D, 29, 20, ROTATE_NONE ],plExits);
       plExits = Cons([ 31, 21, RID_CASTLE2D, 29, 20, ROTATE_NONE ],plExits);
-% East Entrance to Tower
+// East Entrance to Tower
 
       plExits = Cons([ 30, 24, RID_CASTLE2D, 29, 26, ROTATE_NONE ],plExits);
       plExits = Cons([ 31, 24, RID_CASTLE2D, 29, 26, ROTATE_NONE ],plExits);
@@ -301,5 +301,5 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Shrine is PassiveObject
 
 constants:
@@ -73,13 +73,13 @@ properties:
 
    vrName = Shrine_name_rsc
 
-   % This is the bonus to spellpower gained by the shrine.  Should be lowered
-   %  to 5 in the future?
+   // This is the bonus to spellpower gained by the shrine.  Should be lowered
+   //  to 5 in the future?
    piShrine_power = 6
 
    piShrine_Num = 0
 
-   % This records the school the shrine boosts.
+   // This records the school the shrine boosts.
    piAllegiance = 0
 
 messages:
@@ -111,7 +111,7 @@ messages:
          AddPacket(4,shrine_dedicated);
          AddPacket(4,Send(self,@GetName));
 
-         % Find any spell, any will give us the school string.
+         // Find any spell, any will give us the school string.
          oSpell = Send(SYS,@FindSpellByNum,#num=SID_BLINK);
          AddPacket(4,Send(oSpell,@GetSchoolStr,#iSchool=piAllegiance));
       }
@@ -136,7 +136,7 @@ messages:
       }
       else
       {
-         % Show our disappointment
+         // Show our disappointment
          Send(poOwner,@SomeoneSaid,#type=SAY_MESSAGE,#what=self,
                #string=Shrine_unsatisfied);
       }
@@ -149,12 +149,12 @@ messages:
       piAllegiance = Send(oOffering,@GetAllegiance);
       Send(SYS,@RecomputeShrineTotals);
 
-      % If we find one, then switch over to that god.
+      // If we find one, then switch over to that god.
       Send(poOwner,@SomeoneSaid,#type=SAY_MESSAGE,#what=self,
             #string=Shrine_satisfied,#parm1=Send(oOffering,@GetName));
       Send(self,@TellServer);
 
-      % Remove the offering - the gods eat it.
+      // Remove the offering - the gods eat it.
       Send(oOffering,@Delete);
       Send(poOwner,@ShrineUsed);
 
@@ -244,4 +244,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

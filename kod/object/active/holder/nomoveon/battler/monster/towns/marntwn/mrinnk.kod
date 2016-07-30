@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 MarionInnkeeper is MarionTown
 
 constants:
@@ -76,18 +76,18 @@ properties:
 
 messages:
 
-   % Special handling to make him laugh at Tova's chatter
+   // Special handling to make him laugh at Tova's chatter
    SomeoneSaid(what=$,string=$)
    {
       local oRoomMaint, rSayRsc;
 
-      % If it's Tova talking
+      // If it's Tova talking
       if IsClass(what, &MarionBartender)
       {
-         % One out of three times
+         // One out of three times
          if Random(1,3) = 1
          {
-            % Simulate randomtimer firing
+            // Simulate randomtimer firing
             Send(self,@RandomTimer,#test=TRUE);
 
             return;
@@ -106,7 +106,7 @@ messages:
             rSayRsc = Send(oRoomMaint,@RentRoom,#who=what,
                            #iLocation=RID_MAR_INN,#iCost=piInitialRoomCost);
 
-            % rSayRsc is $ on success.  Use the innkeeper's saying.
+            // rSayRsc is $ on success.  Use the innkeeper's saying.
             if rSayRsc = $
             {
                rSayRsc = MarionInnkeeper_room_rented;
@@ -124,7 +124,7 @@ messages:
             rSayRsc = Send(oRoomMaint,@CopyKey,#who=what,
                            #iLocation=RID_MAR_INN,#iCost=piKeyCopyCosts);
 
-            % Tell the player.
+            // Tell the player.
             Post(poOwner,@SomeoneSaid,#type=SAY_RESOURCE,
                   #what=self,#string=rSayRsc);
 
@@ -152,7 +152,7 @@ messages:
    {
       local i, iMoney, oRoomMaint, iNewDays;
 
-      % Check for if in the same room.
+      // Check for if in the same room.
       if Send(what,@GetOwner) <> poOwner
       {
          Debug("ALERT! ",Send(what,@GetTrueName),what," offered items to NPC ",
@@ -168,7 +168,7 @@ messages:
          {
             if GetClass(i) = &RoomKeyCopy
             {
-               % Say something and delete the key.
+               // Say something and delete the key.
                Send(what,@MsgSendUser,
                      #message_rsc=MarionInnkeeper_destroy_key_copy);
                Send(i,@Delete);
@@ -193,7 +193,7 @@ messages:
 
       if iNewDays <> $
       {
-         % iNewDays = 0 means that we've trying to pay for than max days.
+         // iNewDays = 0 means that we've trying to pay for than max days.
          if iNewDays = 0
          {
             Post(poOwner,@SomeoneSaid,#type=SAY_RESOURCE,#what=self,
@@ -252,4 +252,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

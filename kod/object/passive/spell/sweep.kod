@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Sweep is Spell
 
 constants:
@@ -102,9 +102,9 @@ messages:
       {
          oObj = Send(oRoom,@HolderExtractObject,#data=lPassive);
 
-         % Cull everything that isn't "get-able" out of the list.
-         % Also exclude items that are in guild halls and not in the same
-         % section as the caster to prevent 'sweep transfers'
+         // Cull everything that isn't "get-able" out of the list.
+         // Also exclude items that are in guild halls and not in the same
+         // section as the caster to prevent 'sweep transfers'
          if IsClass(oObj,&Item)
             AND send(who,@ReqNewHold,#what=oObj)
             AND Send(oObj,@CanSweep)
@@ -146,7 +146,7 @@ messages:
          {
             Send(self,@GetItem,#what=oEachObj,#who=who);
             
-            % Remove the gotten item from our list, it may still be in the room, but if so we can't hold it so we don't want it in the list anymore.
+            // Remove the gotten item from our list, it may still be in the room, but if so we can't hold it so we don't want it in the list anymore.
             lGoodItems = DelListElem(lGoodItems,oEachObj);
          }
       }
@@ -160,11 +160,11 @@ messages:
          propagate;
       }
 
-      % A funny little diversion.
+      // A funny little diversion.
       if IsClass(oRoom,&Marion)
       {
-         % Proximity check.  Have Ran'er'hoth give a snit if we're within
-         %  10 units of him in Marion.
+         // Proximity check.  Have Ran'er'hoth give a snit if we're within
+         //  10 units of him in Marion.
          oObj = send(oRoom,@FindHoldingActive,#class=&MarionElder);
 
          if oObj <> $
@@ -190,7 +190,7 @@ messages:
          }
          else
          {
-            % It's a player, send a message of spell being cast.
+            // It's a player, send a message of spell being cast.
             if oEachObj = who
             {
                Send(oEachObj,@MsgSendUser,#message_rsc=Sweep_Something);
@@ -220,7 +220,7 @@ messages:
          return;
       }
 
-      % Double check, just in case.
+      // Double check, just in case.
       if send(who,@ReqNewHold,#what=what)
       {
          send(who,@NewHold,#what=what);
@@ -266,4 +266,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

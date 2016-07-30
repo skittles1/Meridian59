@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 DarkWizard is Wanderer
 
 constants:
@@ -61,7 +61,7 @@ messages:
       if why = MOODMOD_WANDERER_ENTERED
          AND what = self
       {
-         % become "happy" when entering Duke3
+         // become "happy" when entering Duke3
          if IsClass(poOwner,&Duke3)
          {
             Send(self,@SetMood,#new_mood=100);
@@ -69,7 +69,7 @@ messages:
             return;
          }
 
-         % Become "sad" when entering TempleQor.
+         // Become "sad" when entering TempleQor.
          if IsClass(poOwner, &TempleQor)
          {
             Send(self,@SetMood,#new_mood=-100);
@@ -77,15 +77,15 @@ messages:
             return;
          }
 
-         % Become apathetic when wandering anywhere else.
+         // Become apathetic when wandering anywhere else.
          Send(self,@SetMood,#new_mood = 0);
       }
 
       return;
    }
 
-   % Since Maleval uses mood for locations,
-   % don't allow other things to change it.
+   // Since Maleval uses mood for locations,
+   // don't allow other things to change it.
    ChangeMood(change = 0)
    {
       return;
@@ -207,8 +207,8 @@ messages:
          return TRUE;
       }
 
-      % Special checks for high level spells: need a high level spell in 
-      % a particular school.
+      // Special checks for high level spells: need a high level spell in 
+      // a particular school.
       foreach i in Send(who,@GetSpellList)
       {
          oSpell = Send(SYS,@FindSpellByNum,
@@ -224,8 +224,8 @@ messages:
 
       if bFound = FALSE
       {
-         % Player doesn't have a fifth level spell
-         % in the required school, denied.
+         // Player doesn't have a fifth level spell
+         // in the required school, denied.
          if report
          {
             Post(self,@SayToOne,#target=who,#message_rsc=DarkWizard_not_ready);
@@ -238,4 +238,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

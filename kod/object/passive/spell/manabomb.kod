@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%S%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////S///////////////////////////////////////////////////////
 ManaBomb is Spell
 
 constants:
@@ -96,7 +96,7 @@ messages:
 
    CanPayCosts(who = $, lTargets = $)
    {
-      %% We need to do our own check rather than use the one in spell.kod.
+      /// We need to do our own check rather than use the one in spell.kod.
       if IsClass(who,&Player) AND Send(who,@GetMana) < 12
       {
          Send(who,@WaveSendUser,#wave_rsc=spell_fail_wav);
@@ -113,25 +113,25 @@ messages:
    {
       local oRoom, lEnchanted, iMana, i, iManaLost;
 
-      % Take mana from caster.
+      // Take mana from caster.
       iMana = Send(who,@GetMana);
       Send(who,@LoseMana,#amount=iMana);
 
-      % Send message to all in room.
+      // Send message to all in room.
       oRoom = Send(who,@GetOwner);
       Send(oRoom,@SomeoneSaid,#type=SAY_MESSAGE,#string=manabomb_cast,
            #what=who,#parm1=Send(who,@GetCapDef),#parm2=Send(who,@GetName));
 
-      % Half the loss comes from caster mana, half from caster spellpower.
+      // Half the loss comes from caster mana, half from caster spellpower.
       iMana = iMana / 2;
       iMana = iMana + (iMana * iSpellPower)/100;
 
       foreach i in lTargets
       {
-         % Mana loss.
+         // Mana loss.
          iManaLost = Send(i,@LoseMana,#amount=iMana);
 
-         % Spell effect messages.
+         // Spell effect messages.
          if Send(i,@GetMana) = 0
          {
             if IsClass(i,&Player)
@@ -162,7 +162,7 @@ messages:
       propagate;
    }
 
-   % We just needed a list of players in range, so we don't do anything here.
+   // We just needed a list of players in range, so we don't do anything here.
    StartEnchantment(who = $)
    "Starts enchantment effect on one player"
    {
@@ -170,4 +170,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

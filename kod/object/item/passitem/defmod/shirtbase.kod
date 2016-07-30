@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ShirtBase is DefenseModifier
 
 constants:
@@ -62,7 +62,7 @@ classvars:
    viBulk = 10
 
    viGround_group = 1
-   viInventory_group = 2   % change to 2 when you have an inventory view
+   viInventory_group = 2   // change to 2 when you have an inventory view
    viBroken_group = 3
 
    viGender = GENDER_MALE
@@ -79,7 +79,7 @@ classvars:
 
    vbShow_Condition = TRUE
 
-   viDefense_base = 5               % This is the default value for piDefense_bonus
+   viDefense_base = 5               // This is the default value for piDefense_bonus
 
 properties:
 
@@ -146,7 +146,7 @@ messages:
 
    SetIcon()
    {
-      %% Player can wear a shirt under armor.  Armor has precedence though.
+      /// Player can wear a shirt under armor.  Armor has precedence though.
       if Send(poOwner,@GetArmor) = $
       {
          Send(poOwner,@SetPlayerIcon,#what=self,#new_icon=Send(self,@GetShirtIcon,#who=poOwner),
@@ -198,8 +198,8 @@ messages:
       return;
    }
 
-   % If the player's armor is colored, override SetPaletteTranslation and
-   % keep whatever the shirt is currently set to.
+   // If the player's armor is colored, override SetPaletteTranslation and
+   // keep whatever the shirt is currently set to.
    SetPaletteTranslation()
    {
       local oArmor;
@@ -219,4 +219,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

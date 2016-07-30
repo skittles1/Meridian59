@@ -1,17 +1,17 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%The ring of lethargy is a cursed ring which, when the player wears it,reduces
-%his vigor rest threshold.  When the player attempts to remove the ring, some
-%of his current vigor drains away.
-%code by Justin, 98jsh@williams.edu
+////////////////////////////////////////////////////////////////////////////////
+//The ring of lethargy is a cursed ring which, when the player wears it,reduces
+//his vigor rest threshold.  When the player attempts to remove the ring, some
+//of his current vigor drains away.
+//code by Justin, 98jsh@williams.edu
  
 RingofLethargy is Ring
 
@@ -57,10 +57,10 @@ classvars:
 
    viVigorDrop = 400000
    
-   % Peach inset when identified
+   // Peach inset when identified
    viRevealedColor = PT_ITEM_XLAT_BLUE_TO_SKIN2
    
-   % Same as resistance rings
+   // Same as resistance rings
    viUnrevealedColor = PT_ITEM_XLAT_BLUE_TO_WHITE
 
 properties:
@@ -97,9 +97,9 @@ messages:
 
       iVigorRestThreshold = Send(poOwner, @GetVigorRestThreshold);
 
-      % This is to ensure both that the player's rest threshold does not drop below
-      % 10 as well as to make sure we don't make it above maximum when the ring comes
-      % off  (see player.kod for why)
+      // This is to ensure both that the player's rest threshold does not drop below
+      // 10 as well as to make sure we don't make it above maximum when the ring comes
+      // off  (see player.kod for why)
       if (iVigorRestThreshold - piVigorRestThresholdChange < 10)
       {
          piVigorRestThresholdChange = iVigorRestThreshold - 10;
@@ -170,7 +170,7 @@ messages:
       Send(poOwner,@SetVigorRestThreshold,
             #amount=iVigorRestThreshold + piVigorRestThresholdChange);
 
-      % Reset the vigor change in case it was adjusted earlier.
+      // Reset the vigor change in case it was adjusted earlier.
       piVigorRestThresholdChange = 20;
 
       propagate;
@@ -182,4 +182,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

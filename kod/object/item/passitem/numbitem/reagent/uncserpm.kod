@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 UncutSeraphym is Reagent
 
 constants:
@@ -48,24 +48,24 @@ messages:
 
    SendAnimation()
    {
-      AddPacket(1,ANIMATE_CYCLE,4,180,2,1,2,6);  % Frames 1 to 6, and back to 1
+      AddPacket(1,ANIMATE_CYCLE,4,180,2,1,2,6);  // Frames 1 to 6, and back to 1
 
       return;
    }
 
    SendLookAnimation()
    {
-      AddPacket(1,ANIMATE_CYCLE,4,180,2,1,2,6);  % Frames 1 to 6, and back to 1
+      AddPacket(1,ANIMATE_CYCLE,4,180,2,1,2,6);  // Frames 1 to 6, and back to 1
 
       return;
    }
 
    SendInventoryAnimation()
    {
-      AddPacket(1,ANIMATE_CYCLE,4,180,2,1,2,6);  % Frames 1 to 6, and back to 1
+      AddPacket(1,ANIMATE_CYCLE,4,180,2,1,2,6);  // Frames 1 to 6, and back to 1
 
       return;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

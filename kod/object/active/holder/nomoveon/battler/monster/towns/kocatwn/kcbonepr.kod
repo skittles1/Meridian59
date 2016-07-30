@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 KocatanBonePriestess is KocatanTown
 constants:
 
@@ -25,7 +25,7 @@ resources:
       "difficult to determine if any reason can be applied to this "
       "strange creature."
 
-   %KocatanBonePriestess_entry_welcome = ""
+   //KocatanBonePriestess_entry_welcome = ""
    KocatanBonePriestess_iteach = \
       "ik QUAWK ak %s%s%s%s%s%s%s%s%s%s%s%s nyuk KAW-KAW uk uk!"
    KocatanBonePriestess_unwanted_keep = \
@@ -201,7 +201,7 @@ messages:
 
    AddLearnAdvice()
    {
-      %% Add random response to five spells
+      /// Add random response to five spells
       local i, lFinal, lDialogue, oAbility, sid, oName, lTriggers;
 
       if NOT (viAttributes & MOB_TEACHER)
@@ -214,11 +214,11 @@ messages:
          return;
       }
 
-      % Debug("Adding learn advice for ",Send(self,@GetName));
+      // Debug("Adding learn advice for ",Send(self,@GetName));
 
       foreach sid in Nth(plFor_sale,3)
       {
-         %% spells next
+         /// spells next
          oAbility = Send(SYS,@FindSpellByNum,#num=sid);
          if oAbility <> $ and Send(oAbility,@GiveAdvice)
          {
@@ -285,7 +285,7 @@ messages:
       {
          Send(who,@SendStatChange);
 
-         % We don't destroy the item, so return FALSE.
+         // We don't destroy the item, so return FALSE.
          return FALSE;
       }
 
@@ -293,4 +293,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

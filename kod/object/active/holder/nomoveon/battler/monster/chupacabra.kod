@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Chupacabra is Monster
 
 constants:
@@ -116,7 +116,7 @@ messages:
 
    SendMoveAnimation()
    {
-      % Cycle through "walking" bitmaps (groups 2-5) at 50 milliseconds per frame
+      // Cycle through "walking" bitmaps (groups 2-5) at 50 milliseconds per frame
       AddPacket(1,ANIMATE_CYCLE,4,75,2,3,2,7);
 
       return;
@@ -133,7 +133,7 @@ messages:
       {
          AddPacket(1,ANIMATE_ONCE,4,150,2,1,2,2,2,1);
       }
-      % if no body animation
+      // if no body animation
       
       propagate;
    }
@@ -154,4 +154,4 @@ messages:
    }
    
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 WallofLightning is ActiveWallElement
 
 constants:
@@ -120,7 +120,7 @@ messages:
          }
          else
          {
-            % Damage greater than 0
+            // Damage greater than 0
             Send(what,@WaveSendUser,#wave_rsc=lightningwall_zap_snd);
 
             if iDamage < 5
@@ -162,15 +162,15 @@ messages:
 
    NewOwner(what = $)
    {
-      % Add a bit of light.  Lightning walls shed some light.
+      // Add a bit of light.  Lightning walls shed some light.
    
-      % new room
+      // new room
       if what <> $
       {
          Send(what,@AddBaseLight,#amount=viLightBonus);
       }
       
-      % old room
+      // old room
       if poOwner <> $
       {
          Send(poOwner,@AddBaseLight,#amount=-viLightBonus);
@@ -181,7 +181,7 @@ messages:
 
    Delete()
    {
-      % Take away the light we added.
+      // Take away the light we added.
       if poOwner <> $
       {
          Send(poOwner,@AddBaseLight,#amount=-viLightBonus);
@@ -193,9 +193,9 @@ messages:
    SendLightingInformation()
    {
       AddPacket(2,(LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC));
-      % 5 out of 255 intensity of light
+      // 5 out of 255 intensity of light
       AddPacket(1,5);
-      % Lightning color
+      // Lightning color
       AddPacket(2,LIGHT_LIGHTNING);
 
       return;
@@ -203,4 +203,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

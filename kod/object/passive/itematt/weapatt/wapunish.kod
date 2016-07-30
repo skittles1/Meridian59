@@ -1,27 +1,27 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 WeapAttPunisher is WeaponAttribute
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%   This weapon has a 2x bonus against murderers, 1.5x bonus against outlaws,
-%   and a -1x bonus against all other players.
-%   Also, outlaws and murderers may not wield this weapon.  They get wounded
-%   if they try.
-%
-%   Form is:
-%
-%      [ WA_PUNISHER ]
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////
+//
+//   This weapon has a 2x bonus against murderers, 1.5x bonus against outlaws,
+//   and a -1x bonus against all other players.
+//   Also, outlaws and murderers may not wield this weapon.  They get wounded
+//   if they try.
+//
+//   Form is:
+//
+//      [ WA_PUNISHER ]
+//
+///////////////////////////////////////////////////////////////////////
 
 constants:
 
@@ -53,11 +53,11 @@ properties:
 
 messages:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Initialization Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Initialization Functions
+///
+////////////////////////////////////////////////
 
    InitialPower(oItem=$)
    {
@@ -71,43 +71,43 @@ messages:
       return Send(self,@InitialWeaponPower,#oItem=oItem);
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Effect Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Effect Functions
+///
+////////////////////////////////////////////////
 
    ModifyDamage(damage=0,target=$,wielder=$,lData=$)
    "Wielder gets a damage bonus, equal to (proficiency/4) - 2."
    {
       local iNum, iPower;
 
-      % Here, iNum = power itself.
+      // Here, iNum = power itself.
       iPower = Send(self,@TranslatePowerFromCompound,#iCompound=First(lData));
       iPower = Send(self,@DecipherDamageFromPower,#iPower=iPower);
 
       if target <> $
       {
-         %% No special effects for monsters
+         /// No special effects for monsters
          if IsClass(target,&Monster)
          {
             return Damage;
          }
 
-         % Double standard effect on murderers.
+         // Double standard effect on murderers.
          if Send(target,@CheckPlayerFlag,#flag = PFLAG_MURDERER)
          {
             return (damage + ((iPower*3)/2));
          }
 
-         % One and one half effect on outlaws.
+         // One and one half effect on outlaws.
          if send(target,@CheckPlayerFlag,#flag = PFLAG_OUTLAW)
          {
             return (damage + iPower);
          }
       }
 
-      return damage;    %% No extra damage against monsters.
+      return damage;    /// No extra damage against monsters.
    }
 
    ModifyHitRoll(hitroll=0,target=$,wielder=$,lData= $)
@@ -116,11 +116,11 @@ messages:
    {
       local iNum, iPower;
 
-      % Here, iNum = power itself.
+      // Here, iNum = power itself.
       iPower = Send(self,@TranslatePowerFromCompound,#iCompound=first(lData));
       iPower = Send(self,@DecipherHitRollFromPower,#iPower=iPower);
 
-      % No special effects for monsters.
+      // No special effects for monsters.
       if target <> $
       {
          if IsClass(target,&Monster)
@@ -128,20 +128,20 @@ messages:
             return hitroll;
          }
 
-         % Double standard effect on murderers.
+         // Double standard effect on murderers.
          if Send(target,@CheckPlayerFlag,#flag = PFLAG_MURDERER)
          {
             return (hitroll + ((iPower*3)/2));
          }
 
-         % One and one half effect on outlaws.
+         // One and one half effect on outlaws.
          if Send(target,@CheckPlayerFlag,#flag = PFLAG_OUTLAW)
          {
             return (hitroll + iPower);
          }
       }
 
-      % Return normal hitroll
+      // Return normal hitroll
       return hitroll;
    }
 
@@ -174,14 +174,14 @@ messages:
          if Send(oPlayer,@AssessDamage,#what=self,
                #damage=Random(3,7),#report=False) = $
          {
-            % we killed someone off... heh heh heh
+            // we killed someone off... heh heh heh
             Send(Send(oPlayer,@GetOwner),@SomethingKilled,
                   #what=self,#victim=oPlayer);
             Send(oPlayer,@Killed,#what=oItem);
             Send(oItem,@Delete);
          }
 
-         %% this person is a murderer and may not wield it.
+         /// this person is a murderer and may not wield it.
          return FALSE;
       }
 
@@ -194,4 +194,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

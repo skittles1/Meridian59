@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 OrcPitBoss is Monster
 
 constants:
@@ -61,7 +61,7 @@ classvars:
    viLevel = 115
    viDifficulty = 7
    viVisionDistance = 30
-   % Attack range of 192, or 3 row/col.
+   // Attack range of 192, or 3 row/col.
    viAttackRange = 192
    viKarma = -90
    viDefault_behavior = \
@@ -100,7 +100,7 @@ messages:
       propagate;
    }
 
-   % Used for defense messages
+   // Used for defense messages
    GetParryAbility(stroke_obj=$)
    {
       if (stroke_obj <> $) and not Send(stroke_obj,@CanParry)
@@ -123,8 +123,8 @@ messages:
          pbFirstAttack = FALSE;
          if ptSecondAttack = $
          {
-            % This code executes the attack twice,
-            % but only does the animation once.
+            // This code executes the attack twice,
+            // but only does the animation once.
             ptSecondAttack = CreateTimer(self,@SecondAttackTimer,400);
          }
       }
@@ -161,7 +161,7 @@ messages:
 
    SendLookAnimation()
    {
-      %% Walk animation
+      /// Walk animation
       AddPacket(1,ANIMATE_CYCLE,4,ANIMSPEED_WALK,
                 2,FRAME_WALK_START,2,FRAME_WALK_END);
 
@@ -170,8 +170,8 @@ messages:
 
    SendMoveAnimation()
    {
-      % Make it look like OrcPitBoss is walking
-      % Cycle through "walking" bitmaps (groups 2-6) at 50 ms per frame
+      // Make it look like OrcPitBoss is walking
+      // Cycle through "walking" bitmaps (groups 2-6) at 50 ms per frame
       AddPacket(1,ANIMATE_CYCLE,4,ANIMSPEED_WALK,
                 2,FRAME_WALK_START,2,FRAME_WALK_END);
 
@@ -188,7 +188,7 @@ messages:
          return;
       }
 
-      % if no body animation.
+      // if no body animation.
       propagate;
    }
 
@@ -223,4 +223,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

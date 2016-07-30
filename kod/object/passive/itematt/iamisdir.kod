@@ -1,35 +1,35 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ItemAttMisdirection is ItemAttribute
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%   This item, when viewed, has the description of another item.  It also
-%   hides any true powers that the item has.
-%
-%   If an identify or reveal spell is cast on the item, then the truth 
-%   about the item is shown, in the form of the misdirection_desc.
-%
-%   Form is:
-%
-%      [IA_MISDIRECTION, tTimer, iFakeItemAttNum, iFakeItemAttData]
-%
-%      tTimer :: timer counting down until illusion vanishes on it's own.
-%      iFakeItemAttNum :: the IA_ that the item pretends to have, as listed in
-%      blakston.khd.
-%      iFakeItemAttData :: data needed by the fake itematt to complete it,
-%      such as the name of the guild hall it's supposedly defending, or
-%      'the princess' sword/the dukes' sword
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////
+//
+//   This item, when viewed, has the description of another item.  It also
+//   hides any true powers that the item has.
+//
+//   If an identify or reveal spell is cast on the item, then the truth 
+//   about the item is shown, in the form of the misdirection_desc.
+//
+//   Form is:
+//
+//      [IA_MISDIRECTION, tTimer, iFakeItemAttNum, iFakeItemAttData]
+//
+//      tTimer :: timer counting down until illusion vanishes on it's own.
+//      iFakeItemAttNum :: the IA_ that the item pretends to have, as listed in
+//      blakston.khd.
+//      iFakeItemAttData :: data needed by the fake itematt to complete it,
+//      such as the name of the guild hall it's supposedly defending, or
+//      'the princess' sword/the dukes' sword
+//
+///////////////////////////////////////////////////////////////////////
 
 constants:
 
@@ -61,8 +61,8 @@ messages:
 
    Constructor()
    {
-      %% Post this so it's done after all of the
-      %% item atts have been constructed by recreate.
+      /// Post this so it's done after all of the
+      /// item atts have been constructed by recreate.
       Post(self,@BuildFakeAttChoicesList);
 
       return;
@@ -137,7 +137,7 @@ messages:
          return;
       }
 
-      %% This returns $ if something does not need data.
+      /// This returns $ if something does not need data.
       iFakeAttData = Send(oItemAtt,@FakeAttData);
 
       if Send(self,@ReqAddToItem,#oItem=oItem)
@@ -165,7 +165,7 @@ messages:
    SetSecondaryState(state2=$)
    "This points to any data the ItemAtt needs for a complete illusion."
    {
-      %% this can have a nil state2 and still work.
+      /// this can have a nil state2 and still work.
 
        return state2;
    }
@@ -189,7 +189,7 @@ messages:
    {
       local oPlayer;
 
-      SetNth(lData,2,$);   %% timer is gone, now remove reference
+      SetNth(lData,2,$);   /// timer is gone, now remove reference
       
       oPlayer = Send(oItem,@GetOwner);
       if oPlayer <> $
@@ -204,7 +204,7 @@ messages:
       return;
    }
 
-   %  Name Functions
+   //  Name Functions
 
    ItemBuildDescName(oItem=$)
    {
@@ -212,9 +212,9 @@ messages:
 
       lData = Send(oItem,@GetAttributeData,#ItemAtt=viItem_Att_num);
 
-      iData = Nth(lData,2);      %% this is the IA_ of the faked attribute
-      iFakeData = Nth(lData,3);  %% this is excess data that might be needed
-                                 %% example: see weapattfaction
+      iData = Nth(lData,2);      /// this is the IA_ of the faked attribute
+      iFakeData = Nth(lData,3);  /// this is excess data that might be needed
+                                 /// example: see weapattfaction
 
       oItemAtt = Send(SYS,@FindItemAttByNum,#num=iData);
       Send(oItemAtt,@ItemBuildDescName,#oItem=oItem,#iFakeData=iFakeData);
@@ -228,4 +228,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

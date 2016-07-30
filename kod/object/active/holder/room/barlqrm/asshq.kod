@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////////////////
 AssassinHeadQuarters is BarloqueRoom
 
 constants:
@@ -112,7 +112,7 @@ messages:
       Send(self,@NewHold,#what=Create(&Assassin),#new_row=13,#new_col=20,#new_angle=ANGLE_NORTH_WEST);
       Send(self,@newhold,#what=Create(&AssassinSign),#new_row = 14,#new_col=21);
 
-      % Lighting - Torches
+      // Lighting - Torches
       send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,#iIntensity=30),
            #new_row=5,#new_col=14,#fine_row=0,#fine_col=16);
       send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,#iIntensity=30),
@@ -135,10 +135,10 @@ messages:
 
       plExits = Cons([ 12, 2, RID_BAR_SEWER, 22, 37, ROTATE_NONE ],plExits);
 
-      %plExits = Cons([ 54, 31, RID_I3, 7, 12, ROTATE_NONE ],plExits);
+      //plExits = Cons([ 54, 31, RID_I3, 7, 12, ROTATE_NONE ],plExits);
 
       return;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

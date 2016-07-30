@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 Necropolis1 is MonsterRoom
 
 constants:
@@ -70,7 +70,7 @@ messages:
    {
       plEdge_exits = $;
       plEdge_Exits = Cons([LEAVE_EAST, RID_NECROAREA2, 5, 2, ROTATE_NONE], plEdge_exits);
-%      plEdge_Exits = Cons([LEAVE_NORTH, RID_G8, 27, 49, ROTATE_NONE], plEdge_exits);
+//      plEdge_Exits = Cons([LEAVE_NORTH, RID_G8, 27, 49, ROTATE_NONE], plEdge_exits);
       plEdge_Exits = Cons([LEAVE_WEST, RID_G8, 27, 49, ROTATE_NONE], plEdge_exits);
 
       plExits = $;
@@ -90,4 +90,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

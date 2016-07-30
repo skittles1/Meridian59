@@ -1,19 +1,19 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 FeyNode is ManaNode
 
-% FeyNode has three properties that make it distinct:
-% 1) It gives twice as much mana
-% 2) Only people of matching karma can meld with it.
-% 3) When created, it strips everyone of opposing mana of their link
+// FeyNode has three properties that make it distinct:
+// 1) It gives twice as much mana
+// 2) Only people of matching karma can meld with it.
+// 3) When created, it strips everyone of opposing mana of their link
 
 constants:
 
@@ -23,7 +23,7 @@ constants:
    FEYNODE_EVIL = 2
    FEYNODE_DAMAGE = 10
 
-   % From superclass
+   // From superclass
    NODE_DEAD = 3
 
 resources:
@@ -66,45 +66,45 @@ messages:
          vrName = feynode_name_evil;
       }
 
-%      Send(self,@StripUsers);
+//      Send(self,@StripUsers);
 
       propagate;
    }
 
-%   StripUsers()
-%   {
-%      local lUsers, i;
-%
-%      lUsers = Send(SYS,@GetUsers);
-%      if piKarma = FEYNODE_GOOD
-%      {
-%         foreach i in lUsers
-%         {
-%            % If player is evil and has node, strip it.
-%            if (Send(i,@GetKarma) <= 0)
-%               AND (Send(i,@GetNodeList) & piNode_num)
-%            {
-%               Send(self,@UnMeld,#who=i);
-%               Send(i,@MsgSendUser,#message_rsc=feynode_stripped);
-%            }
-%         }
-%      }
-%      else
-%      {
-%         foreach i in lUsers
-%         {
-%            % If player is good and has node, strip it.
-%            if (Send(i,@GetKarma) > 0)
-%               AND (Send(i,@GetNodeList) & piNode_num)
-%            {
-%               Send(self,@UnMeld,#who=i);
-%               Send(i,@MsgSendUser,#message_rsc=feynode_stripped);
-%            }
-%         }
-%      }
-%
-%      return;
-%   }
+//   StripUsers()
+//   {
+//      local lUsers, i;
+//
+//      lUsers = Send(SYS,@GetUsers);
+//      if piKarma = FEYNODE_GOOD
+//      {
+//         foreach i in lUsers
+//         {
+//            // If player is evil and has node, strip it.
+//            if (Send(i,@GetKarma) <= 0)
+//               AND (Send(i,@GetNodeList) & piNode_num)
+//            {
+//               Send(self,@UnMeld,#who=i);
+//               Send(i,@MsgSendUser,#message_rsc=feynode_stripped);
+//            }
+//         }
+//      }
+//      else
+//      {
+//         foreach i in lUsers
+//         {
+//            // If player is good and has node, strip it.
+//            if (Send(i,@GetKarma) > 0)
+//               AND (Send(i,@GetNodeList) & piNode_num)
+//            {
+//               Send(self,@UnMeld,#who=i);
+//               Send(i,@MsgSendUser,#message_rsc=feynode_stripped);
+//            }
+//         }
+//      }
+//
+//      return;
+//   }
 
    TryActivate(who=$)
    "Return False only if you want user.kod to Send its own error message to "
@@ -135,7 +135,7 @@ messages:
 
    GetManaAdjust(who=$)
    {
-      % Twice the standard.
+      // Twice the standard.
       return (2*(((5 + Send(who,@GetMysticism)) / 10) + 3));
    }
 
@@ -157,10 +157,10 @@ messages:
    {
       if piState <> NODE_DEAD
       {
-         % Special case for an evil aligned node.
+         // Special case for an evil aligned node.
          if piKarma = FEYNODE_EVIL
          {
-            % Flags, intensity, and color.
+            // Flags, intensity, and color.
             AddPacket(2,LIGHT_FLAG_ON);
             AddPacket(1,100);
             AddPacket(2,LIGHT_SPECTRAL);
@@ -174,5 +174,5 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 

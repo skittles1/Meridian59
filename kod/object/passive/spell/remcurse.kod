@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 RemoveCurse is Spell
 
 constants:
@@ -69,7 +69,7 @@ messages:
    {
       local target, i;
       
-      % Can cast spell if the 1 target item is a user
+      // Can cast spell if the 1 target item is a user
       if Length(lTargets) <> 1
       {
          return FALSE;
@@ -84,7 +84,7 @@ messages:
          return FALSE;
       }
 
-      % Check if there's actually a cursed item on the player.
+      // Check if there's actually a cursed item on the player.
       if NOT Send(target,@IsCursedByItems)
       {
          Send(who,@MsgSendUser,#message_rsc=RemoveCurse_bad_target);
@@ -101,7 +101,7 @@ messages:
 
       oTarget = First(lTargets);
 
-      % Only give message and propagate if player has a cursed item to remove
+      // Only give message and propagate if player has a cursed item to remove
       if Send(oTarget,@RemoveCurseAllItems)
       {
          Send(oTarget,@MsgSendUser,#message_rsc=RemoveCurse_on);
@@ -124,4 +124,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

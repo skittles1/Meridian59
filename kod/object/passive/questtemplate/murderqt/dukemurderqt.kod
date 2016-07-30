@@ -1,27 +1,27 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 DukeMurderQuestTemplate is MurderQuestTemplate
-% Parent class for Duke murder mystery quests.
+// Parent class for Duke murder mystery quests.
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -31,7 +31,7 @@ resources:
 
    include dukemurderqt.lkod
 
-   % Quest description.
+   // Quest description.
    dukemurderqt_name_rsc = "Duke murder mystery quest"
    dukemurderqt_desc_rsc = \
       "Duke Akardius would like you to question people regarding the "
@@ -40,7 +40,7 @@ resources:
    dukemurderqt_completed_rsc = \
       "You have completed a Duke murder mystery quest."
 
-   % Quest resources.
+   // Quest resources.
    murder_duke_assign = \
       "The passing of my uncle weighs heavily upon my mind.  Night and "
       "day, I can think of nothing else!  I must see that someone pays for "
@@ -71,8 +71,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #187 is Duke's Murder Mystery quest kickoff, "murder"
-      % QNT_ID_DUKE_MURDER_ONE
+      // Template #187 is Duke's Murder Mystery quest kickoff, "murder"
+      // QNT_ID_DUKE_MURDER_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[ murder_trigger ],#bDuplicate=TRUE,
                #quest_node_index=QNT_ID_DUKE_MURDER_ONE)
@@ -90,8 +90,8 @@ messages:
          Debug("Error building QN: QNT_ID_DUKE_MURDER_ONE");
       }
 
-      % Template #188 is Duke's Murder Mystery quest, "deliver" the trigger.
-      % QNT_ID_DUKE_MURDER_TWO
+      // Template #188 is Duke's Murder Mystery quest, "deliver" the trigger.
+      // QNT_ID_DUKE_MURDER_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[ murder_trigger ],#timelimit=6 * 3600,
                #bDuplicate=TRUE,#quest_node_index=QNT_ID_DUKE_MURDER_TWO)
@@ -125,4 +125,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

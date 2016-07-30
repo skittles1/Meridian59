@@ -1,19 +1,19 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 MailingList is PassiveObject
 
-% This is an object that holds a list of people that should receive a mail.
-% For mail, populate the list of people and send the object to the client.
-% This will treat the object like a character object and call 'ReceiveMail'
-% It's a temporary thing, deleting itself after use.
+// This is an object that holds a list of people that should receive a mail.
+// For mail, populate the list of people and send the object to the client.
+// This will treat the object like a character object and call 'ReceiveMail'
+// It's a temporary thing, deleting itself after use.
 
 constants:
 
@@ -79,7 +79,7 @@ messages:
       
       foreach lPeopleInfo in plPeople
       {
-         % First element is the guild object.
+         // First element is the guild object.
          Send(lPeopleInfo,@ReceiveMail,#from=from,#dest_list=dest_list,
               #perm_string=perm_string);
       }
@@ -91,4 +91,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

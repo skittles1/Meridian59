@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 LoveLetterTwoQuest is LoveLetterQuestTemplate
-% Quest template QST_ID_LOVE_LETTER_2 = 43.
-% Quest nodes 137, 138.
-% QNT_ID_LOVE_LETTERTWO_ONE, QNT_ID_LOVE_LETTERTWO_TWO
+// Quest template QST_ID_LOVE_LETTER_2 = 43.
+// Quest nodes 137, 138.
+// QNT_ID_LOVE_LETTERTWO_ONE, QNT_ID_LOVE_LETTERTWO_TWO
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -33,7 +33,7 @@ resources:
 
    include lovelettertwoqt.lkod
 
-   % Quest description.
+   // Quest description.
    lovelettertwoquest_name_rsc = "Madelia's love letter quest"
    lovelettertwoquest_desc_rsc = \
       "Madelia has asked you to deliver a letter to her lover."
@@ -44,7 +44,7 @@ resources:
    lovelettertwoquest_completed_rsc = \
       "You have delivered a love letter for Madelia."
 
-   % Quest resources.
+   // Quest resources.
    love_letter_2_assign = \
       "Yes, actually, I have a missive in need of delivery.  If thou "
       "wouldst give this letter to %NPC I would be most grateful."
@@ -60,7 +60,7 @@ classvars:
    vrDeliver = lovelettertwoquest_deliver_rsc
    vrCompleted = lovelettertwoquest_completed_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_LOVE_LETTER_2
 
 properties:
@@ -69,11 +69,11 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_LOVE_LETTERTWO_ONE,
                       QNT_ID_LOVE_LETTERTWO_TWO];
 
-      % Quest nodes with matching descriptions for the player.
+      // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_LOVE_LETTERTWO_TWO, vrDeliver] ];
 
       propagate;
@@ -86,8 +86,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #137 is love letter quest 2
-      % QNT_ID_LOVE_LETTERTWO_ONE
+      // Template #137 is love letter quest 2
+      // QNT_ID_LOVE_LETTERTWO_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[ letter_trigger ],
                #quest_node_index=QNT_ID_LOVE_LETTERTWO_ONE)
@@ -105,8 +105,8 @@ messages:
          Debug("Error building QN: QNT_ID_LOVE_LETTERTWO_ONE");
       }
 
-      % Template #138 is love letter quest 2
-      % QNT_ID_LOVE_LETTERTWO_TWO
+      // Template #138 is love letter quest 2
+      // QNT_ID_LOVE_LETTERTWO_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_ITEM,
                #cargolist=[ [ QN_PRIZETYPE_ITEMCLASS, &LoveLetter, 1 ] ],
                #prizelist=[ [ [ QN_PRIZETYPE_ITEMCLASS, &Money, 500 ],
@@ -170,4 +170,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

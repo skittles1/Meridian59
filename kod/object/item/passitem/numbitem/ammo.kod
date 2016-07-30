@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Ammo is NumberItem
 
 constants:
@@ -19,8 +19,8 @@ resources:
    include ammo.lkod
 
    ammo_name_rsc = "ammunition"
-   % Generic default image.  Something strange so it is visually obvious if
-   %  we didn't set something.
+   // Generic default image.  Something strange so it is visually obvious if
+   //  we didn't set something.
    ammo_icon_rsc = fireball.bgf
    ammo_desc_rsc = "This is a bit of ammunition for something or other.."
 
@@ -88,7 +88,7 @@ messages:
 
    GetProjectileLightFlags()
    {
-      % No lighting information.
+      // No lighting information.
       return LIGHT_FLAG_NONE;
    }
 
@@ -122,9 +122,9 @@ messages:
       return 0;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Magic Arrow Stuff          %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////
+// Magic Arrow Stuff          //
+///////////////////////////////
 
    GetAttackSpell()
    {
@@ -176,4 +176,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 BonkStick is Wand
 
 constants:
@@ -74,7 +74,7 @@ messages:
          return FALSE;
       }
 
-      % Using it on yourself is a cheap way to eliminate blindness.
+      // Using it on yourself is a cheap way to eliminate blindness.
       if apply_on = poOwner
       {
          Send(poOwner,@MsgSendUser,#message_rsc=bonkstick_not_self);
@@ -103,9 +103,9 @@ messages:
 
    CombineSpellItems()
    {
-      % Don't combine bonksticks.
+      // Don't combine bonksticks.
       return;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

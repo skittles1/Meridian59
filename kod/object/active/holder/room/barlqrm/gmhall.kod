@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 GMHall is BarloqueRoom
 
 constants:
@@ -60,7 +60,7 @@ messages:
    {
       plExits = $;
 
-  %% TO TOWN
+  /// TO TOWN
       plExits = Cons([ 19, 6, RID_BAR_SOUTH, 34, 20, ROTATE_NONE ],plExits);
       plExits = Cons([ 19, 7, RID_BAR_SOUTH, 34, 21, ROTATE_NONE ],plExits);
 
@@ -71,13 +71,13 @@ CreateStandardObjects()
    {
      local oNews;
 
-%%%%%%%%%% guild creator
+/////////// guild creator
 
       poMaster = Create(&GuildCreator);
       Send(self,@NewHold,#what=poMaster,
            #new_row=5,#new_col=7,#fine_row=0,#fine_col=0,#new_angle=ANGLE_SOUTH);
 
-%%%%%%%%%% charter newsball & guild war book
+/////////// charter newsball & guild war book
 
       oNews = send(SYS,@FindNewsByNum,#num=NID_GUILD_CHARTER);
       if oNews = $
@@ -97,7 +97,7 @@ CreateStandardObjects()
       Send(self,@NewHold,#what=poBook,
            #new_row=4,#new_col=1,#fine_row=0,#fine_col=31,#new_angle=ANGLE_SOUTH_EAST);
 
-%%%%%%%%%%  some braziers
+///////////  some braziers
 
       Send(self,@NewHold,#what=Create(&Brazier),
            #new_row=3,#new_col=3,#fine_row=40,#fine_col=0);
@@ -140,4 +140,4 @@ CreateStandardObjects()
    }
    
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

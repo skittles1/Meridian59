@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 CreateWeapon is Spell
 
 constants:
@@ -105,7 +105,7 @@ messages:
       if(isWeaponCreateable = true)
       {
          Send(who,@BreakTrance,#event=EVENT_STEER);
-         % Weapon has half its hits, + iSpellPower% of the other half.
+         // Weapon has half its hits, + iSpellPower// of the other half.
          Send(oWeapon,@SetHits,#number=(Send(oWeapon,@GetHits)*(iSpellPower+100))/200);
 
          if Send(who,@ReqNewHold,#what=oWeapon)
@@ -174,7 +174,7 @@ messages:
    {
       local oWeapon,iNum, oItemAtt;
 
-      % Keep the bottom end a bit low because the player might want a lower weapon.
+      // Keep the bottom end a bit low because the player might want a lower weapon.
       iNum = Random(iSpellPower/3,iSpellPower);
 
       if iNum < 20
@@ -221,7 +221,7 @@ messages:
          }
       }
 
-      % Weapon has half its hits, + iSpellPower% of the other half.
+      // Weapon has half its hits, + iSpellPower// of the other half.
       Send(oWeapon,@SetHits,#number=(Send(oWeapon,@GetHits)*(iSpellPower+100))/200);
 
       if Send(who,@ReqNewHold,#what=oWeapon)
@@ -251,11 +251,11 @@ messages:
    {
       local iDuration;
 
-      iDuration = iSpellpower * 2; %%In minutes
+      iDuration = iSpellpower * 2; ///In minutes
       iDuration = iDuration * 60 * 1000;
 
       return iDuration;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

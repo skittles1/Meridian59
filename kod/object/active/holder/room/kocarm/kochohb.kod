@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 KocatanHallB is KocatanRoom
 
 constants:
@@ -108,7 +108,7 @@ messages:
 
       plExits = Cons([ 9, 5, ROOM_LOCKED_DOOR ],plExits);
 
-      % To main hall
+      // To main hall
       plExits = Cons([ 2, 5, RID_KOC_HALL_OF_HEROES, 3, 12, ROTATE_NONE ],plExits);
       plExits = Cons([ 3, 5, RID_KOC_HALL_OF_HEROES, 3, 12, ROTATE_NONE ],plExits);
 
@@ -135,4 +135,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

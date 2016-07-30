@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Marion is MarionRoom
 
 constants:
 
    include blakston.khd
 
-   % a special tree
+   // a special tree
 
    TREE_ROW = 45
    TREE_COL = 7
@@ -212,7 +212,7 @@ messages:
       Send(self,@NewHold,#what=Create(&Brazier),
            #new_row=82,#new_col=10,#fine_row=32,#fine_col=32);
 
-      % Lighting - Under the Mimosa tree
+      // Lighting - Under the Mimosa tree
 
       Send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_BWHITE,#iIntensity=5),
            #new_row=45,#new_col=7,#fine_row=32,#fine_col=32);
@@ -252,11 +252,11 @@ messages:
 
    CreatePeriodicSounds()
    {
-      % Add the wind sound to the possible periodic sounds.
+      // Add the wind sound to the possible periodic sounds.
       plPeriodic_sounds = [ wind_sound_marion ];
 
       propagate;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

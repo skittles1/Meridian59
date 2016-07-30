@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 OutdoorsG9 is MonsterRoom
 
 constants:
@@ -46,18 +46,18 @@ constants:
    SECTOR_CUBBYHOLES_DN = 214
    SECTOR_CUBBYHOLES_UP = 314
 
-   SPIRE_OFF = 9750        % texture ID to indicate lighting state
+   SPIRE_OFF = 9750        // texture ID to indicate lighting state
    SPIRE_ON = 9753
 
    G9_UP_SPEED = 15
    G9_DN_SPEED = 15
 
-   % 2 minutes (time the puzzle stays solved before resetting)
+   // 2 minutes (time the puzzle stays solved before resetting)
    LIGHTNING_TIMELIMIT = 1000 * 60 * 2
-   % 5 minutes (once touched, time the puzzle stays that way before resetting)
+   // 5 minutes (once touched, time the puzzle stays that way before resetting)
    LIGHTNING_TOUCHEDTIMELIMIT = 1000 * 60 * 5
 
-   % 2 seconds
+   // 2 seconds
    LEVER_REACTIVATE_DELAY = 1000 * 1      
 
 resources:
@@ -143,7 +143,7 @@ properties:
    piInit_count_min = 2
    piInit_count_max = 9
 
-   piMonster_count_max = 6 % temporarily reduced from 12
+   piMonster_count_max = 6 // temporarily reduced from 12
 
    poPlatform = $
    poLedgeN = $
@@ -474,52 +474,52 @@ messages:
       return;
    }
 
-%%%%%%%%%%%%%%%%
-% Previously, columns would only stay lit as long as a lightning element was present there.
-%     this is probably too difficult, so I've removed that.
-%     if this code goes back in, note one subtlety:  if column goes down, then the lightning element goes
-%     away, the column stays lit!  bug?  trick to completing the puzzle?  hmmm....
-%%%%%%%%%%%%%%%%
-%
-%   LeaveHold(what=$)
-%   {
-%      local old_row, old_col;
-%      if (what=$) { propagate; }
-%      if isClass(what,&WallofLightning)
-%      {
-%         old_row = Send(what,@GetRow);
-%         old_col = Send(what,@GetCol);
-%         if ((old_row = NW_ROW) and (old_col = NW_COL))
-%         {
-%            if pbNWLit
-%            {
-%               Send(self,@ToggleNWLight);
-%            }
-%         }
-%         if ((old_row = SW_ROW) and (old_col = SW_COL))
-%         {
-%            if pbSWLit
-%            {
-%               Send(self,@ToggleSWLight);
-%            }
-%         }
-%         if ((old_row = SE_ROW) and (old_col = SE_COL))
-%         {
-%            if pbSELit
-%            {
-%               Send(self,@ToggleSELight);
-%            }
-%         }
-%         if ((old_row = NE_ROW) and (old_col = NE_COL))
-%         {
-%            if pbNELit
-%            {
-%               Send(self,@ToggleNELight);
-%            }
-%         }
-%      }
-%      propagate;
-%   }
+/////////////////
+// Previously, columns would only stay lit as long as a lightning element was present there.
+//     this is probably too difficult, so I've removed that.
+//     if this code goes back in, note one subtlety:  if column goes down, then the lightning element goes
+//     away, the column stays lit!  bug?  trick to completing the puzzle?  hmmm....
+/////////////////
+//
+//   LeaveHold(what=$)
+//   {
+//      local old_row, old_col;
+//      if (what=$) { propagate; }
+//      if isClass(what,&WallofLightning)
+//      {
+//         old_row = Send(what,@GetRow);
+//         old_col = Send(what,@GetCol);
+//         if ((old_row = NW_ROW) and (old_col = NW_COL))
+//         {
+//            if pbNWLit
+//            {
+//               Send(self,@ToggleNWLight);
+//            }
+//         }
+//         if ((old_row = SW_ROW) and (old_col = SW_COL))
+//         {
+//            if pbSWLit
+//            {
+//               Send(self,@ToggleSWLight);
+//            }
+//         }
+//         if ((old_row = SE_ROW) and (old_col = SE_COL))
+//         {
+//            if pbSELit
+//            {
+//               Send(self,@ToggleSELight);
+//            }
+//         }
+//         if ((old_row = NE_ROW) and (old_col = NE_COL))
+//         {
+//            if pbNELit
+//            {
+//               Send(self,@ToggleNELight);
+//            }
+//         }
+//      }
+//      propagate;
+//   }
 
    ResetLightningPuzzle()
    {
@@ -558,7 +558,7 @@ messages:
       Send(poPlatform,@MoveDown);
       Send(poLedgeN,@MoveUp);
       
-	  % South ledge no longer moves, as levers activated here - players need time to jump
+	  // South ledge no longer moves, as levers activated here - players need time to jump
 	  
       if ptReactivateLevers <> $
       {
@@ -619,7 +619,7 @@ messages:
 
       Send(poPlatform,@MoveUp);
       Send(poLedgeN,@MoveDown);
-	  % South ledge no longer moves, as levers activated here - players need time to jump
+	  // South ledge no longer moves, as levers activated here - players need time to jump
 	  
 	  foreach i in plNec_Area
       {
@@ -640,7 +640,7 @@ messages:
       
       Send(self,@GenerateSkellies);
 
-      % 1 out of 100 chance to randomize the levers after the puzzle is solved.
+      // 1 out of 100 chance to randomize the levers after the puzzle is solved.
       if random(1,100) = 1
       {
          Send(self,@RandomizeLeverEffects);
@@ -653,14 +653,14 @@ messages:
    "Admin supported"
    {
       local numSkellies, oSkelly, iSkellyLocation;
-      % first count how many are already here
+      // first count how many are already here
       numSkellies = (Send(self,@CouNtholdingHowMany,#class=&Skeleton)
                     + Send(self,@CouNtholdingHowMany,#class=&BatteredSkeleton));
 
-      % now allow us 6 holdovers
+      // now allow us 6 holdovers
       numSkellies = numSkellies - 6;
 
-      % then decide how many new ones to gen
+      // then decide how many new ones to gen
       if numSkellies <> $ and numSkellies > 0
       {
          numSkellies = 12 - numSkellies;
@@ -857,15 +857,15 @@ messages:
                   Send(self,@ToggleNELight);
                }
 
-               % toggle the position of the spire after it in the list.
+               // toggle the position of the spire after it in the list.
                i = Nth(plLeverEffects1,((FindListElem(plOuterLevers1,oLever) mod 4) + 1));
                Send(Nth(plOuterSpires,i),@Toggle,#toggleback=FALSE);
 
-               % toggle the position of the spire before it in the list.
+               // toggle the position of the spire before it in the list.
                i = Nth(plLeverEffects1,(((FindListElem(plOuterLevers1,oLever) - 2) mod 4) + 1));
                Send(Nth(plOuterSpires,i),@Toggle,#toggleback=FALSE);
 
-               % toggle the position of the spire before that in the list.
+               // toggle the position of the spire before that in the list.
                i = Nth(plLeverEffects1,(((FindListElem(plOuterLevers1,oLever) - 3) mod 4) + 1));
                Send(Nth(plOuterSpires,i),@Toggle,#toggleback=FALSE);
 
@@ -1065,17 +1065,17 @@ messages:
       propagate;
    }
 
-   % Override the snow messages here, too many different
-   % sector IDs in this zone.
+   // Override the snow messages here, too many different
+   // sector IDs in this zone.
    StartSnow(bOnGround=TRUE)
    {
-      % Check if we can have weather effects here.
+      // Check if we can have weather effects here.
       if NOT pbWeatherEffects
       {
          return;
       }
 
-      % If there's a sandstorm weather effect here, clear it.
+      // If there's a sandstorm weather effect here, clear it.
       if Send(self,@CheckRoomFlag,#flag=ROOM_SANDSTORM)
       {
          Send(self,@EndSandstorm);
@@ -1085,9 +1085,9 @@ messages:
       {
          if pbSnowGroundTexture
          {
-            % Add snow to floor.
+            // Add snow to floor.
             Send(self,@ChangeTexture,#id=0,#new_texture=61015,#flags=CTF_FLOOR);
-            % Add darker snow to small vertical ledges.
+            // Add darker snow to small vertical ledges.
             Send(self,@ChangeTexture,#id=15,#new_texture=61016,
                   #flags=CTF_BELOWWALL);
          }
@@ -1112,15 +1112,15 @@ messages:
       if pbSnowGroundTexture
          OR override
       {
-         % Remove snow from floor.
+         // Remove snow from floor.
          Send(self,@RemoveTextureChange,#id=0);
-         % Remove from small vertical ledges.
+         // Remove from small vertical ledges.
          Send(self,@RemoveTextureChange,#id=15);
-         % Remove snow from paths.
+         // Remove snow from paths.
       }
 
       return;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

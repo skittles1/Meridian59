@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 FireWall is WallSpell
 
 constants:
@@ -84,7 +84,7 @@ messages:
       iDuration = (iSpellPower * 2) + 30;
       iDuration = Bound(iDuration,30,180);
 
-      % Facing East
+      // Facing East
       if iAngle >= ANGLE_ENE OR iAngle < ANGLE_ESE
       {
          iRow = Send(who,@GetRow) - 2;
@@ -93,7 +93,7 @@ messages:
          iyStep = 1;
       }
 
-      % Facing SouthEast
+      // Facing SouthEast
       if iAngle >= ANGLE_ESE AND iAngle < ANGLE_SSE
       {
          iRow = Send(who,@GetRow) - 1;
@@ -102,7 +102,7 @@ messages:
          iyStep = 1;
       }
 
-      % Facing South
+      // Facing South
       if iAngle >= ANGLE_SSE AND iAngle < ANGLE_SSW
       {
          iRow = Send(who,@GetRow) + 1;
@@ -111,7 +111,7 @@ messages:
          iyStep = 0;
       }
 
-      % Facing SouthWest
+      // Facing SouthWest
       if iAngle >= ANGLE_SSW AND iAngle < ANGLE_WSW
       {
          iRow = Send(who,@GetRow) + 3;
@@ -120,7 +120,7 @@ messages:
          iyStep = -1;
       }
 
-      % Facing West
+      // Facing West
       if iAngle >= ANGLE_WSW AND iAngle < ANGLE_WNW
       {
          iRow = Send(who,@GetRow) - 2;
@@ -129,7 +129,7 @@ messages:
          iYStep = 1;
       }
 
-      % Facing NorthWest
+      // Facing NorthWest
       if iAngle >= ANGLE_WNW AND iAngle < ANGLE_NNW
       {
          iRow = Send(who,@GetRow) + 1;
@@ -138,7 +138,7 @@ messages:
          iyStep = -1;
       }
 
-      % Facing North
+      // Facing North
       if iAngle >= ANGLE_NNW AND iAngle < ANGLE_NNE
       {
          iRow = Send(who,@GetRow) - 1;
@@ -147,7 +147,7 @@ messages:
          iyStep = 0;
       }
 
-      % Facing NorthEast
+      // Facing NorthEast
       if iAngle >= ANGLE_NNE AND iAngle < ANGLE_ENE
       {
          iRow = Send(who,@GetRow) - 3;
@@ -276,4 +276,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
