@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////////////////////////////////////////////////////////////
 GuildHall14 is GuildHall
 
 constants:
@@ -164,7 +164,7 @@ classvars:
    vrEntrancedoor_open_sound = guildh14_entrancedoor_open_sound
    vrEntrancedoor_close_sound = guildh14_entrancedoor_close_sound
 
-   % not actually used for the secret door here
+   // not actually used for the secret door here
    vrSecretdoor_open_sound = guildh14_lift_up_sound
    vrSecretdoor_close_sound = guildh14_lift_down_sound
 
@@ -184,7 +184,7 @@ properties:
    ptLiftOne = $
    ptLiftTwo = $
 
-   % This hall is a special case - it gets music.
+   // This hall is a special case - it gets music.
    prMusic = guildh14_music
 
 messages:
@@ -193,8 +193,8 @@ messages:
    {
       plGuild_doors = [ [3,28],[2,25],[3,25] ];
 
-      % This is a box containing the guild door, used
-      % for removing players from it when it closes.
+      // This is a box containing the guild door, used
+      // for removing players from it when it closes.
       plEntrance = [ 400, 450, 2800, 2900 ];
 
       propagate;
@@ -478,8 +478,8 @@ messages:
             #height=MAIN_DOOR_CLOSED,#speed=50);
        Send(self,@CloseEntranceDoorSound);
 
-      % We now propagate this to handle removing players from the door,
-      % and so the door can still be entered while it is closing.
+      // We now propagate this to handle removing players from the door,
+      // and so the door can still be entered while it is closing.
       propagate;
    }
 
@@ -621,4 +621,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

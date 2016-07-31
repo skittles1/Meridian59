@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Moon is PassiveObject
 
 constants:
@@ -52,8 +52,8 @@ messages:
       iHour = Send(SYS,@GetHour);
       iDay = Send(SYS,@GetDay);
 
-      % east = 0, west = 2048
-      piAngle = ((iHour + 5) MOD 24) * 130 + 200 * (iDay MOD 20);
+      // east = 0, west = 2048
+      piAngle = ((iHour + 5) % 24) * 130 + 200 * (iDay % 20);
       if (piAngle >= 4096)
       {
          piAngle = piAngle - 4096;
@@ -97,4 +97,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

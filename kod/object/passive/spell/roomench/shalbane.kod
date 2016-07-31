@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ShalilleBane is RoomEnchantment
 
 constants:
@@ -100,7 +100,7 @@ messages:
         return;
       }
 
-      % global effects of the enchantment
+      // global effects of the enchantment
       Send(oRoom,@SomeoneSaid,#type=SAY_MESSAGE,#string=ShalilleBane_on,#what=self);
       Send(oRoom,@RoomStartEnchantment,#what=self,#state=[iSpellPower,who],
             #time=send(self,@GetDuration,#iSpellPower=iSpellPower));
@@ -112,8 +112,8 @@ messages:
    {
       local iDuration;
 
-      iDuration = 45 + (iSpellPower*3);  %% 30 - 228 seconds
-      iDuration = iDuration * 1000;      %% convert to seconds
+      iDuration = 45 + (iSpellPower*3);  /// 30 - 228 seconds
+      iDuration = iDuration * 1000;      /// convert to seconds
 
       return Random(iDuration/2,iDuration);
    }
@@ -137,9 +137,9 @@ messages:
 
    ComputeDamage(iSpellPower=$,iLevel=1)
    {
-      % Conceptually: ((iSpellPower/15) * (iLevel/2) * Random(8,12))/10
+      // Conceptually: ((iSpellPower/15) * (iLevel/2) * Random(8,12))/10
       return (iSpellPower * iLevel * Random(8,12))/300;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

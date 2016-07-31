@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 MarionBartender is MarionTown
 
 constants:
@@ -83,17 +83,17 @@ messages:
    {
       local i, TargetObj;
 
-      %% First off, if it's not alcohol, who cares?
+      /// First off, if it's not alcohol, who cares?
       if NOT IsClass(obj,&Food) OR NOT Send(obj,@IsAlcohol)
       {
          propagate;
       }
 
-      %% We have to be sure we delete the mug here.   Remember,
-      %% obj is a mirror of the real object.  We have to check to
-      %% be sure the player has the object, and if not, we have
-      %% to remove this amount from the player's inventory.
-      %% Number items suck.
+      /// We have to be sure we delete the mug here.   Remember,
+      /// obj is a mirror of the real object.  We have to check to
+      /// be sure the player has the object, and if not, we have
+      /// to remove this amount from the player's inventory.
+      /// Number items suck.
 
       TargetObj = $;
       foreach i in Send(who,@GetHolderPassive)
@@ -200,4 +200,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

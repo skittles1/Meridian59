@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 DefModSpellProc is DefModObjectAttribute 
 
 constants:
@@ -324,9 +324,9 @@ messages:
                   #iSpellPower=piSpellPower,#bItemCast=TRUE);
          }
 
-         % IsEnchanted check skipped so that the proc can replace enemy
-         % buffs with weaker versions. For example, a Qor player may wish
-         % to proc a weaker Eagle Eyes on an enemy that is hitting them.
+         // IsEnchanted check skipped so that the proc can replace enemy
+         // buffs with weaker versions. For example, a Qor player may wish
+         // to proc a weaker Eagle Eyes on an enemy that is hitting them.
          if piType = ATTACKER_CAST_TYPE
             AND what <> $
             AND IsClass(what,&Player)
@@ -407,4 +407,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

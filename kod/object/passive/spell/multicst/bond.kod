@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Bond is MultiCastSpell
 
 constants:
@@ -62,16 +62,16 @@ classvars:
    viCast_time = 20000
    viChance_To_Increase = 66
 
-   % Drain is amount used every viDrainTime milliseconds
+   // Drain is amount used every viDrainTime milliseconds
    viManaDrain = 1
    viDrainTime = 1000
 
-   % In ms.
+   // In ms.
    viCast_time = 0
 
 properties:
 
-   % 10 minutes for worst case, 2.3 mins for best case.
+   // 10 minutes for worst case, 2.3 mins for best case.
    viMultiCast_Spellpower = 6000
 
    pbAccessible = FALSE
@@ -140,11 +140,11 @@ messages:
       local oOwner, oCaster;
       oOwner = Send(First(lTargets),@GetOwner);
 
-      % The Bond infrastructure was left in, in case we want to use it for
-      % something else.  This is the trigger call.
-      %Send(oOwner,@BondItem,#what=First(lTargets));
+      // The Bond infrastructure was left in, in case we want to use it for
+      // something else.  This is the trigger call.
+      //Send(oOwner,@BondItem,#what=First(lTargets));
 
-      % So instead of bonding, we are going to make the item transcendent.
+      // So instead of bonding, we are going to make the item transcendent.
 
       Send(Send(SYS,@FindItemAttByNum,#Num=IA_TRANSCENDANT),@AddToItem,
            #oItem=First(lTargets));
@@ -163,9 +163,9 @@ messages:
       return 1;
    }
 
-   % This message is not used any more.  But since it is part of the whole
-   % bond infrastructre I'm leaving it for now.
-   % It should eventually be moved somewhere better.
+   // This message is not used any more.  But since it is part of the whole
+   // bond infrastructre I'm leaving it for now.
+   // It should eventually be moved somewhere better.
    BondedItemReport(BondedItem=$,BondedPlayer=$,BondedItemOwner=$)
    {
       if BondedPlayer = $
@@ -183,7 +183,7 @@ messages:
          return;
       }
 
-      % Check if the item is in its owner's inventory.
+      // Check if the item is in its owner's inventory.
       if Send(BondedPlayer,@IsHolding,#what=BondedItem)
       {
          return;
@@ -247,4 +247,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

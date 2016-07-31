@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Bank is PassiveObject
 
 constants:
@@ -19,10 +19,10 @@ classvars:
 
 properties:
 
-   piBank			% bank ID (BID)
+   piBank			// bank ID (BID)
 
-   % each element of this list is a list, containing
-   % user object id, amount.
+   // each element of this list is a list, containing
+   // user object id, amount.
    plAccounts = $
 
 messages:
@@ -57,7 +57,7 @@ messages:
    {
       local i;
 
-      % if already have account, add to it.
+      // if already have account, add to it.
       foreach i in plAccounts
       {
          if First(i) = what
@@ -67,7 +67,7 @@ messages:
          }
       }
 
-      % otherwise create account
+      // otherwise create account
       plAccounts = Cons([what, amount],plAccounts);
 
       return;
@@ -78,7 +78,7 @@ messages:
    {
       local i,iCurrent;
 
-      % if already have account, subtract from it.
+      // if already have account, subtract from it.
       foreach i in plAccounts
       {
          if First(i) = what
@@ -86,7 +86,7 @@ messages:
             iCurrent = Nth(i,2);
             if amount = $ or (amount >= iCurrent)
             {
-               % withdraw all
+               // withdraw all
                plAccounts = DelListElem(plAccounts,i);
                return iCurrent;
             }
@@ -152,7 +152,7 @@ messages:
       max = -1;
       best = $;
 
-      % Find the highest account that isn't listed in except.
+      // Find the highest account that isn't listed in except.
 
       foreach i in plAccounts
       {
@@ -190,4 +190,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

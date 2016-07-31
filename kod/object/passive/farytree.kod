@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 FeyTree is PassiveObject
 
 constants:
@@ -137,27 +137,27 @@ messages:
       if piKarma_state = KVERY_GOOD
          OR piKarma_state = KGOOD
       {
-         % Add lighting information if we're at one of the top two levels.
+         // Add lighting information if we're at one of the top two levels.
          AddPacket(2,(LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC));
-         % intensity out of 255
+         // intensity out of 255
          if piKarma_state = KVERY_GOOD
          {
-            % The tree is KVERY_GOOD, make it bright!
+            // The tree is KVERY_GOOD, make it bright!
             iIntensity = 80;
          }
          else
          {
-            % Only KGOOD, make it dimmer.
+            // Only KGOOD, make it dimmer.
             iIntensity = 30;
          }
 
          AddPacket(1,iIntensity);
-         % White color
+         // White color
          AddPacket(2,LIGHT_WHITE);
       }
       else
       {
-         % No lighting
+         // No lighting
          AddPacket(2,0);
       }
 
@@ -166,4 +166,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

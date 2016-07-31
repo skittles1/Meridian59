@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 OutdoorsKA5 is KCForest
 
 constants:
@@ -56,7 +56,7 @@ properties:
 
 messages:
 
-   % ENTRY POINT IN RID_KOC_GUARDTOWER_EAST is (3, 40)
+   // ENTRY POINT IN RID_KOC_GUARDTOWER_EAST is (3, 40)
 
    Constructed()
    {
@@ -68,7 +68,7 @@ messages:
 
    CreateJungleItemCoords()
    {
-      %% do not propagate
+      /// do not propagate
       plItem_coords = [ [&RainbowFern,13,51], [&RainbowFern,12,5], [&RainbowFern,25,42],
                         [&FireSand,46,31], [&FireSand,49,28]
                       ];
@@ -126,4 +126,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

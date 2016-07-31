@@ -1,33 +1,33 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 WeaponAttribute is ItemAttribute 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  Weapon Attributes, added 5 March 97 by Damion Schubert
-%
-%   The difference between a weapon attribute and an item attribute is simply
-%   that these are affects that only affect weapons, and attempting to bind
-%   them to a non-weapon will fail.  Examples include:
-%      * Changing the attack type
-%      * Poisoned weapons
-%      * Splintering Weapons
-%   Note also that many Weapon Attributes affect hit percentages and damage
-%   amounts.  This, in fact, is a common usage of Weapon Attributes.  However,
-%   this is more rare for item attributes.  If an item modifies damage or
-%   hit percentage, that item needs to be added to the player's AttMod list.
-%   Weapons do not.
-%
-%   See item.kod for notes on implementation and structure used for ItemAtts
-%   on a per item basis.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
+//  Weapon Attributes, added 5 March 97 by Damion Schubert
+//
+//   The difference between a weapon attribute and an item attribute is simply
+//   that these are affects that only affect weapons, and attempting to bind
+//   them to a non-weapon will fail.  Examples include:
+//      * Changing the attack type
+//      * Poisoned weapons
+//      * Splintering Weapons
+//   Note also that many Weapon Attributes affect hit percentages and damage
+//   amounts.  This, in fact, is a common usage of Weapon Attributes.  However,
+//   this is more rare for item attributes.  If an item modifies damage or
+//   hit percentage, that item needs to be added to the player's AttMod list.
+//   Weapons do not.
+//
+//   See item.kod for notes on implementation and structure used for ItemAtts
+//   on a per item basis.
+////////////////////////////////////////////////////////////////////////////////
 
 constants:
 
@@ -50,7 +50,7 @@ resources:
 
 classvars:
 
-   % If TRUE, add the weaponatt power to description.
+   // If TRUE, add the weaponatt power to description.
    vbPowerDesc = FALSE
    viDamage_bonus = 0
 
@@ -60,12 +60,12 @@ messages:
 
    SetItemsToAttribute()
    {
-      % This is used by the weapon attribute when trestype decides
-      %  to apply this weapatt to a weapon.  The number given is a 
-      %  very approximate percentage of the chance that that particular
-      %  weapon will be the one created.  This will be modified by 
-      %  other factors, so that higher level characters are more likely
-      %  to get better stuff.
+      // This is used by the weapon attribute when trestype decides
+      //  to apply this weapatt to a weapon.  The number given is a 
+      //  very approximate percentage of the chance that that particular
+      //  weapon will be the one created.  This will be modified by 
+      //  other factors, so that higher level characters are more likely
+      //  to get better stuff.
 
       plItems_to_attribute = [ [ &Mace, 25 ],
                                [ &ShortSword, 25 ],
@@ -78,11 +78,11 @@ messages:
       return;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Weapon Power
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Weapon Power
+///
+////////////////////////////////////////////////
 
    InitialWeaponPower(oItem=$)
    {
@@ -93,26 +93,26 @@ messages:
          Debug("Called InitialWeaponPower with bad oItem!");
       }
 
-      % This determines how good certain weapon attributes are.
-      % For example, both guildhall and factions swords can have
-      % weapons of different strengths.  The standard weapons power
-      % table is as follows:
-      %
-      %  Power    +to-hit    +damage    description   rarity (from 100)
-      %    0        50          0        slight         19%
-      %    1         0          1        small          17%
-      %    2       100          0        swift          15%
-      %    3        50          1        moderate       13%
-      %    4         0          2        damaging       11%          
-      %    5       100          1        good            9%
-      %    6        50          2        potent          7%
-      %    7       150          0        severe          5%
-      %    8       100          2        enormous        3%
-      %    9         0          3        crushing        1%
+      // This determines how good certain weapon attributes are.
+      // For example, both guildhall and factions swords can have
+      // weapons of different strengths.  The standard weapons power
+      // table is as follows:
+      //
+      //  Power    +to-hit    +damage    description   rarity (from 100)
+      //    0        50          0        slight         19//
+      //    1         0          1        small          17//
+      //    2       100          0        swift          15//
+      //    3        50          1        moderate       13//
+      //    4         0          2        damaging       11//          
+      //    5       100          1        good            9//
+      //    6        50          2        potent          7//
+      //    7       150          0        severe          5//
+      //    8       100          2        enormous        3//
+      //    9         0          3        crushing        1//
 
-      % roll numbers:  each weapon gets iRoll_number rolls, and takes 
-      % the highest one.  Result: better maces and short swords floating
-      % around.
+      // roll numbers:  each weapon gets iRoll_number rolls, and takes 
+      // the highest one.  Result: better maces and short swords floating
+      // around.
 
       iRoll_number = 1;
       
@@ -137,16 +137,16 @@ messages:
          iRoll_number = iRoll_number - 1;
       }
 
-      % this should give us the highest value of 1,2, or 3 rolls.
-      % now find the power given by this value.
+      // this should give us the highest value of 1,2, or 3 rolls.
+      // now find the power given by this value.
 
-      % jIndex goes down by 2 each turn,
+      // jIndex goes down by 2 each turn,
       jIndex = 19;
 
-      % iSum is sum of all jIndices.
+      // iSum is sum of all jIndices.
       iSum = jIndex;
 
-      % Count is the final bonus for the weapon, 0-9
+      // Count is the final bonus for the weapon, 0-9
       iCount = 0;
 
 
@@ -164,7 +164,7 @@ messages:
 
       Debug("Shouldn't have gotten here!");
 
-      return 0;             %% if we somehow get here, return a wimp value.
+      return 0;             /// if we somehow get here, return a wimp value.
    }
 
    DecipherDamageFromPower(iPower=-1)
@@ -234,7 +234,7 @@ messages:
       return;
    }
 
-   %%% Effect Functions
+   //// Effect Functions
    
    ModifyDamage(damage=0,target=$,wielder=$)
    "Item Attributes, in general, should only + or - damage."
@@ -248,7 +248,7 @@ messages:
       return hitroll;
    }
 
-   %%% Infrastructure (Adding and removing a ItemAtt from an item.)
+   //// Infrastructure (Adding and removing a ItemAtt from an item.)
 
    AppendDesc(oItem=$,lData=$,iFakeData=0,iFakePower=0)
    {
@@ -285,4 +285,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

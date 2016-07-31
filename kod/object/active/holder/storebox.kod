@@ -1,21 +1,21 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 StorageBox is Holder
 
 constants:
 
    include blakston.khd
 
-   CLEAN_DELAY = 21600000   %% if the chests aren't replaced in 6 hours,
-                            %% they delete themselves.
+   CLEAN_DELAY = 21600000   /// if the chests aren't replaced in 6 hours,
+                            /// they delete themselves.
 
 resources:
 
@@ -37,7 +37,7 @@ classvars:
 
 properties:
 
-   % Placed here so we can change it when locked.
+   // Placed here so we can change it when locked.
    viObject_flags = OF_CONTAINER
 
    pbLocked = FALSE
@@ -168,7 +168,7 @@ messages:
    {
       local oWhoOwner;
 
-      % The player's owner.
+      // The player's owner.
       oWhoOwner = Send(who,@GetOwner);
 
       if (NOT Send(oWhoOwner,@LineOfSight,#obj1=who,#obj2=self))
@@ -227,4 +227,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

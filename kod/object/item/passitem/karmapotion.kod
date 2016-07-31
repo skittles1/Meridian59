@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 KarmaPotion is PassiveItem
 
 constants:
@@ -66,14 +66,14 @@ messages:
    "INT above zero makes positive potion INT below zero makes a "
    "negative potion."
    {
-      % If we buy the potion (i.e. during a frenzy) we use the model
-      % parameter to determine which type of potion it is.
+      // If we buy the potion (i.e. during a frenzy) we use the model
+      // parameter to determine which type of potion it is.
       if model <> $
       {
          karma = Send(model,@GetKarma);
       }
 
-      % If we somehow end up with $ karma, pick it at random.
+      // If we somehow end up with $ karma, pick it at random.
       if karma = $
       {
          if Random(0,1) = 1
@@ -115,7 +115,7 @@ messages:
       else
       {
          Send(apply_on,@MsgSendUser,#message_rsc=KarmaPotion_no_drink);
-         % Delete and log a message if outside frenzy.
+         // Delete and log a message if outside frenzy.
          Debug("ALERT!  ",Send(apply_on,@GetTrueName)," tried to drink a ",
                "karma potion!");
          Send(self,@Delete);
@@ -170,4 +170,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

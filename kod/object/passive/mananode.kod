@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ManaNode is PassiveObject
 
 constants:
@@ -73,7 +73,7 @@ properties:
 
    prDesc_add_on = $
 
-   % This is the room number where the node is normally located.
+   // This is the room number where the node is normally located.
    piRoomNum = $
 
 messages:
@@ -342,7 +342,7 @@ messages:
          }
       }
 
-      % Return a generic response.
+      // Return a generic response.
       return node_somewhere;
    }
 
@@ -365,14 +365,14 @@ messages:
          }
          else
          {
-            % piState = NODE_CURSED
-            % Use the sickly spectral green color.
+            // piState = NODE_CURSED
+            // Use the sickly spectral green color.
             iColor = LIGHT_SPECTRAL;
          }
       }
       else
       {
-         % Less light for dead nodes.
+         // Less light for dead nodes.
          iIntensity = 75;
          iColor = LIGHT_WHITE;
       }
@@ -386,5 +386,5 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 

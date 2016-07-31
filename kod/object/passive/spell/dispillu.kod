@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 DispelIllusion is Spell
 
 constants:
@@ -73,7 +73,7 @@ messages:
 
       oRoom = Send(who,@GetOwner);
 
-      % A percent chance based on spellpower
+      // A percent chance based on spellpower
       if IsClass(who,&Admin)
          AND Send(who,@PlayerIsImmortal)
       {
@@ -84,7 +84,7 @@ messages:
          iChance = Bound(iSpellPower,10,99);
       }
 
-      % Only attempt to dispell all illusions if the player is unangeled.
+      // Only attempt to dispell all illusions if the player is unangeled.
       bAll = Send(who,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE);
 
       if bAll
@@ -103,4 +103,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

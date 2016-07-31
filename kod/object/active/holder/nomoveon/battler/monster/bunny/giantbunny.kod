@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 EasterBunny is Bunny
 
 constants:
@@ -66,7 +66,7 @@ properties:
    piMax_mana = 30
    piSpellPower = 40
 
-   % Spawns a new killer bunny every 30 sec by default.
+   // Spawns a new killer bunny every 30 sec by default.
    piSpawnBunnyTime = 30000
 
 messages:
@@ -109,7 +109,7 @@ messages:
          iTries = 0;
          bValid_location = FALSE;
 
-         % Try 7 times to place the bunny.
+         // Try 7 times to place the bunny.
          while NOT bValid_location
             AND iTries < 7
          {
@@ -155,7 +155,7 @@ messages:
                Post(oBunny,@EnterStateChase,#target=poTarget,#actnow=True);
             }
 
-            % Do an attack animation.
+            // Do an attack animation.
             Send(self,@MonsterAttack);
 
             foreach i in Send(poOwner,@GetHolderActive)
@@ -175,4 +175,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

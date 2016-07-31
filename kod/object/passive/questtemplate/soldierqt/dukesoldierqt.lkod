@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 dukesoldier_name_rsc = de "Herzog: Soldaten-Schild Quest"
 dukesoldier_desc_rsc = de \
    "Herzog Arkadius wird Dich in die Reihen der herzögliochen Armee aufnehmen, aber zu erst "
@@ -7,7 +7,7 @@ dukesoldier_desc_rsc = de \
 dukesoldier_completed_rsc = de \
    "Du hast Dich als würdig erwiesen, und bist nun ein Soldat der herzöglichen Armee."
 
-% Quest resources.
+// Quest resources.
 duke_faction_soldier_assign_1 = de \
    "Ja, vielleicht tust Du das. Prüfe Deine Loyalität in dem Du %INDEF_MONSTER%MONSTER "
    "tötest. Normalerweise findest Du ein paar Soldaten an den Fahnenstangen.  "

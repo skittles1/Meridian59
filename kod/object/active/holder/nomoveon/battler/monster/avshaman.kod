@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 AvarShaman is Monster
 
 constants:
 
    include blakston.khd
 
-   ANIM_CAST = 2     %% Cast spell animation.
+   ANIM_CAST = 2     /// Cast spell animation.
 
    FRAME_STAND = 1
    FRAME_WALK_START = 2
@@ -84,7 +84,7 @@ classvars:
    viDifficulty = 8
    viVisionDistance = 22
 
-   % Attack range of 320, or 5 row/col.
+   // Attack range of 320, or 5 row/col.
    viAttackRange = 320
 
    viKarma = 80
@@ -95,7 +95,7 @@ classvars:
    vrSound_aware = avarshaman_sound_aware
    vrSound_death = avarshaman_sound_death
 
-   % 1 in x chance to cast a spell.
+   // 1 in x chance to cast a spell.
    viSpellChance = 7
 
 properties:
@@ -196,7 +196,7 @@ messages:
          return;
       }
 
-      % Ask our owner what clan we should be in.
+      // Ask our owner what clan we should be in.
       Send(self,@SetClan,#clan=Send(poOwner,@GetClan));
 
       return;
@@ -259,7 +259,7 @@ messages:
          return;
       }
 
-      % If no body animation
+      // If no body animation
       AddPacket(1,ANIMATE_NONE,2,3);
 
       return;
@@ -287,32 +287,32 @@ messages:
 
    SendProjectileAnimation()
    {
-      AddPacket(1, ANIMATE_CYCLE, 4, 40, 2, 1, 2, 8);  % 40ms between animations
+      AddPacket(1, ANIMATE_CYCLE, 4, 40, 2, 1, 2, 8);  // 40ms between animations
 
       return;
    }
 
    GetProjectileLightFlags()
    {
-      % General lighting information.
+      // General lighting information.
       return LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC;
    }
 
    GetProjectileLightIntensity()
    {
-      % Fairly small light radius for projectile.  Out of 255 levels.
+      // Fairly small light radius for projectile.  Out of 255 levels.
       return 25;
    }
 
    GetProjectileLightColor()
    {
-      % Color is a deep, bloody red.
+      // Color is a deep, bloody red.
       return LIGHT_BLOOD;
    }
 
    SendEffectData()
    {
-      % for EFFECT_INVERT, 4 bytes of time to be inverted - 1/10 of a second
+      // for EFFECT_INVERT, 4 bytes of time to be inverted - 1/10 of a second
       AddPacket(4,200);
 
       return;
@@ -325,7 +325,7 @@ messages:
 
    GetOptimalRange()
    {
-      % Random range between 6 and 12 row/cols.
+      // Random range between 6 and 12 row/cols.
       return Random(384,768);
    }
 
@@ -339,14 +339,14 @@ messages:
          return TRUE;
       }
 
-      % Charm checks up higher.
+      // Charm checks up higher.
       propagate;
    }
 
    SpecialHatredBehavior(what=$)
    {
-      % Avars attack other avars of other clans, but only in the
-      % temple of riija ruins (rid_KC3).
+      // Avars attack other avars of other clans, but only in the
+      // temple of riija ruins (rid_KC3).
       if IsClass(what,&AvarShaman)
          OR IsClass(what,&AvarChieftain)
          OR IsClass(what,&Avar)
@@ -389,4 +389,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

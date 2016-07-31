@@ -1,17 +1,17 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 MolluskMonster is Monster
 
-% TODO: Make the creature hide in his shell until he's aware of someone or
-%       he's attacked.
+// TODO: Make the creature hide in his shell until he's aware of someone or
+//       he's attacked.
 
 constants:
 
@@ -35,7 +35,7 @@ constants:
    ANIMATION_THROW_SPEED = 80
    ANIMATION_POPUP_SPEED = 200
 
-   % Time from creation to "popping up"
+   // Time from creation to "popping up"
    POPUP_DELAY = 2500
 
 resources:
@@ -79,7 +79,7 @@ classvars:
    viLevel = 150
    viDifficulty = 8
    viVisionDistance = 20
-   % Attack range of 192, or 3 row/col.
+   // Attack range of 192, or 3 row/col.
    viAttackRange = 192
    viKarma = 100
    viCashmin = 400
@@ -88,7 +88,7 @@ classvars:
    vrSound_aware = MolluskMonster_sound_aware
    vrSound_death = MolluskMonster_sound_death
 
-   % Chance to do a rock throw
+   // Chance to do a rock throw
    viSpellChance = 4
 
 properties:
@@ -96,7 +96,7 @@ properties:
    piAnimation = ANIM_NONE
    ptActive = $
 
-   % piSpellRange in FINENESS units. 10 row/cols.
+   // piSpellRange in FINENESS units. 10 row/cols.
    piSpellRange = 640
 
 messages:
@@ -227,9 +227,9 @@ messages:
       return;
    }
 
-   % This is technically a ranged attack, and we use RangedAttackChance
-   % to see if we can do it. Use the same range as that for spells. We
-   % also use piSpellChance for the base chance to do our ranged attack.
+   // This is technically a ranged attack, and we use RangedAttackChance
+   // to see if we can do it. Use the same range as that for spells. We
+   // also use piSpellChance for the base chance to do our ranged attack.
    MonsterCastSpell()
    {
       local iBase;
@@ -269,7 +269,7 @@ messages:
 
    SendProjectileAnimation()
    {
-      % Both rocks cycle from frame 1 to 4.
+      // Both rocks cycle from frame 1 to 4.
       AddPacket(1,ANIMATE_CYCLE, 4,175, 2,1, 2,4);  
 
       return;
@@ -287,13 +287,13 @@ messages:
 
    GetProjectileLightFlags()
    {
-      % No lighting information.
+      // No lighting information.
       return LIGHT_FLAG_NONE;
    }
 
    GetOptimalRange()
    {
-      % Random range between 6 and 10 row/col units.
+      // Random range between 6 and 10 row/col units.
       return Random(384,640);
    }
 
@@ -308,4 +308,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

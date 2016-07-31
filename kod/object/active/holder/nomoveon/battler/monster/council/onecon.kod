@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 OneCouncilor is Council
 
 constants:
@@ -50,7 +50,7 @@ classvars:
       MOB_NOFIGHT | MOB_NOMOVE | MOB_LISTEN \
          | MOB_RANDOM | MOB_RECEIVE | MOB_TEACHER
    viOccupation = MOB_ROLE_COUNCILMEMBER
-   viInitialState = 201  %leaning to the princess
+   viInitialState = 201  //leaning to the princess
    viGender = GENDER_MALE
 
    viHomeroom = RID_HERMITHUT
@@ -174,7 +174,7 @@ messages:
          }
       }
 
-      % Player doesn't have a fifth level spell, denied.
+      // Player doesn't have a fifth level spell, denied.
       if NOT bOkay
       {
          if report
@@ -189,4 +189,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

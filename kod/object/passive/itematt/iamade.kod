@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ItemAttMade is ItemAttribute
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%   This item was made by a player.  It is considered worthless by shopkeepers
-%   and will disapear when the ittematt timer fires.
-%
-%   Form is:
-%
-%      [IA_MADE, tTimer ]
-%
-%   tTimer :: timer counting down until the item disapears.
-%   iNumber :: number of items we're keeping track of, -1 for items that 
-%   aren't NumberItems
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////
+//
+//   This item was made by a player.  It is considered worthless by shopkeepers
+//   and will disapear when the ittematt timer fires.
+//
+//   Form is:
+//
+//      [IA_MADE, tTimer ]
+//
+//   tTimer :: timer counting down until the item disapears.
+//   iNumber :: number of items we're keeping track of, -1 for items that 
+//   aren't NumberItems
+//
+///////////////////////////////////////////////////////////////////////
 
 constants:
 
@@ -53,11 +53,11 @@ messages:
       return TRUE;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Timer Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////
+///
+///  Timer Functions
+///
+////////////////////////////////////////////////////////
 
 
    HasTimer(lData=$)
@@ -69,7 +69,7 @@ messages:
    {
       local oOwner;
 
-      SetNth(lData,2,$);   %% timer is gone, now remove reference
+      SetNth(lData,2,$);   /// timer is gone, now remove reference
 
       oOwner = Send(oItem,@GetOwner);
 
@@ -88,34 +88,34 @@ messages:
    SetPrimaryState(state1=$)
    "Defined for each individual enchantment."
    {
-      % This returns how many items we are keeping track of if we're a number item.
-      %   If we're not a number item, we just return -1.
+      // This returns how many items we are keeping track of if we're a number item.
+      //   If we're not a number item, we just return -1.
       return $;
    }
 
 
    RemoveFromItem(oItem=$,lData=$)
    {
-      % Future (for dealing with number items)
-      % If state is -1, then post(oItem,@Delete);
-      % if state is > 0, then delete the proper number.
+      // Future (for dealing with number items)
+      // If state is -1, then post(oItem,@Delete);
+      // if state is > 0, then delete the proper number.
 
       Post(oItem,@Delete);
 
       propagate;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Effect Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////
+///
+///  Effect Functions
+///
+/////////////////////////////////////////////////
 
    ItemUsed(oItem=$,oPlayer=$)
    {
-      % Future (for dealing with number items)
-      % If state > 0, lower state value one.
-      % if state is 0, then remove the attribute (play the message)
+      // Future (for dealing with number items)
+      // If state > 0, lower state value one.
+      // if state is 0, then remove the attribute (play the message)
 
       return;
    }
@@ -130,11 +130,11 @@ messages:
       return TRUE;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%	Treasure Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////
+///
+///	Treasure Functions
+///
+/////////////////////////////////////////////////
 
    AddToTreasureTable()
    {
@@ -147,4 +147,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

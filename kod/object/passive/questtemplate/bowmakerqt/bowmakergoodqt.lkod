@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 bowmakergoodquest_desc_rsc = de \
    "Hanla zax'Ta hat dich beauftragt, die Feder eines Avar Schamanen für Sie zu besorgen." 
    "Geh, und schau ob Du einen Avar findest, der bereit ist seine Schwanzfeder "
@@ -12,7 +12,7 @@ bowmakergoodquest_nodetwo_rsc = de \
 bowmakergoodquest_nodethree_rsc = de \
     "Kehre zurück zu Hanla zax'Ta mit einer Feder eines Avar Schamanen."
 
-% Quest resources.
+// Quest resources.
 bowmaker_assign_2 = de \
    "Ich nutze spezielle Materialien um meine besten Pfeile herzustellen.  "
    "Die Schwanzfeder eines Avar Zauberer haben den Ruf, dem Pfeil der sie "

@@ -1,21 +1,21 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 DeathSpider is Monster
 
 constants:
 
    include blakston.khd
    POISON_CHANCE = 10
-   POISON_DURATION = 180000   %%% in milliseconds
-   POISON_LOSSRATE = 5000    %%% in health points * 10^-4 / second
+   POISON_DURATION = 180000   //// in milliseconds
+   POISON_LOSSRATE = 5000    //// in health points * 10^-4 / second
 
 resources:
 
@@ -169,9 +169,9 @@ messages:
          return TRUE;
       }
 
-      % Charm checks up higher.
+      // Charm checks up higher.
       propagate;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

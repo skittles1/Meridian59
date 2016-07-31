@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 WallSpell is Spell
 
 constants:
@@ -33,10 +33,10 @@ classvars:
 
    viHarmful = TRUE
 
-   % Can wall elements kill?  Affects the warning message we append.
+   // Can wall elements kill?  Affects the warning message we append.
    viWallCanKill = TRUE
 
-   % How many elements do we expect to summon?
+   // How many elements do we expect to summon?
    viNumElements = 9
 
    vrSummonLimitMsg = WallSpell_failed_rsc
@@ -109,11 +109,11 @@ messages:
       {
          if viWallCanKill
          {
-            % Give a little warning about harming or killing other players.
+            // Give a little warning about harming or killing other players.
             return WallSpell_outlaw_murderer;
          }
 
-         % Can't kill, just warn about outlaw status;
+         // Can't kill, just warn about outlaw status;
          return WallSpell_outlaw;
       }
 
@@ -122,4 +122,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

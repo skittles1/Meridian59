@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%S%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////S///////////////////////////////////////////////////////
 KaraholsCurse is PersonalEnchantment
 
 constants:
@@ -68,16 +68,16 @@ classvars:
 
    viFlash = FLASH_GOOD
 
-   % Cannot enchant others because of drawback.
+   // Cannot enchant others because of drawback.
    vbCanCastOnOthers = FALSE
 
    viOffensive = TRUE
 
 properties:
 
-   % The effectiveness of purge on the target spell as a percentage.
-   % 100 will cause purge to remove its entire spellpower, 0 will
-   % prevent purge from removing this spell.
+   // The effectiveness of purge on the target spell as a percentage.
+   // 100 will cause purge to remove its entire spellpower, 0 will
+   // prevent purge from removing this spell.
    viPurgeFactor = 20
 
 messages:
@@ -118,14 +118,14 @@ messages:
          propagate;
       }
 
-      % Now, for the side effect.  Hold 'em!
+      // Now, for the side effect.  Hold 'em!
       oHoldSpell = Send(SYS,@FindSpellByNum,#num=SID_HOLD);
       if Send(who,@IsEnchanted,#what=oHoldSpell)
       {
          Send(who,@RemoveEnchantment,#what=oHoldSpell,#report=FALSE);
       }
 
-      % Hold effect lasts 8 sec at low spellpower, 2 sec at high sp.
+      // Hold effect lasts 8 sec at low spellpower, 2 sec at high sp.
       iDuration = Bound(((100-state) * 100 + 2000),2000,8000);
       Send(oHoldSpell,@DoSpell,#what=self,#oTarget=who,#iDuration=iDuration,
             #report=TRUE,#bAllowFreeAction=FALSE);
@@ -133,7 +133,7 @@ messages:
       propagate;
    }
 
-   % Stuff we handle to be an attack modifier
+   // Stuff we handle to be an attack modifier
    ModifyHitRoll(who=$,what=$,hit_roll=$)
    {
       return hit_roll + 100 + (Send(who,@GetEnchantedState,#what=self) * 2);
@@ -163,4 +163,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

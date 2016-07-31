@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 aphrodisiacqt_name_rsc = de "Aphrodisiakums Quest"
 aphrodisiacqt_desc_rsc = de \
    "Besorge ein Aphrodisiakum und helfe einem NPC."
@@ -15,7 +15,7 @@ aphrodisiacqt_nodefour_rsc = de \
 aphrodisiacqt_completed_rsc = de \
    "Du hast das Aphrodisiakum Quest abgeschlossen."
 
-% Quest resources.
+// Quest resources.
 aphrodesiac_assign_2 = de \
    "Ja, ich brauche dringend einen Kurier!  Ich versuche es wie folgt auszudrücken.  "
    "Ich habe ... ähm ... Probleme mit ... nun, Problem man.  Mir wurde gesagt "

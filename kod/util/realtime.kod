@@ -1,31 +1,31 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////////
 RealTime is UtilityFunctions
 
-% The RealTime object provides functions for returning the real time in
-% seconds, minutes, hours, days, month and year. It also keeps a list of
-% messages to call back at a given time, in plCallBacks. Messages can be
-% registered in this list using RegisterCallBack (or variants of this
-% message) and passing in the time, object, message name to call and
-% up to 15 parameters in the form parm1-parm15.
-% A timer goes off every minute and if any callbacks are due to be called,
-% the stored message is sent to the stored object.
+// The RealTime object provides functions for returning the real time in
+// seconds, minutes, hours, days, month and year. It also keeps a list of
+// messages to call back at a given time, in plCallBacks. Messages can be
+// registered in this list using RegisterCallBack (or variants of this
+// message) and passing in the time, object, message name to call and
+// up to 15 parameters in the form parm1-parm15.
+// A timer goes off every minute and if any callbacks are due to be called,
+// the stored message is sent to the stored object.
 
 constants:
 
    include blakston.khd
 
-   % IMPORTANT!!!!
-   % Change this offset time whenever the server offset is
-   % changed due to the kod int overflow issue.
+   // IMPORTANT!!!!
+   // Change this offset time whenever the server offset is
+   // changed due to the kod int overflow issue.
    OFFSET_YEAR = 2014
    OFFSET_MONTH = 1
    OFFSET_DAY = 1
@@ -39,7 +39,7 @@ classvars:
 
 properties:
 
-   % Time zone offset in seconds.
+   // Time zone offset in seconds.
    piTimeZoneOffset = 18000
    ptTick = $
 
@@ -79,7 +79,7 @@ messages:
                     parm5=$,parm6=$,parm7=$,parm8=$,parm9=$,parm10=$,parm11=$,
                     parm12=$,parm13=$,parm14=$,parm15=$)
    {
-      % First check if we have a valid message to call later on.
+      // First check if we have a valid message to call later on.
       if message = $
       {
          return;
@@ -112,7 +112,7 @@ messages:
          return;
       }
 
-      % Check if the messages is in string format, if not, make it.
+      // Check if the messages is in string format, if not, make it.
       if NOT IsString(message)
       {
          message = SetString($,message);
@@ -132,7 +132,7 @@ messages:
       iHour = Send(self,@GetHour);
       iMinute = Send(self,@GetMinute) + minutes;
 
-      % Fix any rollovers.
+      // Fix any rollovers.
       while iMinute >= 60
       {
          iMinute = iMinute - 60;
@@ -187,7 +187,7 @@ messages:
          return;
       }
 
-      % Check if the messages is in string format, if not, make it.
+      // Check if the messages is in string format, if not, make it.
       if NOT IsString(message)
       {
          message = SetString($,message);
@@ -207,7 +207,7 @@ messages:
       iHour = Send(self,@GetHour) + hours;
       iMinute = Send(self,@GetMinute);
 
-      % Fix any rollovers.
+      // Fix any rollovers.
       while iHour >= 24
       {
          iHour = iHour - 24;
@@ -256,7 +256,7 @@ messages:
          return;
       }
 
-      % Check if the messages is in string format, if not, make it.
+      // Check if the messages is in string format, if not, make it.
       if NOT IsString(message)
       {
          message = SetString($,message);
@@ -276,7 +276,7 @@ messages:
       iHour=Send(self,@GetHour); 
       iMinute=Send(self,@GetMinute);
 
-      % Fix any rollovers.
+      // Fix any rollovers.
       while iDay > Nth(iMonthDays,iMonth)
       {
          iDay = iDay - Nth(iMonthDays,iMonth);
@@ -319,7 +319,7 @@ messages:
          return;
       }
 
-      % Check if the messages is in string format, if not, make it.
+      // Check if the messages is in string format, if not, make it.
       if NOT IsString(message)
       {
          message = SetString($,message);
@@ -339,7 +339,7 @@ messages:
       iHour = Send(self,@GetHour);
       iMinute = Send(self,@GetMinute);
 
-      % Fix any rollovers.
+      // Fix any rollovers.
       while iMonth > 12
       {
          iMonth = iMonth - 12;
@@ -354,7 +354,7 @@ messages:
          }
       }
 
-      % Second pass in case changing the month screwed up the day.
+      // Second pass in case changing the month screwed up the day.
       while iDay > Nth(iMonthDays,iMonth)
       {
          iDay = iDay - Nth(iMonthDays,iMonth);
@@ -397,7 +397,7 @@ messages:
          return;
       }
 
-      % Check if the messages is in string format, if not, make it.
+      // Check if the messages is in string format, if not, make it.
       if NOT IsString(message)
       {
          message = SetString($,message);
@@ -409,7 +409,7 @@ messages:
       iHour = Send(self,@GetHour);
       iMinute = Send(self,@GetMinute);
 
-      % Check for a possible issue caused by a leap year.
+      // Check for a possible issue caused by a leap year.
       if NOT Send(self,@IsLeapYear,#iYear=iYear)
          AND iMonth = 2
          AND iDay = 29
@@ -482,8 +482,8 @@ messages:
             {
                if Nth(lCallbackTime,5) = iMinute
                {
-                     % foreach creates a copy of the list so i exists even if we
-                     % delete it from the original list
+                     // foreach creates a copy of the list so i exists even if we
+                     // delete it from the original list
                      plCallbacks = DelListElem(plCallbacks,i);
                      Send(Nth(i,2),Nth(i,3),
                         #parm1=Nth(i,4),#parm2=Nth(i,5),#parm3=Nth(i,6),
@@ -597,10 +597,10 @@ messages:
 
       if (Send(self,@IsLeapYear,#year=Send(self,@GetYear)))
       {
-         return (iTime / DAY MOD 366) + OFFSET_DAY;
+         return (iTime / DAY % 366) + OFFSET_DAY;
       }
 
-      return (iTime / DAY MOD 365) + OFFSET_DAY;
+      return (iTime / DAY % 365) + OFFSET_DAY;
    }
 
    GetMonth()
@@ -675,7 +675,7 @@ messages:
       local iTime, iHour;
 
       iTime = GetTime() - piTimeZoneOffset;
-      iHour = (iTime MOD 86400) / 3600;
+      iHour = (iTime % 86400) / 3600;
 
       if (iHour < 0)
       {
@@ -690,21 +690,21 @@ messages:
       local iTime, iMinute;
 
       iTime = GetTime() - piTimeZoneOffset;
-      iMinute = (iTime MOD 3600) / 60;
+      iMinute = (iTime % 3600) / 60;
 
       return iMinute;
    }
 
    GetSecond()
    {
-      return GetTime() MOD 60;
+      return GetTime() % 60;
    }
 
    IsLeapYear(iYear=1901)
    {
-      if (iYear MOD 4 = 0
-            AND iYear MOD 100 <> 0)
-         OR iYear MOD 400 = 0
+      if (iYear % 4 = 0
+            AND iYear % 100 <> 0)
+         OR iYear % 400 = 0
       {
          return TRUE;
       }
@@ -713,4 +713,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////////

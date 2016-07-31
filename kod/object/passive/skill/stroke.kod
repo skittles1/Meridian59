@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Stroke is Skill
 
 constants:
@@ -62,7 +62,7 @@ classvars:
 
    vbAutomatic = FALSE
 
-   % What's the max damage the proficiency can add for this stroke?
+   // What's the max damage the proficiency can add for this stroke?
    viMaxProficiencyDamage = 5
 
 properties:
@@ -71,27 +71,27 @@ properties:
 
 messages:
 
-   % General combat messages:
+   // General combat messages:
 
-   % Can player dodge this type of attack?
+   // Can player dodge this type of attack?
    CanDodge()
    {
       return TRUE;
    }
 
-   % Can player block this type of attack?
+   // Can player block this type of attack?
    CanBlock()
    {
       return TRUE;
    }
 
-   %Can player parry this type of attack?
+   //Can player parry this type of attack?
    CanParry()
    {
       return TRUE;
    }
 
-   % The unsorted messages:
+   // The unsorted messages:
 
    ImproveStroke(who=$,use_weapon=$,target=$)
    {
@@ -105,7 +105,7 @@ messages:
       {
          if Send(who,@GetSkillAbility,#skill_num=viSkill_num) < 100
          {
-            % checking for stroke advancement
+            // checking for stroke advancement
             Send(self,@ImproveAbility,#who=who,#target=target,
                   #bonus=Send(who,@GetWeaponSwingBonus));
          }
@@ -114,7 +114,7 @@ messages:
       {
          if Send(use_weapon,@getprof,#who=who) < 100
          {
-            % checking for weapon proficiency advancement
+            // checking for weapon proficiency advancement
             Send(use_weapon,@ImproveProficiency,#who=who,#target=target,
                   #bonus=Send(who,@GetWeaponSwingBonus));
          }
@@ -160,7 +160,7 @@ messages:
    GetExertion()
    "Sword strokes vary in their vigor cost."
    {
-      % Return amount of vigor (hundreths) to cast skill
+      // Return amount of vigor (hundreths) to cast skill
       return viSkill_Exertion;
    }
 
@@ -176,7 +176,7 @@ messages:
          return FALSE;
       }
 
-      % while you're here, be sure weapon is undamaged.
+      // while you're here, be sure weapon is undamaged.
       return Send(weapon_used,@ReqWeaponAttack,#what=victim);
    }
 
@@ -199,10 +199,10 @@ messages:
    {
       local skill_ability, damage;
 
-      % base weapon damage
+      // base weapon damage
       damage = Send(weapon_used,@GetDamage,#who=who,#target=victim);
 
-      % convert to high precision
+      // convert to high precision
       damage = damage*100;
 
       damage = Send(self,@DamageFactors,#damage=damage,#who=who,#weapon_used=weapon_used);
@@ -214,14 +214,14 @@ messages:
    {
       local iRoll;
 
-      %% Text messages
+      /// Text messages
       if bText
       {
          Send(who,@msgsenduser,#message_rsc=vrMissed_Message_Attacker,#parm1=color_rsc,
               #parm2=vrName,#parm3=Send(victim,@GetDef),#parm4=Send(victim,@GetName));
       }
 
-      %% 'miss' sound
+      /// 'miss' sound
       if IsClass(victim,&Monster)
          OR weapon_used = $
       {
@@ -338,18 +338,18 @@ messages:
          profAbility = Send(who,@GetSkillAbility,#skill_num=SKID_BRAWLING)+1;
       }
 
-      % Add a portion of the proficiency damage based on skill level. 
-      % Proficiency damage is converted to high precision.
+      // Add a portion of the proficiency damage based on skill level. 
+      // Proficiency damage is converted to high precision.
       iDamage = iDamage + profAbility * viMaxProficiencyDamage;
 
-      % Get the relevant amount of primary stat for our proficiency. This will 
-      % be our base bonus percentage.
+      // Get the relevant amount of primary stat for our proficiency. This will 
+      // be our base bonus percentage.
       iStat = Send(weapProf,@GetRequisiteStat,#who=who) - 25;
       iMight = Send(who,@GetMight) - 25;
       iStat = (iStat + iMight) / 2;
 
-      % Scale down the bonus damage percentage if the user is not fully 
-      % proficient in the weapon.
+      // Scale down the bonus damage percentage if the user is not fully 
+      // proficient in the weapon.
       bonusPercentage = 100 + Bound(iStat * profAbility / 100, 0, 40);
 
       iDamage = iDamage * bonusPercentage / 100;
@@ -363,4 +363,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

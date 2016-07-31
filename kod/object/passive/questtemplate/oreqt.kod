@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 OreQuest is QuestTemplate
-% Quest template QST_ID_ORE = 49.
-% Quest nodes 155, 156.
-% QNT_ID_BLACKSMITH_ORE_ONE, QNT_ID_BLACKSMITH_ORE_TWO
+// Quest template QST_ID_ORE = 49.
+// Quest nodes 155, 156.
+// QNT_ID_BLACKSMITH_ORE_ONE, QNT_ID_BLACKSMITH_ORE_TWO
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -33,7 +33,7 @@ resources:
 
    include oreqt.lkod
 
-   % Quest description.
+   // Quest description.
    oreqt_icon_rsc = ore.bgf
    oreqt_name_rsc = "blacksmith ore quest"
    oreqt_desc_rsc = \
@@ -47,7 +47,7 @@ resources:
    oreqt_completed_rsc = \
       "You have completed the blacksmith ore quest."
 
-   % Quest resources.
+   // Quest resources.
    ore_assign_2 = \
       "%NPC has run out of ore.  Take this ore to %HIMHER_NPC, and quickly.  "
       "It would be unwise to betray me.  Theft will be reported and you will "
@@ -79,7 +79,7 @@ classvars:
 
    vrCompleted = oreqt_completed_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_ORE
 
    viIcon_Animation_start = 1
@@ -97,10 +97,10 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_BLACKSMITH_ORE_ONE, QNT_ID_BLACKSMITH_ORE_TWO];
 
-      % Quest nodes with matching descriptions for the player.
+      // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_BLACKSMITH_ORE_TWO, vrNodeTwo] ];
 
       propagate;
@@ -113,8 +113,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #155 is smithy ore quest
-      % QNT_ID_BLACKSMITH_ORE_ONE
+      // Template #155 is smithy ore quest
+      // QNT_ID_BLACKSMITH_ORE_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #NPC_modifier=QN_NPCMOD_NONE,#cargolist=[ letter_trigger ],
                #quest_node_index=QNT_ID_BLACKSMITH_ORE_ONE)
@@ -140,8 +140,8 @@ messages:
          Debug("Error building QN: QNT_ID_BLACKSMITH_ORE_ONE");
       }
 
-      % Template #156 is smithy ore quest
-      % QNT_ID_BLACKSMITH_ORE_TWO
+      // Template #156 is smithy ore quest
+      // QNT_ID_BLACKSMITH_ORE_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_ITEM,
                #NPC_modifier=QN_NPCMOD_DIFFERENT,
                #cargolist=[ [ QN_PRIZETYPE_ITEMCLASS, &CheapOreChunk, 1 ] ],
@@ -170,7 +170,7 @@ messages:
          Send(oQE,@SetQuestNodeNPCList,#index=QNT_ID_BLACKSMITH_ORE_TWO,
                #new_NPC_list=lNPCs);
 
-         % Happy land subs.
+         // Happy land subs.
          if NOT Send(SYS,@IsPKAllowed)
          {
             Send(oQE,@SetQuestNodeAssignHint,#index=QNT_ID_BLACKSMITH_ORE_TWO,
@@ -220,4 +220,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

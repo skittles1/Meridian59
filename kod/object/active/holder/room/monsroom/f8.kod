@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 OutdoorsF8 is MonsterRoom
 
 constants:
@@ -18,7 +18,7 @@ constants:
    DOOR_OPEN  = 388
    DOOR_CLOSED = 308
 
-   LIFT_DELAY = 12000   % 12 seconds
+   LIFT_DELAY = 12000   // 12 seconds
 
 resources:
 
@@ -96,7 +96,7 @@ messages:
       plExits = $;
 
       plExits = Cons([ 6, 50, RID_GUILDH3, 5, 2, ROTATE_NONE ],plExits);
-      %  this exit is now password-protected, goes to guildhall.
+      //  this exit is now password-protected, goes to guildhall.
       plExits = Cons([ 26, 50, ROOM_LOCKED_DOOR, OutdoorsF8_locked ],plExits);
  
       plEdge_exits = $;
@@ -120,7 +120,7 @@ messages:
          return TRUE;
       }
      
-      % prevent newbies from getting trapped behind the door!
+      // prevent newbies from getting trapped behind the door!
       if row = 6 AND col = 50 AND (NOT pbDoor_open)
          AND NOT Send(what,@checkplayerflag,#flag=PFLAG_PKILL_ENABLE)
       {
@@ -318,4 +318,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

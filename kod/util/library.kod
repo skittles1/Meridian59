@@ -1,31 +1,31 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Library is UtilityFunctions
 
-% Notes from the dawn of time:
-% Here are some things I have had NPC's hint at, things we can add in the
-% future:
-%        -30 years ago, we traded with people north of the Great Ocean, but we
-%         can no longer sail ships, so we don't know what's happened to them.
-%        -Two generations ago, there were no monsters in Meridian other than
-%         your usual spider.  No one knows where they come from or why.  Only 
-%         that they're getting worse.
-%        -Far'Nohl (the ghost) also died at about this time.  
-%        -Hints of the volcano and swamp we'll be adding.
-%        -The Treefolk south of Marion were once gentle, but now are 
-%         aggressively expanding their territory.  No one knows why.
-%        -A carving dug up in Marion, with a fire killing the digger in his 
-%         home soon after.
-%        -Jasper, the border town, is fighting a losing battle with monsters.
-%        -Cor Noth is developing a pollution problem
+// Notes from the dawn of time:
+// Here are some things I have had NPC's hint at, things we can add in the
+// future:
+//        -30 years ago, we traded with people north of the Great Ocean, but we
+//         can no longer sail ships, so we don't know what's happened to them.
+//        -Two generations ago, there were no monsters in Meridian other than
+//         your usual spider.  No one knows where they come from or why.  Only 
+//         that they're getting worse.
+//        -Far'Nohl (the ghost) also died at about this time.  
+//        -Hints of the volcano and swamp we'll be adding.
+//        -The Treefolk south of Marion were once gentle, but now are 
+//         aggressively expanding their territory.  No one knows why.
+//        -A carving dug up in Marion, with a fire killing the digger in his 
+//         home soon after.
+//        -Jasper, the border town, is fighting a losing battle with monsters.
+//        -Cor Noth is developing a pollution problem
 
 constants:
 
@@ -36,7 +36,7 @@ resources:
 
    include library.lkod
 
-   % for the extended speech and random libs -AJM
+   // for the extended speech and random libs -AJM
    quote_substring = "%q"
    lib_said_resource_str = "%s%s says, \"%s~n\""
    lib_add_rsc = "%s%s"
@@ -141,32 +141,32 @@ resources:
    QM_join_congrats = "Thank you for signing on.  I expect great things from you.  Please accept a small monetary gift to help you in your travels."
    QM_visit_congrats = "Your dedication is again shown, and here are some coins for your troubles.  You need not return to court for quite some time.  But, if you can ever return a token of the Meridian Council to its rightful owner, perhaps he will smile upon our causes."
 
-%responses
+//responses
 
-%Tos responses
+//Tos responses
    
-%Barloque responses
+//Barloque responses
 
-%Marion responses
+//Marion responses
 
-%Cor Noth responses
+//Cor Noth responses
 
-%Jasper responses
+//Jasper responses
 
-% priestesses
+// priestesses
 
   LM_shal_prst_faction_resign = "You can resign from a faction by bringing me a Council Token as proof of your desire, or just wait for your liege to grow dissatisfied with your devotion and strike you from their rosters."
 
   LM_onecon_banker_buy = "I know secrets, yes, but I'll only share them with a master of the arts."
 
-%triggers
+//triggers
    LT_hi = "hi"
    LT_hiya = "hiya"
    LT_hello = "hello"
    LT_howdy = "howdy"
    LT_bye = "bye"
    LT_goodbye = "goodbye"
-%   LT_farewell = "farewell"
+//   LT_farewell = "farewell"
    LT_help = "help"
    
    LT_ohm = "ohm"
@@ -218,14 +218,14 @@ resources:
    LT_zeitgeist = "zeitgeist"
    LT_nodes = "nodes"
 
-%Temples
+//Temples
    LT_patience = "patience"
    LT_devotion = "devotion"
    LT_path = "path"
    LT_paths = "paths"
    LT_disciple = "disciple"
 
-%Priestesses
+//Priestesses
    LT_resign = "resign"
    LT_service = "service"
    LT_onecon = "Alzahakar"
@@ -240,13 +240,13 @@ resources:
    LT_pray = "pray"
    LT_prayer = "prayer"
 
-%Wanderers
+//Wanderers
    LT_war = "war"
    LT_rebel = "rebel"
    LT_rebellion = "rebellion"
    LT_freebird = "free bird"   
 
-%Kocatan people
+//Kocatan people
    LT_customs = "customs"
    LT_cheat = "cheat"
    LT_liar = "liar"
@@ -265,7 +265,7 @@ resources:
    LT_kazot = "kazot"
    LT_zoszin = "zoszin"
 
-%Tos people
+//Tos people
    LT_aid = "aid"
    LT_tos = "tos"
    LT_town = "town"
@@ -306,7 +306,7 @@ resources:
    LT_shutup = "shut up"
    LT_shillings = "shillings"      
 
-%% newbie area triggers   
+/// newbie area triggers   
    LT_Meridian = "meridian"
    LT_ravi = "Ravi"
    LT_eric = "Eric"
@@ -314,7 +314,7 @@ resources:
    LT_Tomas = "Tomas"
    LT_Rodric = "Rodric"
 
-%Barloque people
+//Barloque people
    LT_apothecary = "apothecary"
    LT_dwindles = "dwindles"
    LT_dwindle = "dwindle"
@@ -369,7 +369,7 @@ resources:
    LT_frular = "Frular"
    LT_frisconar = "Frisconar"
 
-%Marion people
+//Marion people
    LT_years = "years"
    LT_age = "age"
    LT_changes = "changes"
@@ -405,7 +405,7 @@ resources:
    LT_lunatic = "lunatic"
    LT_dream = "dream"
 
-%Cor Noth people
+//Cor Noth people
    LT_meet = "meet"
    LT_gather = "gather"
    LT_towns = "towns"
@@ -424,8 +424,8 @@ resources:
    LT_babysp = "baby spider"
    LT_baby = "baby"
    LT_giantrat = "giant rat"
-   LT_giant = "giant"         % obsolete
-   LT_rat = "rat"             % obsolete
+   LT_giant = "giant"         // obsolete
+   LT_rat = "rat"             // obsolete
    LT_fairy = "fairy"
    LT_slime = "slime"
    LT_tree = "tree"
@@ -464,7 +464,7 @@ resources:
    LT_herbutte = "Herbutte"
    LT_sir = "sir"
 
-%Jasper people
+//Jasper people
    LT_fighting = "fighting"
    LT_mountains = "mountains"
    LT_place = "place"
@@ -515,7 +515,7 @@ resources:
    LT_wool = "wool"
    LT_tova = "Tova"
 
-   % Former spell names, now used for mood reactions
+   // Former spell names, now used for mood reactions
    LT_mend = "mend"
    LT_mending = "mending"
    LT_blind = "blind"
@@ -524,16 +524,16 @@ resources:
 
 #region Fortune Resources
 
-   %%% Fortunes (suitable to find in cookies)
+   //// Fortunes (suitable to find in cookies)
 
-   % By Greenwich/Ed Halley
+   // By Greenwich/Ed Halley
    FC_1 = "Qor don't care, baby."
    FC_2 = "Thy soul is in the thoughts of Shal'ille."
    FC_3 = "You'd bow before Kraanan the Fist."
    FC_4 = "The tumult of Faren's energy is not to be scorned."
    FC_5 = "Deceiving Riija is a goal unto itself."
 
-   % By Klaatu/Chris Sellers
+   // By Klaatu/Chris Sellers
    FC_10 = "You have a great longing to see the Temple of Kraanan."
    FC_11 = "Long wished-for powers will soon be within your reach."
    FC_12 = "Your faction is gaining in power."
@@ -575,7 +575,7 @@ resources:
    FC_40 = "Dead people tell no tales."
    FC_41 = "Don't believe everything you read in these cookies."
 
-   %% By Greenwich/Ed Halley
+   /// By Greenwich/Ed Halley
    FC_110 = "The number fourteen will serve invaluable today."
    FC_111 = "Your love will be more important than your wisdom today."
    FC_112 = "You will play a key role in some intrigue soon."
@@ -620,7 +620,7 @@ resources:
    FC_151 = "Seek the red Jewel of Froz, for its magic is the crux of the most powerful spells."
    FC_152 = "The council speaks of you."
 
-   %% By Zavant/Kevin O'Hara
+   /// By Zavant/Kevin O'Hara
    FC_153 = "You will find a new companion in Jasper."
    FC_154 = "An evil force will enter the world."
    FC_155 = "A dark deed is in store for the Royal Court."
@@ -639,7 +639,7 @@ resources:
    FC_168 = "A good game of chess is in order."
    FC_169 = "A visit to the old castle could prove fruitful, if you survive."
 
-   %% By Users in Fortune Cookie Contest
+   /// By Users in Fortune Cookie Contest
    FC_170 = "The gods will smile down upon you and your guild."
    FC_171 = "Bite me! I'm a cookie!"
    FC_172 = "Shal'ille cares, baby!" 
@@ -677,7 +677,7 @@ resources:
    FC_204 = "Don't forget Shal'ille's umbrella at the great ocean." 
    FC_205 = "The force of Shal'ille's light will be with you today."
 
-   %% By Regifan Du Bukise/Kevin O'Hara 
+   /// By Regifan Du Bukise/Kevin O'Hara 
    FC_206 = "Your determination will bring you much success." 
    FC_207 = "The secret to good friends is no secret to you." 
    FC_208 = "You have the rare ability to decide quickly and wisely." 
@@ -699,7 +699,7 @@ resources:
    FC_224 = "Jala is not dead." 
    FC_225 = "Kraanan favors armies over individuals." 
 
-   %% By Psychochild/Brian Green
+   /// By Psychochild/Brian Green
    FC_226 = "Even things thought to be dead can be brought back to only near death."
    FC_227 = "Welcome back home."
    FC_228 = "Beware the fearsome, mana stealing Xeochicatl this day."
@@ -714,7 +714,7 @@ resources:
    LM_haz_rand1 = "If you've never been to Meridian before, you might find it helpful to read the signs."
    LM_haz_rand2 = "In Meridian proper, there are more than one hundred and fifty spells in six spell schools!  But the magical arts are largely lost here."
    LM_haz_rand3 = "The crypt is full of mummies!  How so holy a place became so defiled is a question for the ages."
-%   LM_haz_rand4 = "What's 10 bucks a month?  That's less than the cost of a movie, popcorn and drink!"
+//   LM_haz_rand4 = "What's 10 bucks a month?  That's less than the cost of a movie, popcorn and drink!"
    LM_haz_rand5 = "What you see is but a fragment of Meridian 59.  Perhaps you'd care to see the rest of the land?"
    LM_haz_rand6 = "I've heard that the struggle between the Princess and the Duke continues.  I have also heard of another rebellion starting in Jasper.  Fortunately, we are largely unaffected here on the frontier."
    LM_haz_rand7 = "For all that I can tell you, the best advice I can offer is to seek friends and allies."
@@ -757,24 +757,24 @@ properties:
    prKarma_advice = $
    prGroup_advice = $
 
-   % for the speech triggers and random actions
+   // for the speech triggers and random actions
    plRandomLib = $
    plSpeechLib = $
    plMobLib = $
 
-   % list of npcs by profession
+   // list of npcs by profession
    plOccupations = $
 
-   % a list of all NPCs.
+   // a list of all NPCs.
    plNPCs = $
 
-   % From the (old) quest engine, still used for random NPC lists.
+   // From the (old) quest engine, still used for random NPC lists.
    plRandomNPCs = $
    plSignetNPCList = $
-   % Used for some random rewards.
+   // Used for some random rewards.
    plQuestRewards = $
 
-   % for the extended speech and random libs   -AJM
+   // for the extended speech and random libs   -AJM
    piLastSpeechKey = 0
    pcLastSpeechClass = $
    piLastSpeechTriggerNum = 0
@@ -804,10 +804,10 @@ messages:
    {
       local lSellers, i, j, repeat;
 
-      plScratchString = [ CreateString() ];               % -AJM
+      plScratchString = [ CreateString() ];               // -AJM
       SetString(First(plScratchString),append_string);
 
-      %Figure out who our condsellers are...
+      //Figure out who our condsellers are...
       foreach i in plMobLib
       {
          repeat = FALSE;
@@ -828,13 +828,13 @@ messages:
       plMobLib = $;
 
 
-      % Reset all the lists of things in case something changed...
+      // Reset all the lists of things in case something changed...
       Send(self,@CreateRandomLibrary);
       Send(self,@CreateSpeechLibrary);
       Send(self,@CreateFortuneLibrary);
       Send(self,@CreateQuestRewards);
 
-      %Add in the cond sellers to the mob lib, and permquesters too.
+      //Add in the cond sellers to the mob lib, and permquesters too.
       foreach i in lSellers
       {
          Send(i,@InitCondSale);
@@ -853,7 +853,7 @@ messages:
 
       if NOT initial
       {
-         % We need to clear stuff out
+         // We need to clear stuff out
          plOccupations = $;
          plNPCs = $;
          plMobLib = $;
@@ -862,7 +862,7 @@ messages:
          plRandomNPCs = $;
       }
 
-      plScratchString = [CreateString()];      % -AJM used for NPC dialogue
+      plScratchString = [CreateString()];      // -AJM used for NPC dialogue
       SetString(First(plScratchString),append_string);
 
       Send(self,@CreateRandomLibrary);
@@ -899,7 +899,7 @@ messages:
 
 #region NPC List
 
-   % These are functions for tracking the list of NPCs.
+   // These are functions for tracking the list of NPCs.
 
    AddNPC(who = $)
    {
@@ -930,13 +930,13 @@ messages:
 
 #region Occupation List
 
-   %% AddToOccupationList()
-   %  OccupationList is a list of 2-element lists
-   %  first elem is NPC occupation, eg MOB_ROLE_BANKER
-   %  next elem is list of NPCs with that job
-   %  This method called by monster constructor
-   %  NPCs with no occupation are not added to list
-   %%
+   /// AddToOccupationList()
+   //  OccupationList is a list of 2-element lists
+   //  first elem is NPC occupation, eg MOB_ROLE_BANKER
+   //  next elem is list of NPCs with that job
+   //  This method called by monster constructor
+   //  NPCs with no occupation are not added to list
+   ///
    AddToOccupationList( who = $ )
    {
       local iOccupation, lOccBranch, oNPC;
@@ -964,7 +964,7 @@ messages:
       {
          if First(lOccBranch) = iOccupation
          {
-            % Make sure npc isn't already in list (shouldn't be).
+            // Make sure npc isn't already in list (shouldn't be).
             foreach oNPC in Nth(lOccBranch,2)
             {
                if oNPC = who
@@ -973,14 +973,14 @@ messages:
                }
             }
 
-            % Add NPC to list.
+            // Add NPC to list.
             SetNth(lOccBranch,2,Cons(who,Nth(lOccBranch,2)));
 
             return;
          }
       }
 
-      % New occupation.
+      // New occupation.
       plOccupations = Cons([iOccupation,[who]],plOccupations);
 
       return;
@@ -1014,11 +1014,11 @@ messages:
             {
                if oNPC = who
                {
-                  % Remove NPC from list.
+                  // Remove NPC from list.
                   SetNth(lOccBranch,2,DelListElem(Nth(lOccBranch,2),who));
                   if Length(Nth(lOccBranch,2)) < 1
                   {
-                     % No more NPCs with this occupation.
+                     // No more NPCs with this occupation.
                      plOccupations = DelListElem(plOccupations,lOccBranch);
                   }
 
@@ -1026,12 +1026,12 @@ messages:
                }
             }
 
-            % Not in his occupation branch.
+            // Not in his occupation branch.
             return;
          }
       }
 
-      % Occupation not in list.
+      // Occupation not in list.
       return;
    }
 
@@ -1047,7 +1047,7 @@ messages:
 
       lMatches = $;
 
-      % No iJob or cNPC_class specified.
+      // No iJob or cNPC_class specified.
       if iJob = 0
       {
          if cNPC_class = $
@@ -1056,7 +1056,7 @@ messages:
          }
       }
 
-      % Single job type specified, with filter.
+      // Single job type specified, with filter.
       foreach lOccBranch in plOccupations
       {
          if iJob = 0 OR iJob = First(lOccBranch)
@@ -1093,9 +1093,9 @@ messages:
    {
       plRandomLib = $;
 
-      % plRandomLib = Cons([&Towns,[
-      % [25,LIBRES_NOT_NEWBIE,[ LIBACT_RUMOR_COURT_STATE ,0]],
-      % ]],plRandomLib);
+      // plRandomLib = Cons([&Towns,[
+      // [25,LIBRES_NOT_NEWBIE,[ LIBACT_RUMOR_COURT_STATE ,0]],
+      // ]],plRandomLib);
 
       plRandomLib = Cons([&CorNothTown,[
          [40,LIBRES_NOT_NEWBIE,[ LIBACT_RUMOR_TOKEN_LOC ]] 
@@ -1115,7 +1115,7 @@ messages:
          [48,0,[ LIBACT_SAY, LM_haz_rand7 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand6 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand5 ]],
-         % [48,0,[ LIBACT_SAY, LM_haz_rand4 ]],
+         // [48,0,[ LIBACT_SAY, LM_haz_rand4 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand3 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand2 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand1 ]]
@@ -1170,16 +1170,16 @@ messages:
 
       plSpeechLib = $;
 
-      % plSpeechLib = Cons([&monster,[
-      %       [[LT_hi,LT_hello,LT_howdy],0, [LIBACT_SAY_TARG, LM_mons_hey1]],
-      %       [[LT_hi,LT_hello,LT_howdy],0, [LIBACT_SAY, LM_mons_hey2 ]],
-      %       [[LT_hi,LT_hello,LT_howdy],0, [LIBACT_SAY, LM_mons_hey3 ]],
-      %       [[LT_hi,LT_hello,LT_howdy],0, [LIBACT_SAY, LM_mons_hey4 ]],
-      %       [[LT_bye,LT_farewell],0, [LIBACT_SAY, LM_mons_bye1 ]],
-      %       [[LT_bye,LT_farewell],0, [LIBACT_SAY, LM_mons_bye2 ]],
-      %       [[LT_bye,LT_farewell],0, [LIBACT_SAY, LM_mons_bye3 ]],
-      %       [[LT_bye,LT_farewell],0, [LIBACT_SAY, LM_mons_bye4 ]]
-      %     ]],plSpeechLib);
+      // plSpeechLib = Cons([&monster,[
+      //       [[LT_hi,LT_hello,LT_howdy],0, [LIBACT_SAY_TARG, LM_mons_hey1]],
+      //       [[LT_hi,LT_hello,LT_howdy],0, [LIBACT_SAY, LM_mons_hey2 ]],
+      //       [[LT_hi,LT_hello,LT_howdy],0, [LIBACT_SAY, LM_mons_hey3 ]],
+      //       [[LT_hi,LT_hello,LT_howdy],0, [LIBACT_SAY, LM_mons_hey4 ]],
+      //       [[LT_bye,LT_farewell],0, [LIBACT_SAY, LM_mons_bye1 ]],
+      //       [[LT_bye,LT_farewell],0, [LIBACT_SAY, LM_mons_bye2 ]],
+      //       [[LT_bye,LT_farewell],0, [LIBACT_SAY, LM_mons_bye3 ]],
+      //       [[LT_bye,LT_farewell],0, [LIBACT_SAY, LM_mons_bye4 ]]
+      //     ]],plSpeechLib);
 
       plSpeechLib = Cons([&RazaTown,[
          [[LT_hello],0,[LIBACT_SAY_TARG,LM_haz_hello]],
@@ -1232,11 +1232,11 @@ messages:
 
 
       plSpeechLib = Cons([&Towns,[
-% [[LT_akardius,LT_duke],LIBRES_NOT_NEWBIE, [ LIBACT_SAY, LM_duke_response]],
-% [[LT_kateriina,LT_princess],LIBRES_NOT_NEWBIE, [ LIBACT_SAY, LM_princess_response]],
-% [[LT_token],LIBRES_NOT_NEWBIE, [ LIBACT_SAY, LM_token_response]],
-% [[LT_council],LIBRES_NOT_NEWBIE, [ LIBACT_SAY, LM_council_response]],
-% [[LT_court],LIBRES_NOT_NEWBIE, [ LIBACT_RUMOR_COURT_STATE ,0]]
+// [[LT_akardius,LT_duke],LIBRES_NOT_NEWBIE, [ LIBACT_SAY, LM_duke_response]],
+// [[LT_kateriina,LT_princess],LIBRES_NOT_NEWBIE, [ LIBACT_SAY, LM_princess_response]],
+// [[LT_token],LIBRES_NOT_NEWBIE, [ LIBACT_SAY, LM_token_response]],
+// [[LT_council],LIBRES_NOT_NEWBIE, [ LIBACT_SAY, LM_council_response]],
+// [[LT_court],LIBRES_NOT_NEWBIE, [ LIBACT_RUMOR_COURT_STATE ,0]]
       ]],plSpeechLib);
 
       plSpeechLib = Cons([&Factions,[
@@ -1249,12 +1249,12 @@ messages:
          [[LT_token],0,[LIBACT_RUMOR_TOKEN_LOC]]
       ]],plSpeechLib);
 
-      % Drechx
+      // Drechx
       plSpeechLib = Cons([&FourCouncilor,[
          [[LT_ohm], 0, [LIBACT_MOOD, 1], 1]
       ]],plSpeechLib);
 
-      % Esseldi
+      // Esseldi
       plSpeechLib = Cons([&FiveCouncilor, [
          [[LT_quest], 0, [LIBACT_MOOD, 1], 1]
       ]],plSpeechLib);
@@ -1263,9 +1263,9 @@ messages:
          [[LT_nodes], 0, [LIBACT_MANA_NODE_LIST, 1], 1]
       ]],plSpeechLib);
 
-%Wanderers
+//Wanderers
 
-      % Jonas
+      // Jonas
       plSpeechLib = Cons([&RebelLiege,[
          [[LT_rebel], 0, [LIBACT_MOOD, 2], 1],
          [[LT_rebellion], 0, [LIBACT_MOOD, 1], 2],
@@ -1274,7 +1274,7 @@ messages:
          [[LT_orc], 0, [LIBACT_MOOD, 2], 5]
       ]], plSpeechLib);
 
-      % Parrin
+      // Parrin
       plSpeechLib = Cons([&Minstrel,[
          [[LT_help], 0, [LIBACT_MOOD, 1], 1],
          [[LT_duke], 0, [LIBACT_MOOD, -3], 2],
@@ -1282,20 +1282,20 @@ messages:
          [[LT_freebird], 0, [LIBACT_MOOD, 4], 4]
       ]], plSpeechLib);
 
-%Tos people
+//Tos people
 
-      % Skivlat
+      // Skivlat
       plSpeechLib = Cons([&TosBanker,[
          [[LT_shillings], 0, [LIBACT_MOOD, 1], 1]
       ]], plSpeechLib);
 
-      % Frisconar
+      // Frisconar
       plSpeechLib = Cons([&TosApothecary,[
          [[LT_madelia], 0, [LIBACT_MOOD, 1], 1],
          [[LT_paddock], 0, [LIBACT_MOOD, -1], 2]
       ]], plSpeechLib);
 
-      % Paddock
+      // Paddock
       plSpeechlib = Cons([&TosInnkeeper,[
          [[LT_akardius],0, [ LIBACT_RUMOR_COURT_STATE ,FACTION_DUKE]],
          [[LT_kateriina],0, [ LIBACT_RUMOR_COURT_STATE ,FACTION_PRINCESS]],
@@ -1305,15 +1305,15 @@ messages:
          [[LT_mending], 0, [LIBACT_MOOD, -1], 3]
       ]], plSpeechLib);
 
-%Kocatan people
+//Kocatan people
 
-      % Kochtal
+      // Kochtal
       plSpeechLib = Cons([&KocatanWeaponsMaster,[
          [[LT_customs], 0, [LIBACT_MOOD, 5], 1],
          [[LT_blind], 0, [LIBACT_MOOD, -5], 2]
       ]], plSpeechLib);
 
-      % Tepal
+      // Tepal
       plSpeechLib = Cons([&KocatanTailor,[
          [[LT_konima], 0, [LIBACT_MOOD, -2], 1],
          [[LT_kocatan], 0, [LIBACT_MOOD, -2], 2],
@@ -1323,7 +1323,7 @@ messages:
          [[LT_avar], 0, [LIBACT_MOOD, 1], 6]
       ]], plSpeechLib);
 
-      % Pacal
+      // Pacal
       plSpeechLib = Cons([&KocatanShopkeeper,[
          [[LT_sell], 0, [LIBACT_MOOD, 2], 1],
          [[LT_business], 0, [LIBACT_MOOD, 3], 2],
@@ -1333,7 +1333,7 @@ messages:
          [[LT_hiya], 0, [LIBACT_MOOD, 1], 6]
       ]], plSpeechLib);
 
-      % Ixla
+      // Ixla
       plSpeechLib = Cons([&KocatanBlacksmith,[
          [[LT_kazot], 0, [LIBACT_MOOD, -3], 1],
          [[LT_zoszin], 0, [LIBACT_MOOD, -2], 2],
@@ -1344,14 +1344,14 @@ messages:
          [[LT_howdy], 0, [LIBACT_MOOD, 3], 7]
       ]], plSpeechLib);
 
-      % Zala
+      // Zala
       plSpeechLib = Cons([&KocatanApothecary,[
          [[LT_smoke], 0, [LIBACT_MOOD, -1], 1],
          [[LT_bud], 0, [LIBACT_MOOD, -3], 2],
          [[LT_army], 0, [LIBACT_MOOD, -5], 3]
       ]], plSpeechLib);
 
-      % Wulfgang
+      // Wulfgang
       plSpeechLib = Cons([&KocatanTradeMaster,[
          [[LT_marion], 0, [LIBACT_MOOD, -3], 1],
          [[LT_tos], 0, [LIBACT_MOOD, -3], 2],
@@ -1359,7 +1359,7 @@ messages:
          [[LT_princess], 0, [LIBACT_MOOD, -2], 4]
       ]], plSpeechLib);
 
-      % Oxal
+      // Oxal
       plSpeechLib = Cons([&KocatanBartender,[
          [[LT_arm], 0, [LIBACT_MOOD, -10], 1],
          [[LT_konima], 0, [LIBACT_MOOD, 2], 2],
@@ -1368,16 +1368,16 @@ messages:
          [[LT_zala], 0, [LIBACT_MOOD, -2], 5]
       ]], plSpeechLib);
 
-      % Moxal
+      // Moxal
       plSpeechLib = Cons([&KocatanInnkeeper,[
          [[LT_cheat], 0, [LIBACT_MOOD, -2], 1],
          [[LT_liar], 0, [LIBACT_MOOD, -2], 2],
          [[LT_scam], 0, [LIBACT_MOOD, -2], 3]
       ]], plSpeechLib);
 
-%Barloque people
+//Barloque people
 
-      % Herbutte
+      // Herbutte
       plSpeechLib = Cons([&BarloqueMerchant,[
          [[LT_duke], 0, [LIBACT_MOOD, -2], 1],
          [[LT_tos], 0, [LIBACT_MOOD, -1], 2],
@@ -1389,7 +1389,7 @@ messages:
          [[LT_marion], 0, [LIBACT_MOOD, -1], 8]
       ]], plSpeechLib);
 
-      % Meidei
+      // Meidei
       plSpeechLib = Cons([&BarloqueBartender,[
          [[LT_shal1], 0, [LIBACT_MOOD, 2], 1],
          [[LT_shal2], 0, [LIBACT_MOOD, 2], 2],
@@ -1397,7 +1397,7 @@ messages:
          [[LT_qor], 0, [LIBACT_MOOD, -3], 4]
       ]], plSpeechLib);
 
-      % Fehr'loi Qan
+      // Fehr'loi Qan
       plSpeechLib = Cons([&BarloqueBlacksmith,[
          [[LT_kraanan], 0, [LIBACT_MOOD, 1], 1],
          [[LT_tos], 0, [LIBACT_MOOD, -1], 2]
@@ -1405,19 +1405,19 @@ messages:
 
       plSpeechLib = Cons([&BarloqueApothecary,[]],plSpeechLib);
 
-      % Frular
+      // Frular
       plSpeechLib = Cons([&GuildCreator,[
          [[LT_princess], 0, [LIBACT_MOOD, -1], 1],
          [[LT_madelia], 0, [LIBACT_MOOD, 1], 2]
       ]],plSpeechLib);
 
-      % Pritchett
+      // Pritchett
       plSpeechLib = Cons([&BarloqueInnkeeper,[
          [[LT_sailor], 0, [LIBACT_MOOD, 3], 1],
          [[LT_madelia], 0, [LIBACT_MOOD, 2], 2]
       ]], plSpeechLib);
 
-      % Obert
+      // Obert
       plSpeechLib = Cons([&BarloqueVaultman,[
          [[LT_guild], 0, [LIBACT_MOOD, -2], 1],
          [[LT_hello], 0, [LIBACT_MOOD, 1], 2],
@@ -1426,7 +1426,7 @@ messages:
          [[LT_howdy], 0, [LIBACT_MOOD, 1], 5]
       ]], plSpeechLib);
 
-      % Madelia
+      // Madelia
       plSpeechLib = Cons([&Barloquetailor,[
          [[LT_frisconar], 0, [LIBACT_MOOD, -3], 1],
          [[LT_frular], 0, [LIBACT_MOOD, 3], 2],
@@ -1434,9 +1434,9 @@ messages:
          [[LT_princess], 0, [LIBACT_MOOD, 1], 4]
       ]], plSpeechLib);
 
-%Marion people
+//Marion people
 
-      % Tova
+      // Tova
       plSpeechLib = Cons([&MarionBartender, [
          [[LT_paddock], 0, [LIBACT_MOOD, -2], 1],
          [[LT_duke], 0, [LIBACT_MOOD, -1], 2],
@@ -1444,7 +1444,7 @@ messages:
          [[LT_zig], 0, [LIBACT_MOOD, -1], 4]
       ]], plSpeechLib);
 
-      % Ran er'Hoth
+      // Ran er'Hoth
       plSpeechLib = Cons([&MarionElder, [
          [[LT_akardius],0, [ LIBACT_RUMOR_COURT_STATE ,FACTION_DUKE]],
          [[LT_kateriina],0, [ LIBACT_RUMOR_COURT_STATE ,FACTION_PRINCESS]],
@@ -1462,15 +1462,15 @@ messages:
          [[LT_dream], 0, [LIBACT_MOOD, -2], 11]
       ]], plSpeechLib);
 
-      % Colhorr
+      // Colhorr
       plSpeechLib = Cons([&MarionBlacksmith, [
          [[LT_ranerhoth], 0, [LIBACT_MOOD, -3], 1],
          [[LT_hot], 0, [LIBACT_MOOD, -5], 2]
       ]],plSpeechLib);
 
-%Cor Noth people
+//Cor Noth people
 
-      % D'Franco
+      // D'Franco
       plSpeechLib = Cons([&CornothInnkeeper, [
          [[LT_akardius],0, [ LIBACT_RUMOR_COURT_STATE ,FACTION_DUKE]],
          [[LT_kateriina],0, [ LIBACT_RUMOR_COURT_STATE ,FACTION_PRINCESS]],
@@ -1478,21 +1478,21 @@ messages:
          [[LT_princess], 0, [LIBACT_MOOD, -2], 1]
       ]], plSpeechLib);
 
-%     plSpeechLib = Cons(
-%     [&cornothsergeant, [
-%%% now created dynamically on recreateall
-%       [[LT_punch], 0, [LIBACT_LEARN, SKID_PUNCH, True]],
-%       [[LT_slash], 0, [LIBACT_LEARN, SKID_SLASH, True]],
-%       [[LT_dodge], 0, [LIBACT_LEARN, SKID_DODGE, True]],
-%       [[LT_parry], 0, [LIBACT_LEARN, SKID_PARRY, True]],
-%       [[LT_brawling], 0, [LIBACT_LEARN, SKID_BRAWLING, True]],
-%       [[LT_macefgt], 0, [LIBACT_LEARN, SKID_PROFICIENCY_MACE, True]],
-%       [[LT_axewield], 0, [LIBACT_LEARN, SKID_PROFICIENCY_AXE, True]],
-%       [[LT_hammwield], 0, [LIBACT_LEARN, SKID_PROFICIENCY_HAMMER, True]],
-%       [[LT_fencing], 0, [LIBACT_LEARN, SKID_PROFICIENCY_SWORD, True]],
-%       [[LT_sir], 0, [LIBACT_MOOD, 5], 1],
-%       [[LT_princess], 0, [LIBACT_MOOD, -5], 2]
-%     ]], plSpeechLib);
+//     plSpeechLib = Cons(
+//     [&cornothsergeant, [
+//// now created dynamically on recreateall
+//       [[LT_punch], 0, [LIBACT_LEARN, SKID_PUNCH, True]],
+//       [[LT_slash], 0, [LIBACT_LEARN, SKID_SLASH, True]],
+//       [[LT_dodge], 0, [LIBACT_LEARN, SKID_DODGE, True]],
+//       [[LT_parry], 0, [LIBACT_LEARN, SKID_PARRY, True]],
+//       [[LT_brawling], 0, [LIBACT_LEARN, SKID_BRAWLING, True]],
+//       [[LT_macefgt], 0, [LIBACT_LEARN, SKID_PROFICIENCY_MACE, True]],
+//       [[LT_axewield], 0, [LIBACT_LEARN, SKID_PROFICIENCY_AXE, True]],
+//       [[LT_hammwield], 0, [LIBACT_LEARN, SKID_PROFICIENCY_HAMMER, True]],
+//       [[LT_fencing], 0, [LIBACT_LEARN, SKID_PROFICIENCY_SWORD, True]],
+//       [[LT_sir], 0, [LIBACT_MOOD, 5], 1],
+//       [[LT_princess], 0, [LIBACT_MOOD, -5], 2]
+//     ]], plSpeechLib);
 
 
       lDontInclude = [ &Cow, &Guard, &Frogman, &Mummy, &BlackMummy, &Avar,
@@ -1521,14 +1521,14 @@ messages:
       lAddList = Cons(&CorNothSergeant,lAddList);
       plSpeechLib = Cons(lAddList,plSpeechLib);
 
-      % Solomon
+      // Solomon
       plSpeechLib = Cons([&CornothGrocer, [
          [[LT_herbutte], 0, [LIBACT_MOOD, 1], 1]
       ]],plSpeechLib);
 
-%Jasper people
+//Jasper people
 
-      % Yevitan
+      // Yevitan
       plSpeechLib = Cons([&JasperBanker,[
          [[LT_akardius],0, [ LIBACT_RUMOR_COURT_STATE ,FACTION_DUKE]],
          [[LT_kateriina],0, [ LIBACT_RUMOR_COURT_STATE ,FACTION_PRINCESS]],
@@ -1541,7 +1541,7 @@ messages:
 
       plSpeechLib = Cons([&OneCouncilor, []],plSpeechLib);
 
-      % Qesino
+      // Qesino
       plSpeechLib = Cons([&JasperInnKeeper, [
          [[LT_quintor], 0, [LIBACT_MOOD, -3], 1],
          [[LT_kill], 0, [LIBACT_MOOD, -10], 2],
@@ -1549,7 +1549,7 @@ messages:
          [[LT_murder], 0, [LIBACT_MOOD, -10], 4]
       ]],plSpeechLib);
 
-      % Afiera D'xor
+      // Afiera D'xor
       plSpeechLib = Cons([&JasperElder, [
          [[LT_treefolk], 0, [LIBACT_MOOD, -2], 1],
          [[LT_ant], 0, [LIBACT_MOOD, -2], 2],
@@ -1579,7 +1579,7 @@ messages:
          [[LT_jala], 0, [LIBACT_MOOD, -1], 26]
       ]], plSpeechLib);
 
-      % Zhieu B'hob
+      // Zhieu B'hob
       plSpeechLib = Cons([&JasperMerchant, [
          [[LT_princess], 0, [LIBACT_MOOD, 2], 1],
          [[LT_yes], 0, [LIBACT_MOOD, 5], 2],
@@ -1609,7 +1609,7 @@ messages:
          [[LT_goodbye], 0, [LIBACT_MOOD, 1], 26]
       ]], plSpeechLib);
 
-      % Quintor
+      // Quintor
       plSpeechLib = Cons([&JasperBlacksmith, [
          [[LT_whiskey], 0, [LIBACT_MOOD, -2], 1],
          [[LT_widow], 0, [LIBACT_MOOD, -5], 2],
@@ -1623,7 +1623,7 @@ messages:
          [[LT_qesino], 0, [LIBACT_MOOD, -3], 10]
       ]], plSpeechLib);
 
-      % Pietro
+      // Pietro
       plSpeechLib = Cons([&JasperBartender, [
          [[LT_hello], 0, [LIBACT_MOOD, -2], 1],
          [[LT_hi], 0, [LIBACT_MOOD, -2], 2],
@@ -1648,7 +1648,7 @@ messages:
          [[LT_broom], 0, [LIBACT_MOOD, -2], 21]
       ]], plSpeechLib);
 
-%Priestesses
+//Priestesses
 
       plSpeechLib = Cons([&KraananPriestess, [
          [[LT_threecon], 0, [LIBACT_MOOD, -2], 1]
@@ -1708,7 +1708,7 @@ messages:
 
    AppendSpeechLibrary(lDialogue=$)
    {
-      % Assume all is right with the world, and tack it in.
+      // Assume all is right with the world, and tack it in.
       if lDialogue <> $
       {
          pLSpeechLib = Cons(lDialogue,plSpeechLib);
@@ -1724,12 +1724,12 @@ messages:
       plFortunes = $;
       plCommonFortunes = $;
 
-     %% Add the most commonly recurring ones here.
-     %% All the fortunes which are added here will appear
-     %% quite a bit more often than any other fortune added below.
+     /// Add the most commonly recurring ones here.
+     /// All the fortunes which are added here will appear
+     /// quite a bit more often than any other fortune added below.
      plCommonFortunes = [FC_1, FC_2, FC_3, FC_4, FC_5];
 
-      %% Add the rest of the fortunes here.
+      /// Add the rest of the fortunes here.
       plFortunes = $;
       plFortunes = [FC_10, FC_11, FC_12, FC_13, FC_14, FC_15, FC_16, FC_17,
                     FC_18, FC_19, FC_20, FC_21, FC_22, FC_23, FC_24, FC_25,
@@ -1881,7 +1881,7 @@ messages:
       a = Length(plCommonFortunes);
       b = Length(plFortunes);
 
-      % 5x more likely to get common one
+      // 5x more likely to get common one
       if (Random(1, b + a + a + a + a + a) < b)
       {
          return Nth(plFortunes,Random(1,b));
@@ -1958,18 +1958,18 @@ messages:
          ++iCount;
          if First(i) = mob
          {
-            % Found entries for the mob, delete the relevant ones.
+            // Found entries for the mob, delete the relevant ones.
             lTmp = Nth(i,2);
             foreach j in lTmp
             {
-               % we are marching through the mobs events, hoping for id matches
+               // we are marching through the mobs events, hoping for id matches
                if Nth(j,4) = id OR id = -1
                {
                   lTmp = DelListElem(lTmp,j);
                }
             }
 
-            % finished deleting this id from the list, see if any entries left
+            // finished deleting this id from the list, see if any entries left
             if lTmp = $
             {
                plMobLib = DelListElem(plMobLib,i);
@@ -2031,8 +2031,8 @@ messages:
    "Given the mob and either a string or a percentage, return an action."
    "When two or more actions apply, a random one is chosen. The local mob lib"
    "triggers only match if EVERY speech keyword is stated."
-   % Now returns a list [lAction, cMobClass, iKey] for spamlist to use
-   % MobLib items without keys (currently all of them) will not be filtered by spamlist
+   // Now returns a list [lAction, cMobClass, iKey] for spamlist to use
+   // MobLib items without keys (currently all of them) will not be filtered by spamlist
    {
       local i, j, k, lActionList, iCount, bFound, iKey, ktriggered,
             bKtContainK, bKContainKt;
@@ -2040,7 +2040,7 @@ messages:
       lActionList = action_list;
 
       iCount = count;
-      %bFound = FALSE;
+      //bFound = FALSE;
 
       foreach i in plMobLib
       {
@@ -2055,7 +2055,7 @@ messages:
             {
                foreach k in Nth(j,2)
                {
-                  % We have a speech trigger, check for keyword matches
+                  // We have a speech trigger, check for keyword matches
                   if (StringContain(string,k))
                   {
                      if ktriggered <> $
@@ -2068,8 +2068,8 @@ messages:
                         bKtContainK = FALSE;
                         bKContainKt = TRUE;
                      }
-                     % old trigger is a subset of the new one, so the new one
-                     % takes precedence (ex. "mutant ant" always supercedes "ant")
+                     // old trigger is a subset of the new one, so the new one
+                     // takes precedence (ex. "mutant ant" always supercedes "ant")
                      if bKContainKt
                      {
                         iKey = 0;
@@ -2079,19 +2079,19 @@ messages:
                         }
                         lActionList = [Nth(j,3), GetClass(First(i)),iKey];
                         ktriggered = k;
-                        % reset the counter, since we've superceded the whole
-                        % set of options we were picking randomly amongst
+                        // reset the counter, since we've superceded the whole
+                        // set of options we were picking randomly amongst
                         iCount = 0;
-                        % don't need to search additional triggers for the
-                        % same response, nor do we want them all to be counted
+                        // don't need to search additional triggers for the
+                        // same response, nor do we want them all to be counted
                         break;
                      }
                      else
                      {
-                        if ((bKtContainK AND bKContainKt) % (triggers are equal) or 
-                              OR NOT (bKtContainK OR bKContainKt)) % (triggers are unrelated),
+                        if ((bKtContainK AND bKContainKt) // (triggers are equal) or 
+                              OR NOT (bKtContainK OR bKContainKt)) // (triggers are unrelated),
                         {
-                           if Random(0,iCount) = 0 % and bFound = FALSE    % so pick one randomly
+                           if Random(0,iCount) = 0 // and bFound = FALSE    // so pick one randomly
                            {
                               iKey = 0;
                               if (Length(j) > 3)
@@ -2101,11 +2101,11 @@ messages:
                               lActionList = [Nth(j,3),GetClass(First(i)),iKey];
                               ktriggered = k;
                            }
-                           % keep track of how many equally viable triggers
-                           % we've gone through (whether we picked them or not)
+                           // keep track of how many equally viable triggers
+                           // we've gone through (whether we picked them or not)
                            ++iCount;
-                           % don't need to search additional triggers for the
-                           % same response, nor do we want them all to be counted
+                           // don't need to search additional triggers for the
+                           // same response, nor do we want them all to be counted
                            break;
                         }
                      }
@@ -2140,7 +2140,7 @@ messages:
 
 #region Speech Library
 
-   % spew everything
+   // spew everything
    DebugSpeechLib(mob = $)
    {
       local i,j,lAct;
@@ -2160,10 +2160,10 @@ messages:
                }
                if (First(lAct) = LIBACT_MOOD )
                {
-                  %Post(Send(mob,@GetOwner),@SomeoneSaid,
-                        %#what=mob,#type=SAY_MESSAGE,
-                        %#string = quote_substring,#parm1=Nth(lAct,2) );
-                  %Debug("mood trigger",mob);
+                  //Post(Send(mob,@GetOwner),@SomeoneSaid,
+                        //#what=mob,#type=SAY_MESSAGE,
+                        //#string = quote_substring,#parm1=Nth(lAct,2) );
+                  //Debug("mood trigger",mob);
                }
             }
          }
@@ -2176,20 +2176,20 @@ messages:
    "Given the mob and the string, return an action. Any of the superclasses"
    "of the mob can provide the action, and when two or more actions apply,"
    "a random one is chosen."
-   % Now returns a list [lAction, cMobClass, iKey] for spamlist to use
-   % SpeechLib items without keys will not be filtered by spamlist
-   % Note: mood mods are handled specially
-   %% They are always processed immediately and added to spam list,
-   %% then search continues for a "real" action
+   // Now returns a list [lAction, cMobClass, iKey] for spamlist to use
+   // SpeechLib items without keys will not be filtered by spamlist
+   // Note: mood mods are handled specially
+   /// They are always processed immediately and added to spam list,
+   /// then search continues for a "real" action
    {
       local i, j, k, iCount, lActionList, iKey, bFound, ktriggered,
             bKtContainK, bKContainKt;
 
       lActionList = $;
-      ktriggered = $;  % saves the current speech trigger corresponding to lActionList
+      ktriggered = $;  // saves the current speech trigger corresponding to lActionList
       iCount = 0;
 
-      %Debug( "SL: looking for class",GetClass(mob) );
+      //Debug( "SL: looking for class",GetClass(mob) );
 
       foreach i in plSpeechLib
       {
@@ -2197,7 +2197,7 @@ messages:
          {
             continue;
          }
-         %Debug( "SL: found class",First(i) );
+         //Debug( "SL: found class",First(i) );
          if (Send(mob,@GetAttributes) & MOB_LOCAL_ONLY) <> 0
             AND (First(i) <> GetClass(mob))
          {
@@ -2210,19 +2210,19 @@ messages:
             {
                continue;
             }
-            %Debug("SL:checking",string); 
+            //Debug("SL:checking",string); 
             foreach k in First(j)
             {
-               % We have a suitable action for the class, check triggers
+               // We have a suitable action for the class, check triggers
                if NOT StringContain(string,k)
                {
                   continue;
                }
-               %Debug("SL: passed stringcontain",k);
-               % Spam filter:
-               % Check action key against list of keys triggered since last
-               % randomtimer firing. Only check items with keys (4th in list)
-               % Don't repeat it if it's on the list
+               //Debug("SL: passed stringcontain",k);
+               // Spam filter:
+               // Check action key against list of keys triggered since last
+               // randomtimer firing. Only check items with keys (4th in list)
+               // Don't repeat it if it's on the list
                if Length(j) > 3
                {
                   if Send(mob,@OnSpamList,#mob_class=First(i),#key_num=Nth(j,4))
@@ -2230,18 +2230,18 @@ messages:
                      continue;
                   }
                }
-               %Debug("SL: passed spamlist",k);
+               //Debug("SL: passed spamlist",k);
 
                if First(Nth(j,3)) = LIBACT_MOOD
                {
-                  % it's a mood change action, so process it immediately
+                  // it's a mood change action, so process it immediately
                   Post(self,@ParseAction,#action=Nth(j,3),#mob=mob);
 
-                  % now add it to the spam list
+                  // now add it to the spam list
                   Send(mob,@AddToSpamList,#mob_class=First(i),
                         #key_num=Nth(j,4));
 
-                  % keep searching for a "real" action
+                  // keep searching for a "real" action
                   continue;
                }
 
@@ -2257,8 +2257,8 @@ messages:
                }
                if bKContainKt
                {
-                  % old trigger is a subset of the new one, so the new one
-                  % takes precedence (ex. "mutant ant" always supercedes "ant")
+                  // old trigger is a subset of the new one, so the new one
+                  // takes precedence (ex. "mutant ant" always supercedes "ant")
                   iKey = 0;
                   if Length(j) > 3
                   {
@@ -2266,19 +2266,19 @@ messages:
                   }
                   lActionList = [Nth(j,3), First(i), iKey];
                   ktriggered = k;
-                  % Reset the counter, since we've superceded the whole set 
-                  % of options we were picking randomly amongst
+                  // Reset the counter, since we've superceded the whole set 
+                  // of options we were picking randomly amongst
                   iCount = 0;
-                  % Don't need to search additional triggers for the
-                  % same response, nor do we want them all to be counted
+                  // Don't need to search additional triggers for the
+                  // same response, nor do we want them all to be counted
                   break;
                }
                else
                {
-                  if ((bKtContainK AND bKContainKt)             % (triggers are equal) or 
-                        OR NOT (bKtContainK OR bKContainKt))    % (triggers are unrelated),
+                  if ((bKtContainK AND bKContainKt)             // (triggers are equal) or 
+                        OR NOT (bKtContainK OR bKContainKt))    // (triggers are unrelated),
                   {
-                     if (Random(0,iCount) = 0)                  % so pick one randomly
+                     if (Random(0,iCount) = 0)                  // so pick one randomly
                      {
                         iKey = 0;
                         if (length(j) > 3 )
@@ -2288,11 +2288,11 @@ messages:
                         lActionList = [Nth(j,3), First(i), iKey];
                         ktriggered = k;
                      }
-                     % Keep track of how many equally viable triggers we've
-                     % gone through (whether we picked them or not)
+                     // Keep track of how many equally viable triggers we've
+                     // gone through (whether we picked them or not)
                      ++iCount;
-                     % Don't need to search additional triggers for the same
-                     % response, nor do we want them all to be counted
+                     // Don't need to search additional triggers for the same
+                     // response, nor do we want them all to be counted
                      break;
                   }
                }
@@ -2306,9 +2306,9 @@ messages:
 
 #endregion Speech Library
 
-   % extended speech and random lib stuff   -AJM
+   // extended speech and random lib stuff   -AJM
 
-   % spew everything
+   // spew everything
    DebugRandomLib(mob = $)
    {
       local i, j, lAct;
@@ -2334,13 +2334,13 @@ messages:
 
    SetRandomLibQuote( npc_class = $, keynum = 0, percent = 50, mood = $, quote = $, append = FALSE )
    {
-      % if key is found, replaces string (or appends if append = TRUE)
-      % otherwise creates new key
-      % returns key used, or FALSE on error
-      % if percent non-nil, replaces percent
-      % if quote = nil, does not change quote
-      % new class added if npc_class not found -- be careful! no way to error check this? xxxAJM;
-      % mood only set on initial create
+      // if key is found, replaces string (or appends if append = TRUE)
+      // otherwise creates new key
+      // returns key used, or FALSE on error
+      // if percent non-nil, replaces percent
+      // if quote = nil, does not change quote
+      // new class added if npc_class not found -- be careful! no way to error check this? xxxAJM;
+      // mood only set on initial create
 
       local lClassBranch, lSpeechBranch, iCurrKey, iHighKey, lNewSpeechBranch, sScratch;
 
@@ -2381,16 +2381,16 @@ messages:
             {
                if (First(Nth(lSpeechBranch,3)) = LIBACT_QUOTE)
                {
-                  % quote action
+                  // quote action
                   iCurrKey = Nth(lSpeechBranch,4);
                   if (iCurrKey = keynum)
                   {
-                     % found it - replace if non-nil
+                     // found it - replace if non-nil
                      if (quote <> $)
                      {
                         if (append)
                         {
-                           % Debug( "appending string" );
+                           // Debug( "appending string" );
 
                            SetString(First(plScratchString),quote);
                            ClearTempString();
@@ -2398,19 +2398,19 @@ messages:
                            AppendTempString(First(plScratchString));
                            SetString(Nth(Nth(lSpeechbranch,3),2),GetTempString());
 
-% SetString( First(plScratchString ), append_string );
-% StringSubstitute( First(plScratchString ), append_substring1, Nth(Nth(lSpeechbranch, 3 ), 2 ) );
-% StringSubstitute( First(plScratchString ), append_substring2, quote );
-% SetString( Nth(Nth(lSpeechbranch, 3 ), 2 ), First(plScratchString ) );
+// SetString( First(plScratchString ), append_string );
+// StringSubstitute( First(plScratchString ), append_substring1, Nth(Nth(lSpeechbranch, 3 ), 2 ) );
+// StringSubstitute( First(plScratchString ), append_substring2, quote );
+// SetString( Nth(Nth(lSpeechbranch, 3 ), 2 ), First(plScratchString ) );
 
                         }
                         else
                         {
-                           % Debug( "replacing string" ); 
+                           // Debug( "replacing string" ); 
                            SetString(Nth(Nth(lSpeechbranch,3),2),quote);
                         }
                      }
-                     % replace percent if non-nil
+                     // replace percent if non-nil
                      if (percent <> $)
                      {
                         SetFirst(lSpeechBranch,percent);
@@ -2427,8 +2427,8 @@ messages:
                }
             }
 
-            % key not found - create new key
-            % Debug( "creating new string" );
+            // key not found - create new key
+            // Debug( "creating new string" );
 
             iHighKey = iHighkey + 1;
             lNewSpeechBranch = [percent, mood, [LIBACT_QUOTE,CreateString()], iHighKey];
@@ -2442,10 +2442,10 @@ messages:
          }
       }
 
-      % class not found, create new branch
-      if (TRUE) % want a way to validate a class name here
+      // class not found, create new branch
+      if (TRUE) // want a way to validate a class name here
       {
-         % Debug( "RandomLib: creating new class ",npc_class );
+         // Debug( "RandomLib: creating new class ",npc_class );
          iHighKey = 1;
          lNewSpeechBranch = [percent, mood, [LIBACT_QUOTE,CreateString()], iHighKey];
          SetString(Nth(Nth(lNewSpeechBranch,3),2),quote);
@@ -2467,7 +2467,7 @@ messages:
 
    AppendLastRandomLibQuote(quote = $)
    {
-      % appends quote to last quote added (to bypass length restriction on admin textfile read)
+      // appends quote to last quote added (to bypass length restriction on admin textfile read)
 
       if (quote = $ )
       {
@@ -2488,14 +2488,14 @@ messages:
    SetSpeechLibTrigger(npc_class=$,keynum=0,triggernum=0,trigger=$,
                         mood=$,mood_change=$)
    {
-      % if key and triggernum both found, replaces trigger
-      % if key is found, but not triggernum, creates new trigger
-      % if key is -1, uses last key set (for adding multiple triggers)
-      % otherwise creates new key
-      % returns key used
-      % new class added if npc_class not found -- be careful! no way to error check this? xxxAJM;
-      % mood only set on initial create
-      % if mood_change is sent, creates a mood_change trigger isntead of a quote trigger
+      // if key and triggernum both found, replaces trigger
+      // if key is found, but not triggernum, creates new trigger
+      // if key is -1, uses last key set (for adding multiple triggers)
+      // otherwise creates new key
+      // returns key used
+      // new class added if npc_class not found -- be careful! no way to error check this? xxxAJM;
+      // mood only set on initial create
+      // if mood_change is sent, creates a mood_change trigger isntead of a quote trigger
 
       local lClassBranch, lSpeechBranch, iCurrKey, iHighKey, lNewSpeechBranch,
             iNumTriggers, lNewAction;
@@ -2533,25 +2533,25 @@ messages:
             {
                if (First(Nth(lSpeechBranch,3)) = LIBACT_QUOTE)
                {
-                  % look through keys for a match
+                  // look through keys for a match
                   iCurrKey = Nth(lSpeechBranch,4);
                   if (iCurrKey = keynum)
                   {
-                     % found key - now look for triggernum
-                     %Debug( "found key" );
+                     // found key - now look for triggernum
+                     //Debug( "found key" );
                      iNumTriggers = Length(First(lSpeechBranch));
                      if (triggernum > iNumTriggers)
                      {
-                        % add new trigger
-                        %Debug( "adding trigger" );
+                        // add new trigger
+                        //Debug( "adding trigger" );
                         SetFirst(lSpeechBranch,Cons(CreateString(),
                               First(lSpeechBranch)));
                         SetString(First(First(lSpeechBranch)),trigger);
                      }
                      else
                      {
-                        % replace trigger, counting from end of list
-                        %Debug( "replacing trigger" );
+                        // replace trigger, counting from end of list
+                        //Debug( "replacing trigger" );
                         SetString(Nth(First(lSpeechBranch),
                               iNumTriggers - triggernum + 1),trigger);
                      }
@@ -2567,19 +2567,19 @@ messages:
                }
             }
 
-            % key not found - create new key
+            // key not found - create new key
 
             iHighKey = iHighkey + 1;
             if (mood_change = $)
             {
                lNewAction = [LIBACT_QUOTE, CreateString()];
                SetString(Nth(lNewAction,2),quote_uninitialized);
-               %Debug( "creating new string" );
+               //Debug( "creating new string" );
             }
             else
             {
                lNewAction = [LIBACT_MOOD, mood_change];
-               %Debug( "creating mood trigger" );
+               //Debug( "creating mood trigger" );
             }
             lNewSpeechBranch = [[CreateString()], mood, lNewAction, iHighKey];
             SetString(First(First(lNewSpeechBranch)),trigger);
@@ -2591,20 +2591,20 @@ messages:
          }
       }
 
-      % class not found, create new branch
-      if (TRUE) % want a way to validate a class name here
+      // class not found, create new branch
+      if (TRUE) // want a way to validate a class name here
       {
          iHighKey = 1;
          if (mood_change = $)
          {
             lNewAction = [LIBACT_QUOTE, CreateString()];
             SetString(Nth(lNewAction,2),quote_uninitialized);
-            %Debug( "creating new string in new class ", npc_class );
+            //Debug( "creating new string in new class ", npc_class );
          }
          else
          {
             lNewAction = [LIBACT_MOOD, mood_change];
-            %Debug( "creating mood trigger in new class ", npc_class );
+            //Debug( "creating mood trigger in new class ", npc_class );
          }
          lNewSpeechBranch = [[CreateString()], mood, lNewAction, iHighKey];
          SetString(First(First(lNewSpeechBranch)),trigger);
@@ -2626,11 +2626,11 @@ messages:
 
    SetSpeechLibQuote( npc_class = $, keynum = 0, quote = $, append = FALSE )
    {
-      % if key is found, replaces quote (or appends if append = TRUE)
-      % returns key used
-      % adding new key not allowed (must set trigger first), returns -1 if key not found
-      % uses piLastSpeechKey if keynum = -1 (use to set quote for last trigger added)
-      % adding new class not allowed, returns 0 if class not found;
+      // if key is found, replaces quote (or appends if append = TRUE)
+      // returns key used
+      // adding new key not allowed (must set trigger first), returns -1 if key not found
+      // uses piLastSpeechKey if keynum = -1 (use to set quote for last trigger added)
+      // adding new class not allowed, returns 0 if class not found;
 
       local lClassBranch, lSpeechBranch, iCurrKey, iHighKey, lNewSpeechBranch;
 
@@ -2657,13 +2657,13 @@ messages:
             {
                if (First(Nth(lSpeechBranch,3)) = LIBACT_QUOTE)
                {
-                  % quote action
+                  // quote action
                   iCurrKey = Nth(lSpeechBranch,4);
                   if (iCurrKey = keynum)
                   {
                      if (append)
                      {
-                        %Debug( "appending string" );
+                        //Debug( "appending string" );
                         SetString(First(plScratchString), quote);
 
                         ClearTempString();
@@ -2671,14 +2671,14 @@ messages:
                         AppendTempString(First(plScratchString));
                         SetString(Nth(Nth(lSpeechbranch,3),2),GetTempString());
 
-% SetString( First(plScratchString ), append_string );
-% StringSubstitute( First(plScratchString ), append_substring1, Nth(Nth(lSpeechbranch, 3 ), 2 ) );
-% StringSubstitute( First(plScratchString ), append_substring2, quote );
-% SetString( Nth(Nth(lSpeechbranch, 3 ), 2 ), First(plScratchString ) );
+// SetString( First(plScratchString ), append_string );
+// StringSubstitute( First(plScratchString ), append_substring1, Nth(Nth(lSpeechbranch, 3 ), 2 ) );
+// StringSubstitute( First(plScratchString ), append_substring2, quote );
+// SetString( Nth(Nth(lSpeechbranch, 3 ), 2 ), First(plScratchString ) );
                      }
                      else
                      {
-                        %Debug( "replacing string" ); 
+                        //Debug( "replacing string" ); 
                         SetString(Nth(Nth(lSpeechbranch,3),2),quote);
                      }
                      pcLastSpeechClass = npc_class;
@@ -2693,7 +2693,7 @@ messages:
                }
             }
 
-            % key not found
+            // key not found
             Debug("key not found");
             pcLastSpeechClass = $;
             piLastSpeechKey = 0;
@@ -2710,8 +2710,8 @@ messages:
 
    AppendLastSpeechLibQuote(quote=$)
    {
-      % Appends quote to last quote added, to bypass
-      % length restriction on admin textfile read.
+      // Appends quote to last quote added, to bypass
+      // length restriction on admin textfile read.
 
       if quote = $
          OR piLastSpeechKey = 0
@@ -2745,7 +2745,7 @@ messages:
                if (First(j) >= percent)
                   AND (NOT Send(self,@PersonalityClash,#mob=mob,#libvec=Nth(j,2)))
                {
-                  % We have a legal action, so choose it perhaps.... 
+                  // We have a legal action, so choose it perhaps.... 
                   if Random(0,iCount) = 0
                   {
                      lAction = Nth(j,3);
@@ -2766,7 +2766,7 @@ messages:
       return First(lActionList);
    }
 
-   % plug words into NPC dialogue, e.g. %NAME <- [player's name]
+   // plug words into NPC dialogue, e.g. //NAME <- [player's name]
    SpeechPlugIn(unplugged = $, who = $)
    {
       local iHour;
@@ -2871,16 +2871,16 @@ messages:
       switch(First(action))
       {
       case LIBACT_QUOTE:
-         % We have been asked to say a quote (string)   -AJM
+         // We have been asked to say a quote (string)   -AJM
          Send(Send(mob,@GetOwner),@SomeoneSaid,#what=mob,#type=SAY_MESSAGE,
                #string=quote_substring,#parm1=Send(self,@SpeechPlugIn,
                #unplugged=Nth(action,2),#who=target));
          return;
 
       case LIBACT_MOOD:
-         % We have been induced to change mood   -AJM
-         %Debug( "Mood change of",Nth(action,2) );
-         %Debug( "  for ",Send( mob, @GetName ) );
+         // We have been induced to change mood   -AJM
+         //Debug( "Mood change of",Nth(action,2) );
+         //Debug( "  for ",Send( mob, @GetName ) );
          Post(mob,@SetMood,#new_mood=Send(mob,@GetMood) + Nth(action,2));
          return;
 
@@ -2897,7 +2897,7 @@ messages:
          return;
 
       case LIBACT_SAY:
-         % We have been asked to say something with no arguments
+         // We have been asked to say something with no arguments
          Post(Send(mob,@GetOwner),@SomeoneSaid,#what=mob,#type=SAY_RESOURCE,
               #string = Nth(action,2));
          return;
@@ -3029,13 +3029,13 @@ messages:
          return;
 
       case LIBACT_MONSTER_ADVICE:
-         %this is a special routine, basically someone asked us about a
-         %monster and we want to reply intelligently giving info about
-         %how hard the monster is for the target, what its karma is like,
-         %and perhaps even a hint on weakness or strength of the monster.
-         %To do this, we either need to have access to a monster of the
-         %type, or the info is hardcoded somehow... So, lets assume that
-         %the information being passed to us includes the monster class.
+         //this is a special routine, basically someone asked us about a
+         //monster and we want to reply intelligently giving info about
+         //how hard the monster is for the target, what its karma is like,
+         //and perhaps even a hint on weakness or strength of the monster.
+         //To do this, we either need to have access to a monster of the
+         //type, or the info is hardcoded somehow... So, lets assume that
+         //the information being passed to us includes the monster class.
 
          Send(self,@MonsterAdvice,#mob=mob,#person=target,#action=action);
          return;
@@ -3092,7 +3092,7 @@ messages:
 
       if iRnd < 5
       {
-         % Say something about its karma
+         // Say something about its karma
          iPval = Send(oObj,@GetKarma);
          if iPval >= 45
          {
@@ -3216,11 +3216,11 @@ messages:
 
 #region Signet Rings
 
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
-   %
-   % SIGNETS Added 11/04/96 by jrmurphy
-   %
-   %%%%%%%%%%%%%%
+   //////////////////////////////////////////////////////////////5
+   //
+   // SIGNETS Added 11/04/96 by jrmurphy
+   //
+   ///////////////
 
    AddToSignetNPCList(who = $)
    {
@@ -3388,7 +3388,7 @@ messages:
          return;
       }
 
-      % Safety measure, only delete the ring if it's in the list.
+      // Safety measure, only delete the ring if it's in the list.
       foreach i in plSignetRings
       {
          if i = newring
@@ -3442,51 +3442,51 @@ messages:
       return plSignetRings;
    }
 
-  % Signet Info:
-  % Variables: MaxSignets = number of signets in game at once
-  %            MaxSignetNewbies = number of newbies blocked from using signets
-  %            SignetChance = percentage of newbie kills spawning signets 
-  %            SignetLock = True/False allow generation of signets or not
-  %    ****All of these respond to GetXXXX or SetXXXX,#value=yyyy
-  % Lists:     SignetRings = all the signets in the game.
-  %            SignetNewbies = newbies who have created or delivered signets.
-  %
-  % Newbies are those who are not pk enabled.
-  % On newbie kill, if the newbie is not on plSignetNewbies, then signet is
-  % generated based on SignetChance. The newbie is added to plSignetNewbies.
-  % The signet is added to plSignetRings. both These lists are pruned to be
-  % less than their Max values. Pruned newbies are free to earn signets again.
-  % Pruned rings are deleted (basically a delivery timeout...) Initially the
-  % rings and newbies are set at 20... These may need to be tweaked so that
-  % there is 30min or so to deliver signets when play is crowded with newbies.
-  %
-  % Upon creation, a mob is selected to be the receiver of the signet. The
-  % signetring class is added to their plWantedItems List, and the mob is
-  % stored as the poRingOwner in the signet itself. When offered to the mob,
-  % the CheckWhyWanted routine is chosen, and it determines that the signet
-  % offered is the one desired, and then gives a bonus money amount. If its
-  % not the proper ring, its returned to the player. If it is the right ring
-  % the newbie is again added to the plSignetNewbies list. The SignetRing
-  % class is removed from the mob's plWantedItem list. It is also unregisterd
-  % from the library (removed from the plSignetRings list).
-  %
-  % If needed, the ClearSignets routine in the library can be called to do
-  % a restart of all signets. Also, the SetSignetLock routine can be called
-  % to prevent the generation of any future signets. 
-  % 
-  % If a signet is dropped, or left on the ground, it will eventually blink
-  % (like the tokens) to the center of the room. This is to keep them out
-  % of the water. Also, if a non-newbie returns the token, then they dont
-  % get any money and their name is added to the plSignetNewbies list (in
-  % effect bumping a real newbie off the list).
-  %
-  % When a signet is deleted, it sends a message to a logged on user
-  % that is holding it, which indicates that the player lost the ring.
-  % This might happen if the player takes too long to deliver it.
-  % If the player logs off with the ring, it will likely be gone when they
-  % log back on the next day. Currently there is no message for this.
-  % it may be seen as a bug. Any suggestions on dealing with this are
-  % appreciated.
+  // Signet Info:
+  // Variables: MaxSignets = number of signets in game at once
+  //            MaxSignetNewbies = number of newbies blocked from using signets
+  //            SignetChance = percentage of newbie kills spawning signets 
+  //            SignetLock = True/False allow generation of signets or not
+  //    ****All of these respond to GetXXXX or SetXXXX,#value=yyyy
+  // Lists:     SignetRings = all the signets in the game.
+  //            SignetNewbies = newbies who have created or delivered signets.
+  //
+  // Newbies are those who are not pk enabled.
+  // On newbie kill, if the newbie is not on plSignetNewbies, then signet is
+  // generated based on SignetChance. The newbie is added to plSignetNewbies.
+  // The signet is added to plSignetRings. both These lists are pruned to be
+  // less than their Max values. Pruned newbies are free to earn signets again.
+  // Pruned rings are deleted (basically a delivery timeout...) Initially the
+  // rings and newbies are set at 20... These may need to be tweaked so that
+  // there is 30min or so to deliver signets when play is crowded with newbies.
+  //
+  // Upon creation, a mob is selected to be the receiver of the signet. The
+  // signetring class is added to their plWantedItems List, and the mob is
+  // stored as the poRingOwner in the signet itself. When offered to the mob,
+  // the CheckWhyWanted routine is chosen, and it determines that the signet
+  // offered is the one desired, and then gives a bonus money amount. If its
+  // not the proper ring, its returned to the player. If it is the right ring
+  // the newbie is again added to the plSignetNewbies list. The SignetRing
+  // class is removed from the mob's plWantedItem list. It is also unregisterd
+  // from the library (removed from the plSignetRings list).
+  //
+  // If needed, the ClearSignets routine in the library can be called to do
+  // a restart of all signets. Also, the SetSignetLock routine can be called
+  // to prevent the generation of any future signets. 
+  // 
+  // If a signet is dropped, or left on the ground, it will eventually blink
+  // (like the tokens) to the center of the room. This is to keep them out
+  // of the water. Also, if a non-newbie returns the token, then they dont
+  // get any money and their name is added to the plSignetNewbies list (in
+  // effect bumping a real newbie off the list).
+  //
+  // When a signet is deleted, it sends a message to a logged on user
+  // that is holding it, which indicates that the player lost the ring.
+  // This might happen if the player takes too long to deliver it.
+  // If the player logs off with the ring, it will likely be gone when they
+  // log back on the next day. Currently there is no message for this.
+  // it may be seen as a bug. Any suggestions on dealing with this are
+  // appreciated.
 
 #endregion
 
@@ -3540,7 +3540,7 @@ messages:
          return;
       }
 
-      % Add protocol packet and headers.
+      // Add protocol packet and headers.
       AddPacket(1,BP_SAID, 4,mob, 4,Send(mob,@GetName), 1,SAY_RESOURCE,
                 4,lib_said_resource_str, 4,Send(mob,@GetCapDef),
                 4,Send(mob,@GetName),4,LM_mana_nodes);
@@ -3568,4 +3568,4 @@ messages:
 #endregion
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

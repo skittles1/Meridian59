@@ -1,4 +1,4 @@
-% Item KOD Generation file
+// Item KOD Generation file
 	Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_STALAGMITE1),#new_row=49,#new_col=53,#fine_row=0,#fine_col=0,#angle=ANGLE_EAST);
 	Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_STALAGMITE1),#new_row=47,#new_col=54,#fine_row=0,#fine_col=32,#angle=ANGLE_EAST);
 	Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_STALAGMITE1),#new_row=50,#new_col=54,#fine_row=0,#fine_col=0,#angle=ANGLE_EAST);

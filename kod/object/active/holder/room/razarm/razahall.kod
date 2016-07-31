@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////////////////////////////////////////////////////////////
 RazaHall is RazaRoom
 
 constants:
@@ -100,7 +100,7 @@ messages:
       Send(self,@NewHold,#what=Create(&Chandelier),#new_row=6,#new_col=5,
             #fine_row=18,#fine_col=40);
 
-      % Lighting
+      // Lighting
       Send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,
             #iIntensity=60),#new_row=6,#new_col=5,#fine_row=18,#fine_col=40);
 
@@ -108,4 +108,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

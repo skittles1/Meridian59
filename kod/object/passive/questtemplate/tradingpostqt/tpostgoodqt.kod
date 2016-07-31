@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 TradingPostGoodQuest is TradingPostQuestTemplate
-% Quest template QST_ID_TRADING_POST_GOOD = 19
-% Quest nodes 35, 36.
-% QNT_ID_TRADINGPOST_KICKOFF, QNT_ID_TRADINGPOST_GOOD
+// Quest template QST_ID_TRADING_POST_GOOD = 19
+// Quest nodes 35, 36.
+// QNT_ID_TRADINGPOST_KICKOFF, QNT_ID_TRADINGPOST_GOOD
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -33,7 +33,7 @@ resources:
 
 classvars:
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_TRADING_POST_GOOD
 
 properties:
@@ -44,7 +44,7 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_TRADINGPOST_KICKOFF, QNT_ID_TRADINGPOST_GOOD];
 
       propagate;
@@ -57,8 +57,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #36 is trading post quest (good)
-      % QNT_ID_TRADINGPOST_GOOD
+      // Template #36 is trading post quest (good)
+      // QNT_ID_TRADINGPOST_GOOD
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_ITEMFINDCLASS,
                #cargolist=[ [ QN_PRIZETYPE_ITEMCLASS, &Meatpie, 50 ],
                             [ QN_PRIZETYPE_ITEMCLASS, &Waterskin, 60 ],
@@ -91,4 +91,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

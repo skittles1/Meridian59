@@ -1,24 +1,24 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Brambles is Monster
 
-% This has code borrowed from ActiveWallElement.  Since brambles are considered
-% monsters (you can attack them), they must be located here.
+// This has code borrowed from ActiveWallElement.  Since brambles are considered
+// monsters (you can attack them), they must be located here.
 
 constants:
 
    include blakston.khd
    ANIM_BRAMBLE_GROW = 2
 
-   % 1.5 seconds
+   // 1.5 seconds
    EFFECT_INTERVAL = 1500
 
 resources:
@@ -87,13 +87,13 @@ properties:
 
    vbSummoned = TRUE
 
-   % This is a periodic timer that clears the affected list.
+   // This is a periodic timer that clears the affected list.
    ptPeriodic = $
 
-   % This is a list of objects already affected by the element this period.
+   // This is a list of objects already affected by the element this period.
    plAffected = $
 
-   % The range at which this can affect people.
+   // The range at which this can affect people.
    piRange = 0
 
 messages:
@@ -140,7 +140,7 @@ messages:
 
    GetPeriodicDuration()
    {
-      % 90 - 110% of base interval
+      // 90 - 110// of base interval
       return (EFFECT_INTERVAL * random(90,110))/100;
    }
 
@@ -159,7 +159,7 @@ messages:
    {
       local iRow,iCol,iDamage;
     
-      % Determine victim's row and column
+      // Determine victim's row and column
       if new_row = $
       {
          iRow = Send(what,@GetRow);
@@ -193,20 +193,20 @@ messages:
    CheckForEffect(what = $, new_row = $, new_col = $)
    "Check for range to see if we apply the effect."
    {
-      % Don't affect them again this cycle.
+      // Don't affect them again this cycle.
       if plAffected <> $
          AND FindListElem(plAffected,what) <> 0
       {
          return FALSE;
       }
 
-      % If this is harmful, and both caster and victim are players,
-      %  then disallow damage if caster's safety is on or if cannot do attack
+      // If this is harmful, and both caster and victim are players,
+      //  then disallow damage if caster's safety is on or if cannot do attack
       if IsClass(poCaster,&Player)
          AND NOT Send(poCaster,@AllowPlayerAttack,#victim=what,#report=FALSE,
                         #stroke_obj=self)
       {
-         % We've been "affected" for this cycle. This also prevents super-spam.
+         // We've been "affected" for this cycle. This also prevents super-spam.
          plAffected = Cons(what,plAffected);
 
          if IsClass(what,&Player)
@@ -227,7 +227,7 @@ messages:
    {
       local iDamage;
 
-      % Keep track that we've affected this object.
+      // Keep track that we've affected this object.
       plAffected = cons(what,plAffected);
 
       iDamage = 0;
@@ -243,8 +243,8 @@ messages:
          }
          else
          {
-            % Either there was no damage, or the caster is not a player.  No
-            % caster means the wall was generated.  Either case, do max damage.
+            // Either there was no damage, or the caster is not a player.  No
+            // caster means the wall was generated.  Either case, do max damage.
             iDamage = Send(what,@AssessDamage,#what=self,#damage=piMaxDamage,
                            #atype=ATCK_WEAP_SLASH,#report=FALSE,
                            #report_resistance=FALSE);
@@ -322,14 +322,14 @@ messages:
 
       iDistanceSquared = iRow_diff * iRow_diff + iCol_diff * iCol_diff;
 
-      % This first check is to see if they're within a one square range if
-      % this check was caused by movement.  If so, we reset the user's move
-      % counter, since we make them spam move messages which can throw off
-      % speedhack detection.
+      // This first check is to see if they're within a one square range if
+      // this check was caused by movement.  If so, we reset the user's move
+      // counter, since we make them spam move messages which can throw off
+      // speedhack detection.
       if bMovement
       {
-         % Make sure we're checking at least 1 square away
-         % from current position.
+         // Make sure we're checking at least 1 square away
+         // from current position.
          iLongRange = Bound(piRange,1,$);
       }
       else
@@ -490,7 +490,7 @@ messages:
 
    DestroyDisposable()
    {
-      % Don't destroy me if I'm guarding a shrine!
+      // Don't destroy me if I'm guarding a shrine!
       if poCaster = self
       {
          return;
@@ -505,4 +505,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

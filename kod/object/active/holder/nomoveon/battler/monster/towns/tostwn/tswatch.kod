@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////////////////////////////////////////////////////////
 TosWatcher is TosTown
 
 constants:
@@ -250,60 +250,60 @@ properties:
 
    piCombat_style = STYLE_NO_FIGHT
 
-   % Every now and then, the Watcher sends off a blurb, asking people to fight
-   %  for him.
+   // Every now and then, the Watcher sends off a blurb, asking people to fight
+   //  for him.
    ptAdvert = $
 
-   % In PvP combat, champ has a chance to accept a proffered challenge.
+   // In PvP combat, champ has a chance to accept a proffered challenge.
    ptAccept = $
 
-   % 10 second head start before a fight.
+   // 10 second head start before a fight.
    ptCommence = $
 
-   % The actual length of the fight.
+   // The actual length of the fight.
    ptFight = $
 
-   % This is a list of player objects.
+   // This is a list of player objects.
    plCombatants = $
 
-   % This is a list of two-element lists.
+   // This is a list of two-element lists.
    plKill_list = $
 
-   % poChampion points to whoever won last time out.  poChampion is always a
-   %  player object.
+   // poChampion points to whoever won last time out.  poChampion is always a
+   //  player object.
    poChampion = $
 
-   % poChampion_guild points to the guild object of the current champion.
+   // poChampion_guild points to the guild object of the current champion.
    poChampion_Guild = $
 
-   % Has the player been told he only has 15 more seconds to accept a challenge?
+   // Has the player been told he only has 15 more seconds to accept a challenge?
    pbAccept = FALSE
 
-   % Has the Watcher given the one minute warning?
+   // Has the Watcher given the one minute warning?
    pbLastMinute = FALSE
 
-   % List of best ever players.
+   // List of best ever players.
    plChampions = $
 
-   % How many victories the current champ has.
+   // How many victories the current champ has.
    piKill_counter = 0
 
-   % If an actor has activated the tournament status, this is set to true and
-   %  only an actor can activate or deactivate the commands.
+   // If an actor has activated the tournament status, this is set to true and
+   //  only an actor can activate or deactivate the commands.
    pbTournament = FALSE
 
-   % If an actor is not here for 5 turns in a row, reset the game.
+   // If an actor is not here for 5 turns in a row, reset the game.
    piMissing_Actor = 0
 
-   % If max_lock is equal to true, there are additional limitations on the
-   %  number of people who can fight (to keep load down).
+   // If max_lock is equal to true, there are additional limitations on the
+   //  number of people who can fight (to keep load down).
    pbMax_Lock = TRUE
 
-   % Stores values for the players' HP, mana, and vigor upon entring the
-   %  battle area, which are restored upon leaving the area.
+   // Stores values for the players' HP, mana, and vigor upon entring the
+   //  battle area, which are restored upon leaving the area.
    plUserStats = $
 
-   % The actor running a tournament.
+   // The actor running a tournament.
    poMarshal = $              
 
 
@@ -311,9 +311,9 @@ messages:
 
    Constructor()
    {
-      % This is a list of two element lists.  The first element is the type
-      %  of combat.  The second element is a list of the top players, and
-      %  how many kills they have.
+      // This is a list of two element lists.  The first element is the type
+      //  of combat.  The second element is a list of the top players, and
+      //  how many kills they have.
 
       plChampions = [ [STYLE_ONE_ON_ONE,
                        [[$,0],[$,0],[$,0],[$,0],[$,0]]],
@@ -349,10 +349,10 @@ messages:
       propagate;
    }
 
-   %%% Advertising
+   //// Advertising
 
-   % These messages are spat out at users every now and then, just
-   %  for atmosphere, and to tell players what game is going on, etc.
+   // These messages are spat out at users every now and then, just
+   //  for atmosphere, and to tell players what game is going on, etc.
 
    AdvertTimer()
    {
@@ -424,11 +424,11 @@ messages:
       return;
    }
 
-   %%% Per fight code
+   //// Per fight code
 
-   % Made a conscious decision to move as much of the actual arena code here,
-   %  so that these procedures would be the only ones that need to change,
-   %  if we ever add a new arena type.
+   // Made a conscious decision to move as much of the actual arena code here,
+   //  so that these procedures would be the only ones that need to change,
+   //  if we ever add a new arena type.
 
    SetChampion(who=$)
    {
@@ -467,7 +467,7 @@ messages:
          {
             if Send(i,@GetGuild) = poChampion_guild
             {
-               % This combatant is the 'acting' champion
+               // This combatant is the 'acting' champion
                poChampion = i;
 
                return;
@@ -508,7 +508,7 @@ messages:
             {
                if oGuild <> Send(i,@GetGuild)
                {
-                  % There are at least two guilds.
+                  // There are at least two guilds.
                   return TRUE;
                }
             }
@@ -738,8 +738,8 @@ messages:
 
       if NOT pbMax_lock
       {
-         % Ignore this whole procedure if the Admin wants to damn the
-         %  torpedoes.
+         // Ignore this whole procedure if the Admin wants to damn the
+         //  torpedoes.
          return TRUE;     
       }
 
@@ -939,7 +939,7 @@ messages:
          }
       }
 
-      % Don't teleport monsters out
+      // Don't teleport monsters out
       if IsClass(who,&Player)
       {
          Send(self,@Teleport,#what=who,#outofplay=TRUE);
@@ -981,12 +981,12 @@ messages:
 
       Send(self,@CheckForWinner);
       
-      % Scenario:  champion quits during signup for last man standing.
+      // Scenario:  champion quits during signup for last man standing.
       if poChampion = $ AND Length(plCombatants) >= 2
       {
          if piCombat_Style = STYLE_LAST_MAN_STANDING
          {   
-            % Choose another champion - First player in line will do.
+            // Choose another champion - First player in line will do.
             poChampion = First(plCombatants);
          }
       }
@@ -996,8 +996,8 @@ messages:
 
    SomethingKilled(what=$,victim=$)
    {
-      % We handle all death messages here, but not 'win fight' messages.
-      % Those are handled after the renege messages.
+      // We handle all death messages here, but not 'win fight' messages.
+      // Those are handled after the renege messages.
 
       if IsClass(what,&Spell) AND Send(self,@isCombatant,#who=victim)
       {
@@ -1064,14 +1064,14 @@ messages:
          oldChamp = poChampion;
          poChampion = First(plCombatants);
 
-         % A fight was on!  This guy won!
+         // A fight was on!  This guy won!
          if ptFight <> $
          {
             Send(self,@Say,#message_rsc=TosWatcher_victor);
             DeleteTimer(ptFight);
             ptFight = $;
 
-            % Add to wincounter.
+            // Add to wincounter.
             Send(self,@RewardWinner);
 
             if pbTournament
@@ -1142,7 +1142,7 @@ messages:
       oGuild = $;
       foreach i in plCombatants
       {
-         % If there are more than two guilds then don't cancel.         
+         // If there are more than two guilds then don't cancel.         
          if oGuild = $
          {
             oGuild = Send(i,@GetGuild);
@@ -1159,14 +1159,14 @@ messages:
          
       Send(self,@setchampion,#who=First(plCombatants));
 
-      % A fight was on!  This guy won!
+      // A fight was on!  This guy won!
       if ptFight <> $
       {
          Send(self,@Say,#message_rsc=TosWatcher_victor);
          DeleteTimer(ptFight);
          ptFight = $;
 
-         % Add to wincounter.
+         // Add to wincounter.
          Send(self,@RewardWinner);
          if pbTournament
          {
@@ -1214,13 +1214,13 @@ messages:
    {
       local index, i;
 
-      % Tell self to update standings.
+      // Tell self to update standings.
       Send(self,@AddChampionToChampList);
 
-      % Tell room to lower maze or get rid of pests, whatever.
+      // Tell room to lower maze or get rid of pests, whatever.
       Send(poOwner,@EndFight,#lCombatants=plCombatants);
 
-      % Assume that everyone left in plCombatant is a winner.
+      // Assume that everyone left in plCombatant is a winner.
       foreach i in plCombatants
       {
          index = (Send(i,@GetMaxHealth)+15) - Send(i,@GetHealth);
@@ -1228,7 +1228,7 @@ messages:
          index = (Send(i,@GetMaxMana)+25) - Send(i,@GetMana);
          Send(i,@GainMana,#amount=Bound(index,0,25));
 
-         % Teleport any and all combatants out of the ring.
+         // Teleport any and all combatants out of the ring.
          if ptFight <> $
          {
             DeleteTimer(ptFight);
@@ -1239,7 +1239,7 @@ messages:
       return;
    }
 
-   %%% Timer Triggers
+   //// Timer Triggers
 
    AcceptTimer()
    "Runs through twice.  The First time, it says 'accept or lose your"
@@ -1334,12 +1334,12 @@ messages:
       return;
    }
 
-   %%% Speech Triggers
+   //// Speech Triggers
 
-   % Barring a better interface coming along, speech triggers
-   %  will continue to be used to activate a battle, to choose
-   %  the type of battle, and to renege a battle, among other
-   %  things.
+   // Barring a better interface coming along, speech triggers
+   //  will continue to be used to activate a battle, to choose
+   //  the type of battle, and to renege a battle, among other
+   //  things.
 
    SomeoneSaid(what=$, type = $, string = $)
    "Checks for keywords which activate commands."
@@ -1646,7 +1646,7 @@ messages:
       }
       else
       {
-         % Accept the champion here
+         // Accept the champion here
          if piCombat_Style = STYLE_GUILD_VS_GUILD
             OR piCombat_style = STYLE_LAST_GUILD_STANDING
          {
@@ -1740,13 +1740,13 @@ messages:
    {
       if piCombat_style <> STYLE_ONE_ON_ONE
       {
-         % You can only accept fights in traditional 2 man fights.
+         // You can only accept fights in traditional 2 man fights.
          return FALSE;
       }
 
       if what <> poChampion
       {
-         % Only the champion can accept a fight from a challenger
+         // Only the champion can accept a fight from a challenger
          return FALSE;
       }
 
@@ -1810,7 +1810,7 @@ messages:
       return;
    }
 
-   %%%  Maintenance functions
+   ////  Maintenance functions
 
    Delete()
    {
@@ -1843,7 +1843,7 @@ messages:
 
    DestroyDisposable()
    {
-      % Don't delete it on random passthroughs.
+      // Don't delete it on random passthroughs.
       return FALSE;
    }
 
@@ -1890,7 +1890,7 @@ messages:
 
       if goinplay OR Send(self,@IsCombatant,#who=what)
       {
-         % teleport to the playing field
+         // teleport to the playing field
          bInList = FALSE;
          foreach i in plUserStats
          {
@@ -1925,7 +1925,7 @@ messages:
       }
       else
       {
-         % Teleport out of play
+         // Teleport out of play
          foreach i in plUserStats
          {
             if First(i) = what
@@ -1987,8 +1987,8 @@ messages:
                Post(j,@Delete);
             }
 
-            % Yuckily, this is the easiest way to deal with this.
-            %  Get rid of all wall element spells.
+            // Yuckily, this is the easiest way to deal with this.
+            //  Get rid of all wall element spells.
             if IsClass(j,&ActiveWallElement)
                OR IsClass(j,&PassiveWallOfFire)
                OR IsClass(j,&PassiveWallOfLightning)
@@ -2057,7 +2057,7 @@ messages:
 
    ReqSomethingAttack(what=$,victim=$)
    {
-      % Targetless spells
+      // Targetless spells
       if victim = $
       {
          if NOT Send(self,@IsCombatant,#who=what)
@@ -2086,7 +2086,7 @@ messages:
          return TRUE;
       }
 
-      % Monsters attacking players
+      // Monsters attacking players
       if IsClass(what,&Monster)
          AND Send(self,@IsCombatant,#who=victim)
          AND Send(self,@FightInSession)
@@ -2094,7 +2094,7 @@ messages:
          propagate;
       }
 
-      % Spells with targets = all the rest of them
+      // Spells with targets = all the rest of them
       if NOT Send(self,@IsCombatant,#who=what)
          OR NOT (Send(self,@IsCombatant,#who=victim)
             AND IsClass(victim,&Player))
@@ -2126,15 +2126,15 @@ messages:
    {
       local i, spellNum, rTarget;
 
-      % Spells cast by immortal DMs are not blocked by the watcher
+      // Spells cast by immortal DMs are not blocked by the watcher
       if IsClass(who,&DM) AND Send(who,@PlayerIsImmortal)
       {
          propagate;
       }
 
-      % Only combatants may cast spells on each other.
+      // Only combatants may cast spells on each other.
 
-      % If the caster is not a combatant, don't let him cast.
+      // If the caster is not a combatant, don't let him cast.
       if (NOT Send(self,@isCombatant,#who=who) AND IsClass(who,&Player))
       {
          Send(self,@SayToOne,#target=who,
@@ -2143,7 +2143,7 @@ messages:
          return FALSE;
       }
 
-      % If the caster's single target is not a combatant, don't let him cast.
+      // If the caster's single target is not a combatant, don't let him cast.
       if Length(lItems) = 1
       {
          foreach i in lItems
@@ -2158,7 +2158,7 @@ messages:
          }
       }
 
-      % Can't cast spells unless a fight is in session
+      // Can't cast spells unless a fight is in session
       if ptFight = $
       {
          if IsClass(who,&Player)
@@ -2170,7 +2170,7 @@ messages:
          return FALSE;
       }
 
-      % Certain spells are banned outright
+      // Certain spells are banned outright
       if Send(oSpell,@SpellBannedInArena)
       {
          Send(self,@SayToOne,#target=who,#message_rsc=toswatcher_spell_banned,
@@ -2205,7 +2205,7 @@ messages:
       iStyle = style;
       if iStyle = $
       {
-         % If no style is passed in, used the currently defined combat style.
+         // If no style is passed in, used the currently defined combat style.
          iStyle = piCombat_style;
       }
 
@@ -2310,11 +2310,11 @@ messages:
       return plCombatants;
    }
 
-   %%%  Champions List
+   ////  Champions List
 
-   % Keeps the standings on the signs, and keeps them updated
-   %  Of special note, the signs must delete your standings if
-   %  your character or guild is deleted or restarted.
+   // Keeps the standings on the signs, and keeps them updated
+   //  Of special note, the signs must delete your standings if
+   //  your character or guild is deleted or restarted.
 
    AddChampiontoChampList()
    "This is called whenever a winner of a fight is declared.  Note that it "
@@ -2343,8 +2343,8 @@ messages:
 
       lChampList = Send(self,@GetChampionsList,#style=piCombat_style);
 
-      % If player is already in the champ list, then check their victories.
-      % If their old record is smaller, replace it.
+      // If player is already in the champ list, then check their victories.
+      // If their old record is smaller, replace it.
       foreach i in lChampList
       {
          if First(i) = oChamp
@@ -2362,8 +2362,8 @@ messages:
          }
       }
 
-      % If the guy wasn't in the list, see if the current counter is lower
-      % than anyone on the list.  If so, then replace that guy.  
+      // If the guy wasn't in the list, see if the current counter is lower
+      // than anyone on the list.  If so, then replace that guy.  
 
       if NOT bFound
       {
@@ -2515,4 +2515,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////////////////////////////////////////////////////////

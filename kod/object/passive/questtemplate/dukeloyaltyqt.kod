@@ -1,28 +1,28 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 DukeLoyaltyQuest is QuestTemplate
-% Quest nodes 5, 6, 7.
-% QNT_ID_DUKE_LOYALTY_ONE, QNT_ID_DUKE_LOYALTY_TWO, QNT_ID_DUKE_LOYALTY_THREE
+// Quest nodes 5, 6, 7.
+// QNT_ID_DUKE_LOYALTY_ONE, QNT_ID_DUKE_LOYALTY_TWO, QNT_ID_DUKE_LOYALTY_THREE
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -32,7 +32,7 @@ resources:
 
    include dukeloyaltyqt.lkod
 
-   % Quest description.
+   // Quest description.
    dukeloyalty_icon_rsc = dukeneph.bgf
    dukeloyalty_name_rsc = "Duke loyalty quest"
    dukeloyalty_desc_rsc = \
@@ -49,7 +49,7 @@ resources:
    dukeloyalty_completed = \
       "You have carried out the Duke's task, and remain in his favor."
 
-   % Quest resources.
+   // Quest resources.
    duke_standard2_assign = \
       "Ah, %NAME, my loyal servant.  I require you to collect all taxes "
       "due from %NPC.  Return within the hour."
@@ -77,7 +77,7 @@ classvars:
 
    vrCompleted = dukeloyalty_completed
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_DUKE_SERVICE
 
    viIcon_Animation_start = 1
@@ -89,17 +89,17 @@ properties:
    plSpecialRestrict = $
    piMaxPlayers = 1
    piSchedulePct = 0
-   piTimeLimit = 3600 % 30 minutes.
+   piTimeLimit = 3600 // 30 minutes.
 
 messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_DUKE_LOYALTY_ONE, QNT_ID_DUKE_LOYALTY_TWO,
                       QNT_ID_DUKE_LOYALTY_THREE];
 
-      % Quest nodes with matching descriptions for the player.
+      // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_DUKE_LOYALTY_TWO, vrNodeTwo],
                           [QNT_ID_DUKE_LOYALTY_THREE, vrNodeThree] ];
 
@@ -113,8 +113,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #5 is 1st Duke Standard node, say "loyalty" to Duke
-      % QNT_ID_DUKE_LOYALTY_ONE
+      // Template #5 is 1st Duke Standard node, say "loyalty" to Duke
+      // QNT_ID_DUKE_LOYALTY_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
             #cargolist=[ duke_standard1_trigger ],
             #quest_node_index=QNT_ID_DUKE_LOYALTY_ONE)
@@ -128,8 +128,8 @@ messages:
          Debug("Error building QN: QNT_ID_DUKE_LOYALTY_ONE");
       }
 
-      % Template #6 is 2nd Duke Standard node, say "tax" to an NPC
-      % QNT_ID_DUKE_LOYALTY_TWO
+      // Template #6 is 2nd Duke Standard node, say "tax" to an NPC
+      // QNT_ID_DUKE_LOYALTY_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[ duke_standard2_trigger ],#timelimit=piTimeLimit,
                #quest_node_index=QNT_ID_DUKE_LOYALTY_TWO)
@@ -164,8 +164,8 @@ messages:
          Debug("Error building QN: QNT_ID_DUKE_LOYALTY_TWO");
       }
 
-      % Template #7 is 3rd Duke Standard node, bring tax $$ back to Duke
-      % QNT_ID_DUKE_LOYALTY_THREE
+      // Template #7 is 3rd Duke Standard node, bring tax $$ back to Duke
+      // QNT_ID_DUKE_LOYALTY_THREE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_ITEMCLASS,
             #cargolist=[ [ QN_PRIZETYPE_ITEMCLASS, &Money, 1 ],\
                          [ QN_PRIZETYPE_ITEMCLASS, &Money, 2 ],\
@@ -205,7 +205,7 @@ messages:
          return;
       }
 
-      % Quest node QNT_ID_DUKE_LOYALTY_TWO dialog needs the NPC name.
+      // Quest node QNT_ID_DUKE_LOYALTY_TWO dialog needs the NPC name.
       if index = QNT_ID_DUKE_LOYALTY_TWO
       {
          AddPacket(4,Send(Send(oQuestNode,@GetDestNPC),@GetName));
@@ -213,7 +213,7 @@ messages:
          return;
       }
 
-      % Quest node QNT_ID_DUKE_LOYALTY_THREE dialog needs the tax amount.
+      // Quest node QNT_ID_DUKE_LOYALTY_THREE dialog needs the tax amount.
       if index = QNT_ID_DUKE_LOYALTY_THREE
       {
          oCargo = Send(oQuestNode,@GetCargo);
@@ -226,4 +226,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

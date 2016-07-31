@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 DeadLich is Monster
 
 constants:
 
    include blakston.khd
 
-   LICH_ILLUSION_TIME = 2 * 60 * 1000  % 2 minutes
+   LICH_ILLUSION_TIME = 2 * 60 * 1000  // 2 minutes
 
 resources:
 
@@ -76,7 +76,7 @@ messages:
       poLich = Create(&Lich);
       plKilledBy = Attackers;
 
-      % Only the killer can pick up things for the first 25 seconds.
+      // Only the killer can pick up things for the first 25 seconds.
       ptNoSteal = CreateTimer(self,@NoStealTimer,25000);
 
       propagate;
@@ -193,7 +193,7 @@ messages:
    {
       plFor_sale = [$,$,
          [],
-        %[ SID_EVIL_TWIN, SID_POISON_FOG, SID_BLOOD_INHERITANCE ],
+        //[ SID_EVIL_TWIN, SID_POISON_FOG, SID_BLOOD_INHERITANCE ],
        $ ];
 
       return;
@@ -231,9 +231,9 @@ messages:
       {
          oQE = Send(SYS,@GetQuestEngine);
 
-         % Swap the quest NPC to the new Lich, so that this dead Lich gets
-         % cleaned up by garbage collection. If the new Lich dies, the quest
-         % NPC is set back to the new dead Lich.
+         // Swap the quest NPC to the new Lich, so that this dead Lich gets
+         // cleaned up by garbage collection. If the new Lich dies, the quest
+         // NPC is set back to the new dead Lich.
          iQNTindex = First(Nth(Send(oQE,@GetQuestTemplate,
                            #index=QST_ID_ESTABLISH_NECROGUILD),QT_QUEST_NODES));
          Send(oQE,@SetQuestNodeNPCList,#index=iQNTindex,#new_NPC_list=[poLich]);
@@ -290,7 +290,7 @@ messages:
 
    NewOwner(what=$)
    {
-      % This should never happen, but if it does...
+      // This should never happen, but if it does...
       if what <> $
          AND NOT IsClass(what,&GuildHall15)
       {
@@ -346,4 +346,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

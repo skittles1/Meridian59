@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 DMRescue is DMSpell
 
 constants:
@@ -53,7 +53,7 @@ messages:
             Send(SYS,@UtilGoToSquare,#what=j,#where=oRoom,
                  #row=Send(i,@GetSaveRow),#col=Send(i,@GetSaveCol));
 
-            % If they have the damned string, this will remove it.
+            // If they have the damned string, this will remove it.
             Send(i,@RemoveHonorString,#string=damn_last_annoyed);
 
             continue;
@@ -63,7 +63,7 @@ messages:
          {
             Send(i,@AdminGoToSafety);
 
-            % If they have the damned string, this will remove it.
+            // If they have the damned string, this will remove it.
             Send(i,@RemoveHonorString,#string=damn_last_annoyed);
 
             continue;
@@ -78,4 +78,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,27 +1,27 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 OfferingQuestTemplate is QuestTemplate
-% Parent class for the Priestess/Monk chants.
+// Parent class for the Priestess/Monk chants.
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -31,7 +31,7 @@ resources:
 
    include offeringqt.lkod
 
-   % Quest description.
+   // Quest description.
    offeringquest_accept_rsc = \
       "%s%s has invited you to chant with %s, do you accept?"
 
@@ -50,7 +50,7 @@ properties:
    piNumPlayers = 1
    piMaxPlayers = 1
    piSchedulePct = 10
-   piTimeLimit = 60 % 60 seconds.
+   piTimeLimit = 60 // 60 seconds.
 
 messages:
 
@@ -83,4 +83,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

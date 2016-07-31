@@ -1,30 +1,30 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 TruthSpellQuest is QuestTemplate
-% QST_ID_TRUTH_SPELL = 16
-% Quest nodes 25, 26, 27, 28.
-% QNT_ID_TRUTHPUPIL_ONE, QNT_ID_TRUTHPUPIL_TWO,
-% QNT_ID_TRUTHPUPIL_THREE, QNT_ID_TRUTHPUPIL_FOUR
+// QST_ID_TRUTH_SPELL = 16
+// Quest nodes 25, 26, 27, 28.
+// QNT_ID_TRUTHPUPIL_ONE, QNT_ID_TRUTHPUPIL_TWO,
+// QNT_ID_TRUTHPUPIL_THREE, QNT_ID_TRUTHPUPIL_FOUR
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -34,7 +34,7 @@ resources:
 
    include truthspellqt.lkod
 
-   % Quest description.
+   // Quest description.
    truthspellquest_icon_rsc = idisharm.bgf
    truthspellquest_name_rsc = "Jala pupil quest"
    truthspellquest_desc_rsc = \
@@ -55,7 +55,7 @@ resources:
       "You have completed Parrin's pupil quest.  Parrin will now "
       "teach you the songs of Jala."
 
-   % Quest resources.
+   // Quest resources.
    truthquest_trigger_1 = "pupil"
    truthquest_trigger_2 = "sings"
    truthquest_assign_2 = \
@@ -98,7 +98,7 @@ classvars:
    vrNodeFour = truthspellquest_nodefour_rsc
    vrCompleted = truthspellquest_completed
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_TRUTH_SPELL
 
 properties:
@@ -113,11 +113,11 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_TRUTHPUPIL_ONE, QNT_ID_TRUTHPUPIL_TWO,
                       QNT_ID_TRUTHPUPIL_THREE, QNT_ID_TRUTHPUPIL_FOUR];
 
-      % Quest nodes with matching descriptions for the player.
+      // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_TRUTHPUPIL_TWO, vrNodeTwo],
                           [QNT_ID_TRUTHPUPIL_THREE, vrNodeThree],
                           [QNT_ID_TRUTHPUPIL_FOUR, vrNodeFour] ];
@@ -132,8 +132,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #25 is truth song quest, say truth
-      % QNT_ID_TRUTHPUPIL_ONE
+      // Template #25 is truth song quest, say truth
+      // QNT_ID_TRUTHPUPIL_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[truthquest_trigger_1],
                #quest_node_index=QNT_ID_TRUTHPUPIL_ONE)
@@ -147,8 +147,8 @@ messages:
          Debug("Error building QN: QNT_ID_TRUTHPUPIL_ONE");
       }
 
-      % Template #26 is truth song quest,
-      % QNT_ID_TRUTHPUPIL_TWO
+      // Template #26 is truth song quest,
+      // QNT_ID_TRUTHPUPIL_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[truthquest_trigger_2],
                #quest_node_index=QNT_ID_TRUTHPUPIL_TWO)
@@ -198,13 +198,13 @@ messages:
          Debug("Error building QN: QNT_ID_TRUTHPUPIL_TWO");
       }
 
-      % Template #27 is truth song quest, go back to parrin
-      % QNT_ID_TRUTHPUPIL_THREE
+      // Template #27 is truth song quest, go back to parrin
+      // QNT_ID_TRUTHPUPIL_THREE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_SHOWUP ,
                #prizelist=[ [ QN_PRIZETYPE_SCHEDULE_QUEST, QST_ID_TRUTH_SPELL_ENDBRANCH ],
                             [ QN_PRIZETYPE_ACTIVATE_QUEST, QST_ID_TRUTH_SPELL_ENDBRANCH ],
-                            [ QN_PRIZETYPE_PASS_QUEST_RESTRICT2, Q_R2_IS_PLAYER, 1]%,
-                           %[ QN_PRIZETYPE_PASS_NPC ]
+                            [ QN_PRIZETYPE_PASS_QUEST_RESTRICT2, Q_R2_IS_PLAYER, 1]//,
+                           //[ QN_PRIZETYPE_PASS_NPC ]
                             ],
                #quest_node_index=QNT_ID_TRUTHPUPIL_THREE)
       {
@@ -220,14 +220,14 @@ messages:
          Debug("Error building QN: QNT_ID_TRUTHPUPIL_THREE");
       }
 
-      % Template #28 is truth song quest, say 'bad' to proceed
-      % QNT_ID_TRUTHPUPIL_FOUR
+      // Template #28 is truth song quest, say 'bad' to proceed
+      // QNT_ID_TRUTHPUPIL_FOUR
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[truthquest_trigger_4],
                #quest_node_index=QNT_ID_TRUTHPUPIL_FOUR)
       {
-         %Send(oQE,@SetQuestNodeNPCList,#index=QNT_ID_TRUTHPUPIL_FOUR,
-         %     #new_NPC_list=lNPCs);
+         //Send(oQE,@SetQuestNodeNPCList,#index=QNT_ID_TRUTHPUPIL_FOUR,
+         //     #new_NPC_list=lNPCs);
          Send(oQE,@SetQuestNodeNPCModifier,#index=QNT_ID_TRUTHPUPIL_FOUR,
                #new_mod=QN_NPCMOD_SAME);
          Send(oQE,@SetQuestNodeAssignHint,#index=QNT_ID_TRUTHPUPIL_FOUR,
@@ -268,4 +268,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

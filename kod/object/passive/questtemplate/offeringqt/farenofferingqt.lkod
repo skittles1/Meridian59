@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 farenofferingqt_name_rsc = de "Faren Opfer Quest"
 farenofferingqt_desc_rsc = de \
    "Priesterin Tenuval hat Dich eingeladen mit ihr zu singen, um die Herrin zu stärken."
@@ -9,7 +9,7 @@ farenofferingqt_completed = de \
    "der Schreine in der Welt platziert wird, wird er Faren geweiht und verleit den "
    "Zaubern Farens mehr Kraft."
 
-% Quest resources.
+// Quest resources.
 farenoffering_assign_2 = de \
    "`B`g%NAME, Kind unserer Herrin der Wildnis. Gibst du Dich selber dafür "
    "auf, so das Deine Mutter stärker sein kann?"

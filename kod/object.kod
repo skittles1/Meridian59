@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////////////
 Object
 
 constants:
@@ -61,8 +61,8 @@ resources:
    object_cap_lord = "Lord"
    object_cap_lady = "Lady"
 
-   % Resources for displaying time remaining. Used in descriptions.
-   % The default is for an enchantment (spell or skill).
+   // Resources for displaying time remaining. Used in descriptions.
+   // The default is for an enchantment (spell or skill).
    object_time_header_rsc = \
       "\n\nYour current %s enchantment will last for %r%r%r%r%r%r%r."
    object_time_sec_rsc = "1 second"
@@ -110,10 +110,10 @@ messages:
 
    Constructor()
    {
-      % Essential for creation stuff that needs to happen AFTER constructors
-      %  called
+      // Essential for creation stuff that needs to happen AFTER constructors
+      //  called
       Send(self,@Constructed);
-      % Set any default values
+      // Set any default values
       Send(self,@DefaultValues);
       return;
    }
@@ -141,10 +141,10 @@ messages:
       return;
    }
 
-   % This message will restore the default values in any object.  Must be
-   %  defined for any subclass that wants to use it. This is intended to
-   %  make updating a bit smoother, so you can re-set properties in objects
-   %  that have changed radically.
+   // This message will restore the default values in any object.  Must be
+   //  defined for any subclass that wants to use it. This is intended to
+   //  make updating a bit smoother, so you can re-set properties in objects
+   //  that have changed radically.
    DefaultValues()
    {
       return;
@@ -194,11 +194,11 @@ messages:
    {
       local iSeconds, iMinutes, iHours, iDays;
 
-      % iTime is in seconds.
+      // iTime is in seconds.
       iDays = iTime / DAY;
-      iHours = (iTime MOD DAY) / HOUR;
-      iMinutes = (iTime MOD HOUR) / MINUTE;
-      iSeconds = iTime MOD MINUTE;
+      iHours = (iTime % DAY) / HOUR;
+      iMinutes = (iTime % HOUR) / MINUTE;
+      iSeconds = iTime % MINUTE;
 
       if iTime > 0
       {
@@ -222,7 +222,7 @@ messages:
             AddPacket(4,object_time_days_rsc, 4,iDays);
          }
 
-         % If two or more remaining fields greater than 0, use a comma.
+         // If two or more remaining fields greater than 0, use a comma.
          if (iHours > 0 AND iMinutes > 0)
             OR (iHours > 0 AND iSeconds > 0)
             OR (iMinutes > 0 AND iSeconds > 0)
@@ -231,7 +231,7 @@ messages:
          }
          else
          {
-            % If one remaining field greater than 0, use and.
+            // If one remaining field greater than 0, use and.
             if iHours > 0
                OR iMinutes > 0
                OR iSeconds > 0
@@ -323,7 +323,7 @@ messages:
          AddPacket(4,object_time_blank_rsc);
       }
 
-      % Call this to add anything after the time resources if necessary.
+      // Call this to add anything after the time resources if necessary.
       Send(self,@SendTimeRemainingExtra);
 
       return;
@@ -448,10 +448,10 @@ messages:
       {
          if IsClass(poOwner,&Room)
          {
-            % set query-flags, here we're only interested in the sectorinfo
+            // set query-flags, here we're only interested in the sectorinfo
             iQflags = LIQ_GET_SECTORINFO;
 
-            % query data from bsp in c-function
+            // query data from bsp in c-function
             if NOT GetLocationInfoBSP(
                       Send(poOwner,@GetRoomData), iQflags, 
                       Send(self,@GetRow), Send(self,@GetCol),
@@ -462,7 +462,7 @@ messages:
                return 0;
             }
 
-            % we're only using the floor-height with depth modifier here
+            // we're only using the floor-height with depth modifier here
             return iHeightFWD;
          }
          else
@@ -485,10 +485,10 @@ messages:
       {
          if IsClass(poOwner,&Room)
          {
-            % set query-flags, here we're only interested in the sectorinfo
+            // set query-flags, here we're only interested in the sectorinfo
             iQflags = LIQ_GET_SECTORINFO;
 	  
-            % query data from bsp in c-function
+            // query data from bsp in c-function
             if NOT GetLocationInfoBSP(
                       Send(poOwner,@GetRoomData), iQflags, 
                       Send(self,@GetRow), Send(self,@GetCol),
@@ -499,7 +499,7 @@ messages:
                return 0;
             }
 
-            % we're only using the ceiling-height here
+            // we're only using the ceiling-height here
             return iHeightC;
          }
          else
@@ -518,8 +518,8 @@ messages:
 
    ReqNewOwner(what = $)
    {
-      % Don't go into a user.  Also, make sure we can leave our previous owner,
-      %  if we had one.
+      // Don't go into a user.  Also, make sure we can leave our previous owner,
+      //  if we had one.
       if IsClass(what,&User)
          OR (poOwner <> $ AND NOT Send(poOwner,@ReqLeaveHold,#what=self))
       {
@@ -566,21 +566,21 @@ messages:
       return;
    }
 
-   % New Name Convention:
-   %
-   % Most cases, use GetName().
-   % A child class might override it to get an apparent pseudonym
-   % or the word "something".  It should never return the empty string,
-   % so that it's always suitable for use in sentences.
-   %
-   % If you want the real actual name, use GetTrueName().
-   % This *always* returns vrName, and shouldn't be overridden by any
-   % child class.
-   %
-   % For cases which might return a blank string, use GetApparentName().
-   % A child class can override it to return an apparent pseudonym or
-   % a blank string.  Not recommended for text, but recommended for
-   % visuals.
+   // New Name Convention:
+   //
+   // Most cases, use GetName().
+   // A child class might override it to get an apparent pseudonym
+   // or the word "something".  It should never return the empty string,
+   // so that it's always suitable for use in sentences.
+   //
+   // If you want the real actual name, use GetTrueName().
+   // This *always* returns vrName, and shouldn't be overridden by any
+   // child class.
+   //
+   // For cases which might return a blank string, use GetApparentName().
+   // A child class can override it to return an apparent pseudonym or
+   // a blank string.  Not recommended for text, but recommended for
+   // visuals.
 
    GetName()
    {
@@ -599,19 +599,19 @@ messages:
    
    GetDef()
    {
-      % return resource of definite article
+      // return resource of definite article
       return Send(self,@LookupArticle,#article_num=viDefinite);
    }
 
    GetIndef()
    {
-      % return resource of indefinite article
+      // return resource of indefinite article
       return Send(self,@LookupArticle,#article_num=viIndefinite);
    }
 
    LookupArticle(article_num = $)
    {
-      % returns resource of the article, given as an integer
+      // returns resource of the article, given as an integer
 
       if article_num = ARTICLE_THE
       {
@@ -655,19 +655,19 @@ messages:
 
    GetCapDef()
    {
-      % return resource of capitalized definite article
+      // return resource of capitalized definite article
       return Send(self,@LookupCapitalArticle,#article_num=viDefinite);
    }
 
    GetCapIndef()
    {
-      % return resource of capitalized indefinite article
+      // return resource of capitalized indefinite article
       return Send(self,@LookupCapitalArticle,#article_num=viIndefinite);
    }
 
    LookupCapitalArticle(article_num = $)
    {
-      % returns resource of the article, given as an integer
+      // returns resource of the article, given as an integer
 
       if article_num = ARTICLE_THE
       {
@@ -717,8 +717,8 @@ messages:
 
    SendAnimation()
    {
-      % Send animation info to user.  Default is no animation, display with
-      %  group 1.
+      // Send animation info to user.  Default is no animation, display with
+      //  group 1.
       AddPacket(1, ANIMATE_NONE, 2, 1);
 
       return;
@@ -726,7 +726,7 @@ messages:
 
    SendLookAnimation()
    {
-      % Send animation info to user for when the user looks at the object.
+      // Send animation info to user for when the user looks at the object.
       Send(self,@SendAnimation);
 
       return;
@@ -734,8 +734,8 @@ messages:
 
    SendMoveAnimation()
    {
-      % Send animation when object moves smoothly from one square to another.
-      % Default is no animation, which is indicated by giving 0 for the speed.
+      // Send animation when object moves smoothly from one square to another.
+      // Default is no animation, which is indicated by giving 0 for the speed.
       AddPacket(1,ANIMATE_NONE, 2,1);
 
       return;
@@ -743,8 +743,8 @@ messages:
 
    SendMoveOverlays()
    {
-      % Send overlays when object moves smoothly from one square to another.
-      % Default is leave overlays alone
+      // Send overlays when object moves smoothly from one square to another.
+      // Default is leave overlays alone
       AddPacket(1,0);
 
       return;
@@ -752,7 +752,7 @@ messages:
 
    SendOverlays()
    {
-      % Send overlay bitmap info to user.  Default is no overlays.
+      // Send overlay bitmap info to user.  Default is no overlays.
       AddPacket(1, 0);
 
       return;
@@ -760,7 +760,7 @@ messages:
 
    SendLookOverlays()
    {
-      % Send overlay info to user for when the user looks at the object
+      // Send overlay info to user for when the user looks at the object
       Send(self,@SendOverlays);
 
       return;
@@ -782,7 +782,7 @@ messages:
 
    SendLightingInformation()
    {
-      % Default: No lighting
+      // Default: No lighting
       AddPacket(2,0);
 
       return;
@@ -843,8 +843,8 @@ messages:
       return FALSE;
    }
 
-   % Stuff that used to be in active. but no longer since passive isn't under
-   %  it any more.
+   // Stuff that used to be in active. but no longer since passive isn't under
+   //  it any more.
 
    ReqSomethingEntered(where = $,what = $)
    {
@@ -962,8 +962,8 @@ messages:
       return FALSE;
    }
 
-   % These two messages are generated by the room, triggered by other messages
-   %  (NewHold and LeaveHold)
+   // These two messages are generated by the room, triggered by other messages
+   //  (NewHold and LeaveHold)
 
    FirstUserEntered(what = $,new_row = $,new_col = $)
    {
@@ -1047,9 +1047,9 @@ messages:
 
       if rgb
       {
-         lColor = Cons((piNameColor & 0x0000FF), lColor); % Blue
-         lColor = Cons((piNameColor  & 0x00FF00) / 256, lColor); % Green
-         lColor = Cons((piNameColor & 0xFF0000) / 65536, lColor); % Red
+         lColor = Cons((piNameColor & 0x0000FF), lColor); // Blue
+         lColor = Cons((piNameColor  & 0x00FF00) / 256, lColor); // Green
+         lColor = Cons((piNameColor & 0xFF0000) / 65536, lColor); // Red
 
          return lColor;
       }
@@ -1325,4 +1325,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

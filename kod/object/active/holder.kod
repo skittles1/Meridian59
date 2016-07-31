@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Holder is ActiveObject
 
 constants:
@@ -29,7 +29,7 @@ messages:
 
    Delete()
    {
-      % Kill off the inventory, too
+      // Kill off the inventory, too
       Send(self,@DeleteHolding);
 
       propagate;
@@ -39,7 +39,7 @@ messages:
    {
       local i, each_obj;
 
-      % As a safety precaution, don't delete users
+      // As a safety precaution, don't delete users
       foreach i in plActive
       {
          each_obj = Send(self,@HolderExtractObject,#data=i);
@@ -366,7 +366,7 @@ messages:
             {
                if GetClass(what) = GetClass(each_obj)
                {
-                  % should only be one of these, so can quit loop if found
+                  // should only be one of these, so can quit loop if found
 
                   Send(each_obj,@AddNumber,#number=Send(what,@GetNumber));
                   Send(what,@Delete);
@@ -530,7 +530,7 @@ messages:
    {
       local i, each_obj;
 
-      %%% This MUST propagate to set owners properly
+      //// This MUST propagate to set owners properly
 
       foreach i in plActive
       {
@@ -641,15 +641,15 @@ messages:
 
    SayRangeCheck(talker=$,hearer=$,type=$)
    {
-      % Shouldn't really happen
+      // Shouldn't really happen
       if talker = $ OR hearer = $
       {
          return FALSE;
       }
 
-      % if we have user->monster or monster->user and the monster is
-      % not range-unlimited, and they are too far apart, return FALSE.
-      % For any other case, there is no need to clip, so return TRUE.
+      // if we have user->monster or monster->user and the monster is
+      // not range-unlimited, and they are too far apart, return FALSE.
+      // For any other case, there is no need to clip, so return TRUE.
 
       if ((IsClass(talker,&User)
             AND IsClass(hearer,&Monster)
@@ -837,7 +837,7 @@ messages:
          }
       }
 
-      % Ignore passive items for now
+      // Ignore passive items for now
 
       return FALSE;
    }
@@ -1044,7 +1044,7 @@ messages:
          }
       }
 
-      % Should never be reached
+      // Should never be reached
       Debug("Inconsistancy in plActive or plPassive");
 
       return;
@@ -1056,4 +1056,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

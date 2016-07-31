@@ -1,18 +1,18 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Umbrella is RadiusEnchantment
-% Termination conditions
-%  caster breaks trance 
-%  enchantee moves out of range
-%  total spell time elapses
+// Termination conditions
+//  caster breaks trance 
+//  enchantee moves out of range
+//  total spell time elapses
 
 constants:
 
@@ -86,12 +86,12 @@ messages:
       {
          if Send(attacker,@IsAffectedByRadiusEnchantment,#what=self,#caster=caster)
          {
-            % Umbrella can't help if the attacker is within its limits
+            // Umbrella can't help if the attacker is within its limits
             return defense_power;
          }
       }
 
-      % Adds up to 198 defense against attacks from outside the umbrella
+      // Adds up to 198 defense against attacks from outside the umbrella
       return defense_power + iPower*2;
    }
 
@@ -101,7 +101,7 @@ messages:
       {
          if Send(attacker,@IsAffectedByRadiusEnchantment,#what=self,#caster=caster)
          {
-            % Umbrella can't help if the attacker is within its limits
+            // Umbrella can't help if the attacker is within its limits
             return resistance;
          }
          else
@@ -113,7 +113,7 @@ messages:
          }
       }
 
-      % Resists up to 20% of all attacks from outside the umbrella.
+      // Resists up to 20// of all attacks from outside the umbrella.
       if resistance > 20
       {
          return resistance;
@@ -126,4 +126,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,26 +1,26 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ItemAttEngraved is ItemAttribute
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%   This item has a string engraved onto it with the engrave skill.
-%
-%   Form is:
-%
-%      [IA_ENGRAVED, sMessage_string]
-%
-%   sMessage_string::the message that is engraved on the item.
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////
+//
+//   This item has a string engraved onto it with the engrave skill.
+//
+//   Form is:
+//
+//      [IA_ENGRAVED, sMessage_string]
+//
+//   sMessage_string::the message that is engraved on the item.
+//
+///////////////////////////////////////////////////////////////////////
 
 constants:
 
@@ -67,8 +67,8 @@ messages:
          return FALSE;
       }
 
-      %% state1 is a temporary string.  Create a new perm string, or recycle
-      %% an existing one.
+      /// state1 is a temporary string.  Create a new perm string, or recycle
+      /// an existing one.
 
       if plDiscarded_Strings = $
       {
@@ -117,17 +117,17 @@ messages:
 
    AddToTreasureTable()
    {
-      %% do nothing
+      /// do nothing
       return FALSE;
    }
 
    SetItemsToAttribute()
    {
-      % plItems_to_attribute should never be used by this itematt
+      // plItems_to_attribute should never be used by this itematt
       plItems_to_Attribute = $;
 
       return;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

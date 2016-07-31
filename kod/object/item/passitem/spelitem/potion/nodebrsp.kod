@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 NodeBurstPotion is Potion
 
 constants:
@@ -19,7 +19,7 @@ resources:
    include nodebrsp.lkod
 
    NodeBurstPotion_name_rsc = "pungent elixir"
-   %NodeBurstPotion_icon_rsc = potion01.bgf
+   //NodeBurstPotion_icon_rsc = potion01.bgf
    NodeBurstPotion_desc_rsc = "This is a glass vial of colored liquid.  "
                         "It has an extremely pungent odor; one whiff is enough to leave your head spinning.  "
                         "Not surprisingly, it has a large warning label attached to it.  Apparently, this "
@@ -55,4 +55,4 @@ properties:
 messages:
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

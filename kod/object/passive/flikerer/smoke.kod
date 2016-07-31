@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 SmokeColumn is Flickerer
 
 constants:
@@ -35,17 +35,17 @@ classvars:
    viStart_frame = 1
    viEnd_frame = 5
 
-   % Lighting flags.  Default "on" flag
+   // Lighting flags.  Default "on" flag
    viLightFlags = LIGHT_FLAG_ON
 
-   % Light color.
+   // Light color.
    viLightColor = LIGHT_FIRE
 
 properties:
 
    piDrawFx = DRAWFX_TRANSLUCENT_25
 
-   % Intensity, from 0-255.
+   // Intensity, from 0-255.
    piLightIntensity = 10
 
 messages:
@@ -58,4 +58,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -20,51 +20,71 @@ enum
    DESTRUCTOR = 2,
 };
 
-/* command bits of the opcode */
-enum
-{
-   UNARY_ASSIGN = 0,
-   BINARY_ASSIGN = 1,
-   GOTO = 2,
-   CALL = 3,
-   RETURN = 4,
-   DEBUG_LINE = 5,
+// Opcodes
+enum opcode_id {
+   OP_RETURN,
+   // Goto instructions
+   OP_GOTO_UNCOND,
+   OP_GOTO_IF_TRUE_C,
+   OP_GOTO_IF_TRUE_L,
+   OP_GOTO_IF_TRUE_P,
+   OP_GOTO_IF_TRUE_V,
+   OP_GOTO_IF_FALSE_C,
+   OP_GOTO_IF_FALSE_L,
+   OP_GOTO_IF_FALSE_P,
+   OP_GOTO_IF_FALSE_V,
+   // Call instructions
+   OP_CALL_STORE_NONE,
+   OP_CALL_STORE_L,
+   OP_CALL_STORE_P,
+   // Unary instructions
+   OP_UNARY_NOT_L,
+   OP_UNARY_NOT_P,
+   OP_UNARY_NEG_L,
+   OP_UNARY_NEG_P,
+   OP_UNARY_NONE_L,
+   OP_UNARY_NONE_P,
+   OP_UNARY_BITNOT_L,
+   OP_UNARY_BITNOT_P,
+   OP_UNARY_POSTINC,
+   OP_UNARY_POSTDEC,
+   OP_UNARY_PREINC,
+   OP_UNARY_PREDEC,
+   // Binary instructions
+   OP_BINARY_ADD_L,
+   OP_BINARY_ADD_P,
+   OP_BINARY_SUB_L,
+   OP_BINARY_SUB_P,
+   OP_BINARY_MUL_L,
+   OP_BINARY_MUL_P,
+   OP_BINARY_DIV_L,
+   OP_BINARY_DIV_P,
+   OP_BINARY_MOD_L,
+   OP_BINARY_MOD_P,
+   OP_BINARY_AND_L,
+   OP_BINARY_AND_P,
+   OP_BINARY_OR_L,
+   OP_BINARY_OR_P,
+   OP_BINARY_EQ_L,
+   OP_BINARY_EQ_P,
+   OP_BINARY_NEQ_L,
+   OP_BINARY_NEQ_P,
+   OP_BINARY_LESS_L,
+   OP_BINARY_LESS_P,
+   OP_BINARY_GREATER_L,
+   OP_BINARY_GREATER_P,
+   OP_BINARY_LEQ_L,
+   OP_BINARY_LEQ_P,
+   OP_BINARY_GEQ_L,
+   OP_BINARY_GEQ_P,
+   OP_BINARY_BITAND_L,
+   OP_BINARY_BITAND_P,
+   OP_BINARY_BITOR_L,
+   OP_BINARY_BITOR_P,
+   NUMBER_OF_OPCODES // Must be last.
 };
 
-/* info byte for unary assign */
-enum
-{
-   NOT = 0,
-   NEGATE = 1,
-   NONE = 2,
-   BITWISE_NOT = 3,
-   POST_INCREMENT = 4,
-   POST_DECREMENT = 5,
-   PRE_INCREMENT = 6,
-   PRE_DECREMENT = 7,
-};
-
-/* info byte for binary assign */
-enum
-{
-   ADD = 0,
-   SUBTRACT = 1,
-   MULTIPLY = 2,
-   DIV = 3,
-   MOD = 4,
-   AND = 5,
-   OR = 6,
-   EQUAL = 7,
-   NOT_EQUAL = 8,
-   LESS_THAN = 9,
-   GREATER_THAN = 10,
-   LESS_EQUAL = 11,
-   GREATER_EQUAL = 12,
-   BITWISE_AND = 13,
-   BITWISE_OR = 14,
-};
-
-/* source1 & source2 bits of the opcode for assign and return, and dest bit of the opcode,
+/* source1 & source2 bits of the opcode for assign and return,
  * and some legal values for type byte of each parameter in a call
  */
 enum 
@@ -75,37 +95,11 @@ enum
    CLASS_VAR = 3,
 };
 
-/* source1 bits of the opcode for goto */
-enum
-{
-   GOTO_COND_LOCAL_VAR = 0,
-   GOTO_COND_PROPERTY = 1,
-   GOTO_COND_CONSTANT = 2,
-   GOTO_COND_CLASS_VAR = 3,
-
-   GOTO_UNCONDITIONAL = 1,    // source2 bits for unconditional goto
-};
-
-/* source1 bits of the opcode for call */
-enum
-{
-   CALL_ASSIGN_LOCAL_VAR = 0,
-   CALL_ASSIGN_PROPERTY = 1,
-   CALL_NO_ASSIGN = 2,
-};
-
-/* dest bit of the opcode for return */
+/* source2 bit of the opcode for return */
 enum
 {
    NO_PROPAGATE = 0,
    PROPAGATE = 1,
-};
-
-/* dest bit of the opcode for conditional gotos */
-enum
-{
-   GOTO_IF_TRUE = 0,
-   GOTO_IF_FALSE = 1,
 };
 
 /* function ID's */
@@ -258,14 +252,13 @@ typedef struct
    unsigned int tag:4;
 } constant_type;
 
-/* opcode byte breakdown */
+// New opcode data - usually only require source bits.
+// Opcodes that require a source and dest use source2 for the dest bits.
 typedef struct
 {
-   unsigned int source2:2;
-   unsigned int source1:2;
-   unsigned int dest:1;
-   unsigned int command:3;
-} opcode_type;
+   unsigned int source2 : 4;
+   unsigned int source1 : 4;
+} opcode_data;
 
 // This is the type of any kod data structure, i.e. kod integers (data and tag).
 // Added as a separate typedef for possible future transition to 64-bit types.

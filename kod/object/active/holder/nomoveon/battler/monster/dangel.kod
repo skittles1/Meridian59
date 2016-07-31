@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 DarkAngel is Monster
 
 constants:
@@ -26,7 +26,7 @@ constants:
 
    HS_WINGS = 1
 
-   % Base percent chance to resist spells.
+   // Base percent chance to resist spells.
    MAGIC_RESIST = 50
 
 resources:
@@ -71,7 +71,7 @@ classvars:
    viDifficulty = 9
    viVisionDistance = 28
 
-   % Attack range of 448, or 7 row/col.
+   // Attack range of 448, or 7 row/col.
    viAttackRange = 448
 
    viKarma = -100
@@ -83,7 +83,7 @@ classvars:
    vrSound_aware = DarkAngel_sound_aware
    vrSound_death = DarkAngel_sound_death
 
-   % 1 in x chance to cast a spell.
+   // 1 in x chance to cast a spell.
    viSpellChance = 3
 
 properties:
@@ -94,7 +94,7 @@ properties:
    piSpellPower = 99
    piMax_mana = 40
 
-   % piSpellRange in FINENESS units. 10 row/cols.
+   // piSpellRange in FINENESS units. 10 row/cols.
    piSpellRange = 640
 
    piReputationGroup = REP_HERETIC
@@ -138,7 +138,7 @@ messages:
 
    MonsterCastAnimation(iSpellNum=$)
    {
-      % We use the fireball for cast animation.
+      // We use the fireball for cast animation.
       Send(self,@DoFireball);
 
       return;
@@ -167,7 +167,7 @@ messages:
 
    SendProjectileAnimation()
    {
-      % 40ms between animations
+      // 40ms between animations
       AddPacket(1,ANIMATE_CYCLE, 4,40, 2,1, 2,2);
 
       return;
@@ -175,19 +175,19 @@ messages:
 
    GetProjectileLightFlags()
    {
-      % General lighting information.
+      // General lighting information.
       return LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC;
    }
 
    GetProjectileLightIntensity()
    {
-      % Medium light radius for projectile.  Out of 255 levels.
+      // Medium light radius for projectile.  Out of 255 levels.
       return 125;
    }
 
    GetProjectileLightColor()
    {
-      % Color is a bright orange.
+      // Color is a bright orange.
       return LIGHT_BORANGE;
    }
 
@@ -260,7 +260,7 @@ messages:
 
    CanMorphTo()
    {
-      % Dark Angel has overlays.
+      // Dark Angel has overlays.
       return FALSE;
    }
 
@@ -286,7 +286,7 @@ messages:
             OR IsClass(oSpell,&Blind)
             OR IsClass(oSpell,&Hold)
          {
-            % Extra 60% chance to resist.  Brings 50% up to 80%
+            // Extra 60// chance to resist.  Brings 50// up to 80//
             iResistChance = (iResistChance * 160)/100;
          }
 
@@ -301,4 +301,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

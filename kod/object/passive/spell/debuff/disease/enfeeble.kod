@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Enfeeble is Disease
 
 constants:
@@ -91,7 +91,7 @@ messages:
          poStrength_spell = Send(SYS,@FindSpellByNum,#num=SID_SUPERSTRENGTH);
       }
 
-      %%% All super strength spells are now dispelled before palsy begins!
+      //// All super strength spells are now dispelled before palsy begins!
       Send(oTarget,@RemoveEnchantment,#what=poStrength_spell);
 
       if IsClass(oTarget,&User)
@@ -108,7 +108,7 @@ messages:
       }
       else
       {
-         %%% class is &Monster
+         //// class is &Monster
          Send(oTarget,@StartPalsy);
          Send(oTarget,@StartEnchantment,#what=self,#time=iDuration);
       }
@@ -128,7 +128,7 @@ messages:
       }
       else
       {
-         %%% class is &Monster
+         //// class is &Monster
          Send(who,@EndPalsy);
       }
 
@@ -136,4 +136,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

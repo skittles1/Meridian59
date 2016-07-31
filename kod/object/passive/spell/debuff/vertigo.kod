@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Vertigo is Debuff
 
 constants:
@@ -95,7 +95,7 @@ messages:
       Send(what,@MsgSendUser,#message_rsc=vrSuccess,
            #parm1=Send(oTarget,@GetCapDef),#parm2=Send(oTarget,@GetName));
 
-      % Spell effects
+      // Spell effects
       if IsClass(oTarget,&User)
       {
          Send(oTarget,@MsgSendUser,#message_rsc=vrEnchantment_On);
@@ -125,7 +125,7 @@ messages:
    {
       local iAmount;
 
-      % Stats are reduced between 15-24
+      // Stats are reduced between 15-24
       iAmount = 15+(iSpellPower/10);
 
       return iAmount;
@@ -135,9 +135,9 @@ messages:
    {
       local iDuration;
 
-      % Duration calculation now uses class properties, modifiable in game
-      % By default, base duration 4000ms, total time 4000-14000ms using 101x
-      % spellpower multiplier, with the final duration 90-100% max
+      // Duration calculation now uses class properties, modifiable in game
+      // By default, base duration 4000ms, total time 4000-14000ms using 101x
+      // spellpower multiplier, with the final duration 90-100// max
 
       iDuration = (piBaseDuration + (iSpellPower+1)*piSpellPowerModifier);
       iDuration = random(iDuration*(100-piDeviation)/100,iDuration);
@@ -188,4 +188,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

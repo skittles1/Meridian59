@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 CorNoth is CorNothRoom
 
 constants:
@@ -104,7 +104,7 @@ messages:
 
    Constructed()
    {
-   %  each sound is [wave_file, row, col, cutoff radius, maximum volume]
+   //  each sound is [wave_file, row, col, cutoff radius, maximum volume]
       plLooping_sounds = [[ wind_sound_cornoth, 1, 1, 200, 100 ]];
       propagate;
    }
@@ -115,7 +115,7 @@ messages:
 
       iHour = Send(SYS,@GetHour);
 
-      iGroup = 1 + (iHour mod 12);
+      iGroup = 1 + (iHour % 12);
 
       Send(self,@AnimateWall,#wall=CLOCK_FACE,#animation=ANIMATE_NONE,#first_group=iGroup);
       
@@ -165,4 +165,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

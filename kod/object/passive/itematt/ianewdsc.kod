@@ -1,25 +1,25 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ItemAttNewDescription is ItemAttribute
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%   This item has a new nonstandard description.
-%
-%   Form is: 
-%
-%      [IA_NEW_DESCRIPTION, sDesc_string]
-%
-%      sDesc_string::the new description for the item.
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////
+//
+//   This item has a new nonstandard description.
+//
+//   Form is: 
+//
+//      [IA_NEW_DESCRIPTION, sDesc_string]
+//
+//      sDesc_string::the new description for the item.
+//
+///////////////////////////////////////////////////////////////////////
 
 constants:
 
@@ -35,23 +35,23 @@ properties:
 
 messages:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Effect Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Effect Functions
+///
+///////////////////////////////////////////////
 
    ItemCanIdentify()
    {
       return FALSE;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Infrastructure
-%%  (Adding and removing a ItemAtt from an item.)
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////
+///
+///  Infrastructure
+///  (Adding and removing a ItemAtt from an item.)
+///
+////////////////////////////////////////////////////
 
    SetPrimaryState(state1=$)
    "Defined for each individual enchantment."
@@ -59,22 +59,22 @@ messages:
        return state1;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Maintenance Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Maintenance Functions
+///
+////////////////////////////////////////////////
 
    AppendDesc(oItem=$)
    {
       return;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%	Treasure Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////
+///
+///	Treasure Functions
+///
+/////////////////////////////////////////////////
 
    AddToTreasureTable()
    {
@@ -86,11 +86,11 @@ messages:
       return FALSE;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Name Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////
+///
+///  Name Functions
+///
+/////////////////////////////////////////////////
 
    ItemBuildDescName(oItem=$)
    {
@@ -99,4 +99,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

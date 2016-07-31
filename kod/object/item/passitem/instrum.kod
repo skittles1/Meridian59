@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Instrument is PassiveItem
 
 constants:
@@ -35,7 +35,7 @@ messages:
 
    NewUsed()
    {
-      % do third person overlay if we have one
+      // do third person overlay if we have one
       if vrInstrument_overlay <> $
       {
          Send(poOwner,@SetOverlay,#what=self);
@@ -51,9 +51,9 @@ messages:
       propagate;
    }
 
-   % these 3 called by player, for normal 3rd-person overlays on user.
-   % shield subclasses--do NOT set an overlay unless you either
-   % set vrShield_overlay correctly or override all these message handlers
+   // these 3 called by player, for normal 3rd-person overlays on user.
+   // shield subclasses--do NOT set an overlay unless you either
+   // set vrShield_overlay correctly or override all these message handlers
 
    GetOverlay()
    {
@@ -78,4 +78,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

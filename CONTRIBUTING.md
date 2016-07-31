@@ -84,9 +84,11 @@ Send(self,@SendAttackOutOfRangeMessage,#what=oFinalTarget,
 briefly the purpose of the code.
 0. All messages should contain a string comment in the header describing the
 purpose of the message.
-0. Use C++-style // comments instead of kod-style % comments, to allow the code
-to be parsed correctly by code-document generators such as doxygen.
-0. Use C-style /* */ comments for multi-line comments (can be nested in kod).
+0. Kod used to have single-line comments using the `%` character, these have
+been removed in favor of `//` single-line comments. Don't use `%` for comments,
+as this will no longer compile.
+0. C-style /* */ comments are available for multi-line comments (can be nested
+in kod).
 
 ### Keywords and Braces
 
@@ -100,7 +102,7 @@ in `if` statements logically. If an `if` or `while` statement has only two
 small expressions, they can be placed on the same line.
 0. `else` and `else if` should be placed on their own line, with the brace also
 on its own line. Braces are mandatory in all cases.
-0. Boolean operators should all be uppercase, as should mathematical MOD.
+0. Boolean operators (AND, OR) and unary NOT should all be uppercase.
 0. Parentheses () are optional on if/while statements, but are preferred. They
 are required in for loop declarations.
 

@@ -1,17 +1,17 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 RazaBartender is RazaTown
 
-% Has a "wipe sequence", which means that every few wipes we just make a long
-% delay.
+// Has a "wipe sequence", which means that every few wipes we just make a long
+// delay.
 
 constants:
 
@@ -94,8 +94,8 @@ messages:
          propagate;
       }
 
-      % Item must have been an edible mushroom.  See if there are
-      % enough, and take it away.
+      // Item must have been an edible mushroom.  See if there are
+      // enough, and take it away.
       if Send(obj,@GetNumber) > 9
       {
          Send(self,@SayToOne,#target=who,#message_rsc=RazaBart_enough);
@@ -107,11 +107,11 @@ messages:
          return;
       }
 
-      % There aren't enough.  Tell him to get more.
+      // There aren't enough.  Tell him to get more.
       Send(self,@SayToOne,#target=who,#message_rsc=RazaBart_not_enough);
 
       return;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

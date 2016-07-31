@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 RingWedding is Ring
 
 constants:
@@ -74,7 +74,7 @@ messages:
 
    NewUsed(what=$)
    {
-      % First two unique players to use the ring get their name on it.
+      // First two unique players to use the ring get their name on it.
 
       if what <> $ AND IsClass(what,&Player)
       {
@@ -109,11 +109,11 @@ messages:
 
    DropOnDeath()
    {
-      % Who was the stupid fuck that let these be dropped on death?
+      // Who was the stupid fuck that let these be dropped on death?
       return FALSE;
    }
 
-   % No taking the rings from people in rude ways.
+   // No taking the rings from people in rude ways.
    CanSwap()
    {
       return FALSE;
@@ -146,4 +146,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

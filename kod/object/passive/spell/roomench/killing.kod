@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%S%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////S///////////////////////////////////////////////////////
 KillingFields is RoomEnchantment
 
 constants:
 
    include blakston.khd
 
-   %  2 realtime minutes
+   //  2 realtime minutes
    KILLINGFIELDS_TIME = 120000
 
 resources:
@@ -74,7 +74,7 @@ messages:
 
       oRoom = Send(who,@GetOwner);
 
-      % Global effects of the enchantment.
+      // Global effects of the enchantment.
       Send(oRoom,@SomeoneSaid,#type=SAY_MESSAGE,#string=killingfields_on,#what=self);
 
       Send(oRoom,@RoomStartEnchantment,#what=self,#state=$,
@@ -122,15 +122,15 @@ messages:
    {
       local duration;
 
-      % Time in seconds.
+      // Time in seconds.
       duration = 50 + iSpellPower;
-      % Convert to ms.
+      // Convert to ms.
       duration = duration * 1000;
 
       return duration;
    }
 
-   % Stuff we handle to be an attack modifier.
+   // Stuff we handle to be an attack modifier.
 
    ModifyHitRoll(who = $,what = $,hit_roll = $)
    {
@@ -150,4 +150,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

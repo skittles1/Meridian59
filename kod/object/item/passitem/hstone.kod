@@ -1,21 +1,21 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 HeartStone is PassiveItem
 
 constants:
 
    include blakston.khd
 
-   RESPAWN_MIN = 30000     % Minimum respawn time in milliseconds, 30 seconds
-   RESPAWN_MAX = 300000    % Maximum respawn time in milliseconds, 5 minutes
+   RESPAWN_MIN = 30000     // Minimum respawn time in milliseconds, 30 seconds
+   RESPAWN_MAX = 300000    // Maximum respawn time in milliseconds, 5 minutes
 
 resources:
 
@@ -41,7 +41,7 @@ classvars:
 
 properties:
 
-   ptRespawn = $           % Time until dropped stone respawns.
+   ptRespawn = $           // Time until dropped stone respawns.
 
 messages:
 
@@ -149,4 +149,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

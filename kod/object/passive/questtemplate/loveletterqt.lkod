@@ -1,4 +1,4 @@
-% Quest resources.
+// Quest resources.
 love_letter_failure = de \
    "Betreff: Du hast meinen Brief nicht ausgeliefert!\nDank Deiner Fahrlässigkeit, "
    "muss mein Schatz %NPC nun denken, dass ich mich nicht mehr kümmere um "

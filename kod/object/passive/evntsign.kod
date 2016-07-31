@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 EventSign is PassiveObject
 
 constants:
@@ -66,7 +66,7 @@ messages:
 
       if (piHour / 12) > 0
       {
-         iHour = piHour mod 12;
+         iHour = piHour % 12;
          rAMPM = EventSign_PM;
       }
       else
@@ -75,7 +75,7 @@ messages:
          rAMPM = EventSign_AM;
       }
 
-      % Fix 0 hour calculations
+      // Fix 0 hour calculations
       if iHour = 0
       {
          iHour = 12;
@@ -132,4 +132,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 GuildHall5 is GuildHall
 
 constants:
@@ -88,8 +88,8 @@ messages:
    {
       plGuild_doors = [[25,14],[25,15],[25,21],[25,22]];
 
-      % This is a box containing the guild door, used
-      % for removing players from it when it closes.
+      // This is a box containing the guild door, used
+      // for removing players from it when it closes.
       plEntrance = [ 2506, 2531, 1400, 2250 ];
 
       propagate;
@@ -134,7 +134,7 @@ messages:
    CreateStandardExits()
    {
       plExits = $;
-      % TO TOWN
+      // TO TOWN
 
       plExits = Cons([ 33, 17, RID_EAST_TOS, 1, 41,ROTATE_NONE,DISTANCE_NORMAL ],plExits);
       plExits = Cons([ 33, 18, RID_EAST_TOS, 1, 41,ROTATE_NONE,DISTANCE_NORMAL ],plExits);
@@ -434,8 +434,8 @@ messages:
             #height=0,#speed=50);
       Send(self,@CloseEntranceDoorSound);
 
-      % We now propagate this to handle removing players from the door,
-      % and so the door can still be entered while it is closing.
+      // We now propagate this to handle removing players from the door,
+      // and so the door can still be entered while it is closing.
       propagate;
    }
 
@@ -499,4 +499,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

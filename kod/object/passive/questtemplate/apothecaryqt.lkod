@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 apothecaryqt_name_rsc = de "Apotheker Quest"
 apothecaryqt_desc_rsc = de \
    "Ein Apotheker hat nichts mehr im Lager. Bringe ihm etwas für sein Lager"
@@ -10,7 +10,7 @@ apothecaryqt_deliver_rsc = de \
 apothecaryqt_completed_rsc = de \
    "Du hast das Apotheker Quest abgeschlossen."
 
-% Quest resources.
+// Quest resources.
 apothecary_assign_2 = de \
    "%NPC benötigt diese %INDEF_CARGO%CARGO, bitte überbringe sie%HIMHER_NPC.  "
    "Diebstahl in jeglicher Form wird dazu führen, dass Du als Gesetzesloser "

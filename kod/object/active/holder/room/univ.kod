@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////////////////
 University is Room
 
 constants:
@@ -56,8 +56,8 @@ messages:
    {
       plExits = $;
 
-      %plExits = Cons([ 54, 30, RID_I3, 7, 11, ROTATE_NONE ],plExits);
-      %plExits = Cons([ 54, 31, RID_I3, 7, 12, ROTATE_NONE ],plExits);
+      //plExits = Cons([ 54, 30, RID_I3, 7, 11, ROTATE_NONE ],plExits);
+      //plExits = Cons([ 54, 31, RID_I3, 7, 12, ROTATE_NONE ],plExits);
 
       return;
    }
@@ -93,4 +93,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 OutdoorsKC5 is KCForest
 
 constants:
@@ -80,7 +80,7 @@ messages:
                         [&FireSand,17,36]
                       ];
 
-      % Do not propagate
+      // Do not propagate
       return;
    }
 
@@ -156,7 +156,7 @@ messages:
       iNumDel = Send(self,@CountHoldingHowMany,#class=&DragonFlyQueen)
                      - MAX_QUEENS;
 
-      % Delete ones inside the pen first.
+      // Delete ones inside the pen first.
       foreach i in plActive
       {
          if iNumDel <= 0
@@ -175,7 +175,7 @@ messages:
          }
       }
 
-      % Then delete ones outside the pen.
+      // Then delete ones outside the pen.
       foreach i in plActive
       {
          if iNumDel <= 0
@@ -196,4 +196,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

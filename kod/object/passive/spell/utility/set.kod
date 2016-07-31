@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Set is UtilitySpell
 
 constants:
@@ -61,19 +61,19 @@ messages:
 
       foreach oItem in lPassive
       {
-         % Ignore scrolls of set.
+         // Ignore scrolls of set.
          if IsClass(oItem,&SetScroll)
          {
             continue;
          }
 
-         % Ignore money.
+         // Ignore money.
          if IsClass(oItem,&Money)
          {
             continue;
          }
 
-         % It's important to get disciple robes of the correct school.
+         // It's important to get disciple robes of the correct school.
          if IsClass(oItem,&DiscipleRobe)
          {
             lLocal_list = Cons([GetClass(oItem),Send(oItem,@GetSchool)],
@@ -106,4 +106,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

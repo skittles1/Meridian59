@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 SplashOfAcid is AttackSpell
 
 constants:
@@ -44,7 +44,7 @@ classvars:
 
    vrSucceed_wav = SplashOfAcid_sound
 
-   % In seconds, since it works off GetTime().
+   // In seconds, since it works off GetTime().
    viPostCast_time = 2
 
    viChance_To_Increase = 15
@@ -55,14 +55,14 @@ properties:
    piDamageMax = 25
    piRange = 3 * FINENESS
    
-   % No bonus from Mana Focus
+   // No bonus from Mana Focus
    piManaFocusBonus = 0
 
 messages:
 
    ResetReagents()
    {
-      % separate message so can change, then set from admin mode
+      // separate message so can change, then set from admin mode
 
       plReagents = $;
       plReagents = cons([&EntrootBerry,2],plReagents);
@@ -72,4 +72,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 Poison is Disease
 
 constants:
@@ -56,7 +56,7 @@ classvars:
 
    vbDisease = TRUE
 
-   % Players can't actually cast poison directly
+   // Players can't actually cast poison directly
    viOutlaw = FALSE
 
 properties:
@@ -84,7 +84,7 @@ messages:
       oSpell = Send(SYS,@FindSpellByNum,#num=SID_RESIST_POISON);
       if Send(who,@IsEnchanted,#what=oSpell)
       {
-         % Give players a decent chance to improve the spell!
+         // Give players a decent chance to improve the spell!
          foreach i in Send(who,@GetPassiveImprovementList)
          {
             if First(i) = oSpell
@@ -121,22 +121,22 @@ messages:
 
    IsPersonalEnchantment()
    {
-      % Purify will get rid of sickness.
+      // Purify will get rid of sickness.
       return TRUE;
    }
 
    IsHarmful()
    {
-      % Purge won't get rid of sickness
+      // Purge won't get rid of sickness
       return TRUE;
    }
 
    CanBeRemovedByPlayer()
    "Returns if a spell can be removed by normal Purge/Purify"
    {
-      % Most sicknesses can be purged or purified.
+      // Most sicknesses can be purged or purified.
       return TRUE;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

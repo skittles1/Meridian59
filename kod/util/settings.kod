@@ -1,16 +1,16 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////////
 Settings is UtilityFunctions
 
-% This class keeps global game settings.
+// This class keeps global game settings.
 
 constants:
 
@@ -22,27 +22,27 @@ classvars:
 
 properties:
 
-   %
-   % Economy controls
-   %
+   //
+   // Economy controls
+   //
 
-   % piMoneyFactor: How much money should be given out?  Raise this number to
-   %  increase the amount of money given out.
+   // piMoneyFactor: How much money should be given out?  Raise this number to
+   //  increase the amount of money given out.
    piMoneyFactor = 100
 
-   % Increase this to increase the number of items dropped from monster deaths.
+   // Increase this to increase the number of items dropped from monster deaths.
    piItemFactor = 100
 
-   % Modifier to the chance for items to be generated.
+   // Modifier to the chance for items to be generated.
    piMagicItemModifier = 50
 
-   % Changed the wait for monsters to spawn.  A decrease means things
-   %  spawn faster (less time waiting between spawns).
+   // Changed the wait for monsters to spawn.  A decrease means things
+   //  spawn faster (less time waiting between spawns).
    piSpawnRate = 100
 
-   %
-   % Player advancement
-   %
+   //
+   // Player advancement
+   //
 
    piKillKarmaSwingNeutral = 3
    piKillKarmaSwingMonster = 6
@@ -52,75 +52,75 @@ properties:
 
    pbAtrophyOn = FALSE
    
-   % Stat reset options
+   // Stat reset options
    pbStatsResetEnabled = TRUE
    piStatsResetPenalty = -2
    piFreeStatsResetCap = 19
    piStatResetTokenLife = 40
 
-   % Stat reset token has a 1 in (piStatResetTokenDropFactor / monster_level)
-   % chance to drop, with monster_level bound between 50 and 150.
+   // Stat reset token has a 1 in (piStatResetTokenDropFactor / monster_level)
+   // chance to drop, with monster_level bound between 50 and 150.
    piStatResetTokenDropFactor = 500000
 
-   % Lore book drop facter, 1 in piLoreBookDropFactor per loot roll
+   // Lore book drop facter, 1 in piLoreBookDropFactor per loot roll
    piLoreBookDropFactor = 2000
 
-   % DefaultDeathCost:  Should always be a value between 1 and 100.  Lowering
-   %  this will lower the odds of a dead player losing health and skill/spell
-   %  percents.
+   // DefaultDeathCost:  Should always be a value between 1 and 100.  Lowering
+   //  this will lower the odds of a dead player losing health and skill/spell
+   //  percents.
    piDefaultDeathCost = 100
 
-   % piAdvancementRate: Determines how fast or slow advancement goes for all
-   %  spells and skills.  This is a percent of normal, and only affects the
-   %  secondary chance.
+   // piAdvancementRate: Determines how fast or slow advancement goes for all
+   //  spells and skills.  This is a percent of normal, and only affects the
+   //  secondary chance.
    piAdvancementRate = 100
 
-   % The training points we grant players each day to reward them for logging on.
+   // The training points we grant players each day to reward them for logging on.
    piLogonBonus = 50
 
-   % XP percent awarded, can be raised to give a bonus.
+   // XP percent awarded, can be raised to give a bonus.
    piXPPercent = 100
    
-   % How far up the food chain can basic players learn?  See player for more
-   %  specific information on what this number means.
+   // How far up the food chain can basic players learn?  See player for more
+   //  specific information on what this number means.
    piMaxLearnPoints = 16
 
-   % The default time for building group membership.
+   // The default time for building group membership.
    piDefaultGroupTime = 60000
 
-   % The maximum HP a player can suicide their character at, without admin
-   % help. Prevents people making mistakes in a fit of rage, or suiciding
-   % hacked accounts.
+   // The maximum HP a player can suicide their character at, without admin
+   // help. Prevents people making mistakes in a fit of rage, or suiciding
+   // hacked accounts.
    piMaxSuicideHP =  60
 
    // FALSE if newbies never drop loot, TRUE if they do if they don't have
    // the "new to the lands" tag.
    pbNewbiesDropLoot = FALSE
 
-   %
-   % Spell settings
-   %
+   //
+   // Spell settings
+   //
 
-   % If true, you can recast a personal enchantment on yourself if you already have it.
-   % This makes it easier to advance spells.
+   // If true, you can recast a personal enchantment on yourself if you already have it.
+   // This makes it easier to advance spells.
    pbCanRecastSelfEnchantment = TRUE
 
-   % If true, while wearing a Jala necklace, you can cast spells even while
-   % in a trance for a Jala song.
+   // If true, while wearing a Jala necklace, you can cast spells even while
+   // in a trance for a Jala song.
    pbCanRecastJalaWithNecklace = TRUE
 
-   % Can't cast a teleport spell until this long after attacking someone.  Prevents
-   % hit-and-run.  If 0, there's no restriction on when the spell can be cast.
-   % Time in seconds.
+   // Can't cast a teleport spell until this long after attacking someone.  Prevents
+   // hit-and-run.  If 0, there's no restriction on when the spell can be cast.
+   // Time in seconds.
    piTeleportAttackDelaySec = 240
 
-   % Rescue always takes at least this long to cast
+   // Rescue always takes at least this long to cast
    piRescueBaseDelaySec = 5
 
-   % If true, spellpower and duration are displayed for all spells cast.
+   // If true, spellpower and duration are displayed for all spells cast.
    pbDisplaySpellData = FALSE
 
-   % If true, JoF regains hits when players kill mobs.
+   // If true, JoF regains hits when players kill mobs.
    pbFrozRechargeOnKill = TRUE
 
    // Spell items cost this much compared to casting the actual spell.
@@ -129,29 +129,29 @@ properties:
    // Can users buff each other in safe zones?
    pbBuffOthersInSafeZones = TRUE
 
-   %
-   % Guild hall settings
-   %
+   //
+   // Guild hall settings
+   //
 
-   % Are guild halls raidable?
+   // Are guild halls raidable?
    pbGuildHallRaids = TRUE
 
-   % Wait one hour between raids by same guild.
+   // Wait one hour between raids by same guild.
    piGuildHallRaidDelay = 3600 
 
-   % If true, "hot plate" objects (in guild halls) notify players when they're stepped on.
-   % This is used for debugging room creation.  It should normally be off.
+   // If true, "hot plate" objects (in guild halls) notify players when they're stepped on.
+   // This is used for debugging room creation.  It should normally be off.
    pbShowHotPlates = FALSE
 
-   % If true, tell DMs when a player crosses a "hot plate" object (in a guild hall).
-   % Used for debugging the placement of hot plates.
+   // If true, tell DMs when a player crosses a "hot plate" object (in a guild hall).
+   // Used for debugging the placement of hot plates.
    pbReportHotPlates = FALSE
 
-   %
-   % Speedhack & Teleport protection
-   %
+   //
+   // Speedhack & Teleport protection
+   //
    
-   % Maximum amount of tokens in the movement bucket
+   // Maximum amount of tokens in the movement bucket
    piMovementBucketMax = 15000000
 
    //
@@ -197,90 +197,90 @@ properties:
    pbFreeNoPvPPenActiveWhite = TRUE
    pbFreeNoPvPPenActiveRed = TRUE
 
-   %
-   % Miscellaneous
-   %
+   //
+   // Miscellaneous
+   //
 
-   % Set map where players start in.
+   // Set map where players start in.
    piInitialHomeRoomID = RID_RAZA_INN
 
-   % Enables or disables some safe-spots, see blakston.khd comments.
+   // Enables or disables some safe-spots, see blakston.khd comments.
    piLOSSkip = LOS_SKIP_1
 
-   % How many summoned objects can be in a room
+   // How many summoned objects can be in a room
    piPlayerSummonedObjectLimit = 18
 
-   % Minimum number of HP you have to have to vote for or become
-   % Justicar
+   // Minimum number of HP you have to have to vote for or become
+   // Justicar
    piMinHPForJusticar = 100
 
-   % Cost for Caramo to change a player's name.
+   // Cost for Caramo to change a player's name.
    piNameChangeCost = 3000000
 
-   % If disabled, outlaws & murderers will not be afforded the 1/3-hp damage cap protection.
+   // If disabled, outlaws & murderers will not be afforded the 1/3-hp damage cap protection.
    pbDamageCapProtectionMurderersEnable = FALSE
    
-   % Number of reflections allowed per caster.
+   // Number of reflections allowed per caster.
    piPlayerReflectionLimit = 2
 
-   % Number of minions allowed per caster.
+   // Number of minions allowed per caster.
    piPlayerMinionLimit = 4
    piMonsterMinionLimit = 4
 
-   % Minimum swings needed for a chance to improve a weaponcraft skill.
+   // Minimum swings needed for a chance to improve a weaponcraft skill.
    piWeaponcraftImprovementMinimumSwings = 50
    
-   % Riija Sword drops on death? (Used to limit griefing)
+   // Riija Sword drops on death? (Used to limit griefing)
    pbRiijaSwordDropOnDeath = FALSE
 
-   % Replaces old constant
+   // Replaces old constant
    piPKillEnableHP = 50
    
-   % Replaces old constant
+   // Replaces old constant
    piIntrigueEnableHP = 50
    
-   % If set to true, Resist Rings will lose durability upon taking an appropriate elemental hit.
+   // If set to true, Resist Rings will lose durability upon taking an appropriate elemental hit.
    piResistRingLoseDurability = TRUE
 
-   % Length of hold effect players experience when logging or phasing in
+   // Length of hold effect players experience when logging or phasing in
    piLogonDelay = 2500
    
-   % Length of time the temporary guardian angel lasts, in minutes
+   // Length of time the temporary guardian angel lasts, in minutes
    piTempSafeMinutes = 360
 
-   % Revenant speed setting
+   // Revenant speed setting
    piRevSpeed = 18
 
-   % The divisor for all skill post-softcap imp rates. Higher means harder.
-   % One means softcaps don't matter at all.
+   // The divisor for all skill post-softcap imp rates. Higher means harder.
+   // One means softcaps don't matter at all.
    piSkillSoftcapPenalty = 5
 
-   % The divisor for all spell post-softcap imp rates.
+   // The divisor for all spell post-softcap imp rates.
    piSpellSoftcapPenalty = 4
 
-   % Turns damage scaling for chance to hit greater than 100 percent on or off
+   // Turns damage scaling for chance to hit greater than 100 percent on or off
    piDamageScaling = FALSE
 
-   % A battler's chance to hit when offense equals defense in per MILLE
+   // A battler's chance to hit when offense equals defense in per MILLE
    piEqualChanceToHit = 500
 
-   % This amount is added to a battler's offense and defense and
-   % serves as a baseline for calculation.
+   // This amount is added to a battler's offense and defense and
+   // serves as a baseline for calculation.
    piBaseRating = 0
 
-   % Percent of mana required/used for broadcasting. Default 0 (no cost).
+   // Percent of mana required/used for broadcasting. Default 0 (no cost).
    piBroadcastManaPercent = 0
 
-   % Chance for stormy weather
+   // Chance for stormy weather
    piStormChance = 15
 
-   % Setting to allow users to remove their own posts.
+   // Setting to allow users to remove their own posts.
    pbCanUserRemoveOwnPosts = TRUE
 
-   % How many rods can be picked up at one time.
+   // How many rods can be picked up at one time.
    piRodMax = 5
 
-   % Do safe rooms recharge rods?
+   // Do safe rooms recharge rods?
    pbInnsRechargeRods = FALSE
 
    // Determines whether players lose faction for attacking each other
@@ -321,9 +321,9 @@ messages:
       return piIntrigueEnableHP;
    }
 
-   %
-   % Economy controls
-   %
+   //
+   // Economy controls
+   //
 
    GetMoneyFactor()
    {
@@ -345,9 +345,9 @@ messages:
       return piSpawnRate;
    }
    
-   %
-   % Player advancement
-   %
+   //
+   // Player advancement
+   //
 
    GetStatsResetEnabled()
    {
@@ -444,9 +444,9 @@ messages:
       return pbNewbiesDropLoot;
    }
 
-   %
-   % Spells
-   %
+   //
+   // Spells
+   //
 
    CanRecastSelfEnchantment() 
    {
@@ -488,9 +488,9 @@ messages:
       return pbBuffOthersInSafeZones;
    }
 
-   %
-   % Guild hall settings
-   %
+   //
+   // Guild hall settings
+   //
 
    GuildHallRaidsEnabled()
    {
@@ -512,9 +512,9 @@ messages:
       return pbReportHotPlates;
    }
 
-   %
-   % Speedhack & teleport protection
-   %
+   //
+   // Speedhack & teleport protection
+   //
 
    GetMovementBucketMax()
    {
@@ -586,9 +586,9 @@ messages:
       return pbFreeNoPvPPenActiveWhite;
    }
 
-   %
-   % Miscellaneous
-   %
+   //
+   // Miscellaneous
+   //
 
    GetRiijaSwordDropOnDeath()
    {
@@ -731,4 +731,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

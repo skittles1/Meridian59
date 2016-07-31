@@ -1,27 +1,27 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 TaxQuestTemplate is QuestTemplate
-% Parent class for tax quests.
+// Parent class for tax quests.
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -31,13 +31,13 @@ resources:
 
    include taxqt.lkod
 
-   % Quest description.
+   // Quest description.
    taxqt_icon_rsc = coin.bgf
    taxqt_deliver_rsc = \
       "%s%s has asked you to take %i %s to %s%s. Do not be tempted to keep it "
       "for yourself; any thievery will be punished!"
 
-   % Quest resources.
+   // Quest resources.
    vaulttax_assign_2_h = \
       "Yes, I have need of a courier.  %NPC is due a certain percentage of "
       "profits from my business.  Please take this tithe of %INDEF_CARGO%CARGO "
@@ -92,4 +92,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

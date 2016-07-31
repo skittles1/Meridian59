@@ -40,10 +40,11 @@ typedef struct {
 
 extern int codegen_ok;          /* Did codegen complete successfully? */
 
-void OutputOpcode(int outfile, opcode_type opcode);
+void OutputOpcode(int outfile, opcode_data opcode);
 void OutputByte(int outfile, BYTE datum);
 void OutputInt(int outfile, int datum);
 void OutputConstant(int outfile, const_type c);
+void OutputGotoOpcode(int outfile, int goto_type, int id_type);
 void OutputGotoOffset(int outfile, int source, int destination);
 void OutputBaseExpression(int outfile, expr_type expr);
 void BackpatchGotoUnconditional(int outfile, int source, int destination);
@@ -51,8 +52,8 @@ void BackpatchGotoConditional(int outfile, int source, int destination);
 
 void codegen_error(const char *fmt, ...);
 int const_to_int(const_type c);
-int set_source_id(opcode_type *opcode, int sourcenum, expr_type e);
-int set_dest_id(opcode_type *opcode, id_type id);
+int set_source_id(opcode_data *opcode, int sourcenum, expr_type e);
+int set_dest_id(opcode_data *opcode, id_type id);
 int is_base_level(expr_type e);
 id_type make_temp_var(int idnum);
 int flatten_expr(expr_type e, id_type destvar, int maxlocal);

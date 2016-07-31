@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%S%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////S///////////////////////////////////////////////////////
 ArmorOfGort is PersonalEnchantment
 
 constants:
@@ -79,9 +79,9 @@ classvars:
 
 properties:
 
-   % The effectiveness of purge on the target spell as a percentage.
-   % 100 will cause purge to remove its entire spellpower, 0 will
-   % prevent purge from removing this spell.
+   // The effectiveness of purge on the target spell as a percentage.
+   // 100 will cause purge to remove its entire spellpower, 0 will
+   // prevent purge from removing this spell.
    viPurgeFactor = 20
 
 messages:
@@ -99,7 +99,7 @@ messages:
       local iDuration;
 
       iDuration = iSpellPower/8 + 1;
-      % Convert to milliseconds
+      // Convert to milliseconds
       iDuration = iDuration * 60 * 1000;
 
       return iDuration;
@@ -122,17 +122,17 @@ messages:
 
       if aspell <> 0
       {
-         % Reduce damage if part of the damage is spell
+         // Reduce damage if part of the damage is spell
          if atype <> 0
          {
-            % Only 1/2 of the damage reduction if we're doing both weapon
-            %  and spell damage types.
+            // Only 1/2 of the damage reduction if we're doing both weapon
+            //  and spell damage types.
             iAbsorbed = iAbsorbed / 2;
             iMax = 2000;
          }
          else
          {
-            % If we're doing pure spell damage, we get no reduction.
+            // If we're doing pure spell damage, we get no reduction.
             iAbsorbed = 0;
             iMax = 2500;
          }
@@ -190,4 +190,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,30 +1,30 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 MonkInsigniaQuest is QuestTemplate
-% Quest template QST_ID_MONK_INSIGNIA = 34.
-% Quest nodes 103, 104, 105
-% QNT_ID_MONK_INSIGNIA_ONE, QNT_ID_MONK_INSIGNIA_TWO,
-% QNT_ID_MONK_INSIGNIA_THREE
+// Quest template QST_ID_MONK_INSIGNIA = 34.
+// Quest nodes 103, 104, 105
+// QNT_ID_MONK_INSIGNIA_ONE, QNT_ID_MONK_INSIGNIA_TWO,
+// QNT_ID_MONK_INSIGNIA_THREE
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -34,7 +34,7 @@ resources:
 
    include monkinsigniaqt.lkod
 
-   % Quest description.
+   // Quest description.
    monkinsigniaquest_icon_rsc = gsha.bgf
    monkinsigniaquest_name_rsc = "herald shield insignia quest"
    monkinsigniaquest_desc_rsc = \
@@ -55,7 +55,7 @@ resources:
       "You have received an insignia on your herald shield, which adds "
       "more power to your spells when worn."
 
-   % Quest resources.
+   // Quest resources.
    monkinsignia_trigger = "insignia"
    monkinsignia_assign_2 = \
       "~gI ~rsee ~byou have ~ran ~gun~bmarked ~kshield.  ~rI am more "
@@ -87,7 +87,7 @@ classvars:
 
    vrCompleted = monkinsigniaquest_completed_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_MONK_INSIGNIA
 
    viIcon_Animation_start = 1
@@ -98,18 +98,18 @@ properties:
    piPlayerRestrict = Q_PLAYER_NOTTRIED_RECENTLY
    piMaxPlayers = 20
    piSchedulePct = 100
-   piTimeLimit = 12 * 3600 % 12 hours.
+   piTimeLimit = 12 * 3600 // 12 hours.
 
 messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_MONK_INSIGNIA_ONE,
                       QNT_ID_MONK_INSIGNIA_TWO,
                       QNT_ID_MONK_INSIGNIA_THREE];
 
-      % Quest nodes with matching descriptions for the player.
+      // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_MONK_INSIGNIA_TWO, vrNodeTwo],
                           [QNT_ID_MONK_INSIGNIA_THREE, vrNodeThree] ];
 
@@ -125,8 +125,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #103 is monk insignia quest
-      % QNT_ID_MONK_INSIGNIA_ONE
+      // Template #103 is monk insignia quest
+      // QNT_ID_MONK_INSIGNIA_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[ monkinsignia_trigger ],
                #quest_node_index=QNT_ID_MONK_INSIGNIA_ONE)
@@ -145,8 +145,8 @@ messages:
          Debug("Error building QN: QNT_ID_MONK_INSIGNIA_ONE");
       }
 
-      % Template #104 is monk insignia quest
-      % QNT_ID_MONK_INSIGNIA_TWO
+      // Template #104 is monk insignia quest
+      // QNT_ID_MONK_INSIGNIA_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #NPC_modifier=QN_NPCMOD_SAME,#cargolist=[monkinsignia_trigger_2],
                #timelimit=60,#quest_node_index=QNT_ID_MONK_INSIGNIA_TWO)
@@ -159,8 +159,8 @@ messages:
          Debug("Error building QN: QNT_ID_MONK_INSIGNIA_TWO");
       }
 
-      % Template #105 is monk insignia quest
-      % QNT_ID_MONK_INSIGNIA_THREE
+      // Template #105 is monk insignia quest
+      // QNT_ID_MONK_INSIGNIA_THREE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_ITEMFINDCLASS,
                #NPC_modifier=QN_NPCMOD_SAME,#timelimit=piTimeLimit,
                #cargolist=[ [ QN_PRIZETYPE_ITEMCLASS, &DarkAngelFeather, 20 ],
@@ -231,4 +231,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

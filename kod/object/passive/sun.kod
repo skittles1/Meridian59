@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Sun is PassiveObject
 
 constants:
@@ -50,8 +50,8 @@ messages:
       iHour = Send(SYS,@GetHour);
       iDay = Send(SYS,@GetDay);
 
-      % east = 0, west = 2048
-      piAngle = ((iHour + 19) MOD 24) * 130;
+      // east = 0, west = 2048
+      piAngle = ((iHour + 19) % 24) * 130;
 
       piHeight = 420 - 7 * (iHour - 13) * (iHour - 13);
       if piHeight < -200
@@ -103,4 +103,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 FadePupilQuest is QuestTemplate
-% Quest nodes 88, 89, 90, 91.
-% QNT_ID_FADE_PUPIL_ONE, QNT_ID_FADE_PUPIL_TWO,
-% QNT_ID_FADE_PUPIL_THREE, QNT_ID_FADE_PUPIL_FOUR
+// Quest nodes 88, 89, 90, 91.
+// QNT_ID_FADE_PUPIL_ONE, QNT_ID_FADE_PUPIL_TWO,
+// QNT_ID_FADE_PUPIL_THREE, QNT_ID_FADE_PUPIL_FOUR
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -33,7 +33,7 @@ resources:
 
    include fadepupilqt.lkod
 
-   % Quest description.
+   // Quest description.
    fadepupilquest_icon_rsc = ifade.bgf
    fadepupilquest_name_rsc = "fade pupil quest"
    fadepupilquest_desc_rsc = \
@@ -56,7 +56,7 @@ resources:
       "You have completed the fade pupil quest.  Joguer will now "
       "teach you the fade spell."
 
-   % Quest resources.
+   // Quest resources.
    fadelearn_trigger = "pupil"
    fadelearn_assign_2 = \
       "I am glad thou art here;  I am willing to make a trade.  I stumbled "
@@ -113,7 +113,7 @@ classvars:
    vrNodeFour = fadepupilquest_nodefour_rsc
    vrCompleted = fadepupilquest_completed_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_FADE_SPELL
 
 properties:
@@ -128,11 +128,11 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_FADE_PUPIL_ONE, QNT_ID_FADE_PUPIL_TWO,
                       QNT_ID_FADE_PUPIL_THREE, QNT_ID_FADE_PUPIL_FOUR];
 
-      % Quest nodes with matching descriptions for the player.
+      // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_FADE_PUPIL_TWO, vrNodeTwo],
                           [QNT_ID_FADE_PUPIL_FOUR, vrNodeFour] ];
 
@@ -146,8 +146,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #88 is fade learn quest kickoff
-      % QNT_ID_FADE_PUPIL_ONE
+      // Template #88 is fade learn quest kickoff
+      // QNT_ID_FADE_PUPIL_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[fadelearn_trigger],
                #quest_node_index=QNT_ID_FADE_PUPIL_ONE)
@@ -165,8 +165,8 @@ messages:
          Debug("Error building QN: QNT_ID_FADE_PUPIL_ONE");
       }
 
-      % Template #89 is fade learn quest, ask about formula
-      % QNT_ID_FADE_PUPIL_TWO
+      // Template #89 is fade learn quest, ask about formula
+      // QNT_ID_FADE_PUPIL_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[ fadelearn_trigger_2 ],
                #timelimit=3 * 3600,#quest_node_index=QNT_ID_FADE_PUPIL_TWO)
@@ -200,8 +200,8 @@ messages:
          Debug("Error building QN: QNT_ID_FADE_PUPIL_TWO");
       }
 
-      % Template #90 is fade learn quest, prove resolve by killing monster
-      % QNT_ID_FADE_PUPIL_THREE
+      // Template #90 is fade learn quest, prove resolve by killing monster
+      // QNT_ID_FADE_PUPIL_THREE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MONSTER,
                #NPC_modifier=QN_NPCMOD_SAME,#monsterlist=[&CaveOrc, &Troll],
                #timelimit=3600,#quest_node_index=QNT_ID_FADE_PUPIL_THREE)
@@ -216,8 +216,8 @@ messages:
          Debug("Error building QN: QNT_ID_FADE_PUPIL_THREE");
       }
 
-      % Template #91 is fade learn quest, return formula
-      % QNT_ID_FADE_PUPIL_FOUR
+      // Template #91 is fade learn quest, return formula
+      // QNT_ID_FADE_PUPIL_FOUR
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_ITEM,
             #NPC_modifier=QN_NPCMOD_PREVIOUS,
             #cargolist=[ [ QN_PRIZETYPE_ITEMCLASS, &FormulaScroll, 1 ] ],
@@ -285,4 +285,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

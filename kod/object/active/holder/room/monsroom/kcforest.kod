@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 KCForest is MonsterRoom
 
 constants:
@@ -18,7 +18,7 @@ constants:
 
 classvars:
 
-   viAvar_clan = AVARCLAN_PROMAGIC   %% which avar clan controls this part of the jungle.
+   viAvar_clan = AVARCLAN_PROMAGIC   /// which avar clan controls this part of the jungle.
 
 properties:
 
@@ -36,7 +36,7 @@ messages:
 
    CreateJungleItemCoords()
    {
-      % Overwrite this.  Do not propagate.
+      // Overwrite this.  Do not propagate.
       plItem_coords = $;
 
       return;
@@ -55,10 +55,10 @@ messages:
       if piItem_gen_counter <= 0
       {
          bFound = FALSE;
-         % Create an item
+         // Create an item
          lChoose = Nth(plItem_coords,Random(1,Length(plItem_coords)));
 
-         % Don't generate any of this item type if any exist already.
+         // Don't generate any of this item type if any exist already.
          foreach i in plPassive
          {
             if IsClass(first(i),(first(lChoose)))
@@ -93,5 +93,5 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 

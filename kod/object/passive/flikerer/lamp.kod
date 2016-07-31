@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Lamp is Flickerer
 
 constants:
@@ -33,10 +33,10 @@ classvars:
 
    viObject_flags = OF_NOEXAMINE
 
-   % Lighting flags.  Default "on" and wavering flags
+   // Lighting flags.  Default "on" and wavering flags
    viLightFlags = LIGHT_FLAG_ON | LIGHT_FLAG_WAVERING | LIGHT_FLAG_DYNAMIC
 
-   % Light color.
+   // Light color.
    viLightColor = LIGHT_FIRE
 
 properties:
@@ -46,7 +46,7 @@ properties:
    viStart_frame = 3
    viEnd_frame = 6
 
-   % Intensity, from 0-255.
+   // Intensity, from 0-255.
    piLightIntensity = 50
 
 messages:
@@ -60,7 +60,7 @@ messages:
 
    SetAnimationSpeed()
    {
-      % Set our animations a bit randomly.
+      // Set our animations a bit randomly.
       piAnim_speed = (Random(4,7) * 10);
       viStart_frame = Random(2,3);
       viEnd_frame = Random(6,7);
@@ -82,7 +82,7 @@ messages:
    {
       local iHour;
 
-      % lamps indoors don't shut off at night.
+      // lamps indoors don't shut off at night.
       if Send(self,@GetOwner) <> $
       {
          if Send(Send(self,@GetOwner),@GetOutsideFactor) = OUTDOORS_NONE
@@ -129,4 +129,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

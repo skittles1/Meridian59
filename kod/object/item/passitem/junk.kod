@@ -1,22 +1,22 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-% TO ADD A NEW PIECE OF JUNK
-% 1) Increment the NUM_JUNK_TYPES
-% 2) Add values of value, weight, bulk, name, desc, and icon.
-% 3) Add the random chance to constructed()
+// TO ADD A NEW PIECE OF JUNK
+// 1) Increment the NUM_JUNK_TYPES
+// 2) Add values of value, weight, bulk, name, desc, and icon.
+// 3) Add the random chance to constructed()
 
 
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Junk is PassiveItem
 
 constants:
@@ -349,5 +349,5 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 

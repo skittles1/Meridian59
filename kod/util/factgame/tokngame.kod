@@ -1,16 +1,16 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 TokenGame is FactionGame
 
-% This is the infamous token game!  Return tokens for cash and prizes!
+// This is the infamous token game!  Return tokens for cash and prizes!
 
 constants:
 
@@ -65,10 +65,10 @@ properties:
 
    piScandalChance = 1
 
-   plSenate = $       %This is  a list of [ NUM,MOB,STATE,TOKEN,TIMEVAL,OPEN]
-   plTokenRooms = $   %This is a list of [RID, RID, ... ]
+   plSenate = $       //This is  a list of [ NUM,MOB,STATE,TOKEN,TIMEVAL,OPEN]
+   plTokenRooms = $   //This is a list of [RID, RID, ... ]
 
-   piTotalPoints = 1000  % Number of points the game contributes toward total
+   piTotalPoints = 1000  // Number of points the game contributes toward total
 
    pbDeleting = FALSE
 
@@ -179,7 +179,7 @@ messages:
    {
       local i;
 
-      % Recreate the tokens and councilors
+      // Recreate the tokens and councilors
       foreach i in plSenate
       {
          SetNth(i,4,Create(Send(Self,@TokenClass,#num=First(i)))); 
@@ -211,7 +211,7 @@ messages:
    {
       local i;
 
-      % Recreate the tokens and councilors
+      // Recreate the tokens and councilors
       foreach i in plSenate
       {
          SetNth(i,2,Create(Send(Self,@CouncilorClass,#num=First(i)))); 
@@ -337,28 +337,28 @@ messages:
          if Nth(i,2) = mycouncilor
          {
             bump = Send(mycouncilor,@GetStateBump);
-            state = Nth(i,3) MOD 100;
+            state = Nth(i,3) % 100;
             fact = Nth(i,3) / 100;
 
             if NOT scandal
             {
                if fact = myfaction
                {
-                  % I returned a token to someone already dedicated to my faction
+                  // I returned a token to someone already dedicated to my faction
                   state = Bound(state + bump,1,3);
                }
                else
                {
-                  % Ah!  I have influenced someone!
+                  // Ah!  I have influenced someone!
                   if state <= bump
                   {
-                     % Uh oh, they weren't strong believers.  Swing them by the bump amount.
+                     // Uh oh, they weren't strong believers.  Swing them by the bump amount.
                      fact = myfaction;
                      state = bump - state + 1;
                   }
                   else
                   {
-                     % They were too strong, but we'll get them yet!
+                     // They were too strong, but we'll get them yet!
                      state = state - bump;
                   }
               }
@@ -538,7 +538,7 @@ messages:
 
       temp = FALSE;
 
-      % Don't do a scandal during a frenzy!
+      // Don't do a scandal during a frenzy!
       if plSenate = $
          OR Send(SYS,@GetChaosNight)
       {
@@ -553,7 +553,7 @@ messages:
          }
 
          if Random(1,Bound(piScandalFactor,100,500))
-               <= ((piScandalChance * (Nth(i,3)) MOD 100))
+               <= ((piScandalChance * (Nth(i,3)) % 100))
          {
             temp = TRUE;
             Send(self,@DoScandal,#mob=Nth(i,2));
@@ -811,8 +811,8 @@ messages:
          return;
       }
 
-      % We need to check to see if there is a token worth rumoring about...
-      % If so, we need to get owning room,
+      // We need to check to see if there is a token worth rumoring about...
+      // If so, we need to get owning room,
 
       foreach i in plSenate
       {
@@ -822,7 +822,7 @@ messages:
             continue;
          }
 
-         %token in world or still on timer.
+         //token in world or still on timer.
          if (NOT Nth(i,6))
          {
             loc = Send(mytok,@GetOwner);
@@ -845,7 +845,7 @@ messages:
             continue;
          }
 
-         % Ok, we got a valid loc, so lets possibly chose this one.
+         // Ok, we got a valid loc, so lets possibly chose this one.
          if Random(0,iCount) = 0
          {
             finaltok = mytok;
@@ -855,7 +855,7 @@ messages:
          ++iCount;
       }
 
-      % Now send out the rumor if we found one a viable token....
+      // Now send out the rumor if we found one a viable token....
       if finalloc <> $
       {
          if Random(1,100) <= TOKEN_LOCATION_WRONG_CHANCE
@@ -917,9 +917,9 @@ messages:
       i = Nth(plSenate,num);
       con = Nth(i,2);
       faction = Nth(i,3) / 100;
-      power = Nth(i,3) MOD 100;
+      power = Nth(i,3) % 100;
 
-      % We want to eventually have the mob say something about the councilor
+      // We want to eventually have the mob say something about the councilor
       if faction = FACTION_NEUTRAL
       {
          if faction = Send(mob,@GetFaction)
@@ -985,7 +985,7 @@ messages:
       return;
    }
 
-   % Returns the number of points due to the faction.
+   // Returns the number of points due to the faction.
    GetPoints(faction=$)
    {
       local iPoints, lCounsel;
@@ -996,9 +996,9 @@ messages:
       }
 
       iPoints = 0;
-      % How this works: Each loyal counselor contributes a share of points to total.
-      %                 Giving counselors extra tokens keeps them from swinging
-      %                 to other factions too easily, but doesn't increase value.
+      // How this works: Each loyal counselor contributes a share of points to total.
+      //                 Giving counselors extra tokens keeps them from swinging
+      //                 to other factions too easily, but doesn't increase value.
       foreach lCounsel in plSenate
       {
          if Nth(lCounsel,3)/100 = faction
@@ -1010,7 +1010,7 @@ messages:
       return ((iPoints * piTotalPoints) / Length(plSenate));
    }
 
-   % Creates all NPCs specific to and needed for the game, that is, the councilors.
+   // Creates all NPCs specific to and needed for the game, that is, the councilors.
    RecreateNPCs()
    {
       pbDeleting = TRUE;
@@ -1059,7 +1059,7 @@ messages:
          }
       }
 
-      % Recalculate power.
+      // Recalculate power.
       if Send(SYS,@GetParliament) <> $
       {
          Send(Send(SYS,@GetParliament),@RedoPower);
@@ -1069,4 +1069,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

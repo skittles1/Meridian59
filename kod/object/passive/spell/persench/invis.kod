@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Invisibility is PersonalEnchantment
 
 constants:
@@ -64,9 +64,9 @@ classvars:
 
 properties:
 
-   % The effectiveness of purge on the target spell as a percentage.
-   % 100 will cause purge to remove its entire spellpower, 0 will
-   % prevent purge from removing this spell.
+   // The effectiveness of purge on the target spell as a percentage.
+   // 100 will cause purge to remove its entire spellpower, 0 will
+   // prevent purge from removing this spell.
    viPurgeFactor = 20
 
 messages:
@@ -81,7 +81,7 @@ messages:
 
    CastSpell(who=$,iSpellPower=0,lTargets=$)
    {
-      % If it's only self cast, spoof self as target for following code
+      // If it's only self cast, spoof self as target for following code
       if NOT vbCanCastonOthers
       {
          lTargets = Cons(who, lTargets);
@@ -101,7 +101,7 @@ messages:
    {
       local iDuration;
 
-      % 20 - 218 seconds
+      // 20 - 218 seconds
       iDuration = 20 + (iSpellPower*2);
       iDuration = iDuration * 1000;
 
@@ -123,7 +123,7 @@ messages:
       propagate;
    }
 
-   % Stuff we handle to be a defense modifier.
+   // Stuff we handle to be a defense modifier.
 
    ModifyDefensePower(who=$,what=$,defense_power=0)
    {
@@ -158,4 +158,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 SkullBrazier is Flickerer
 
 constants:
@@ -30,18 +30,18 @@ classvars:
    vrDesc = skullbrazier_desc
    vrIcon = skullbrazier_icon
 
-   % Lighting flags.  Default "on" and wavering flags
+   // Lighting flags.  Default "on" and wavering flags
    viLightFlags = LIGHT_FLAG_ON | LIGHT_FLAG_WAVERING
 
-   % Light color.
+   // Light color.
    viLightColor = LIGHT_ORANGE
 
 properties:
 
-   % Intensity, from 0-255.
+   // Intensity, from 0-255.
    piLightIntensity = 130
 
 messages:
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

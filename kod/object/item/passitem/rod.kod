@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////////////
 Rod is PassiveItem
 
 constants:
@@ -53,12 +53,12 @@ classvars:
    vrSuccess = Rod_success_msg
    vrSuccessSound = rod_success_wav_default_rsc
 
-   viRodUseDelay = 500 % Milliseconds
+   viRodUseDelay = 500 // Milliseconds
 
 properties:
 
    vrDesc = Rod_desc_rsc
-   piRodUseDelay = 500 % Milliseconds
+   piRodUseDelay = 500 // Milliseconds
 
 messages:
 
@@ -161,7 +161,7 @@ messages:
 
    SomethingKilled(what = $, victim = $)
    {
-      % Gain a charge upon our owner killing a monster.
+      // Gain a charge upon our owner killing a monster.
       if what = poOwner
          AND IsClass(victim,&Monster)
          AND Send(self,@GetHits) < Send(self,@GetMaxHits)
@@ -249,4 +249,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////////////////////////////////////////////////////////////
 GuildHall12 is GuildHall
 
 constants:
@@ -82,8 +82,8 @@ classvars:
 
    vrEntrancedoor_open_sound = guildh12_lift_up_sound
    vrEntrancedoor_close_sound = guildh12_lift_up_sound
-   %vrSecretdoor_open_sound = 
-   %vrSecretdoor_close_sound = 
+   //vrSecretdoor_open_sound = 
+   //vrSecretdoor_close_sound = 
 
 properties:
 
@@ -131,7 +131,7 @@ messages:
       plExits = Cons([ 40, 9, RID_GUILDH12, 40, 50, ROTATE_NONE ],plExits);
       plExits = Cons([ 40, 49, RID_GUILDH12, 41, 8, ROTATE_NONE ],plExits);
 
-      %% teleport in to (44, 23)
+      /// teleport in to (44, 23)
       plExits = Cons([ 46, 24, RID_KOC_NORTH, 4, 14, ROTATE_NONE ],plExits);
       plExits = Cons([ 46, 25, RID_KOC_NORTH, 4, 14, ROTATE_NONE ],plExits);
       plExits = Cons([ 45, 25, RID_KOC_NORTH, 4, 14, ROTATE_NONE ],plExits);
@@ -161,8 +161,8 @@ messages:
             new_row = 1, new_col = 1, new_fine_row = 1, new_fine_col = 1,
             who = $)
    {
-      % Hardcoded movement check, prevent hacking into hall.
-      % Basic requirement door must not be open
+      // Hardcoded movement check, prevent hacking into hall.
+      // Basic requirement door must not be open
       if ptEntrance = $
       {
          if Send(self,@InFoyer,#iRow=old_row,#iCol=old_col,
@@ -170,14 +170,14 @@ messages:
             AND NOT Send(self,@IsPastEntranceLift,#iRow=old_row,#iCol=old_col,
                         #iFineRow=old_fine_row,#iFineCol=old_fine_col)
          {
-            % We're in the foyer. Check if we're trying to move to
-            % the hall entrance door.
+            // We're in the foyer. Check if we're trying to move to
+            // the hall entrance door.
             if Send(self,@IsPastEntranceLift,#iRow=new_row,#iCol=new_col,
                      #iFineRow=new_fine_row,#iFineCol=new_fine_col)
                OR NOT Send(self,@InFoyer,#iRow=new_row,#iCol=new_col,
                         #iFineRow=new_fine_Row,#iFineCol=new_fine_col)
             {
-               % Bad player! Fail the attempt.
+               // Bad player! Fail the attempt.
                Debug("ALERT!",Send(who,@GetTrueName),who,
                      "tried to move past deactivated Guild Hall elevator ",
                      Send(self,@GetName)," from ",old_row,old_col,old_fine_row,
@@ -199,28 +199,28 @@ messages:
    {
       local iRowDec, iColDec;
 
-      % Convert numbers to xxyy where yy is fineX converted
-      % to a ratio out of 100
+      // Convert numbers to xxyy where yy is fineX converted
+      // to a ratio out of 100
       iRowDec = (iRow * 100) + (iFineRow * 156 / 100);
       iColDec = (iCol * 100) + (iFineCol * 156 / 100);
 
-      if iRowDec <= 4215 % South wall near door
-         AND iRowDec > 3693 % Edge of elevator
-         AND iColDec <= 1049 % Wall containing entrance door
+      if iRowDec <= 4215 // South wall near door
+         AND iRowDec > 3693 // Edge of elevator
+         AND iColDec <= 1049 // Wall containing entrance door
       {
-         % We're in a rectangle that includes part of the old foyer.
-         % Need to remove that part.
+         // We're in a rectangle that includes part of the old foyer.
+         // Need to remove that part.
 
-         if iRowDec <= 3978 % Ledge near door
-            AND iColDec >= 600 % Point where stairs start near door
+         if iRowDec <= 3978 // Ledge near door
+            AND iColDec >= 600 // Point where stairs start near door
          {
-            % This is a rectangle also bound by the door and the elevator
+            // This is a rectangle also bound by the door and the elevator
             return FALSE;
          }
 
-         % The remaining part can't be easily divided into rectangles,
-         % so use the slopes to determine the appropriate Col for each Row
-         % 1st: Starting from row 3700 and col 412, ending 3802 and 439
+         // The remaining part can't be easily divided into rectangles,
+         // so use the slopes to determine the appropriate Col for each Row
+         // 1st: Starting from row 3700 and col 412, ending 3802 and 439
          if (iColDec >= 412)
             AND (iRowDec >= 3675 AND iRowDec <= 3802)
          {
@@ -229,7 +229,7 @@ messages:
                return FALSE;
             }
          }
-         % 2nd: Starting from row 3802 and col 439, ending 3862 474
+         // 2nd: Starting from row 3802 and col 439, ending 3862 474
          if (iColDec >= 439)
             AND (iRowDec >= 3802 AND iRowDec <= 3862)
          {
@@ -238,7 +238,7 @@ messages:
                return FALSE;
             }
          }
-         % 3rd: Starting from row 3856 and col 467, ending 3996 603
+         // 3rd: Starting from row 3856 and col 467, ending 3996 603
          if (iColDec >= 467)
             AND (iRowDec >= 3856 AND iRowDec <= 3996)
          {
@@ -441,4 +441,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

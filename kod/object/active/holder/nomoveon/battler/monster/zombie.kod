@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Zombie is Monster
 
 constants:
@@ -62,7 +62,7 @@ classvars:
 
 properties:
 
-   % our private data
+   // our private data
 
    viTreasure_type = TID_ZOMBIE
    viLevel = 55
@@ -121,7 +121,7 @@ messages:
 
    SendMoveAnimation()
    {
-      % Cycle through "walking" bitmaps (groups 2-5) at 50 milliseconds per frame
+      // Cycle through "walking" bitmaps (groups 2-5) at 50 milliseconds per frame
       AddPacket(1,ANIMATE_CYCLE,4,200,2,2,2,3);
 
       return;
@@ -136,7 +136,7 @@ messages:
          return;
       }
 
-      % if no body animation
+      // if no body animation
 
       propagate;
    }
@@ -193,4 +193,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

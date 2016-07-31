@@ -1,4 +1,4 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 BasicInnKeeper is TosTown
 
 constants:
@@ -67,20 +67,20 @@ messages:
    {
       local i, TargetObj, CostObj;
 
-      % Ryksher gift-wraps items for you for a fee.
+      // Ryksher gift-wraps items for you for a fee.
 
-      % If it's not an item, it can't be wrapped.
-      % If it's gonna be a server problem, we disallow it.
+      // If it's not an item, it can't be wrapped.
+      // If it's gonna be a server problem, we disallow it.
 
       if NOT pbGiftGiving
       {
          propagate;
       }
 
-      % Gotta be an item.
-      % Can't be something we wanna keep out of vaults.
-      % Can't be money.
-      % Can't be a gift, unless we're allowing it for some weird reason....
+      // Gotta be an item.
+      // Can't be something we wanna keep out of vaults.
+      // Can't be money.
+      // Can't be a gift, unless we're allowing it for some weird reason....
       if (NOT IsClass(obj,&Item))
          OR (NOT Send(obj,@CanBeStoredInVault))
          OR IsClass(obj,&Money)
@@ -91,7 +91,7 @@ messages:
          return;
       }
 
-      % If there is a fee, keep track of it.
+      // If there is a fee, keep track of it.
 
       CostObj = $;
       if pcCostToWrap <> $ AND piNumberToWrap <> $ AND piNumberToWrap <> 0
@@ -124,13 +124,13 @@ messages:
             return;
          }
 
-         % Don't actually take the fee until we're sure he can wrap.
+         // Don't actually take the fee until we're sure he can wrap.
 
       }
 
-      % If they offer us four of ten number items,
-      % then obj has four, and we need to subtract that from
-      % the original ten in their inventory.
+      // If they offer us four of ten number items,
+      // then obj has four, and we need to subtract that from
+      // the original ten in their inventory.
 
       if IsClass(obj,&NumberItem)
       {
@@ -162,7 +162,7 @@ messages:
          Send(TargetObj,@SubtractNumber,#number = Send(obj,@GetNumber));
       }
 
-      % Ready to wrap obj.  Note we ignore inventory limits here.
+      // Ready to wrap obj.  Note we ignore inventory limits here.
 
       if obj <> $
       {
@@ -172,7 +172,7 @@ messages:
          Send(who,@RecalcBulkAndWeight);
       }
 
-      % Collect the fee.
+      // Collect the fee.
 
       if CostObj <> $
       {
@@ -220,4 +220,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

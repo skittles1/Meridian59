@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 JewelofFroz is AttackModifier
 
 constants:
@@ -75,8 +75,8 @@ properties:
 
    piAnimation = ANIM_NONE
 
-   % These allow setting JOFs up individually for testing, or just
-   % assigning the default values from the class variable in Constructor.
+   // These allow setting JOFs up individually for testing, or just
+   // assigning the default values from the class variable in Constructor.
    piManaLossJewel = 1
    pbDoubleManaCost = FALSE
    piAttack_bonus = 200
@@ -155,7 +155,7 @@ messages:
          Send(self,@DoFlash);
       }
 
-      % Option to scale hitroll bonus by hitpoints. Default on.
+      // Option to scale hitroll bonus by hitpoints. Default on.
       if pbScaleHitrollBonus
       {
          iScale = Send(who,@GetBaseMaxHealth) * 100
@@ -165,7 +165,7 @@ messages:
          return hit_roll + iBonus;
       }
 
-      % If no scaling, just return the hitroll + full bonus.
+      // If no scaling, just return the hitroll + full bonus.
       return hit_roll + piAttack_bonus;
    }
 
@@ -194,35 +194,35 @@ messages:
             {
                if IsClass(i,&JewelOfFroz)
                {
-                  % 1 mana default for one jewel, 4 mana total for two.
+                  // 1 mana default for one jewel, 4 mana total for two.
                   iMana = iMana + piManaLossJewel;
                }
             }
          }
          else
          {
-             % Default 1 per jewel.
+             // Default 1 per jewel.
             iMana = iMana + piManaLossJewel;
          }
 
          if Send(who,@LoseMana,#amount=iMana) <> 0
          {
-            % Add big damage if we spent the mana. Adjust it by how strong
-            % the wielder is relative to their maximum potential. Throwaway
-            % characters will get very little benefit.
+            // Add big damage if we spent the mana. Adjust it by how strong
+            // the wielder is relative to their maximum potential. Throwaway
+            // characters will get very little benefit.
             return damage + Send(self,@GetHealthBonus,#who=who);
          }
 
-         % Add a small amount of damage.
+         // Add a small amount of damage.
          return damage + Random(1,2);
       }
 
       return damage;
    }
 
-   %
-   % Item description code.
-   %
+   //
+   // Item description code.
+   //
 
    GetHitBonus()
    {
@@ -293,9 +293,9 @@ messages:
       return iMaxDamage;
    }
 
-   %
-   % End item desciption code.
-   %
+   //
+   // End item desciption code.
+   //
 
    GetHealthBonus(who=$)
    {
@@ -385,4 +385,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

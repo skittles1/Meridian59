@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 MerchantTaxQuest is TaxQuestTemplate
-% Quest template QST_ID_MERCHANT_TAX = 52.
-% Quest nodes 161, 162.
-% QNT_ID_MERCHANT_TAX_ONE, QNT_ID_MERCHANT_TAX_TWO
+// Quest template QST_ID_MERCHANT_TAX = 52.
+// Quest nodes 161, 162.
+// QNT_ID_MERCHANT_TAX_ONE, QNT_ID_MERCHANT_TAX_TWO
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -33,7 +33,7 @@ resources:
 
    include merchanttaxqt.lkod
 
-   % Quest description.
+   // Quest description.
    merchanttaxqt_name_rsc = "merchant tax quest"
    merchanttaxqt_desc_rsc = \
       "Courier some taxes for an NPC."
@@ -41,7 +41,7 @@ resources:
    merchanttaxqt_completed_rsc = \
       "You have completed the merchant tax quest."
 
-   % Quest resources.
+   // Quest resources.
    merchanttax_assign_2 = \
       "Will you take my taxes to %NPC?  I am certain I am late this time and "
       "need you to take these %INDEF_CARGO%CARGO to %NPC.  Thievery will "
@@ -66,7 +66,7 @@ classvars:
 
    vrCompleted = merchanttaxqt_completed_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_MERCHANT_TAX
 
 properties:
@@ -75,10 +75,10 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_MERCHANT_TAX_ONE, QNT_ID_MERCHANT_TAX_TWO];
 
-      % Quest nodes with matching descriptions for the player.
+      // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_MERCHANT_TAX_TWO, vrNodeTwo] ];
 
       propagate;
@@ -91,8 +91,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #161 is merchant tax quest
-      % QNT_ID_MERCHANT_TAX_ONE
+      // Template #161 is merchant tax quest
+      // QNT_ID_MERCHANT_TAX_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #NPC_modifier=QN_NPCMOD_NONE,#cargolist=[ letter_trigger ],
                #quest_node_index=QNT_ID_MERCHANT_TAX_ONE)
@@ -134,8 +134,8 @@ messages:
          Debug("Error building QN: QNT_ID_MERCHANT_TAX_ONE");
       }
 
-      % Template #162 is merchant tax quest
-      % QNT_ID_MERCHANT_TAX_TWO
+      // Template #162 is merchant tax quest
+      // QNT_ID_MERCHANT_TAX_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_ITEMCLASS,
                #cargolist=[ [ QN_PRIZETYPE_ITEMCLASS, &Money, 130 ],
                             [ QN_PRIZETYPE_ITEMCLASS, &Money, 113 ],
@@ -167,7 +167,7 @@ messages:
          Send(oQE,@SetQuestNodeNPCList,#index=QNT_ID_MERCHANT_TAX_TWO,
                #new_NPC_list=lNPCs);
 
-         % Happy land subs.
+         // Happy land subs.
          if NOT Send(SYS,@IsPKAllowed)
          {
             Send(oQE,@SetQuestNodeAssignHint,#index=QNT_ID_MERCHANT_TAX_TWO,
@@ -194,4 +194,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

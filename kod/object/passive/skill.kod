@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Skill is PassiveObject 
 
 constants:
@@ -58,20 +58,20 @@ classvars:
 
    viSkill_level = 1
 
-   % Initial chance to increase, modified by Intellect.   
+   // Initial chance to increase, modified by Intellect.   
    viChance_to_Increase = 25
-   % This is NOT the same as the chance to increase. This determines how many training points a player needs to spend per improvement.
-   % So it's not x improvements in 100 attempts, but 1 improvement per X points.
+   // This is NOT the same as the chance to increase. This determines how many training points a player needs to spend per improvement.
+   // So it's not x improvements in 100 attempts, but 1 improvement per X points.
    viMeditate_ratio = 100
 
    viskillExertion = 2
    vbCheck_Exertion = TRUE
 
-   % Shows up on pull-down menus, if FALSE some skills, like Parry and Dodge,
-   %  are solely passive, and are TRUE
+   // Shows up on pull-down menus, if FALSE some skills, like Parry and Dodge,
+   //  are solely passive, and are TRUE
    vbAutomatic = FALSE
 
-   % Default animation speed for icon if set to 0, then no animation.
+   // Default animation speed for icon if set to 0, then no animation.
    viAnimationSpeed = 0
 
    viAnimation_start = 1
@@ -138,13 +138,13 @@ messages:
          rSchool = skill_school_thievery;
       }
 
-      % Base description.
+      // Base description.
       AddPacket(4,skill_desc_rsc, 4,rSchool, 4,viSkill_Level, 4,vrDesc);
 
-      % Add time resource if appropriate.
+      // Add time resource if appropriate.
       Send(self,@SendTimeDesc,#who=who);
       
-      % Add meditate ratio.
+      // Add meditate ratio.
       if piMeditate_ratio = 0
       {
          AddPacket(4,skill_nothing);
@@ -317,7 +317,7 @@ messages:
          return FALSE;
       }
 
-      % Used skill flips atrophy flag
+      // Used skill flips atrophy flag
       Send(who,@FlipSkillAtrophyFlag,#SKID=viSkill_num);
 
       return TRUE;
@@ -379,10 +379,10 @@ messages:
    "Note: Strokes do not end up calling this routine!"
    "Anything that must be done by all strokes must be put elsewhere!"
    {
-      % Do animation.
+      // Do animation.
       Send(self,@DoAnimation,#who=who);
 
-      % Check for advancement conditions.
+      // Check for advancement conditions.
       Send(self,@ImproveAbility,#who=who,#target=oTarget);  
 
       return TRUE;
@@ -404,14 +404,14 @@ messages:
       local difficulty, iability, intellect, requisitestat, increase_chance,
             iRandom, iInitialChance, oOwner;
 
-      % Monsters can cast spells, can't improve in them   
+      // Monsters can cast spells, can't improve in them   
       if NOT IsClass(who,&Player)
       {
          return FALSE;
       }     
 
-      % players can't advance on anything they can choose to
-      %  generate: revenants and illusions
+      // players can't advance on anything they can choose to
+      //  generate: revenants and illusions
       if target <> $ AND NOT Send(target,@CanPlayerAdvanceOnMe)
       {
          return FALSE;
@@ -422,7 +422,7 @@ messages:
          return FALSE;
       }
 
-      % Can advance in real death arenas
+      // Can advance in real death arenas
       if Send(Send(who,@GetOwner),@CheckRoomFlag,#flag=ROOM_SAFE_DEATH)
          AND NOT Send(Send(who,@GetOwner),@ArenaRealDeath)
       {
@@ -452,7 +452,7 @@ messages:
                                 #oSpellSkill=self,#chance=increase_chance);
       }
 
-      % For times when it's simply impossible to improve.
+      // For times when it's simply impossible to improve.
       if increase_chance = CANNOT_IMPROVE
       {
          return FALSE;
@@ -478,7 +478,7 @@ messages:
    {
       local iBonus, iFaction, iFinal;
 
-      % Give up to a 50% bonus to the initial chance to learn for high intellect.
+      // Give up to a 50// bonus to the initial chance to learn for high intellect.
       iBonus = (viChance_to_increase * Send(who,@GetIntellect)) / 100;
 
       iBonus = iBonus + Send(Send(SYS,@GetParliament),@GetFactionLearnBonus,
@@ -495,11 +495,11 @@ messages:
       
       iRequisiteStat = Send(self,@GetRequisiteStat,#who=who);
 
-      % 110% base chance at 1st level for 50 requisite stat
+      // 110// base chance at 1st level for 50 requisite stat
       increase_chance = 60 + iRequisiteStat;      
       increase_chance = increase_chance - (Send(self,@GetLevel) * 10);
       
-      % This is the penalty for generalization
+      // This is the penalty for generalization
       increase_chance = increase_chance - Send(who,@GetTotalLearnPoints,#except=SKS_FENCING);
 
       difficulty = 60;
@@ -510,16 +510,16 @@ messages:
 
       iAbility = Send(who,@GetSpellAbility,#spell_num=viSkill_num);
 
-      % This decreases the imp chance as we go up in level.  It also gives
-      %  a better chance to imp on harder monsters.  Adding 10 to compensate
-      %  for losing the "knowing more in the school" bonus.
+      // This decreases the imp chance as we go up in level.  It also gives
+      //  a better chance to imp on harder monsters.  Adding 10 to compensate
+      //  for losing the "knowing more in the school" bonus.
       factor = ((2*difficulty) - (iAbility) + 10);
       factor = bound(factor,50,100);
 
       final = (increase_chance * factor)/100;
       final = bound(final,5,$);
 
-      % Are we above the spells requisite stat?  Apply the "soft cap".
+      // Are we above the spells requisite stat?  Apply the "soft cap".
       if iability > ((2*iRequisiteStat)-1)
       {
          final = final / bound(Send(SETTINGS_OBJECT,@GetSkillSoftcapPenalty),1,$);
@@ -527,7 +527,7 @@ messages:
 
       final = bound(final,1,$);
 
-      % The global modifier from system.
+      // The global modifier from system.
       final = (final * Send(SETTINGS_OBJECT, @GetAdvancementRate)) / 100;
 
       return final;
@@ -596,4 +596,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

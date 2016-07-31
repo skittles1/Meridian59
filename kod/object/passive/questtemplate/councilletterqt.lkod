@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 councilletterquest_name_rsc = de "Ratsbrief Quest"
 councilletterquest_desc_rsc = de \
    "Überbringe einen offiziellen Brief an ein Ratsmitglied.  "
@@ -11,7 +11,7 @@ councilletterquest_deliver_rsc = de \
 councilletterquest_completed_rsc = de \
    "Du hast das Ratsbrief Quest abgeschlossen."
 
-% Quest resources.
+// Quest resources.
 council_letter_assign = de \
    "Ja, ich brauche einen Kurier. Bring dieses Schreiben so schnell wie möglich "
    "an das Ratsmitglied %NPC.  Er wird für diesen Dienst bezahlen."

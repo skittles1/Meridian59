@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 Melancholy is Jala
 
 constants:
@@ -101,7 +101,7 @@ messages:
       propagate;
    }
 
-   % Stuff we handle to be an attack modifier.
+   // Stuff we handle to be an attack modifier.
 
    ModifyHitRoll(who = $,what = $,hit_roll = $)
    {
@@ -110,10 +110,10 @@ messages:
          return hit_roll;
       }
 
-      % Only affect the good ones...
+      // Only affect the good ones...
       if Send(what,@GetKarma,#detect=TRUE) > 0
       {
-         % Give a small bonus
+         // Give a small bonus
          return hit_roll + 100;
       }
 
@@ -127,10 +127,10 @@ messages:
          return damage;
       }
 
-      % Only affect the good ones...
+      // Only affect the good ones...
       if Send(what,@GetKarma,#detect=TRUE) > 0
       {
-         % Roughly equal to Killing Fields
+         // Roughly equal to Killing Fields
          return damage + Random(1,5);
       }
 
@@ -139,4 +139,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

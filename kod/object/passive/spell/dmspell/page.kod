@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Page is DMSpell
 
 constants:
@@ -59,13 +59,13 @@ messages:
    CastSpell(who = $, lTargets = $)
    {
       local i;
-      % redirect page to original for reflections and evil twins
+      // redirect page to original for reflections and evil twins
       if isClass(first(lTargets),&Reflection) or isClass(first(lTargets),&EvilTwin)
       {
          lTargets = [send(first(lTargets),@GetIllusionForm)];
       }
       
-      %% send self the page noise
+      /// send self the page noise
       send(who,@wavesenduser,#wave_rsc=page_wave_rsc);  
       send(who,@msgsenduser,#message_rsc=page_msg_dm,
 	  #parm1=Send(First(lTargets),@GetDef),#parm2=Send(First(lTargets),@GetName));
@@ -80,4 +80,4 @@ messages:
 
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

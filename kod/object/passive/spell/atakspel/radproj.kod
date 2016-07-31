@@ -1,17 +1,17 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 RadiusProjectile is AttackSpell
 
-% A projectile that is sent out in a radius, instead of at a target. The spell
-% itself hits all valid targets in the radius.
+// A projectile that is sent out in a radius, instead of at a target. The spell
+// itself hits all valid targets in the radius.
 
 constants:
 
@@ -27,27 +27,27 @@ classvars:
 
    viProjectileFlag = PROJ_FLAG_LIGHT_SOURCE
 
-   % Projectile lighting information.
+   // Projectile lighting information.
    viProjectileLightFlags = LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC
-   % Medium light range, out of 255.
+   // Medium light range, out of 255.
    viProjectileLightIntensity = 100
-   % Default color is lightning.
+   // Default color is lightning.
    viProjectileLightColor = LIGHT_LIGHTNING
 
    viChance_To_Increase = 15
 
 properties:
 
-   % Range in FINENESS units, default 6 row/col units.
-   % The client needs to be sent range in row/col units, so divide
-   % by FINENESS whenever the row/col value is needed.
+   // Range in FINENESS units, default 6 row/col units.
+   // The client needs to be sent range in row/col units, so divide
+   // by FINENESS whenever the row/col value is needed.
    piRange = 384
    piSpeed = 5
 
-   % Maximum amount of bonus damage mana focus gives us for casting this spell.
+   // Maximum amount of bonus damage mana focus gives us for casting this spell.
    piManaFocusBonus = 10
 
-   % Number of projectiles to shoot, default 8.
+   // Number of projectiles to shoot, default 8.
    piNumber = 8
 
 messages:
@@ -75,7 +75,7 @@ messages:
          if each_obj <> who
             AND IsClass(each_obj,&Battler)
          {
-            % Skip players who are phased/in spectator mode.
+            // Skip players who are phased/in spectator mode.
             if IsClass(each_obj,&Player)
                AND Send(each_obj,@IsInCannotInteractMode)
             {
@@ -106,7 +106,7 @@ messages:
 
       oOwner = Send(who,@GetOwner);
 
-      % Show bolt flying through the air.
+      // Show bolt flying through the air.
       lActive = Send(oOwner,@GetHolderActive);
 
       foreach i in lActive
@@ -145,8 +145,8 @@ messages:
 
    SendProjectileAnimation()
    {
-      % Send animation info to user.
-      % Default is no animation, display with group 1
+      // Send animation info to user.
+      // Default is no animation, display with group 1
       AddPacket(1,ANIMATE_NONE, 2,1);
 
       return;
@@ -168,4 +168,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

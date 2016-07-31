@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Assess is Skill
 
 constants:
@@ -56,7 +56,7 @@ messages:
 
    CanPayCosts(who = $, oTarget = $)
    {
-      %debug("CanPayCosts in Assess");
+      //debug("CanPayCosts in Assess");
       
       if oTarget=who
         {
@@ -71,14 +71,14 @@ messages:
 	 return False;
       }
 
-      propagate;   % Check other things higher up
+      propagate;   // Check other things higher up
    }
 
    DoSkill(who = $, oTarget = $)
    {
       local dodge, health, slash, strength,agility,totalpower, message;
 
-      %debug("got to DoSkill in Assess.");
+      //debug("got to DoSkill in Assess.");
 
       if isclass(oTarget,&user)
       {
@@ -126,4 +126,4 @@ messages:
 
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

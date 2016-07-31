@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%S%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////S///////////////////////////////////////////////////////
 ForcesOfLight is RoomEnchantment
 
 constants:
@@ -74,7 +74,7 @@ messages:
 
       oRoom = Send(who,@GetOwner);
 
-      % global effects of the enchantment
+      // global effects of the enchantment
       Send(oRoom,@SomeoneSaid,#type=SAY_MESSAGE,#string=forcesoflight_on,#what=self);
 
       Send(oRoom,@RoomStartEnchantment,#what=self,#state=iSpellpower,#time=send(self,@GetDuration,#iSpellpower=iSpellpower),#state=$);
@@ -121,14 +121,14 @@ messages:
       return;
    }
 
-   % stuff we handle to be an attack modifier
+   // stuff we handle to be an attack modifier
 
    ModifyHitRoll(who = $, what = $, hit_roll = $)
    {
       local iSpellpower,iHitMod;
 
       iSpellpower = send(send(who,@GetOwner),@GetEnchantmentState,#what=self);
-      iHitMod = iSpellpower + 50;  %% 50 - 150
+      iHitMod = iSpellpower + 50;  /// 50 - 150
       
       return hit_roll + iHitMod;
    }
@@ -142,9 +142,9 @@ messages:
    {
       local iDuration;
 
-      % Up to ~3 minutes.
-      iDuration = 6 * (iSpellpower/3 + 1); %% 1 - 33
-      % Convert to milliseconds
+      // Up to ~3 minutes.
+      iDuration = 6 * (iSpellpower/3 + 1); /// 1 - 33
+      // Convert to milliseconds
       iDuration = iDuration * 1000;  
 
       return iDuration;
@@ -163,4 +163,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,4 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 SummonEvilTwin is Spell
 
 constants:
@@ -77,7 +77,7 @@ messages:
 
       oTarget = First(lTargets);
 
-      % Only cast on non-self battlers.
+      // Only cast on non-self battlers.
       if who = oTarget
       {
          Send(who,@MsgSendUser,#message_rsc=summonEvilTwin_no_self);
@@ -90,8 +90,8 @@ messages:
          OR (IsClass(oTarget,&Monster)
                AND Send(oTarget,@CanEvilTwin)=FALSE)
       {
-         % Lich, lupogg king, evil twins, reflections and revenants 
-         % all not valid targets
+         // Lich, lupogg king, evil twins, reflections and revenants 
+         // all not valid targets
          if IsClass(who,&Player)
          {
             Send(who,@MsgSendUser,#message_rsc=summonEvilTwin_bad_target,
@@ -102,7 +102,7 @@ messages:
          return FALSE;
       }
 
-      % Check for evil twin already following target.
+      // Check for evil twin already following target.
       if Send(oTarget,@HasEvilTwin)
       {
          if IsClass(who,&Player)
@@ -118,7 +118,7 @@ messages:
       {
          if Send(oTarget,@CheckPlayerFlag,#flag=PFLAG_MORPHED)
          {
-            % Morph protects against evil twin
+            // Morph protects against evil twin
             if IsClass(who,&Player)
             {
                Send(who,@MsgSendUser,#message_rsc=summonEvilTwin_bad_target,
@@ -136,7 +136,7 @@ messages:
    {
       local i, j, oTwin, oRoom, iRow, iCol, iFine_Row, iFine_Col;
 
-      % Monster casters can rarely end up with $ target.
+      // Monster casters can rarely end up with $ target.
       if lTargets = $
       {
          return;
@@ -165,13 +165,13 @@ messages:
       oTwin = Create(&EvilTwin,#iSpellpower=iSpellpower,#oMaster=who,
                   #oTarget=oTarget);
 
-      % Add this ET to the target's evil twin property, which keeps
-      % track of the current ET pursuing them.
+      // Add this ET to the target's evil twin property, which keeps
+      // track of the current ET pursuing them.
       Send(oTarget,@AddEvilTwin,#what=oTwin);
 
-      % Also add this ET to the list of ETs created by the caster.
-      % If the caster dies or is otherwise deleted, we delete any
-      % ETs they've created.
+      // Also add this ET to the list of ETs created by the caster.
+      // If the caster dies or is otherwise deleted, we delete any
+      // ETs they've created.
       Send(who,@EvilTwinsCreated,#what=oTwin);
 
       Send(oTwin,@PlaceEvilTwin,#who=oTarget);
@@ -180,4 +180,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

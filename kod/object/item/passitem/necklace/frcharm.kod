@@ -1,15 +1,15 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Damion Schubert, November 1996
+////////////////////////////////////////////////////////////////////////////////
+//
+// Damion Schubert, November 1996
 
 FarenCharm is Necklace
 
@@ -80,7 +80,7 @@ messages:
    {
       piAim_change = Send(what,@AddAim,#points=AIM_CHANGE);
       piStamina_change = Send(what,@AddStamina,#points=STAMINA_CHANGE);
-      if Random(1,5) = 3   %% 20% chance
+      if Random(1,5) = 3   /// 20// chance
       {
          Send(what,@msgsenduser,#message_rsc=FarenCharm_whisper);
       }
@@ -117,4 +117,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

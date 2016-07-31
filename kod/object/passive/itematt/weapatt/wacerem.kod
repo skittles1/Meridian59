@@ -1,26 +1,26 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 WeapAttCeremonial is WeaponAttribute
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%   This Weapon Attribute offers a +Power bonus in the arena, but a -Power
-%   damage penalty anywhere else.  Power is determined using standard
-%   WeapAtt powers table.
-%
-%  Form is:
-%
-%       [ WA_CEREMONIAL ]
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////
+//
+//   This Weapon Attribute offers a +Power bonus in the arena, but a -Power
+//   damage penalty anywhere else.  Power is determined using standard
+//   WeapAtt powers table.
+//
+//  Form is:
+//
+//       [ WA_CEREMONIAL ]
+//
+///////////////////////////////////////////////////////////////////////
 
 constants:
 
@@ -47,16 +47,16 @@ classvars:
 
 properties:
 
-   piValue_modifier = 150   %% modify the object's price by 100%
+   piValue_modifier = 150   /// modify the object's price by 100//
    piValue_power_modifier = 5
 
 messages:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Initialization Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Initialization Functions
+///
+////////////////////////////////////////////////
 
    InitialPower(oItem=$)
    {
@@ -70,11 +70,11 @@ messages:
       return Send(self,@InitialWeaponPower,#oItem=oItem);
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Effect Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Effect Functions
+///
+////////////////////////////////////////////////
 
    ModifyHitRoll(hitroll=0,target=$,wielder=$,lData=$)
    "Give a +power bonus in the arena, but -power everywhere else."
@@ -128,4 +128,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,4 @@
-% Item KOD Generation file
+// Item KOD Generation file
 	Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_NESTOBJ1),#new_row=3,#new_col=3,#fine_row=56,#fine_col=40,#new_angle=ANGLE_EAST);
 	Send(self,@NewHold,#what=Create(&Brazier),#new_row=5,#new_col=2,#fine_row=24,#fine_col=24,#new_angle=ANGLE_EAST);
 	Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_DUNG),#new_row=4,#new_col=4,#fine_row=16,#fine_col=46,#new_angle=ANGLE_EAST);

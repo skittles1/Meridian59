@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 kranofferingqt_name_rsc = de "Kraanan Opfer Quest"
 kranofferingqt_desc_rsc = de \
    "Priesterin Quertina Zuxana hat Dich eingeladen mit ihr zu singen, um die Herrin zu stärken."
@@ -9,7 +9,7 @@ kranofferingqt_completed = de \
    "der Schreine in der Welt platziert wird, wird er Kraanan geweiht und verleit den "
    "Zaubern Kraanans mehr Kraft."
 
-% Quest resources.
+// Quest resources.
 kraananoffering_assign_2 = de \
    "`B`b%NAME, heldenhafter Champion der Faust. Gibst du Dich selber auf "
    "dafür, dass unser Lord noch stärker sein wird?"

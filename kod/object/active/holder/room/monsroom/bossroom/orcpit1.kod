@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Orcpit1 is BossRoom
 
 constants:
@@ -59,7 +59,7 @@ classvars:
 
    viTerrain_type = TERRAIN_CAVES | TERRAIN_LAIR
 
-   % 20 seconds
+   // 20 seconds
    viBossResetTime = 20000
 
 properties:
@@ -141,18 +141,18 @@ messages:
       propagate;
    }
 
-%%%%%%%%%%%%%%%%%%%%%
-% Monster death code%
-%%%%%%%%%%%%%%%%%%%%%
-%
+//////////////////////
+// Monster death code//
+//////////////////////
+//
 
    BossKilledTrigger()
    {
       local i;
 
-      % Just killed the orc pit boss (opening door, creating treasure...)
+      // Just killed the orc pit boss (opening door, creating treasure...)
 
-      % Raise the gate.
+      // Raise the gate.
       Send(self,@SomethingWaveRoom,#wave_rsc=Orcpit1_door_sound);
       Send(self,@SetSector,#sector=SECTOR_DOOR3a,
             #animation=ANIMATE_CEILING_LIFT,
@@ -165,28 +165,28 @@ messages:
       propagate;
    }
 
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%
-% end Monster death code%
-%%%%%%%%%%%%%%%%%%%%%%%%%
+//
+//////////////////////////
+// end Monster death code//
+//////////////////////////
 
 
-%%%%%%%%%%%%%%%%%%%%%%%
-% Boss resetting code %
-%%%%%%%%%%%%%%%%%%%%%%%
-%
+////////////////////////
+// Boss resetting code //
+////////////////////////
+//
    ResetBoss()
    {
       local i;
 
-      % Close the boss door instantaneously.
+      // Close the boss door instantaneously.
       Send(self,@SetSector,#sector=SECTOR_DOOR3a,
             #animation=ANIMATE_CEILING_LIFT,#height=H_DOOR3a_DOWN,#speed=0);
       Send(self,@SetSector,#sector=SECTOR_DOOR3b,
             #animation=ANIMATE_CEILING_LIFT,#height=H_DOOR3b_DOWN,#speed=0);
       piDoor3Position = DOOR_DOWN;
 
-      % Delete any boss bodies that may be lying around...
+      // Delete any boss bodies that may be lying around...
       foreach i in plActive
       {
          if isClass(First(i),&OrcPitBossBody)
@@ -198,16 +198,16 @@ messages:
       propagate;
    }
 
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% End Boss resetting code %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//
+////////////////////////////
+// End Boss resetting code //
+////////////////////////////
 
 
-%%%%%%%%%%%%%%%%%%%%%%%
-% Normal moving doors %
-%%%%%%%%%%%%%%%%%%%%%%%
-%
+////////////////////////
+// Normal moving doors //
+////////////////////////
+//
 
    SomethingTryGo(what=$,row=$,col=$)
    {
@@ -284,9 +284,9 @@ messages:
       return;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%
-% Logon safeguarding %
-%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////
+// Logon safeguarding //
+///////////////////////
 
    NewHold(what = $)
    "Prevents anyone from logging on into a special zone"
@@ -317,4 +317,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 necroguildquest_name_rsc = de "Königin Venya'cyr Auferstehungs Quest"
 necroguildquest_desc_rsc = de \
    "Die Überreste von Königin Venya'cyr haben zu Dir geflüstert, und "
@@ -14,7 +14,7 @@ necroguildquest_completed_rsc = de \
    "Du hast erfolgreich die Königin Venya'cyr wiederbelebt, und bist nun ein "
    "treuer untoter Anhänger von ihr."
 
-% Quest resources.
+// Quest resources.
 necroguild_assign_2 = de \
    "Ich sehne mich danach, wiederzukehren auf die Ebene der Existenz, mein "
    "dunkles Kind.  Wirst Du mir helfen wieder aufzusteigen?"

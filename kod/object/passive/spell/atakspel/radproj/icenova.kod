@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 IceNova is RadiusProjectile
 
 constants:
@@ -31,7 +31,7 @@ resources:
    icenova_third_rsc = \
       "%s%s channels the power of Faren and unleashes a flurry of ice shards!"
 
-   % These aren't in use at the moment.
+   // These aren't in use at the moment.
    icenova_killed_someone = \
       "The ice shards fatally wound %s%s."
    icenova_cast_rsc = \
@@ -63,11 +63,11 @@ classvars:
    viHarmful = TRUE
    viNoNewbieOffense = TRUE
 
-   % Projectile lighting information.
+   // Projectile lighting information.
    viProjectileLightFlags = LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC
-   % Medium light range, out of 255.
+   // Medium light range, out of 255.
    viProjectileLightIntensity = 125
-   % Color is lightning.
+   // Color is lightning.
    viProjectileLightColor = LIGHT_DBLUE
 
    vrProjectile_icon = icenova_projectile_rsc
@@ -95,15 +95,15 @@ messages:
 
    SendProjectileAnimation()
    {
-      AddPacket(1, ANIMATE_CYCLE, 4, 40, 2, 2, 2, 2);  % 40ms between animations
+      AddPacket(1, ANIMATE_CYCLE, 4, 40, 2, 2, 2, 2);  // 40ms between animations
 
       return;
    }
 
    CastSpell(who=$,lTargets=$,iSpellPower=0,bItemCast=FALSE)
    {
-      % This is an area damage spell, so add room messages
-      % showing the spell being cast.
+      // This is an area damage spell, so add room messages
+      // showing the spell being cast.
       Send(self,@DoIceNova,#who=who,#bItemCast=bItemCast);
 
       propagate;
@@ -124,7 +124,7 @@ messages:
 
       lActive = Send(oRoom,@GetHolderActive);
 
-      % Send a message to all in room of spellcasters actions
+      // Send a message to all in room of spellcasters actions
       foreach i in lActive
       {
          each_obj = Send(oRoom,@HolderExtractObject,#data=i);
@@ -147,4 +147,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

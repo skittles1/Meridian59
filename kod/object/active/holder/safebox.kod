@@ -1,17 +1,17 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 SafetyDepositBox is Holder
 
-%% these are used by storage.kod to store stuff in.  These items are never to 
-%% be placed in the world
+/// these are used by storage.kod to store stuff in.  These items are never to 
+/// be placed in the world
 
 constants:
 
@@ -66,7 +66,7 @@ messages:
 
    NewHold(what=$)
    {
-      % debug(send(what,@GetName));
+      // debug(send(what,@GetName));
       propagate;
    }
 
@@ -77,4 +77,4 @@ messages:
       propagate;
    }
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

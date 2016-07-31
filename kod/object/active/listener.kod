@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Listener is ActiveObject
 
 constants:
@@ -30,14 +30,14 @@ resources:
    
 classvars:
 
-   viListenToEmotes = TRUE  %% toggle this if we want to ignore Emotes in the future.
+   viListenToEmotes = TRUE  /// toggle this if we want to ignore Emotes in the future.
    viObject_flags = OF_NOEXAMINE
    vrIcon = Listener_icon_rsc
 
 properties:
 
    piSpellpower = $
-   poEnchanted = $  %% The enchantment that's listening to us.
+   poEnchanted = $  /// The enchantment that's listening to us.
 
 messages:
 
@@ -169,4 +169,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

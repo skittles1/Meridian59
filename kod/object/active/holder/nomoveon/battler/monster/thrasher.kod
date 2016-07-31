@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Thrasher is Monster
 
 constants:
@@ -17,8 +17,8 @@ constants:
    
    PALSY_CHANCE = 20
 
-   % These are high precision damage amounts, with two 'decimal places'.
-   % Actual damage shown to player will be (default) 7-15.
+   // These are high precision damage amounts, with two 'decimal places'.
+   // Actual damage shown to player will be (default) 7-15.
    SPIN_DAMAGE_MIN = 700
    SPIN_DAMAGE_MAX = 1500
 
@@ -65,7 +65,7 @@ classvars:
    viNormalSpeed = SPEED_FAST
    viAttack_type = ATCK_WEAP_BLUDGEON
    viVisionDistance = 25
-   % Attack range of 192, or 3 row/col.
+   // Attack range of 192, or 3 row/col.
    viAttackRange = 192
    viAttributes = 0
    viKarma = -75
@@ -85,7 +85,7 @@ properties:
    viDifficulty = 7
 
    piAnimation = ANIM_NONE
-   % Default shield or $ for default.
+   // Default shield or $ for default.
    prShieldOverlay = $
    pbFirstAttack = TRUE
    ptSecondAttack = $
@@ -108,7 +108,7 @@ messages:
    Constructed()
    {
 
-      % Think brainless frankenstein type mob.  Smash me, beat me, FIRE BAD!!!
+      // Think brainless frankenstein type mob.  Smash me, beat me, FIRE BAD!!!
       plResistances = [ [ATCK_WEAP_PIERCE, 50 ],
                         [ATCK_WEAP_SLASH, 50 ],
                         [ATCK_WEAP_BLUDGEON, 50 ],
@@ -130,11 +130,11 @@ messages:
    {
       local RandomNumber, oObject;
 
-      % Choose randomly
+      // Choose randomly
       RandomNumber = Random(0,2);
       if RandomNumber = 0
       {
-         % Shield: Increase hps.
+         // Shield: Increase hps.
          viLevel = viLevel + 10;
          oObject = Create(&GoldShield);
          Send(self,@NewHold,#what=oObject);
@@ -144,14 +144,14 @@ messages:
       {
          if RandomNumber = 1
          {
-            % Mace: No change in stats, we just get a second attack.
+            // Mace: No change in stats, we just get a second attack.
             oObject = Create(&Mace);
             Send(self,@NewHold,#what=oObject);
             prShieldOverlay = thrasher_mace_overlay;
          }
          else
          {
-            % Scimitar: Increase difficulty by 1 and get second attack.
+            // Scimitar: Increase difficulty by 1 and get second attack.
             viDifficulty = viDifficulty + 1;
             oObject = Create(&Scimitar);
             Send(self,@NewHold,#what=oObject);
@@ -162,10 +162,10 @@ messages:
       return;
    }
 
-   %%% Thrasher dormant code.
+   //// Thrasher dormant code.
 
-   % Stolen from Living Statue, but with a 100% chance of waking up, and none
-   % of that going back to sleep crap. Wussy statues. =)
+   // Stolen from Living Statue, but with a 100// chance of waking up, and none
+   // of that going back to sleep crap. Wussy statues. =)
 
    TweakBehavior()
    "Our default behavior is to not be noticable as a monster."
@@ -182,9 +182,9 @@ messages:
    {
       local iDelay;
 
-      % Only care about moving stuff if we're not already moving
-      % Only care about non-immortal players we can see and are "close"
-      % We only care about players within 7 squares of us.
+      // Only care about moving stuff if we're not already moving
+      // Only care about non-immortal players we can see and are "close"
+      // We only care about players within 7 squares of us.
       if viSpeed = SPEED_NONE
          AND what <> $
          AND IsClass(what,&Player)
@@ -192,14 +192,14 @@ messages:
          AND Send(poOwner,@LineOfSight,#obj1=self,#obj2=what)
          AND Send(self,@SquaredDistanceTo,#what=what) <= 49
       {
-         % Set our intruder as our target if we don't have another one.
-         % 25 hatred is pretty low.
+         // Set our intruder as our target if we don't have another one.
+         // 25 hatred is pretty low.
          if Send(self,@GetHatred) <= 25
          {
             Send(self,@TargetSwitch,#what=what,#iHatred=25);
          }
 
-         % Someone walked close enough!  Spring to life!
+         // Someone walked close enough!  Spring to life!
          Send(self,@WakeUp);
       }
 
@@ -208,7 +208,7 @@ messages:
 
    WakeUp()
    {
-      % Make ourselves mobile!
+      // Make ourselves mobile!
       viSpeed = viNormalSpeed;
       piBehavior = piBehavior & ~(AI_NOMOVE | AI_NOFIGHT | AI_NPC);
       Send(poOwner,@SomethingChanged,#what=self);
@@ -217,7 +217,7 @@ messages:
       return;
    }
 
-   %%% Thrasher attack code
+   //// Thrasher attack code
 
    TryAttack(what=$,stroke_obj=$)
    {
@@ -225,7 +225,7 @@ messages:
 
       oRoom = Send(self,@GetOwner);
 
-      % Don't attack while spinning.
+      // Don't attack while spinning.
       if piAnimation = ANIM_SPIN
       {
          return;
@@ -246,9 +246,9 @@ messages:
 
    MonsterAttack(what = $)
    {
-      % The thrasher has a dual attack, like the Pit Boss...
-      % but only if the thrasher has a secondary weapon on 
-      % in its prShieldOverlay.
+      // The thrasher has a dual attack, like the Pit Boss...
+      // but only if the thrasher has a secondary weapon on 
+      // in its prShieldOverlay.
 
       if pbFirstAttack
       {
@@ -277,10 +277,10 @@ messages:
       ptSecondAttack = $;
       if poTarget <> $ AND Send(self,@GetOwner) = Send(poTarget,@GetOwner)
       {  
-         % We only want one extra attack if the thrasher is armed with weapon.
+         // We only want one extra attack if the thrasher is armed with weapon.
          if prShieldOverlay <> thrasher_shield_overlay
          {
-            % Create another timer here so it doesn't blend so well.
+            // Create another timer here so it doesn't blend so well.
             Send(self,@TryAttack,#what=poTarget);
 
          }
@@ -302,8 +302,8 @@ messages:
 
    GetBlockAbility(stroke_obj=$)
    {
-      % Thrasher blocking code, only active if the overlay is a shield.
-      % Otherwise, 0 is returned, and the mob doesn't block.  Neat, eh?
+      // Thrasher blocking code, only active if the overlay is a shield.
+      // Otherwise, 0 is returned, and the mob doesn't block.  Neat, eh?
 
       if (stroke_obj <> $ AND Send(stroke_obj,@CanBlock))
          AND prShieldOverlay = thrasher_shield_overlay
@@ -314,7 +314,7 @@ messages:
       return 0;
    }
 
-   %%% Thrasher spin attack
+   //// Thrasher spin attack
 
    GetFinalTargets()
    {
@@ -366,7 +366,7 @@ messages:
       return;
    }
 
-   %%% Animation for spin attack
+   //// Animation for spin attack
 
    StartSpin(delay = 200)
    {
@@ -392,11 +392,11 @@ messages:
 
       if piSpinAngle > MAX_ANGLE
       {
-         % We have spun all the way around.
+         // We have spun all the way around.
          piAnimation = ANIM_NONE;
          Send(poOwner,@SomethingChanged,#what=self);
 
-         % Now do our damage!
+         // Now do our damage!
          Send(self,@DoSpinAttack);
 
          return;
@@ -411,7 +411,7 @@ messages:
       return;
    }
 
-   %%% Animation and overlays
+   //// Animation and overlays
 
    SendMoveAnimation()
    {
@@ -420,7 +420,7 @@ messages:
          AddPacket(1,ANIMATE_TRANSLATION,1,piColor_Translation);
       }
 
-      % Walk is frames 1-5
+      // Walk is frames 1-5
       AddPacket(1,ANIMATE_CYCLE, 4,80, 2,1, 2,5);
 
       return;
@@ -435,7 +435,7 @@ messages:
 
       if piAnimation = ANIM_ATTACK
       {
-         % Attacking is frames 6-8 then back to standing, (9)
+         // Attacking is frames 6-8 then back to standing, (9)
          AddPacket(1,ANIMATE_ONCE, 4,150, 2,6, 2,8, 2,9);
 
          return;
@@ -443,13 +443,13 @@ messages:
 
       if piAnimation = ANIM_SPIN
       {
-         % 7 was the proper frizzame, I think.
+         // 7 was the proper frizzame, I think.
          AddPacket(1,ANIMATE_NONE, 2,7);
 
          return;
       }
 
-      % Standing is frame 9
+      // Standing is frame 9
       AddPacket(1,ANIMATE_NONE, 2,9); 
 
       return;
@@ -458,7 +458,7 @@ messages:
    SendMoveOverlays()
    {
       AddPacket(1,1);
-      % Also walking, 1-5 I assume. currently 1, 2, 1 to test
+      // Also walking, 1-5 I assume. currently 1, 2, 1 to test
       AddPacket(4,prShieldOverlay, 1,HS_HEAD, 1,ANIMATE_NONE, 2,1);
 
       return;
@@ -466,20 +466,20 @@ messages:
 
    SendOverlays()
    {
-      % Send overlay bitmap info to user.
+      // Send overlay bitmap info to user.
       AddPacket(1,1);
 
       if piAnimation = ANIM_ATTACK
       {
-         % Shield and Mace have no attack frames.
-         % Scimitar animates from group 2-4 for an attack.
+         // Shield and Mace have no attack frames.
+         // Scimitar animates from group 2-4 for an attack.
          AddPacket(4,prShieldOverlay, 1,HS_HEAD, 1,ANIMATE_ONCE, 4,150,
                    2,1, 2,1, 2,1);
 
          return;
       }
 
-      % Default setting: no animation.  This includes when spinning.
+      // Default setting: no animation.  This includes when spinning.
       AddPacket(4,prShieldOverlay, 1,HS_HEAD, 1,ANIMATE_NONE, 2,1);
 
       return;
@@ -503,4 +503,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 dementpupilquest_name_rsc = de "Vergessen Schüler Quest"
 dementpupilquest_desc_rsc = de \
    "Afiera D'xor hat dich beauftragt ein paar Güter zu überbringen. Erledige es, "
@@ -13,7 +13,7 @@ dementpupilquest_completed = de \
    "Du hast die Vergessen Schüler Quest abgeschlossen. Afiera D'xor wird dich nun "
    "den Vergessen Zauber lehren."
 
-% Quest resources.
+// Quest resources.
 dementlearn_trigger = de "Schüler"
 dementlearn_assign_2 = de \
    "Ich kann Dir das bisschen über die mystische Magie beibringen, was ich "

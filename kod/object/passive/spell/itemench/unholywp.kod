@@ -1,16 +1,16 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 UnholyWeapon is ItemEnchantment
 
-%% Apr 20, 1997 DSchubert
+/// Apr 20, 1997 DSchubert
 
 constants:
 
@@ -62,7 +62,7 @@ messages:
 
    ResetReagents()
    {
-      % Separate message so can change, then set from admin mode
+      // Separate message so can change, then set from admin mode
 
       plReagents = $;
       plReagents = Cons([&FairyWing,2],plReagents);
@@ -101,7 +101,7 @@ messages:
          return False;
       }
 
-      propagate;   % Check other things higher up
+      propagate;   // Check other things higher up
    }
 
    CastSpell(who=$,lTargets=$,iSpellPower=0)
@@ -138,7 +138,7 @@ messages:
       oWeapAtt = Send(SYS,@FindItemAttByNum,#num=WA_ATTACKSPELLTYPE);
       oEnchantedWeapAtt = Send(SYS,@FindItemAttByNum,#num=WA_ENCHANTED);
 
-      % Remove any existing enchants before we go on.
+      // Remove any existing enchants before we go on.
       iCurrentSpell = Send(oWeapon,@GetAttributeData,#ItemAtt=WA_ATTACKSPELLTYPE);
       iEnchanted = Send(oWeapon,@GetAttributeData,#ItemAtt=WA_ENCHANTED);
 
@@ -163,4 +163,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

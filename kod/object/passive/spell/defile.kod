@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Defile is Spell
 
 constants:
@@ -61,7 +61,7 @@ messages:
 
    ResetReagents()
    {
-      % separate message so can change, then set from admin mode
+      // separate message so can change, then set from admin mode
 
       plReagents = $;
       plReagents = Cons([&FairyWing, 1],plReagents);
@@ -78,7 +78,7 @@ messages:
    {
       local target, i;
 
-      % Can cast spell if the 1 target item is a corpse
+      // Can cast spell if the 1 target item is a corpse
       if Length(lTargets) <> 1
       {
          return FALSE;
@@ -138,7 +138,7 @@ messages:
       Send(who,@MsgSendUser,#message_rsc=defile_cast_rsc);
       Send(who,@GainMana,#amount=(viMana_bonus+(iSpellPower/3)));
 
-      % Don't let them defile to over-max
+      // Don't let them defile to over-max
       if Send(who,@GetMana) > Send(who,@GetMaxMana)
       {
          Send(who,@LoseMana,#amount=(Send(who,@GetMana)-Send(who,@GetMaxMana)));
@@ -150,4 +150,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,4 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 PassiveWallofLightning is PassiveObject
 
 constants:
@@ -56,8 +56,8 @@ messages:
 
    Constructed()
    {
-      % At this point, the wall should have already been created.
-      %  therefore, it should be safe to delete it.
+      // At this point, the wall should have already been created.
+      //  therefore, it should be safe to delete it.
       Post(self,@ArenaCheck);
 
       propagate;
@@ -119,9 +119,9 @@ messages:
    SendLightingInformation()
    {
       AddPacket(2,(LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC));
-      % 5 out of 255 intensity of light
+      // 5 out of 255 intensity of light
       AddPacket(1,0);
-      % Lightning color
+      // Lightning color
       AddPacket(2,LIGHT_LIGHTNING);
 
       return;
@@ -129,4 +129,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

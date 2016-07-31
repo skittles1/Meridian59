@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 AssassinSign is PassiveObject
 
 constants:
@@ -63,7 +63,7 @@ messages:
       bInSession = Send(oGame,@InSession);
       bAccepting = Send(oGame,@InAcceptMode);
 
-      % Tell if a match is underway and, if so, how many people are left.
+      // Tell if a match is underway and, if so, how many people are left.
       if bInSession
       {
          AddPacket(4, asssign_insession, 4, Send(oGame,@GetNumCombatants));
@@ -77,7 +77,7 @@ messages:
          AddPacket(4, asssign_not_accepting);
       }
 
-      % Tell who won the last match.
+      // Tell who won the last match.
       oWinner = Send(oGame,@GetLastWinner);
       lDarkBlade = Send(oGame,@GetMostKills);
 
@@ -139,4 +139,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

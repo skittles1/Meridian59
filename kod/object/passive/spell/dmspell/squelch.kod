@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Squelch is DMSpell
 
 constants:
@@ -26,7 +26,7 @@ resources:
    Squelch_msg_DM_on = "You remove %s%q's ability to %s."
    Squelch_msg_DM_off = "You return %s%q's ability to %s."
 
-   % Types for squelch messages.
+   // Types for squelch messages.
    Squelch_broadcasts_message = "broadcast"
    Squelch_tells_message = "send tells"
    Squelch_globes_message = "post on the Newsglobes"
@@ -50,7 +50,7 @@ resources:
    Squelch_bad_target = "Invalid name."
    Squelch_no_self = "You can't use this on yourself!"
 
-   % Squelch types.
+   // Squelch types.
    Squelch_broadcast = "broadcasts"
    Squelch_tells = "tells"
    Squelch_globes = "globes"
@@ -96,7 +96,7 @@ messages:
       local i, iFlag, oTarget, bSquelched, rMessageDM, rMessageTarget,
             rSquelchType, bFound, sName;
 
-      % First, get the type.
+      // First, get the type.
       if StringContain(string,Squelch_broadcast)
       {
          iFlag = PFLAG2_SQUELCHED_BCAST;
@@ -135,7 +135,7 @@ messages:
       }
       else
       {
-         % Squelch everything.
+         // Squelch everything.
          iFlag = PFLAG2_SQUELCHED_ALL;
          rSquelchType = Squelch_all_message;
       }
@@ -164,7 +164,7 @@ messages:
 
          bSquelched = Send(oTarget,@SquelchPlayer,#type=iFlag);
 
-         % Log this squelch in the God Log.
+         // Log this squelch in the God Log.
          ClearTempString();
 
          if bSquelched
@@ -189,9 +189,9 @@ messages:
                   #parm1=rSquelchType);
          }
 
-         % We convert the target's name to a string,
-         % since if they're offline we won't have
-         % access to their resource ID.
+         // We convert the target's name to a string,
+         // since if they're offline we won't have
+         // access to their resource ID.
          sName = CreateString();
          SetString(sName,Send(oTarget,@GetName));
 
@@ -221,4 +221,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

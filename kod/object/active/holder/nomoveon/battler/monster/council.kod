@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Council is Monster
 
 constants:
@@ -43,7 +43,7 @@ classvars:
 
    viObject_flags = OF_ATTACKABLE | OF_DISPLAY_NAME | OF_NPC
 
-   % Mob doesn't move and cannot be attacked.
+   // Mob doesn't move and cannot be attacked.
    viDefault_behavior = AI_NPC | AI_NOMOVE
 
    viDefinite = ARTICLE_NONE
@@ -140,7 +140,7 @@ messages:
 
    EnterStateWait()
    {
-      % They shouldn't have acquired a target, but to be sure...
+      // They shouldn't have acquired a target, but to be sure...
       if poTarget <> $
          AND Send(poTarget,@GetOwner) = poOwner
          AND IsClass(poTarget,&user)
@@ -152,14 +152,14 @@ messages:
       poTarget = $;
       piHatred = 0;
 
-      % Leave them in the waiting state.
+      // Leave them in the waiting state.
       Send(self,@SetState,#bit=STATE_WAIT);
       Send(self,@ClearBehavior);
 
-      % We no longer set a move timer for NPCs.
+      // We no longer set a move timer for NPCs.
 
       return;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

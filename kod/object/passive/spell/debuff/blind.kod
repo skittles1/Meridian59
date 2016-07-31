@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Blind is Debuff
 
 constants:
@@ -59,7 +59,7 @@ properties:
 
    piBaseDuration = 4000 // 103 value 5000
    piSpellPowerModifier = 60 // 103 value 151
-   piDeviation = 10 // 103 value 50%
+   piDeviation = 10 // 103 value 50//
 
    // Min and max values for Blind duration.
    piMinBlind = 4000 // 103 value 3000
@@ -94,7 +94,7 @@ messages:
 
       oTarget = First(lTargets);
 
-      % Spell effects
+      // Spell effects
       Send(self,@DoSpell,#what=who,#oTarget=oTarget,
             #iDuration=Send(self,@GetDuration,#iSpellPower=iSpellPower));
       
@@ -112,12 +112,12 @@ messages:
                           #iDuration=iDuration);
          if iDuration = $
          {
-            % Resisted completely.
+            // Resisted completely.
             return;
          }
       }
 
-      % Re-check the bound on duration.
+      // Re-check the bound on duration.
       iDuration = Bound(iDuration,piMinBlind,piMaxBlind);
 
       if IsClass(oTarget,&User)
@@ -130,7 +130,7 @@ messages:
       }
       else
       {
-         % class is Monster
+         // class is Monster
          Post(oTarget,@ResetBehaviorFlags);
       }
 
@@ -163,9 +163,9 @@ messages:
       }
       else
       {
-         % Class is monster.
-         % This has to be done AFTER the enchantment is gone from the
-         % monster's ench list - post it.
+         // Class is monster.
+         // This has to be done AFTER the enchantment is gone from the
+         // monster's ench list - post it.
          Post(who,@ResetBehaviorFlags);
       }
 
@@ -189,4 +189,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%The Amulet of Shadows is a cursed item which when worn attaches itself to the
-%users neck, doing a wee bit of damage if the user tries to remove it through 
-%conventional means.   
-%
-%SOMETHING MUST CALL PLAYER'S UNUSEITEM() NOT TRYUNUSEITEM() IN ORDER TO 
-%REMOVE THE AMULET.  This could be an Uncurse spell, a certain NPC, whatever.
-%  
-%While used, the wearer's armor class is decreased, but his light is 
-%decreased as well, as he is cloaked in shadows.  
-%
-%We may want to consider adding other skill increases or decreases as well 
-%when new skills are made
-%
-%code by Justin Houk, 98jsh@williams.edu
-%
-% tweaked by Chris Kirmse
+////////////////////////////////////////////////////////////////////////////////
+//The Amulet of Shadows is a cursed item which when worn attaches itself to the
+//users neck, doing a wee bit of damage if the user tries to remove it through 
+//conventional means.   
+//
+//SOMETHING MUST CALL PLAYER'S UNUSEITEM() NOT TRYUNUSEITEM() IN ORDER TO 
+//REMOVE THE AMULET.  This could be an Uncurse spell, a certain NPC, whatever.
+//  
+//While used, the wearer's armor class is decreased, but his light is 
+//decreased as well, as he is cloaked in shadows.  
+//
+//We may want to consider adding other skill increases or decreases as well 
+//when new skills are made
+//
+//code by Justin Houk, 98jsh@williams.edu
+//
+// tweaked by Chris Kirmse
 
 ShadowAmulet is Necklace
 
@@ -115,10 +115,10 @@ messages:
 
    ReqNewOwner(what=$)
    {
-      % This code is very important!  A favorite cheater tactic is to give Amulets of Shadow to
-      %  a player, causing lots of damage.  We stop that here.
+      // This code is very important!  A favorite cheater tactic is to give Amulets of Shadow to
+      //  a player, causing lots of damage.  We stop that here.
       
-      % If owner already has one and isn't a DM, then don't give them another one.
+      // If owner already has one and isn't a DM, then don't give them another one.
       if IsClass(what,&User)
          AND send(what,@IsUsingA,#class=&ShadowAmulet)
          AND NOT (IsClass(what,&DM) AND send(what,@PlayerIsImmortal))
@@ -184,7 +184,7 @@ messages:
       if Send(poOwner,@AssessDamage,#what=self,#damage=Random(viDamage_min, viDamage_max),
 	           #report=FALSE) = $
       {
-         % we killed someone off... heh heh heh
+         // we killed someone off... heh heh heh
          Send(Send(poOwner,@GetOwner),@SomethingKilled,#what=self,#victim=poOwner);
          Send(poOwner,@Killed,#what=self);
          send(self,@Delete);
@@ -218,7 +218,7 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 
 
 

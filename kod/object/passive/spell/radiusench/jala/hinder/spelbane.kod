@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 Spellbane is HinderSpell
 
 constants:
@@ -44,14 +44,14 @@ resources:
    Spellbane_leave = \
       "You can no longer hear the strange mechanical noises of %s's song."
 
-   % Resources from spell.kod/lkod for old version of spell
-   %spell_spellbane_stopped = \
-   %   "The notes of %s's song tangle with the words of your spell, unraveling "
-   %   "it faster than your tongue can weave it."
-   %spell_spellbane_stopped = de \
-   %   "Die Noten des Liedes, gesungen von %s vermischen sich mit den Worten "
-   %   "Deines Zauberspruches und lösen diese schneller auf, als Deine Zunge "
-   %   "sie weben kann."
+   // Resources from spell.kod/lkod for old version of spell
+   //spell_spellbane_stopped = \
+   //   "The notes of %s's song tangle with the words of your spell, unraveling "
+   //   "it faster than your tongue can weave it."
+   //spell_spellbane_stopped = de \
+   //   "Die Noten des Liedes, gesungen von %s vermischen sich mit den Worten "
+   //   "Deines Zauberspruches und lösen diese schneller auf, als Deine Zunge "
+   //   "sie weben kann."
 
 classvars:
 
@@ -71,9 +71,9 @@ classvars:
    viSchool = SS_JALA
    viSpell_level = 5
 
-   viMana = 12          % Mana is amount used upon inititiation
-   viManaDrain = 8      % Drain is amount used every viDrainTime milliseconds
-   viDrainTime = 5000   % Drain some mana every viDrainTime milliseconds
+   viMana = 12          // Mana is amount used upon inititiation
+   viManaDrain = 8      // Drain is amount used every viDrainTime milliseconds
+   viDrainTime = 5000   // Drain some mana every viDrainTime milliseconds
 
    viSpell_Exertion = 6
    viMeditate_ratio = 50
@@ -105,9 +105,9 @@ messages:
 
       iAltChance = chance - Random(iSongSpellpower/2,(iSongSpellpower*2)/3);
 
-      % Don't worry about bounding, that's done the level above us.
+      // Don't worry about bounding, that's done the level above us.
       return iAltChance;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

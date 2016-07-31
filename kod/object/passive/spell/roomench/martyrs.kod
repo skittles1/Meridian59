@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////////
 MartyrsBattleground is RoomEnchantment
 
 constants:
@@ -86,7 +86,7 @@ messages:
          return;
       }
 
-      % global effects of the enchantment
+      // global effects of the enchantment
       Send(oRoom,@SomeoneSaid,#type=SAY_MESSAGE,#string=martyrsbg_on,#what=self);
       Send(oRoom,@RoomStartEnchantment,#what=self,#state=iSpellPower+50,
            #time=send(self,@GetDuration,#iSpellPower=iSpellPower));
@@ -98,8 +98,8 @@ messages:
    {
       local iDuration;
 
-      iDuration = 45 + (iSpellPower*3);  %% 30 - 228 seconds
-      iDuration = iDuration * 1000;      %% convert to seconds            
+      iDuration = 45 + (iSpellPower*3);  /// 30 - 228 seconds
+      iDuration = iDuration * 1000;      /// convert to seconds            
 
       return random(iDuration/2,iDuration);
    }
@@ -122,4 +122,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

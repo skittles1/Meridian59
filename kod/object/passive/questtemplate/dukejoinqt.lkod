@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 dukejoin_name_rsc = de "Herzog Anhänger Quest"
 dukejoin_desc_rsc = de \
    "Herzog Akardius hat dich beauftragt ihm einen Gegenstand zu bringen um dich zu beweisen."
@@ -9,7 +9,7 @@ dukejoin_deliver_rsc = de \
 dukejoin_completed = de \
    "Du hast das Vertrauen von Herzog Arkadius erhalten, und bist nun Anhänger."
 
-% Quest resources.
+// Quest resources.
 duke_join2_assign = de \
    "So, Du möchtest gerne beweisen, dass Du mein Vertrauen wert bist? Du "
    "kannst damit anfangen, indem Du mir folgendes bringst: %INDEF_CARGO%CARGO."

@@ -1,25 +1,25 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ItemAttribute is PassiveObject
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   Item Attributes, added 5 March 97 by Damion Schubert
-%
-%   A list of item attributes is stored in system.kod, which are referenced
-%   by an constant with the IA_ preface (as defined in blakston.khd).  
-%   An ItemAtt's object number should never be stored as a property 
-%   anywhere but system.kod
-%
-%   See item.kod for notes on implementation and structure used for ItemAtts
-%   on a per item basis.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
+//   Item Attributes, added 5 March 97 by Damion Schubert
+//
+//   A list of item attributes is stored in system.kod, which are referenced
+//   by an constant with the IA_ preface (as defined in blakston.khd).  
+//   An ItemAtt's object number should never be stored as a property 
+//   anywhere but system.kod
+//
+//   See item.kod for notes on implementation and structure used for ItemAtts
+//   on a per item basis.
+////////////////////////////////////////////////////////////////////////////////
 
 constants:
 
@@ -48,10 +48,10 @@ classvars:
    vrDesc = attribute_desc_default
    vrName = attribute_name_default
 
-   viDifficulty = 4   %% number from 1 to 10
-         %% this determines the types of monsters you'll have to 
-         %% kill to find this item.  It also helps determine name 
-         %% priority.
+   viDifficulty = 4   /// number from 1 to 10
+         /// this determines the types of monsters you'll have to 
+         /// kill to find this item.  It also helps determine name 
+         /// priority.
 
    vrDM_Trigger = $
    vbAppears_in_Happyland = TRUE
@@ -59,7 +59,7 @@ classvars:
 properties:
 
    plItems_to_Attribute = $
-   piValue_modifier = 100   %% modify the object's price by 100%
+   piValue_modifier = 100   /// modify the object's price by 100//
    piValue_power_modifier = 0
 
 messages:
@@ -92,12 +92,12 @@ messages:
   
    SetItemsToAttribute()
    {
-      %% This is used by the weapon attribute when trestype decides
-      %% to apply this weapatt to a weapon.  The number given is a 
-      %% very approximate percentage of the chance that that particular
-      %% weapon will be the one created.  This will be modified by 
-      %% other factors, so that higher level characters are more likely
-      %% to get better stuff.
+      /// This is used by the weapon attribute when trestype decides
+      /// to apply this weapatt to a weapon.  The number given is a 
+      /// very approximate percentage of the chance that that particular
+      /// weapon will be the one created.  This will be modified by 
+      /// other factors, so that higher level characters are more likely
+      /// to get better stuff.
       
       plItems_to_attribute = \
              [ [ &Mace, 20],
@@ -137,11 +137,11 @@ messages:
 
       random_x = Random(jindex + 1,index);
 
-      %% Okay, now we have a random number, see what it corresponds to.
+      /// Okay, now we have a random number, see what it corresponds to.
       foreach i in plItems_to_Attribute
       {
          random_x = random_x - Nth(i,2);
-         if random_x < 1         %% we have a winner!
+         if random_x < 1         /// we have a winner!
          {
             oItem = Create(First(i));
             Send(self,@AddSelfToRandomItem,#oItem=oItem,#who=who,
@@ -163,8 +163,8 @@ messages:
          return FALSE;
       }
 
-      %% some itematts are for internal use only, such as corpsepointer.
-      %% So we only give 'creation' triggers to those that do exist.
+      /// some itematts are for internal use only, such as corpsepointer.
+      /// So we only give 'creation' triggers to those that do exist.
       if vrDM_trigger = $  {  return FALSE;  }
 
       if not StringContain(string,vrDM_Trigger)
@@ -172,8 +172,8 @@ messages:
          return FALSE;
       }
 
-      %%% Okay, they've chosen our itematt.  Most of the time, let's
-      %%% just apply ourselves using the 'random' thing we use to make treasure.
+      //// Okay, they've chosen our itematt.  Most of the time, let's
+      //// just apply ourselves using the 'random' thing we use to make treasure.
 
       Send(self,@AddSelfToRandomItem,#oItem=oWeapon,#who=who);
 
@@ -195,46 +195,46 @@ messages:
       return;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Effect Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Effect Functions
+///
+///////////////////////////////////////////////
 
    ItemDropOnDeath()
    {
-      return TRUE;   %% transcendant items return false.
+      return TRUE;   /// transcendant items return false.
    }
 
    ItemReqUse()
    {
-      return TRUE;   %% see punisher weapatt for example
-   }         %% of this in action
+      return TRUE;   /// see punisher weapatt for example
+   }         /// of this in action
 
    ItemUsed(oItem=$,oPlayer=$)
    {
-      return;           %% When item is used.  See glowing weapatt.
+      return;           /// When item is used.  See glowing weapatt.
    }
 
    ItemReqUnuse()
    {
-      return TRUE;      %% for cursed items.  See weapattcursed   
-   }                    %% for an explanation of this item.
+      return TRUE;      /// for cursed items.  See weapattcursed   
+   }                    /// for an explanation of this item.
 
    ItemUnused(oItem=$,oPlayer=$)
    {
-      return;           %% When item is unused.  See glowing weapatt.
+      return;           /// When item is unused.  See glowing weapatt.
    }
 
    ItemReqLeaveOwner()
    {
-      return TRUE;      %% can the item be dropped?
-   }                    %% see weapattcursed.
+      return TRUE;      /// can the item be dropped?
+   }                    /// see weapattcursed.
 
    ItemIsCursed()
    {
-      return FALSE;     %% is the item cursed as a result of          
-   }                    %% this att?  See weapattcursed.
+      return FALSE;     /// is the item cursed as a result of          
+   }                    /// this att?  See weapattcursed.
 
    ItemCanMend()
    {
@@ -268,17 +268,17 @@ messages:
 
    ItemGetSpellModifier(oCaster=$,oItem=$)
    {
-      %% this returns the amount added to an item's spell usage percentage.
-      %% for most itematts, this is 0.
+      /// this returns the amount added to an item's spell usage percentage.
+      /// for most itematts, this is 0.
       return 0;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Infrastructure
-%%  (Adding and removing a ItemAtt from an item.)
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////
+///
+///  Infrastructure
+///  (Adding and removing a ItemAtt from an item.)
+///
+////////////////////////////////////////////////////
 
    ReqAddToItem(oItem=$)
    {
@@ -302,7 +302,7 @@ messages:
    {
       local lData, iValue;
 
-      %% may not duplicate ItemAtts.
+      /// may not duplicate ItemAtts.
       if Send(oItem,@HasAttribute,#ItemAtt = viItem_Att_num)
       {
          return;
@@ -310,8 +310,8 @@ messages:
 
       lData = $;
 
-      %% build the node from rear to front, 3rd state to first
-      %% state3 is TRUE for itematts which are created by a player cast spell.
+      /// build the node from rear to front, 3rd state to first
+      /// state3 is TRUE for itematts which are created by a player cast spell.
       iValue = Send(self,@SetTertiaryState,#state3=state3);
       if iValue <> $
       {
@@ -343,7 +343,7 @@ messages:
       Send(self,@AddEffects,#oItem=oItem,#lData=lData,#state1=state1);
       Send(oItem,@AddAttributeSpecifics,#lItemAtt=lData);
 
-      %% Add magic item flag for item attributes that add an effect
+      /// Add magic item flag for item attributes that add an effect
       if Send(self,@IsMagicalEffect)
       {
          Send(oItem,@AddMagicFlag);
@@ -363,7 +363,7 @@ messages:
       Send(self,@RemoveEffects,#oItem=oItem,#lData=lData);
       Send(oItem,@RemoveAttributeSpecifics,#oItemAtt=self,#ItemAtt=viItem_Att_num);
 
-      %% Remove magic item flag for item attributes that add an effect
+      /// Remove magic item flag for item attributes that add an effect
       if Send(self,@IsMagicalEffect)
       {
          Post(oItem,@RemoveMagicFlag);
@@ -397,21 +397,21 @@ messages:
       local bIdent, iCompound;
 
       iCompound = 0;
-      %% ones digit = bitflag.  For now, just 0 if unidentified,
-      %% 1 if identified.
+      /// ones digit = bitflag.  For now, just 0 if unidentified,
+      /// 1 if identified.
       bIdent = Send(self,@InitiallyIdentified,#random_Gen=random_gen);
       iCompound = iCompound + bIdent;
 
       if iPower = $
       {
-         %% tens digit = power.  Number from 1 to 9?
+         /// tens digit = power.  Number from 1 to 9?
          iPower = Send(self,@InitialPower,#oItem=oItem,#diff_seed=diff_seed);
       }
 
       iCompound = iCompound + (10 * Bound(iPower,0,9));
 
-      %% hundreds, thousands digit = ID constant
-      %% starting in WA_ or IA_
+      /// hundreds, thousands digit = ID constant
+      /// starting in WA_ or IA_
       iCompound = iCompound + (100 * viItem_Att_num);
 
       return iCompound;
@@ -424,9 +424,9 @@ messages:
 
    InitialPower()
    {
-      %% power means different things for different enchantments.  However,
-      %% it always contains a value from 0 to 9, which is interpreted by
-      %% different things in different ways.      
+      /// power means different things for different enchantments.  However,
+      /// it always contains a value from 0 to 9, which is interpreted by
+      /// different things in different ways.      
       return 0;
    }
 
@@ -462,7 +462,7 @@ messages:
    "depending on certain factors, so lData is the ItemAtt structure,"
    "which can be examined for length to see if the timer exists."
    {
-      return FALSE;   %% most attributes don't have timers.
+      return FALSE;   /// most attributes don't have timers.
    }
 
    CanGetAffectedItem(lData=$,who=$)
@@ -481,19 +481,19 @@ messages:
          return 0;
       }
 
-      %% power is the tens column.
+      /// power is the tens column.
 
       iPower = iCompound / 10;
-      iPower = iPower MOD 10;
+      iPower %= 10;
 
       return iPower;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Maintenance Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Maintenance Functions
+///
+////////////////////////////////////////////////
 
    GetItemAttNumber()
    {
@@ -529,7 +529,7 @@ messages:
 
       if sMakerInfo <> $
       {
-         % Add information about the maker to the desc.
+         // Add information about the maker to the desc.
          AddPacket(4,system_rsc_template_2, 4,vrDesc,
                    4,itematt_made_rsc, 6,Send(First(sMakerInfo),@GetName),
                    4,Send(self,@GetTitle,#iAbility=Nth(sMakerInfo,3)),
@@ -565,16 +565,16 @@ messages:
       return itematt_novice_rsc;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%   Treasure Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////
+///
+///   Treasure Functions
+///
+/////////////////////////////////////////////////
 
    AddToTreasureTable()
    {
-      %% for most Item Atts, take the difficulty value, and add
-      %% an 50% chance at the base level, and a 10% before and after.
+      /// for most Item Atts, take the difficulty value, and add
+      /// an 50// chance at the base level, and a 10// before and after.
    
       Send(SYS,@AddToItemAttTreasureTable,#diff=viDifficulty,
             #percent = 50,#iItemAtt = viItem_Att_Num);
@@ -604,11 +604,11 @@ messages:
       return $;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Value Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////
+///
+///  Value Functions
+///
+/////////////////////////////////////////////////
 
    AdjustPrice(value=-1,iCompound=0)
    {
@@ -621,21 +621,21 @@ messages:
          return 0;
       }
 
-      %% Basic rule of thumb: an Item Att can increase the price of an item by
-      %% 150%, 200%, or 250%.  Choose these values so that all items tend to 
-      %% have similiar prices, so you can't tell an item's value from them.
-      %% Curses drop an item's price by 50%.
+      /// Basic rule of thumb: an Item Att can increase the price of an item by
+      /// 150//, 200//, or 250//.  Choose these values so that all items tend to 
+      /// have similiar prices, so you can't tell an item's value from them.
+      /// Curses drop an item's price by 50//.
 
-      %% piValue_modifier is in the form of a percentage (100, 150, 200, 250).  
-      %% Note that, to drop a price, you lower this value below 100.
-      %% Attributes a player can generate should never raise the price.
+      /// piValue_modifier is in the form of a percentage (100, 150, 200, 250).  
+      /// Note that, to drop a price, you lower this value below 100.
+      /// Attributes a player can generate should never raise the price.
 
-      %% piValue_power_modifier makes further modifications TO THE PERCENTAGE
-      %% based on the power of the attribute.  Keep this value at 1,2,5, or 10
-      %% if the value is high, put Value_modifier low to compensate.
+      /// piValue_power_modifier makes further modifications TO THE PERCENTAGE
+      /// based on the power of the attribute.  Keep this value at 1,2,5, or 10
+      /// if the value is high, put Value_modifier low to compensate.
 
-      %% don't make these too high.  Multiple item atts can knock an item value
-      %% sky high.
+      /// don't make these too high.  Multiple item atts can knock an item value
+      /// sky high.
 
       iPower = Send(self,@TranslatePowerFromCompound,#iCompound=iCompound);
       iPower_mod = piValue_power_modifier * iPower;
@@ -643,16 +643,16 @@ messages:
       return (value * (piValue_Modifier+iPower_mod)/100);        
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Name Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////
+///
+///  Name Functions
+///
+/////////////////////////////////////////////////
 
    GetNamePriority()
    {
-      %% Most items will have their rank order determined by their difficulty.
-      %%   Exceptions are cursed weapons.
+      /// Most items will have their rank order determined by their difficulty.
+      ///   Exceptions are cursed weapons.
 
       return viDifficulty;
    }
@@ -671,4 +671,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

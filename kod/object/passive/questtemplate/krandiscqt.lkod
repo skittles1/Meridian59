@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 kranquest_name_rsc = de "Kraanan Schüler Quest"
 kranquest_desc_rsc = de \
    "Priesterin Qerti'nya hat Dich beauftragt %s%s zu töten. Kehre zurück "
@@ -12,7 +12,7 @@ kranquest_completed = de \
    "Du hast das Kraanan Schüler Quest abgeschlossen.  Du bist ein würdiger "
    "Schüler Kraanans, und Priesterin Qerti'nya wird Dir mehr mächtige Zauber lehren."
  
-% Quest resources.
+// Quest resources.
 kraanandisciple_assign = de \
    "`B`bDu hast zwei Stunden, um %MONSTER zu töten.  Geh jetzt!  Komme wieder "
    "und gebe Bescheid wenn es erledigt wurde."

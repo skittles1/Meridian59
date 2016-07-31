@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 dukeloyalty_name_rsc = de "Herzog Loyalitäts Quest"
 dukeloyalty_desc_rsc = de \
    "Herzog Akardius hat Dich befehligt Steuern für ihn einzutreiben.  Kehre rasch "
@@ -14,7 +14,7 @@ dukeloyalty_return_rsc = de \
 dukeloyalty_completed = de \
    "Du hast den Auftrag von Herzog Arkadius abgeschlossen und bleibst sein Anhänger."
 
-% Quest resources.
+// Quest resources.
 duke_standard2_assign = de \
    "Ah, %NAME, mein treuer Diener.  Ich brauche Dich um alle Steuern von "
    "%NPC einzutreiben.  Kehre innerhalb einer Stunde zurück."

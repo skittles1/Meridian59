@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Elephant is Monster
 
 constants:
@@ -45,7 +45,7 @@ classvars:
    viAttack_type = ATCK_WEAP_BITE
    viLevel = 75
    viDifficulty = 8
-   % Attack range of 192, or 3 row/col.
+   // Attack range of 192, or 3 row/col.
    viAttackRange = 192
    viKarma = 90
    viCashmin = 300
@@ -124,7 +124,7 @@ messages:
          return;
       }
 
-      % if no body animation
+      // if no body animation
       AddPacket(1,ANIMATE_NONE,2,1);
 
       return;
@@ -136,5 +136,5 @@ messages:
    }
    
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 

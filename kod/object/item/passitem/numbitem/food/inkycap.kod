@@ -1,16 +1,16 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 
-% ambrosia, for supercharging administrators
-% dumbed down a bit to make suitable for quest prizes.
+// ambrosia, for supercharging administrators
+// dumbed down a bit to make suitable for quest prizes.
 
 InkyCap is Food
 
@@ -44,16 +44,16 @@ classvars:
 
 properties:
 
-   viFilling = 25                 % Don't fill up too fast...
-   viNutrition = 50               % ultra-envigorating
+   viFilling = 25                 // Don't fill up too fast...
+   viNutrition = 50               // ultra-envigorating
    piNumber = 1
 
 messages:
 
    Constructor()
    {
-      % NOTE: If you change these colors, change the xlat in OrnamentalObject.
-      %       Search for OO_MUSEUM_INKYCAP
+      // NOTE: If you change these colors, change the xlat in OrnamentalObject.
+      //       Search for OO_MUSEUM_INKYCAP
       piItem_flags = send(SYS,@EncodeTwoColorXLAT,#color1=XLAT_TO_GREEN,#color2=XLAT_TO_SKIN4);
       
       propagate;
@@ -61,4 +61,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 RoomKey is RoomKeyCopy
 
 constants:
@@ -87,8 +87,8 @@ messages:
          }
       }
 
-      % Post this so that room can clean itself up first before we try to
-      %  delete it.
+      // Post this so that room can clean itself up first before we try to
+      //  delete it.
       Post(self,@Delete);
 
       return;
@@ -153,7 +153,7 @@ messages:
             return FALSE;
          }
 
-         % Can't get rid of the key if it has an owner.
+         // Can't get rid of the key if it has an owner.
          if poOwner <> $
             AND isClass(poOwner,&User)
          {
@@ -162,7 +162,7 @@ messages:
       }
       else
       {
-         % No dropping into oblivion.
+         // No dropping into oblivion.
          return FALSE;
       }
 
@@ -177,18 +177,18 @@ messages:
       oRoom = Send(SYS,@FindRoomByNum,#num=piRID);
       if oRoom = $
       {
-         % Delete it if the room isn't found.
+         // Delete it if the room isn't found.
          Post(self,@Delete);
 
          return;
       }
 
-      % This is the person that owns the room that this key goes to.
+      // This is the person that owns the room that this key goes to.
       oPlayerOwner = Send(oRoom,@GetRenter);
       if what <> oPlayerOwner
       {
-         % Post this so that so we don't have any conflicts about where it's
-         %  going.
+         // Post this so that so we don't have any conflicts about where it's
+         //  going.
          Post(oPlayerOwner,@NewHold,#what=self);
       }
 
@@ -196,4 +196,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

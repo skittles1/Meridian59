@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 SummonCow is MultiCastSpell
 
 constants:
@@ -36,7 +36,7 @@ classvars:
 
    vrSucceed_wav = SummonCow_sound
                                  
-   viMana = 5           % Mana is amount used upon inititiation
+   viMana = 5           // Mana is amount used upon inititiation
 
    viSpell_num = SID_SUMMON_COW
    viSchool = SS_RIIJA
@@ -46,14 +46,14 @@ classvars:
    viCast_time = 20000
    viChance_To_Increase = 15
 
-   viManaDrain = 1       % Drain is amount used every viDrainTime milliseconds
-   viDrainTime = 1000    % Drain some mana every viDrainTime milliseconds
+   viManaDrain = 1       // Drain is amount used every viDrainTime milliseconds
+   viDrainTime = 1000    // Drain some mana every viDrainTime milliseconds
 
-   viCast_time = 2000    % in milliseconds
+   viCast_time = 2000    // in milliseconds
 
 properties:
 
-   viMultiCast_Spellpower = 2250000   % (20 min, 5 casters) This is the total sum of spellpower
+   viMultiCast_Spellpower = 2250000   // (20 min, 5 casters) This is the total sum of spellpower
 
 messages:      
 
@@ -65,7 +65,7 @@ messages:
       return;
    }
 
-   PrismCast(spellpower = 0, lCasters=$)  % Remember - this number could be MASSIVE
+   PrismCast(spellpower = 0, lCasters=$)  // Remember - this number could be MASSIVE
    {
       local oCow, oRoom, iRow, iCol, iFine_Row, iFine_Col, who;
 
@@ -100,4 +100,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

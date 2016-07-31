@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 BloodInheritance is MultiCastSpell
 
 constants:
@@ -51,10 +51,10 @@ classvars:
    viCast_time = 20000
    viChance_To_Increase = 35
 
-   viManaDrain = 1       % Drain is amount used every viDrainTime milliseconds
-   viDrainTime = 1000    % Drain some mana every viDrainTime milliseconds
+   viManaDrain = 1       // Drain is amount used every viDrainTime milliseconds
+   viDrainTime = 1000    // Drain some mana every viDrainTime milliseconds
 
-   viMultiCast_Spellpower = 3000  % 10 minutes for worst case, 2.3 mins for best case. 
+   viMultiCast_Spellpower = 3000  // 10 minutes for worst case, 2.3 mins for best case. 
 
 properties:                     
 
@@ -73,8 +73,8 @@ messages:
    
    CastSpell(who = $, lTargets = $, iSpellPower = 0)
    {
-      % Gotta be a melee weapon. This spell will only create magical weapons that
-      % can normally be obtained, so don't allow ranged weapon to be given procs.
+      // Gotta be a melee weapon. This spell will only create magical weapons that
+      // can normally be obtained, so don't allow ranged weapon to be given procs.
       if not isClass(first(lTargets),&Weapon)
          OR isClass(first(lTargets),&RangedWeapon)
       {
@@ -82,7 +82,7 @@ messages:
          return;
       }
 
-      % Can't have any other enchantments.
+      // Can't have any other enchantments.
       if send(first(lTargets),@HasAnyAttribute)
       {
          Send(who,@MsgSendUser,#message_rsc=BloodInheritance_bad_target2);
@@ -96,7 +96,7 @@ messages:
    {
       local oCaster, iRandom, ItemAtt;
 
-      % Can't have any other enchantments.
+      // Can't have any other enchantments.
       if Send(first(lTargets),@HasAnyAttribute)
       {
          foreach oCaster in lCasters
@@ -146,4 +146,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

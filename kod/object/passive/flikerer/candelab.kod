@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Candelabra is Flickerer
 
 constants:
@@ -41,17 +41,17 @@ classvars:
    viStart_frame = 2
    viEnd_frame = 4
 
-   % Lighting flags.  Default "on" and wavering flags
+   // Lighting flags.  Default "on" and wavering flags
    viLightFlags = LIGHT_FLAG_ON | LIGHT_FLAG_WAVERING
 
-   % Light color.
+   // Light color.
    viLightColor = LIGHT_FIRE
 
 properties:
 
    piAnim_speed  = 75
 
-   % Intensity, from 0-255.
+   // Intensity, from 0-255.
    piLightIntensity = 30
 
 messages:
@@ -86,7 +86,7 @@ messages:
          return TRUE;
       }
 
-      % Change the flame state.
+      // Change the flame state.
       Send(self,@SetFlame,#has_flame=(NOT pbIsLit));
 
       return TRUE;
@@ -101,4 +101,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

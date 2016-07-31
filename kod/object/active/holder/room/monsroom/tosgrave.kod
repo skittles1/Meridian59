@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 TosGraveyard is MonsterRoom
 
 constants:
@@ -55,12 +55,12 @@ messages:
 
    Constructed()
    {
-%      include tosgrave.kmn ;
+//      include tosgrave.kmn ;
       plMonsters = [ [&Zombie, 85], [&Skeleton, 15] ];
 
       plGenerators = [ [9, 31], [7, 24], [6, 7], [12, 6], [20, 27],
                        [23, 16], [23, 7], [16, 14] ];
-   %  each sound is [wave_file, row, col, cutoff radius, maximum volume]
+   //  each sound is [wave_file, row, col, cutoff radius, maximum volume]
       plLooping_sounds = [[ wind_sound_tosgrave, 1, 1, 200, 100 ]];
       propagate;
    }
@@ -114,7 +114,7 @@ messages:
          return;
       }
 
-      % Move tombstone at end of list to the beginning.
+      // Move tombstone at end of list to the beginning.
       oTombstone = Last(plTombstones);
       plTombstones = DelListElem(plTombstones,oTombstone);
       plTombstones = Cons(oTombstone,plTombstones);
@@ -131,12 +131,12 @@ messages:
 
       plExits = $;
 
-      % Crypt
+      // Crypt
       plExits = Cons([ 6, 29, RID_TOS_CRYPT, 23, 8, ROTATE_NONE ],plExits);
 
-%      plExits = Cons([ 27, 33, RID_TOS, 50, 4, ROTATE_NONE ],plExits);
-%      plExits = Cons([ 28, 33, RID_TOS, 50, 4, ROTATE_NONE ],plExits);
-%      plExits = Cons([ 29, 33, RID_TOS, 50, 4, ROTATE_NONE ],plExits);
+//      plExits = Cons([ 27, 33, RID_TOS, 50, 4, ROTATE_NONE ],plExits);
+//      plExits = Cons([ 28, 33, RID_TOS, 50, 4, ROTATE_NONE ],plExits);
+//      plExits = Cons([ 29, 33, RID_TOS, 50, 4, ROTATE_NONE ],plExits);
 
       propagate;
    }
@@ -151,19 +151,19 @@ messages:
    SomethingMoved(what = $,new_row = $,new_col = $)
    "Special teleports to connect to other rooms for the graveyard"
    {
-%      local iAngle;
-%      if (new_row > 26) and (new_col > 24)
-%       {
-%          if IsClass(what,&monster)
-%          { return; }
-%     else
-%          {
-%             Send(SYS,@UtilGoNearSquare,#what=what,
-%        #where=Send(SYS,@FindRoomByNum,#num=RID_TOS),
-%        #new_row=41,#new_col=11,#new_angle=ANGLE_SOUTH);
-%             return;
-%     }
-%        }
+//      local iAngle;
+//      if (new_row > 26) and (new_col > 24)
+//       {
+//          if IsClass(what,&monster)
+//          { return; }
+//     else
+//          {
+//             Send(SYS,@UtilGoNearSquare,#what=what,
+//        #where=Send(SYS,@FindRoomByNum,#num=RID_TOS),
+//        #new_row=41,#new_col=11,#new_angle=ANGLE_SOUTH);
+//             return;
+//     }
+//        }
       propagate;
    }
 
@@ -171,9 +171,9 @@ messages:
    CreateStandardObjects()
    {
 
-%      include tosgrave.ktm ;
+//      include tosgrave.ktm ;
       
-      % some haphazard tombstones
+      // some haphazard tombstones
 
       Send(self,@NewHold,#what=Create(&Tombstone,
                   #tombstone_type=TOMBSTONE_NORMAL),
@@ -220,9 +220,9 @@ messages:
       #new_row=17,#new_col=19,#new_angle=ANGLE_NORTH);
 
 
-      % Lighting
+      // Lighting
 
-      % Bright white light shining from the ornament in the top-left corner.
+      // Bright white light shining from the ornament in the top-left corner.
       Send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_BWHITE,
             #iIntensity=80),#new_row=8,#new_col=7,#fine_row=48,#fine_col=56);
 
@@ -238,4 +238,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

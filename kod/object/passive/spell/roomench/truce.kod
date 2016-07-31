@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Truce is RoomEnchantment
 
 constants:
@@ -109,7 +109,7 @@ messages:
          AND Send(SYS,@IsPKAllowed)
          AND NOT IsClass(who,&DM)
       {
-         % Tried to cast unguilded in town with no monsters.  Denied!
+         // Tried to cast unguilded in town with no monsters.  Denied!
          Send(who,@MsgSendUser,#message_rsc=truce_no_towns);
 
          return FALSE;
@@ -138,8 +138,8 @@ messages:
    {
       local iDur;
 
-      % 10-20 seconds at 1 spellpower
-      % 60-120 seconds at 99 spellpower.
+      // 10-20 seconds at 1 spellpower
+      // 60-120 seconds at 99 spellpower.
       iDur = (20 + iSpellPower) * 1000;
       iDur = Random(iDur/2, iDur);
 
@@ -183,4 +183,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

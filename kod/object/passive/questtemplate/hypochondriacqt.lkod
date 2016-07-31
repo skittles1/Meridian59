@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 hypochondriacquest_name_rsc = de "Hypochonder Quest"
 hypochondriacquest_desc_rsc = de \
    "Frisconar ist wieder einmal \"krank\", und benötigt Hilfe um eine Heilung für "
@@ -20,7 +20,7 @@ hypochondriacquest_completed_rsc = de \
    "und wurdest dafür belohnt. Vielleicht benötigt er deine Hilfe noch einmal "
    "in der Zukunft."
 
-% Quest resources.
+// Quest resources.
 hypochondriac_assign_2 = de \
    "Gott sei Dank bist Du hier! Ich sterbe! Ich habe %CARGO! Gehe zu %NPC "
    "und frag %HIMHER_NPC nach einer Heilung dafür!"

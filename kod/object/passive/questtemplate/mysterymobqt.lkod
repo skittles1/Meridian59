@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 mysterymobquest_name_rsc = de "Mysteriöses Monster Quest"
 mysterymobquest_desc_rsc = de \
    "Die Schneiderin hatte vor kurzem ein paar Insektenprobleme. Sie hat ein großes "
@@ -33,7 +33,7 @@ mysterymobquest_completed_rsc = de \
    "viele Vorteile und eine höhere Zauberkraft in einer bestimmten Schule "
    "Meridians gibt."
    
-% Quest resources.
+// Quest resources.
 mysterymonster_assign_2 = de \
    "Würdest Du etwas für mich machen? Ich werde Dich belohnen. Ich habe "
    "ein Insektenproblem, wirklich"

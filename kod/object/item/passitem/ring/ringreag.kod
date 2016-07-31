@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ReagentRing is Ring
 
 constants:
@@ -84,7 +84,7 @@ messages:
 
    UseCharges(iCharges=1)
    {
-      % Must be worn to be used.
+      // Must be worn to be used.
       if NOT pbIn_use
       {
          return FALSE;
@@ -136,7 +136,7 @@ messages:
 
    Delete()
    {
-      % Print message to user that ring has been consumed.
+      // Print message to user that ring has been consumed.
       if poOwner <> $
       {
          Send(poOwner,@MsgSendUser,#message_rsc=ReagentRing_disappear_rsc);
@@ -145,8 +145,8 @@ messages:
       propagate;
    }
 
-   % This is a pretty pricey reward, so they must have earned it.
-   % Don't let the ring be taken away.
+   // This is a pretty pricey reward, so they must have earned it.
+   // Don't let the ring be taken away.
    DropOnDeath()
    {
       return FALSE;
@@ -163,4 +163,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

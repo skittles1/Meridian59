@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 farenquest_name_rsc = de "Faren Schüler Quest"
 farenquest_desc_rsc = de \
    "Priesterin Tenuv'vyal hat dich beauftragt zu %s zu gehen und folgende Worte "
@@ -18,7 +18,7 @@ farenquest_completed = de \
    "Du hast das Faren Schüler Quest abgeschlossen.  Du bist nun ein Schüler "
    "Farens, und die Priesterin wird dir mehr mächtige Zauber beibringen."
  
-% Quest resources.
+// Quest resources.
 farendisciple_trigger = de \
    "Ihr habt das Land mit Eurem Verhalten geschändet. Das Land schenkt Leben, "
    "doch Ihr behandelt es wie einen zu erobernden Feind. Ihr seid Narren, "
@@ -39,7 +39,7 @@ farendisciple_failure = de \
    "Feuer der Begierde nicht. Du musst wiederkommen, wenn Du es in Dir gefunden "
    "hast, nicht eher."
 
-% NPC responses.
+// NPC responses.
 farendisc_marbar_resp = de "~kTova säuzt, \"Jetzt fängt das wieder an....\""
 farendisc_jasbar_bad_resp = de \
    "~kPietro sagt, \"Oh, um die Liebe Sha'lills, geh irgendwo anders "

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 TosBanker is TosTown
 
 constants:
@@ -51,7 +51,7 @@ classvars:
    vrDesc = TosBanker_desc_rsc
    vrIcon = TosBanker_icon_rsc
 
-   % No quests allowed because his "receive offers" is still flaky.
+   // No quests allowed because his "receive offers" is still flaky.
    viAttributes = \
       MOB_NOFIGHT | MOB_BANKER | MOB_NOMOVE | MOB_LISTEN | MOB_RANDOM \
       | MOB_RECEIVE | MOB_SELLER | MOB_LAWFUL | MOB_NOQUEST
@@ -127,9 +127,9 @@ messages:
       if IsClass(obj,&Ruby) OR IsClass(obj,&Diamond)
          OR IsClass(obj,&Sapphire) OR IsClass(obj,&Emerald)
       {
-         % Every so often, we want to declare the gem to be fake and delete.
-         % Else we want to give them the money for it and delete the gem
-         % If they can't hold the money, we return the gems (return false)
+         // Every so often, we want to declare the gem to be fake and delete.
+         // Else we want to give them the money for it and delete the gem
+         // If they can't hold the money, we return the gems (return false)
          if Send(obj,@GetNumber) < 4
          {
             Post(poOwner,@SomeoneSaid,#what=self,#type=SAY_RESOURCE,
@@ -146,7 +146,7 @@ messages:
             return TRUE;
          }
     
-         % Be sure they actually have this many gems.
+         // Be sure they actually have this many gems.
          bFound = FALSE;
          foreach i in Send(who,@GetHolderPassive)
          {
@@ -173,8 +173,8 @@ messages:
          }
 
          iValue = Send(obj,@GetValue);
-         % Skivlat needs to include markup to prevent scams
-         % where he buys more than he sells.
+         // Skivlat needs to include markup to prevent scams
+         // where he buys more than he sells.
          iValue = iValue * (100 - 10*viMerchant_markup) / 100;
          oMoney=Create(&Money,#number=iValue);
          if Send(who,@ReqNewHold,#what=oMoney)
@@ -212,4 +212,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

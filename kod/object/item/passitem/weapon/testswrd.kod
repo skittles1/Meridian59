@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 TestSword is Weapon
 
 constants:
@@ -43,7 +43,7 @@ classvars:
    vrIcon = testsword_icon_rsc
    vrDesc = testsword_desc_rsc
 
-   % viWeaponType and viWeaponQuality still check hit roll in weapon.kod, everything else is overrided here.
+   // viWeaponType and viWeaponQuality still check hit roll in weapon.kod, everything else is overrided here.
    viWeaponType = WEAPON_TYPE_THRUST
    viWeaponQuality = WEAPON_QUALITY_NORMAL
 
@@ -79,11 +79,11 @@ messages:
    {
       local iDamage, i, oWeapAtt;
 
-      % First, get base damage.
+      // First, get base damage.
       iDamage = send(self,@GetBaseDamage,#who=poOwner,#target=target);
 
-      % Then check weapon attributes
-      %  Weapon Attributes in general should only + or - damage - no multipliers!
+      // Then check weapon attributes
+      //  Weapon Attributes in general should only + or - damage - no multipliers!
       foreach i in plItem_Attributes
       {
          oWeapAtt = send(SYS,@FindItemAttByNum,#num=send(self,@GetNumFromCompound,#compound=first(i)));
@@ -96,8 +96,8 @@ messages:
 
       iDamage = iDamage + piDamageBonus;
 
-      % send(send(poOwner,@getOwner),@SomeoneSaid,#what=self,#type=SAY_RESOURCE,
-      %      #string=weapon_do_damage,#parm1=iDamage,#parm2=baseDamage);
+      // send(send(poOwner,@getOwner),@SomeoneSaid,#what=self,#type=SAY_RESOURCE,
+      //      #string=weapon_do_damage,#parm1=iDamage,#parm2=baseDamage);
 
       return iDamage;
    }
@@ -124,7 +124,7 @@ messages:
 
    ChangeWeaponSkill(what=SKID_PROFICIENCY_SWORD)
    {
-      % Defaults to fencing
+      // Defaults to fencing
       
       viProficiency_Needed = what;
 
@@ -133,7 +133,7 @@ messages:
 
    SetWeaponDamageType(what=$)
    {
-      % Sets the test weapon's damage type to that of the requested weapon.
+      // Sets the test weapon's damage type to that of the requested weapon.
 
       if what=1
       {
@@ -218,4 +218,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

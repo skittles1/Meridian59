@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 JasperStore is JasperRoom
 
 constants:
@@ -50,7 +50,7 @@ CreateStandardObjects()
       Send(self,@NewHold,#what=Create(&JasperMerchant),
            #new_row=18,#new_col=8,#new_angle=ANGLE_WEST);
 
-%      % and some braziers
+//      // and some braziers
 
       Send(self,@NewHold,#what=Create(&Brazier),
            #new_row=3,#new_col=3);
@@ -93,11 +93,11 @@ CreateStandardObjects()
    {
       plExits = $;
 
-  %% TO TOWN
+  /// TO TOWN
       plExits = Cons([ 19, 1, RID_JASPER, 49, 38, ROTATE_NONE ],plExits);
       plExits = Cons([ 19, 2, RID_JASPER, 49, 38, ROTATE_NONE ],plExits);
       propagate;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

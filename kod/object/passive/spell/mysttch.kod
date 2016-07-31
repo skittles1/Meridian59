@@ -1,24 +1,24 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 MysticTouch is Spell
 
 constants:
 
    include blakston.khd
 
-   % Max target can reach after getting benefit.
+   // Max target can reach after getting benefit.
    MAX_TOTAL_AMOUNT = 75
 
-   % Minimum amount of mana that caster should have (above casting cost) to
-   %  transfer to a target
+   // Minimum amount of mana that caster should have (above casting cost) to
+   //  transfer to a target
    MINIMUM_MANA = 5
 
 resources:
@@ -72,7 +72,7 @@ messages:
 
    ResetReagents()
    {
-      % separate message so can change, then set from admin mode
+      // separate message so can change, then set from admin mode
 
       plReagents = $;
       plReagents = Cons([&Mushroom,1],plReagents);
@@ -89,7 +89,7 @@ messages:
    {
       local target, i;
       
-      % Can cast spell if the 1 target item is a user
+      // Can cast spell if the 1 target item is a user
       if Length(lTargets) <> 1
       {
          return FALSE;
@@ -112,7 +112,7 @@ messages:
          return FALSE;
       }
 
-      % No giving if less than mana cost
+      // No giving if less than mana cost
       if Send(who,@GetMana) <= (viMana + MINIMUM_MANA)
       {
          Send(who,@MsgSendUser,#message_rsc=MysticTouch_nomana_rsc);
@@ -120,7 +120,7 @@ messages:
          return FALSE;
       }
 
-      % Max mana of 1.5 times target's max mana or 75
+      // Max mana of 1.5 times target's max mana or 75
       if Send(target,@GetMana) >= ((Send(target,@GetMaxMana) * 3) / 2)
          OR Send(target,@GetMana) >= MAX_TOTAL_AMOUNT 
       {
@@ -170,4 +170,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

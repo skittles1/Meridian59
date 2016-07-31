@@ -63,6 +63,9 @@ typedef struct
    /* the number of calls to each C function */
    int c_count_untimed[MAX_C_FUNCTION];
    int c_count_timed[MAX_C_FUNCTION];
+
+   // Count for each opcode. Disabled live.
+   // UINT64 opcode_count[NUMBER_OF_OPCODES];
 } kod_statistics;
 
 /* stuff for PostMessage queue */
@@ -169,6 +172,67 @@ val_type __forceinline RetrieveValue(int object_id,local_var_type *local_vars,in
       BlakodDebugInfo(),data_type);
 
    ret_val.int_val = NIL;
+   return ret_val;
+}
+
+// Specific implementations of RetrieveValue for getting a
+// property and classvar faster.
+// Would like to inline these into the RetrieveValue function
+// but the compiler won't do it (~10% slower code).
+val_type __forceinline RetrieveProperty(int object_id, int data)
+{
+   object_node *o;
+   val_type ret_val;
+
+   o = GetObjectByID(object_id);
+   if (o == NULL)
+   {
+      eprintf("[%s] RetrieveProperty can't find OBJECT %i\n", BlakodDebugInfo(),
+         object_id);
+      ret_val.int_val = NIL;
+      return ret_val;
+   }
+   return *(val_type *)&o->p[data].val.int_val;
+}
+
+val_type __forceinline RetrieveClassVar(int object_id, int data)
+{
+   object_node *o;
+   class_node *c;
+   val_type ret_val;
+
+   o = GetObjectByID(object_id);
+   if (o == NULL)
+   {
+      eprintf("[%s] RetrieveClassVar class var can't find OBJECT %i\n",
+         BlakodDebugInfo(), object_id);
+      ret_val.int_val = NIL;
+      return ret_val;
+   }
+
+   c = GetClassByID(o->class_id);
+   if (c == NULL)
+   {
+      eprintf("[%s] RetrieveClassVar can't find CLASS %i for OBJECT %i\n",
+         BlakodDebugInfo(), o->class_id, object_id);
+      ret_val.int_val = NIL;
+      return ret_val;
+   }
+
+   if (data >= c->num_vars || data < 0)
+   {
+      eprintf("[%s] RetrieveClassVar can't retrieve invalid class var %i in OBJECT %i CLASS %s (%i)\n",
+         BlakodDebugInfo(), data, object_id, c->class_name, c->class_id);
+      ret_val.int_val = NIL;
+      return ret_val;
+   }
+
+   ret_val = c->vars[data].val;
+   if (ret_val.v.tag == TAG_OVERRIDE)
+   {
+      /* if it's a class var, but overridden in this class by property */
+      return *(val_type *)&o->p[ret_val.v.data].val.int_val;
+   }
    return ret_val;
 }
 

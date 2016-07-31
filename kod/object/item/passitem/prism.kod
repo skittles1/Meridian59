@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Prism is PassiveItem
 
 constants:
@@ -84,9 +84,9 @@ properties:
 
    piGlowing = FALSE
 
-   % Used to store data for shadow rift.  FALSE means there is no location for this prism.
-   % Otherwise, a list of:
-   % [ room ID, row, column, fine row, fine col ]
+   // Used to store data for shadow rift.  FALSE means there is no location for this prism.
+   // Otherwise, a list of:
+   // [ room ID, row, column, fine row, fine col ]
    plLocation = FALSE 
    
 messages:
@@ -105,7 +105,7 @@ messages:
       lDescs = [prism_desc2_rsc, prism_desc2a_rsc,
                 prism_desc2b_rsc, prism_desc2d_rsc];
 
-      % Append the glow description based on the charge level.
+      // Append the glow description based on the charge level.
       AddPacket(4,vrDesc, 4,piNumSides,
                 4,Nth(lDescs,(Send(self,@GetChargeLevel)+1)));
 
@@ -277,7 +277,7 @@ messages:
       piSpellPowerSoFar = piSpellPowerSoFar + amount;
       iNewLevel = Send(self,@GetChargeLevel);
 
-      % Shoot a projectile sometimes.
+      // Shoot a projectile sometimes.
       if random(1,5) = 5 AND IsClass(poOwner,&Room)
       {
          Send(poOwner,@SomethingShot,#who=who,#target=self,
@@ -286,16 +286,16 @@ messages:
 
       if iNewLevel <> iOldLevel
       {
-         % Max level, make this thing flicker!
+         // Max level, make this thing flicker!
          if iNewLevel = 3
          {
-            % Make the prism flicker!
+            // Make the prism flicker!
             piGlowing = TRUE;
          }
 
          Send(poOwner,@SomethingChanged,#what=self);
 
-         % Play a sound
+         // Play a sound
          Send(poOwner, @SomethingWaveRoom, #what = self,
               #wave_rsc = prism_charged_wav_rsc);
       }
@@ -378,14 +378,14 @@ messages:
       return;
    }
 
-   % Old procedure had it set so when the primary (first) caster
-   %  broke trance, it would set the spell off or fizzle or whatever.
-   %  The current version (below) has it do this when the last person
-   %  stops concentrating.  This will let casting circles cycle through
-   %  casters for when we wanna make the incantation take a LONG time.
+   // Old procedure had it set so when the primary (first) caster
+   //  broke trance, it would set the spell off or fizzle or whatever.
+   //  The current version (below) has it do this when the last person
+   //  stops concentrating.  This will let casting circles cycle through
+   //  casters for when we wanna make the incantation take a LONG time.
 
-   % This is called when the trance is broken, either through interruption
-   %  or insufficient mana.
+   // This is called when the trance is broken, either through interruption
+   //  or insufficient mana.
    CasterBrokeTrance(who=$)
    {
       if plCasters <> $ AND FindListElem(plCasters,who) <> 0
@@ -447,7 +447,7 @@ messages:
       propagate;
    }
 
-   %%% Projectile stuff.
+   //// Projectile stuff.
 
    GetProjectileIcon()
    {
@@ -468,23 +468,23 @@ messages:
 
    GetProjectileLightFlags()
    {
-      % Lighting information.
+      // Lighting information.
       return LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC;
    }
 
    GetProjectileLightIntensity()
    {
-      % Fairly small light radius for projectile.  Out of 255 levels.
+      // Fairly small light radius for projectile.  Out of 255 levels.
       return 25;
    }
 
    GetProjectileLightColor()
    {
-      % Color is a deep, bloody red.
+      // Color is a deep, bloody red.
       return LIGHT_LIGHTNING;
    }
 
-   %%% Shadow rift Stuff
+   //// Shadow rift Stuff
 
    GetTeleportLocation()
    {
@@ -512,23 +512,23 @@ messages:
             return;
          }
 
-         % Bad target: reset it
+         // Bad target: reset it
          plLocation = FALSE;
       }
       return;
    }
 
-   %%% Lighting
+   //// Lighting
 
    SendLightingInformation()
    {
       local iIntensity;
 
       AddPacket(2,(LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC));
-      % Intensity is variable, depending on charge level.  Out of 255 intensity of light
+      // Intensity is variable, depending on charge level.  Out of 255 intensity of light
       iIntensity = bound((Send(self,@GetChargeLevel)*20),1,255);
       AddPacket(1,iIntensity);
-      % Color
+      // Color
       AddPacket(2,LIGHT_WHITE);
 
       return;
@@ -536,9 +536,9 @@ messages:
 
    DestroyDisposable()
    {
-      % Don't destroy prisms.
+      // Don't destroy prisms.
       return;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

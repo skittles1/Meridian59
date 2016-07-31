@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 FinalRites is Spell
 
 constants:
@@ -55,7 +55,7 @@ classvars:
    viMana = 20
    viSpellExertion = 4
 
-   % This will disallow people from trucing, and then killing undead.
+   // This will disallow people from trucing, and then killing undead.
    viHarmful = TRUE   
 
    viCast_time = 10000
@@ -136,7 +136,7 @@ messages:
                   #parm1=Send(who,@GetCapDef),#parm2=Send(who,@GetName));
          }
             
-         % Do damage to them.
+         // Do damage to them.
          iDamage = random(1,5) + (iSpellpower/20) + (2*((Send(who,@GetKarma,#detect=TRUE)
             - Send(oUndead,@GetKarma,#detect=TRUE))/40));
          if Send(oUndead,@AssessDamage,#what=who,#damage=iDamage,#aspell=ATCK_SPELL_HOLY) = $
@@ -152,4 +152,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

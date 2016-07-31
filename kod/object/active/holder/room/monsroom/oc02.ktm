@@ -1,4 +1,4 @@
-% Item KOD Generation file
+// Item KOD Generation file
 	Send(self,@NewHold,#what=Create(&Skull),#new_row=57,#new_col=7,#fine_row=16,#fine_col=0,#angle=ANGLE_EAST);
 	Send(self,@NewHold,#what=Create(&Skull),#new_row=57,#new_col=26,#fine_row=32,#fine_col=16,#angle=ANGLE_EAST);
 	Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_BONES),#new_row=56,#new_col=28,#fine_row=63,#fine_col=16,#angle=ANGLE_EAST);

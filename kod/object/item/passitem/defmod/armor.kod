@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Armor is DefenseModifier
 
 constants:
@@ -48,12 +48,12 @@ classvars:
    vrCondition_poor = armor_condition_poor
    vrCondition_broken = armor_condition_broken
 
-   % Armor goes over layer 0 items such as shirts
+   // Armor goes over layer 0 items such as shirts
    viLayer = 1
 
 properties:
 
-   % If set to true, armor can be colored.
+   // If set to true, armor can be colored.
    pbColored = FALSE
 
 messages:
@@ -114,13 +114,13 @@ messages:
       return;
    }
 
-   % This is a way to implement colored armor easily without having to
-   % rewrite how the server/client handle XLAT and palette translations.
-   % Currently these are stored as bytes, so the XLAT red to x and XLAT
-   % grey to y needed for a correct armor translation can't be added.
-   % If the armor has pbColored set to TRUE, SetPaletteTranslation in
-   % item.kod won't be called to translate the armor's hotspot areas
-   % to the player's shirt color (will always be red).
+   // This is a way to implement colored armor easily without having to
+   // rewrite how the server/client handle XLAT and palette translations.
+   // Currently these are stored as bytes, so the XLAT red to x and XLAT
+   // grey to y needed for a correct armor translation can't be added.
+   // If the armor has pbColored set to TRUE, SetPaletteTranslation in
+   // item.kod won't be called to translate the armor's hotspot areas
+   // to the player's shirt color (will always be red).
    SetPaletteTranslation(translation = $)
    {
       if pbColored
@@ -137,4 +137,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

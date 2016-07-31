@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 BlackDagger is Weapon
 
 constants:
@@ -15,8 +15,8 @@ constants:
    include blakston.khd
    include protocol.khd
 
-   PLAYER_HEAL_TIME = 300000     %% every five minutes, you get a HP back.
-   DAGGER_HEAL_TIME = 28800000   %% every eight hours, the dagger gets an HP back.
+   PLAYER_HEAL_TIME = 300000     /// every five minutes, you get a HP back.
+   DAGGER_HEAL_TIME = 28800000   /// every eight hours, the dagger gets an HP back.
 
    PLAYER_MAX = 4
    DAGGER_MAX = 5
@@ -108,7 +108,7 @@ classvars:
    vrName = BlackDagger_name_rsc
    vrIcon = BlackDagger_icon_rsc
 
-   % Black daggers are low quality swords (?), just like shortswords
+   // Black daggers are low quality swords (?), just like shortswords
    viWeaponType = WEAPON_TYPE_THRUST
    viWeaponQuality = WEAPON_QUALITY_LOW
 
@@ -150,8 +150,8 @@ messages:
       bDo_Notch = FALSE;
       AddPacket(4,BlackDagger_desc_rsc);
 
-      % If a match isn't in session, show the defaults
-      %   and some unidentifiable runes instead of a name.
+      // If a match isn't in session, show the defaults
+      //   and some unidentifiable runes instead of a name.
       if NOT Send(Send(SYS,@GetAssassinGame),@InSession)
       {
          AddPacket(4,BlackDagger_4_gems);
@@ -161,7 +161,7 @@ messages:
          return;
       }
 
-      % The Gems show how much life you have left;
+      // The Gems show how much life you have left;
       if piPlayer_hits = 4
       {
          AddPacket(4,BlackDagger_4_gems);
@@ -179,7 +179,7 @@ messages:
          AddPacket(4,BlackDagger_1_gems);
       }
 
-      % The notches show the number of kills that player has.
+      // The notches show the number of kills that player has.
       if piNotches < 1
       {
          AddPacket(4,BlackDagger_no_notches);
@@ -194,7 +194,7 @@ messages:
          bDo_notch = TRUE;
       }
 
-      % Tell the player who his target is
+      // Tell the player who his target is
       oTarget = Send(Send(SYS,@GetAssassinGame),@GetPrimaryOpponent,#who=poOwner);
       if oTarget = $
       {
@@ -204,17 +204,17 @@ messages:
          return;
       }
 
-      % Put the name string on the black dagger.  Add the name after you
-      %  put the notches in.
+      // Put the name string on the black dagger.  Add the name after you
+      //  put the notches in.
       AddPacket(4,BlackDagger_name);
 
-      % Add the number of notches to the packet
+      // Add the number of notches to the packet
       if bDo_Notch
       {
          AddPacket(4,piNotches);
       }
 
-      % Give the name on the black dagger.
+      // Give the name on the black dagger.
       AddPacket(STRING_RESOURCE,Send(oTarget,@GetTrueName));
 
       return;
@@ -255,7 +255,7 @@ messages:
             #damage=10,#stroke_obj=Send(SYS,@FindSkillByNum,#num=SKID_SLASH));
       Send(oDagger,@AssassinTakesHit,#attacker=poOwner);
 
-      % Does the animations and overlays.
+      // Does the animations and overlays.
       Send(self,@WeaponAttack);
 
       return;
@@ -278,7 +278,7 @@ messages:
       Send(poOwner,@DoHitMessageSound,#what=target,
             #damage=1,#stroke_obj=Send(SYS,@FindSkillByNum,#num=SKID_SLASH));
 
-      % Does the animations and overlays
+      // Does the animations and overlays
       Send(self,@WeaponAttack);
 
       piDagger_hits = piDagger_hits - 1;
@@ -313,7 +313,7 @@ messages:
             #parm1=Send(poOwner,@GetCapDef),#parm2=Send(poOwner,@GetName),
             #parm3=Send(poOwner,@GetHisHer));
 
-      % Does the animations and overlays
+      // Does the animations and overlays
       Send(self,@WeaponAttack);
       Send(Send(SYS,@findskillbynum,#num=SKID_SLASH),@SendMissMessageToAttacker,
             #who=poOwner,#victim=target,#weapon_used=self,#bText=FALSE);
@@ -367,7 +367,7 @@ messages:
 
       Send(poOwner,@TeleportTo,#rid=RID_UNDERWORLD,#bAdminPort=FALSE);
 
-      % Make this a penalty-free "death".
+      // Make this a penalty-free "death".
       Send(poOwner,@SetDeathCost,#DeathCost=0);
       Send(Send(SYS,@GetAssassinGame),@QuitCombatant,#who=poOwner,#kill=TRUE);
 
@@ -446,7 +446,7 @@ messages:
       return FALSE;
    }
 
-   % Here for compatibility.  Not used.
+   // Here for compatibility.  Not used.
 
    ModifyHitRoll(hit_roll = 0)
    {
@@ -510,7 +510,7 @@ messages:
          return;
       }
 
-      % Okay, add the player's time to online time.
+      // Okay, add the player's time to online time.
       iStart_time = Send(Send(SYS,@GetAssassinGame),@GetStartTime);
       iLogon_time = Send(poOwner,@GetLastLoginTime);
 
@@ -560,7 +560,7 @@ messages:
          ptShiver = CreateTimer(self,@ShiverTimer,10000);
       }
 
-      % Just in case they logged off recently.
+      // Just in case they logged off recently.
       if ptShiver <> $
       {
          DeleteTimer(ptShiver);
@@ -574,7 +574,7 @@ messages:
          propagate;
       }
 
-      % Make the shivers go off after a delay, so you notice them more.
+      // Make the shivers go off after a delay, so you notice them more.
       if piShiver > 0
       {
          ptShiver = CreateTimer(self,@ShiverTimer,10000);
@@ -697,4 +697,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 PracticeBow is Bow
 
 constants:
@@ -38,13 +38,13 @@ classvars:
    viBulk = 60
    viWeight = 50
 
-   % This is about twice normal durability.
+   // This is about twice normal durability.
    viHits_init_min = 400
    viHits_init_max = 500
 
    viSpell_modifier = -10
 
-   % What's the basic color of the wood?
+   // What's the basic color of the wood?
    viBaseXLAT = XLAT_TO_SKIN1
 
 properties:
@@ -52,4 +52,4 @@ properties:
 messages:
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

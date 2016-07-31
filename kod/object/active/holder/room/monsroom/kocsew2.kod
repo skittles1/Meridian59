@@ -1,17 +1,17 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 KocatanSewer2 is MonsterRoom
 
-% Todo?:  Add in items that appear in the water.
-%         Good coordinates: [78. 33], [37, 24], [7, 37], [19, 3]
+// Todo?:  Add in items that appear in the water.
+//         Good coordinates: [78. 33], [37, 24], [7, 37], [19, 3]
 
 constants:
 
@@ -71,7 +71,7 @@ messages:
    {
       plExits = $;
 
-      % Locked doors
+      // Locked doors
       plExits = Cons([ 76, 32, ROOM_LOCKED_DOOR, kocsew2_locked_1],plExits);
       plExits = Cons([ 76, 33, ROOM_LOCKED_DOOR, kocsew2_locked_1],plExits);
       plExits = Cons([ 8, 37, ROOM_LOCKED_DOOR, kocsew2_locked_1],plExits);
@@ -79,7 +79,7 @@ messages:
       plExits = Cons([ 18, 4, ROOM_LOCKED_DOOR, kocsew2_locked_1],plExits);
       plExits = Cons([ 19, 4, ROOM_LOCKED_DOOR, kocsew2_locked_1],plExits);
 
-      % To tailor -- teleport in to (43,47)
+      // To tailor -- teleport in to (43,47)
       plExits = Cons([ 43, 48, RID_KOC_TAILOR, 4, 2, ROTATE_NONE ],plExits);
 
       plExits = Cons([ 4, 13, RID_KOC_SEWER1, 42, 7, ROTATE_NONE ],plExits);
@@ -88,4 +88,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

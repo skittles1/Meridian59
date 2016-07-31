@@ -1,30 +1,30 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 LuteQuest is QuestTemplate
-% QST_ID_LUTE = 14
-% Quest nodes 21, 22, 23, 24.
-% QNT_ID_LUTEQUEST_ONE, QNT_ID_LUTEQUEST_TWO,
-% QNT_ID_LUTEQUEST_THREE, QNT_ID_LUTEQUEST_FOUR
+// QST_ID_LUTE = 14
+// Quest nodes 21, 22, 23, 24.
+// QNT_ID_LUTEQUEST_ONE, QNT_ID_LUTEQUEST_TWO,
+// QNT_ID_LUTEQUEST_THREE, QNT_ID_LUTEQUEST_FOUR
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -34,7 +34,7 @@ resources:
 
    include luteqt.lkod
 
-   % Quest description.
+   // Quest description.
    lutequest_icon_rsc = music.bgf
    lutequest_name_rsc = "instrument quest"
    lutequest_desc_rsc = \
@@ -54,7 +54,7 @@ resources:
    lutequest_completed_rsc = \
       "You have completed the instrument quest, and have received a lute."
 
-   % Quest resources.
+   // Quest resources.
    lutequest_trigger_1 = "instrument"
    lutequest_assign_2 = \
       "Of course you'll need an instrument to play.  I'll even help you get "
@@ -104,7 +104,7 @@ classvars:
 
    vrCompleted = lutequest_completed_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_LUTE
 
    viIcon_Animation_start = 1
@@ -116,17 +116,17 @@ properties:
    plSpecialRestrict = $
    piMaxPlayers = 20
    piSchedulePct = 4
-   piTimeLimit = 2 * 3600 % 2 hours.
+   piTimeLimit = 2 * 3600 // 2 hours.
 
 messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_LUTEQUEST_ONE, QNT_ID_LUTEQUEST_TWO,
                       QNT_ID_LUTEQUEST_THREE, QNT_ID_LUTEQUEST_FOUR];
 
-      % Quest nodes with matching descriptions for the player.
+      // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_LUTEQUEST_TWO, vrNodeTwo],
                           [QNT_ID_LUTEQUEST_THREE, vrNodeThree],
                           [QNT_ID_LUTEQUEST_FOUR, vrNodeFour] ];
@@ -141,8 +141,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #21 is lute quest, show up to be told who to go to, what to say
-      % QNT_ID_LUTEQUEST_ONE
+      // Template #21 is lute quest, show up to be told who to go to, what to say
+      // QNT_ID_LUTEQUEST_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[lutequest_trigger_1],
                #quest_node_index=QNT_ID_LUTEQUEST_ONE)
@@ -156,8 +156,8 @@ messages:
          Debug("Error building QN: QNT_ID_LUTEQUEST_ONE");
       }
 
-      % Template #22 is lute quest, say what parrin told you to
-      % QNT_ID_LUTEQUEST_TWO
+      // Template #22 is lute quest, say what parrin told you to
+      // QNT_ID_LUTEQUEST_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[ lutequest_trigger_2a, lutequest_trigger_2b,
                          lutequest_trigger_2c, lutequest_trigger_2d,
@@ -196,22 +196,22 @@ messages:
          Send(oQE,@SetQuestNodeFailureHint,#index=QNT_ID_LUTEQUEST_TWO,
                #new_hint=lutequest_failure_2);
          Send(oQE,@SetQuestNodeTimeLimit,#index=QNT_ID_LUTEQUEST_TWO,
-               #new_limit=60 * 60); % one hour
+               #new_limit=60 * 60); // one hour
       }
       else
       {
          Debug("Error building QN: QNT_ID_LUTEQUEST_TWO");
       }
 
-      % Template #23 is lute quest, deliver the priority item.
-      % QNT_ID_LUTEQUEST_THREE
+      // Template #23 is lute quest, deliver the priority item.
+      // QNT_ID_LUTEQUEST_THREE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_ITEM,
                #cargolist=[ [ QN_PRIZETYPE_ITEMCLASS, &Scroll, 1  ],
                             [ QN_PRIZETYPE_ITEMCLASS, &CurePoisonPotion, 1  ],
                             [ QN_PRIZETYPE_ITEMCLASS, &Sacchaqua, 1  ] ],
                #quest_node_index=QNT_ID_LUTEQUEST_THREE)
       {
-         % lNPCs was set in the previous node
+         // lNPCs was set in the previous node
          Send(oQE,@SetQuestNodeNPCList,#index=QNT_ID_LUTEQUEST_THREE,
                #new_NPC_list=lNPCs);
          Send(oQE,@SetQuestNodeNPCModifier,#index=QNT_ID_LUTEQUEST_THREE,
@@ -230,22 +230,22 @@ messages:
          Debug("Error building QN: QNT_ID_LUTEQUEST_THREE");
       }
 
-      % Template #24 is lute quest, come back to get your prize.
-      % QNT_ID_LUTEQUEST_FOUR
+      // Template #24 is lute quest, come back to get your prize.
+      // QNT_ID_LUTEQUEST_FOUR
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_SHOWUP,
                #prizelist=[ [ QN_PRIZETYPE_ITEMCLASS, &Lute, 1 ] ],
                #quest_node_index=QNT_ID_LUTEQUEST_FOUR)
       {
-         %Send(oQE,@SetQuestNodeNPCList,#index=QNT_ID_LUTEQUEST_FOUR,
-         %      #new_NPC_list=lNPCs);
+         //Send(oQE,@SetQuestNodeNPCList,#index=QNT_ID_LUTEQUEST_FOUR,
+         //      #new_NPC_list=lNPCs);
          Send(oQE,@SetQuestNodeNPCModifier,#index=QNT_ID_LUTEQUEST_FOUR,
                #new_mod=QN_NPCMOD_PREVIOUS);
          Send(oQE,@SetQuestNodeSuccessHint,#index=QNT_ID_LUTEQUEST_FOUR,
                #new_hint=lutequest_success_4);
          Send(oQE,@SetQuestNodeFailureHint,#index=QNT_ID_LUTEQUEST_FOUR,
                #new_hint=lutequest_failure_4);
-         %Send(oQE,@SetQuestNodeTimeLimit,#index=QNT_ID_LUTEQUEST_FOUR,
-         %      #new_limit=20 * 60);
+         //Send(oQE,@SetQuestNodeTimeLimit,#index=QNT_ID_LUTEQUEST_FOUR,
+         //      #new_limit=20 * 60);
       }
       else
       {
@@ -289,7 +289,7 @@ messages:
             return;
          }
 
-         % Cargo is a resource here.
+         // Cargo is a resource here.
          AddPacket(4,Send(oDestNPC,@GetName), 4,oCargo);
 
          return;
@@ -317,4 +317,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

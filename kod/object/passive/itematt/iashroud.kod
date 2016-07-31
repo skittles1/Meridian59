@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ItemAttShroud is ItemAttribute
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%   This item may not be the target of most spells, including
-%   swap, shatter, brittle, enchant.  Can be mended, since that's
-%   annoying to not be able to mend.
-%
-%   Form is:
-%
-%      [IA_SHROUD, tTimer]
-%
-%      Where tTimer = the time left before this enchantment departs.
-%      If tTimer does not exist, the weapon is permanently enchanted.
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////
+//
+//   This item may not be the target of most spells, including
+//   swap, shatter, brittle, enchant.  Can be mended, since that's
+//   annoying to not be able to mend.
+//
+//   Form is:
+//
+//      [IA_SHROUD, tTimer]
+//
+//      Where tTimer = the time left before this enchantment departs.
+//      If tTimer does not exist, the weapon is permanently enchanted.
+//
+///////////////////////////////////////////////////////////////////////
 
 constants:
 
@@ -52,11 +52,11 @@ properties:
 
 messages:
 
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   %%
-   %%  Effect Routines
-   %%
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   ////////////////////////////////////////////////////////////////////
+   ///
+   ///  Effect Routines
+   ///
+   ////////////////////////////////////////////////////////////////////
 
    ItemCanMend()
    {
@@ -88,11 +88,11 @@ messages:
       return FALSE;
    }
 
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   %%
-   %%   Maintenance Routines
-   %%
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   ///////////////////////////////////////////////////////////////////
+   ///
+   ///   Maintenance Routines
+   ///
+   ///////////////////////////////////////////////////////////////////
 
    HasTimer(lData=$)
    "This must return true for any attribute that has a timer!"
@@ -107,7 +107,7 @@ messages:
    {
       local oPlayer;
 
-      SetNth(lData,2,$);   %% timer is gone, now remove reference
+      SetNth(lData,2,$);   /// timer is gone, now remove reference
 
       oPlayer = Send(oItem,@getOwner);
         if oPlayer <> $
@@ -143,4 +143,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

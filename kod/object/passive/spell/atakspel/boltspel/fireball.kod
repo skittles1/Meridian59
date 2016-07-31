@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Fireball is BoltSpell
 
 constants:
@@ -45,13 +45,13 @@ classvars:
 
    vrSucceed_wav = fireball_sound
    
-   viPostCast_time = 2        % in seconds, since it works off gettime()
+   viPostCast_time = 2        // in seconds, since it works off gettime()
 
-   % Projectile lighting information.
+   // Projectile lighting information.
    viProjectileLightFlags = LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC
-   % Medium light range, out of 255.
+   // Medium light range, out of 255.
    viProjectileLightIntensity = 100
-   % Color is orange.
+   // Color is orange.
    viProjectileLightColor = LIGHT_BORANGE
 
 properties:
@@ -64,7 +64,7 @@ messages:
 
    ResetReagents()
    {
-      % separate message so can change, then set from admin mode
+      // separate message so can change, then set from admin mode
 
       plReagents = $;
       plReagents = Cons([&RedMushroom,2],plReagents);
@@ -87,7 +87,7 @@ messages:
 
    SendProjectileAnimation()
    {
-      % 40ms between animations, between frames 1-2
+      // 40ms between animations, between frames 1-2
       AddPacket(1,ANIMATE_CYCLE, 4,40, 2,1, 2,2);   
 
       return;
@@ -95,4 +95,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

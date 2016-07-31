@@ -1,28 +1,28 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 PrincessQuest is QuestTemplate
-% Parent class for the Princess join and loyalty quests, as they are
-% similar and use some of the same resources.
+// Parent class for the Princess join and loyalty quests, as they are
+// similar and use some of the same resources.
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -32,10 +32,10 @@ resources:
 
    include princessqt.lkod
 
-   % Quest description.
+   // Quest description.
    princessqt_icon_rsc = princess.bgf
 
-   % Quest resources.
+   // Quest resources.
    princess_standard2_success = \
       "A letter from her highness?!  Excellent.  Thank you, %NAME."
    princess_standard2_failure = \
@@ -53,7 +53,7 @@ properties:
 
    piNumPlayers = 1
    plSpecialRestrict = $
-   piTimeLimit = 3600 % 1 hour.
+   piTimeLimit = 3600 // 1 hour.
 
 messages:
 
@@ -65,7 +65,7 @@ messages:
          return;
       }
 
-      % Add NPC name.
+      // Add NPC name.
       if index = First(First(plQuestNodeDesc))
       {
          AddPacket(4,Send(Send(oQuestNode,@GetDestNPC),@GetName));
@@ -75,4 +75,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

@@ -1,33 +1,33 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 MiniGame is PassiveItem
 
-% A MiniGame is a game played by a small number of people, such as chess or checkers.
-% The rules of the game are implemented on the client; we simply store state and
-% route messages to the players here.
-%
-% Only "players" are allowed to send new game states (i.e. make moves).  All move
-% logic and turn order must be performed by the client.  "Observers" are sent game
-% state, but cannot send new states or pick up the game object (unless there are no
-% players).
-%
-% In order to keep the game as a passive (instead of active) object, the game object
-% doesn't respond to people leaving or entering the room.  Instead, every time it
-% receives a new move, it cleans out the observer list, discarding those who are not
-% in the current room.  These clients get a message to unload the client module for
-% the game.
-%
-% Each player's client is sent his player number when he first activates the game.
-% For game players, this is the order in which the player activated the game.  For
-% observers, this number is always (max # of players + 1).
+// A MiniGame is a game played by a small number of people, such as chess or checkers.
+// The rules of the game are implemented on the client; we simply store state and
+// route messages to the players here.
+//
+// Only "players" are allowed to send new game states (i.e. make moves).  All move
+// logic and turn order must be performed by the client.  "Observers" are sent game
+// state, but cannot send new states or pick up the game object (unless there are no
+// players).
+//
+// In order to keep the game as a passive (instead of active) object, the game object
+// doesn't respond to people leaving or entering the room.  Instead, every time it
+// receives a new move, it cleans out the observer list, discarding those who are not
+// in the current room.  These clients get a message to unload the client module for
+// the game.
+//
+// Each player's client is sent his player number when he first activates the game.
+// For game players, this is the order in which the player activated the game.  For
+// observers, this number is always (max # of players + 1).
 
 constants:
 
@@ -46,7 +46,7 @@ resources:
    minigame_game_full   = "The game is full; you are an observer."
    minigame_cant_pickup = "Only players can pick up a game in progress."
 
-   % Initial state of game, before anyone has moved
+   // Initial state of game, before anyone has moved
    minigame_default_state = ""
    
 classvars:
@@ -57,17 +57,17 @@ classvars:
 
    vrModule = $
 
-   viMaxPlayers = 2     % Maximum number of people who can play the game at once
+   viMaxPlayers = 2     // Maximum number of people who can play the game at once
 
-   viUse_type = ITEM_SINGLE_USE    % So "use" command will work with it
+   viUse_type = ITEM_SINGLE_USE    // So "use" command will work with it
    viItem_type = ITEMTYPE_GAME
 
 properties:
 
-   piNumPlayers = 0     % Number of people currently playing game
-   plPlayers = $        % List of object IDs of people playing game
-   plObservers = $      % People who should be informed of game events (doesn't include players)
-   psState = $          % Current state of game, stored as a string  
+   piNumPlayers = 0     // Number of people currently playing game
+   plPlayers = $        // List of object IDs of people playing game
+   plObservers = $      // People who should be informed of game events (doesn't include players)
+   psState = $          // Current state of game, stored as a string  
 
    viObject_flags = OF_ACTIVATABLE | OF_GETTABLE
 
@@ -85,8 +85,8 @@ messages:
    {
       local i;
 
-      % Unload module for players, so that they don't send any messages to a 
-      % deleted object
+      // Unload module for players, so that they don't send any messages to a 
+      // deleted object
 
       foreach i in plPlayers
       {
@@ -123,8 +123,8 @@ messages:
    {
       local player_num, found, i;
 
-      % See if already a player
-      player_num = piNumPlayers;   % Count down, since added to list in reverse order
+      // See if already a player
+      player_num = piNumPlayers;   // Count down, since added to list in reverse order
       found = False;
       foreach i in plPlayers
       {
@@ -140,7 +140,7 @@ messages:
       {
 	 if piNumPlayers >= viMaxPlayers
 	 {
-	    % Game is full--become an observer
+	    // Game is full--become an observer
 	    found = False;
 	    foreach i in plObservers
 	    {
@@ -155,16 +155,16 @@ messages:
 	       plObservers = Cons(who, plObservers);
 	    }
 	    Send(who, @MsgSendUser, #message_rsc = minigame_game_full);
-	    player_num = piNumPlayers + 1;    % An observer
+	    player_num = piNumPlayers + 1;    // An observer
 	 } 
 	 else
 	 {
 	    piNumPlayers = piNumPlayers + 1;
 
-	    % Tell current players & observers about new player
+	    // Tell current players & observers about new player
 	    Send(self, @SendNewPlayer, #who = who, #player_num = piNumPlayers);
 
-	    % Add a new player
+	    // Add a new player
 	    plPlayers = Cons(who, plPlayers);
 	    player_num = piNumPlayers;
 	 }
@@ -175,7 +175,7 @@ messages:
       Send(who, @UserGameStart, #game = self, #player_num = player_num);
       Send(who, @GameStateSendUser, #game = self, #state = psState);
 
-      % Tell this person about current players
+      // Tell this person about current players
       Send(self, @SendPlayers, #who = who);
 
       return True;
@@ -198,7 +198,7 @@ messages:
    {
       local i, found;
 
-      % Make sure that "who" is playing the game
+      // Make sure that "who" is playing the game
       found = False;
 
       foreach i in plPlayers
@@ -218,7 +218,7 @@ messages:
       SetString(psState, state);
       Send(self, @SetAppearance);
 
-      % Send new state to players
+      // Send new state to players
       foreach i in plPlayers
       {
 	 if (i <> who)
@@ -227,7 +227,7 @@ messages:
 	 }
       }
 
-      % Send new state to observers--remove from list if not in same room as game
+      // Send new state to observers--remove from list if not in same room as game
       foreach i in plObservers
       {
 	 if Send(SYS, @UtilGetRoom, #what = i) = Send(SYS, @UtilGetRoom, #what = self)
@@ -249,7 +249,7 @@ messages:
    {
       local i, found;
 
-      % Make sure that "who" is playing the game
+      // Make sure that "who" is playing the game
       found = False;
 
       foreach i in plPlayers
@@ -280,7 +280,7 @@ messages:
    {
       local i;
 
-      % Only a player can pick up a game in progress
+      // Only a player can pick up a game in progress
       if NOT IsClass(what, &User) OR plPlayers = $
       {
 	 propagate;
@@ -300,7 +300,7 @@ messages:
 
    FixOwner()
    {
-      % if put somewhere for storage, etc., the game is over.
+      // if put somewhere for storage, etc., the game is over.
 
       if (poOwner = $)
       {
@@ -321,25 +321,25 @@ messages:
    {
       local i;
 
-      % if put somewhere for storage, etc., the game is over.
+      // if put somewhere for storage, etc., the game is over.
       if not isClass(what,&Room) and not isClass(what,&User)
       {
          send(self,@ResetGame);
 	 propagate;
       }
 
-      % if not being picked up by a user, then leave game in progress
+      // if not being picked up by a user, then leave game in progress
       if not IsClass(what, &User)
       {
 	 propagate;
       }
 
-      % being picked up by a user; keep game going but kick off any users watching
+      // being picked up by a user; keep game going but kick off any users watching
 
       foreach i in plObservers
       {
 	 Send(i, @UserUnloadModule, #module = vrModule);
-	 % XXX Send message here
+	 // XXX Send message here
       }
       plObservers = $;
 
@@ -348,19 +348,19 @@ messages:
 	 if (i <> what)
 	 {
 	    Send(i, @UserUnloadModule, #module = vrModule);
-	    % XXX Send message here
+	    // XXX Send message here
 	 }
       }
       
       propagate;
    }
 
-   % Send given user a list of all people currently playing this game
+   // Send given user a list of all people currently playing this game
    SendPlayers(who = $)
    {
       local i, player_num;
 
-      player_num = piNumPlayers;   % Count down, since added to list in reverse order
+      player_num = piNumPlayers;   // Count down, since added to list in reverse order
       foreach i in plPlayers
       {
 	 Send(who, @GamePlayerSendUser, #who = i, #num = player_num);
@@ -369,7 +369,7 @@ messages:
       return;
    }
 
-   % Send all people currently playing this game the new player information
+   // Send all people currently playing this game the new player information
    SendNewPlayer(who = $, player_num = 0)
    {
       local i;
@@ -386,7 +386,7 @@ messages:
    {
       local i;
 
-      % Remove players and observers
+      // Remove players and observers
       foreach i in plObservers
       {
 	 Send(i, @UserUnloadModule, #module = vrModule);
@@ -400,7 +400,7 @@ messages:
       plPlayers = $;
       piNumPlayers = 0;
 
-      % Reset game
+      // Reset game
       SetString(psState, minigame_default_state);
       Send(self, @SetAppearance);
       
@@ -408,4 +408,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

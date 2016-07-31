@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 truthspellquest_name_rsc = de "Jala Schüler Quest"
 truthspellquest_desc_rsc = de \
    "Parrin Aragone wird dir die Lieder von Jala beibringen, aber zuerst "
@@ -18,7 +18,7 @@ truthspellquest_completed = de \
    "Du hast das Jala Schüler Quest abgeschlossen.  Parrin wird dir nun "
    "die Lieder Jalas beibringen."
 
-% Quest resources.
+// Quest resources.
 truthquest_trigger_1 = de "Schüler"
 truthquest_trigger_2 = de "singt"
 truthquest_assign_2 = de \

@@ -1,1 +1,1 @@
-% Item KOD Generation file
+// Item KOD Generation file

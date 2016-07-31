@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 PrincessGuard is BarloqueTown
 
 constants:
@@ -35,7 +35,7 @@ classvars:
       MOB_NOFIGHT | MOB_NOMOVE | MOB_LISTEN | MOB_RANDOM | MOB_NOQUEST
    viOccupation = MOB_ROLE_GUARD
 
-%   viAttributes = MOB_NOFIGHT  | MOB_RECEIVE | MOB_NOMOVE
+//   viAttributes = MOB_NOFIGHT  | MOB_RECEIVE | MOB_NOMOVE
 
 properties:
 
@@ -44,4 +44,4 @@ properties:
 messages:
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

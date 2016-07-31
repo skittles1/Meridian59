@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 RazaElder is RazaTown
 
 constants:
@@ -185,7 +185,7 @@ messages:
       {
          Send(who,@SendStatChange);
 
-         % We don't destroy the item, so return FALSE.
+         // We don't destroy the item, so return FALSE.
          return FALSE;
       }
 
@@ -206,7 +206,7 @@ messages:
          return;
       }
 
-      % Add master rsc.
+      // Add master rsc.
       AddPacket(4,vrTeach_message);
 
       iCounter = 0;
@@ -238,8 +238,8 @@ messages:
          }
       }
 
-      % If we didn't add enough location resources, make up for it
-      % with blank ones. This teacher sells a lot of spells.
+      // If we didn't add enough location resources, make up for it
+      // with blank ones. This teacher sells a lot of spells.
       while iNumRsc++ < 42
       {
          AddPacket(4,monster_teach_blank);
@@ -249,4 +249,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

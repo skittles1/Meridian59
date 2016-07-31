@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 WeapAttCursed is WeaponAttribute
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%% One of the more complicated weapon spells.
-%% This weapon cannot be dropped.
-%% This weapon is automatically wielded when picked up
-%% This weapon has a -(2*power) to hit and damage
-%
-%  Power is determined using standard WeapAtt Power table.
-%
-%  Form is:
-%
-%       [ WA_CURSED ]
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////
+//
+/// One of the more complicated weapon spells.
+/// This weapon cannot be dropped.
+/// This weapon is automatically wielded when picked up
+/// This weapon has a -(2*power) to hit and damage
+//
+//  Power is determined using standard WeapAtt Power table.
+//
+//  Form is:
+//
+//       [ WA_CURSED ]
+//
+///////////////////////////////////////////////////////////////////////
 
 constants:
 
@@ -50,16 +50,16 @@ classvars:
 
 properties:
 
-   piValue_modifier = 100   %% modify the object's price by 100%
+   piValue_modifier = 100   /// modify the object's price by 100//
    piValue_power_modifier = -10
 
 messages:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Initialization Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Initialization Functions
+///
+////////////////////////////////////////////////
 
    InitialPower(oItem=$)
    {
@@ -73,11 +73,11 @@ messages:
       return Send(self,@InitialWeaponPower,#oItem=oItem);
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Effect Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Effect Functions
+///
+////////////////////////////////////////////////
 
    ModifyDamage(damage=0,target=$,wielder=$,lData=$)
    "Wielder gets a -2*bonus to hitroll."
@@ -140,7 +140,7 @@ messages:
 
    AddToTreasureTable()
    {
-      %% 10% chance at every level of getting a cursed weapon
+      /// 10// chance at every level of getting a cursed weapon
       local i;
 
       i = 1;
@@ -154,16 +154,16 @@ messages:
       return;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Timer Functions
-%%  Cursed weapons are somewhat of a special case
-%%    in that they don't always have timers.  A
-%%    cursed weapon that appears in the wild is 
-%%    forever, but a cursed weapon that is the result
-%%    of a spell is temporary.
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////
+///
+///  Timer Functions
+///  Cursed weapons are somewhat of a special case
+///    in that they don't always have timers.  A
+///    cursed weapon that appears in the wild is 
+///    forever, but a cursed weapon that is the result
+///    of a spell is temporary.
+///
+////////////////////////////////////////////////////////
 
 
    HasTimer(lData=$)
@@ -178,7 +178,7 @@ messages:
 
    TimerExpired(oItem=$,lData=$)
    {
-      SetNth(lData,2,$);   %% timer is gone, now remove reference
+      SetNth(lData,2,$);   /// timer is gone, now remove reference
       Send(self,@RemoveFromItem,#oItem=oItem, #lData = lData);
 
       return;
@@ -212,4 +212,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

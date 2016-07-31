@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Unarmed is Stroke
 
 constants:
@@ -45,8 +45,8 @@ classvars:
 
 properties:
 
-   % Format of reagents:  Each element of plReagents is a list, describing a single reagent.
-   % First elem of this list is class of reagent; second is # of reagent required for skill.
+   // Format of reagents:  Each element of plReagents is a list, describing a single reagent.
+   // First elem of this list is class of reagent; second is # of reagent required for skill.
    plReagents = $
    plPrerequisites = $
 
@@ -99,14 +99,14 @@ messages:
    {
       local damage, might;
 
-      % Convert to high precision.
+      // Convert to high precision.
       damage = random(viMin_Damage, viMax_Damage)*100;
 
-      % Take various damage factors into consideration.
+      // Take various damage factors into consideration.
       damage = send(self,@DamageFactors,#damage=damage,#who=who,#weapon_used=$);
 
       return damage;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,19 +1,19 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ChaosNight is GameEvent
 
-% Handles a chaos night, or "frenzy".  This is a mode where combat is encouraged
-% and people can kill each other without permanent repercussions.  Generally the
-% game is saved first, and restored afterwards.  This can't be done from Blakod
-% so a frenzy requires manual intervention.
+// Handles a chaos night, or "frenzy".  This is a mode where combat is encouraged
+// and people can kill each other without permanent repercussions.  Generally the
+// game is saved first, and restored afterwards.  This can't be done from Blakod
+// so a frenzy requires manual intervention.
 
 constants:
 
@@ -57,23 +57,23 @@ classvars:
 
 properties:
 
-   % Timer for when the frenzy will end.
+   // Timer for when the frenzy will end.
    ptChaosNightEnd = $
 
    plChaosNightLoot = $
    ptChaosNightLootTimer = $
    piChaosNightLootTimerIntervalMs = 3 * 60 * 1000
 
-   % Is loot given to all players?
+   // Is loot given to all players?
    pbGiveGlobalLoot = FALSE
 
-   % Do we hand out reagents with loot?
+   // Do we hand out reagents with loot?
    pbGiveReagents = FALSE
 
-   % Do we have Innkeepers sell frenzy loot?
+   // Do we have Innkeepers sell frenzy loot?
    pbSellFrenzyLoot = TRUE
    
-   % If we hand out shillings during frenzy, how much do we give at one time?
+   // If we hand out shillings during frenzy, how much do we give at one time?
    piFrenzyMoneyAmount = 200000
 
 messages:
@@ -93,11 +93,11 @@ messages:
          ptChaosNightLootTimer = $;
       }
 
-      % Tell the rooms to change their flags back to normal, and to
-      % redraw the correct background.
+      // Tell the rooms to change their flags back to normal, and to
+      // redraw the correct background.
       foreach i in Send(SYS, @GetRooms)
       {
-         % Sets all rooms to use reagents.
+         // Sets all rooms to use reagents.
          Send(i,@TurnReagentsOn);
 
          if NOT Send(i,@CheckRoomFlag,#flag=ROOM_HOMETOWN)
@@ -106,8 +106,8 @@ messages:
          }
       }
 
-      % Only Send this message to DMs and up, since this message should
-      % never be seen.
+      // Only Send this message to DMs and up, since this message should
+      // never be seen.
       foreach i in Send(SYS,@GetUsersLoggedOn)
       {
          if IsClass(i,&DM)
@@ -116,7 +116,7 @@ messages:
          }
       }
 
-      % Set NPCs back to selling the correct items.
+      // Set NPCs back to selling the correct items.
       Send(self,@UnsetFrenzyNPCSellers);
 
       return;
@@ -159,10 +159,10 @@ messages:
                break;
             
             case GAMEEVENT_SCALE_WEEKS:
-               %Send(REALTIME_OBJECT,@RegisterCallbackInWeeks,
-               %      #oObject=self,
-               %      #weeks=parm2,
-               %      #message=sMessage);
+               //Send(REALTIME_OBJECT,@RegisterCallbackInWeeks,
+               //      #oObject=self,
+               //      #weeks=parm2,
+               //      #message=sMessage);
                Debug("GAMEEVENT_SCALE_WEEKS not implemented, event ending in 2 hours");
                ptChaosNightEnd = CreateTimer(self,@EndChaosNightTimer,3600000);
                break;
@@ -189,27 +189,27 @@ messages:
       
       foreach i in Send(SYS,@GetRooms)
       {
-         % Sets all rooms to no reagent use.
+         // Sets all rooms to no reagent use.
          Send(i,@TurnReagentsOff);
 
-         % Make all rooms except for inns kill zones (anyone can die).
-         % Also, change the background graphic.
+         // Make all rooms except for inns kill zones (anyone can die).
+         // Also, change the background graphic.
          if NOT Send(i,@CheckRoomFlag,#flag=ROOM_HOMETOWN)
          {
             Send(i,@StartChaosNight);
          }
       }
 
-      % Set up a timer to give everyone some reagents, etc.
+      // Set up a timer to give everyone some reagents, etc.
       Send(self,@ChaosNightPeriodicLoot);
 
-      % Give Innkeepers a list of frenzy loot to sell to players.
+      // Give Innkeepers a list of frenzy loot to sell to players.
       if pbSellFrenzyLoot
       {
          Post(self,@SetFrenzyNPCSellers);
       }
 
-      % Tell the users online what's going on.
+      // Tell the users online what's going on.
       foreach i in Send(SYS,@GetUsersLoggedOn)
       {
          Send(i,@MsgSendUser,#message_rsc=chaos_night_rsc);
@@ -304,7 +304,7 @@ messages:
         return Send(SYS,@GetFailureRsc);
       }
 
-      % Reset the loot list if it's niled out.
+      // Reset the loot list if it's niled out.
       if plChaosNightLoot = $
       {
          plChaosNightLoot = [
@@ -365,8 +365,8 @@ messages:
             }
          }
 
-         % Reagent handouts turned off by default as reagent cost is now
-         % disabled during frenzies via room flag pbNoReagents.
+         // Reagent handouts turned off by default as reagent cost is now
+         // disabled during frenzies via room flag pbNoReagents.
          if pbGiveReagents
          {
             Send(oPlayer,@AddReagentsForSpells,#iNumCasts=iNumCasts);
@@ -408,17 +408,17 @@ messages:
    ChaosNightPeriodicLoot()
    "Timer function that periodically gives people loot during a chaos night"
    {
-      % Loot is now handled by updated sell lists on Innkeeper NPCs.
-      % In case we still want to use the global loot handout, we keep
-      % this timer active but control whether loot is distributed with
-      % a setting.
+      // Loot is now handled by updated sell lists on Innkeeper NPCs.
+      // In case we still want to use the global loot handout, we keep
+      // this timer active but control whether loot is distributed with
+      // a setting.
 
       if pbGiveGlobalLoot
       {
          Send(self,@ChaosNightLoot);
       }
 
-      % If NPCs are selling the loot, gotta give the players some cash.
+      // If NPCs are selling the loot, gotta give the players some cash.
       if pbSellFrenzyLoot
       {
          Send(self,@ChaosNightMoney);
@@ -431,4 +431,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

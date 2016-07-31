@@ -1,38 +1,38 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 QuestTemplate is PassiveObject
 
-% The QuestTemplate classes store data for that particular QST_ID to allow
-% quest descriptions to be put together based on which quest node is active
-% for the given player. We could eventually store other data here such as
-% quest initialisation, quest resources and timers to make the quest system
-% more efficient.
+// The QuestTemplate classes store data for that particular QST_ID to allow
+// quest descriptions to be put together based on which quest node is active
+// for the given player. We could eventually store other data here such as
+// quest initialisation, quest resources and timers to make the quest system
+// more efficient.
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
    include blakston.khd
 
-   % Constants to determine which time resource header to use.
+   // Constants to determine which time resource header to use.
    TIME_RSC_HEADER_INCOMPLETE = 0
    TIME_RSC_HEADER_COMPLETE   = 1
 
@@ -40,12 +40,12 @@ resources:
 
    include questtemplate.lkod
 
-   % Same icon as the book item.
+   // Same icon as the book item.
    questtemplate_icon_rsc = kolanico.bgf
    questtemplate_name_rsc = "default quest"
    questtemplate_desc_rsc = "Initial default quest description."
 
-   % Resources for making the timer part of description.
+   // Resources for making the timer part of description.
    questtemplate_time_header = \
       "\n\nYou have %r%r%r%r%r%r%r remaining to complete this quest."
    questtemplate_time_header_complete = \
@@ -55,7 +55,7 @@ resources:
 
    questtemplate_master_time_rsc = "%r%r"
 
-   % General quest resources, used by multiple quests.
+   // General quest resources, used by multiple quests.
    letter_trigger = "need a courier"
    chess_trigger = "yes"
    duke_standard1_trigger = "loyalty"
@@ -79,23 +79,23 @@ classvars:
    vrDesc = questtemplate_desc_rsc
    vrCompleted = questtemplate_desc_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_NONE
 
-   % FALSE if we don't display the completed quest to the user.
+   // FALSE if we don't display the completed quest to the user.
    vbShowCompleted = TRUE
 
-   % Determine which icon to display in the description,
-   % and whether there is an animation. If no animation,
-   % the viIcon_Animation_start group is displayed.
+   // Determine which icon to display in the description,
+   // and whether there is an animation. If no animation,
+   // the viIcon_Animation_start group is displayed.
    viAnimationSpeed = 0
    viIcon_Animation_start = 2
    viIcon_Animation_end = 0
 
 properties:
 
-   % This disables the quest by preventing the quest template being
-   % sent to QuestEngine.
+   // This disables the quest by preventing the quest template being
+   // sent to QuestEngine.
    pbDisabled = FALSE
 
    piNumPlayers = 0
@@ -106,14 +106,14 @@ properties:
    piMaxPlayers = 30
    piSchedulePct = 0
 
-   % List of quest node indexes and matching resources to give
-   % to the user for the quest log.
+   // List of quest node indexes and matching resources to give
+   // to the user for the quest log.
    plQuestNodeDesc = $
 
-   % 1 hr - defines what 'recently' means in history restrictions.
+   // 1 hr - defines what 'recently' means in history restrictions.
    piQuestHistoryRecentTime = 3600
 
-   piTimeLimit = 3 * 3600 % 3 hour default timelimit.
+   piTimeLimit = 3 * 3600 // 3 hour default timelimit.
 
 messages:
 
@@ -124,8 +124,8 @@ messages:
          Send(self,@SendQuestTemplate);
       }
 
-      % RecreateQuestNodes in QuestEngine will now ask for this data.
-      %Send(self,@SendQuestNodeTemplates);
+      // RecreateQuestNodes in QuestEngine will now ask for this data.
+      //Send(self,@SendQuestNodeTemplates);
 
       propagate;
    }
@@ -191,13 +191,13 @@ messages:
          return FALSE;
       }
 
-      % These are "complete once" quests, so always show.
+      // These are "complete once" quests, so always show.
       if piPlayerRestrict & Q_PLAYER_NOTSUCCEEDED
       {
          return TRUE;
       }
 
-      % If we don't have the history or user, don't show quest.
+      // If we don't have the history or user, don't show quest.
       if lHistory = $
          OR who = $
       {
@@ -206,7 +206,7 @@ messages:
 
       iTimeLoggedIn = Send(who,@GetTimeLoggedIn);
 
-      % Show it if the player succeeded recently.
+      // Show it if the player succeeded recently.
       if (First(lHistory) & QUEST_HISTORY_SUCCESS)
          AND (Nth(lHistory,2) <= iTimeLoggedIn
             AND Nth(lHistory,2) + piQuestHistoryRecentTime > iTimeLoggedIn)
@@ -214,7 +214,7 @@ messages:
          return TRUE;
       }
 
-      % Don't show failed quests or quests not completed recently.
+      // Don't show failed quests or quests not completed recently.
       return FALSE;
    }
 
@@ -234,14 +234,14 @@ messages:
 
       iTimeLeft = 0;
 
-      % Find out which quest node the player is on.
+      // Find out which quest node the player is on.
       oQuestNode = Send(who,@GetActiveQuestNode,#index=viQuestID);
 
       AddPacket(4,questtemplate_master_time_rsc);
 
       if oQuestNode = $
       {
-         % Add time remaining until quest can be redone, if applicable.
+         // Add time remaining until quest can be redone, if applicable.
          if (piPlayerRestrict & Q_PLAYER_NOTTRIED_RECENTLY)
             AND NOT (piPlayerRestrict & Q_PLAYER_NOTSUCCEEDED)
          {
@@ -267,7 +267,7 @@ messages:
          iTimeLeft = iDeadLine - GetTime();
       }
 
-      % Add time.
+      // Add time.
       Send(self,@SendTimeRemaining,#iTime=iTimeLeft,#parm1=bComplete);
 
       return;
@@ -295,8 +295,8 @@ messages:
          }
       }
 
-      % If we get this far and didn't get a description, we aren't
-      % going to show anything. Log a debug message for it.
+      // If we get this far and didn't get a description, we aren't
+      // going to show anything. Log a debug message for it.
       Debug("User ",Send(who,@GetTrueName)," got no description for quest ",
             vrName);
 
@@ -359,4 +359,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

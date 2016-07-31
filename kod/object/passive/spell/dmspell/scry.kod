@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Scry is DMSpell
 
 constants:
@@ -119,7 +119,7 @@ messages:
 
    SendEffectData()
    {
-      % for EFFECT_INVERT, 4 bytes of time to be inverted
+      // for EFFECT_INVERT, 4 bytes of time to be inverted
       AddPacket(4,10000);
       
       return;
@@ -155,7 +155,7 @@ messages:
             {  high_level = send(obj,@GetLevel);  }
          }
       }
-      if high_level = 0  { return; }   %% no message
+      if high_level = 0  { return; }   /// no message
 
       rName = send(self,@GetSchoolStr,#iSchool=school);
       rMastery = scry_apprentice;
@@ -169,7 +169,7 @@ messages:
 
       if send(DMis,@GetSpellAbility,#spell_num=viSpell_num) < 50 { return; }
 
-      %% let's find out about the next level!  Whee!
+      /// let's find out about the next level!  Whee!
       if send(SYS,@GetNumAtLevel,#school=school,#level=high_level+1) <> 0
       {
          foreach i in send(SYS,@GetSpells)
@@ -201,7 +201,7 @@ messages:
             {  high_level = send(obj,@GetLevel);  }
          }
       }
-      if high_level = 0  { return; }   %% no message
+      if high_level = 0  { return; }   /// no message
       
       rName = send(self,@GetSchoolStr,#iSchool=school);
       rMastery = scry_apprentice;
@@ -215,7 +215,7 @@ messages:
 
       if send(DMis,@GetSpellAbility,#spell_num=viSpell_num) < 50 { return; }
 
-      %% let's find out about the next level!  Whee!
+      /// let's find out about the next level!  Whee!
       if send(SYS,@GetNumAtLevel,#school=school,#level=high_level+1) <> 0
       {
          foreach i in send(SYS,@GetSkills)
@@ -233,4 +233,4 @@ messages:
 
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

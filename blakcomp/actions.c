@@ -783,17 +783,18 @@ arg_type make_arg_from_setting(id_type id, expr_type expr)
 /************************************************************************/
 id_type make_constant_id(id_type id, expr_type expr)
 {
-   int numeric_val;
+   int numeric_val = 0;
 
    /* Right hand side must be a number or a negative number */
    switch (expr->type)
    {
    case E_CONSTANT:
    {
-      const_type c = (const_type) expr->value.constval;
+      const_type c = (const_type)expr->value.constval;
       if (c->type == C_NUMBER)
-	 numeric_val = c->value.numval;
-      else action_error("Right hand side must be a numeric constant");
+         numeric_val = c->value.numval;
+      else
+         action_error("Right hand side must be a numeric constant");
       break;
    }
    case E_UNARY_OP:
@@ -801,23 +802,22 @@ id_type make_constant_id(id_type id, expr_type expr)
       const_type c;
       expr_type sub_expr = expr->value.unary_opval.exp;
       int op = expr->value.unary_opval.op;
-      
+
       if (op != NEG_OP || sub_expr->type != E_CONSTANT)
       {
          action_error("Right hand side must be a numeric constant");
          break;
       }
-      
-      c = (const_type) sub_expr->value.constval;
+
+      c = (const_type)sub_expr->value.constval;
       if (c->type == C_NUMBER)
-         numeric_val = - c->value.numval;
+         numeric_val = -c->value.numval;
       else action_error("Right hand side must be a numeric constant");
       break;
    }
    default:
       action_error("Right hand side must be a numeric constant");
    }
-   
 
    lookup_id(id);
 
@@ -826,12 +826,12 @@ id_type make_constant_id(id_type id, expr_type expr)
    {
    case I_UNDEFINED:
       id->ownernum = st.curclass;
-      /* Store value in source field.  This is kind of a hack, but now we can 
-	 insert just the id in st.constants, making it easy to find later. */
+      /* Store value in source field.  This is kind of a hack, but now we can
+         insert just the id in st.constants, making it easy to find later. */
       id->source = numeric_val;
       add_identifier(id, I_CONSTANT);
       break;
-      
+
    default:
       action_error("Duplicate identifier %s", id->name);
       break;
@@ -839,7 +839,7 @@ id_type make_constant_id(id_type id, expr_type expr)
 
    /* Add to list of constants in this class */
    st.constants = list_add_item(st.constants, id);
-   
+
    return id;
 }
 /************************************************************************/

@@ -1,18 +1,18 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Longbow is a ranged weapon which, when used, checks for arrows in the inv 
-% and uses one up--akin to reagents and spells
-%
-% code by Justin Houk, 98jsh@williams.edu
-%
+////////////////////////////////////////////////////////////////////////////////
+// Longbow is a ranged weapon which, when used, checks for arrows in the inv 
+// and uses one up--akin to reagents and spells
+//
+// code by Justin Houk, 98jsh@williams.edu
+//
 
 Crossbow is RangedWeapon
 
@@ -25,7 +25,7 @@ resources:
    include crossbow.lkod
 
    crossbow_name_rsc = "crossbow"
-   crossbow_icon_rsc = tcat.bgf             %ADD A PICTURE!!!
+   crossbow_icon_rsc = tcat.bgf             //ADD A PICTURE!!!
 
    crossbow_desc_rsc = "This Crossbow gives you the envious advantage of ranged attack." 
 
@@ -46,4 +46,4 @@ properties:
 messages:
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

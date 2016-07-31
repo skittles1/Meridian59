@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 News is PassiveObject
 
 constants:
@@ -33,7 +33,7 @@ classvars:
 
    vrIcon = news_icon_rsc
 
-   % The number of minutes a user has to delete their post after posting it.
+   // The number of minutes a user has to delete their post after posting it.
    viPostDeleteMinutes = 60
 
 properties:
@@ -41,27 +41,27 @@ properties:
    vrName = news_name_rsc
    vrDesc = news_desc_rsc
 
-   piNews			% newsgroup id (nid) 
+   piNews			// newsgroup id (nid) 
 
-   plMessages = $               % don't change structure of this without
-                                % changing user.kod!!!
+   plMessages = $               // don't change structure of this without
+                                // changing user.kod!!!
 
-   % plMessages is a list of lists.
-   %
-   % Each element list is a posted message.
-   %
-   % The format of each posted message is:
-   %
-   %   [ INT message number,
-   %     OBJECT that posted the message,
-   %     INT post time,
-   %     STRING title of message,
-   %     STRING message text
-   %   ]
+   // plMessages is a list of lists.
+   //
+   // Each element list is a posted message.
+   //
+   // The format of each posted message is:
+   //
+   //   [ INT message number,
+   //     OBJECT that posted the message,
+   //     INT post time,
+   //     STRING title of message,
+   //     STRING message text
+   //   ]
 
    piNext_num = 1
 
-   piMax_messages = 75          % the # of posts we keep
+   piMax_messages = 75          // the # of posts we keep
 
 messages:
 
@@ -118,7 +118,7 @@ messages:
 
    GetNewsPermission(what = $)
    {
-      return NEWS_PERMISSION_READ_WRITE;			% read-write by everybody
+      return NEWS_PERMISSION_READ_WRITE;			// read-write by everybody
    }
 
    PostNews(what = $,title = $,body = $)
@@ -166,7 +166,7 @@ messages:
          return FALSE;
       }
 
-      % Get the article we want to move.
+      // Get the article we want to move.
       lArticle = Send(self,@GetArticle,#index=index);
 
       if (lArticle = $)
@@ -196,9 +196,9 @@ messages:
 
          if (GetTime() - Nth(lArticle,3) > viPostDeleteMinutes * 60)
          {
-            % Resource to be sent to user is a time string which may change,
-            % so we use a callback to add a BP_MESSAGE protocol and build
-            % the packet from PostDeleteTimeExpired().
+            // Resource to be sent to user is a time string which may change,
+            // so we use a callback to add a BP_MESSAGE protocol and build
+            // the packet from PostDeleteTimeExpired().
             Send(who,@MsgSendUserCallback,#what=self,
                   #sCallBack=SetString($,@PostDeleteTimeExpired));
 
@@ -206,9 +206,9 @@ messages:
          }
       }
 
-      % Article is [index, player obj_id, time, title, body]
-      % index and time are not preserved when copying. If deleting
-      % from god globe, don't try to move the post.
+      // Article is [index, player obj_id, time, title, body]
+      // index and time are not preserved when copying. If deleting
+      // from god globe, don't try to move the post.
       if (oNews <> self)
       {
          Send(oNews,@PostNews,#what=Nth(lArticle,2),#title=Nth(lArticle,4),
@@ -275,16 +275,16 @@ messages:
    {
       local lOld;
 
-      % if we have too many news messages, delete oldest ones
-      % to allow one message to be posted
+      // if we have too many news messages, delete oldest ones
+      // to allow one message to be posted
 
       if Length(plMessages) < piMax_messages
       {
          return;
       }
 
-      % unless piMax_messages has been modified, there is only
-      % one node to delete.  So, be safe.
+      // unless piMax_messages has been modified, there is only
+      // one node to delete.  So, be safe.
 
       lOld = Nth(plMessages,piMax_messages);
       while lOld <> $
@@ -408,17 +408,17 @@ messages:
       return;
    }
 
-   % Give globes a soft glow.
+   // Give globes a soft glow.
    SendLightingInformation()
    {
       AddPacket(2,LIGHT_FLAG_ON);
-      % Intensity (out of 255)
+      // Intensity (out of 255)
       AddPacket(1,5);
-      % Color
+      // Color
       AddPacket(2,LIGHT_NEWSGLOBE);
 
       return;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

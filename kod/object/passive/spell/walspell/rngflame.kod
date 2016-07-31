@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 RingOfFlames is WallSpell
 
 constants:
@@ -49,11 +49,11 @@ classvars:
 
    viHarmful = TRUE
 
-   % We technically have 12 elements, but that would never let us cast this while
-   %  another wall spell is active.  A little cheat here, only count 9 elements.
+   // We technically have 12 elements, but that would never let us cast this while
+   //  another wall spell is active.  A little cheat here, only count 9 elements.
    viNumElements = 9
    vrSummonLimitMsg = RingOfFlames_failed_rsc
-   % If TRUE, can target others with this spell.
+   // If TRUE, can target others with this spell.
    vbCanCastOnOthers = TRUE
 
 properties:
@@ -133,7 +133,7 @@ messages:
       iRow = Send(oTarget,@GetRow);
       iCol = Send(oTarget,@GetCol);
 
-      % Create fire in eight cardinal directions
+      // Create fire in eight cardinal directions
       oElement = Create(&WallofFire,#Caster=who,#MaxDamage=iMaxDamage,
                         #Duration=iDuration);
       Send(oRoom,@NewHold,#what=oElement,#new_row=(iRow+1),#new_col=(iCol+1),
@@ -175,7 +175,7 @@ messages:
            #fine_row=FINENESS_HALF,#fine_col=FINENESS_HALF);
 
 
-      % Create four "filler" elements in corners.
+      // Create four "filler" elements in corners.
       oElement = Create(&PassiveWallofFire,#Caster=who,#MaxDamage=iMaxDamage,
                         #Duration=iDuration,#Illusionary=FALSE);
       Send(oRoom,@NewHold,#what=oElement,#new_row=iRow,#new_col=iCol,
@@ -200,4 +200,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

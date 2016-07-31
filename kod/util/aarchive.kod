@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%  ArtArchive.  This is where we store a whole bunch of art that, as Chris S put 
-%     it, we have taken great pains to take out.  I've made the objects 
-%     properties, so that they can easily look them up and see what they are.
-%     
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
+//
+//  ArtArchive.  This is where we store a whole bunch of art that, as Chris S put 
+//     it, we have taken great pains to take out.  I've made the objects 
+//     properties, so that they can easily look them up and see what they are.
+//     
+//
+////////////////////////////////////////////////////////////////////////////////
 ArtArchive is UtilityFunctions
 
 constants:

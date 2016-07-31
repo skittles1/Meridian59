@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 shalquest_name_rsc = de "Shal'ill Schüler Quest"
 shalquest_desc_rsc = de \
    "Priesterin Xiana hat dich beauftragt zu %s zu gehen und folgende Worte zu sprechen"
@@ -14,7 +14,7 @@ shalquest_completed = de \
    "Du hast das Shal'ill Schüler Quest abgeschlossen.  Du bist nun Schüler Shal'ills, und "
    "die Priesterin wird Dir nun weitere Zauber beibringen. "
 
-% Quest resources.
+// Quest resources.
 shalilledisciple_trigger = de \
    "Ihr und Euresgleichen, empfanget die Reinheit welches uns leitet in unserer "
    "Not und unserer Trauer. Ich verzeihe euch und euren Jüngern. Euer Leben "
@@ -36,7 +36,7 @@ shalilledisciple_failure = de \
    "mir zurück und wir werden unsere Reise auf dem Weg zur Harmonie von Neuem "
    "beginnen."
 
-% NPC responses.
+// NPC responses.
 shaldisc_qorpr_resp = de \
    "~kPriestess Zuxana sagt, \"~r~IJa, ich vermute, für Qor ist die Zeit gekommen, Erlösung zu "
    "suchen. Du bist der Schlüssel für ihre Rettung. Schließe dich unserer Gemeinde an, und "

@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 kocaleqt_name_rsc = de "Ko'catan Bierhandel Quest"
 kocaleqt_desc_rsc = de \
    "Mache eine Alkohollieferung zur Insel."
@@ -14,7 +14,7 @@ kocaleqt_nodethree_rsc = de \
 kocaleqt_completed_rsc = de \
    "Du hast das Ko'catan Bierhandel Quest abgeschlossen."
 
-% Quest resources.
+// Quest resources.
 kocale_assign_2 = de \
    "Ich brauche eine garantierte Zustellung zum Festland.  Ein Versagen führt "
    "dazu, dass Du ein Gesetzesloser wirst.  Bist Du bereit diesen Bedingungen "

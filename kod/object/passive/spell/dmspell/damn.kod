@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Damn is DMSpell
 
 constants:
@@ -24,8 +24,8 @@ resources:
    damn_msg_DM = "You damn %s%s to hell."
    damn_msg_target = "You have been damned by %s%s!"
 
-   % This next line is also used by Deliverance (SID_DMRESCUE) to determine when to
-   %  reset the honor string.
+   // This next line is also used by Deliverance (SID_DMRESCUE) to determine when to
+   //  reset the honor string.
    damn_last_annoyed = " was sent to hell by "
    damn_dot = "."
 
@@ -69,7 +69,7 @@ messages:
 
             if isClass(i,&Player)
             {
-               % (example)  She was sent to hell by GuidePixie.
+               // (example)  She was sent to hell by GuidePixie.
 
                ClearTempString();
                AppendTempString(Send(i,@GetHeShe,#cap=TRUE));
@@ -92,7 +92,7 @@ messages:
                  #parm1=Send(i,@GetDef),#parm2=Send(i,@GetTrueName));
             Send(i,@SetSaveLocation,#rid=RID_OUTOFGRACE,#row=4,#col=3);
 
-            % (example)  She was sent to hell by GuidePixie.
+            // (example)  She was sent to hell by GuidePixie.
 
             ClearTempString();
             AppendTempString(Send(self,@GetHeShe,#cap=TRUE));
@@ -114,4 +114,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

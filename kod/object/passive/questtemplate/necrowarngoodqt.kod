@@ -1,30 +1,30 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 NecroWarnGoodQuest is QuestTemplate
-% Quest template QST_ID_NECRO_WARNING_2 = 56.
-% Quest nodes 171, 172, 173.
-% QNT_ID_NECRO_WARN_GOOD_ONE, QNT_ID_NECRO_WARN_GOOD_TWO,
-% QNT_ID_NECRO_WARN_GOOD_THREE
+// Quest template QST_ID_NECRO_WARNING_2 = 56.
+// Quest nodes 171, 172, 173.
+// QNT_ID_NECRO_WARN_GOOD_ONE, QNT_ID_NECRO_WARN_GOOD_TWO,
+// QNT_ID_NECRO_WARN_GOOD_THREE
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -34,7 +34,7 @@ resources:
 
    include necrowarngoodqt.lkod
 
-   % Quest description.
+   // Quest description.
    necrowarngoodqt_icon_rsc = necscrol.bgf
    necrowarngoodqt_name_rsc = "necromancer warning quest"
    necrowarngoodqt_desc_rsc = \
@@ -52,7 +52,7 @@ resources:
    necrowarngoodqt_completed_rsc = \
       "You have completed the necromancer warning quest."
 
-   % Quest resources.
+   // Quest resources.
    necrowarning2_assign_2 = \
       "I have news of great urgency.  My travels have taken me to many places "
       "and I have seen many strange things but none so dangerous as these "
@@ -86,7 +86,7 @@ classvars:
 
    vrCompleted = necrowarngoodqt_completed_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_NECRO_WARNING_2
 
    viIcon_Animation_start = 1
@@ -104,11 +104,11 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_NECRO_WARN_GOOD_ONE,QNT_ID_NECRO_WARN_GOOD_TWO,
                       QNT_ID_NECRO_WARN_GOOD_THREE];
 
-      % Quest nodes with matching descriptions for the player.
+      // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_NECRO_WARN_GOOD_TWO, vrNodeTwo],
                           [QNT_ID_NECRO_WARN_GOOD_THREE, vrNodeThree] ];
 
@@ -122,8 +122,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #171 is necro warning quest 2
-      % QNT_ID_NECRO_WARN_GOOD_ONE
+      // Template #171 is necro warning quest 2
+      // QNT_ID_NECRO_WARN_GOOD_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #NPC_modifier=QN_NPCMOD_NONE,#cargolist=[ letter_trigger ],
                #quest_node_index=QNT_ID_NECRO_WARN_GOOD_ONE)
@@ -141,8 +141,8 @@ messages:
          Debug("Error building QN: QNT_ID_NECRO_WARN_GOOD_ONE");
       }
 
-      % Template #172 is necro warning quest 2
-      % QNT_ID_NECRO_WARN_GOOD_TWO
+      // Template #172 is necro warning quest 2
+      // QNT_ID_NECRO_WARN_GOOD_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_ITEM,
                #NPC_modifier=QN_NPCMOD_NONE,
                #cargolist=[ [ QN_PRIZETYPE_ITEMCLASS, &NecromancerWarningLetter, 1 ] ],
@@ -179,8 +179,8 @@ messages:
          Debug("Error building QN: QNT_ID_NECRO_WARN_GOOD_TWO");
       }
 
-      % Template #173 is necro warning quest 2
-      % QNT_ID_NECRO_WARN_GOOD_THREE
+      // Template #173 is necro warning quest 2
+      // QNT_ID_NECRO_WARN_GOOD_THREE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_SHOWUP,
                #NPC_modifier=QN_NPCMOD_PREVIOUS,
                #prizelist=[ [ [ QN_PRIZETYPE_ITEMCLASS, &Money, 1000 ],
@@ -234,4 +234,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

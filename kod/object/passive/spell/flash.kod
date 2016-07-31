@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Flash is Spell
 
 constants:
@@ -92,10 +92,10 @@ messages:
       
       oRoom = Send(who,@GetOwner);
 
-      % What's our chance to affect the target?
+      // What's our chance to affect the target?
       iChance = 33 + ((2 * iSpellPower) / 3);
 
-      % Find the hold spell to temporarily hold monsters
+      // Find the hold spell to temporarily hold monsters
       oHold = Send(SYS,@FindSpellByNum,#num=SID_HOLD);
 
       if IsClass(who,&Player)
@@ -121,7 +121,7 @@ messages:
          }
          else
          {
-            % Is a monster, stun it.
+            // Is a monster, stun it.
             Send(oHold,@DoSpell,#what=who,#oTarget=i,#iDuration=1000,
                   #report=FALSE,#bAllowFreeAction=FALSE);
          }
@@ -131,4 +131,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

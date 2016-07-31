@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 WeaponSpellProc is WeaponObjectAttribute 
 
 constants:
@@ -218,9 +218,9 @@ messages:
                   #iSpellPower=piSpellPower,#bItemCast=TRUE);
          }
 
-         % IsEnchanted check skipped so that the proc can replace enemy
-         % buffs with weaker versions. For example, a Qor player may wish
-         % to proc a weaker Eagle Eyes on an enemy that they are hitting.
+         // IsEnchanted check skipped so that the proc can replace enemy
+         // buffs with weaker versions. For example, a Qor player may wish
+         // to proc a weaker Eagle Eyes on an enemy that they are hitting.
          if piType = DEFENDER_CAST_TYPE
             AND what <> $
          {
@@ -302,4 +302,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 TosArena is TosRoom
 
 constants:
 
    include blakston.khd
 
-   % Boundaries of the playing field
+   // Boundaries of the playing field
    NORTH_BOUNDARY = 6
    SOUTH_BOUNDARY = 20
    WEST_BOUNDARY = 6
@@ -205,7 +205,7 @@ messages:
 
    Constructed()
    {
-      %  each sound is [wave_file, row, col, cutoff radius, maximum volume]
+      //  each sound is [wave_file, row, col, cutoff radius, maximum volume]
       plLooping_sounds = [[ wind_sound_tosarena, 1, 1, 200, 100 ]];
 
       propagate;
@@ -271,15 +271,15 @@ messages:
             return FALSE;
          }
             
-         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-         %%Special for players in alcoves.                  %%   
-         %% Format is:                                      %%
-         %% if (Under watcher's area)                       %%
-         %%    OR (Upper left box defining north alcove)    %%
-         %%    OR (Lower right box defining north alcove)   %%
-         %%    OR (Lower left bow defining south alcove)    %%
-         %%    OR (Upper right box defining south alcove)   %%
-         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+         //////////////////////////////////////////////////////
+         ///Special for players in alcoves.                  ///   
+         /// Format is:                                      ///
+         /// if (Under watcher's area)                       ///
+         ///    OR (Upper left box defining north alcove)    ///
+         ///    OR (Lower right box defining north alcove)   ///
+         ///    OR (Lower left bow defining south alcove)    ///
+         ///    OR (Upper right box defining south alcove)   ///
+         //////////////////////////////////////////////////////
 
          if (iRow < NORTH_BOUNDARY OR iCol < WEST_BOUNDARY)
             OR (iRow > SOUTH_BOUNDARY OR iCol > EAST_BOUNDARY)
@@ -299,7 +299,7 @@ messages:
          }
          else
          {   
-            %% special for walls
+            /// special for walls
             if bNonPlayerOkay
                AND (iRow = NORTH_BOUNDARY
                     OR iCol = WEST_BOUNDARY
@@ -381,7 +381,7 @@ messages:
 
       if goinplay              
       {
-         % Teleport to the playing field
+         // Teleport to the playing field
          row = random(7,18);
          col = random(7,18);
          Send(SYS,@UtilGoNearSquare,#what=what,#where=self,#new_row=row,#new_col=col);
@@ -414,7 +414,7 @@ messages:
       
       if Send(poWatcher,@IsCombatant,#who=what)
       {
-         % teleport to the playing field
+         // teleport to the playing field
          row = random(7,18);
          col = random(7,18);
          Send(SYS,@utilGoNearSquare,#what=what,#where=self,#new_row=row,#new_col=col);
@@ -458,7 +458,7 @@ messages:
 
       if length(lCombatants) = 2       
       {
-         % teleport 'em to the cage.      
+         // teleport 'em to the cage.      
          Send(SYS,@UtilGoNearSquare,#what=first(lCombatants),#where=self,
               #new_row=5,#new_col=5,#fine_row=0,#fine_col=0,#new_angle=ANGLE_SOUTH_EAST);
          Send(SYS,@UtilGoNearSquare,#what=nth(lCombatants,2),#where=self,
@@ -566,7 +566,7 @@ messages:
 
       Send(self,@LowerMaze);
 
-      % Remove radius enchantments
+      // Remove radius enchantments
       foreach i in Send(self,@GetHolderActive)
       {
          j = Send(self,@HolderExtractObject,#data=i);
@@ -580,10 +580,10 @@ messages:
          }
       }
 
-      % Remove room enchantments
+      // Remove room enchantments
       Send(self,@RemoveAllEnchantments);
 
-      %% cages in corners.
+      /// cages in corners.
       Send(self,@SetSector,#sector=8,#animation=ANIMATE_CEILING_LIFT,#height=124,#speed=32);
       Send(self,@SetSector,#sector=9,#animation=ANIMATE_CEILING_LIFT,#height=230,#speed=32);
 
@@ -777,13 +777,13 @@ messages:
 
    StartSnow(bOnGround=TRUE)
    {
-      % Check if we can have weather effects here.
+      // Check if we can have weather effects here.
       if NOT pbWeatherEffects
       {
          return;
       }
 
-      % If there's a sandstorm weather effect here, clear it.
+      // If there's a sandstorm weather effect here, clear it.
       if Send(self,@CheckRoomFlag,#flag=ROOM_SANDSTORM)
       {
          Send(self,@EndSandstorm);
@@ -839,4 +839,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

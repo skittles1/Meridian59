@@ -1,19 +1,19 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 TeleportationSpell is Spell
 
-% All teleportation spells are cast, then fire after a certain amount of time.
-% Changing rooms, logging off, or attacking all break a teleporation in progress.
-% In addition, players cannot teleport for a short time after engaging in combat.
-% Hometown Recall returns you to your old location so that you can continue building.
+// All teleportation spells are cast, then fire after a certain amount of time.
+// Changing rooms, logging off, or attacking all break a teleporation in progress.
+// In addition, players cannot teleport for a short time after engaging in combat.
+// Hometown Recall returns you to your old location so that you can continue building.
 
 constants:
 
@@ -69,4 +69,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

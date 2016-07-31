@@ -1,18 +1,18 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 HotPlate is ActiveObject
 
-% A hotplate is simply an object which tells the server, "Hey, this guy
-%  stepped on me!"  By carefully placing them, you can tell if a player
-%  legally or illegally got to certain places, such as in guild halls.
+// A hotplate is simply an object which tells the server, "Hey, this guy
+//  stepped on me!"  By carefully placing them, you can tell if a player
+//  legally or illegally got to certain places, such as in guild halls.
 
 constants:
 
@@ -45,7 +45,7 @@ messages:
          return (OF_NOEXAMINE);
       }
 
-      % Used for debugging.
+      // Used for debugging.
 
       if piHotPlateID = 1
       {
@@ -110,4 +110,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

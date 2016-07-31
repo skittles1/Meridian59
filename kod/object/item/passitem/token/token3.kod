@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ThreeToken is Token
 
 constants:
@@ -25,8 +25,8 @@ resources:
       "Returning it would likely raise your status in the Royal Court."
    ThreeToken_icon_rsc = tcat.bgf
 
-   % Overlays not implemented yet.
-   %ThreeToken_overlay_rsc = tokhcat.bgf
+   // Overlays not implemented yet.
+   //ThreeToken_overlay_rsc = tokhcat.bgf
 
 classvars:
 
@@ -36,11 +36,11 @@ classvars:
 
    viInitialTimeval = 40000000
 
-   %vrTokenOverlay = ThreeToken_overlay_rsc
+   //vrTokenOverlay = ThreeToken_overlay_rsc
 
 properties:
 
 messages:
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

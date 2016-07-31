@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 NewsLink is PassiveObject
 
 constants:
@@ -30,7 +30,7 @@ properties:
    vrDesc = newslink_desc_rsc
    vrIcon = newslink_icon_rsc
 
-   % newsgroup id (nid) 
+   // newsgroup id (nid) 
    piNews         
 
 messages:
@@ -110,13 +110,13 @@ messages:
       return Send(Send(SYS,@FindNewsByNum,#num=piNews),@GetNewsBody,#num=num);
    }
 
-   % Give globes a soft glow.
+   // Give globes a soft glow.
    SendLightingInformation()
    {
       AddPacket(2,LIGHT_FLAG_ON);
-      % Intensity (out of 255)
+      // Intensity (out of 255)
       AddPacket(1,5);
-      % Color
+      // Color
       AddPacket(2,LIGHT_NEWSGLOBE);
 
       return;
@@ -124,4 +124,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

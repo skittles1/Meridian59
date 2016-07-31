@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 GroundWorm is Monster
 
 constants:
@@ -29,7 +29,7 @@ constants:
 
    ANIMATION_SPEED = 80
 
-   POSTPOP_DELAY = 500     % half a second
+   POSTPOP_DELAY = 500     // half a second
 
 resources:
 
@@ -148,17 +148,17 @@ messages:
       return;
    }
 
-%%%
-%  Shouldn't need to handle this state change, since the animation stuff is handled in MonsterAttack.
-%  In fact, if we handled it here we might have sychronization problems - either we do the
-%  POPUPATTACK animation here and we'd actually attack a bit later, or we do the POPUP animation
-%  here and it might get interrupted by an ATTACK animation.
-%%%
-%   EnterStateAttack()
-%   {
-%      propagate;
-%   }
-%%%
+////
+//  Shouldn't need to handle this state change, since the animation stuff is handled in MonsterAttack.
+//  In fact, if we handled it here we might have sychronization problems - either we do the
+//  POPUPATTACK animation here and we'd actually attack a bit later, or we do the POPUP animation
+//  here and it might get interrupted by an ATTACK animation.
+////
+//   EnterStateAttack()
+//   {
+//      propagate;
+//   }
+////
 
    EnterStateLimbo()
    {
@@ -299,7 +299,7 @@ messages:
    {
       if Send(self,@GetOwner) <> what
       {
-         % gotta post this so we look at our coords after we're in the new room
+         // gotta post this so we look at our coords after we're in the new room
          Post(self,@InitializeTrail);
       }
 
@@ -417,7 +417,7 @@ messages:
 
    Killed(what = $)
    {
-      % Delete this now, in case this timer is active.
+      // Delete this now, in case this timer is active.
       if ptPostPop <> $
       {
          DeleteTimer(ptPostPop);
@@ -453,4 +453,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,28 +1,28 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 RebelSoldierQuest is SoldierQuestTemplate
-% Quest nodes 214, 215, 216.
-% QNT_ID_REBEL_SOLDIER_ONE, QNT_ID_REBEL_SOLDIER_TWO, QNT_ID_REBEL_SOLDIER_THREE
+// Quest nodes 214, 215, 216.
+// QNT_ID_REBEL_SOLDIER_ONE, QNT_ID_REBEL_SOLDIER_TWO, QNT_ID_REBEL_SOLDIER_THREE
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -32,7 +32,7 @@ resources:
 
    include rebelsoldierqt.lkod
 
-   % Quest description.
+   // Quest description.
    rebelsoldier_icon_rsc = flagjinv.bgf
    rebelsoldier_name_rsc = "rebel soldier shield quest"
    rebelsoldier_desc_rsc = \
@@ -42,7 +42,7 @@ resources:
    rebelsoldier_completed_rsc = \
       "You have proven your worth, and are now a soldier in the Rebel army."
 
-   % Quest resources.
+   // Quest resources.
    rebel_faction_soldier_assign_1 =\
       "I have faith in you.  Go dispatch %INDEF_MONSTER%MONSTER near a "
       "flagpole, return to report on your battle, and then we will talk "
@@ -67,7 +67,7 @@ classvars:
 
    vrCompleted = rebelsoldier_completed_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_REBEL_SOLDIER
 
 properties:
@@ -78,7 +78,7 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_REBEL_SOLDIER_ONE, QNT_ID_REBEL_SOLDIER_TWO,
                       QNT_ID_REBEL_SOLDIER_THREE];
 
@@ -92,8 +92,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #214 is 1st Rebel Soldier Shield quest, say "soldier"
-      % QNT_ID_REBEL_SOLDIER_ONE
+      // Template #214 is 1st Rebel Soldier Shield quest, say "soldier"
+      // QNT_ID_REBEL_SOLDIER_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[faction_soldier_trigger],
                #quest_node_index=QNT_ID_REBEL_SOLDIER_ONE)
@@ -107,8 +107,8 @@ messages:
          Debug("Error building QN: QNT_ID_REBEL_SOLDIER_ONE");
       }
 
-      % Template #215 is 2nd Rebel Soldier Shield quest, kill first faction soldier
-      % QNT_ID_REBEL_SOLDIER_TWO
+      // Template #215 is 2nd Rebel Soldier Shield quest, kill first faction soldier
+      // QNT_ID_REBEL_SOLDIER_TWO
       if Send(oQE,@AddQuestNodeTemplate,#NPC_modifier=QN_NPCMOD_SAME,
                #questnode_type=QN_TYPE_MONSTER,#monsterlist=[&PrincessTroop],
                #timelimit=piTimeLimit,#quest_node_index=QNT_ID_REBEL_SOLDIER_TWO)
@@ -123,8 +123,8 @@ messages:
          Debug("Error building QN: QNT_ID_REBEL_SOLDIER_TWO");
       }
 
-      % Template #216 is 3rd Rebel Soldier Shield quest, kill second faction soldier
-      % QNT_ID_REBEL_SOLDIER_THREE
+      // Template #216 is 3rd Rebel Soldier Shield quest, kill second faction soldier
+      // QNT_ID_REBEL_SOLDIER_THREE
       if Send(oQE,@AddQuestNodeTemplate,#NPC_modifier=QN_NPCMOD_SAME,
                #questnode_type=QN_TYPE_MONSTER,#monsterlist=[&DukeTroop],
                #prizelist=[ [ QN_PRIZETYPE_ITEMCLASS, &RebelShield, 1 ] ],
@@ -146,4 +146,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

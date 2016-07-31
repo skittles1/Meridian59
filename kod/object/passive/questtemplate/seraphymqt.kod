@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 SeraphymQuest is QuestTemplate
-% QST_ID_POLISH_SERAPHYM = 32
-% Quest nodes 98, 99.
-% QNT_ID_POLISHED_SERAPHYM_ONE, QNT_ID_POLISHED_SERAPHYM_TWO
+// QST_ID_POLISH_SERAPHYM = 32
+// Quest nodes 98, 99.
+// QNT_ID_POLISHED_SERAPHYM_ONE, QNT_ID_POLISHED_SERAPHYM_TWO
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -33,7 +33,7 @@ resources:
 
    include seraphymqt.lkod
 
-   % Quest description.
+   // Quest description.
    seraphymquest_icon_rsc = serappol.bgf
    seraphymquest_name_rsc = "polished seraphym quest"
    seraphymquest_desc_rsc = \
@@ -50,7 +50,7 @@ resources:
       "You have completed the polished seraphym quest, and received "
       "a shiny new polished seraphym for your troubles."
 
-   % Quest resources.
+   // Quest resources.
    polishquest_assign = \
       "Excuse me.  I’ve been honing my jewelling skills, and I was wondering "
       "if you have any uncut gems of any sort.  If you do, I’d be happy to "
@@ -72,7 +72,7 @@ classvars:
 
    vrCompleted = seraphymquest_completed_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_POLISH_SERAPHYM
 
 properties:
@@ -82,17 +82,17 @@ properties:
    plSpecialRestrict = $
    piMaxPlayers = 20
    piSchedulePct = 100
-   piTimeLimit = 2 * 3600 % 2 hours.
+   piTimeLimit = 2 * 3600 // 2 hours.
 
 messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_POLISHED_SERAPHYM_ONE,
                       QNT_ID_POLISHED_SERAPHYM_TWO];
 
-      % Quest nodes with matching descriptions for the player.
+      // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_POLISHED_SERAPHYM_TWO, vrNodeTwo] ];
 
       propagate;
@@ -105,8 +105,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #98 is polish seraphym quest
-      % QNT_ID_POLISHED_SERAPHYM_ONE
+      // Template #98 is polish seraphym quest
+      // QNT_ID_POLISHED_SERAPHYM_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_SHOWUP,
                #quest_node_index=QNT_ID_POLISHED_SERAPHYM_ONE)
       {
@@ -139,8 +139,8 @@ messages:
          Debug("Error building QN: QNT_ID_POLISHED_SERAPHYM_ONE");
       }
 
-      % Template #99 is polish seraphym quest
-      % QNT_ID_POLISHED_SERAPHYM_TWO
+      // Template #99 is polish seraphym quest
+      // QNT_ID_POLISHED_SERAPHYM_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_ITEMFINDCLASS,
                #NPC_modifier=QN_NPCMOD_SAME,
                #cargolist=[ [ QN_PRIZETYPE_ITEMCLASS, &UncutSeraphym, 3 ] ],
@@ -188,4 +188,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

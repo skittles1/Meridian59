@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Trance is PassiveObject
 
 constants:
@@ -40,8 +40,8 @@ messages:
       oWarpTime = Send(SYS,@FindSpellByNum,#num=SID_WARPTIME);
       if Send(Send(who,@GetOwner),@IsEnchanted,#what=oWarpTime)
       {
-         %time = Send(oWarpTime,@GetStretchedTime,#oldtime=time,
-         %            #oRoom=Send(who,@GetOwner));
+         //time = Send(oWarpTime,@GetStretchedTime,#oldtime=time,
+         //            #oRoom=Send(who,@GetOwner));
       }
 
       Send(who,@StartEnchantment,#what=self,#time=time,#addicon=FALSE,
@@ -69,8 +69,8 @@ messages:
       lTargets = Nth(state,3);
       Send(oCaster,@ClearTranceFlag);
 
-      % Double-check to get valid targets.  Don't report 'cause we've already 
-      %  spammed them during the first check.
+      // Double-check to get valid targets.  Don't report 'cause we've already 
+      //  spammed them during the first check.
       lTargets = Send(oSpell,@GetGoodTargets,#who=oCaster,#lTargets=lTargets,
                       #report=FALSE);
 
@@ -141,4 +141,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

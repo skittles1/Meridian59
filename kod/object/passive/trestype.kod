@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 
 TreasureType is PassiveObject
 
@@ -26,9 +26,9 @@ classvars:
 
    viTreasure_num = $
 
-   % Classvars for dropping special items. Default true. May need this
-   % in the future to control which mobs drop special items, while keeping
-   % the item dropping code itself generalised.
+   // Classvars for dropping special items. Default true. May need this
+   // in the future to control which mobs drop special items, while keeping
+   // the item dropping code itself generalised.
    vbDropToken = TRUE
    vbDropSignet = TRUE
    vbDropItematt = TRUE
@@ -37,7 +37,7 @@ classvars:
 
 properties:
 
-   plTreasure = $      % list of treasures
+   plTreasure = $      // list of treasures
 
    piDiff_seed = 0
    piItem_att_chance = 0
@@ -55,7 +55,7 @@ messages:
          propagate;
       }
 
-      % Normalize treasure weights to total 100%.
+      // Normalize treasure weights to total 100//.
       if plTreasure <> $
       {
          iAdjust = 0;
@@ -72,7 +72,7 @@ messages:
 
          iTotal = 0;
 
-         % Normalize total to approx. 100.
+         // Normalize total to approx. 100.
          foreach lItem in plTreasure
          {
             iValue = (Nth(lItem,2)*100)/iAdjust;
@@ -82,7 +82,7 @@ messages:
 
          if iTotal < 100
          {
-            % correct for integer division roundoff, adding extra to first element
+            // correct for integer division roundoff, adding extra to first element
             SetNth(First(plTreasure),2,Nth(First(plTreasure),2)+100-iTotal);
          }
       }
@@ -117,10 +117,10 @@ messages:
       local diff_bonus, random_x, i, j, index, iChoice, oItem,
             oItemAtt, lOptions;
 
-      % The diff seed tells the basic (lowest) level of difficulty
-      % that killing this monster will generate.  A random formula
-      % can add or subtract 1 to 5 from that value.  The final value
-      % is bounded from 1 to 10.
+      // The diff seed tells the basic (lowest) level of difficulty
+      // that killing this monster will generate.  A random formula
+      // can add or subtract 1 to 5 from that value.  The final value
+      // is bounded from 1 to 10.
 
       diff_bonus = Send(self,@GetRandomDiffBonus);
 
@@ -136,9 +136,9 @@ messages:
 
       diff_seed = bound(diff_seed + diff_bonus,1,10);
 
-      % System stores a list of weapon atts at each difficulty
-      % level.  Choose one.  If it returns nil list (which should
-      % never happen), subtract one and choose again.
+      // System stores a list of weapon atts at each difficulty
+      // level.  Choose one.  If it returns nil list (which should
+      // never happen), subtract one and choose again.
 
       lOptions = $;
       while lOptions = $
@@ -153,7 +153,7 @@ messages:
          }
       }
 
-      % You now have a list of options.  Choose one.
+      // You now have a list of options.  Choose one.
 
       index = 0;
 
@@ -184,7 +184,7 @@ messages:
 
       oItemAtt = Send(SYS,@FindItemAttByNum,#num=iChoice);
 
-      % Ask that ItemAtt to generate an item with this attribute.
+      // Ask that ItemAtt to generate an item with this attribute.
       oItem = Send(oItemAtt,@GenerateItemWithAttribute,#who=who,
                      #diff_seed=diff_seed);
 
@@ -195,21 +195,21 @@ messages:
    {
       local index_y, i;
 
-      %% Each Treasure Type tells what level of difficulty weapon
-      %% att is generated.  TresType then takes that level of
-      %% difficulty (a number from 1-10) and sees if a bonus from 1-5
-      %% should be added.  The formula is x = sqrt(100/(Random(1,100)+1)) - 1.
-      %% This results in the following odds:
-      %%
-      %%      no bonus  76%
-      %%      +1 diff   13%
-      %%      +2 diff    5%
-      %%      +3 diff    2%
-      %%      +4 diff    2%
-      %%      +5 diff    1%
-      %%
-      %% Note that almost no treasure type has a base difficulty greater
-      %% than 5, making high difficulty weapons relatively rare.
+      /// Each Treasure Type tells what level of difficulty weapon
+      /// att is generated.  TresType then takes that level of
+      /// difficulty (a number from 1-10) and sees if a bonus from 1-5
+      /// should be added.  The formula is x = sqrt(100/(Random(1,100)+1)) - 1.
+      /// This results in the following odds:
+      ///
+      ///      no bonus  76//
+      ///      +1 diff   13//
+      ///      +2 diff    5//
+      ///      +3 diff    2//
+      ///      +4 diff    2//
+      ///      +5 diff    1//
+      ///
+      /// Note that almost no treasure type has a base difficulty greater
+      /// than 5, making high difficulty weapons relatively rare.
 
       if random_x = $
       {
@@ -247,9 +247,9 @@ messages:
 
       lTreasureItems = $;
 
-      % MOB_ONE_TREASURE guarantees one and only one item from loot table.
-      % Also has a chance to drop special items, provided the trestype
-      % allows it.
+      // MOB_ONE_TREASURE guarantees one and only one item from loot table.
+      // Also has a chance to drop special items, provided the trestype
+      // allows it.
       if (attributes & MOB_ONE_TREASURE)
       {
          oTreasure = Send(self,@GenerateLootTableTreasure,#who=who,
@@ -264,9 +264,9 @@ messages:
          }
       }
 
-      % Random number of treasure items are dropped based on viLevel
-      % and viDifficulty.  The higher these values are, the more items
-      % that may be dropped.
+      // Random number of treasure items are dropped based on viLevel
+      // and viDifficulty.  The higher these values are, the more items
+      // that may be dropped.
       iSurvivalLoot = boostedlevel
         / Send(Send(SYS,@GetSurvivalRoomMaintenance),@GetSurvivalLoot);
 
@@ -324,13 +324,13 @@ messages:
 
       oObj = $;
 
-      % Check for a token generation here.
+      // Check for a token generation here.
       if vbDropToken
          AND IsClass(who,&User)
          AND Send(SYS,@GetTokenGame) <> $ AND tokengen
          AND Random(1,100) <= TOKEN_GENERATION_CHANCE 
       {
-         % Find open token looks for one in the given room.
+         // Find open token looks for one in the given room.
          oObj = Send(Send(SYS,@GetTokenGame),@FindOpenToken,
                      #location=Send(who,@GetOwner));
 
@@ -342,7 +342,7 @@ messages:
          }
       }
 
-      % Check for the newbie signet ring, do we have an eligible newbie?
+      // Check for the newbie signet ring, do we have an eligible newbie?
       if vbDropSignet
          AND IsClass(who,&User)
       {
@@ -353,10 +353,10 @@ messages:
             AND NOT Send(who,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
             AND Send(oLib,@IsNewbieSignetEligible,#who=who)
          {
-            % One more check, only the default region makes these.
+            // One more check, only the default region makes these.
             if RID_DEFAULT = Send(Send(who,@GetOwner),@GetRegion)
             {
-               % Ok, things are good, lets generate that signet ring.
+               // Ok, things are good, lets generate that signet ring.
                oObj = Send(oLib,@CreateSignetRing,#who=who);
                
                if oObj <> $
@@ -367,10 +367,10 @@ messages:
          }
       }
 
-      %%% Item Attributed weapons:  each trestype has two values:
-      %%% a Difficulty Seed which determines the level of itematt
-      %%% applied to a weapon, and a chance out of 400 
-      %%% that a weapatt will appear.
+      //// Item Attributed weapons:  each trestype has two values:
+      //// a Difficulty Seed which determines the level of itematt
+      //// applied to a weapon, and a chance out of 400 
+      //// that a weapatt will appear.
       if vbDropItematt
          AND piDiff_seed > 0
          AND IsClass(who,&User)
@@ -386,7 +386,7 @@ messages:
          }
       }
 
-      % Stats reset token generation. System has to be turned on to drop tokens.
+      // Stats reset token generation. System has to be turned on to drop tokens.
       if vbDropTrinket
          AND IsClass(who,&User)
          AND Send(SETTINGS_OBJECT,@GetStatsResetEnabled)
@@ -410,7 +410,7 @@ messages:
          }
       }
 
-      % Lore Books
+      // Lore Books
       if vbDropBook
          AND IsClass(who,&User)
          AND (Random(1,Send(SETTINGS_OBJECT,@GetLoreBookDropFactor)) = 1)
@@ -431,7 +431,7 @@ messages:
       if NOT (attributes & MOB_ONE_TREASURE)
          AND plTreasure <> $
       {
-         % No rare item dropped, check loot table.
+         // No rare item dropped, check loot table.
          oObj = Send(self,@GenerateLootTableTreasure,#who=who,#corpse=corpse);
 
          if oObj = $
@@ -488,15 +488,15 @@ messages:
    {
       local iRandom, iNumSockets, iDifficultyBonus;
 
-      % Nerudite armor can't have sockets. It's anti-magic!
+      // Nerudite armor can't have sockets. It's anti-magic!
       if IsClass(oDefenseModifier,&NeruditeArmor)
       {
          return;
       }
       
-      % Orc shields always have 1 socket - but only if they're
-      % dropped by a monster.  Most orc shields come from the Orc
-      % Pit Boss's treasure chamber - those won't have sockets.
+      // Orc shields always have 1 socket - but only if they're
+      // dropped by a monster.  Most orc shields come from the Orc
+      // Pit Boss's treasure chamber - those won't have sockets.
       if IsClass(oDefenseModifier,&OrcShield)
       {
          Create(&DefModSockets,#host_object=oDefenseModifier,#num_sockets=1);
@@ -504,7 +504,7 @@ messages:
          return;
       }
 
-      % Knight's shields have a 10% chance for 1 socket.
+      // Knight's shields have a 10// chance for 1 socket.
       if IsClass(oDefenseModifier,&KnightShield)
       {
          iRandom = Random(1,1000);
@@ -516,7 +516,7 @@ messages:
          return;
       }
 
-      % Helms have a 5% chance for 1 socket.
+      // Helms have a 5// chance for 1 socket.
       if IsClass(oDefenseModifier,&SimpleHelm)
       {
          iRandom = Random(1,1000);
@@ -531,7 +531,7 @@ messages:
 
       if IsClass(oDefenseModifier,&Armor)
       {
-         % Mob difficulty makes a huge difference for armor max sockets
+         // Mob difficulty makes a huge difference for armor max sockets
          iDifficultyBonus = (piDiff_seed - 5) * 10;
       
          iRandom = Random(1,1000);
@@ -566,4 +566,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

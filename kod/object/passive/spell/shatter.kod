@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Shatter is Spell
 
 constants:
@@ -58,16 +58,16 @@ classvars:
    vrSucceed_wav = shatter_sound
    viFlash = FLASH_BAD
 
-   % in seconds, since it works off GetTime().
+   // in seconds, since it works off GetTime().
    viPostCast_time = 5
 
    vrToo_few_hp = shatter_not_enough_hp
 
 properties:
 
-   % Must have this many HP to cast the spell.  Added this to reduce
-   % griefing: mules who shatter will likely be killed, and then have
-   % to get the HP back.
+   // Must have this many HP to cast the spell.  Added this to reduce
+   // griefing: mules who shatter will likely be killed, and then have
+   // to get the HP back.
    piMinHitPoints = 40
 
    pbAccessible = FALSE
@@ -77,7 +77,7 @@ messages:
 
    ResetReagents()
    {
-      % Separate message so can change, then set from admin mode.
+      // Separate message so can change, then set from admin mode.
 
       plReagents = $;
       plReagents = Cons([&RedMushroom,3],plReagents);
@@ -95,7 +95,7 @@ messages:
    {
       local oTarget, i;
 
-      % Can cast spell if the 1 target item is a user
+      // Can cast spell if the 1 target item is a user
       if Length(lTargets) <> 1
       {
          return FALSE;
@@ -162,7 +162,7 @@ messages:
       if oShatter = $
          OR NOT Send(oShatter,@CanShatter)
       {
-         % You get here if the spell failed to find something shatterable.
+         // You get here if the spell failed to find something shatterable.
          Send(who,@MsgSendUser,#message_rsc=shatter_failed_caster,
                #parm1=Send(oTarget,@GetDef),#parm2=Send(oTarget,@GetName));
          Send(oTarget,@MsgSendUser,#message_rsc=shatter_failed_target,
@@ -190,14 +190,14 @@ messages:
 
          count = count -1;
 
-         % Only delete a percent of a number item
+         // Only delete a percent of a number item
          if IsClass(oShatter,&NumberItem)
          {
             iNumber = Send(oShatter,@GetNumber);
             iPercent = bound(iSpellpower-29,20,70);
             iPercent = Random(iPercent/2,iPercent+30);
 
-            % Always shatter at least one item 'cause we round down.
+            // Always shatter at least one item 'cause we round down.
             iNumber = Bound((iNumber*iPercent)/100,1,$);
 
             Send(oShatter,@SubtractNumber,#number=iNumber);
@@ -217,4 +217,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Heal is Spell
 // Parent class for heal spells. The cast text here is for Minor Heal.
 
@@ -49,7 +49,7 @@ messages:
    {
       local oTarget;
 
-      % Can cast spell if the 1 target item is a user
+      // Can cast spell if the 1 target item is a user
       if Length(lTargets) <> 1
       {
          return FALSE;
@@ -101,7 +101,7 @@ messages:
 
       iHeal = Send(oTarget,@GainHealthNormal,#amount=iHeal,#precision=TRUE);
 
-      % A little boost for casting on newbies, even if you're the newbie!
+      // A little boost for casting on newbies, even if you're the newbie!
       if NOT Send(oTarget,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
       {
          iHeal = iHeal + Random(200,500);
@@ -117,7 +117,7 @@ messages:
                #parm1=Send(who,@GetCapDef),#parm2=Send(who,@GetName),
                #parm3=iHeal/100);
 
-         % Give them a little boost if they help someone of higher Karma.
+         // Give them a little boost if they help someone of higher Karma.
          if Send(who,@GetKarma) < Send(oTarget,@GetKarma)
          {
             Send(who,@AddKarma,#amount=Send(who,@CalculateKarmaChangeFromAct,
@@ -145,4 +145,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

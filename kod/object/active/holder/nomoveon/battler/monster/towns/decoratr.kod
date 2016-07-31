@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Decorator is Towns
 
 constants:
@@ -25,17 +25,17 @@ constants:
    TOPIC_PLACE_OBJECT = 7
    TOPIC_REMOVE_OBJECT = 8
 
-   TOPIC_TIMEOUT = 40000      % in milliseconds: 40 sec
+   TOPIC_TIMEOUT = 40000      // in milliseconds: 40 sec
 
-   PRICE_TIER_1 = 100         % in shillings
+   PRICE_TIER_1 = 100         // in shillings
    PRICE_TIER_2 = 300
    PRICE_TIER_3 = 500
 
-   BOX_PREMIUM = 4500         % How much more expensive than tier 3 is the box?
+   BOX_PREMIUM = 4500         // How much more expensive than tier 3 is the box?
 
-   IMPATIENT_TIME = 120000    % in milliseconds: 2 min
+   IMPATIENT_TIME = 120000    // in milliseconds: 2 min
 
-   DELETE_WAIT = 750          % Time before the consultant leaves.
+   DELETE_WAIT = 750          // Time before the consultant leaves.
 
 resources:
 
@@ -123,7 +123,7 @@ resources:
       "I'm afraid I must attend to the needs of other guests at this time.  "
       "Please ring the bell again if you have need of further assistance."
 
-   % Command strings
+   // Command strings
    Decorator_command_help = "help"
    Decorator_command_pricing = "pricing"
    Decorator_command_price = "price"
@@ -207,22 +207,22 @@ messages:
       return FALSE;
    }
 
-   %  SomeoneSaid()::
-   %     Here is where we provide the interface for room customization
-   %
-   %  The philosophy here is that there are two tiers of dialog:
-   %        The first sets the 'topic' or state of the dialog
-   %        The second defines the action.
-   %  The routine is designed to allow
-   %     A topic - prompt - answer structure
-   %        (e.g. player: "please change the wallpaper"
-   %           npc: "would you like red, yellow, or chartreuse wallpaper?"
-   %           player: "chartreuse would be fabulous, thanks."
-   %           npc: "an excellent choice!")
-   %    A single command which establishes all the info at once.
-   %    (e.g. player: "please change the wallpaper to chartreuse, if you would."
-   %          npc: "an excellent choice!")
-   %
+   //  SomeoneSaid()::
+   //     Here is where we provide the interface for room customization
+   //
+   //  The philosophy here is that there are two tiers of dialog:
+   //        The first sets the 'topic' or state of the dialog
+   //        The second defines the action.
+   //  The routine is designed to allow
+   //     A topic - prompt - answer structure
+   //        (e.g. player: "please change the wallpaper"
+   //           npc: "would you like red, yellow, or chartreuse wallpaper?"
+   //           player: "chartreuse would be fabulous, thanks."
+   //           npc: "an excellent choice!")
+   //    A single command which establishes all the info at once.
+   //    (e.g. player: "please change the wallpaper to chartreuse, if you would."
+   //          npc: "an excellent choice!")
+   //
    SomeoneSaid(what=$,type=$,string=$)
    {
       local bChange, bMove, bPlace, bFloor, bRemove, bBed, bWall,
@@ -238,7 +238,7 @@ messages:
          propagate;
       }
 
-      % First, respond to special commands.
+      // First, respond to special commands.
 
       if StringContain(string, Decorator_command_help)
       {
@@ -285,11 +285,11 @@ messages:
          return;
       }
 
-      % Second, check for lighting changes
+      // Second, check for lighting changes
 
       if StringContain(string, Decorator_command_lighten)
       {
-         % Positive change to light level.
+         // Positive change to light level.
          Post(poOwner,@ChangeRoomLight,#iChange=1);
 
          return;
@@ -297,13 +297,13 @@ messages:
 
       if StringContain(string, Decorator_command_darken)
       {
-         % Negative change to light level.
+         // Negative change to light level.
          Post(poOwner,@ChangeRoomLight,#iChange=-1);
 
          return;
       }
 
-      % Next, extract the 'topic' keywords, check for multiples.
+      // Next, extract the 'topic' keywords, check for multiples.
 
       bChange = StringContain(string, Decorator_command_change);
       bRemove = StringContain(string, Decorator_command_remove);
@@ -315,8 +315,8 @@ messages:
 
       if (bChange + bMove + bPlace + bRemove) > 1
       {
-         % Ambiguous command, so ignore both keywords but proceed to
-         % give reminder messages, if any.
+         // Ambiguous command, so ignore both keywords but proceed to
+         // give reminder messages, if any.
          bChange = FALSE;
          bMove = FALSE;
          bPlace = FALSE;
@@ -336,8 +336,8 @@ messages:
 
       if (bFloor + bBed + bWall + bPainting + (oObject <> $)) > 1
       {
-         % Ambiguous command, so ignore multiple keywords but proceed to
-         % give reminder messages, if any.
+         // Ambiguous command, so ignore multiple keywords but proceed to
+         // give reminder messages, if any.
          bFloor = FALSE;
          bBed = FALSE;
          bWall = FALSE;
@@ -395,12 +395,12 @@ messages:
          poCurrentObject = oObject;
       }
 
-      % A note on how the "TrySet*" fuctions work.
-      % Return values:
-      % TRUE means we could change it.
-      % FALSE means that is not available
-      % $ means we need more information
-      % -> Exception is BedSector.
+      // A note on how the "TrySet*" fuctions work.
+      // Return values:
+      // TRUE means we could change it.
+      // FALSE means that is not available
+      // $ means we need more information
+      // -> Exception is BedSector.
 
       if piDialogTopic = TOPIC_FLOOR
       {
@@ -697,9 +697,9 @@ messages:
       propagate;
    }
 
-   % These next two messages are to prevent confusion in the temp string
-   % between what the designer says and what the player says.  There was
-   % problem fighting for control of the temp string.
+   // These next two messages are to prevent confusion in the temp string
+   // between what the designer says and what the player says.  There was
+   // problem fighting for control of the temp string.
    DecoratorSayCredit()
    {
       Post(poOwner,@SomeoneSaid,#type=SAY_RESOURCE,#what=self,
@@ -718,9 +718,9 @@ messages:
       l1 = $;
       l2 = $;
 
-      % Split list into two halves, might be too big.
+      // Split list into two halves, might be too big.
       iLength = Length(lList);
-      if iLength MOD 2 = 1
+      if iLength % 2 = 1
       {
          iCount = 2;
          l1 = Cons(First(lList),l1);
@@ -747,7 +747,7 @@ messages:
          return;
       }
 
-      % Add protocol packet and headers.
+      // Add protocol packet and headers.
       AddPacket(1,BP_SAID, 4,self, 4,Send(self,@GetName), 1,SAY_RESOURCE,
                 4,monster_said_resource_str, 4,Send(self,@GetCapDef),
                 4,Send(self,@GetName),4,Decorator_list_objects);
@@ -764,7 +764,7 @@ messages:
 
          iCount = 1;
 
-         % Add first list, except for last element.
+         // Add first list, except for last element.
          foreach i in l1
          {
             if iCount++ = iLengthl1
@@ -802,7 +802,7 @@ messages:
          }
 
          iCount = 1;
-         % Add second list, except for last element.
+         // Add second list, except for last element.
          foreach i in l2
          {
             if iCount++ = iLengthl2
@@ -997,7 +997,7 @@ messages:
 
       if (Random(1,100) < 10) AND Send(Send(SYS,@GetNodeAttack),@GetAttacks)
       {
-         % A chance to express an interest in heartstones.
+         // A chance to express an interest in heartstones.
          Send(poOwner,@SomeoneSaid,#type=SAY_RESOURCE,#what=self,
                #string=Decorator_takes_heartstones);
       }
@@ -1117,4 +1117,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

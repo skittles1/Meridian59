@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 vaulttaxqt_name_rsc = de "Lager Steuern Quest"
 vaulttaxqt_desc_rsc = de \
    "Bringe ein paar Shillinge zu einem NPC."
@@ -6,7 +6,7 @@ vaulttaxqt_desc_rsc = de \
 vaulttaxqt_completed_rsc = de \
    "Du hast das Lager Steuern Quest abgeschlossen."
 
-% Quest resources.
+// Quest resources.
 vaulttax_assign_2 = de \
    "Ja, ich benötige einen Kurier.  %NPC bekommt einen bestimmten Prozentsatz "
    "der Gewinne von meinem Geschäften.  Bitte nimm diese Zinsen von %INDEF_CARGO%CARGO "

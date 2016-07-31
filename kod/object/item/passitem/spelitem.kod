@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 SpellItem is PassiveItem
 
 constants:
@@ -74,7 +74,7 @@ classvars:
    viBulk = 2
    vbFailSafe = FALSE
 
-   % Set to true for items you want to have delete themselves when they run out of charges.
+   // Set to true for items you want to have delete themselves when they run out of charges.
    vbNoBrokenView = FALSE
    viGround_group = 2
    viInventory_group = 1
@@ -87,7 +87,7 @@ properties:
    vrName = Spellitem_name_rsc
    viObject_flags = OF_GETTABLE
 
-   % Used by the item creation spells when making a spell item at a set power.
+   // Used by the item creation spells when making a spell item at a set power.
    piSpellPower = $
    pbBad = FALSE
    ptGoBadTimer = $
@@ -99,10 +99,10 @@ properties:
    piSkill = $
    piLabelColor = 0
 
-   % If true, user has to pass spell's karma check.  Otherwise, can always cast.
+   // If true, user has to pass spell's karma check.  Otherwise, can always cast.
    pbCheckKarma = TRUE
 
-   % If true, item can be split.
+   // If true, item can be split.
    pbCanSplit = TRUE
 
 messages:
@@ -127,12 +127,12 @@ messages:
       if labelled
       {
          vrName = vrLabelName;
-         % Potion was labelled, so it's in a sales list.
-         % We don't want labelled objects to go "bad", so don't do that code.
+         // Potion was labelled, so it's in a sales list.
+         // We don't want labelled objects to go "bad", so don't do that code.
       }
       else
       {
-         % Make the item go bad after the specified time.
+         // Make the item go bad after the specified time.
          if gobadtime <> $
          {
             piGoBadTime = gobadtime;
@@ -191,7 +191,7 @@ messages:
          return FALSE;
       }
 
-      % Prevent use if you can't fight.
+      // Prevent use if you can't fight.
       if IsClass(what,&User)
       {
          if Send(what,@CheckPlayerFlag,#flag=PFLAG_NO_FIGHT)
@@ -203,8 +203,8 @@ messages:
 
          oSpell = Send(SYS,@FindSpellByNum,#num=viSpellEffect);
 
-         % If we don't have a spell, the item might have been disabled
-         % or just not implemented correctly.
+         // If we don't have a spell, the item might have been disabled
+         // or just not implemented correctly.
          if oSpell = $
          {
             Send(what,@MsgSendUser,#message_rsc=spellitem_disabled);
@@ -214,11 +214,11 @@ messages:
 
          iPostCastDelay = Send(oSpell,@GetPostCastDelay);
 
-         % Bind this at reasonable levels
+         // Bind this at reasonable levels
          iPostCastDelay = Bound(iPostCastDelay,1,10);
 
-         % Check the attack timer, and start a new one if we use the item.
-         % Only allow one use per second.
+         // Check the attack timer, and start a new one if we use the item.
+         // Only allow one use per second.
          if NOT Send(what,@IsOkayAttackTime,#seconds=iPostCastDelay)
          {
             Send(what,@MsgSendUser,#message_rsc=spellitem_cannot_use_yet);
@@ -238,7 +238,7 @@ messages:
 
       oSpell = Send(SYS,@FindSpellByNum,#num=viSpellEffect);
 
-      % Karma check?
+      // Karma check?
       if pbCheckKarma AND NOT Send(oSpell,@KarmaCheck,#who=poOwner)
       {
          Post(what,@MsgSendUser,#message_rsc=SpellItem_bad_karma,
@@ -268,7 +268,7 @@ messages:
          return;
       }
 
-      % Get proper targets according to spell, assume that apply_on is our basic target.
+      // Get proper targets according to spell, assume that apply_on is our basic target.
       lTargets = Send(oSpell,@GetTargets,#who=what,#lTargets=[apply_on]);
 
       if Send(oSpell,@IsHarmful)
@@ -288,7 +288,7 @@ messages:
                               #oRoom=oRoom,#oSpell=oSpell);
       }
 
-      % Mana convergence adds spellpower.
+      // Mana convergence adds spellpower.
       lRadiusState = Send(poOwner,@GetMostPowerfulRadiusEnchantmentState,
                            #byClass=&ManaConvergence);
       if lRadiusState <> $
@@ -298,7 +298,7 @@ messages:
                               #iSpellPower=iSpellPower);
       }
 
-      % Owner of spellitem being demented reduces item spellpower.
+      // Owner of spellitem being demented reduces item spellpower.
       oModifierSpell = Send(SYS,@FindSpellByNum,#num=SID_DEMENT);
       if Send(poOwner,@IsEnchanted,#what=oModifierSpell)
       {
@@ -331,7 +331,7 @@ messages:
 
    DoFailure(what=$,lTargets=$)
    {
-      % Override for special behavior
+      // Override for special behavior
       Send(what,@MsgSendUser,#message_rsc=vrFails);
 
       return;
@@ -348,7 +348,7 @@ messages:
       {
          vrName = vrLabelName;
 
-         % Let the world know something changed.
+         // Let the world know something changed.
          if poOwner <> $
          {
             Send(poOwner,@SomethingChanged,#what=self);
@@ -385,7 +385,7 @@ messages:
 
       if (piHits <= 0)
       {
-         % Post this so it prints AFTER the spell message.
+         // Post this so it prints AFTER the spell message.
          if (poOwner <> $
             AND IsClass(poOwner,&User))
          {
@@ -394,10 +394,10 @@ messages:
                   #parm2=Send(self,@GetName));
          }
 
-         % Due to a lack of art resources we are now deleting all used up
-         % spellitems. I'm leaving vbNoBrokenView in so that if/when we ever
-         % get broken wand art we just pop in into wand.kod and uncomment
-         % the if statement below.
+         // Due to a lack of art resources we are now deleting all used up
+         // spellitems. I'm leaving vbNoBrokenView in so that if/when we ever
+         // get broken wand art we just pop in into wand.kod and uncomment
+         // the if statement below.
          if vbNoBrokenView
          {
             Send(self,@Delete);
@@ -405,7 +405,7 @@ messages:
       }
       else
       {
-         % Update the player's weight carried bar.
+         // Update the player's weight carried bar.
          if (poOwner <> $
             AND IsClass(poOwner,&User))
          {
@@ -420,7 +420,7 @@ messages:
    "Casts the spell specified by the item (see subclass) on whatever it"
    "is being applied to, then reduces 1 charge--break the item if last charge"
    {
-      % Cast the spell specific to the Spellitem
+      // Cast the spell specific to the Spellitem
       Send(self,@CastSpell,#what=what,#apply_on=apply_on);
 
       Send(self,@SetHits,#number=piHits - 1);
@@ -444,7 +444,7 @@ messages:
          return;
       }
 
-      % Add maker info.
+      // Add maker info.
       if pbMade
       {
          if IsClass(poMaker,&Admin)
@@ -562,7 +562,7 @@ messages:
 
    SetBad(IsBad = FALSE)
    {
-      % Intended to allow admins to set classes of items as bad or not for updates.
+      // Intended to allow admins to set classes of items as bad or not for updates.
       pbBad = IsBad;
 
       return;
@@ -570,7 +570,7 @@ messages:
 
    StartGoBadTimer()
    {
-      % Kick off the go bad timer if we're not already bad.
+      // Kick off the go bad timer if we're not already bad.
       if NOT pbBad
          AND piGoBadTime > 0
       {
@@ -582,11 +582,11 @@ messages:
 
    StopGoBadTimer()
    {
-      % Delete the go bad timer so it won't go off.
+      // Delete the go bad timer so it won't go off.
       if ptGoBadTimer <> $
       {
-         % Put a lower cap on the go bad time to a sixth of the standard go bad time.
-         % This is currently 4 hours.
+         // Put a lower cap on the go bad time to a sixth of the standard go bad time.
+         // This is currently 4 hours.
          piGoBadTime = bound(GetTimeRemaining(ptGoBadTimer),GO_BAD_TIME/6,$);
 
          DeleteTimer(ptGoBadTimer);
@@ -720,9 +720,9 @@ messages:
    {
       local iBulk_can_hold, iWeight_can_hold;
 
-      % Sanity checks, if these can be less than 0 there's a chance
-      % they can be -1 (INFINITE_COUNT). This could allow players to
-      % carry more than their max bulk/weight limit.
+      // Sanity checks, if these can be less than 0 there's a chance
+      // they can be -1 (INFINITE_COUNT). This could allow players to
+      // carry more than their max bulk/weight limit.
       if bulk < 0
       {
          bulk = 0;
@@ -795,4 +795,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Gift is PassiveItem
 
 constants:
@@ -50,7 +50,7 @@ classvars:
 
 properties:
 
-   poGiftGiver = $     %% if poGiftGIver = $, then it's from the gods.
+   poGiftGiver = $     /// if poGiftGIver = $, then it's from the gods.
    poContents = $
 
 messages:
@@ -106,7 +106,7 @@ messages:
 
    GetValue()
    {
-      % Can't really tell the value of an item in a box.
+      // Can't really tell the value of an item in a box.
       return 10;
    }
 
@@ -141,7 +141,7 @@ messages:
 
       while poContents = $
       {
-         % Give one of the five amulets.
+         // Give one of the five amulets.
          rand = Random(1,9);
 
          if rand <= 2
@@ -182,8 +182,8 @@ messages:
       Send(self,@NewOwner,#what=$);
       Send(oldOwner,@NewHold,#what=poContents);
 
-      % Note that this RecalcBulkAndWeight is entirely superfluous,
-      % but we'll leave it here as a safeguard against future wierdness.
+      // Note that this RecalcBulkAndWeight is entirely superfluous,
+      // but we'll leave it here as a safeguard against future wierdness.
       Send(oldOwner,@RecalcBulkAndWeight);
       if Send(self,@HasAttribute,#ItemAtt=IA_BONDED)
       {
@@ -219,4 +219,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

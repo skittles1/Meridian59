@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 SurvivalRoomMaintenance is UtilityFunctions
 
 constants:
@@ -28,34 +28,34 @@ properties:
 
    plSurvivalRooms = $
 
-   % Are Survival Arenas active?
+   // Are Survival Arenas active?
    piPublicSurvivalEnabled = TRUE
    piSoloSurvivalEnabled = TRUE
    piGuildSurvivalEnabled = TRUE
 
-   % At what level multiple do these increase?
+   // At what level multiple do these increase?
    piSurvivalTPIncreaseLevel = 8
    piSurvivalLootIncreaseLevel = 4
 
-   % How much extra XP per level?
+   // How much extra XP per level?
    piSurvivalXPPerLevel = 2
 
-   % How much extra cash on each monster kill per level?
+   // How much extra cash on each monster kill per level?
    piSurvivalCashPerLevel = 20
 
-   % Don't use these rooms (list of RIDs)
+   // Don't use these rooms (list of RIDs)
    plExcludedRoomsList = $
 
-   % Default time between rounds
+   // Default time between rounds
    piRegroupTime = 15000
 
-   % Default time between wall blitzes (mobs walk through walls)
+   // Default time between wall blitzes (mobs walk through walls)
    piWallBlitzTime = 300000
 
-   % Default last join level
+   // Default last join level
    piLastJoinLevel = 6
 
-   % Do we restore resources on level completion?
+   // Do we restore resources on level completion?
    pbRestoreResources = TRUE
 
 messages:
@@ -153,9 +153,9 @@ messages:
 
       lAllRooms = ListCopy(Send(SYS,@GetRooms));
 
-      % If we sent the string used to activate the arena (only for public)
-      % check it for a room name to use. If we sent a room name, use that
-      % for the survival room.
+      // If we sent the string used to activate the arena (only for public)
+      // check it for a room name to use. If we sent a room name, use that
+      // for the survival room.
       if sString <> $
       {
          foreach i in lAllRooms
@@ -176,9 +176,9 @@ messages:
                                     lExcludedRoomsObjs);
       }
 
-      % DMs can choose any room, but users can only pick from the allowed
-      % rooms.  Set oBaseRoom to the chosen room so it can be checked
-      % in the following code.
+      // DMs can choose any room, but users can only pick from the allowed
+      // rooms.  Set oBaseRoom to the chosen room so it can be checked
+      // in the following code.
       if NOT IsClass(who,&DM)
          AND oForceBaseRoom <> $
       {
@@ -190,7 +190,7 @@ messages:
          oBaseRoom = Nth(lAllRooms,Random(1,Length(lAllRooms)));
       }
 
-      % Ensure it's a monster room, and shrink the list on every failure.
+      // Ensure it's a monster room, and shrink the list on every failure.
       if (NOT IsClass(oBaseRoom,&MonsterRoom))
          OR IsClass(oBaseRoom,&SurvivalRoom)
          OR (lExcludedRoomsObjs <> $
@@ -213,8 +213,8 @@ messages:
          return $;
       }
 
-      % If we still have a forced base room, it was given by a DM.
-      % Set the base room to the forced one.
+      // If we still have a forced base room, it was given by a DM.
+      // Set the base room to the forced one.
       if oForceBaseRoom <> $
       {
          oBaseRoom = oForceBaseRoom;
@@ -340,7 +340,7 @@ messages:
             {
                Send(i,@MsgSendUser,#message_rsc=public_ended,
                                    #parm1=Send(what,@GetLevel));
-               % Keep track of highest level.
+               // Keep track of highest level.
                Send(Send(SYS,@GetStatistics),@RecordPublicSurvivalLevel,
                      #iLevel=Send(what,@GetLevel));
             }
@@ -447,7 +447,7 @@ messages:
    {
       local i;
 
-      % Report highest levels reached.
+      // Report highest levels reached.
       Debug("Highest Public Survival level reached is ",
                   Send(Send(SYS,@GetStatistics),@RecordPublicSurvivalLevel));
       Debug("Highest Guild Survival level reached is ",
@@ -480,7 +480,7 @@ messages:
          }
          else
          {
-            % Must be solo.
+            // Must be solo.
             Debug("Solo arena is active, object is ",i," and base room is ",
                   Send(Send(i,@GetBaseRoom),@GetName));
             Debug("Solo arena is on level ",Send(i,@GetLevel)," and was started by ",
@@ -492,4 +492,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

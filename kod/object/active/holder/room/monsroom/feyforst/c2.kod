@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 OutdoorsC2 is FeyForest
 
 constants:
@@ -34,8 +34,8 @@ classvars:
 
    vrName = room_name_OutdoorsC2
 
-   % This is where this section of the faerie forest will 'aim' for on the
-   %  karmic scale.
+   // This is where this section of the faerie forest will 'aim' for on the
+   //  karmic scale.
    viEquilibrium = 50              
 
    viTeleport_row = 15
@@ -51,7 +51,7 @@ properties:
    
    plFey_Forest = $
 
-   ptFeyNode = $      %% Faerie node appears for 30 seconds.
+   ptFeyNode = $      /// Faerie node appears for 30 seconds.
 
    pbSnowGroundTexture = FALSE
 
@@ -65,7 +65,7 @@ messages:
                        [23, 16], [20, 38], [25, 21], [27, 38]
                      ];
 
-      % Create the node now.
+      // Create the node now.
       Create(&FeyNode,#node_num=NODE_FAERIE,#karma=0,#iRoomNum=piRoom_num);
 
       propagate;
@@ -73,7 +73,7 @@ messages:
 
    Constructed()
    {
-      %  each sound is [wave_file, row, col, cutoff radius, maximum volume]
+      //  each sound is [wave_file, row, col, cutoff radius, maximum volume]
       plLooping_sounds = [[ waterfall_sound_outdoorsc2, 42, 28, 100, 100 ]];
 
       propagate;
@@ -85,7 +85,7 @@ messages:
 
       if karma > KVERY_GOOD AND karma < KVERY_EVIL
       {
-         % Node should be gone, if it isn't
+         // Node should be gone, if it isn't
          Send(self,@KillNode);
 
          return;
@@ -109,7 +109,7 @@ messages:
          }
       }
 
-      % All rooms have the same karma, which is either 1 or 5.  Node appears.
+      // All rooms have the same karma, which is either 1 or 5.  Node appears.
       Send(self,@AppearNode);
 
       return;						
@@ -130,7 +130,7 @@ messages:
       oNode = Send(self,@FindHolding,#class=&ManaNode);
       if oNode <> $
       {
-         % A node is already here.  Do nothing.
+         // A node is already here.  Do nothing.
          return;
       }
 
@@ -165,7 +165,7 @@ messages:
    {
       local i;
 
-      % Don't kill the node until time has elapsed.
+      // Don't kill the node until time has elapsed.
       if ptFeyNode <> $
       {
          return;
@@ -189,7 +189,7 @@ messages:
    {
       local karma1, karma2, karma3;
    
-      % Change waterfall level.
+      // Change waterfall level.
       if (karma = KVERY_EVIL)
       {       
          Send(self,@SetSector,#sector=15,#animation=ANIMATE_FLOOR_LIFT,
@@ -221,7 +221,7 @@ messages:
               #height=544,#speed=0);
       }
 
-      % Lower to a trickle when slightly evil.
+      // Lower to a trickle when slightly evil.
       if (karma > NEUTRAL)            
       {       
          Send(self,@SetSector,#sector=5,#animation=ANIMATE_FLOOR_LIFT,
@@ -299,8 +299,8 @@ messages:
    {
       local oNode;
 
-      % Delete 'our' node.  It's our responsibility even if it's not in
-      %  the room at the time.
+      // Delete 'our' node.  It's our responsibility even if it's not in
+      //  the room at the time.
       oNode = Send(SYS,@FindNodeByNum,#num=NODE_FAERIE);
       if oNode <> $
       {
@@ -318,4 +318,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

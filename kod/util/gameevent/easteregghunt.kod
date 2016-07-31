@@ -1,18 +1,18 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////////
 EasterEggHunt is GameEvent
-% Creates easter eggs in multiple rooms and keeps track of them.
-% Sends system messages letting players know how many are left.
-% Could be generalised to "ItemHunt", but most items would be
-% disposed by the room, easter eggs are exempt from this system.
+// Creates easter eggs in multiple rooms and keeps track of them.
+// Sends system messages letting players know how many are left.
+// Could be generalised to "ItemHunt", but most items would be
+// disposed by the room, easter eggs are exempt from this system.
 
 constants:
 
@@ -54,40 +54,40 @@ classvars:
 
 properties:
 
-   % This event can fail in the start-up procedure if no eggs
-   % were able to be hidden. vbAnnounce starts of FALSE, and is
-   % set to TRUE if start-up succeeds.
+   // This event can fail in the start-up procedure if no eggs
+   // were able to be hidden. vbAnnounce starts of FALSE, and is
+   // set to TRUE if start-up succeeds.
    vbAnnounce = FALSE
 
-   % A list of all the valid rooms for placing eggs.
-   % Mainland + Ko'catan, no guild halls.
+   // A list of all the valid rooms for placing eggs.
+   // Mainland + Ko'catan, no guild halls.
    plEventRooms = $
 
-   % A list of all the eggs currently associated with this event.
-   % Eggs are added on placement in room, and removed in Update()
-   % if they are no longer in the room.
+   // A list of all the eggs currently associated with this event.
+   // Eggs are added on placement in room, and removed in Update()
+   // if they are no longer in the room.
    plEggs = $
 
-   % Running total of how many eggs remain.
+   // Running total of how many eggs remain.
    piEggsLeft = 0
 
-   % Total number of eggs to spawn. If available, we use the
-   % number of users logged on * 3, but if that call fails this
-   % is the backup.
+   // Total number of eggs to spawn. If available, we use the
+   // number of users logged on * 3, but if that call fails this
+   // is the backup.
    piTotalEggs = 40
 
-   % Hard min/max num eggs.
+   // Hard min/max num eggs.
    piMinEggs = 20
    piMaxEggs = 80
 
-   % This event informs the online users of how many eggs remain
-   % every piInformIntervalSec seconds (or immediately if the number
-   % of eggs changes).
+   // This event informs the online users of how many eggs remain
+   // every piInformIntervalSec seconds (or immediately if the number
+   // of eggs changes).
    piLastInformTime = 0
    piInformIntervalSec = 120
 
-   % Keep a list of how many eggs each participating user has picked up.
-   % Display the scores at the end.
+   // Keep a list of how many eggs each participating user has picked up.
+   // Display the scores at the end.
    plScores = $
 
 messages:
@@ -104,14 +104,14 @@ messages:
 
       plEventRooms = $;
 
-      % Just hide on the mainland.
+      // Just hide on the mainland.
       lRooms = Send(SYS,@GetRooms);
       foreach i in lRooms
       {
          iRegion = Send(i,@GetRegion);
-         % Only want mainland and Ko'catan, and no guild halls or
-         % non-accessible rooms. Ko'catan forest has a lot of areas
-         % inaccessible to the player also, so disallow that area too.
+         // Only want mainland and Ko'catan, and no guild halls or
+         // non-accessible rooms. Ko'catan forest has a lot of areas
+         // inaccessible to the player also, so disallow that area too.
          if (iRegion = RID_DEFAULT
                OR (iRegion = RID_KOCATAN
                   AND NOT IsClass(i,&KCForest)))
@@ -143,13 +143,13 @@ messages:
 
       if NOT Send(oRoom,@GenerateMonster,#oMonster=oEgg,#bRandom=TRUE)
       {
-         % Room will delete the egg.
+         // Room will delete the egg.
          Debug("No egg placed in ",Send(oRoom,@GetName));
 
          return FALSE;
       }
 
-      % If we got here, we placed an egg. Add it to our egg list.
+      // If we got here, we placed an egg. Add it to our egg list.
       plEggs = Cons(oEgg,plEggs);
 
       return TRUE;
@@ -179,13 +179,13 @@ messages:
 
       foreach i in plEventRooms
       {
-         % Try to distribute the eggs equally around the world.
+         // Try to distribute the eggs equally around the world.
          if Random(1,100) < piTotalEggs * 120 / iNumRooms
          {
             Send(self,@PlaceEggInRoom,#oRoom=i);
          }
 
-         % Once we hit the total we want, stop placing.
+         // Once we hit the total we want, stop placing.
          if plEggs <> $
             AND Length(plEggs) >= piTotalEggs
          {
@@ -208,8 +208,8 @@ messages:
 
       Send(self,@SetRooms);
 
-      % StartEvent can accept a parameter to set the total number
-      % of eggs to spawn.
+      // StartEvent can accept a parameter to set the total number
+      // of eggs to spawn.
       if parm2 = $
       {
          piTotalEggs = Length(lUsers) * 2;
@@ -220,20 +220,20 @@ messages:
          piTotalEggs = parm2;
       }
 
-      % Hide all the eggs. Eggs are added to plEggs when created,
-      % so if plEggs = $ then no eggs were made and hidden.
+      // Hide all the eggs. Eggs are added to plEggs when created,
+      // so if plEggs = $ then no eggs were made and hidden.
       Send(self,@HideEggs);
 
       if plEggs = $
       {
-         % Event didn't start.
+         // Event didn't start.
          Debug("Easter Egg hunt event failed to start.");
 
          return;
       }
       else
       {
-         % Event successful, announce messages.
+         // Event successful, announce messages.
          vbAnnounce = TRUE;
       }
 
@@ -260,10 +260,10 @@ messages:
          if oEggOwner <> $
             AND NOT IsClass(oEggOwner,&Room)
          {
-            % Egg has been found and possibly eaten. Add its new owner
-            % to the scoreboard. Update() is called once a second, rare
-            % chance we don't catch the owner if they eat the egg
-            % immediately but unlikely.
+            // Egg has been found and possibly eaten. Add its new owner
+            // to the scoreboard. Update() is called once a second, rare
+            // chance we don't catch the owner if they eat the egg
+            // immediately but unlikely.
             if IsClass(oEggOwner,&Player)
             {
                plScores = Send(self,@AddToSortedList,#what=oEggOwner,
@@ -282,8 +282,8 @@ messages:
 
       iLength = Length(plEggs);
 
-      % If no change in how many eggs remain, only announce
-      % every piInformIntervalSec seconds.
+      // If no change in how many eggs remain, only announce
+      // every piInformIntervalSec seconds.
       if piEggsLeft = iLength
          AND piLastInformTime + piInformIntervalSec > GetTime()
       {
@@ -314,8 +314,8 @@ messages:
       if vbAnnounce
       {
          Send(SYS,@SystemBroadcast,#type=SAY_MESSAGE,#string=vrAllFound);
-         % Print out the scores. Score readout is framed by the previous
-         % end message and the one in the parent class.
+         // Print out the scores. Score readout is framed by the previous
+         // end message and the one in the parent class.
          Send(self,@PrintScores);
       }
 
@@ -362,13 +362,13 @@ messages:
          return;
       }
 
-      % Score header.
+      // Score header.
       Send(SYS,@SystemBroadcast,#type=SAY_MESSAGE,#string=vrScores);
 
       foreach i in plScores
       {
-         % Have to make a string, if the player logged off
-         % other players might not have their dynamic resource.
+         // Have to make a string, if the player logged off
+         // other players might not have their dynamic resource.
          sName = SetString(sName,Send(First(i),@GetTrueName));
          iScore = Nth(i,2);
 
@@ -388,4 +388,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////////

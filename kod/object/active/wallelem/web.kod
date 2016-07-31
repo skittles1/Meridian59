@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Web is ActiveWallElement
 
 constants:
@@ -48,7 +48,7 @@ classvars:
 
    vbPeriodic = FALSE
 
-   % Webs are dangeous, they can affect the caster.
+   // Webs are dangeous, they can affect the caster.
    vbCanAffectCaster = TRUE
 
 properties:
@@ -62,8 +62,8 @@ messages:
    {
       piMaxHoldTime = MaxHoldTime;
 
-      % A list of monsters not affected by webbing
-      % Includes: Spiders, Bosses, Fliers, Xeos, and Revenants
+      // A list of monsters not affected by webbing
+      // Includes: Spiders, Bosses, Fliers, Xeos, and Revenants
       plExcludedMonsters = [ &Spider, &SpiderBaby, &SpiderQueen, &DeathSpider,
                              &Lich, &LupoggKing, &Yeti, &Ghost,
                              &DragonFly, &DragonFlyQueen, &EvilFairy, &Fairy,
@@ -140,7 +140,7 @@ messages:
          }
          else
          {
-            % Duration greater than 0
+            // Duration greater than 0
             Send(what,@WaveSendUser,#wave_rsc=web_stick_snd);
 
             if iHoldTime < 2
@@ -172,7 +172,7 @@ messages:
       }
       else
       {
-         % It's a monster
+         // It's a monster
          Send(poOwner,@SomeoneSaid,#type=SAY_MESSAGE,#string=web_stuck,#what=self,
               #parm1=Send(what,@GetCapDef),#parm2=Send(what,@GetName));
       }
@@ -182,4 +182,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

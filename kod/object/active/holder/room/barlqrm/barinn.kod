@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 BarInn is BarloqueRoom
 
 constants:
@@ -59,7 +59,7 @@ messages:
    {
       plExits = $;
 
-  %% TO TOWN
+  /// TO TOWN
       plExits = Cons([ 17, 12, RID_BAR_NORTH, 18, 26, ROTATE_180 ],plExits);
       plExits = Cons([ 1,5, ROOM_LOCKED_DOOR, barinn_rentableroom_door ],plExits);
       plExits = Cons([ 2,5, ROOM_LOCKED_DOOR, barinn_rentableroom_door ],plExits);
@@ -97,7 +97,7 @@ messages:
       iRow = send(who,@GetRow);
       iCol = send(who,@GetCol);
       
-      % coords: [4,12],[4,13],[4,17],[2,7],[3,7],[1,5],[2,5],[7,5],[11,6],[11,7]
+      // coords: [4,12],[4,13],[4,17],[2,7],[3,7],[1,5],[2,5],[7,5],[11,6],[11,7]
       if ( iRow = 4
            AND (iCol = 12
                  OR iCol = 13
@@ -121,4 +121,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

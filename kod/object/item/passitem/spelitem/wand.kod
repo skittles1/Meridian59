@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Wand is SpellItem
 
 constants:
@@ -60,16 +60,16 @@ properties:
    vrDesc = Wand_desc_rsc
    viObject_flags = OF_APPLYABLE | OF_GETTABLE
 
-   % Set to negative so it doesn't expire naturally.
+   // Set to negative so it doesn't expire naturally.
    piGoBadTime = -1
 
 messages:
 
    CastSpell(what=$,apply_on=$)
    {
-      % If our owner and the target share the same owner (a room),
-      % then there needs to be line of sight.  Also, make sure the 
-      % target is within sight and range.
+      // If our owner and the target share the same owner (a room),
+      // then there needs to be line of sight.  Also, make sure the 
+      // target is within sight and range.
       if (NOT ((Send(poOwner,@GetOwner) <> Send(apply_on,@GetOwner))
                OR Send(Send(poOwner,@GetOwner),@LineOfSight,#obj1=poOwner,#obj2=apply_on)))
          OR (IsClass(poOwner,&Player)
@@ -93,4 +93,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

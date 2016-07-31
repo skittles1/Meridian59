@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 AssassinGame is UtilityFunctions
 
 constants:
@@ -15,24 +15,24 @@ constants:
    include blakston.khd
    include protocol.khd
 
-   % Chance to hit with the dagger.
+   // Chance to hit with the dagger.
    ASSASSIN_HIT_CHANCE = 50
 
-   % ten minutes
+   // ten minutes
    MAINTENANCE_TIME = 600000
 
-   % One day
+   // One day
    GAME_WAIT_MIN =  86400000
-   % One and one half Days - can't be higher!
+   // One and one half Days - can't be higher!
    GAME_WAIT_MAX = 134200000
-   % Six Hours
+   // Six Hours
    GAME_ACCEPT_MIN = 21600000
-   % Twelve hours
+   // Twelve hours
    GAME_ACCEPT_MAX = 43200000
-   % One day
+   // One day
    GAME_DAY = 86400000
 
-   % Players must spend an average of 1 hour per day online.
+   // Players must spend an average of 1 hour per day online.
    MINIMUM_TIME_ONLINE = 3600
 
 resources:
@@ -84,27 +84,27 @@ properties:
    pbGame_in_session = FALSE
    ptMaintenance = $
 
-   % This is a list of players who are notified when a game's about to start.
+   // This is a list of players who are notified when a game's about to start.
    plAdvertise = $
 
-   % If Game_in_session = TRUE, this is a list of everyone who is in on the
-   %  match.  If game_in_session = FALSE, it's everyone who is going to be in
-   %  on the next one.
+   // If Game_in_session = TRUE, this is a list of everyone who is in on the
+   //  match.  If game_in_session = FALSE, it's everyone who is going to be in
+   //  on the next one.
    plCombatants = $
 
    pbAccept_mode = FALSE
 
-   % This timer controls game timing.
+   // This timer controls game timing.
    ptGame = $
 
-   % How many days this particular match has lasted.
+   // How many days this particular match has lasted.
    piDays = 0
 
-   % At what time did this match start?  Used to determine deadweight.
+   // At what time did this match start?  Used to determine deadweight.
    piStartTime = 0
 
    piKills = 0
-   % If the assassin's game goes three days without kills, Roq ends it.
+   // If the assassin's game goes three days without kills, Roq ends it.
    piDays_without_kills = 0
 
    piGame_wait_min = GAME_WAIT_MIN
@@ -114,27 +114,27 @@ properties:
    piGame_accept_max = GAME_ACCEPT_MAX 
    piGame_day = GAME_DAY
 
-   % Who was the last combatant?
+   // Who was the last combatant?
    poWinner_lastgame = $
 
-   % Who got the most kills?  [player,player...]
+   // Who got the most kills?  [player,player...]
    plMost_kills_lastgame = $
 
-   % How many kills did they get?
+   // How many kills did they get?
    piNum_kills_lastgame = 0
 
 
-   % Who got the most kills?  [player,player...]
+   // Who got the most kills?  [player,player...]
    plMost_kills = $
-   % How many kills did they get?
+   // How many kills did they get?
    piNum_kills = 0
 
-   % This is an optional prize awarded to the winner of the game.
+   // This is an optional prize awarded to the winner of the game.
    poPrize = $                
 
 messages:
 
-   %%%  Maintenance and cleanup.
+   ////  Maintenance and cleanup.
 
    Constructor()
    {
@@ -159,8 +159,8 @@ messages:
 
       if NOT Send(self,@InAcceptMode) AND NOT Send(self,@InSession)
       {
-         % The game is not in accept mode, and the game is not in session.
-         %  Enter accept mode and let new players into the match.
+         // The game is not in accept mode, and the game is not in session.
+         //  Enter accept mode and let new players into the match.
          Send(self,@EnterAcceptMode);
          
          return;
@@ -168,22 +168,22 @@ messages:
       
       if Send(self,@InAcceptMode)
       {
-         % Tell the game to start itself.
+         // Tell the game to start itself.
          Send(self,@StartGame);
          
          return;
       }
       
-      % A game is in session, and has been for quite some time.
-      %  Kick out the deadwood players 
+      // A game is in session, and has been for quite some time.
+      //  Kick out the deadwood players 
       foreach i in plCombatants
       {
          Send(self,@CheckForDeadWeight,#who=i);
          
          if NOT Send(self,@InSession)
          {
-            % Game is no longer valid, but a new timer has already been
-            %  restarted.
+            // Game is no longer valid, but a new timer has already been
+            //  restarted.
             return;
          }
       }
@@ -272,7 +272,7 @@ messages:
       return;
    }
 
-   %%% Enrollment
+   //// Enrollment
 
    NewCombatant(who=$)
    "Check to see if the person is a valid combatant.  "
@@ -308,7 +308,7 @@ messages:
          return FALSE;
       }
 
-      % put him on the combatant list and give 'em a black dagger.
+      // put him on the combatant list and give 'em a black dagger.
       plCombatants = Cons(who,plCombatants);
       Send(who,@NewHold,#what=create(&BlackDagger));
 
@@ -340,8 +340,8 @@ messages:
                Send(self,@NotifyOpponents,#who=who,
                     #string=assgame_blade_shivers);
 
-               % Okay, if they're offline, let the dagger know so it can
-               %  shiver when they log on.
+               // Okay, if they're offline, let the dagger know so it can
+               //  shiver when they log on.
                oOpponent = Send(self,@GetPrimaryOpponent,#who=who);
                
                if NOT Send(oOpponent,@IsLoggedOn)
@@ -444,10 +444,10 @@ messages:
    {
       local i;
 
-      % Remove from ad list
+      // Remove from ad list
       Send(self,@StopAdvertising,#who=who);
 
-      % Remove from combatant list
+      // Remove from combatant list
       if Send(self,@IsCombatant,#who=who)
       {
          Send(self,@QuitCombatant,#who=who);
@@ -497,7 +497,7 @@ messages:
       return;
    }
 
-   %%%  Assassin Game Combat.
+   ////  Assassin Game Combat.
 
    TryAssassinAttack(attacker=$,target=$,dagger_obj=$)
    {
@@ -540,7 +540,7 @@ messages:
          return FALSE;
       }
 
-      % Check for "safe zones".  Currently only the Underworld.
+      // Check for "safe zones".  Currently only the Underworld.
       if NOT Send(Send(target,@GetOwner),@ReqAssassinGameAttack,#what=attacker)
       {
          return FALSE;
@@ -553,10 +553,10 @@ messages:
                                 #target=target);
       }
 
-      % Okay, at this point, we know we have an attacker attacking a
-      %   legal target while a match is on.  Do the math - attacker has
-      %   a 50% chance to hit, and must do four hits to kill.
-      % Anti-cheapness: no hitting if your opponent is held, blinded or dazzled
+      // Okay, at this point, we know we have an attacker attacking a
+      //   legal target while a match is on.  Do the math - attacker has
+      //   a 50// chance to hit, and must do four hits to kill.
+      // Anti-cheapness: no hitting if your opponent is held, blinded or dazzled
 
       if random(1,100) > ASSASSIN_HIT_CHANCE
          OR Send(target,@IsEnchanted,#byClass=&Hold)
@@ -569,8 +569,8 @@ messages:
       {
          if bLegal_Opponent
          {
-            % Remove invisibility and ShadowForm to make this a bit more of a
-            %  fair fight.
+            // Remove invisibility and ShadowForm to make this a bit more of a
+            //  fair fight.
             Send(attacker,@RemoveEnchantmentClass,#class=&Invisibility);
             Send(attacker,@RemoveEnchantmentClass,#class=&ShadowForm);
             
@@ -585,7 +585,7 @@ messages:
       return TRUE;
    }
 
-   %%% Game mode utilities.
+   //// Game mode utilities.
 
    ResetGame(report=FALSE)
    "Report is only true if called by a DM call, meaning an artificial restart."
@@ -611,8 +611,8 @@ messages:
       plMost_kills = $;
       piNum_kills = 0;
 
-      % Okay, at this point, the combatant list should be nil, and no black 
-      %  daggers should exist anywhere.
+      // Okay, at this point, the combatant list should be nil, and no black 
+      //  daggers should exist anywhere.
       plCombatants = $;
       Send(&BlackDagger,@CleanUp);
 
@@ -622,7 +622,7 @@ messages:
       }
       ptMaintenance = $;
 
-      % This will almost always be true.
+      // This will almost always be true.
       if ptGame <> $
       {
          DeleteTimer(ptGame);
@@ -641,11 +641,11 @@ messages:
       if Length(plCombatants) > 1
          OR NOT Send(self,@InSession)
       {
-         % No winner.
+         // No winner.
          return FALSE;
       }
 
-      % We have a winner!
+      // We have a winner!
       foreach i in plAdvertise
       {
          if Send(i,@isLoggedOn)
@@ -667,7 +667,7 @@ messages:
       plMost_kills_lastgame = plMost_kills;
       piNum_kills_lastgame = piNum_kills;
 
-      % Award a prize, if there's one set.
+      // Award a prize, if there's one set.
       if poPrize <> $
       {
          Send(poWinner_lastgame,@MsgSendUser,#message_rsc=assgame_prize,
@@ -676,7 +676,7 @@ messages:
          poPrize = $;
       }
 
-      % Reset the game for the next match
+      // Reset the game for the next match
       Send(self,@ResetGame);
       
       return TRUE;
@@ -737,8 +737,8 @@ messages:
       iTime = Send(oDagger,@GetTimeOnline);      
       if (iTime/piDays) < MINIMUM_TIME_ONLINE
       {
-         % If they're online and not hiding, give them a warning, but don't
-         %  boot them... yet.
+         // If they're online and not hiding, give them a warning, but don't
+         //  boot them... yet.
          if Send(oDagger,@HasBeenWarned)
             AND ((NOT Send(who,@IsLoggedOn))
                  OR IsClass(Send(who,@GetOwner),&RentableRoom))
@@ -751,7 +751,7 @@ messages:
          }
          else
          {
-            % Tell the player to shape up and spend more time online.
+            // Tell the player to shape up and spend more time online.
             Send(oDagger,@Warn);         
          }
       }
@@ -763,13 +763,13 @@ messages:
    {
       local i, iValue;
 
-      % Clear combatants list.
+      // Clear combatants list.
       plCombatants = $;
       
-      % No daggers should exist right now - none have been given out.
+      // No daggers should exist right now - none have been given out.
       Send(&BlackDagger,@CleanUp);
 
-      % Delete the timer (necessary if the game was started by an admin)
+      // Delete the timer (necessary if the game was started by an admin)
       if ptGame <> $
       {
          DeleteTimer(ptGame);
@@ -792,7 +792,7 @@ messages:
          }         
       }
 
-      % Create the timer here, since this may be reached abnormally.
+      // Create the timer here, since this may be reached abnormally.
       iValue = Bound(Random(piGame_Accept_Min,piGame_Accept_Max),1,MAX_INT);
       ptGame = CreateTimer(self,@GameTimer,iValue);
       
@@ -817,7 +817,7 @@ messages:
          return;
       }
 
-      % Delete the timer, in case this was called artificially.
+      // Delete the timer, in case this was called artificially.
       if ptGame <> $
       {
          DeleteTimer(ptGame);
@@ -836,7 +836,7 @@ messages:
       Send(self,@RandomizeCombatants);
       foreach i in plCombatants
       {
-         % Init the dagger's stats
+         // Init the dagger's stats
          Send(Send(self,@GetDagger,#who=i),@InitGame);   
          Send(i,@MsgSendUser,#message_rsc=assgame_go);
          Send(i,@WaveSendUser,#wave_rsc=assgame_go_wav);
@@ -847,7 +847,7 @@ messages:
       return;
    }
 
-   %%%  Utility Functions.
+   ////  Utility Functions.
 
    IsEnabled()
    {
@@ -944,8 +944,8 @@ messages:
          return TRUE;
       }
 
-      % Neither person before or after attacker is someone attacker should
-      %  be attacking.  
+      // Neither person before or after attacker is someone attacker should
+      //  be attacking.  
       return FALSE;            
    }
 
@@ -1056,7 +1056,7 @@ messages:
 
       Send(oOpponent,@MsgSendUser,#message_rsc=string);
 
-      % Don't give two messages.
+      // Don't give two messages.
       if Length(plCombatants) = 2
       {
          return;
@@ -1164,7 +1164,7 @@ messages:
    SetPrize(what=$)
    "Admin supported. Sets a prize for the winner."
    {
-      % Only items can be prizes.
+      // Only items can be prizes.
       if NOT IsClass(what,&Item)
       {
          return FALSE;
@@ -1172,11 +1172,11 @@ messages:
       
       poPrize = what;
 
-      % If prize has a previous owner, take it away.
+      // If prize has a previous owner, take it away.
       Send(what,@NewOwner,#what=$);
 
       return TRUE;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

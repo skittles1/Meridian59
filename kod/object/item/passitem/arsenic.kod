@@ -1,14 +1,14 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Arsenic is PassiveItem                   % poison that looks like healer
+////////////////////////////////////////////////////////////////////////////////
+Arsenic is PassiveItem                   // poison that looks like healer
 
 constants:
 
@@ -36,8 +36,8 @@ classvars:
    viUse_type = ITEM_SINGLE_USE
    viItem_type = ITEMTYPE_POTION
 
-   viLossRate = 3000                    % 0.3 health points/sec
-   viDuration = 60000                   % one real minute
+   viLossRate = 3000                    // 0.3 health points/sec
+   viDuration = 60000                   // one real minute
 
    viBulk = 20
    viWeight = 20
@@ -82,4 +82,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

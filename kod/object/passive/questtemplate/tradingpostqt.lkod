@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 tradingpostquest_name_rsc = de "Handelsposten Inventar Quest"
 tradingpostquest_desc_rsc = de \
    "Wulfgang zax'Ak hat dich dazu beauftragt ihm ein paar Sachen zu besorgen "
@@ -15,7 +15,7 @@ tradingpostquest_deliver_number_rsc = de \
 tradingpostquest_completed_rsc = de \
    "Du hast Wulfgang zax'Ak geholfen, sein Lager aufzustocken, und hast als Belohnung einen Schwertsplitter erhalten."
 
-% Quest resources.
+// Quest resources.
 tradingpost_trigger_1 = de "Inventar"
 tradingpost_assign_2 = de \
    "Ich bin immer auf der Suche nach Leuten, die mein Inventar auffüllen "

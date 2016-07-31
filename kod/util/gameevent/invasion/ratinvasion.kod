@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 RatInvasion is Invasion
 
 constants:
@@ -35,9 +35,9 @@ resources:
 
 classvars:
 
-   % It is a good idea to replace the default start and stop messsages with
-   % your own.  You can also turn off the event start and stop messages if you
-   % would like it to be a suprise. (set vbAnnounce to FALSE)
+   // It is a good idea to replace the default start and stop messsages with
+   // your own.  You can also turn off the event start and stop messages if you
+   // would like it to be a suprise. (set vbAnnounce to FALSE)
    vrStartMessage = RatInvasion_start_msg
    vrEndMessage = RatInvasion_end_msg
 
@@ -74,25 +74,25 @@ messages:
       propagate;
    }
 
-   % OPTIONAL, DO NOT CALL DIRECTLY!  The engine will call this after it ends
-   % your event
+   // OPTIONAL, DO NOT CALL DIRECTLY!  The engine will call this after it ends
+   // your event
    Delete()
    {
       propagate;
    }
 
-   % OPTIONAL but a good idea to put cleanup stuff in here, the event engine
-   % calls this when ending an event, DO NOT CALL DIRECTLY!  If you want to end
-   % your event call Send(self,@NotifyEngineEndEvent)
+   // OPTIONAL but a good idea to put cleanup stuff in here, the event engine
+   // calls this when ending an event, DO NOT CALL DIRECTLY!  If you want to end
+   // your event call Send(self,@NotifyEngineEndEvent)
    EndEvent()
    {
       propagate;
    }
    
-   % REQUIRED for every game event.  The engine calls this when it is time to
-   % start your event.  DO NOT CALL DIRECTLY.  Launch events from the game event
-   % engine with Send(<engine object>,EventStart,#parm1=&<event type>) or using
-   % the event sceduling system
+   // REQUIRED for every game event.  The engine calls this when it is time to
+   // start your event.  DO NOT CALL DIRECTLY.  Launch events from the game event
+   // engine with Send(<engine object>,EventStart,#parm1=&<event type>) or using
+   // the event sceduling system
    StartEvent()
    {
       Send(self,@PhaseOne);
@@ -100,7 +100,7 @@ messages:
       propagate;
    }
 
-   %%% The rest is up to you!
+   //// The rest is up to you!
    
    Update()
    {
@@ -141,9 +141,9 @@ messages:
       {
          if Send(oRoom,@CountMonsters,#class=&GiantRatKing) = 0
          {
-            % Call NotifyEngineEndEvent to handle ending the event properly. 
-            % This deletes the event from the GameEventEngine. It also calls
-            % EndEvent in this class, which handles your end of event cleanup
+            // Call NotifyEngineEndEvent to handle ending the event properly. 
+            // This deletes the event from the GameEventEngine. It also calls
+            // EndEvent in this class, which handles your end of event cleanup
             Send(self,@NotifyEngineEndEvent);
          }
       }
@@ -276,4 +276,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 shalofferingqt_name_rsc = de "Shal'ill Beten Quest"
 shalofferingqt_desc_rsc = de \
    "Priesterin Xiana hat Dich eingeladen mit ihr zu singen, um die Herrin zu stärken."
@@ -9,7 +9,7 @@ shalofferingqt_completed = de \
    "der Schreine in der Welt platziert wird, wird er Shalill geweiht und verleit den "
    "Zaubern Shalills mehr Kraft."
 
-% Quest resources.
+// Quest resources.
 shalilleoffering_assign_2 = de \
    "`b%NAME, reiner Schüler unserer Göttin. Gibst du Dich selber dafür auf, "
    "so das unsere Götting stärker sein kann?"

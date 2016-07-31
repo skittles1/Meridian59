@@ -30,7 +30,19 @@
 #include "util.h"
 #include "table.h"
 
-#define BOF_VERSION 6
+// BOF_VERSION 6 (20-8-2015) added:
+//    pre & post increment/decrement, switch-case, else if,
+//    do-while, C-style for loop, old for->foreach change.
+// BOF_VERSION 7 (29-7-2016) added:
+//    - Refactored opcodes for improved interpreter performance.
+//    - Split binary/unary/call opcodes into separate implementations
+//      depending on where the result is stored (local or property).
+//    - Split goto opcodes based on what type of value is retrieved
+//      (constant, local, property, classvar).
+//    - Removed kod-style % comments, switch to // and /**/ style.
+//    - Replaced the MOD operator with %.
+//    - Added compound assignment operators +=, -=, *=, /=, %=, |=, &=.
+#define BOF_VERSION 7
 
 #define IDBASE        10000      /* Lowest # of user-defined id.  Builtin ids have lower #s */
 #define RESOURCEBASE  20000      /* Lowest # of user-defined resource. */
@@ -49,6 +61,14 @@
 
 typedef int Bool;
 enum {False = 0, True = 1};
+
+/* enum used when creating goto opcodes */
+enum
+{
+   GOTO_UNCONDITIONAL = 0,
+   GOTO_IF_TRUE = 1,
+   GOTO_IF_FALSE = 2,
+};
 
 // enum for built-in class IDs. These appear in blakserv.h also.
 enum

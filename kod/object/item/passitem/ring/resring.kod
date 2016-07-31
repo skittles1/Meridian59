@@ -1,14 +1,14 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% based off original kod by Justin, 98jsh@williams.edu
+////////////////////////////////////////////////////////////////////////////////
+// based off original kod by Justin, 98jsh@williams.edu
 
 ResistRing is Ring
 
@@ -40,7 +40,7 @@ classvars:
    viWeight = 10
    viValue_average = 280
 
-   % Resistance rings hide their color until revealed or worn
+   // Resistance rings hide their color until revealed or worn
    viUnrevealedColor = PT_ITEM_XLAT_BLUE_TO_WHITE
 
 properties:
@@ -68,7 +68,7 @@ messages:
    {
       if vrName <> vrRealName
       {
-         % Identify upon equip, 'testing out' the ring
+         // Identify upon equip, 'testing out' the ring
          Send(self,@RevealHiddenAttributes);
          Send(self,@RevealHiddenColor);
          Send(Send(self,@GetOwner),@SomethingChanged,#what=self);
@@ -149,4 +149,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

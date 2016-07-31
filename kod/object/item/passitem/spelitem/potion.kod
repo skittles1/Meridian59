@@ -1,22 +1,22 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Potion is SpellItem
 
 constants:
 
    include blakston.khd
 
-   % * 10^-4 hp / sec (half that of a spider bite)
+   // * 10^-4 hp / sec (half that of a spider bite)
    POISON_LOSSRATE = 1250
-   % In ms.
+   // In ms.
    POISON_DURATION = 60000 
 
 resources:
@@ -70,7 +70,7 @@ properties:
    piMinSpellPower = 20
    piMaxSpellPower = 60
 
-   % No more potion expiration
+   // No more potion expiration
    piGoBadTime = -1
 
 messages:
@@ -112,7 +112,7 @@ messages:
       if pbBad
       {
          Send(apply_on,@MsgSendUser,#message_rsc=Potion_bad_drink);
-         % do some damage!
+         // do some damage!
          if Send(apply_on,@AssessDamage,#report=FALSE,#what=what,
                  #damage=(viGoBadDamage*Random(8,12)/10),
                  #aspell=ATCK_SPELL_ACID) = $
@@ -120,7 +120,7 @@ messages:
             Send(what,@KilledSomething,#what=apply_on);
          }
 
-         % maybe poison, too!
+         // maybe poison, too!
          if Random(1,100) <= viPoisonPercent
          {
             oSpell = Send(SYS,@FindSpellByNum,#num=SID_POISON);
@@ -146,7 +146,7 @@ messages:
 
    DoFailure(what=$)
    {
-      % Overriding because the superclass gives a "broken" message.  Oops.
+      // Overriding because the superclass gives a "broken" message.  Oops.
       return;
    }
 
@@ -163,4 +163,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

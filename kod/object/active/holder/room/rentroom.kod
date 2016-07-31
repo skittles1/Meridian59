@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 RentableRoom is Room
 
 constants:
@@ -19,41 +19,41 @@ constants:
 
    CARPET_SECTOR = 8
 
-   WALLPAPER_ID = 10       % picture locations are 11,12,13,14
+   WALLPAPER_ID = 10       // picture locations are 11,12,13,14
 
-   CARPET_A = 50050        % light gray (green) carpet
-   CARPET_B = 50051        % omit - didn't palletize well
-   CARPET_C = 50052        % dark grey (purple, tweed) carpet
-   CARPET_D = 09588        % light wood (tos inn floor)
-   CARPET_E = 09637        % dark wood
-                           % add?: bar inn red carpet
-   CARPET_G = 08961        % kocatan wooden panels
+   CARPET_A = 50050        // light gray (green) carpet
+   CARPET_B = 50051        // omit - didn't palletize well
+   CARPET_C = 50052        // dark grey (purple, tweed) carpet
+   CARPET_D = 09588        // light wood (tos inn floor)
+   CARPET_E = 09637        // dark wood
+                           // add?: bar inn red carpet
+   CARPET_G = 08961        // kocatan wooden panels
 
-   WALLPAPER_A = 50053     % cream vines (off-white)
-   WALLPAPER_B = 50057     % brown victorian medallions
-   WALLPAPER_C = 50065     % black floral
-   WALLPAPER_D = 50069     % white paisley brocade
-   WALLPAPER_E = 09583     % brick (tos apoth wall - no picture allowed)
-   WALLPAPER_F = 09586     % wood panelling
-   WALLPAPER_G = 50078     % kocatan wall with blue stripe
+   WALLPAPER_A = 50053     // cream vines (off-white)
+   WALLPAPER_B = 50057     // brown victorian medallions
+   WALLPAPER_C = 50065     // black floral
+   WALLPAPER_D = 50069     // white paisley brocade
+   WALLPAPER_E = 09583     // brick (tos apoth wall - no picture allowed)
+   WALLPAPER_F = 09586     // wood panelling
+   WALLPAPER_G = 50078     // kocatan wall with blue stripe
 
-   BEDSPREAD_A = 50061     % blue
-   BEDSPREAD_B = 50063     % red
-   BEDSPREAD_C = 50073     % black (floral)
-   BEDSPREAD_D = 50075     % white (linen brocade)
+   BEDSPREAD_A = 50061     // blue
+   BEDSPREAD_B = 50063     // red
+   BEDSPREAD_C = 50073     // black (floral)
+   BEDSPREAD_D = 50075     // white (linen brocade)
 
    PICTURE_NONE = 0
-   PICTURE_A = 1           % flowers
-   PICTURE_B = 2           % battle
-   PICTURE_C = 3           % portrait
+   PICTURE_A = 1           // flowers
+   PICTURE_B = 2           // battle
+   PICTURE_C = 3           // portrait
 
-   % in milliseconds
+   // in milliseconds
    DECORATOR_DELAY = 3000
 
-   % How many items we can get from a heartstone
+   // How many items we can get from a heartstone
    ITEMS_FROM_HEARTSTONES = 10
 
-   % How much to lighten/darken the room by.
+   // How much to lighten/darken the room by.
    LIGHT_STEP = 40
 
 resources:
@@ -117,7 +117,7 @@ resources:
       "I am also impressed that you have all the heartstones.  I can make "
       "some rare objects that require them all."
 
-   % Rentable Room commands:
+   // Rentable Room commands:
    RentableRoom_command_here = "here"
 
    RentableRoom_command_blue = "blue"
@@ -200,7 +200,7 @@ properties:
    prRoom = RentableRoom_roo
    piRoom_num = $
 
-   % Keep the room a bit dark so lights show off better.
+   // Keep the room a bit dark so lights show off better.
    piBaseLight = LIGHT_DARK
    piOutside_factor = 1
 
@@ -223,11 +223,11 @@ properties:
 
    piCredit = 0
 
-   % One offline week in Meridian days (12 * 7)
+   // One offline week in Meridian days (12 * 7)
    piDaysLeft = 85
 
-   % How many heartstones parts do we have left?
-   %  Start off with a few fragments (4), so we can decorate a bit.
+   // How many heartstones parts do we have left?
+   //  Start off with a few fragments (4), so we can decorate a bit.
    piRedHeartstone = 4
    piBlueHeartstone = 4
    piBrownHeartstone = 4
@@ -242,39 +242,39 @@ messages:
    Constructor(iRID=RID_RENTABLE_START)
    {
       piRoom_num = iRID;
-      plObjects = [ [ % always available
+      plObjects = [ [ // always available
                      Create(&OrnamentalObject,#type=OO_RR_BASIN),
                      Create(&OrnamentalObject,#type=OO_RR_TABLE),
                      Create(&OrnamentalObject,#type=OO_RR_PLANT2),
                      Create(&Stool)
                     ],
-                    [ % earth heartstone
+                    [ // earth heartstone
                      Create(&OrnamentalObject,#type=OO_STONECHAIR),
                      Create(&OrnamentalObject,#type=OO_BIGURN),
                      Create(&OrnamentalObject,#type=OO_BIGURN2),
                      Create(&OrnamentalObject,#type=OO_BLUEJUG),
                      Create(&Pillar)
                     ],
-                    [ % fire heartstone
+                    [ // fire heartstone
                      Create(&SkullBrazier),
                      Create(&Brazier),
                      Create(&OrcTorch),
                      Create(&TableLamp),
                      Create(&Candle)
                     ],
-                    [ % water heartstone
+                    [ // water heartstone
                      Create(&OrnamentalObject,#type=OO_JUG),
                      Create(&OrnamentalObject,#type=OO_GREY_JUG),
                      Create(&OrnamentalObject,#type=OO_RR_PLANT1),
                      Create(&OrnamentalObject,#type=OO_BIGIRON)
                     ],
-                    [ % air heartstone
+                    [ // air heartstone
                      Create(&OrnamentalObject,#type=OO_JALA_BOOK),
                      Create(&OrnamentalObject,#type=OO_3_CLOTH_BOLTS),
                      Create(&OrnamentalObject,#type=OO_BOX_WITH_SNAKE),
                      Create(&OrnamentalObject,#type=OO_SKULL4)
                     ],
-                    [ % all heartstones
+                    [ // all heartstones
                      Create(&DragonflyCage),
                      Create(&SmallBox)
                     ]
@@ -334,8 +334,8 @@ messages:
 
       if sector = $
       {
-         % Set the current bed sector to $, we might choose it in the random
-         % choice and still need to do the initial set up for it.
+         // Set the current bed sector to $, we might choose it in the random
+         // choice and still need to do the initial set up for it.
          piBedSector = $;
          sector = Random(viBedSectorMin,viBedSectorMax);
       }
@@ -520,12 +520,12 @@ messages:
       return TRUE;
    }
 
-   % A note on how the "TrySet*" fuctions work.
-   % Return values:
-   % TRUE means we could change it.
-   % FALSE means that is not available
-   % $ means we need more information
-   % -> Exception is BedSector.
+   // A note on how the "TrySet*" fuctions work.
+   // Return values:
+   // TRUE means we could change it.
+   // FALSE means that is not available
+   // $ means we need more information
+   // -> Exception is BedSector.
 
    TrySetBedSector(who=$,string=$,oDecorator=$)
    {
@@ -581,7 +581,7 @@ messages:
 
       if (iBlue+iRed+iBlack+iWhite) > 1
       {
-         % Confusing command.  Ask for more info.
+         // Confusing command.  Ask for more info.
          return $;
       }
 
@@ -630,7 +630,7 @@ messages:
 
       if (iLtGray + iDkGray + iLtWood + iDkWood + iKcWood) > 1
       {
-         % Confusing command.  Ask for more info.
+         // Confusing command.  Ask for more info.
          return $;
       }
 
@@ -691,7 +691,7 @@ messages:
 
       if (iCream + iBrown + iBlack + iWhite + iBrick + iWood + iStripe) > 1
       {
-         % Confusing command.  Ask for more info.
+         // Confusing command.  Ask for more info.
          return $;
       }
 
@@ -771,7 +771,7 @@ messages:
 
       if (iStillLife+iTapestry+iPortrait+iNothing) > 1
       {
-         % Confusing command.  Ask for more info.
+         // Confusing command.  Ask for more info.
          return $;
       }
 
@@ -864,8 +864,8 @@ messages:
    {
       local i, j, lObjectList;
 
-      % Note: we get away with a simple algorithm here
-      % because we know there are at least 4 objects at all times.
+      // Note: we get away with a simple algorithm here
+      // because we know there are at least 4 objects at all times.
 
       i = 0;
       lObjectList = $;
@@ -892,14 +892,14 @@ messages:
          return FALSE;
       }
 
-      % Only two boxes per room.
+      // Only two boxes per room.
       if NOT Send(self,@CanAccessObject,#who=who,
                   #category=Send(self,@GetObjectCategory,#oItem=template))
       {
          return FALSE;
       }
 
-      % StorageBox is the superclass of all storage boxes.
+      // StorageBox is the superclass of all storage boxes.
       if IsClass(template,&StorageBox)
          AND (Send(self,@CountHoldingHowMany,#class=&StorageBox) > 1)
       {
@@ -971,17 +971,17 @@ messages:
 
       oClosest = $;
 
-      % About 1.5 squares away
+      // About 1.5 squares away
       iClosestDistance = FINENESS + FINENESS_HALF;
 
-      % Apply distance formula.
+      // Apply distance formula.
       iClosestDistance = (iClosestDistance*iClosestDistance);
       iClosestDistance = iClosestDistance * 2;
 
-      % This is set if there could be confusion between two objects.
+      // This is set if there could be confusion between two objects.
       bConfused = FALSE;
 
-      % Determine which list to use.
+      // Determine which list to use.
       if Send(template,@GetObjectType) = ACTIVE
       {
          lInventory = Send(self,@GetHolderActive);
@@ -996,18 +996,18 @@ messages:
          if IsClass(First(i),GetClass(template))
             AND StringEqual(Send(First(i),@GetName),Send(template,@GetName))
          {
-            % First, figure the difference between the rows.  Depending on
-            % the sign of the difference depends on what amount of the
-            % fine row we need to count.  IE, if the difference is negative,
-            % that means that the player has a greater row value than the
-            % object, so count the fineness between them (from object's
-            % fineness to max fineness, then from 0 to the player's fineness)
-            % Space between them is the number of full squares between
-            % them.  Same logic for columns.
+            // First, figure the difference between the rows.  Depending on
+            // the sign of the difference depends on what amount of the
+            // fine row we need to count.  IE, if the difference is negative,
+            // that means that the player has a greater row value than the
+            // object, so count the fineness between them (from object's
+            // fineness to max fineness, then from 0 to the player's fineness)
+            // Space between them is the number of full squares between
+            // them.  Same logic for columns.
             iRowDiff = Send(First(i),@GetRow) - Send(who,@GetRow);
             iColDiff = Send(First(i),@GetCol) - Send(who,@GetCol);
 
-            % Don't bother if it's greater than two full rows/columns away.
+            // Don't bother if it's greater than two full rows/columns away.
             if Abs(iRowDiff) > 2 OR Abs(iColDiff) > 2
             {
                continue;
@@ -1029,7 +1029,7 @@ messages:
                }
                else
                {
-                  % This means iRowDiff = 0
+                  // This means iRowDiff = 0
                   iTemp = Abs((Send(First(i),@GetFineRow)
                                  - Send(who,@GetFineRow)));
                }
@@ -1053,7 +1053,7 @@ messages:
                }
                else
                {
-                  % This means iColDiff = 0
+                  // This means iColDiff = 0
                   iTemp = Abs((Send(First(i),@GetFineCol)
                               - Send(who,@GetFineCol)));
                }
@@ -1063,8 +1063,8 @@ messages:
 
             if iCurrentDistance < iClosestDistance
             {
-               % We're cool if we're closer than about a quarter of a
-               % "box" away, otherwise there may be some confusion.
+               // We're cool if we're closer than about a quarter of a
+               // "box" away, otherwise there may be some confusion.
                if (iClosestDistance - iCurrentDistance)
                      > ((FINENESS/4) * (FINENESS/4))
                {
@@ -1093,7 +1093,7 @@ messages:
    {
       if Send(self,@FindHoldingActive,#class=&Decorator) <> $
       {
-         % Don't bother, it's already here.
+         // Don't bother, it's already here.
          return;
       }
 
@@ -1207,21 +1207,21 @@ messages:
 
       if iChange > 0
       {
-         % Increase light by a step.
+         // Increase light by a step.
          iAmount = LIGHT_STEP;
       }
       else
       {
          if iChange < 0
          {
-            % Decrease light by a step.
+            // Decrease light by a step.
             iAmount = -LIGHT_STEP;
          }
       }
 
-      % Bind between 44 and 244 for consistent, reasonable levels of light.
-      % Note: the spells Light and Darkness alter these threshold.
-      % Saying 'lighter' or 'darker' resets it though.
+      // Bind between 44 and 244 for consistent, reasonable levels of light.
+      // Note: the spells Light and Darkness alter these threshold.
+      // Saying 'lighter' or 'darker' resets it though.
       iAmount = bound((piBaseLight + iAmount),44,244);
       Send(self,@SetBaseLight,#amount=iAmount);
 
@@ -1230,8 +1230,8 @@ messages:
 
    CanAccessObject(category=1,who=$)
    {
-      % No attacks mean no heartstones.
-      % Everything except for 6th category is fine.
+      // No attacks mean no heartstones.
+      // Everything except for 6th category is fine.
       if NOT Send(Send(SYS,@GetNodeAttack),@GetAttacks)
       {
          if category <> 6
@@ -1244,9 +1244,9 @@ messages:
          }
       }
 
-      % Has the user given use those neat-o Heartstones?  If so, what
-      % can we make? Note: 6th category stuff is primo!  You gotta have
-      % all heartstones at full to get it.
+      // Has the user given use those neat-o Heartstones?  If so, what
+      // can we make? Note: 6th category stuff is primo!  You gotta have
+      // all heartstones at full to get it.
       if (category = 1)
          OR ((category = 2) AND piBrownHeartStone)
          OR ((category = 3) AND piRedHeartStone)
@@ -1277,7 +1277,7 @@ messages:
                  AND piGreenHeartStone AND piWhiteHeartStone
                  AND piBlackHeartStone AND piPurpleHeartStone);
 
-      % Increment appropriate type of heartstone.
+      // Increment appropriate type of heartstone.
       if IsClass(oStone,&RedHeartStone)
       {
          piRedHeartStone = piRedHeartStone + ITEMS_FROM_HEARTSTONES;
@@ -1343,13 +1343,13 @@ messages:
    {
       local iCategory;
 
-      % Don't worry if there's no attacks.
+      // Don't worry if there's no attacks.
       if not Send(Send(SYS,@GetNodeAttack),@GetAttacks)
       {
          return;
       }
 
-      % We placed an item that required heartstones
+      // We placed an item that required heartstones
       iCategory = Send(self,@GetObjectCategory,#oItem=oItem);
 
       if iCategory = 2
@@ -1428,10 +1428,10 @@ messages:
          return;
       }
 
-      % Send warning every 12 Meridian days (2 real days),
-      % and when we have 4 hours left.
+      // Send warning every 12 Meridian days (2 real days),
+      // and when we have 4 hours left.
       if (piDaysLeft <= 2)
-         OR ((piDaysLeft MOD 12) = 0)
+         OR ((piDaysLeft % 12) = 0)
       {
          Send(self,@SendExpiryWarningMail);
       }
@@ -1472,7 +1472,7 @@ messages:
    DisposeTimer()
    "Called by the dispose timer."
    {
-      % If someone's in the room, don't do anything.  Try later.
+      // If someone's in the room, don't do anything.  Try later.
       if pbUser_in_room
       {
          ptDispose = $;
@@ -1486,7 +1486,7 @@ messages:
 
    NewHold(what=$)
    {
-      % Get rid of tokens.
+      // Get rid of tokens.
       if what <> $ AND IsClass(what,&Token)
       {
          Post(what,@RandomTeleport);
@@ -1516,9 +1516,9 @@ messages:
 
    CanHavePlayerPortal(who = $)
    {
-      % Don't allow portals in private rooms
+      // Don't allow portals in private rooms
       return FALSE;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

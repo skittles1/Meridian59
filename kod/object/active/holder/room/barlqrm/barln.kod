@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////////////////////////////////////////////////////////////
 BarloqueNorth is BarloqueRoom
 
 constants:
@@ -40,7 +40,7 @@ classvars:
 
    viPermanent_flags = ROOM_GUILD_PK_ONLY | ROOM_LAMPS
 
-   % Not technically a beach, but we want the ocean-type sounds.
+   // Not technically a beach, but we want the ocean-type sounds.
    viTerrain_Type = TERRAIN_CITY | TERRAIN_SHOP | TERRAIN_FOUNTAIN | TERRAIN_BEACH
 
    viFlag_row = 40
@@ -89,7 +89,7 @@ messages:
       plExits = Cons([ 21,15 , RID_GUILDH14, 2, 33, ROTATE_NONE ],plExits);
       plExits = Cons([ 21,16 , RID_GUILDH14, 2, 33, ROTATE_NONE ],plExits);
 
-      %% Gates into BAR_SOUTH
+      /// Gates into BAR_SOUTH
       plExits = Cons([ 44,52, RID_BAR_SOUTH, 4, 38, ROTATE_NONE ],plExits);
       plExits = Cons([ 45,52, RID_BAR_SOUTH, 4, 38, ROTATE_NONE ],plExits);
       plExits = Cons([ 46,52, RID_BAR_SOUTH, 4, 38, ROTATE_NONE ],plExits);
@@ -275,7 +275,7 @@ messages:
 
    StartSnow(bOnGround=TRUE)
    {
-      % Check if we can have weather effects here.
+      // Check if we can have weather effects here.
       if NOT pbWeatherEffects
       {
          return;
@@ -285,11 +285,11 @@ messages:
       {
          if pbSnowGroundTexture
          {
-            % Add snow to lighting sectors.
+            // Add snow to lighting sectors.
             Send(self,@ChangeTexture,#id=12,#new_texture=61015,#flags=CTF_FLOOR);
             Send(self,@ChangeTexture,#id=11,#new_texture=61015,#flags=CTF_FLOOR);
             Send(self,@ChangeTexture,#id=7,#new_texture=61015,#flags=CTF_FLOOR);
-            % Add snow to clock.
+            // Add snow to clock.
             Send(self,@ChangeTexture,#id=1,#new_texture=61016,#flags=CTF_FLOOR);
             Send(self,@ChangeTexture,#id=2,#new_texture=61016,#flags=CTF_FLOOR);
             Send(self,@ChangeTexture,#id=3,#new_texture=61016,#flags=CTF_FLOOR);
@@ -298,7 +298,7 @@ messages:
          }
       }
 
-      % Propagate to Room, do the rest there.
+      // Propagate to Room, do the rest there.
       propagate;
    }
 
@@ -324,9 +324,9 @@ messages:
          Send(self,@RemoveTextureChange,#id=12);
       }
 
-      % Propagate to Room, do the rest there.
+      // Propagate to Room, do the rest there.
       propagate;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Orc is Monster
 
 constants:
@@ -87,7 +87,7 @@ messages:
       propagate;
    }
 
-   % Used for defense messages
+   // Used for defense messages
    GetParryAbility(stroke_obj=$)
    {
       if stroke_obj <> $
@@ -125,8 +125,8 @@ messages:
 
    SendMoveAnimation()
    {
-      % Make it look like orc is walking
-      % Cycle through "walking" bitmaps (groups 2-6) at 50 ms per frame
+      // Make it look like orc is walking
+      // Cycle through "walking" bitmaps (groups 2-6) at 50 ms per frame
       AddPacket(1,ANIMATE_CYCLE,4,50,2,2,2,6);
 
       return;
@@ -141,7 +141,7 @@ messages:
          return;
       }
 
-      %% if no body animation.
+      /// if no body animation.
       propagate;
    }
 
@@ -156,4 +156,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

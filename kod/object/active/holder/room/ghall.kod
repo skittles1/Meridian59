@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////////////////////////////////////////////////////////////
 GuildHall is Room
 
 constants:
@@ -22,9 +22,9 @@ constants:
    SHIELD_OFF = 1
    SHIELD_ON = 2
 
-   % real value, 10 minutes
+   // real value, 10 minutes
    CONQUER_DELAY = 600000
-   % one hour
+   // one hour
    CONQUER_RENT_DELAY = 3600000
 
    PURCHASE_MODIFIER = 5000
@@ -117,10 +117,10 @@ classvars:
    viLever_fine_row = 32
    viLever_fine_col = 32
 
-   % Quality is the overall guildhall quality, ranges from 1 to 10
+   // Quality is the overall guildhall quality, ranges from 1 to 10
    viQuality = 6
 
-   viPermanent_flags = ROOM_SANCTUARY % | ROOM_SAFELOGOFF
+   viPermanent_flags = ROOM_SANCTUARY // | ROOM_SAFELOGOFF
    viTerrain_type = TERRAIN_GUILDHALL
 
    vrNewsdesc = guildhall_newsdesc
@@ -128,7 +128,7 @@ classvars:
    viInner_teleport_row = $
    viInner_teleport_col = $
 
-   % Player can only enter the guild hall if he enters in this amount of time.
+   // Player can only enter the guild hall if he enters in this amount of time.
    viSeconds_til_close = 20
 
    vrEntrancedoor_open_sound = guildhall_entrancedoor_open_sound
@@ -136,17 +136,17 @@ classvars:
    vrSecretdoor_open_sound = guildhall_entrancedoor_open_sound
    vrSecretdoor_close_sound = guildhall_entrancedoor_close_sound
 
-   % For guildhalls with the chest in the foyer, this will be TRUE.
-   % Default FALSE.
+   // For guildhalls with the chest in the foyer, this will be TRUE.
+   // Default FALSE.
    vbChestInFoyer = FALSE
 
 properties:
 
    ptEntrance = $
 
-   % This is a list of the coordinates for the area containing
-   % the guild hall entrance door. Used for removing players
-   % from it when it closes.
+   // This is a list of the coordinates for the area containing
+   // the guild hall entrance door. Used for removing players
+   // from it when it closes.
    plEntrance = $
 
    prMusic = guildhall_music
@@ -166,11 +166,11 @@ properties:
 
    pbSecretDoorOpen = FALSE
 
-   % pbBetrayed = TRUE anytime a guild member is the conquerer.
+   // pbBetrayed = TRUE anytime a guild member is the conquerer.
    pbBetrayed = FALSE
 
-   % If this is true, a single player took over the guild hall (he probably
-   % had help)
+   // If this is true, a single player took over the guild hall (he probably
+   // had help)
    pbMercenary_Conquered = FALSE
 
    ptWarning = $
@@ -189,10 +189,10 @@ messages:
 
       prNewsBall = vrName;
 
-      % Hall adds itself to a list in system for the UI to use.
+      // Hall adds itself to a list in system for the UI to use.
       Send(SYS,@NewGuildHallToList,#hall=self);
 
-      % Must prevent a recreated guild hall from forgetting it's guild owner.
+      // Must prevent a recreated guild hall from forgetting it's guild owner.
       lGuilds = Send(SYS,@GetGuilds);
       foreach i in lGuilds
       {
@@ -206,24 +206,24 @@ messages:
       propagate;
    }
 
-   % This works for standard rectangle guildhall foyers. Other configurations
-   % need to override this.
+   // This works for standard rectangle guildhall foyers. Other configurations
+   // need to override this.
    IsMoveOK(old_row = 1, old_col = 1, old_fine_row = 1, old_fine_col = 1,
             new_row = 1, new_col = 1, new_fine_row = 1, new_fine_col = 1,
             who=$)
    {
-      % Hardcoded movement check, prevent hacking into hall.
-      % Basic requirement door must not be open
+      // Hardcoded movement check, prevent hacking into hall.
+      // Basic requirement door must not be open
       if ptEntrance = $
       {
          if Send(self,@InFoyer,#iRow=old_row,#iCol=old_col,
                   #iFineRow=old_fine_row,#iFineCol=old_fine_col)
          {
-            % We're in the foyer. Check if we're trying to move into the hall.
+            // We're in the foyer. Check if we're trying to move into the hall.
             if NOT Send(self,@InFoyer,#iRow=new_row,#iCol=new_col,
                         #iFineRow=new_fine_Row,#iFineCol=new_fine_col)
             {
-               % Bad player! Fail the attempt.
+               // Bad player! Fail the attempt.
                Debug("ALERT!",Send(who,@GetTrueName),who,
                      "tried to move through closed Guild Hall door ",
                      Send(self,@GetName)," from ",old_row,old_col,old_fine_row,
@@ -284,8 +284,8 @@ messages:
    {
       If IsClass(what,&Player)
       {
-         % Post a message to be sure that it does this after
-         % the guy's stats are correctly set.
+         // Post a message to be sure that it does this after
+         // the guy's stats are correctly set.
          Post(self,@ValidEntry,#what=what);
 
          if piStatus = STATUS_RAIDED
@@ -299,7 +299,7 @@ messages:
 
    ValidEntry(what=$)
    {
-      % If they can't open the door, make sure they're outside the foyer
+      // If they can't open the door, make sure they're outside the foyer
       if NOT Send(self,@CanEnter,#who=what)
       {
          Send(self,@Teleport,#what=what,#foyer=TRUE);
@@ -491,7 +491,7 @@ messages:
          }
       }
 
-      % return -1 if this player cannot rent this guild hall.
+      // return -1 if this player cannot rent this guild hall.
       return -1;
    }
 
@@ -502,7 +502,7 @@ messages:
 
       iValue = viQuality * RENT_MODIFIER;
 
-      % Twice the cost on Sacred Haven.
+      // Twice the cost on Sacred Haven.
       if NOT Send(SYS,@isPKAllowed)
       {
          iValue = iValue * 2;
@@ -521,8 +521,8 @@ messages:
    }
 
    AreDefensesDown()
-   % Return whether the guild defenses are down, i.e. someone is trying to conquer
-   % the hall.
+   // Return whether the guild defenses are down, i.e. someone is trying to conquer
+   // the hall.
    {
       return piStatus = STATUS_RAIDED;
    }
@@ -535,7 +535,7 @@ messages:
 
       if piStatus = STATUS_CONQUERED OR piStatus = STATUS_UNOWNED
       {
-         % This guild hall can't be raided right now.
+         // This guild hall can't be raided right now.
          Send(who,@MsgSendUser,#message_rsc=guildhall_cant_flip);
 
          return;
@@ -543,14 +543,14 @@ messages:
 
       if NOT Send(self,@CanRaidGuildhall,#who=who)
       {
-         % The person isn't worthy, or this server doesn't allow it at all,
-         %  or it happened too recently for the server to allow it yet.
+         // The person isn't worthy, or this server doesn't allow it at all,
+         //  or it happened too recently for the server to allow it yet.
          Send(who,@MsgSendUser,#message_rsc=guildhall_cant_flip);
 
          return;
       }
 
-      % Report the attempt.
+      // Report the attempt.
       ClearTempString();
       AppendTempString("~B~g[~n");
       AppendTempString("Guild switch in ");
@@ -576,12 +576,12 @@ messages:
             #body=getTempString());
       ClearTempString();
 
-      % Raiding or saving the guildhall.
-      % REVIEW: break this up into separate handlers.
+      // Raiding or saving the guildhall.
+      // REVIEW: break this up into separate handlers.
 
       if piStatus = STATUS_OKAY
       {
-         % Someone is raiding the guildhall!
+         // Someone is raiding the guildhall!
 
          poConquerer = Send(who,@GetGuild);
 
@@ -668,7 +668,7 @@ messages:
          }
          else
          {
-            % Delay the warning for non-enemy conquering guilds.
+            // Delay the warning for non-enemy conquering guilds.
             ptWarning = CreateTimer(self,@WarnGuildMembers,
                                     Random(60000,180000));
          }
@@ -678,7 +678,7 @@ messages:
     
       if piStatus = STATUS_RAIDED
       {
-         % Someone is rescuing the guild hall!
+         // Someone is rescuing the guild hall!
 
          foreach i in plActive
          {
@@ -802,8 +802,8 @@ messages:
       }
       else
       {
-         % The guild hall was conquered, but was unclaimed by the conquerors.
-         % The guild hall is now available for anyone to rent again.
+         // The guild hall was conquered, but was unclaimed by the conquerors.
+         // The guild hall is now available for anyone to rent again.
 
          if piStatus = STATUS_CONQUERED
          {
@@ -904,8 +904,8 @@ messages:
       if Send(self,@InFoyer,#who=what) <> Send(self,@InFoyer,#who=victim)
       {
          if ptEntrance = $
-         % If the door was closed recently - note that this treats the door
-         % as closed the instant it starts closing - oh well.
+         // If the door was closed recently - note that this treats the door
+         // as closed the instant it starts closing - oh well.
          {
             if IsClass(what,&Player)
             {
@@ -1006,7 +1006,7 @@ messages:
       {
          if row = First(i) AND col = Nth(i,2)
          {
-            % Check to see if the doors should open
+            // Check to see if the doors should open
             if piStatus = STATUS_OKAY
                AND NOT Send(self,@CanEnter,#who=what)
             {
@@ -1029,8 +1029,8 @@ messages:
 
    CloseEntranceDoor()
    {
-      % Players get 2 seconds of time while the door is
-      % closing to move through it.
+      // Players get 2 seconds of time while the door is
+      // closing to move through it.
       ptEntrance = CreateTimer(self,@ClearDoor,2000);
 
       return;
@@ -1173,7 +1173,7 @@ messages:
 
          if what = poOld_guild
          {
-            % This should never happen
+            // This should never happen
             poOld_Guild = poGuild_owner;
          }
 
@@ -1244,7 +1244,7 @@ messages:
               ptConquer = $;
             }
 
-            % Conquer it prematurely.
+            // Conquer it prematurely.
             Send(self,@ConquerTimer);
          }
 
@@ -1303,7 +1303,7 @@ messages:
 
    CanHavePlayerPortal()
    {
-      % Don't allow portals into guild halls
+      // Don't allow portals into guild halls
       return FALSE;
    }
 
@@ -1314,7 +1314,7 @@ messages:
    
    ReqSpellCast(oSpell=$,who=$)
    {
-      % Cannot conveyance inside a hall.
+      // Cannot conveyance inside a hall.
       if IsClass(oSpell,&Conveyance)
       {
          if who <> $
@@ -1335,4 +1335,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

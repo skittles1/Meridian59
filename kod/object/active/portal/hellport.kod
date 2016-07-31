@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 HellPortal is Portal
 
 constants:
@@ -56,7 +56,7 @@ messages:
       plPossibleLocations = [ RID_TOS_INN, RID_COR_INN, RID_BAR_INN,
                               RID_JAS_INN, RID_MAR_INN, RID_RAZA_INN ];
 
-      % Set up the locations timer.
+      // Set up the locations timer.
       Send(self,@LocationsTimer);
 
       propagate;
@@ -87,7 +87,7 @@ messages:
 
       oRoom = Send(SYS,@FindRoomByNum,#num=iChosen);
 
-      % If room doesn't exist, don't change anything.
+      // If room doesn't exist, don't change anything.
       if oRoom <> $
       {
          piDest_room = iChosen;
@@ -135,7 +135,7 @@ messages:
       }
       else
       {
-         % Default
+         // Default
          rLocation = hellportal_tos;
       }
 
@@ -149,7 +149,7 @@ messages:
    {
       local oRoom;
 
-      % Check for Death Rifters.
+      // Check for Death Rifters.
       if poOwner <> $
          AND IsClass(poOwner,&Underworld)
          AND IsClass(what,&User)
@@ -161,13 +161,13 @@ messages:
          return;
       }
 
-      % Check for Ko'catanites.
+      // Check for Ko'catanites.
       if poOwner <> $
          AND IsClass(poOwner,&Underworld)
          AND IsClass(what,&User)
          AND Send(what,@CheckPlayerFlag,#flag=PFLAG2_KOCATAN_DEATH,#flagset=2)
       {
-         % Allow them to head to the island.
+         // Allow them to head to the island.
          Send(what,@SetPlayerFlag,#flag=PFLAG2_KOCATAN_DEATH,#value=FALSE,#flagset=2);
          oRoom = Send(SYS,@FindRoomByNum,#num=RID_KOC_INN);
          Send(oRoom,@Teleport,#what=what);
@@ -190,4 +190,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

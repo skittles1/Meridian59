@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 GuildCommand is PassiveObject
 
 constants:
@@ -73,20 +73,20 @@ messages:
 
    ResetCommand(who=$, rank=0, necro = FALSE)
    {
-      %% I tried to make it so necros couldn't get offered commands they 
-      %% couldn't use.  Unfortunately, my attempt at this failed.
+      /// I tried to make it so necros couldn't get offered commands they 
+      /// couldn't use.  Unfortunately, my attempt at this failed.
 
-      %%if necro and viNecro_enabled = FALSE
-      %%{                         %% player shouldn't have command
-      %%    Send(who,@RemoveGuildCommand,#command_num=viGuildCommand_num);
-      %%	  return;
-      %%}
+      ///if necro and viNecro_enabled = FALSE
+      ///{                         /// player shouldn't have command
+      ///    Send(who,@RemoveGuildCommand,#command_num=viGuildCommand_num);
+      ///	  return;
+      ///}
 
       if rank < viRank_needed
       {
          Send(who,@RemoveGuildCommand,#command_num=viGuildCommand_num);
       }
-      else                        %% player should have command
+      else                        /// player should have command
       {
          Send(who,@AddGuildCommand,#command_num=viGuildCommand_num);
       }
@@ -113,7 +113,7 @@ messages:
 
    GetNumSpellTargets()
    {
-      % Tell client how many targets this spell needs% default is none
+      // Tell client how many targets this spell needs// default is none
       return 1;
    }
 
@@ -137,7 +137,7 @@ messages:
          return FALSE;
       }
 
-      % Check that target(s) are in range
+      // Check that target(s) are in range
       oOwner = Send(who,@GetOwner);
       foreach i in lTargets
       {
@@ -161,4 +161,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

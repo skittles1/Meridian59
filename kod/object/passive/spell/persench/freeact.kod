@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 FreeAction is PersonalEnchantment
 
 constants:
@@ -66,18 +66,18 @@ classvars:
 
 properties:
 
-   % This controls how effective FA is at reducing CC duration.
-   % Higher value makes EE less effective.
-   % 100 = 50% reduction, 150 = 33% reduction.
-   piReductionFactor = 150 % Recommended value 150.
+   // This controls how effective FA is at reducing CC duration.
+   // Higher value makes EE less effective.
+   // 100 = 50// reduction, 150 = 33// reduction.
+   piReductionFactor = 150 // Recommended value 150.
 
-   % What percent of spellpower should we take in order to
-   % give the player a chance to completely resist hold?
+   // What percent of spellpower should we take in order to
+   // give the player a chance to completely resist hold?
    piResistPercent = 15
 
-   % The effectiveness of purge on the target spell as a percentage.
-   % 100 will cause purge to remove its entire spellpower, 0 will
-   % prevent purge from removing this spell.
+   // The effectiveness of purge on the target spell as a percentage.
+   // 100 will cause purge to remove its entire spellpower, 0 will
+   // prevent purge from removing this spell.
    viPurgeFactor = 40
 
 messages:
@@ -104,7 +104,7 @@ messages:
    {
       local iDuration;
 
-      % 3 - 8 minutes max, converted to ms.
+      // 3 - 8 minutes max, converted to ms.
       iDuration = 180 + (3 * iSpellPower);
       iDuration = iDuration * 1000;
 
@@ -118,7 +118,7 @@ messages:
 
       oFreeActionStrength = Send(oTarget,@GetEnchantedState,#what=self);
 
-      % Give players a decent chance to improve the spell!
+      // Give players a decent chance to improve the spell!
       foreach i in Send(oTarget,@GetPassiveImprovementList)
       {
          if First(i) = self
@@ -128,7 +128,7 @@ messages:
          }
       }
 
-      % Check if they repel hold outright 1 - 15% chance.
+      // Check if they repel hold outright 1 - 15// chance.
       if Random(0,100) <= ((oFreeActionStrength * piResistPercent) / 100)
       {
          Send(oTarget,@MsgSendUser,#message_rsc=FreeAction_evade);
@@ -153,7 +153,7 @@ messages:
 
    OfferToNewCharacters()
    {
-      % It's a PK-types spell.  Don't offer to newbies.
+      // It's a PK-types spell.  Don't offer to newbies.
       return FALSE;
    }
 
@@ -176,4 +176,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,16 +1,16 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Lute is Instrument
 
-% This is the superclass for all lute-type instruments.
+// This is the superclass for all lute-type instruments.
 
 constants:
 
@@ -71,7 +71,7 @@ messages:
    {
       local oItemAtt, oRoom;
 
-      % Play a sound
+      // Play a sound
       oRoom = Send(poOwner, @GetOwner);
       if oRoom <> $
       {
@@ -79,8 +79,8 @@ messages:
                #wave_rsc = lute_used_wav_rsc);
       }
 
-      % This alerts Item attributes when item is used.
-      % Currently special checks for "glowing" weapon attribute.
+      // This alerts Item attributes when item is used.
+      // Currently special checks for "glowing" weapon attribute.
       if Send(self,@HasAttribute,#ItemAtt=WA_GLOWING)
       {
          oItemAtt = Send(SYS,@FindItemAttByNum,#num=WA_GLOWING);
@@ -94,8 +94,8 @@ messages:
    {
       local oItemAtt;
 
-      % This alerts Item attributes when item is unusedused.
-      % Currently special checks for "glowing" weapon attribute.
+      // This alerts Item attributes when item is unusedused.
+      // Currently special checks for "glowing" weapon attribute.
       if Send(self,@HasAttribute,#ItemAtt=WA_GLOWING)
       {
          oItemAtt = Send(SYS,@FindItemAttByNum,#num=WA_GLOWING);
@@ -106,4 +106,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

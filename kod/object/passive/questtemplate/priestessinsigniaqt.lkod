@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 priestessinsigniaquest_name_rsc = de "Gildenschild Insignien Quest"
 priestessinsigniaquest_desc_rsc = de \
    "Die Priesterin wird Ihre Insignien auf dein Gildenschild einlassen, wenn "
@@ -17,7 +17,7 @@ priestessinsigniaquest_completed_rsc = de \
    "Du hast Insignien auf deinem Gildenschild erhalten, welche Dir "
    "mehr Kraft auf deine Zauber geben."
 
-% Quest resources.
+// Quest resources.
 priestessinsignia_trigger = de "Abzeichen"
 priestessinsignia_assign_2 = de \
    "~IIch sehe Du hast ein unsigniertes Schild.  Ich wäre gerne dazu bereit, "

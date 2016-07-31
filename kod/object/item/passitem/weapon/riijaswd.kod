@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 RiijaSword is Weapon
 
 constants:
@@ -37,7 +37,7 @@ classvars:
    viHits_init_min = 600
    viHits_init_max = 650
 
-   % Riija Swords are high quality thrusting weapons
+   // Riija Swords are high quality thrusting weapons
    viWeaponType = WEAPON_TYPE_THRUST
    viWeaponQuality = WEAPON_QUALITY_HIGH
    viProficiency_needed = SKID_PROFICIENCY_SHORT_SWORD
@@ -137,7 +137,7 @@ messages:
          AND poQuester <> $
          AND poOwner <> poQuester
       {
-         % Return a big number, since normally chance to-hit goes up to 1000.
+         // Return a big number, since normally chance to-hit goes up to 1000.
          return -10000;
       }
 
@@ -163,7 +163,7 @@ messages:
    {
       local cPiece, lPieces, oPiece, cBadPiece;
 
-      % When shattered, pick 3 random quest pieces and give them to our owner.
+      // When shattered, pick 3 random quest pieces and give them to our owner.
       lPieces = [&SwordShardA,&SwordShardB,&SwordShardC,&SwordShardD];
       cBadPiece = Nth(lPieces,random(1,4));
 
@@ -178,7 +178,7 @@ messages:
          Send(poOwner,@NewHold,#what=oPiece);
       }
 
-      % We are deleted further up the chain.
+      // We are deleted further up the chain.
       propagate;
    }
 
@@ -196,4 +196,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 CurseWeapon is Debuff
 
 constants:
@@ -61,7 +61,7 @@ classvars:
 properties:
 
    viMana = 18
-   viPostCast_time = 1     % In seconds
+   viPostCast_time = 1     // In seconds
    piBaseDuration = 6000
    piSpellPowerModifier = 50
    piDeviation = 10
@@ -141,9 +141,9 @@ messages:
       {
          Send(oTarget,@StartEnchantment,#what=self,#time=iDuration);
 
-         % Note: item attribute powers are stored as a value between 0-9,
-         % so don't send an iPower higher than that amount until a sanity
-         % check is placed there.
+         // Note: item attribute powers are stored as a value between 0-9,
+         // so don't send an iPower higher than that amount until a sanity
+         // check is placed there.
 
          if oTarget <> what
          {
@@ -184,9 +184,9 @@ messages:
    {
       local iDuration;
 
-      % Duration calculation now uses class properties, modifiable in game
-      % By default, base duration 4000ms, total time 4000-12000ms using 80x
-      % spellpower multiplier, with the final duration 90-100% max
+      // Duration calculation now uses class properties, modifiable in game
+      // By default, base duration 4000ms, total time 4000-12000ms using 80x
+      // spellpower multiplier, with the final duration 90-100// max
 
       iDuration = (piBaseDuration + (iSpellPower+1)*piSpellPowerModifier);
       iDuration = Random(iDuration*(100-piDeviation)/100,iDuration);
@@ -195,4 +195,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

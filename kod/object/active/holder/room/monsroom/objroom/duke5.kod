@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Duke5 is ObjectRoom
 
 constants:
@@ -133,7 +133,7 @@ properties:
 
    plLights = $
 
-   % The timer, and the timer duration, for when the lights change.
+   // The timer, and the timer duration, for when the lights change.
    ptPartyLights = $
    piLightsTime = 1500
 
@@ -149,7 +149,7 @@ messages:
          ptPartyLights = $;
       }
 
-      % Clear out the party lights list.  Lights will be deleted with room contents.
+      // Clear out the party lights list.  Lights will be deleted with room contents.
       plLights = $;
 
       propagate;
@@ -167,7 +167,7 @@ messages:
 
       rMusic = $;
 
-      % Commands to change the party lights!
+      // Commands to change the party lights!
       if StringEqual(string,duke5_party_off_command)
       {
          send(self,@SetPartyLights,#value=PARTY_OFF);
@@ -183,7 +183,7 @@ messages:
          send(self,@SetPartyLights,#value=PARTY_RANDOM);
       }
 
-      % Commands to change the music
+      // Commands to change the music
       if StringEqual(string,"song1") { rMusic = DJ1; }
       if StringEqual(string,"song2") { rMusic = DJ2; }
       if StringEqual(string,"song3") { rMusic = DJ3; }
@@ -280,7 +280,7 @@ messages:
 
    LastUserLeft()
    {
-      % Turn off the lights as the last person leaves.
+      // Turn off the lights as the last person leaves.
       send(self,@SetPartyLights,#value=PARTY_OFF);
 
       propagate;
@@ -297,7 +297,7 @@ messages:
    {
       plExits = $;
 
-      %% TO FEAST HALL (RID_DUKE4)
+      /// TO FEAST HALL (RID_DUKE4)
       plExits = Cons([ 27, 14, RID_DUKE4, 3, 15, ROTATE_NONE ],plExits);
       plExits = Cons([ 27, 15, RID_DUKE4, 3, 15, ROTATE_NONE ],plExits);
       plExits = Cons([ 27, 16, RID_DUKE4, 3, 15, ROTATE_NONE ],plExits);
@@ -357,8 +357,8 @@ messages:
       Send(self,@NewHold,#what=Create(&Brazier),#new_row=26,#new_col=24,
            #fine_row=16,#fine_col=16);
 
-      % Party Lights! WOOO!
-      % 5 different lights, Intensity at highest, (255)
+      // Party Lights! WOOO!
+      // 5 different lights, Intensity at highest, (255)
 
       oLight = Create(&DynamicLight,#iColor=LIGHT_BBLUE,#iIntensity=255);
       Send(oLight,@SetSwitch,#bSwitch=OFF);
@@ -408,10 +408,10 @@ messages:
          ptPartyLights = $;
       }
 
-      % Did we get turned off?
+      // Did we get turned off?
       if piPartySetting = PARTY_OFF
       {
-         % Make sure each light is off.
+         // Make sure each light is off.
          foreach oLight in plLights
          {
             Send(oLight,@SetSwitch,#bSwitch=OFF);
@@ -421,10 +421,10 @@ messages:
       {
          lColors = [ LIGHT_BPURPLE, LIGHT_BORANGE, LIGHT_BGREEN, LIGHT_BRED, LIGHT_BBLUE ];
 
-         % Are we on?
+         // Are we on?
          if piPartySetting = PARTY_ON
          {
-            % Make sure each light is on and set to the original color
+            // Make sure each light is on and set to the original color
             iIndex = 1;
 
             foreach oLight in plLights
@@ -435,12 +435,12 @@ messages:
             }
          }
 
-         % Are we in Random EXTREME PARTY MODE(tm)?
+         // Are we in Random EXTREME PARTY MODE(tm)?
          if piPartySetting = PARTY_RANDOM
          {
-            % Make the lights flash and change color
+            // Make the lights flash and change color
 
-            % Add in an "off" option to the colors list.
+            // Add in an "off" option to the colors list.
             lColors = Cons(-1,lColors);
 
             foreach oLight in plLights
@@ -450,18 +450,18 @@ messages:
 
                if iIndex = -1
                {
-                  % Switch the light off
+                  // Switch the light off
                   Send(oLight,@SetSwitch,#bSwitch=OFF);
                }
                else
                {
-                  % Switch the light on with a random color
+                  // Switch the light on with a random color
                   Send(oLight,@SetLight,#iColor=iIndex);
                   Send(oLight,@SetSwitch,#bSwitch=ON);
                }
             }
 
-            % Create a timer to switch them again.
+            // Create a timer to switch them again.
             ptPartyLights = CreateTimer(self,@PartyLightsTimer,piLightsTime);
          }
       }
@@ -484,4 +484,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

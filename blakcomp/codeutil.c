@@ -33,7 +33,7 @@ void codegen_error(const char *fmt, ...)
    codegen_ok = False;
 }
 /************************************************************************/
-void OutputOpcode(int outfile, opcode_type opcode)
+void OutputOpcode(int outfile, opcode_data opcode)
 {
    BYTE datum;
 
@@ -52,6 +52,64 @@ void OutputInt(int outfile, int datum)
 {
    /* Write out a 4 byte # */
    write(outfile, &datum, sizeof(datum)); 
+}
+/************************************************************************/
+/*
+ * OutputGotoOpcode:  Choose which GOTO opcode to output based on the
+ *    goto type (true, false, unconditional) and the type of the data
+ *    to be checked (local, constant, property, classvar).
+ */
+void OutputGotoOpcode(int outfile, int goto_type, int id_type)
+{
+   switch (goto_type)
+   {
+   case GOTO_UNCONDITIONAL:
+      OutputByte(outfile, (BYTE)OP_GOTO_UNCOND);
+      return;
+   case GOTO_IF_TRUE:
+      switch (id_type)
+      {
+      case LOCAL_VAR:
+         OutputByte(outfile, (BYTE)OP_GOTO_IF_TRUE_L);
+         return;
+      case CONSTANT:
+         OutputByte(outfile, (BYTE)OP_GOTO_IF_TRUE_C);
+         return;
+      case PROPERTY:
+         OutputByte(outfile, (BYTE)OP_GOTO_IF_TRUE_P);
+         return;
+      case CLASS_VAR:
+         OutputByte(outfile, (BYTE)OP_GOTO_IF_TRUE_V);
+         return;
+      default:
+         codegen_error("Invalid ID type %d encountered in OutputGotoOpcode",
+            id_type);
+         return;
+      }
+   case GOTO_IF_FALSE:
+      switch (id_type)
+      {
+      case LOCAL_VAR:
+         OutputByte(outfile, (BYTE)OP_GOTO_IF_FALSE_L);
+         return;
+      case CONSTANT:
+         OutputByte(outfile, (BYTE)OP_GOTO_IF_FALSE_C);
+         return;
+      case PROPERTY:
+         OutputByte(outfile, (BYTE)OP_GOTO_IF_FALSE_P);
+         return;
+      case CLASS_VAR:
+         OutputByte(outfile, (BYTE)OP_GOTO_IF_FALSE_V);
+         return;
+      default:
+         codegen_error("Invalid ID type %d encountered in OutputGotoOpcode",
+            id_type);
+         return;
+      }
+   default:
+      codegen_error("Unknown goto type %d encountered in OutputGotoOpcode!",
+         goto_type);
+   }
 }
 /************************************************************************/
 /*
@@ -211,44 +269,44 @@ void BackpatchGotoConditional(int outfile, int source, int destination)
  *    Sourcenum must be either SOURCE1 or SOURCE2; the corresponding field 
  *    of opcode is set.
  */
-int set_source_id(opcode_type *opcode, int sourcenum, expr_type e)
+int set_source_id(opcode_data *opcode, int sourcenum, expr_type e)
 {
    id_type id;
    int temp, retval;
 
-   switch(e->type)
+   switch (e->type)
    {
    case E_CONSTANT:
       temp = CONSTANT;
       retval = const_to_int(e->value.constval);
       break;
-      
+
    case E_IDENTIFIER:
       id = e->value.idval;
       retval = id->idnum;
       switch (id->type)
       {
       case I_LOCAL:
-	 temp = LOCAL_VAR;
-	 break;
-	 
+         temp = LOCAL_VAR;
+         break;
+
       case I_PROPERTY:
-	 temp = PROPERTY;
-	 break;
+         temp = PROPERTY;
+         break;
 
       case I_CLASSVAR:
-	 temp = CLASS_VAR;
-	 break;
+         temp = CLASS_VAR;
+         break;
 
       default:
-	 codegen_error("Identifier in expression not a local or property: %s", 
-		       id->name);
+         codegen_error("Identifier in expression not a local or property: %s",
+            id->name);
       }
       break;
 
    default:
-      codegen_error("Bad expression type (%d) in set_source_id", e->type); 
-      
+      codegen_error("Bad expression type (%d) in set_source_id", e->type);
+
    }
 
    if (sourcenum == SOURCE1)
@@ -262,25 +320,23 @@ int set_source_id(opcode_type *opcode, int sourcenum, expr_type e)
 }
 /************************************************************************/
 /*
- * set_dest_id: Set opcode destination field to local var or property,
- *   depending on type of given id.
+ * set_dest_id: Set opcode destination (source2) field to local var or
+ *   property, depending on type of given id.
  *   Returns id # of given id.
  */
-int set_dest_id(opcode_type *opcode, id_type id)
+int set_dest_id(opcode_data *opcode, id_type id)
 {
    switch (id->type)
    {
    case I_LOCAL:
-      opcode->dest = LOCAL_VAR;
+      opcode->source2 = LOCAL_VAR;
       break;
-      
    case I_PROPERTY:
-      opcode->dest = PROPERTY;
+      opcode->source2 = PROPERTY;
       break;
-      
    default:
       codegen_error("Identifier in expression not a local or property: %s", 
-		    id->name);
+         id->name);
    }
    return id->idnum;
 }
@@ -313,110 +369,140 @@ id_type make_temp_var(int idnum)
  */
 int flatten_expr(expr_type e, id_type destvar, int maxlocal)
 {
-   opcode_type opcode, sc_opcode;
+   opcode_data opcode;
    expr_type tempexpr;
    int sourceval1, sourceval2, destval, our_maxlocal = maxlocal, templocals;
    int op, gotopos, exitpos;
+   int binary_dest_type;
 
    memset(&opcode, 0, sizeof(opcode));  /* Set opcode to all zeros */
-   memset(&sc_opcode, 0, sizeof(sc_opcode));  /* Set opcode to all zeros */
    destval = set_dest_id(&opcode, destvar);
 
    switch (e->type)
    {
    case E_CONSTANT:
-      opcode.command = UNARY_ASSIGN;
+
+      // Operation is assignment (local var = constant)
+      if (opcode.source2 == LOCAL_VAR)
+         OutputByte(outfile, (BYTE)OP_UNARY_NONE_L);
+      else if (opcode.source2 == PROPERTY)
+         OutputByte(outfile, (BYTE)OP_UNARY_NONE_P);
+      else
+         codegen_error("Unknown dest var type (%d) encountered",
+            destvar->type);
+
+      // Source is a constant
       opcode.source1 = CONSTANT;
-      
-      /* Opcode is <local var> = <constant> */
       OutputOpcode(outfile, opcode);
 
-      /* Operation is plain assignment */
-      OutputByte(outfile,  (BYTE) NONE);
-      
-      /* Destination is var #destval */
+      // Destination is var #destval
       OutputInt(outfile, destval);
 
-      /* Source is the constant itself */
+      // Source is the constant itself
       OutputConstant(outfile, e->value.constval);
 
-      return our_maxlocal;
       break;
 
    case E_IDENTIFIER:
-      opcode.command = UNARY_ASSIGN;
+      // Operation is assignment (local var = identifier)
+      if (opcode.source2 == LOCAL_VAR)
+         OutputByte(outfile, (BYTE)OP_UNARY_NONE_L);
+      else if (opcode.source2 == PROPERTY)
+         OutputByte(outfile, (BYTE)OP_UNARY_NONE_P);
+      else
+         codegen_error("Unknown dest var type (%d) encountered",
+            destvar->type);
+
+      // Source is an identifier
       set_source_id(&opcode, SOURCE1, e);
-      
-      /* Opcode is <local var> = <identifier> */
       OutputOpcode(outfile, opcode);
 
-      /* Operation is plain assignment */
-      OutputByte(outfile,  (BYTE) NONE);
-      
-      /* Destination is local var #destlocal */
+      // Destination is local var #destlocal
       OutputInt(outfile, destval);
 
-      /* Source is the id # of the identifier */
+      // Source is the id # of the identifier
       OutputInt(outfile, e->value.idval->idnum);
 
       break;
 
    case E_UNARY_OP:
-      opcode.command = UNARY_ASSIGN;
-      
       /* If operand is simple, compute result directly, else store in temp */
       tempexpr = e->value.unary_opval.exp;
       if (is_base_level(tempexpr))
-	 sourceval1 = set_source_id(&opcode, SOURCE1, tempexpr);
+         sourceval1 = set_source_id(&opcode, SOURCE1, tempexpr);
       else
       {
-	 /* Evaluate rhs, store in destlocal, then perform operation */
-	 our_maxlocal = flatten_expr(tempexpr, destvar, our_maxlocal);
+         /* Evaluate rhs, store in destlocal, then perform operation */
+         our_maxlocal = flatten_expr(tempexpr, destvar, our_maxlocal);
 
-	 /* Source is same as destination; perform op in place */
-	 opcode.source1 = opcode.dest;
-	 sourceval1 = destvar->idnum; 
+         /* Source is same as destination; perform op in place */
+         opcode.source1 = opcode.source2;
+         sourceval1 = destvar->idnum;
       }
-      
-      OutputOpcode(outfile, opcode);
-      /* Write out operation type */
-      switch(e->value.unary_opval.op)
-      {
-      case NEG_OP:      OutputByte(outfile,  (BYTE) NEGATE);         break;
-      case NOT_OP:      OutputByte(outfile,  (BYTE) NOT);            break;
-      case BITNOT_OP:   OutputByte(outfile,  (BYTE) BITWISE_NOT);    break;
-      case PRE_INC_OP:  OutputByte(outfile,  (BYTE) PRE_INCREMENT);  break;
-      case PRE_DEC_OP:  OutputByte(outfile,  (BYTE) PRE_DECREMENT);  break;
-      case POST_INC_OP: OutputByte(outfile,  (BYTE) POST_INCREMENT); break;
-      case POST_DEC_OP: OutputByte(outfile,  (BYTE) POST_DECREMENT); break;
 
-      default:
-	 codegen_error("Unknown unary operator type (%d) encountered", 
-		       e->value.unary_opval.op);
-      }      
-      OutputInt(outfile, destval);       /* Destination is local var #destlocal */
-      OutputInt(outfile, sourceval1);       
+      // Write out operation type
+      if (opcode.source2 == LOCAL_VAR)
+      {
+         switch (e->value.unary_opval.op)
+         {
+         case NEG_OP:      OutputByte(outfile, (BYTE)OP_UNARY_NEG_L);    break;
+         case NOT_OP:      OutputByte(outfile, (BYTE)OP_UNARY_NOT_L);    break;
+         case BITNOT_OP:   OutputByte(outfile, (BYTE)OP_UNARY_BITNOT_L); break;
+         case PRE_INC_OP:  OutputByte(outfile, (BYTE)OP_UNARY_PREINC);   break;
+         case PRE_DEC_OP:  OutputByte(outfile, (BYTE)OP_UNARY_PREDEC);   break;
+         case POST_INC_OP: OutputByte(outfile, (BYTE)OP_UNARY_POSTINC);  break;
+         case POST_DEC_OP: OutputByte(outfile, (BYTE)OP_UNARY_POSTDEC);  break;
+
+         default:
+            codegen_error("Unknown unary operator type (%d) encountered",
+               e->value.unary_opval.op);
+         }
+      }
+      else if (opcode.source2 == PROPERTY)
+      {
+         switch (e->value.unary_opval.op)
+         {
+         case NEG_OP:      OutputByte(outfile, (BYTE)OP_UNARY_NEG_P);    break;
+         case NOT_OP:      OutputByte(outfile, (BYTE)OP_UNARY_NOT_P);    break;
+         case BITNOT_OP:   OutputByte(outfile, (BYTE)OP_UNARY_BITNOT_P); break;
+         case PRE_INC_OP:  OutputByte(outfile, (BYTE)OP_UNARY_PREINC);   break;
+         case PRE_DEC_OP:  OutputByte(outfile, (BYTE)OP_UNARY_PREDEC);   break;
+         case POST_INC_OP: OutputByte(outfile, (BYTE)OP_UNARY_POSTINC);  break;
+         case POST_DEC_OP: OutputByte(outfile, (BYTE)OP_UNARY_POSTDEC);  break;
+
+         default:
+            codegen_error("Unknown unary operator type (%d) encountered",
+               e->value.unary_opval.op);
+         }
+      }
+      else
+         codegen_error("Unknown dest var type (%d) encountered",
+            destvar->type);
+
+      OutputOpcode(outfile, opcode);
+
+      // Destination is local var #destlocal
+      OutputInt(outfile, destval);
+      OutputInt(outfile, sourceval1);
 
       break;
 
    case E_BINARY_OP:
-      opcode.command = BINARY_ASSIGN;
-      
       tempexpr = e->value.binary_opval.left_exp;
       op = e->value.binary_opval.op;
       templocals = maxlocal;  /* Holds max # used in one subexpression (left or right) */
 
       if (is_base_level(tempexpr))
-	 sourceval1 = set_source_id(&opcode, SOURCE1, tempexpr);
+         sourceval1 = set_source_id(&opcode, SOURCE1, tempexpr);
       else
       {
-	 opcode.source1 = LOCAL_VAR;
+         opcode.source1 = LOCAL_VAR;
 
-	 /* Evaluate rhs, store in temporary, and assign it to destvar */
-	 our_maxlocal++;
-	 templocals++;  /* Lhs must be stored in temp; rhs must not use this temp */
-	 sourceval1 = our_maxlocal;
-	 our_maxlocal = flatten_expr(tempexpr, make_temp_var(our_maxlocal), our_maxlocal);
+         /* Evaluate rhs, store in temporary, and assign it to destvar */
+         our_maxlocal++;
+         templocals++;  /* Lhs must be stored in temp; rhs must not use this temp */
+         sourceval1 = our_maxlocal;
+         our_maxlocal = flatten_expr(tempexpr, make_temp_var(our_maxlocal), our_maxlocal);
       }
 
       exitpos = 0;
@@ -424,11 +510,8 @@ int flatten_expr(expr_type e, id_type destvar, int maxlocal)
       if (op == AND_OP || op == OR_OP)
       {
          /* If must evaluate rhs, create jump over short circuit code */
-         sc_opcode.command = GOTO;
-         sc_opcode.dest = (op == AND_OP) ? GOTO_IF_TRUE : GOTO_IF_FALSE ;
-         sc_opcode.source1 = opcode.source1;  /* Check lhs of binary expression */
-         
-         OutputOpcode(outfile, sc_opcode);
+         // Output the goto opcode
+         OutputGotoOpcode(outfile, (op == AND_OP) ? GOTO_IF_TRUE : GOTO_IF_FALSE, opcode.source1);
          gotopos = FileCurPos(outfile);
          OutputInt(outfile, 0);    /* Leave room for destination address */
          OutputInt(outfile, sourceval1);  /* Same as lhs source value above */
@@ -437,19 +520,19 @@ int flatten_expr(expr_type e, id_type destvar, int maxlocal)
          flatten_expr(make_expr_from_constant(make_numeric_constant( (op == AND_OP)
                                                                      ? 0 : 1)), 
                       destvar, maxlocal);
-         
+
          /* Now jump to end of expression evaluation */
-         sc_opcode.source1 = 0;
-         sc_opcode.source2 = GOTO_UNCONDITIONAL;
-         sc_opcode.dest = 0;
-         OutputOpcode(outfile, sc_opcode);
+         OutputGotoOpcode(outfile, GOTO_UNCONDITIONAL, 0);
          exitpos = FileCurPos(outfile);
          OutputInt(outfile, 0);    /* Leave room for destination */
-         
+
          /* Backpatch in goto that skipped short circuit code */
          BackpatchGotoConditional(outfile, gotopos, FileCurPos(outfile));
       }
-      
+
+      // opcode.source2 (dest) is about to be clobbered, and we still need it.
+      binary_dest_type = opcode.source2;
+
       tempexpr = e->value.binary_opval.right_exp;
       if (is_base_level(tempexpr))
          sourceval2 = set_source_id(&opcode, SOURCE2, tempexpr);
@@ -462,49 +545,108 @@ int flatten_expr(expr_type e, id_type destvar, int maxlocal)
          sourceval2 = templocals;
          templocals = flatten_expr(tempexpr, make_temp_var(templocals), templocals);
       }
-      
-      OutputOpcode(outfile, opcode);
+
       /* Write out operation type */
       switch(op)
       {
-      case AND_OP:    OutputByte(outfile,  (BYTE) AND);            break;
-      case OR_OP:     OutputByte(outfile,  (BYTE) OR);             break;
-      case PLUS_OP:   OutputByte(outfile,  (BYTE) ADD);            break;
-      case MINUS_OP:  OutputByte(outfile,  (BYTE) SUBTRACT);       break;
-      case MULT_OP:   OutputByte(outfile,  (BYTE) MULTIPLY);       break;
-      case DIV_OP:    OutputByte(outfile,  (BYTE) DIV);            break;
-      case MOD_OP:    OutputByte(outfile,  (BYTE) MOD);            break;
-      case NEQ_OP:    OutputByte(outfile,  (BYTE) NOT_EQUAL);      break;
-      case EQ_OP:     OutputByte(outfile,  (BYTE) EQUAL);          break;
-      case LT_OP:     OutputByte(outfile,  (BYTE) LESS_THAN);      break;
-      case GT_OP:     OutputByte(outfile,  (BYTE) GREATER_THAN);   break;
-      case GEQ_OP:    OutputByte(outfile,  (BYTE) GREATER_EQUAL);  break;
-      case LEQ_OP:    OutputByte(outfile,  (BYTE) LESS_EQUAL);     break;
-      case BITAND_OP: OutputByte(outfile,  (BYTE) BITWISE_AND);    break;
-      case BITOR_OP:  OutputByte(outfile,  (BYTE) BITWISE_OR);     break;
-
+      case AND_OP:
+         (binary_dest_type == LOCAL_VAR)
+            ? OutputByte(outfile, (BYTE)OP_BINARY_AND_L)
+            : OutputByte(outfile, (BYTE)OP_BINARY_AND_P);
+         break;
+      case OR_OP:
+         (binary_dest_type == LOCAL_VAR)
+            ? OutputByte(outfile, (BYTE)OP_BINARY_OR_L)
+            : OutputByte(outfile, (BYTE)OP_BINARY_OR_P);
+         break;
+      case PLUS_OP:
+         (binary_dest_type == LOCAL_VAR)
+            ? OutputByte(outfile, (BYTE)OP_BINARY_ADD_L)
+            : OutputByte(outfile, (BYTE)OP_BINARY_ADD_P);
+         break;
+      case MINUS_OP:
+         (binary_dest_type == LOCAL_VAR)
+            ? OutputByte(outfile, (BYTE)OP_BINARY_SUB_L)
+            : OutputByte(outfile, (BYTE)OP_BINARY_SUB_P);
+         break;
+      case MULT_OP:
+         (binary_dest_type == LOCAL_VAR)
+            ? OutputByte(outfile, (BYTE)OP_BINARY_MUL_L)
+            : OutputByte(outfile, (BYTE)OP_BINARY_MUL_P);
+         break;
+      case DIV_OP:
+         (binary_dest_type == LOCAL_VAR)
+            ? OutputByte(outfile, (BYTE)OP_BINARY_DIV_L)
+            : OutputByte(outfile, (BYTE)OP_BINARY_DIV_P);
+         break;
+      case MOD_OP:
+         (binary_dest_type == LOCAL_VAR)
+            ? OutputByte(outfile, (BYTE)OP_BINARY_MOD_L)
+            : OutputByte(outfile, (BYTE)OP_BINARY_MOD_P);
+         break;
+      case NEQ_OP:
+         (binary_dest_type == LOCAL_VAR)
+            ? OutputByte(outfile, (BYTE)OP_BINARY_NEQ_L)
+            : OutputByte(outfile, (BYTE)OP_BINARY_NEQ_P);
+         break;
+      case EQ_OP:
+         (binary_dest_type == LOCAL_VAR)
+            ? OutputByte(outfile, (BYTE)OP_BINARY_EQ_L)
+            : OutputByte(outfile, (BYTE)OP_BINARY_EQ_P);
+         break;
+      case LT_OP:
+         (binary_dest_type == LOCAL_VAR)
+            ? OutputByte(outfile, (BYTE)OP_BINARY_LESS_L)
+            : OutputByte(outfile, (BYTE)OP_BINARY_LESS_P);
+         break;
+      case GT_OP:
+         (binary_dest_type == LOCAL_VAR)
+            ? OutputByte(outfile, (BYTE)OP_BINARY_GREATER_L)
+            : OutputByte(outfile, (BYTE)OP_BINARY_GREATER_P);
+         break;
+      case GEQ_OP:
+         (binary_dest_type == LOCAL_VAR)
+            ? OutputByte(outfile, (BYTE)OP_BINARY_GEQ_L)
+            : OutputByte(outfile, (BYTE)OP_BINARY_GEQ_P);
+         break;
+      case LEQ_OP:
+         (binary_dest_type == LOCAL_VAR)
+            ? OutputByte(outfile, (BYTE)OP_BINARY_LEQ_L)
+            : OutputByte(outfile, (BYTE)OP_BINARY_LEQ_P);
+         break;
+      case BITAND_OP:
+         (binary_dest_type == LOCAL_VAR)
+            ? OutputByte(outfile, (BYTE)OP_BINARY_BITAND_L)
+            : OutputByte(outfile, (BYTE)OP_BINARY_BITAND_P);
+         break;
+      case BITOR_OP:
+         (binary_dest_type == LOCAL_VAR)
+            ? OutputByte(outfile, (BYTE)OP_BINARY_BITOR_L)
+            : OutputByte(outfile, (BYTE)OP_BINARY_BITOR_P);
+         break;
       default:
-	 codegen_error("Unknown unary operator type (%d) encountered", op);
-      }      
+         codegen_error("Unknown unary operator type (%d) encountered", op);
+      }
+      OutputOpcode(outfile, opcode);
       OutputInt(outfile, destval);         /* Destination is local var #destlocal */
       OutputInt(outfile, sourceval1);      /* Source is variable id # or constant */
       OutputInt(outfile, sourceval2);
-      
+
       /* If there was short circuit code, fill in the short-circuiting goto */
       if (exitpos != 0)
          BackpatchGotoUnconditional(outfile, exitpos, FileCurPos(outfile));
 
       /* See which branch used more temps */
       if (templocals > our_maxlocal)
-	 our_maxlocal = templocals;
+         our_maxlocal = templocals;
       break;
 
    case E_CALL:
       /* Place return value of call into destination variable */
       our_maxlocal = codegen_call( ((stmt_type) (e->value.callval))->value.call_stmt_val, 
-				  destvar, our_maxlocal);
+            destvar, our_maxlocal);
       break;
-      
+
    default:
       codegen_error("Unknown expression type (%d) encountered", e->type);
    }

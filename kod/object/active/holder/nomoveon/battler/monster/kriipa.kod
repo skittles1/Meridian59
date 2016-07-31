@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Kriipa is Monster
 
 constants:
@@ -72,7 +72,7 @@ classvars:
    viDefault_behavior = AI_FIGHT_AGGRESSIVE | AI_FIGHT_HYPERAGGRESSIVE
    viLevel = 160
    viDifficulty = 6
-   % Attack range of 192, or 3 row/col.
+   // Attack range of 192, or 3 row/col.
    viAttackRange = 192
    viVisionDistance = 20
    viKarma = -50
@@ -182,7 +182,7 @@ messages:
 
       if poOwner = $
       {
-         % We died and this still went off. Do nothing.
+         // We died and this still went off. Do nothing.
          return;
       }
 
@@ -252,7 +252,7 @@ messages:
    {
       Send(self,@ClearBehavior,#timer=timer);
 
-      % Sanity checks.
+      // Sanity checks.
       if poOwner = $
       {
          Debug("Unreachable. Null Owner");
@@ -285,9 +285,9 @@ messages:
          return;
       }
 
-      % We're close enough and in range.  Now, normally, we move 
-      % around the player to keep him guessing.   Let's zigzag around,
-      % instead of consistently moving to that player's right.
+      // We're close enough and in range.  Now, normally, we move 
+      // around the player to keep him guessing.   Let's zigzag around,
+      // instead of consistently moving to that player's right.
       if Random(1,100) < 50
       {
          piState = piState | ESTATE_CLOCKWISE;
@@ -299,7 +299,7 @@ messages:
 
       if ptDrop = $
       {
-         % Carry out attack.
+         // Carry out attack.
          piRoofState = STATE_JUMPINGDOWN;
          piBehavior = (piBehavior | AI_NOMOVE);
          Send(self,@MonsterJumpDown);
@@ -335,7 +335,7 @@ messages:
          return;
       }
 
-      % if no body animation
+      // if no body animation
       if piRoofState = STATE_ONROOF
       {
          AddPacket(1,ANIMATE_NONE,2,FRAME_STAND_CANOPY);
@@ -365,4 +365,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

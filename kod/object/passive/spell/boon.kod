@@ -1,25 +1,25 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Boon is Spell
 
-% Boons are long term enchantments that last over a period of real time days.
-% They work via enchantment timers that are restared every hour for the
-% duration of the boon.  Boons can also work as banes.  
+// Boons are long term enchantments that last over a period of real time days.
+// They work via enchantment timers that are restared every hour for the
+// duration of the boon.  Boons can also work as banes.  
 
 constants:
 
    include blakston.khd
 
    BOON_HOUR = 3600000
-   BOON_DEFAULT_LENGTH = 1    % in realtime weeks
+   BOON_DEFAULT_LENGTH = 1    // in realtime weeks
    BOON_DEFAULT_AMOUNT = 5
    HOURS_LOGGED_ON_PER_DAY = 2
 
@@ -142,9 +142,9 @@ messages:
    {
       local iDuration;
 
-      iDuration = Compound MOD 10;
+      iDuration = Compound % 10;
       iDuration = iDuration * HOURS_LOGGED_ON_PER_DAY;
-      iDuration = Abs(iDuration);  % We accept negative effects, but not durations
+      iDuration = Abs(iDuration);  // We accept negative effects, but not durations
 
       return iDuration;
    }
@@ -176,11 +176,11 @@ messages:
 
       if state < 0
       {
-         iState = -(state MOD 100);
+         iState = -(state % 100);
       }
       else
       {
-         iState = state MOD 100;
+         iState = state % 100;
       }
 
       Send(self,@EndEnchantment,#who=who,#state=iState,#report=report);
@@ -226,7 +226,7 @@ messages:
    CanBeRemovedByPlayer()
    "Returns if a spell can be removed by normal Purge/Purify"
    {
-      % Can't remove boon spells with purify or purge
+      // Can't remove boon spells with purify or purge
       return TRUE;
    }
 
@@ -268,13 +268,13 @@ messages:
             }
             else
             {
-               % Should be an integer
+               // Should be an integer
                iNewDuration = iTime;
             }
             iHours = Abs(Nth(i,3)) / 100;
             iNewDuration = iNewDuration / 1000 + iHours * 3600;
-            % We can have multiple copies of the same boon, so
-            % use the lowest duration one.
+            // We can have multiple copies of the same boon, so
+            // use the lowest duration one.
             if iDuration = 0
                OR iNewDuration < iDuration
             {
@@ -283,19 +283,19 @@ messages:
          }
       }
 
-      % If we somehow ended up with $, set iDuration to 0. This isn't
-      % likely to happen, but check anyway.
+      // If we somehow ended up with $, set iDuration to 0. This isn't
+      // likely to happen, but check anyway.
       if iDuration = $
       {
          iDuration = 0;
       }
 
-      % This message picks the appropriate resources for the duration given,
-      % and sends them to the user.
+      // This message picks the appropriate resources for the duration given,
+      // and sends them to the user.
       Send(self,@SendTimeRemaining,#iTime=iDuration);
 
       return;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

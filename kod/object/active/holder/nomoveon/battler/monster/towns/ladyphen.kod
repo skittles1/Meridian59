@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ladypheonix is PassiveObject
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%This is a memorial statue of a meridian player    %%
-%%who died.  Don't remove it, unless you want the   %%
-%%players to get really, really pissed.             %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////
+///This is a memorial statue of a meridian player    ///
+///who died.  Don't remove it, unless you want the   ///
+///players to get really, really pissed.             ///
+///////////////////////////////////////////////////////
 
 constants:
 
@@ -309,10 +309,10 @@ messages:
       return;
    }
 
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   %%Stuff from statue for drawing %%
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   %%Straight cut and paste, could prolly be simplified at some point.
+   ///////////////////////////////////
+   ///Stuff from statue for drawing ///
+   ///////////////////////////////////
+   ///Straight cut and paste, could prolly be simplified at some point.
 
    ResetFrames(pose = $)
    {
@@ -418,15 +418,15 @@ messages:
       local i,iOverlays,hotspot,iLeft_group,iRight_group,
             iSkin_xlat, iArms_xlat;
 
-      % Send overlay bitmap info to user.
+      // Send overlay bitmap info to user.
 
-      % Player has 8 standard overlays: right arm, left arm, legs, head, eyes, 
-      % mouth, nose, hair
+      // Player has 8 standard overlays: right arm, left arm, legs, head, eyes, 
+      // mouth, nose, hair
 
-      %% number of overlays
+      /// number of overlays
       AddPacket(1, piOverlays);
 
-      % Left hand.
+      // Left hand.
       AddPacket(4,prLeft_arm,1,HS_LEFT_HAND);
       if piArms_translation <> 0
       {
@@ -434,7 +434,7 @@ messages:
       }
       AddPacket(1,ANIMATE_NONE,2,piLeft_frame);
 
-      % Right hand.
+      // Right hand.
       AddPacket(4,prRight_arm,1,HS_RIGHT_HAND);
       if piArms_translation <> 0
       {
@@ -442,7 +442,7 @@ messages:
       }
       AddPacket(1,ANIMATE_NONE,2,piRight_frame);
 
-      % Legs.
+      // Legs.
       AddPacket(4,prLegs,1,HS_LEGS);
       if piLegs_translation <> 0
       {
@@ -450,7 +450,7 @@ messages:
       }
       AddPacket(1,ANIMATE_NONE,2,piLegs_frame);
 
-      % Face.
+      // Face.
       iSkin_xlat = piSkin_translation;
       AddPacket(4,prHead,1,HS_HEAD,1,ANIMATE_TRANSLATION,1,iSkin_xlat,
             1,ANIMATE_NONE,2,1);
@@ -558,4 +558,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

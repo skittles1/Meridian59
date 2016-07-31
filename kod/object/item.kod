@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Item is Object
 
 constants:
@@ -24,8 +24,8 @@ resources:
    item_this = "This "
    item_blank_template = "%q"
 
-   % item_desc_template is vrDesc, item attributes, object attributes,
-   % variable item appends, item stats, item condition.
+   // item_desc_template is vrDesc, item attributes, object attributes,
+   // variable item appends, item stats, item condition.
    item_desc_template = "%r%r%r%r%r%r"
    resource_blank = ""
 
@@ -106,9 +106,9 @@ classvars:
 
    viGround_group = 1
    viInventory_group = 1
-   viBroken_group = $    % if set to nil, no group exists
+   viBroken_group = $    // if set to nil, no group exists
 
-   % How much this item will help or hinder spell usage.
+   // How much this item will help or hinder spell usage.
    viSpell_modifier = 0
 
    vrIcon_male       = $
@@ -128,7 +128,7 @@ classvars:
    vrCondition_poor =  item_condition_poor
    vrCondition_broken = item_condition_broken
    
-   % Items may have a different appearance once revealed. Values are zero if not applicable.
+   // Items may have a different appearance once revealed. Values are zero if not applicable.
    viUnrevealedColor = 0
    viRevealedColor = 0
 
@@ -141,9 +141,9 @@ properties:
    plItem_attributes = $
    piItem_flags = 0
 
-   % List of enchantments applied by radius spells.
-   % Each element is [song object, spellpower, caster]
-   % Support for players, monsters, and items
+   // List of enchantments applied by radius spells.
+   // Each element is [song object, spellpower, caster]
+   // Support for players, monsters, and items
    plRadiusEnchantments = $
 
 messages:
@@ -195,18 +195,18 @@ messages:
             iKraananPower, iJalaPower, iShalPower, iQorPower, iInstrumentPower,
             iNum, bID, iMinDamage, iMinDamageOwner, iAttackType, oItemAtt;
 
-      % This message 'telescopes' resources into the 5th %r of
-      % item_desc_template. There are 16 different stats we can add;
-      % when we first add a stat to be displayed we add a template with
-      % the correct number of %r formatters to match the number of stats
-      % remaining (plus one for the special_properties_header). If a stat
-      % is missing after we have already added the headers, add a blank
-      % resource ("") in its place. If new stats are added to this message,
-      % the system_rsc_template_<number> resources should be updated
-      % accordingly.
+      // This message 'telescopes' resources into the 5th //r of
+      // item_desc_template. There are 16 different stats we can add;
+      // when we first add a stat to be displayed we add a template with
+      // the correct number of //r formatters to match the number of stats
+      // remaining (plus one for the special_properties_header). If a stat
+      // is missing after we have already added the headers, add a blank
+      // resource ("") in its place. If new stats are added to this message,
+      // the system_rsc_template_<number> resources should be updated
+      // accordingly.
 
-      % bFoundProperties is TRUE if we've already added a property. Use this
-      % to lower the amount of resources we send to only those necessary.
+      // bFoundProperties is TRUE if we've already added a property. Use this
+      // to lower the amount of resources we send to only those necessary.
       bFoundProperties = FALSE;
 
       if Send(self,@GetRange) <> 0
@@ -220,12 +220,12 @@ messages:
       {
          if bFoundProperties
          {
-            % bFoundProperties TRUE, already added headers.
+            // bFoundProperties TRUE, already added headers.
             AddPacket(4,item_stats_offense, 4,Send(self,@GetHitBonus));
          }
          else
          {
-            % bFoundProperties FALSE, add headers.
+            // bFoundProperties FALSE, add headers.
             AddPacket(4,system_rsc_template_15, 4,special_properties_header,
                       4,item_stats_offense, 4,Send(self,@GetHitBonus));
             bFoundProperties = TRUE;
@@ -233,8 +233,8 @@ messages:
       }
       else if bFoundProperties
       {
-         % bFoundProperties TRUE and didn't add this particular stat,
-         % so add a blank resource in its place.
+         // bFoundProperties TRUE and didn't add this particular stat,
+         // so add a blank resource in its place.
          AddPacket(4,system_blank_resource);
       }
 
@@ -625,7 +625,7 @@ messages:
                            #iNum=Length(plItem_attributes)));
          }
 
-         % TODO: Item attributes should handle this.
+         // TODO: Item attributes should handle this.
          foreach i in plItem_attributes
          {
             iNum = Send(self,@GetNumFromCompound,#compound=First(i));
@@ -764,7 +764,7 @@ messages:
       return 0;
    }
 
-   % Some weapons and spells have special conditions, like nerudite arrows that can shatter
+   // Some weapons and spells have special conditions, like nerudite arrows that can shatter
    GetMinSpecialDamage()
    {
       return 0;
@@ -842,7 +842,7 @@ messages:
       }
       else if plItem_Attributes <> $
       {
-         % Support for displaying up to 12 itematts.
+         // Support for displaying up to 12 itematts.
          if Length(plItem_Attributes) > 1
          {
             AddPacket(4,Send(SYS,@AddResourceTemplate,
@@ -885,7 +885,7 @@ messages:
       }
       else
       {
-         % Support for displaying up to 12 objectatts.
+         // Support for displaying up to 12 objectatts.
          if Length(plObject_attributes) > 1
          {
             AddPacket(4,Send(SYS,@AddResourceTemplate,
@@ -898,7 +898,7 @@ messages:
          }
       }
 
-      % Special things for number items, etc.
+      // Special things for number items, etc.
       Send(self,@AppendDesc);
       Send(self,@AppendStatsDesc);
       Send(self,@AppendItemCondition);
@@ -924,8 +924,8 @@ messages:
          iHit_Percent = (100 * piHits) / piHits_init;
          if iHit_Percent > 90
          {
-            % If item is worse than what can be found in the wild, describe it
-            %  as being "patched".
+            // If item is worse than what can be found in the wild, describe it
+            //  as being "patched".
             if piHits_init >= viHits_init_min
             {
                rItem_condition = vrCondition_exc;
@@ -1004,25 +1004,25 @@ messages:
    {
       local iPercent, iValue, iFinal, i, oItemAtt, iNum;
 
-      % Okay, new way of figuring value, considering 
-      % max_hits, current_max_hits, and hits.
-      % The basic formula follows this curve:
-      %
-      %              Hits
-      %             Y   .8Y   .6Y   .4Y   .2Y
-      % Max_hits  -----------------------------            
-      %    Y        X   .80X  .60X  .40X  .20X
-      %   .8Y           .64X  .48X  .32X  .16X
-      %   .6Y                 .36X  .24X  .12X
-      %   .4Y                       .16X  .08X
-      %   .2Y                             .04X
-      %
-      %    Y = viHits_init_max (max_hits before casting 'mend')
-      %    X = viAverage_value
-      %
-      % Translated:  An item whose piInit_hits is 80% of viHits_init_max
-      %              and whose piHits is equal to that amount has a value equal
-      %              to 64% of its standard value.
+      // Okay, new way of figuring value, considering 
+      // max_hits, current_max_hits, and hits.
+      // The basic formula follows this curve:
+      //
+      //              Hits
+      //             Y   .8Y   .6Y   .4Y   .2Y
+      // Max_hits  -----------------------------            
+      //    Y        X   .80X  .60X  .40X  .20X
+      //   .8Y           .64X  .48X  .32X  .16X
+      //   .6Y                 .36X  .24X  .12X
+      //   .4Y                       .16X  .08X
+      //   .2Y                             .04X
+      //
+      //    Y = viHits_init_max (max_hits before casting 'mend')
+      //    X = viAverage_value
+      //
+      // Translated:  An item whose piInit_hits is 80// of viHits_init_max
+      //              and whose piHits is equal to that amount has a value equal
+      //              to 64// of its standard value.
 
       iPercent = (100*piHits_init*piHits)/(viHits_init_max*viHits_init_max);
       iValue = Send(self,@GetInitValue);
@@ -1079,8 +1079,8 @@ messages:
    {
       local lData;
 
-      % If the person who is supposed to pick up an item picks up 
-      %  the item, then remove the corpsepointer.
+      // If the person who is supposed to pick up an item picks up 
+      //  the item, then remove the corpsepointer.
           
       if poOwner <> $ AND Send(self,@HasAttribute,#ItemAtt=IA_CORPSEPOINTER)
       {  
@@ -1140,7 +1140,7 @@ messages:
    {
       local i, oItemAtt, iNum;
           
-      %% check to be sure nothing in ItemAtts disallows this
+      /// check to be sure nothing in ItemAtts disallows this
       foreach i in plItem_Attributes
       {
          iNum = Send(self,@GetNumFromCompound,#compound=First(i));
@@ -1159,7 +1159,7 @@ messages:
    {
       local i, oItemAtt, iNum;
           
-      % Check to be sure nothing in ItemAtts disallows this
+      // Check to be sure nothing in ItemAtts disallows this
       foreach i in plItem_Attributes
       {
          iNum = Send(self,@GetNumFromCompound,#compound=First(i));
@@ -1209,8 +1209,8 @@ messages:
    {
       local i, oItemAtt, iNum;
 
-      % Type 0 is get
-      % Type 1 is offer
+      // Type 0 is get
+      // Type 1 is offer
 
       foreach i in plItem_Attributes
       {
@@ -1301,8 +1301,8 @@ messages:
 
    GetNumberOverlays()
    {
-      % Most overlay items only offer one overlay.
-      %  Some items like weapons and bows may offer two.
+      // Most overlay items only offer one overlay.
+      //  Some items like weapons and bows may offer two.
       return 1;
    }
 
@@ -1312,7 +1312,7 @@ messages:
    {
       local i, oItemAtt, iNum;
                 
-      % Check to be sure nothing in ItemAtts disallows this
+      // Check to be sure nothing in ItemAtts disallows this
       foreach i in plItem_Attributes
       {
          iNum = Send(self,@GetNumFromCompound,#compound=First(i));
@@ -1334,7 +1334,7 @@ messages:
 
    DefendingHit(who = $,what = $)
    {
-      % Set to 75% currently
+      // Set to 75// currently
       if Random(1,100) < ARMOR_TAKE_DAMAGE_PCT
       {
          --piHits;
@@ -1352,8 +1352,8 @@ messages:
    {
       local i, oItemAtt, iNum;
 
-      % Remove itematts from us, since we're not gonna use 'em anymore.
-      % This also lets cursed items finally remove themselves from us.
+      // Remove itematts from us, since we're not gonna use 'em anymore.
+      // This also lets cursed items finally remove themselves from us.
       foreach i in plItem_Attributes
       {
          iNum = Send(self,@GetNumFromCompound,#compound=First(i));
@@ -1381,7 +1381,7 @@ messages:
 
    IsItemType(type = ITEMTYPE_MISC)
    {
-      % Check for misc items (type 0)
+      // Check for misc items (type 0)
       if type = viItem_type            
       {
          return TRUE;
@@ -1598,7 +1598,7 @@ messages:
    {
       local i, iNum, oItemAtt;
 
-      % Check itematts.
+      // Check itematts.
       foreach i in plItem_Attributes
       {
          iNum = Send(self,@GetNumFromCompound,#compound=First(i));
@@ -1616,7 +1616,7 @@ messages:
    {
       local i, oItemAtt, iNum;
       
-      % Check ItemAtts to be sure nothing funky is there
+      // Check ItemAtts to be sure nothing funky is there
       foreach i in plItem_Attributes
       {
          iNum = Send(self,@GetNumFromCompound,#compound=First(i));
@@ -1638,8 +1638,8 @@ messages:
       
       foreach i in plItem_Attributes
       {
-         % KLUDGE: We specifically prevent made items from being given to NPCs.
-         %  Should be more general.
+         // KLUDGE: We specifically prevent made items from being given to NPCs.
+         //  Should be more general.
          if Send(self,@GetNumFromCompound,#compound=First(i)) = IA_MADE
          {
             return FALSE;
@@ -1661,11 +1661,11 @@ messages:
       return TRUE;
    }
 
-   % An item can format a text effect for players in the room to see,
-   %  whether held by a player or not.  If range is specified,
-   %  only players within that range will see the effect.
-   % Also, one player can be specified (in except) to treat that player
-   %  separately.
+   // An item can format a text effect for players in the room to see,
+   //  whether held by a player or not.  If range is specified,
+   //  only players within that range will see the effect.
+   // Also, one player can be specified (in except) to treat that player
+   //  separately.
    RoomMessage(range = $, except = $, except_rsc = $, message_rsc = $,
                parm1 = $, parm2 = $, parm3 = $, parm4 = $,
                parm5 = $, parm6 = $, parm7 = $, parm8 = $)
@@ -1716,7 +1716,7 @@ messages:
                continue;
             }
 
-            % message comes from except_rsc, with parm1 missing.
+            // message comes from except_rsc, with parm1 missing.
             Send(oPlayer,@MsgSendUser,#message_rsc=except_rsc,
                  #parm1=parm3,#parm2=parm4,#parm3=parm5,#parm4=parm6,
                  #parm5=parm7,#parm6=parm8);
@@ -1732,52 +1732,52 @@ messages:
       return;
    }
 
-   %  Item Attributes, added 4 March 97 by Damion Schubert
-   % 
-   %  ItemAtts are any special attributes that an item might have.  
-   %  Examples include training weapons, poisoned weapons and 
-   %  enchanted weapons.  These have been generalized so the same 
-   %  ItemAtt may be applied to any item.
-   %
-   %  The ItemAtt Struct (plItem_attributes) is as follows
-   %
-   %    plItem_attributes = \
-   %       [ [WA_const_name, timer, primary_state, secondary_state],
-   %         [WA_const_name2, timer, primary_state, secondary_state],
-   %         etc.
-   %       ]
-   %
-   %  WA_const_name : a unique constant name as found in blakston.khd
-   %  timer : a timer, most often counting down to the enchantment's
-   %    extinction.  However, since Item enchantments may last for days, 
-   %    the timer may just count down hours, with an additional (usually 
-   %    secondary) state value counting days.  If this timer doesn't exist,
-   %    the ItemAtt is permanent.
-   %  states : any value that the ItemAtt needs to know.  For example, the
-   %    strength of attributes such as the strength of poison or the damage
-   %    bonus might be stored. Individual ItemAtt code should be examined to
-   %    see what this is.
-   %
-   %  Note, there are thousands of items in a live server.  As a
-   %    result, I've taken actions to ensure that as few list nodes are used as
-   %    possible for each ItemAtt, so rather than store blank fields which are 
-   %    never used, I make it easy for the individual ItemAtts to decide to 
-   %    store what information they deem necessary. 
-   %    I check to see if those fields exist when using them, allowing me to
-   %    collapse the ItemAtt struct as much as possible.  For example, a 
-   %    training attribute struct only has one argument, the ItemAtt ID:
-   %
-   %    plItem_Attributes = [[WA_TRAINING]];
-   %
-   %  By comparison, you may have a fiery sword, which is only fiery
-   %    for a short time (as determined by a timer).  That list looks
-   %    like:
-   %
-   %    plItem_Attributes = [[WA_ATCKTYPE, DurationTimer, ATCK_FIRE]];
-   %
-   %  This 'telescoping' saves memory.
+   //  Item Attributes, added 4 March 97 by Damion Schubert
+   // 
+   //  ItemAtts are any special attributes that an item might have.  
+   //  Examples include training weapons, poisoned weapons and 
+   //  enchanted weapons.  These have been generalized so the same 
+   //  ItemAtt may be applied to any item.
+   //
+   //  The ItemAtt Struct (plItem_attributes) is as follows
+   //
+   //    plItem_attributes = \
+   //       [ [WA_const_name, timer, primary_state, secondary_state],
+   //         [WA_const_name2, timer, primary_state, secondary_state],
+   //         etc.
+   //       ]
+   //
+   //  WA_const_name : a unique constant name as found in blakston.khd
+   //  timer : a timer, most often counting down to the enchantment's
+   //    extinction.  However, since Item enchantments may last for days, 
+   //    the timer may just count down hours, with an additional (usually 
+   //    secondary) state value counting days.  If this timer doesn't exist,
+   //    the ItemAtt is permanent.
+   //  states : any value that the ItemAtt needs to know.  For example, the
+   //    strength of attributes such as the strength of poison or the damage
+   //    bonus might be stored. Individual ItemAtt code should be examined to
+   //    see what this is.
+   //
+   //  Note, there are thousands of items in a live server.  As a
+   //    result, I've taken actions to ensure that as few list nodes are used as
+   //    possible for each ItemAtt, so rather than store blank fields which are 
+   //    never used, I make it easy for the individual ItemAtts to decide to 
+   //    store what information they deem necessary. 
+   //    I check to see if those fields exist when using them, allowing me to
+   //    collapse the ItemAtt struct as much as possible.  For example, a 
+   //    training attribute struct only has one argument, the ItemAtt ID:
+   //
+   //    plItem_Attributes = [[WA_TRAINING]];
+   //
+   //  By comparison, you may have a fiery sword, which is only fiery
+   //    for a short time (as determined by a timer).  That list looks
+   //    like:
+   //
+   //    plItem_Attributes = [[WA_ATCKTYPE, DurationTimer, ATCK_FIRE]];
+   //
+   //  This 'telescoping' saves memory.
 
-   %%% Item Attribute Functions
+   //// Item Attribute Functions
    
    HasAttribute(ItemAtt = $)
    {
@@ -1841,9 +1841,9 @@ messages:
          return $;
       }
 
-      % If compound is odd, it is IDed. If even, it is not.
+      // If compound is odd, it is IDed. If even, it is not.
 
-      if (compound mod 2) = 1
+      if (compound % 2) = 1
       {
          return TRUE;
       }
@@ -1952,7 +1952,7 @@ messages:
          Debug("Can't remove a node that isn't there!"); return;
       }
 
-      % First kill the timer if it has one
+      // First kill the timer if it has one
       if Send(oItemAtt,@HasTimer,#lData=lData)
       {
          if Nth(lData,2) <> $
@@ -1961,7 +1961,7 @@ messages:
             SetNth(lData,2,$);
          }
       }
-      % now free the nodes
+      // now free the nodes
       plItem_Attributes = DelListElem(plItem_Attributes,lData);
 
       return;
@@ -1981,8 +1981,8 @@ messages:
       {
          if Length(i) >= 2 AND Nth(i,2) = timer
          {  
-            % This is the timer that just expired.
-            SetNth(i,2,$); % clear it in the data structure first
+            // This is the timer that just expired.
+            SetNth(i,2,$); // clear it in the data structure first
             iNum = Send(self,@GetNumFromCompound,#compound=First(i));
             oItemAtt = Send(SYS,@FindItemAttByNum,#num=iNum);
             Send(oItemAtt,@TimerExpired,#oItem=self,#lData=i);
@@ -2015,7 +2015,7 @@ messages:
          Send(oItemAtt,@RemoveFromItem,#oItem=self);
       }
 
-      % All items should have cleared fine.  If not, something went wrong.
+      // All items should have cleared fine.  If not, something went wrong.
       if plItem_Attributes <> $
       {
          Debug("Clearing all Item Attributes failed!");
@@ -2039,7 +2039,7 @@ messages:
       {
          if NOT Send(self,@GetIDStatusFromCompound,#compound=First(i))
          {
-            % If not identified, keep on marching.
+            // If not identified, keep on marching.
             continue;
          }
 
@@ -2080,8 +2080,8 @@ messages:
 
    GetBaseSpellModifier(oSpell=$)
    {
-      % Doing it this way, we can have different items give different bonuses
-      %  in different situations, while still giving itematt bonuses.
+      // Doing it this way, we can have different items give different bonuses
+      //  in different situations, while still giving itematt bonuses.
       return viSpell_modifier;
    }
 
@@ -2353,7 +2353,7 @@ messages:
    {
       local oRoom;
 
-      % make the player's hands match his sleeves.
+      // make the player's hands match his sleeves.
       Send(self,@ResetSkinColor);
 
       if Send(self,@ShowShirt)
@@ -2651,7 +2651,7 @@ messages:
       iRow = Send(what,@GetRow);
       iCol = Send(what,@GetCol);
 
-      % Sanity checking
+      // Sanity checking
       if iRow = $ OR iCol = $ OR Send(self,@GetRow) = $ OR Send(self,@GetCol) = $
       {
          return $;
@@ -2782,4 +2782,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

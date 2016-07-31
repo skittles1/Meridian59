@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 princessjoin_name_rsc = de "Prinzessin Anhänger Quest"
 princessjoin_desc_rsc = de \
    "Prinzessin Kateriina hat Dich dazu beauftragt einen Brief für Sie zu überbringen, "
@@ -12,7 +12,7 @@ princessjoin_deliver_rsc = de \
    "Du hast deine Loyalität zur Krone bewiesen, und wirst nun in die "
    "Reihen der Prinessin aufgenommen."
 
- % Quest resources.
+ // Quest resources.
 princess_join2_assign = de \
    "Also, Du willst Dich beweisen um mein Vertrauen zu erlangen?  Würdest "
    "Du so freundlich sein und diesen offiziellen Brief zu %NPC bringen?  "

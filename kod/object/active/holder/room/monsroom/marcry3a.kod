@@ -1,57 +1,57 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 MarionCrypt3a is MonsterRoom
 
 constants:
 
    include blakston.khd
 
-   % Constants for CountTrap
+   // Constants for CountTrap
    COUNTTRAP_USER     = 1
    COUNTTRAP_THRASHER = 2
 
-   % Constants for treasure
-   % Objects as treasure, format: [ chance, TREASURE_OBJECT, class, number ]
+   // Constants for treasure
+   // Objects as treasure, format: [ chance, TREASURE_OBJECT, class, number ]
    TREASURE_OBJECT = 1
-   % Magic weapon as treasure, format:
-   %  [ chance, TREASURE_WEAPON, class, ItemAtt constant ]
+   // Magic weapon as treasure, format:
+   //  [ chance, TREASURE_WEAPON, class, ItemAtt constant ]
    TREASURE_WEAPON = 2
 
-   % Door speeds for traps.
+   // Door speeds for traps.
    DOOR_OPEN_SPEED  = 20
    DOOR_CLOSE_SPEED = 150
 
-   % Trap one's door sector.
+   // Trap one's door sector.
    SECTOR_DOOR_TRAP1 = 1
 
-   % Trap two's door sectors, and impassable/passable line.
+   // Trap two's door sectors, and impassable/passable line.
    SECTOR_DOOR_TRAP2A = 2
    SECTOR_DOOR_TRAP2B = 3
    SECTOR_DOOR_TRAB2C = 4
 
-   % Trap three's door sector.
+   // Trap three's door sector.
    SECTOR_DOOR_TRAP3 = 5
 
-   % How long before the traps reset?
-   SECTOR_TIMER_TRAP1 = 15000   % 15 seconds
+   // How long before the traps reset?
+   SECTOR_TIMER_TRAP1 = 15000   // 15 seconds
    SECTOR_TIMER_TRAP2 = 30000
    SECTOR_TIMER_TRAP3 = 45000
 
-   % Definitions of Trap 1.
+   // Definitions of Trap 1.
    TRAP1_MIN_ROW = 23
    TRAP1_MAX_ROW = 25
    TRAP1_MIN_COL = 17
    TRAP1_MAX_COL = 26
 
-   % Definitions of the many parts of Trap 2.
+   // Definitions of the many parts of Trap 2.
    TRAP2A_MIN_ROW = 6
    TRAP2A_MAX_ROW = 7
    TRAP2A_MIN_COL = 3
@@ -65,7 +65,7 @@ constants:
    TRAP2C_MIN_COL = 8
    TRAP2C_MAX_COL = 9
 
-   % Definitions of Trap 3.
+   // Definitions of Trap 3.
    TRAP3A_MIN_ROW = 29
    TRAP3A_MAX_ROW = 29
    TRAP3A_MIN_COL = 31
@@ -75,7 +75,7 @@ constants:
    TRAP3B_MIN_COL = 28
    TRAP3B_MAX_COL = 34
 
-   % The many blink area definitions.
+   // The many blink area definitions.
    BLINK1_MIN_ROW = 26
    BLINK1_MAX_ROW = 35
    BLINK1_MIN_COL = 13
@@ -236,13 +236,13 @@ messages:
                        [27, 31]
                      ];
 
-      % Set the treasure for the final chest.
+      // Set the treasure for the final chest.
       Send(self,@ResetTreasureList);
  
-      % Create the beginning thrashers.
+      // Create the beginning thrashers.
       Send(self,@CreateThrashers);   
 
-      % Set a wall in trap 3 as impassable (prevents a safe spot).
+      // Set a wall in trap 3 as impassable (prevents a safe spot).
       Send(self,@AnimateWall,#wall=SECTOR_DOOR_TRAB2C,#animation=ANIMATE_NONE,
            #first_group=1,#passable=FALSE); 
 
@@ -255,11 +255,11 @@ messages:
       propagate;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                                    %
-% Begin code for determining whether to open traps.  %
-%                                                    %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////
+//                                                    //
+// Begin code for determining whether to open traps.  //
+//                                                    //
+///////////////////////////////////////////////////////
 
 
    SomethingKilled(what=$,victim=$)
@@ -270,13 +270,13 @@ messages:
       {
          if Send(what,@GetMaster) <> $
          {
-            % The killer is a minion
+            // The killer is a minion
             what = Send(what,@GetMaster);
          }
          else
          {
-            % Killer is an apparition or evil twin... so we need to find 
-            % a user in the correct trap.
+            // Killer is an apparition or evil twin... so we need to find 
+            // a user in the correct trap.
             foreach i in plActive
             {
                if IsClass(First(i),&User)
@@ -290,7 +290,7 @@ messages:
                      OR ((Send(self,@InTrapAreaOne,#what=oWhat)) 
                         AND (Send(self,@CountTrap,#trap=1,#what=COUNTTRAP_THRASHER) = 1))
                      {
-                     % Looks like we found our user.
+                     // Looks like we found our user.
                      what = oWhat;
 
                      break;
@@ -379,11 +379,11 @@ messages:
       propagate;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                        %
-% Are we within the trap or blink area?  %
-%                                        %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////
+//                                        //
+// Are we within the trap or blink area?  //
+//                                        //
+///////////////////////////////////////////
 
    InTrapAreaOne(what=$)
    "This returns TRUE if the player is in the first trap area, and FALSE if "
@@ -495,11 +495,11 @@ messages:
       return FALSE;
    }
 
-%%%%%%%%%%%%%%%%%
-%               %
-% Trap timers.  %
-%               %
-%%%%%%%%%%%%%%%%%
+//////////////////
+//               //
+// Trap timers.  //
+//               //
+//////////////////
 
    StartTrapOneTimer() 
    {
@@ -586,11 +586,11 @@ messages:
       return;
    }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                            
-% How many thrashers or users do we have in the trap?  
-%                            
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+//                            
+// How many thrashers or users do we have in the trap?  
+//                            
+////////////////////////////////////////////////
 
    CountTrap(trap=$,what=$)
    {
@@ -690,12 +690,12 @@ messages:
    }
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                            %
-% End trap code.             %
-% Begin special blink code.  %
-%                            %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////
+//                            //
+// End trap code.             //
+// Begin special blink code.  //
+//                            //
+///////////////////////////////
 
    Teleport(what=$)
    "Admin supported."
@@ -848,16 +848,16 @@ messages:
    }
 
 
-%%%%%%%%%%%%%%%%%%%
-%                 %
-% End blink code. %
-%                 %
-%%%%%%%%%%%%%%%%%%%
+////////////////////
+//                 //
+// End blink code. //
+//                 //
+////////////////////
 
    CreateThrashers()
    {
-      % Starting Thrashers
-      % Trap 1
+      // Starting Thrashers
+      // Trap 1
       if Send(self,@CountTrap,#trap=1,#what=COUNTTRAP_THRASHER) = 0
       {
          send(self,@NewHold,#what=Create(&Thrasher,#bAwake=FALSE),
@@ -865,7 +865,7 @@ messages:
               #new_angle=ANGLE_SOUTH);
       }
       
-      % Trap 2
+      // Trap 2
       if Send(self,@CountTrap,#trap=2,#what=COUNTTRAP_THRASHER) = 0
       {
          send(self,@NewHold,#what=Create(&Thrasher,#bAwake=FALSE),
@@ -876,7 +876,7 @@ messages:
               #new_angle=ANGLE_WEST);
       }
 
-      % Trap 3
+      // Trap 3
       if Send(self,@CountTrap,#trap=3,#what=COUNTTRAP_THRASHER) = 0
               AND Send(self,@CountTrap,#trap=3,#what=COUNTTRAP_USER) = 0
       {
@@ -898,12 +898,12 @@ messages:
    {
       plExits = $;
 
-      % Marion Crypt2
+      // Marion Crypt2
       plExits = Cons([ 30, 17, RID_MAR_CRYPT2, 37, 27,
                        ROTATE_NONE, DISTANCE_NORMAL ],plExits);
       plExits = Cons([ 30, 18, RID_MAR_CRYPT2, 37, 27,
                        ROTATE_NONE, DISTANCE_NORMAL ],plExits);
-      %Gates
+      //Gates
       plExits = Cons([ 22, 26, ROOM_LOCKED_DOOR,
                        marcrypt3a_cant_pass ],plExits);
       plExits = Cons([ 23, 26, ROOM_LOCKED_DOOR,
@@ -963,7 +963,7 @@ messages:
    CreateStandardObjects()
    {
 
-      % Dynamic lights for the vents
+      // Dynamic lights for the vents
 
       send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_DGREEN,
            #iIntensity=5),#new_row=37,#new_col=14,#fine_row=0,#fine_col=24);
@@ -1091,24 +1091,24 @@ messages:
             {
                if Nth(Nth(plTreasuresList,i),2) = TREASURE_OBJECT
                {
-                  % Create Object.
+                  // Create Object.
                   oObject = Create(Nth(Nth(plTreasuresList,i),3),
                                    #number=Nth(Nth(plTreasuresList,i),4));
-                  % Put in chest.
+                  // Put in chest.
                   Send(poChest,@NewHold,#what=oObject);
                }
                else
                {
                   if Nth(Nth(plTreasuresList,i),2) = TREASURE_WEAPON
                   {
-                     % Create weapon.
+                     // Create weapon.
                      oObject = Create(Nth(Nth(plTreasuresList,i),3));
-                     % Find Itematt.
+                     // Find Itematt.
                      oItemAtt = Send(SYS,@FindItemAttByNum,
                                      #num=Nth(Nth(plTreasuresList,i),4));
-                     % Apply Itematt.
+                     // Apply Itematt.
                      Send(oItemAtt,@AddToItem,#oItem=oObject);
-                     % Put in chest.
+                     // Put in chest.
                      Send(poChest,@NewHold,#what=oObject);
                   }
                }
@@ -1127,7 +1127,7 @@ messages:
 
    ResetTreasureList()
    {
-      % All chances (first number) should add up to 100.
+      // All chances (first number) should add up to 100.
       plTreasuresList = [ [ 1, TREASURE_OBJECT, &Rose, 1 ],
                           [ 3, TREASURE_WEAPON, &Scimitar, WA_BLINDER ],
                           [ 2, TREASURE_WEAPON, &Scimitar, WA_PURGER ],
@@ -1195,9 +1195,9 @@ messages:
 
    CanHavePlayerPortal()
    {
-      % Don't allow portals into this room, bypassing puzzle
+      // Don't allow portals into this room, bypassing puzzle
       return false;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Cave2 is ObjectRoom
 
 constants:
@@ -91,9 +91,9 @@ messages:
    DispelIllusions(what=$)
    {
       Send(self,@ChangeTexture,#id=2,#new_texture=01605,
-            #flags=CTF_FLOOR); %1605 is
+            #flags=CTF_FLOOR); //1605 is
       Send(self,@ChangeTexture,#id=3,#new_texture=01605,
-            #flags=CTF_FLOOR); %cave stone 5
+            #flags=CTF_FLOOR); //cave stone 5
       Send(self,@ChangeTexture,#id=4,#new_texture=01605,
             #flags=CTF_FLOOR);
       Send(self,@ChangeTexture,#id=5,#new_texture=01605,
@@ -121,9 +121,9 @@ messages:
       piLastIllusionReplaceTime = GetTime();
 
       Send(self,@ChangeTexture,#id=2,#new_texture=01722,
-            #flags=CTF_FLOOR); %marble peach2
+            #flags=CTF_FLOOR); //marble peach2
       Send(self,@ChangeTexture,#id=3,#new_texture=01701,
-            #flags=CTF_FLOOR); %marble white1
+            #flags=CTF_FLOOR); //marble white1
       Send(self,@ChangeTexture,#id=4,#new_texture=01701,
             #flags=CTF_FLOOR);
       Send(self,@ChangeTexture,#id=5,#new_texture=01701,
@@ -160,7 +160,7 @@ messages:
    {
       local i, Each_obj;
 
-      % Must dispell the illusion to get the chalice.
+      // Must dispell the illusion to get the chalice.
       if ptIllusionResetTimer = $
       {
          return FALSE;
@@ -182,36 +182,36 @@ messages:
             new_row = 1, new_col = 1, new_fine_row = 1, new_fine_col = 1,
             who=$)
    {
-      % This is a hardcoded movement check, which
-      % verifies the movement against 3 lines to
-      % make sure no one passes through them
-      % while the cave entrance is not dispelled
-      %
-      % line1 (vertical)   (x=10 / xfine=62) 
-      % line2 (vertical)   (x=14 / xfine=21)
-      % line3 (horizontal) (y=17 / yfine=18)
-      %
-      %         | line2 (vertic.)
-      %         |
-      %    _____| line3 (horizont.)
-      %   |
-      %   |
-      % < Entrance <
-      %   |
-      %   | line1 (vertic)
+      // This is a hardcoded movement check, which
+      // verifies the movement against 3 lines to
+      // make sure no one passes through them
+      // while the cave entrance is not dispelled
+      //
+      // line1 (vertical)   (x=10 / xfine=62) 
+      // line2 (vertical)   (x=14 / xfine=21)
+      // line3 (horizontal) (y=17 / yfine=18)
+      //
+      //         | line2 (vertic.)
+      //         |
+      //    _____| line3 (horizont.)
+      //   |
+      //   |
+      // < Entrance <
+      //   |
+      //   | line1 (vertic)
 
       local isOldEastOfLine1, isOldEastOfLine2, isOldSouthOfLine3;
 
-      % Basic requirement Entrance must not be dispelled
+      // Basic requirement Entrance must not be dispelled
       if ptIllusionResetTimer = $
       {
-         % if we are south of line3
+         // if we are south of line3
          if (old_row > 17 OR (old_row = 17 AND old_fine_row > 18))
          {
-            % if we are east of line1
+            // if we are east of line1
             if (old_col > 10 OR (old_col = 10 AND old_fine_col > 62))
             {
-               % don't allow crossing line1 from east to west
+               // don't allow crossing line1 from east to west
                if (new_col < 10 OR (new_col = 10 AND new_fine_col <= 62))
                {
                   Send(self,@LogCheatingAttempt,#who=who,#old_row=old_row,
@@ -223,10 +223,10 @@ messages:
                   return FALSE;
                }
 
-               % if we are west of line2
+               // if we are west of line2
                if (old_col < 14 OR (old_col = 14 AND old_fine_col <= 21))
                {
-                  % don't allow crossing line3 from south to north
+                  // don't allow crossing line3 from south to north
                   if (new_row < 17 OR (new_row = 17 AND new_fine_row <= 18))
                   {
                      Send(self,@LogCheatingAttempt,#who=who,#old_row=old_row,
@@ -241,10 +241,10 @@ messages:
             }
          }
 
-         % if we are north of line3 (or on line3)
+         // if we are north of line3 (or on line3)
          else
          {
-            % don't allow crossing line2 from east to west
+            // don't allow crossing line2 from east to west
             if (old_col > 14 OR (old_col = 14 AND old_fine_col > 21))
                AND (new_col < 14 OR (new_col = 14 AND new_fine_col <= 21))
             {
@@ -286,4 +286,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

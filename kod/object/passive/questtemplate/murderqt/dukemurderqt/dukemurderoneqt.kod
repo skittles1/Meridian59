@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 DukeMurderOneQuest is DukeMurderQuestTemplate
-% Quest template QST_ID_MURDER_DUKE_1 = 63.
-% Quest nodes 187, 188, 189.
-% QNT_ID_DUKE_MURDER_ONE, QNT_ID_DUKE_MURDER_TWO, QNT_ID_DUKE_MURDER_ONE_THREE
+// Quest template QST_ID_MURDER_DUKE_1 = 63.
+// Quest nodes 187, 188, 189.
+// QNT_ID_DUKE_MURDER_ONE, QNT_ID_DUKE_MURDER_TWO, QNT_ID_DUKE_MURDER_ONE_THREE
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -31,13 +31,13 @@ constants:
 
 resources:
 
-   % Quest description.
+   // Quest description.
 
-   % Quest resources.
+   // Quest resources.
 
 classvars:
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_MURDER_DUKE_1
 
 properties:
@@ -46,11 +46,11 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_DUKE_MURDER_ONE, QNT_ID_DUKE_MURDER_TWO,
                       QNT_ID_DUKE_MURDER_ONE_THREE];
 
-      % Quest nodes with matching descriptions for the player.
+      // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_DUKE_MURDER_TWO, vrNodeTwo],
                           [QNT_ID_DUKE_MURDER_ONE_THREE, vrNodeThree] ];
 
@@ -81,8 +81,8 @@ messages:
          lCargo = Cons(i, lCargo);
       }
 
-      % Template #189 is Duke's Murder Mystery quest, come back and give the info
-      % QNT_ID_DUKE_MURDER_ONE_THREE
+      // Template #189 is Duke's Murder Mystery quest, come back and give the info
+      // QNT_ID_DUKE_MURDER_ONE_THREE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=lCargo,#timelimit=3 * 3600,
                #prizelist=[ [ QN_PRIZETYPE_ITEMCLASS, &Money, 500 ] ],
@@ -104,4 +104,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

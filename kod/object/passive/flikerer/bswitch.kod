@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 BrazierSwitch is Flickerer
 
 constants:
@@ -41,7 +41,7 @@ properties:
    viStart_frame = 2
    viEnd_frame = 7
 
-   % What intensity? from 0-255
+   // What intensity? from 0-255
    piLightIntensity = 100
 
 messages:
@@ -55,7 +55,7 @@ messages:
 
    SetAnimationSpeed()
    {
-      % Set our animations a bit randomly.
+      // Set our animations a bit randomly.
       piAnim_speed = (random(9,15) * 10);
       viStart_frame = random(2,3);
       viEnd_frame = random(5,6);
@@ -104,7 +104,7 @@ messages:
       pbIsLit = has_flame;
       if pbIsLit
       {
-         % randomize each time it comes on.
+         // randomize each time it comes on.
          Send(self,@SetAnimationSpeed);
       }
 
@@ -114,4 +114,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

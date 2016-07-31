@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Morph is Spell
 
 constants:
@@ -76,7 +76,7 @@ messages:
 
    CanPayCosts(who = $, lTargets = $)
    {
-      % Check for enchantment already applied
+      // Check for enchantment already applied
       if Send(who,@CheckPlayerFlag,#flag=PFLAG_MORPHED)
       {
          Send(who,@MsgSendUser,#message_rsc=morph_already_enchanted,
@@ -105,10 +105,10 @@ messages:
          Debug("Bad iSpellpower passed to GetTranceTime");
       }
       
-      % Don't eliminate the casting time for DMs since they can use this
-      %  spell to transform.
+      // Don't eliminate the casting time for DMs since they can use this
+      //  spell to transform.
 
-      % 51 for high, 149 for low
+      // 51 for high, 149 for low
       iPercent = 150 - iSpellPower;   
       
       return (viCast_time*iPercent)/100;
@@ -120,10 +120,10 @@ messages:
       local oIllusion,iTime,oRoom,playerHP, monsterHP, differenceHP,
             lPlayerUsed, changeHP, i;
 
-      % Are they already enchanted by Illusionary form?
+      // Are they already enchanted by Illusionary form?
       if Send(victim,@IsEnchanted,#byClass=&IllusionaryForm)
       {
-         % Remove Illusionary form
+         // Remove Illusionary form
          Send(victim,@RemoveEnchantmentClass,#class=&IllusionaryForm);
       }
    
@@ -158,22 +158,22 @@ messages:
       playerHP = Send(victim,@GetMaxHealth);
       monsterHP = Send(oIllusion,@GetLevel);
 
-      % Do the random hp range here instead of relying on the template's
-      %  set hps.
+      // Do the random hp range here instead of relying on the template's
+      //  set hps.
       monsterHP = (monsterHP * random(90,110)) / 100;
       differenceHP = ((playerHP - monsterHP) * iSpellPower) / 100;
       changeHP = Send(victim,@GainMaxHealth,#amount=-differenceHP);
 
-      % Health changed, Send NewHealth.
+      // Health changed, Send NewHealth.
       Send(victim,@NewHealth);
 
-      % Dduration is based on spellpower, the difference between the hps of
-      %  the caster and the target monster, and a slight random.
+      // Dduration is based on spellpower, the difference between the hps of
+      //  the caster and the target monster, and a slight random.
       iTime = 60 + 3*iSpellPower; 
       iTime = (iTime * playerHP) / MonsterHP;
       iTime = (iTime * random(80,120)) / 100;
 
-      % Convert to ms.
+      // Convert to ms.
       iTime = iTime * 1000;
 
       Send(oRoom,@SomethingWaveRoom,#what=victim,#wave_rsc=morph_scream_wav);
@@ -240,8 +240,8 @@ messages:
          {
             iLevel = Send(i,@GetLevel);
 
-            % Be sure the player deserves to be able to 'steer' to this monster
-            % But, always let player select monster if they have max spellpower.
+            // Be sure the player deserves to be able to 'steer' to this monster
+            // But, always let player select monster if they have max spellpower.
             if (iSpellPower <= (iLevel + random(0,10))
                 AND iSpellPower < SPELLPOWER_MAXIMUM)
                AND NOT bDM
@@ -249,8 +249,8 @@ messages:
                return;
             }
 
-            % Be sure the player CAN morph to it.  Can't do some mosnters because of
-            %  size, special event status, etc.
+            // Be sure the player CAN morph to it.  Can't do some mosnters because of
+            //  size, special event status, etc.
             if NOT (bDM OR Send(i,@CanMorphTo))
             {
                return;
@@ -266,7 +266,7 @@ messages:
       
       if iForm <> -1
       {
-         % Use EVENT_STEER so we don't print fizzle message.
+         // Use EVENT_STEER so we don't print fizzle message.
          Send(who,@BreakTrance,#event=EVENT_STEER);  
          Send(self,@PerformMorph,#caster=who,#victim=who,#iIllusion_type=iForm,
               #iSpellpower=iSpellpower);
@@ -281,14 +281,14 @@ messages:
    {
       local i, iLevel, iMax, iIndex, iCount, iAmount;
             
-      % Okay, someone with a spellpower of 45 has these odds on the morph
-      %        monster  chance
-      %        level 25    25
-      %        level 35    35
-      %        level 45    45
-      %        level 55    25    % note the decrease is double the increase rate
-      %        level 65     5
-      %        level 75     1     
+      // Okay, someone with a spellpower of 45 has these odds on the morph
+      //        monster  chance
+      //        level 25    25
+      //        level 35    35
+      //        level 45    45
+      //        level 55    25    // note the decrease is double the increase rate
+      //        level 65     5
+      //        level 75     1     
 
       iMax = 0;      
       foreach i in Send(SYS,@GetMonsterTemplates)
@@ -351,15 +351,15 @@ messages:
        
       Send(who,@ResetPlayerIllusion);
 
-      % Health could have changed, Send NewHealth.
-      % This also lets us check for Mark of Dishonor, which could take
-      %  our bonus hps....
+      // Health could have changed, Send NewHealth.
+      // This also lets us check for Mark of Dishonor, which could take
+      //  our bonus hps....
       Send(who,@NewHealth);
 
       return;
    }
 
-   %%% Illusion callbacks
+   //// Illusion callbacks
 
    IllusionGetIcon(who = $)
    {
@@ -613,27 +613,27 @@ messages:
       iIllusion_type = First(Send(who,@GetEnchantedState,#what=self));
       if iIllusion_type = $
       {
-         % If no illusion, then send no lighting information.
+         // If no illusion, then send no lighting information.
          return FALSE;
       }
       
       oIllusion = Nth(Send(SYS,@GetMonsterTemplates),iIllusion_type);
       if oIllusion = $
       {
-         % If no illusion, then send no lighting information.
+         // If no illusion, then send no lighting information.
          return FALSE;
       }
 
-      % Adds the appropriate information packets.
+      // Adds the appropriate information packets.
       Send(oIllusion,@SendLightingInformation);
 
-      % Return TRUE since we returned lighting information.
+      // Return TRUE since we returned lighting information.
       return TRUE;
    }
 
    GetExtraDesc()
    {
-      % Add an extra warning on PvP servers.
+      // Add an extra warning on PvP servers.
       if Send(SYS,@IsPKAllowed)
       {
          return Morph_attackable;
@@ -644,4 +644,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

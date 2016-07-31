@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ReagentBag is PassiveItem
 
 constants:
@@ -176,7 +176,7 @@ messages:
             {
                if GetClass(what) = GetClass(i)
                {
-                  % Should only be one of these, so can quit loop if found
+                  // Should only be one of these, so can quit loop if found
                   Send(i,@AddNumber,#number=Send(what,@GetNumber));
                   Send(what,@Delete);
 
@@ -189,7 +189,7 @@ messages:
       Send(what,@NewOwner,#what=self);
       plReagents = Cons(what,plReagents);
 
-      % If our owner is a player, update the weight carried stat.
+      // If our owner is a player, update the weight carried stat.
       if poOwner <> $
          AND IsClass(poOwner,&Player)
       {
@@ -282,4 +282,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

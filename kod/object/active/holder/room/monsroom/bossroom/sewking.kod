@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 SewerKingLair is BossRoom
 
 constants:
@@ -83,12 +83,12 @@ resources:
       "You gasp for breath in the last half-inch of air left near the "
       "ceiling, taking as much water as air into your lungs."
 
-%   sewking_bones_name = "pile of bones"
-%   sewking_bones_icon = skelX.bgf
-%   sewking_bones_desc = \
-%      "These are the splintered, well-gnawed remains of some unlucky, "
-%      "and probably unwise, explorer.  You shudder to think of the fate "
-%      "that must have befallen this poor soul."
+//   sewking_bones_name = "pile of bones"
+//   sewking_bones_icon = skelX.bgf
+//   sewking_bones_desc = \
+//      "These are the splintered, well-gnawed remains of some unlucky, "
+//      "and probably unwise, explorer.  You shudder to think of the fate "
+//      "that must have befallen this poor soul."
 
    SewerKingLair_waterfall_sound = wfall2.ogg
 
@@ -193,25 +193,25 @@ messages:
       Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,
             #fine_row=48,#fine_col=00);
 
-      %Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=00,#fine_col=00);
-      %Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=16,#fine_col=00);
-      %Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=32,#fine_col=00);
-      %Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=48,#fine_col=00);
-      %Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=00,#fine_col=16);
-      %Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=16,#fine_col=16);
-      %Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=32,#fine_col=16);
-      %Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=48,#fine_col=16);
-      %Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=00,#fine_col=32);
-      %Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=16,#fine_col=32);
-      %Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=32,#fine_col=32);
-      %Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=48,#fine_col=32);
-      %Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=00,#fine_col=48);
-      %Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=16,#fine_col=48);
-      %Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=32,#fine_col=48);
-      %Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=48,#fine_col=48);
-      %Send(self,@NewHold,#what=create(&sign,#desc=sewking_bones_desc,
-      %      #name=sewking_bones_name,#icon=sewking_bones_icon),
-      %      #new_row=21,#new_col=26,#fine_row=32,#fine_col=55);
+      //Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=00,#fine_col=00);
+      //Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=16,#fine_col=00);
+      //Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=32,#fine_col=00);
+      //Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=48,#fine_col=00);
+      //Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=00,#fine_col=16);
+      //Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=16,#fine_col=16);
+      //Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=32,#fine_col=16);
+      //Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=48,#fine_col=16);
+      //Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=00,#fine_col=32);
+      //Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=16,#fine_col=32);
+      //Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=32,#fine_col=32);
+      //Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=48,#fine_col=32);
+      //Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=00,#fine_col=48);
+      //Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=16,#fine_col=48);
+      //Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=32,#fine_col=48);
+      //Send(self,@NewHold,#what=create(&Skull),#new_row=20,#new_col=36,#fine_row=48,#fine_col=48);
+      //Send(self,@NewHold,#what=create(&sign,#desc=sewking_bones_desc,
+      //      #name=sewking_bones_name,#icon=sewking_bones_icon),
+      //      #new_row=21,#new_col=26,#fine_row=32,#fine_col=55);
 
       Send(self,@NewHold,#what=create(&OrnamentalObject,#type=OO_BONES),
             #new_row=21,#new_col=26,#fine_row=32,#fine_col=55);
@@ -219,10 +219,10 @@ messages:
       propagate;
    }
 
-%%%%%%%%%%%%%%%%%%%
-% Lever/Door Code %
-%%%%%%%%%%%%%%%%%%%
-%
+////////////////////
+// Lever/Door Code //
+////////////////////
+//
 
    SomethingChanged(what=$)
    {
@@ -253,24 +253,24 @@ messages:
       propagate;
    }
 
-%
-%%%%%%%%%%%%%%%%%%%%%%%
-% end Lever/Door Code %
-%%%%%%%%%%%%%%%%%%%%%%%
+//
+////////////////////////
+// end Lever/Door Code //
+////////////////////////
 
-%%%%%%%%%%%%%%%%%%%%%%
-% Monster death code %
-%%%%%%%%%%%%%%%%%%%%%%
-%
+///////////////////////
+// Monster death code //
+///////////////////////
+//
    BossKilledTrigger()
    {
       local i;
 
-      % These should be placed in Killed() of monster:
-      %        lupogg king death wail
-      %        cast earthquake
+      // These should be placed in Killed() of monster:
+      //        lupogg king death wail
+      //        cast earthquake
 
-      % Raise the water, lower the waterfalls:
+      // Raise the water, lower the waterfalls:
       Send(self,@SomethingWaveRoom,#wave_rsc=SewerKingLair_water_sound);
       Send(self,@SetSector,#sector=SECTOR_WATERa,#animation=ANIMATE_FLOOR_LIFT,
             #height = H_WATERa_UP,#speed=WATER_UP_SPEED);
@@ -298,27 +298,27 @@ messages:
          }
       }
 
-      % Handle drowning in the middle passage:
+      // Handle drowning in the middle passage:
       ptDrownCountdownTimer = CreateTimer(self,@DrownCountdownTimerTrigger,
                                     DROWN_COUNTDOWN_TIME);
 
       propagate;
    }
 
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%
-% end Monster death code%
-%%%%%%%%%%%%%%%%%%%%%%%%%
+//
+//////////////////////////
+// end Monster death code//
+//////////////////////////
 
 
-%%%%%%%%%%%%%%%%%%%%%%%
-% Boss resetting code %
-%%%%%%%%%%%%%%%%%%%%%%%
-%
+////////////////////////
+// Boss resetting code //
+////////////////////////
+//
 
    ResetBoss()
    {
-      % Lower the water instantaneously.
+      // Lower the water instantaneously.
       Send(self,@SetSector,#sector=SECTOR_WATERa,#animation=ANIMATE_FLOOR_LIFT,
             #height = H_WATERa_DN,#speed=0);
       Send(self,@SetSector,#sector=SECTOR_WATERb,#animation=ANIMATE_FLOOR_LIFT,
@@ -335,15 +335,15 @@ messages:
 
       propagate;
    }
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% end Boss resetting code %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//
+////////////////////////////
+// end Boss resetting code //
+////////////////////////////
 
-%%%%%%%%%%%%%%%%%%
-% Blink handling %
-%%%%%%%%%%%%%%%%%%
-%
+///////////////////
+// Blink handling //
+///////////////////
+//
 
    FindRegion(who=$,testrow=$,testcol=$)
    "Call with either a user or a pair of coords to test which region "
@@ -364,7 +364,7 @@ messages:
          testcol = Send(who,@GetCol);
       }
 
-      % In central area
+      // In central area
       if (testrow <= BLINKBOX1_S)
          AND ((testrow >= BLINKBOX1_N AND testcol >= BLINKBOX1_W AND testcol <= BLINKBOX1_E)
             OR (testcol >= BLINKBOX2_W AND testcol <= BLINKBOX2_E AND testrow >= BLINKBOX2_N))
@@ -372,7 +372,7 @@ messages:
          return REGION_C;
       }
 
-      % Outside central area
+      // Outside central area
       if (testcol <= ((BLINKBOX1_W + BLINKBOX1_E)/2))
       {
          return REGION_W;
@@ -418,8 +418,8 @@ messages:
    NewHold(what = $,new_row=$,new_col=$)
    "Prevents anyone from logging on into a special zone"
    {
-      % If players log on into the central region above the entry room,
-      % send them to the central teleport point.
+      // If players log on into the central region above the entry room,
+      // send them to the central teleport point.
       if IsClass(what,&User)
          AND (Send(what,@GetOwner) = $)
       {
@@ -433,15 +433,15 @@ messages:
       propagate;
    }
 
-%
-%%%%%%%%%%%%%%%%%%%%%%
-% end Blink handling %
-%%%%%%%%%%%%%%%%%%%%%%
+//
+///////////////////////
+// end Blink handling //
+///////////////////////
 
-%%%%%%%%%%%%
-% Drowning %
-%%%%%%%%%%%%
-%
+/////////////
+// Drowning //
+/////////////
+//
    IsInDrownArea(who=$)
    {
       local iRow,iCol;
@@ -473,14 +473,14 @@ messages:
          if IsClass(First(i),&User)
             AND Send(self,@IsInDrownArea,#who=First(i))
          {
-            % Do horrible nasty drowning stuff here.  (heh, heh, heh...)
-            % but for now, just a teleport.  :(
-            %Send(self,@Teleport,#what=First(i),#region=REGION_W);
+            // Do horrible nasty drowning stuff here.  (heh, heh, heh...)
+            // but for now, just a teleport.  :(
+            //Send(self,@Teleport,#what=First(i),#region=REGION_W);
 
             Send(self,@DrownIntervalTrigger);
 
-            % Only want to start this once, no matter how many
-            % people are drowning!
+            // Only want to start this once, no matter how many
+            // people are drowning!
             return;
          }
       }
@@ -499,14 +499,14 @@ messages:
          if IsClass(First(i),&User)
             AND Send(self,@IsInDrownArea,#who=First(i))
          {
-            % Do horrible nasty drowning stuff here.  (heh, heh, heh...)
-            % damage, etc.
+            // Do horrible nasty drowning stuff here.  (heh, heh, heh...)
+            // damage, etc.
             Send(self,@SomethingWaveRoom,#what=First(i),
                   #wave_rsc=SewerKingLair_drowning_sound);
             Send(First(i),@MsgSendUser,#message_rsc=SewerKingLair_drowning);
 
-            % Set #decay=true to avoid breaking trances
-            % Send(First(i),@LoseHealth,#amount=DROWN_DAMAGE,#decay=TRUE);
+            // Set #decay=true to avoid breaking trances
+            // Send(First(i),@LoseHealth,#amount=DROWN_DAMAGE,#decay=TRUE);
 
             if Send(First(i),@AssessDamage,#report=FALSE,#what=First(i),
                      #damage=(DROWN_DAMAGE*Random(8,12)/10)) = $
@@ -518,8 +518,8 @@ messages:
          }
       }
 
-      % This should never be necessary, but just in case...
-      % If the boss is alive, the water should be low, hence no drowning.
+      // This should never be necessary, but just in case...
+      // If the boss is alive, the water should be low, hence no drowning.
       if plBoss <> $
       {
          UsersStillDrowning = FALSE;
@@ -527,7 +527,7 @@ messages:
 
       if UsersStillDrowning
       {
-         % Ready for another go...
+         // Ready for another go...
          ptDrownIntervalTimer = CreateTimer(self,@DrownIntervalTrigger,
                                     DROWN_INTERVAL);
       }
@@ -535,10 +535,10 @@ messages:
       return;
    }
 
-%
-%%%%%%%%%%%%%%%%
-% end Drowning %
-%%%%%%%%%%%%%%%%
+//
+/////////////////
+// end Drowning //
+/////////////////
 
    Delete()
    {
@@ -565,4 +565,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

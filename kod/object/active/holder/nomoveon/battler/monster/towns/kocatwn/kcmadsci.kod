@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 KocatanMadScientist is KocatanTown
 constants:
 
@@ -24,7 +24,7 @@ resources:
       "experiment, Bahal smiles and chortles to himself.  The moody little "
       "man seems unnaturally obsessed with the horrific and the bizarre."
 
-   %KMadSci_entry_welcome = ""
+   //KMadSci_entry_welcome = ""
 
 classvars:
 
@@ -86,11 +86,11 @@ messages:
          }
       }
 
-      %Post(who,@SomeoneSaid,#what=self,#string=KMadSci_entry_welcome,
-      %      #type=SAY_RESOURCE);
+      //Post(who,@SomeoneSaid,#what=self,#string=KMadSci_entry_welcome,
+      //      #type=SAY_RESOURCE);
 
       propagate;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

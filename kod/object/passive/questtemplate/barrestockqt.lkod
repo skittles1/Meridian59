@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 barrestockqt_name_rsc = de "Lager Auffüllen Quest"
 barrestockqt_desc_rsc = de \
    "Ein Baarkeeper hat nahezu keine Getränke mehr und fragt nach deiner Hilfe."
@@ -12,7 +12,7 @@ barrestockqt_nodethree_rsc = de \
 barrestockqt_completed_rsc = de \
    "Du hast das Lager Auffüllen Quest abgeschlossen."
 
-% Quest resources.
+// Quest resources.
 barrestock_assign_2 = de \
    "Ja, ich habe nur noch wenige Waren.  %NPC weiß, was ich brauche und es "
    "ist bereits bezahlt worden.  Frage einfach %HIMHER_NPC über die Lieferung, "

@@ -1,29 +1,29 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 ChickenSoupQuest is QuestTemplate
-% Quest template QST_ID_CHICKEN_SOUP = 23
-% Quest nodes 49, 50, 51.
-% QNT_ID_CHICKEN_SOUP_ONE, QNT_ID_CHICKEN_SOUP_TWO, QNT_ID_CHICKEN_SOUP_THREE
+// Quest template QST_ID_CHICKEN_SOUP = 23
+// Quest nodes 49, 50, 51.
+// QNT_ID_CHICKEN_SOUP_ONE, QNT_ID_CHICKEN_SOUP_TWO, QNT_ID_CHICKEN_SOUP_THREE
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -33,7 +33,7 @@ resources:
 
    include chickensoupqt.lkod
 
-   % Quest description.
+   // Quest description.
    chickensoupquest_icon_rsc = soupbowl.bgf
    chickensoupquest_name_rsc = "chicken soup quest"
    chickensoupquest_desc_rsc = \
@@ -50,7 +50,7 @@ resources:
       "You have completed the chicken soup quest, and received a reward "
       "for your generosity."
 
-   % Quest resources.
+   // Quest resources.
    chickensoupquest_trigger_2 = "chicken soup"
    chickensoupquest_assign_2 = \
       "I'm feeling a little sick.  I don't suppose you could go to the "
@@ -81,7 +81,7 @@ classvars:
    vrNodeThree = chickensoupquest_return_rsc
    vrCompleted = chickensoupquest_completed
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_CHICKEN_SOUP
 
    viIcon_Animation_start = 1
@@ -98,11 +98,11 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_CHICKEN_SOUP_ONE,QNT_ID_CHICKEN_SOUP_TWO,
                       QNT_ID_CHICKEN_SOUP_THREE];
 
-      % Quest nodes with matching descriptions for the player.
+      // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_CHICKEN_SOUP_TWO, vrNodeTwo],
                           [QNT_ID_CHICKEN_SOUP_THREE, vrNodeThree] ];
 
@@ -116,8 +116,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #49 is chicken soup quest kickoff
-      % QNT_ID_CHICKEN_SOUP_ONE
+      // Template #49 is chicken soup quest kickoff
+      // QNT_ID_CHICKEN_SOUP_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_SHOWUP,
                #quest_node_index=QNT_ID_CHICKEN_SOUP_ONE)
       {
@@ -146,8 +146,8 @@ messages:
          Debug("Error building QN: QNT_ID_CHICKEN_SOUP_ONE");
       }
 
-      % Template #50 is chicken soup quest, say "chicken soup"
-      % QNT_ID_CHICKEN_SOUP_TWO
+      // Template #50 is chicken soup quest, say "chicken soup"
+      // QNT_ID_CHICKEN_SOUP_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[ chickensoupquest_trigger_2 ],
                #timelimit=3600,#quest_node_index=QNT_ID_CHICKEN_SOUP_TWO)
@@ -165,8 +165,8 @@ messages:
          Debug("Error building QN: QNT_ID_CHICKEN_SOUP_TWO");
       }
 
-      % Template #51 is chicken soup quest, bring the soup back
-      % QNT_ID_CHICKEN_SOUP_THREE
+      // Template #51 is chicken soup quest, bring the soup back
+      // QNT_ID_CHICKEN_SOUP_THREE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_ITEM,
                #NPC_modifier=QN_NPCMOD_PREVIOUS,
                #cargolist=[ [ QN_PRIZETYPE_ITEMCLASS, &ChickenSoup, 1 ] ],
@@ -226,4 +226,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

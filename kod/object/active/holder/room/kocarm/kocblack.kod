@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 KocatanSmithy is KocatanRoom
 
 constants:
@@ -51,7 +51,7 @@ messages:
 
    Constructed()
    {
-      % Each looping sound is [wave_file, row, col, cutoff radius, maximum volume]
+      // Each looping sound is [wave_file, row, col, cutoff radius, maximum volume]
       plLooping_sounds = [ [ KocatanSmithy_forge_sound, 5, 5, 5, 50 ] ];
 
       propagate;
@@ -61,7 +61,7 @@ messages:
    {
       plExits = $;
 
-      % To town -- teleport in to (6,9)
+      // To town -- teleport in to (6,9)
       plExits = Cons([ 5, 10, RID_KOC_SOUTH, 31, 20, ROTATE_NONE ],plExits);
       plExits = Cons([ 6, 10, RID_KOC_SOUTH, 31, 20, ROTATE_NONE ],plExits);
 
@@ -89,7 +89,7 @@ messages:
             #new_row=4,#new_col=4,#fine_row=56,#fine_col=48,
             #new_angle=ANGLE_EAST);
 
-      % Lighting
+      // Lighting
       Send(self,@NewHold,#what=Create(&DynamicLight,
             #iColor=LIGHT_ORANGE,#iIntensity=50),
             #new_row=6,#new_col=6,#fine_row=0,#fine_col=0);
@@ -98,4 +98,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

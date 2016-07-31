@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 BowmakerHut is Room
 
 constants:
@@ -48,7 +48,7 @@ messages:
 
    Constructed()
    {
-      %  each sound is [wave_file, row, col, cutoff radius, maximum volume]
+      //  each sound is [wave_file, row, col, cutoff radius, maximum volume]
       plLooping_sounds = [[ fire_sound_bowmakerhut, 4, 7, 10, 100 ]];
 
       propagate;
@@ -63,7 +63,7 @@ messages:
       plExits = Cons([ 2, 7, ROOM_LOCKED_DOOR, BowmakerHut_locked],plExits);
       plExits = Cons([ 3, 7, ROOM_LOCKED_DOOR, BowmakerHut_locked],plExits);
 
-      %% to jungle
+      /// to jungle
       plExits = Cons([ 7, 4, RID_KA3, 29, 12, ROTATE_NONE ],plExits);
       plExits = Cons([ 7, 5, RID_KA3, 29, 12, ROTATE_NONE ],plExits);
   
@@ -87,7 +87,7 @@ messages:
       Send(self,@NewHold,#what=Create(&KocatanBowmaker),#new_row=3,#new_col=6,
            #fine_row=56,#fine_col=32);
 
-      % Lighting
+      // Lighting
       send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,#iIntensity=30),
            #new_row=4,#new_col=7,#fine_row=16,#fine_col=32);
 
@@ -96,4 +96,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

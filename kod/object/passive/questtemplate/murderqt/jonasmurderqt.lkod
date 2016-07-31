@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 jonasmurderqt_name_rsc = de "Jonas mysterisches Mörder Quest"
 jonasmurderqt_desc_rsc = de \
    "Jonas D'Accor will, dass Du Leute über den Tod von Herzog Kalior befragtst."
@@ -6,7 +6,7 @@ jonasmurderqt_desc_rsc = de \
 jonasmurderqt_completed_rsc = de \
    "Du hast das Quest abgeschlossen."
 
-% Quest resources.
+// Quest resources.
 murder_jonas_assign = de \
    "Wie es scheint, gibt es nicht viele Untersuchungen danach, was dem ehemaligen "
    "Herzog passiert ist. Ich habe es mir vorgenommen, den Mörder zu finden.  "

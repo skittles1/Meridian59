@@ -1,22 +1,22 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 SandStorm is RoomEnchantment
 
 constants:
 
    include blakston.khd
 
-   SANDSTORM_VIGOR_LOSS = 5          % 5 vigor / 10 sec
-   SANDSTORM_PERIOD = 10000          % damage every 15 secs
-   SANDSTORM_TIME = 120000           % 2 realtime minutes
+   SANDSTORM_VIGOR_LOSS = 5          // 5 vigor / 10 sec
+   SANDSTORM_PERIOD = 10000          // damage every 15 secs
+   SANDSTORM_TIME = 120000           // 2 realtime minutes
 
 resources:
 
@@ -78,7 +78,7 @@ messages:
 
    GetSpellPowerFromState(state=$)
    {
-      return First(state) MOD 100;
+      return First(state) % 100;
    }
 
    CastSpell(who = $, iSpellPower = 0)
@@ -111,7 +111,7 @@ messages:
       iCombined = First(state);
 
       // Power is stored in the 1s and 10s column.
-      iSpellPower = iCombined MOD 100;
+      iSpellPower = iCombined % 100;
       // State now stores time that has elapsed.
       iCombined = iCombined - iSpellPower;
 
@@ -154,7 +154,7 @@ messages:
       if (NOT Send(who,@IsEnchanted,#what=self)
             AND Send(self,@CanEnchantUser,#who=who,#state=state))
       {
-         Send(who,@AddAim,#points=-((First(state) MOD 100) / 3));
+         Send(who,@AddAim,#points=-((First(state) % 100) / 3));
          Send(who,@StartEnchantment,#what=self,#state=state);
       }
 
@@ -217,7 +217,7 @@ messages:
 
    EndEnchantment(who=$,state=$)
    {
-      Send(who,@AddAim,#points=((First(state) MOD 100) / 3));
+      Send(who,@AddAim,#points=((First(state) % 100) / 3));
 
       return;
    }
@@ -259,7 +259,7 @@ messages:
          return FALSE;
       }
 
-      iSpellPower = First(state) MOD 100;
+      iSpellPower = First(state) % 100;
       // This is a bit less than Winds which is (iSpellpower/2 + 10),
       // bound 25 to 60.
       iMissChance = iSpellpower / 3 + 10;
@@ -280,4 +280,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 RazaCrypt is MonsterRoom
 
 constants:
@@ -142,8 +142,8 @@ classvars:
 
    viTerrain_type = TERRAIN_NECROPOLIS | TERRAIN_CAVES
 
-   viPit_monsters_max = 5   % Max # of monsters in the pit area
-   viPit_row = 11           % Pit generator location
+   viPit_monsters_max = 5   // Max # of monsters in the pit area
+   viPit_row = 11           // Pit generator location
    viPit_col = 4
 
 properties:
@@ -151,7 +151,7 @@ properties:
    prRoom = room_razacrypt
    piRoom_num = RID_RAZA_MAUSOLEUM
 
-   piGenTime = 15000        % Need to regen faster since some monsters thrown out
+   piGenTime = 15000        // Need to regen faster since some monsters thrown out
 
    piBaseLight = LIGHT_DARK
    piOutside_factor = OUTDOORS_NONE
@@ -162,7 +162,7 @@ properties:
    piInit_count_max = 15
    piMonster_count_max = 35
 
-   piPit_Monsters = 0        % Number of monsters currently in the pit area
+   piPit_Monsters = 0        // Number of monsters currently in the pit area
 
    poLever1 = $
    poLever2 = $
@@ -272,7 +272,7 @@ messages:
       Send(self,@CreateLevers);
       Send(self,@SetupColumnDown);
 
-      % Lighting
+      // Lighting
       Send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,#iIntensity=45),
            #new_row=11,#new_col=2,#fine_row=32,#fine_col=48);
 
@@ -299,7 +299,7 @@ messages:
    }
 
    ReqNewHold(what = $, new_row = $, new_col = $)
-   % Only allow a certain # of monsters in the pit
+   // Only allow a certain # of monsters in the pit
    {
       if IsClass(what,&MummyNoTreasure)
          AND piPit_Monsters >= viPit_Monsters_max
@@ -307,7 +307,7 @@ messages:
          return FALSE;
       }
 
-      % Allow only wimpy mummies in the pit
+      // Allow only wimpy mummies in the pit
       if NOT IsClass(what, &MummyNoTreasure)
          AND new_row = viPit_row
          AND new_col = viPit_col
@@ -315,7 +315,7 @@ messages:
          return FALSE;
       }
 
-      % Wimpy mummies appear only in the pit
+      // Wimpy mummies appear only in the pit
       if IsClass(what, &MummyNoTreasure)
       AND (new_row <> viPit_row OR new_col <> viPit_col)
       {
@@ -371,7 +371,7 @@ messages:
    {
       if IsClass(victim,&Monster)
       {
-         % gotta post because here it's not removed from room yet
+         // gotta post because here it's not removed from room yet
          Post(self,@CheckAllDeadMonsters);
       }
 
@@ -499,7 +499,7 @@ messages:
 
    CheckAllDeadMonsters()
    {
-      %debug(Send(self,@CountInFinal,#count=COUNT_MONSTERS));
+      //debug(Send(self,@CountInFinal,#count=COUNT_MONSTERS));
 
       if pbColumn_down
       {
@@ -634,4 +634,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

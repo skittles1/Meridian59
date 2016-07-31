@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Punch is Unarmed
 
 constants:
@@ -56,12 +56,12 @@ classvars:
 
    viSkill_Num = SKID_PUNCH
 
-   viMin_Damage = 2         % Damage_min here replaces a weapon    
-   viMax_Damage = 6         % Damage_max replaces the weapon's stats.
+   viMin_Damage = 2         // Damage_min here replaces a weapon    
+   viMax_Damage = 6         // Damage_max replaces the weapon's stats.
 
-   VbAutomatic = FALSE  %  If this is set to TRUE, then the effects of this
-                        %  skill happen automatically, and are not accessible
-                        %  via menu.
+   VbAutomatic = FALSE  //  If this is set to TRUE, then the effects of this
+                        //  skill happen automatically, and are not accessible
+                        //  via menu.
 
    viAttack_Type = ATCK_WEAP_UNARMED+ATCK_WEAP_PUNCH
 
@@ -84,7 +84,7 @@ messages:
    {
       if (Send(who,@GetWeapon) <> $)
       {
-         % They have a weapon, probably a touch attack.  Let that do it's own damage message.
+         // They have a weapon, probably a touch attack.  Let that do it's own damage message.
          return FALSE;
       }
       send(who,@msgsenduser,#message_rsc=vrPlayer_killed_something,
@@ -93,4 +93,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

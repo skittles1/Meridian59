@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 KocatanTavern is KocatanRoom
 
 constants:
@@ -73,7 +73,7 @@ messages:
       lObjCoords1 = [ [14,19,16,32,OO_DECORATIVE_POT], [21,15,32,56,OO_JUG],
                       [10,25,00,16,OO_JUG], [10,16,08,32,OO_URN],
                       [10,17,08,56,OO_URN], [10,17,08,16,OO_GREY_JUG],
-                      % second pass
+                      // second pass
                       [02,13,48,48,OO_PITCHER1], [03,08,00,48,OO_PITCHER1],
                       [01,25,56,24,OO_PITCHER1], [08,20,08,00,OO_PITCHER1],
                       [11,07,48,24,OO_PITCHER3], [20,07,00,00,OO_PITCHER3],
@@ -113,13 +113,13 @@ messages:
 
    StartSnow(bOnGround=TRUE)
    {
-      % Check if we can have weather effects here.
+      // Check if we can have weather effects here.
       if NOT pbWeatherEffects
       {
          return;
       }
 
-      % If there's a sandstorm weather effect here, clear it.
+      // If there's a sandstorm weather effect here, clear it.
       if Send(self,@CheckRoomFlag,#flag=ROOM_SANDSTORM)
       {
          Send(self,@EndSandstorm);
@@ -129,7 +129,7 @@ messages:
       {
          if pbSnowGroundTexture
          {
-            % We just want to show snow in the outside area.
+            // We just want to show snow in the outside area.
             Send(self,@ChangeTexture,#id=1,#new_texture=61015,#flags=CTF_FLOOR);
          }
       }
@@ -159,4 +159,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

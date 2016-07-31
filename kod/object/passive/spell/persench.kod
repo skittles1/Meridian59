@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 PersonalEnchantment is Spell
 
 constants:
@@ -45,28 +45,28 @@ classvars:
    vrIcon = PersonalEnchantment_icon_rsc
    vrDesc = PersonalEnchantment_desc_rsc
 
-   % Overwrite these in subclasses to give specific messages.
+   // Overwrite these in subclasses to give specific messages.
    vrAlreadyEnchanted = PersonalEnchantment_already_enchanted_rsc
    vrEnchantment_On = PersonalEnchantment_On_rsc
    vrEnchantment_Off = PersonalEnchantment_Off_rsc
    vrSuccess = PersonalEnchantment_Success_rsc
 
-   % These messages don't need to be overwritten.
-   % But I put them here to leave the option open.
+   // These messages don't need to be overwritten.
+   // But I put them here to leave the option open.
    vrOtherAlreadyEnchanted = PersonalEnchantment_Other_Already_Enchanted_rsc
    vrTargetAlreadyEnchanted = PersonalEnchantment_Target_Already_Enchanted_rsc
 
-   % Overwrite for personal enchantments that can not be cast on others.
+   // Overwrite for personal enchantments that can not be cast on others.
    vbCanCastOnOthers = TRUE
 
-   % Overwrite to allow monster casts.
+   // Overwrite to allow monster casts.
    vbCanCastonMonsters = FALSE 
 
    viPersonal_ench = TRUE
 
-   % The effectiveness of purge on the target spell as a percentage.
-   % 100 will cause purge to remove its entire spellpower, 0 will
-   % prevent purge from removing this spell.
+   // The effectiveness of purge on the target spell as a percentage.
+   // 100 will cause purge to remove its entire spellpower, 0 will
+   // prevent purge from removing this spell.
    viPurgeFactor = 100
 
    viDefensive = FALSE
@@ -107,9 +107,9 @@ messages:
 
       oTarget = First(lTargets);
 
-      % Targetable enchantment, not from a potion.  If we want to have wand
-      % effects for these spells we will need to split bItemcast to
-      % differentiate between wands and potions.
+      // Targetable enchantment, not from a potion.  If we want to have wand
+      // effects for these spells we will need to split bItemcast to
+      // differentiate between wands and potions.
       if vbCanCastOnOthers
       {
          if NOT bItemCast
@@ -122,7 +122,7 @@ messages:
             return FALSE;
          }
 
-         % Cannot cast buffs on others in any permanently safe rooms.
+         // Cannot cast buffs on others in any permanently safe rooms.
          if who <> oTarget
             AND (Send(Send(who,@GetOwner),@GetPermanentFlags) & ROOM_NO_COMBAT)
             AND NOT Send(SETTINGS_OBJECT,@CanBuffOthersInSafeZones)
@@ -133,10 +133,10 @@ messages:
          }
       }
 
-      % Check for enchantment already applied
+      // Check for enchantment already applied
       if Send(oTarget,@IsEnchanted,#what=self)
       {
-         % Can you override an existing enchantment on yourself?
+         // Can you override an existing enchantment on yourself?
          if who = oTarget AND
             Send(SETTINGS_OBJECT,@CanRecastSelfEnchantment)
          {
@@ -145,14 +145,14 @@ messages:
 
          if NOT bItemCast
          {
-            % Casting on self.
+            // Casting on self.
             if who = otarget
             {
                Send(who,@MsgSendUser,#message_rsc=vrAlreadyEnchanted);
             }
             else
             {
-               % Casting on someone else.
+               // Casting on someone else.
                Send(who,@MsgSendUser,#message_rsc=vrOtherAlreadyEnchanted,
                      #parm1=Send(oTarget,@GetCapDef),#parm2=Send(oTarget,@GetName));
                      Send(oTarget,@MsgSendUser,#Message_rsc=vrTargetAlreadyEnchanted,
@@ -182,7 +182,7 @@ messages:
          oTarget = who;
       }
 
-      % Double check if our target is still logged on.
+      // Double check if our target is still logged on.
       if IsClass(oTarget,&Player)
          AND NOT Send(oTarget,@IsLoggedOn)
       {
@@ -192,7 +192,7 @@ messages:
          return FALSE;
       }
 
-      % If target already has this enchantment, remove it
+      // If target already has this enchantment, remove it
       if Send(otarget,@IsEnchanted,#what=self) AND
          Send(SETTINGS_OBJECT, @CanRecastSelfEnchantment)
       {
@@ -207,8 +207,8 @@ messages:
             #lastcall=Send(self,@GetLastCall),#addicon=Send(self,@GetAddicon),
             #who=who,#ltype=lType,#bItemCast=bItemCast,#iSpellpower=iSpellpower);
 
-      % GetStateValue is sometimes (eg used for pre-enchantment behaviors,
-      % who is the caster, target is the target (sometimes the same as who).
+      // GetStateValue is sometimes (eg used for pre-enchantment behaviors,
+      // who is the caster, target is the target (sometimes the same as who).
 
       if oTarget <> who
       {
@@ -250,18 +250,18 @@ messages:
    }
 
    GetLastCall()
-   % Overwrite to false for periodic enchantments.
+   // Overwrite to false for periodic enchantments.
    {
       return TRUE;
    }
 
    GetAddIcon()
-   % Overwrite for iconless enchantments.
+   // Overwrite for iconless enchantments.
    {
       return TRUE;
    }
 
-   %%% Defense and attack modifier stuff.
+   //// Defense and attack modifier stuff.
 
    ModifyDamage(damage=$)
    {
@@ -309,7 +309,7 @@ messages:
             }
             else
             {
-               % Should be an integer
+               // Should be an integer
                iDuration = iTime / 1000;
             }
          }
@@ -320,8 +320,8 @@ messages:
          iDuration = 0;
       }
 
-      % This message picks the appropriate resources for the duration given,
-      % and sends them to the user.
+      // This message picks the appropriate resources for the duration given,
+      // and sends them to the user.
       Send(self,@SendTimeRemaining,#iTime=iDuration);
 
       return;
@@ -342,4 +342,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

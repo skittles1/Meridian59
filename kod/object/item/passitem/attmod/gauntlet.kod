@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Gauntlet is AttackModifier
 
 constants:
@@ -141,7 +141,7 @@ messages:
          Send(what,@ResetPlayerArms);
       }
 
-      % We're also a defense modifier
+      // We're also a defense modifier
       Send(what,@AddDefenseModifier,#what=self);
 
       propagate;
@@ -180,7 +180,7 @@ messages:
          Send(what,@ResetPlayerArms);
       }
 
-      % We're also a defense modifier
+      // We're also a defense modifier
       Send(what,@RemoveDefenseModifier,#what=self);
 
       propagate;
@@ -266,7 +266,7 @@ messages:
       return standardshirt_leftarm_gauntlet_female;
    }
 
-   % No alterations when we hit the target....
+   // No alterations when we hit the target....
    WeaponHitTarget()
    {
       return;
@@ -290,7 +290,7 @@ messages:
    {
       local oWeapon;
       
-      % Add damage to non-ranged weapons (and punch)
+      // Add damage to non-ranged weapons (and punch)
       oWeapon = Send(who,@GetWeapon);
       if oWeapon = $
          OR NOT IsClass(oWeapon,&RangedWeapon)
@@ -351,4 +351,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

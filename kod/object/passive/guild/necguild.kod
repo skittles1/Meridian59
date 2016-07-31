@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 NecromancerGuild is Guild 
 
 constants:
@@ -15,9 +15,9 @@ constants:
    include blakston.khd
    include protocol.khd
 
-   CANNOT_REJOIN_TIME = 30   % 30 6-minute intervals = 3 hours
+   CANNOT_REJOIN_TIME = 30   // 30 6-minute intervals = 3 hours
 
-   MAX_MEMBERS = 400         % Maximum number of people allowed in a guild.
+   MAX_MEMBERS = 400         // Maximum number of people allowed in a guild.
 
    THREE_PERSON_LIMIT = 240
 
@@ -30,7 +30,7 @@ constants:
    RENT_PER_ALLY = -2
    RENT_PER_ENEMY = 5
 
-   RENT_MAX_OVERDUE = 480   % This is in 6 minute periods.
+   RENT_MAX_OVERDUE = 480   // This is in 6 minute periods.
 
 resources:
 
@@ -225,9 +225,9 @@ classvars:
 
 properties:
 
-   vrName = necguild_name_rsc  % Settable by players.
+   vrName = necguild_name_rsc  // Settable by players.
 
-   prMaster  % All hopefully settable by players.
+   prMaster  // All hopefully settable by players.
    prMistress
    prLieutenant_Male
    prLieutenant_Female
@@ -240,54 +240,54 @@ properties:
 
    piMature = 0
 
-   plMembers   = $        % this is a list of three element lists.
-                          % first element:  a member's object ID
-                          % second element:  a member's rank
-                          % third element:  that member's current 'vote'.
-                          % (ignored if guild is assassination)
+   plMembers   = $        // this is a list of three element lists.
+                          // first element:  a member's object ID
+                          // second element:  a member's rank
+                          // third element:  that member's current 'vote'.
+                          // (ignored if guild is assassination)
 
    piGuild_Hall = $
 
-   % One form of succession: Voting
+   // One form of succession: Voting
    piSuccession = GS_VOTING
 
-   % Secret societies do not advertise their existence in
-   % who lists or look descs. Set upon creation.
+   // Secret societies do not advertise their existence in
+   // who lists or look descs. Set upon creation.
    pbSecret = TRUE             
 
    ptMaintenance = $
 
-   % If the guild has less than three members for 24 hours in a row, delete it.
+   // If the guild has less than three members for 24 hours in a row, delete it.
    piThreePersonWarning = 0
 
-   % These are stored only so that, if the guild goes while an
-   % invitation is extended, the invitation disappears.
+   // These are stored only so that, if the guild goes while an
+   // invitation is extended, the invitation disappears.
    plInvitations = $
 
-   % These are only stored so that, if the guild is deleted,
-   % all treaties are deleted.
+   // These are only stored so that, if the guild is deleted,
+   // all treaties are deleted.
    plTreaties = $
 
-   % Keeps track of your allies. Ally lists must always match.
+   // Keeps track of your allies. Ally lists must always match.
    plAllies = $
 
-   % Keeps track of your enemies.  Main benefit of being an enemy?
-   % You get warned if one attacks your guild hall.
+   // Keeps track of your enemies.  Main benefit of being an enemy?
+   // You get warned if one attacks your guild hall.
    plEnemies = $
 
-   % List of guilds that has declared YOURS as an enemy.
+   // List of guilds that has declared YOURS as an enemy.
    plEnemiesOf = $
-   % List of guilds that has declared YOURS as an ally.
+   // List of guilds that has declared YOURS as an ally.
    plAlliesOf = $
 
-   % Ex-members cannot rejoin for two hours.
-   plFormerMembers = $   %%%
+   // Ex-members cannot rejoin for two hours.
+   plFormerMembers = $   ////
 
-   % Two kills a day - units of piHunger * 10000.
+   // Two kills a day - units of piHunger * 10000.
    piRent = 167
-   % Plus half a kill per member.
+   // Plus half a kill per member.
    piRentPerMember = 42
-   % Plus a quarter kill per ally/enemy.
+   // Plus a quarter kill per ally/enemy.
    piRentPerAlly = 21
    piRentDue = 0
    piRentCounter = 0
@@ -310,7 +310,7 @@ messages:
       sTemp = SetString($,GetTempString());
       vrName = sTemp;
 
-      % Text names for guild ranks.
+      // Text names for guild ranks.
       prMaster = necguild_master;
       prMistress = necguild_mistress;
       prLieutenant_Male = necguild_lieutenant_male;
@@ -322,11 +322,11 @@ messages:
       prApprentice_Male = necguild_apprentice;
       prApprentice_Female = necguild_apprenticette;
 
-      % Is the guild secret?
+      // Is the guild secret?
       pbSecret = TRUE;
       piMature = 0;
 
-      % What path of succession allows the leadership to change hands?
+      // What path of succession allows the leadership to change hands?
       piSuccession = GS_VOTING;
 
       plMembers = Cons([master, RANK_MASTER, master], plMembers);
@@ -375,11 +375,11 @@ messages:
 
       if Send(self,@GetGuildMaster) = $
       {
-         % This should never happen!  This is just in as a failsafe, since
-         % some commands are guildmaster only!
+         // This should never happen!  This is just in as a failsafe, since
+         // some commands are guildmaster only!
          Debug("Guild somehow ended up without a guildmaster!!!");
 
-         % CountVotes will choose whoever has the most political support.
+         // CountVotes will choose whoever has the most political support.
          Send(self,@CountVotes);
       }
 
@@ -406,8 +406,8 @@ messages:
          }
          else
          {
-            if (piThreePersonWarning MOD 40) = 0
-               OR ((piThreePersonWarning MOD 10) = 0
+            if (piThreePersonWarning % 40) = 0
+               OR ((piThreePersonWarning % 10) = 0
                   AND piThreePersonWarning < 40)
             {
                if piThreePersonWarning = 10
@@ -514,9 +514,9 @@ messages:
       }
 
       if piRentCounter > 0
-         AND ((piRentCounter MOD 40) = 0
+         AND ((piRentCounter % 40) = 0
             OR (piRentCounter < 40
-               AND piRentCounter MOD 10 = 0))
+               AND piRentCounter % 10 = 0))
       {
          hourhours = necguild_hours_rsc;
          if piRentCounter = 10
@@ -637,7 +637,7 @@ messages:
       old_master = $;
       foreach i in plMembers
       {
-         % Demote anyone at guildmaster rank.
+         // Demote anyone at guildmaster rank.
          if Nth(i,2) = RANK_MASTER
          {
             old_master = First(i);
@@ -666,7 +666,7 @@ messages:
 
          if First(i) = who
          {
-            % Promote to master.
+            // Promote to master.
             new_master = First(i);
             SetNth(i,2,RANK_MASTER);
             if NOT Send(First(i),@IsLoggedOn)
@@ -743,7 +743,7 @@ messages:
          }
       }
 
-      % NecromancerBalance has to set the guild to $ if it hasn't already.
+      // NecromancerBalance has to set the guild to $ if it hasn't already.
       Send(Send(SYS,@GetNecromancerBalance),@SetNecroGuild);
 
       propagate;
@@ -783,11 +783,11 @@ messages:
                         @FindHoldingActive,#class=&Lich);
          if oLich <> $
          {
-            % Lich will handle guild cleanup.
+            // Lich will handle guild cleanup.
             if piRentCounter = 1
                OR piThreePersonWarning = 0
             {
-               % We got here through nonpayment of rent or insufficient membership.
+               // We got here through nonpayment of rent or insufficient membership.
                Post(oLich,@Killed,#what=self,#resetScenario=FALSE,
                      #guildDisbandDeath=TRUE);
             }
@@ -805,15 +805,15 @@ messages:
          return;
       }
 
-      % Kick them out of the Order.
+      // Kick them out of the Order.
       Send(self,@RemoveFromGuild,#who=victim);
-      % If master, find a new one.
+      // If master, find a new one.
       if IsMaster
       {
          if Send(self,@IsMember,#who=killer)
             AND killer <> victim
          {
-            % Shift everyone's support to the assassin.
+            // Shift everyone's support to the assassin.
             foreach i in plMembers
             {
                SetNth(i,3,killer);
@@ -826,4 +826,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

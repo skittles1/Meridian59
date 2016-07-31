@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 KocatanSouth is KocatanRoom
 
 constants:
@@ -91,7 +91,7 @@ messages:
       plExits = Cons([ 6, 14, ROOM_LOCKED_DOOR, kocatansouth_whooping],plExits);
       plExits = Cons([ 6, 15, ROOM_LOCKED_DOOR, kocatansouth_whooping],plExits);
 
-      % Locked doors to north town.
+      // Locked doors to north town.
       plExits = Cons([ 2, 13, ROOM_LOCKED_DOOR, kocatansouth_northdoors],plExits);
       plExits = Cons([ 2, 14, ROOM_LOCKED_DOOR, kocatansouth_northdoors],plExits);
       plExits = Cons([ 3, 13, ROOM_LOCKED_DOOR, kocatansouth_northdoors],plExits);
@@ -101,44 +101,44 @@ messages:
       plExits = Cons([ 2, 39, ROOM_LOCKED_DOOR, kocatansouth_northdoors],plExits);
       plExits = Cons([ 3, 39, ROOM_LOCKED_DOOR, kocatansouth_northdoors],plExits);
 
-      % To north town -- teleport in to (4,14)
-      %plExits = Cons([ 2, 13, RID_KOC_NORTH, 32, 48, ROTATE_NONE ],plExits);
-      %plExits = Cons([ 2, 14, RID_KOC_NORTH, 32, 48, ROTATE_NONE ],plExits);
-      %plExits = Cons([ 3, 13, RID_KOC_NORTH, 32, 48, ROTATE_NONE ],plExits);
-      %plExits = Cons([ 3, 14, RID_KOC_NORTH, 32, 48, ROTATE_NONE ],plExits);
+      // To north town -- teleport in to (4,14)
+      //plExits = Cons([ 2, 13, RID_KOC_NORTH, 32, 48, ROTATE_NONE ],plExits);
+      //plExits = Cons([ 2, 14, RID_KOC_NORTH, 32, 48, ROTATE_NONE ],plExits);
+      //plExits = Cons([ 3, 13, RID_KOC_NORTH, 32, 48, ROTATE_NONE ],plExits);
+      //plExits = Cons([ 3, 14, RID_KOC_NORTH, 32, 48, ROTATE_NONE ],plExits);
 
-      % To north town -- teleport in to (4,26)
+      // To north town -- teleport in to (4,26)
       plExits = Cons([ 3, 25, RID_KOC_NORTH, 50, 30, ROTATE_NONE ],plExits);
       plExits = Cons([ 3, 26, RID_KOC_NORTH, 50, 30, ROTATE_NONE ],plExits);
       plExits = Cons([ 3, 27, RID_KOC_NORTH, 50, 30, ROTATE_NONE ],plExits);
 
-      % To north town -- teleport in to (4,38)
-      %plExits = Cons([ 2, 38, RID_KOC_NORTH, 32, 48, ROTATE_NONE ],plExits);
-      %plExits = Cons([ 3, 38, RID_KOC_NORTH, 32, 48, ROTATE_NONE ],plExits);
-      %plExits = Cons([ 2, 39, RID_KOC_NORTH, 32, 48, ROTATE_NONE ],plExits);
-      %plExits = Cons([ 3, 39, RID_KOC_NORTH, 32, 48, ROTATE_NONE ],plExits);
+      // To north town -- teleport in to (4,38)
+      //plExits = Cons([ 2, 38, RID_KOC_NORTH, 32, 48, ROTATE_NONE ],plExits);
+      //plExits = Cons([ 3, 38, RID_KOC_NORTH, 32, 48, ROTATE_NONE ],plExits);
+      //plExits = Cons([ 2, 39, RID_KOC_NORTH, 32, 48, ROTATE_NONE ],plExits);
+      //plExits = Cons([ 3, 39, RID_KOC_NORTH, 32, 48, ROTATE_NONE ],plExits);
 
-      % To kocatan smithy -- teleport in to (31,20)
+      // To kocatan smithy -- teleport in to (31,20)
       plExits = Cons([ 30, 18, RID_KOC_SMITHY, 6, 9, ROTATE_NONE ],plExits);
       plExits = Cons([ 30, 19, RID_KOC_SMITHY, 6, 9, ROTATE_NONE ],plExits);
       plExits = Cons([ 31, 18, RID_KOC_SMITHY, 6, 9, ROTATE_NONE ],plExits);
       plExits = Cons([ 31, 19, RID_KOC_SMITHY, 6, 9, ROTATE_NONE ],plExits);
 
-      % To kocatan tailor -- teleport in at (30,35)
+      // To kocatan tailor -- teleport in at (30,35)
       plExits = Cons([ 30, 36, RID_KOC_TAILOR, 18, 4, ROTATE_NONE ],plExits);
       plExits = Cons([ 30, 37, RID_KOC_TAILOR, 18, 4, ROTATE_NONE ],plExits);
       plExits = Cons([ 31, 36, RID_KOC_TAILOR, 18, 4, ROTATE_NONE ],plExits);
       plExits = Cons([ 31, 37, RID_KOC_TAILOR, 18, 4, ROTATE_NONE ],plExits);
 
-      % To guild hall 13 (merchant hall) - teleport in (43,37) -- main entrance
+      // To guild hall 13 (merchant hall) - teleport in (43,37) -- main entrance
       plExits = Cons([ 42, 38, RID_GUILDH13, 9, 2, ROTATE_NONE ],plExits);
       plExits = Cons([ 43, 38, RID_GUILDH13, 9, 2, ROTATE_NONE ],plExits);
       plExits = Cons([ 42, 39, RID_GUILDH13, 9, 2, ROTATE_NONE ],plExits);
       plExits = Cons([ 43, 39, RID_GUILDH13, 9, 2, ROTATE_NONE ],plExits);
 
-      % To guild hall 13 (merchant hall) - teleport in (47,43) -- from secure
-      % porch. Note that these doors can only be passed through by guild members
-      % (code below in SomethingTryGo will preempt these doors for non-members)
+      // To guild hall 13 (merchant hall) - teleport in (47,43) -- from secure
+      // porch. Note that these doors can only be passed through by guild members
+      // (code below in SomethingTryGo will preempt these doors for non-members)
       plExits = Cons([ 46, 43, RID_GUILDH13, 12, 7, ROTATE_NONE ],plExits);
       plExits = Cons([ 46, 44, RID_GUILDH13, 12, 7, ROTATE_NONE ],plExits);
 
@@ -174,4 +174,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

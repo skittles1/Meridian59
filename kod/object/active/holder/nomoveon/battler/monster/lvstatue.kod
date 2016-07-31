@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 LivingStatue is Monster
 
 constants:
@@ -16,17 +16,17 @@ constants:
 
    ANIM_CAST = 3
 
-   % Neutral action, our troops don't smile, etc.
+   // Neutral action, our troops don't smile, etc.
    NO_ACTION = 1
 
-   % What percent of the statues are soldiers?
+   // What percent of the statues are soldiers?
    SOLDIER_PERCENT = 20
 
-   % What percent of the time do we wake up when someone is near?
+   // What percent of the time do we wake up when someone is near?
    WAKEUP_CHANCE = 100
 
-   % How long are we dormant when someone tries to wake us up?
-   DORMANT_DURATION = 2 * 60 * 1000  % 2 minutes (in ms)
+   // How long are we dormant when someone tries to wake us up?
+   DORMANT_DURATION = 2 * 60 * 1000  // 2 minutes (in ms)
 
 resources:
 
@@ -57,7 +57,7 @@ resources:
    LivingStatue_male_icon_rsc = bta.bgf
    LivingStatue_female_icon_rsc = btb.bgf  
 
-   % a is male, b is female
+   // a is male, b is female
    LivingStatue_legs_a_rsc = bfa.bgf
    LivingStatue_legs_b_rsc = bfb.bgf
 
@@ -75,49 +75,49 @@ resources:
    LivingStatue_head_male_icon = phax.bgf
    LivingStatue_head_female_icon = phkx.bgf
 
-   % male
+   // male
    LivingStatue_eyes_ax_icon = peax.bgf
    LivingStatue_eyes_bx_icon = pebx.bgf
    LivingStatue_eyes_cx_icon = pecx.bgf
    LivingStatue_eyes_dx_icon = pedx.bgf
 
-   % female
+   // female
    LivingStatue_eyes_kx_icon = pekx.bgf
    LivingStatue_eyes_lx_icon = pelx.bgf
    LivingStatue_eyes_mx_icon = pemx.bgf
 
-   % male
+   // male
    LivingStatue_mouth_ax_icon = pmax.bgf
    LivingStatue_mouth_bx_icon = pmbx.bgf
    LivingStatue_mouth_cx_icon = pmcx.bgf
 
-   % female
+   // female
    LivingStatue_mouth_kx_icon = pmkx.bgf
    LivingStatue_mouth_lx_icon = pmlx.bgf
    LivingStatue_mouth_mx_icon = pmmx.bgf
 
-   % male
+   // male
    LivingStatue_nose_ax_icon = pnax.bgf
    LivingStatue_nose_bx_icon = pnbx.bgf
    LivingStatue_nose_cx_icon = pncx.bgf
 
-   % female
+   // female
    LivingStatue_nose_kx_icon = pnkx.bgf
    LivingStatue_nose_lx_icon = pnlx.bgf
    LivingStatue_nose_mx_icon = pnmx.bgf
 
-   % both
+   // both
    LivingStatue_hair_cd_icon = ptcd.bgf
    LivingStatue_hair_bald_icon = blank.bgf
 
-   % male
+   // male
    LivingStatue_hair_ac_icon = ptac.bgf
    LivingStatue_hair_ba_icon = ptba.bgf
    LivingStatue_hair_ad_icon = ptad.bgf
    LivingStatue_hair_bb_icon = ptbb.bgf
    LivingStatue_hair_xa_icon = ptxa.bgf
 
-   % female
+   // female
    LivingStatue_hair_bc_icon = ptbc.bgf
    LivingStatue_hair_ca_icon = ptca.bgf
    LivingStatue_hair_db_icon = ptdb.bgf
@@ -153,17 +153,17 @@ classvars:
    viKarma = -40
    viDead_drawfx = DRAWFX_SECONDTRANS
 
-   % percentage chance to be female
+   // percentage chance to be female
    viChanceFemale = 50
 
-   % Our normal speed when active
+   // Our normal speed when active
    viNormalSpeed = SPEED_AVERAGE
    viCashmin = 150
    viCashmax = 500
 
 properties:
 
-   % Put these as properties so they can be set
+   // Put these as properties so they can be set
    vrName = LivingStatue_name_rsc
 
    vrIcon = LivingStatue_male_icon_rsc
@@ -173,7 +173,7 @@ properties:
    viLevel = 75
    viDifficulty = 5
    viVisionDistance = 3
-   % Attack range of 192, or 3 row/col.
+   // Attack range of 192, or 3 row/col.
    viAttackRange = 192
    viGender = GENDER_MALE
 
@@ -191,7 +191,7 @@ properties:
    prNose = LivingStatue_nose_ax_icon
    prToupee = LivingStatue_hair_ac_icon
 
-   % Original data, for replacing when we heal.
+   // Original data, for replacing when we heal.
    prOriginalHead = LivingStatue_head_male_icon
    prOriginalEyes = LivingStatue_eyes_ax_icon
    prOriginalMouth = LivingStatue_mouth_ax_icon
@@ -204,19 +204,19 @@ properties:
 
    piDrawFX = DRAWFX_SECONDTRANS
 
-   % Is this a soldier?
+   // Is this a soldier?
    pbIsSoldier = FALSE
 
-   % Do we have a shield?
+   // Do we have a shield?
    pbHasShield = FALSE
 
-   % What are we an image of?
+   // What are we an image of?
    prProfession = LivingStatue_elder
 
-   % How long should we remain dormant, unable to be awoken by players?
+   // How long should we remain dormant, unable to be awoken by players?
    ptRemainDormant = $
 
-   % Used to lock statue into a dormant state
+   // Used to lock statue into a dormant state
    pbLockedDormant = FALSE
 
 messages:
@@ -240,11 +240,11 @@ messages:
       {
          prProfession = LivingStatue_soldier;
 
-         % Give us a little boost to our stats
+         // Give us a little boost to our stats
          viLevel = viLevel + 15;
          viDifficulty = viDifficulty + 2;
 
-         % This makes the soliders not have karma
+         // This makes the soliders not have karma
          pbDontDispose = TRUE;
       }
       else
@@ -262,7 +262,7 @@ messages:
 
    Constructed()
    {
-      % Set the original data here, for replacing when we heal from damage.
+      // Set the original data here, for replacing when we heal from damage.
       prOriginalHead = prHead;
       prOriginalEyes = prEyes;
       prOriginalMouth = prMouth;
@@ -293,11 +293,11 @@ messages:
       propagate;
    }
 
-   %%% Infrastructure
+   //// Infrastructure
 
    ShowDesc()
    {
-      % Does not show status information, because it has none.
+      // Does not show status information, because it has none.
       AddPacket(4,vrDesc, 4,prProfession, 4,monster_desc_level,
                 4,Bound(viLevel,20,150));
 
@@ -311,7 +311,7 @@ messages:
 
       iThreshold = piHit_points / (piMax_hit_points * 20);
 
-      % General damage report
+      // General damage report
       rDamageReport = LivingStatue_damage;
 
       if iThreshold <= 1
@@ -417,7 +417,7 @@ messages:
 
    SpellResist(oSpell=$,who=$,iSpellpower=$)
    {
-      % Ignore sight-based spells and Seduce
+      // Ignore sight-based spells and Seduce
       if IsClass(oSpell,&Blind)
          OR IsClass(oSpell,&Dazzle)
          OR IsClass(oSpell,&Seduce)
@@ -432,8 +432,8 @@ messages:
    {
       local iDelay;
 
-      % Only care about moving stuff if we're not already moving
-      % Only care about non-immortal players we can see and are "close"
+      // Only care about moving stuff if we're not already moving
+      // Only care about non-immortal players we can see and are "close"
       if viSpeed = SPEED_NONE
          AND NOT pbLockedDormant
          AND what <> $
@@ -444,23 +444,23 @@ messages:
       {
          if Random(1,100) <= WAKEUP_CHANCE
          {
-            % Set our intruder as our target if we don't have another one.
-            % 25 hatred is pretty low.
+            // Set our intruder as our target if we don't have another one.
+            // 25 hatred is pretty low.
             if Send(self,@GetHatred) <= 25
             {
                Send(self,@TargetSwitch,#what=what,#iHatred=25);
             }
 
-            % Someone walked close enough!  Spring to life!
+            // Someone walked close enough!  Spring to life!
             Send(self,@WakeUp);
          }
          else
          {
-            % Don't wake up yet.  Rest a bit longer.
+            // Don't wake up yet.  Rest a bit longer.
             pbLockedDormant = TRUE;
 
             iDelay = DORMANT_DURATION;
-            % Created by an admin?  Probably an invasion.  Don't sleep as long.
+            // Created by an admin?  Probably an invasion.  Don't sleep as long.
             if pbDontDispose
             {
                iDelay = iDelay / 5;
@@ -492,11 +492,11 @@ messages:
       return;
    }
 
-   %%% Dealing with waking up and going dormant
+   //// Dealing with waking up and going dormant
 
    WakeUp()
    {
-      % Make ourselves mobile!
+      // Make ourselves mobile!
       viSpeed = viNormalSpeed;
 
       piBehavior = piBehavior & ~(AI_NOMOVE | AI_NOFIGHT | AI_NPC);
@@ -506,13 +506,13 @@ messages:
          Send(self,@EnterStateChase,#target=poTarget,#actnow=TRUE);
       }
 
-      % Now, fix our name!
+      // Now, fix our name!
       vrName = LivingStatue_active_name_rsc;
 
       return;
    }
 
-   %%% Defense messages
+   //// Defense messages
 
    GetParryAbility(stroke_obj=$)
    {
@@ -535,7 +535,7 @@ messages:
       return (viDifficulty*10);
    }
 
-   %%% Graphics setup
+   //// Graphics setup
 
    SetGender()
    {
@@ -562,19 +562,19 @@ messages:
    {
       local RandomNumber,Translation,HelmetHair;
 
-      % Sets the hairdo, color.  Has a chance of putting a helmet on instead.
+      // Sets the hairdo, color.  Has a chance of putting a helmet on instead.
 
-      % Helmet?
+      // Helmet?
       if poHair_Remove <> $
       {
          return;
       }
 
-      % Select a hairdo
+      // Select a hairdo
       if viGender = GENDER_MALE
       {
          RandomNumber = random(0,6);
-         % 0 keeps the "default"
+         // 0 keeps the "default"
          if RandomNumber = 1
          {
             prToupee = LivingStatue_hair_cd_icon;
@@ -602,9 +602,9 @@ messages:
       }
       else
       {
-      % female
+      // female
          RandomNumber = random(0,8);
-         % 0 keeps the "default"
+         // 0 keeps the "default"
          if RandomNumber = 1
          {
             prToupee = LivingStatue_hair_cd_icon;
@@ -643,10 +643,10 @@ messages:
    }
 
    SetFace()
-   % Randomly sets (gender-appropriate) face elements.
+   // Randomly sets (gender-appropriate) face elements.
    {
       local RandomNumber;
-      % NOTE: 0 always keeps the "default" (a) icon.
+      // NOTE: 0 always keeps the "default" (a) icon.
 
       if viGender = GENDER_MALE
       {
@@ -686,7 +686,7 @@ messages:
       }
       else
       {
-         % female
+         // female
 
          RandomNumber = random(0,2);
          if RandomNumber = 1
@@ -742,13 +742,13 @@ messages:
 
       Send(self,@AddEquipmentObject,#what=oEquipmentItem);
 
-      % base 20% chance to be a soldier type statue.
+      // base 20// chance to be a soldier type statue.
       if random(1,100) <= SOLDIER_PERCENT
          OR pbIsSoldier
       {
          pbIsSoldier = TRUE;
 
-         % Armor
+         // Armor
          iRandomNumber = random(1,10);
 
          if iRandomNumber <= 4
@@ -766,7 +766,7 @@ messages:
 
          Send(self,@SetStatueArmor,#NewArmor=oEquipmentItem);
 
-         % Helmet?
+         // Helmet?
          if random(1,10) <= 5
          {
             HelmetHair = create(&SimpleHelm);
@@ -774,7 +774,7 @@ messages:
             poHair_Remove = HelmetHair;
          }
 
-         % Gauntlets?
+         // Gauntlets?
          if random(1,10) <= 5
          {
             oEquipmentItem = create(&Gauntlet);
@@ -791,7 +791,7 @@ messages:
             }
          }
 
-         % Shield?
+         // Shield?
          if random(1,10) <= 8
          {
             pbHasShield = TRUE;
@@ -819,7 +819,7 @@ messages:
 
    MonsterAttack(what = $)
    {
-      % add in any attack animation calls
+      // add in any attack animation calls
       Send(self,@DoSlash);
 
       return;
@@ -836,7 +836,7 @@ messages:
 
    SendMoveAnimation()
    {
-      % use standing torso
+      // use standing torso
       AddPacket(1,ANIMATE_NONE, 2,1);
 
       return;
@@ -844,7 +844,7 @@ messages:
 
    SendAnimation()
    {
-      % All new data
+      // All new data
       if piAnimation = PANM_WEAPON_ATTACK
       {
          AddPacket(1,ANIMATE_ONCE, 4,300, 2,2, 2,4, 2,1);
@@ -859,8 +859,8 @@ messages:
    {
       local i, iOverlays, hotspot, iLeft_group, iRight_group;
 
-      % Player has 7 standard overlays: right arm, left arm, legs, head,
-      %  eyes, mouth, nose
+      // Player has 7 standard overlays: right arm, left arm, legs, head,
+      //  eyes, mouth, nose
       iOverlays = 7;
 
       if poHair_remove = $
@@ -873,7 +873,7 @@ messages:
 
       foreach i in plOverlays
       {
-         % Bows can have more than 1.
+         // Bows can have more than 1.
          iOverlays = iOverlays + Send(i,@GetNumberOverlays);
          hotspot = Send(i,@GetOverlayHotspot);
          if hotspot = HS_RIGHT_WEAPON
@@ -882,7 +882,7 @@ messages:
          }
          else if hotspot = HS_LEFT_WEAPON or hotspot = HS_BOTTOM_BOW
          {
-            % it's really a shield, not weapon
+            // it's really a shield, not weapon
             iLeft_group = 7;
          }
       }
@@ -936,10 +936,10 @@ messages:
    {
       local i, iOverlays, hotspot, iLeft_group, iRight_group;
 
-      % Send overlay bitmap info to user.
+      // Send overlay bitmap info to user.
 
-      % Player has 7 standard overlays: right arm, left arm, legs, head,
-      %  eyes, mouth, nose
+      // Player has 7 standard overlays: right arm, left arm, legs, head,
+      //  eyes, mouth, nose
       iOverlays = 7;
 
       if poHair_remove = $
@@ -947,14 +947,14 @@ messages:
          iOverlays = iOverlays + 1;
       }
 
-      % Overlay info -- display correct group for animation & action
+      // Overlay info -- display correct group for animation & action
 
       iLeft_group = 1;
       iRight_group = 1;
 
       foreach i in plOverlays
       {
-         % Bows can have more than 1.
+         // Bows can have more than 1.
          iOverlays = iOverlays + Send(i,@GetNumberOverlays,
                                       #iAnimation=piAnimation);
          hotspot = Send(i,@GetOverlayHotspot);
@@ -964,7 +964,7 @@ messages:
          }
          else if hotspot = HS_LEFT_WEAPON or hotspot = HS_BOTTOM_BOW
          {
-            % it's really a shield, not weapon 
+            // it's really a shield, not weapon 
             iLeft_group = 7;
          }
       }
@@ -1068,7 +1068,7 @@ messages:
       return;
    }
 
-   % Override from monster superclass
+   // Override from monster superclass
    CreateDeadBody(killer=$)
    {
       return Create(&DeadBody,
@@ -1082,7 +1082,7 @@ messages:
    {
       local i,iGen_items,oTreasure,oTreasure_type;
 
-      % Soldiers have a small chance to drop a rose as treasure.
+      // Soldiers have a small chance to drop a rose as treasure.
       if pbIsSoldier
          AND Random(0,100) = 59
          AND NOT pbIllusion
@@ -1112,4 +1112,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

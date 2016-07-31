@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 PortalOfLife is Spell
 
 constants:
@@ -55,7 +55,7 @@ messages:
 
    ResetReagents()
    {
-      % separate message so can change, then set from admin mode
+      // separate message so can change, then set from admin mode
 
       plReagents = $;
       plReagents = Cons([&Emerald,2],plReagents);
@@ -109,20 +109,20 @@ messages:
    {
       local iDeathCost,iTimePenalty;
 
-      iDeathCost = send(DearlyDeparted,@GetDeathCost); %%Gets their starting death cost.
+      iDeathCost = send(DearlyDeparted,@GetDeathCost); ///Gets their starting death cost.
 
       iTimePenalty = GetTime();
 
-      %% If the corpse is still around then this must be between 0 and 600
+      /// If the corpse is still around then this must be between 0 and 600
       iTimePenalty = iTimePenalty - TimeofDeath;  
 
       if iTimePenalty < 60
       {
-         iTimePenalty = -(60 - iTimePenalty); %1 - 59 spellpower bonus.
+         iTimePenalty = -(60 - iTimePenalty); //1 - 59 spellpower bonus.
       }
       else
       {
-         iTimePenalty = iTimePenalty/10 - 6;  %0 - 54 spellpower penalty.
+         iTimePenalty = iTimePenalty/10 - 6;  //0 - 54 spellpower penalty.
       }
 
       iDeathCost = iDeathCost - (iSpellpower - iTimePenalty);
@@ -133,4 +133,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

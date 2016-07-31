@@ -1,24 +1,24 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 WeapAttBonker is WeaponAttribute
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%  This weapon just bonks the opponent.  It's nothing more than silly.
-%
-%  Form is:
-%
-%       [ WA_BONK ]
-%	
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////
+//
+//  This weapon just bonks the opponent.  It's nothing more than silly.
+//
+//  Form is:
+//
+//       [ WA_BONK ]
+//	
+///////////////////////////////////////////////////////////////////////
 
 constants:
 
@@ -43,17 +43,17 @@ classvars:
 
 properties:
 
-   piValue_modifier = 150   %% modify the object's price by 100%
+   piValue_modifier = 150   /// modify the object's price by 100//
    piValue_power_modifier = 10
    piEffect_Percent = 8
 
 messages:
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%
-%%  Effect Functions
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////
+///
+///  Effect Functions
+///
+////////////////////////////////////////////////
 
    ModifyDamage(damage=0,target=$,wielder=$,lData=$)
    "Wielder has a 1% chance of blinding target with any hit."
@@ -82,4 +82,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

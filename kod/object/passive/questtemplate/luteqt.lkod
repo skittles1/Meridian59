@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 lutequest_name_rsc = de "Instrumenten Quest"
 lutequest_desc_rsc = de \
    "Parrin kennt jemanden, der ein Instrument für Dich hat, um dich zu lehren es zu nutzen."
@@ -16,7 +16,7 @@ lutequest_nodefour_rsc = de \
 lutequest_completed_rsc = de \
    "Du hast das Instrumenten Quest abgeschlossen, und dafür eine Laute erhalten."
 
-% Quest resources.
+// Quest resources.
 lutequest_trigger_1 = de "Instrument"
 lutequest_assign_2 = de \
    "Natürlich wirst Du ein Instrument benötigen.  Ich werde Dir sogar helfen, "

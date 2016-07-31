@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 factioninsigniaquest_name_rsc = de "Gildenschild Insignien Quest"
 factioninsigniaquest_desc_rsc = de \
    "Dein Lehnsherr wird seine Insignien auf dein Gildenschild einlassen, wenn Du "
@@ -19,7 +19,7 @@ factioninsigniaquest_nodefour_rsc = de \
 factioninsigniaquest_completed_rsc = de \
    "Du hast Insignien auf dein Gildenschild erhalten, und erhältst nun somit mehr Kraft für deine Zauber."
 
-% Quest resources.
+// Quest resources.
 factioninsignia_trigger = de "Abzeichen"
 factioninsignia_assign_2 = de \
    "Ich sehe, Du hast ein Schild mit Farben aber ohne Insignien.  Wenn du "

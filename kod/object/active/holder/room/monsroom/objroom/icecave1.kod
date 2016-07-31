@@ -1,14 +1,14 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 IceCave1 is ObjectRoom
 
 constants:
@@ -17,10 +17,10 @@ constants:
 
    YETI_DOOR = 1
    MANA_DOOR = 2
-%  YETI_ROW = 21
-%  YETI_COL = 12
+//  YETI_ROW = 21
+//  YETI_COL = 12
 
-   RESPAWN_TIMER = 180000  % 3 minutes
+   RESPAWN_TIMER = 180000  // 3 minutes
    YETI_DOOR_TIME = 10000
    MANA_DOOR_TIME = 2000
 
@@ -65,10 +65,10 @@ properties:
    ptManaDoor_Timer = $
    ptYetiDoor_Timer = $
    
-   % Coordinates for the node column, for checking movement
+   // Coordinates for the node column, for checking movement
    plNode_area = $
    
-   % Last node opening time.
+   // Last node opening time.
    piNodeColumnLastRaised = $
 
 messages:
@@ -178,21 +178,21 @@ messages:
             new_row = 1, new_col = 1, new_fine_row = 1, new_fine_col = 1,
             who=$)
    {
-      % Hardcoded movement check, prevent hacking to get the mana node.
-      % Only checked if node column is closed.
+      // Hardcoded movement check, prevent hacking to get the mana node.
+      // Only checked if node column is closed.
       if ptManaDoor_Timer = $
       {
-         % We're using a standard rectangle here, so use the generic
-         % room.kod function for finding user in a rectangular area.
+         // We're using a standard rectangle here, so use the generic
+         // room.kod function for finding user in a rectangular area.
          if NOT Send(self,@IsUserInArea,#lArea=plNode_area,#iRow=old_row,
                   #iCol=old_col,#iFineRow=old_fine_row,#iFineCol=old_fine_col)
          {
-            % User isn't in the node column. Check if they're trying to
-            % go into it while closed.
+            // User isn't in the node column. Check if they're trying to
+            // go into it while closed.
             if Send(self,@IsUserInArea,#lArea=plNode_area,#iRow=new_row,
                   #iCol=new_col,#iFineRow=new_fine_row,#iFineCol=new_fine_col)
             {
-               % Bad player! Fail the attempt.
+               // Bad player! Fail the attempt.
                Debug("ALERT!",Send(who,@GetTrueName),who,
                      "tried to move through closed node column in room ",
                      Send(self,@GetName)," from ",old_row,old_col,old_fine_row,
@@ -224,7 +224,7 @@ messages:
 
       if (IsClass(victim,&yeti))
       {
-         % Don't open the door if the Yeti was killed by a node attack.
+         // Don't open the door if the Yeti was killed by a node attack.
          oNodeAtt = Send(Send(SYS,@GetNodeAttack),@GetAttackedNode);
          if oNodeAtt <> $
          {
@@ -285,7 +285,7 @@ messages:
    "This takes a spell/skill that who is trying to advance and modifies "
    "the improve_chance. This supercedes the ROOM_HARD_LEARN flag."
    {
-      % Hinder learning room enchants because of the Yeti's discordance
+      // Hinder learning room enchants because of the Yeti's discordance
       if IsClass(oSpellSkill,&RoomEnchantment)
       {
          return (chance / 10);
@@ -295,4 +295,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

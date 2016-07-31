@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 chessqt_desc_rsc = de \
    "Du wurdest beauftragt einen Schachzug zu überbringen."
 
@@ -13,7 +13,7 @@ chessqt_nodefour_rsc = de \
    "Gehe zurück zu %s%s und sage %s nächster Schachzug in "
    "dieser Partie ist \"%q\"."
 
-% Quest resources.
+// Quest resources.
 chess_assign_2 = de \
    "Ich spiele eine Runde Schach mit einem Freund. Wärst Du bereit meinen "
    "nächsten Zug meinem Gegner mitzuteilen?"

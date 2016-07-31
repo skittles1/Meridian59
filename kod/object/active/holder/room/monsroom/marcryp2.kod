@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 MarionCrypt2 is MonsterRoom
 
 constants:
@@ -21,7 +21,7 @@ constants:
    BOSS_MESSAGE_COL_MIN = 5
    BOSS_MESSAGE_COL_MAX = 10
 
-   MESSAGE_INTERVAL = 30 * 1000  % 30 seconds (in ms).
+   MESSAGE_INTERVAL = 30 * 1000  // 30 seconds (in ms).
 
 resources:
 
@@ -67,11 +67,11 @@ properties:
    piInit_count_max = 3
    piMonster_count_max = 25
 
-   % What locations do we want to spawn states at?  Each element is a
-   %  [row, col, direction] triplet.
+   // What locations do we want to spawn states at?  Each element is a
+   //  [row, col, direction] triplet.
    plStatueLocations = $
 
-   % Is the door to MarionCrypt3a enabled?
+   // Is the door to MarionCrypt3a enabled?
    pbSecondaryDoorEnabled = TRUE
 
 messages:
@@ -90,7 +90,7 @@ messages:
                        [3, 41], [2, 38], [5, 37]
                      ];
 
-      % [row, col, angle]
+      // [row, col, angle]
       plStatueLocations = [ [25,  2, ANGLE_NORTH], [37,  2, ANGLE_NORTH],
                             [37,  4, ANGLE_NORTH], [19,  7, ANGLE_NORTH],
                             [20, 10, ANGLE_NORTH], [21, 35, ANGLE_NORTH],
@@ -164,7 +164,7 @@ messages:
    {
       local oStatue, lLocation;
 
-      % Don't do anything if there's already statues here.
+      // Don't do anything if there's already statues here.
       if Send(self,@FindHoldingActive,#class=&LivingStatue) <> $
       {
          return;
@@ -222,11 +222,11 @@ messages:
 
    CanHavePlayerPortal()
    {
-      % Don't allow portals into this room, bypassing puzzle
+      // Don't allow portals into this room, bypassing puzzle
       return false;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 
 

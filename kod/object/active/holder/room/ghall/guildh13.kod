@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////////////////////////////////////////////////////////////
 GuildHall13 is GuildHall
 
 constants:
@@ -47,12 +47,12 @@ classvars:
    viNews_finerow = 24
    viNews_finecol = 0
 
-   % Foyer is L-shaped
-   viFoyer_north = 1     %outer bounding box
+   // Foyer is L-shaped
+   viFoyer_north = 1     //outer bounding box
    viFoyer_south = 13 
    viFoyer_west = 1
    viFoyer_east = 7
-   viFoyer2_south = 4    %inner elbow of L (inside is N and/or W of this point)
+   viFoyer2_south = 4    //inner elbow of L (inside is N and/or W of this point)
    viFoyer2_east = 4
 
    viLever_row = 15
@@ -88,11 +88,11 @@ messages:
    {
       plGuild_doors = [ [2,7], [3,7], [4,7] ];
 
-      % This is a box containing the guild door, used
-      % for removing players from it when it closes.
+      // This is a box containing the guild door, used
+      // for removing players from it when it closes.
       plEntrance = [ 175, 475, 775, 825 ];
 
-      % Each sound is [wave_file, row, col, cutoff radius, maximum volume]
+      // Each sound is [wave_file, row, col, cutoff radius, maximum volume]
       plLooping_sounds = [ [ guildh13_ocean_sound, 13, 7, 10, 10 ],
                            [ guildh13_ocean_sound, 11, 2, 10, 10 ],
                            [ guildh13_ocean_sound, 5, 38, 30, 100 ]
@@ -109,11 +109,11 @@ messages:
 
       plExits = Cons([ 9, 5, RID_GUILDH13, 9, 3, ROTATE_NONE ],plExits);
 
-      %% teleport in to (11, 3) -- main entrance
+      /// teleport in to (11, 3) -- main entrance
       plExits = Cons([ 11, 2, RID_KOC_SOUTH, 43, 38, ROTATE_NONE ],plExits);
       plExits = Cons([ 10, 2, RID_KOC_SOUTH, 43, 38, ROTATE_NONE ],plExits);
 
-      %% teleport in to (12, 7) -- to secure porch
+      /// teleport in to (12, 7) -- to secure porch
       plExits = Cons([ 13, 7, RID_KOC_SOUTH, 47, 43, ROTATE_NONE ],plExits);
       plExits = Cons([ 13, 8, RID_KOC_SOUTH, 47, 43, ROTATE_NONE ],plExits);
 
@@ -152,8 +152,8 @@ messages:
 
       if type = SAY_YELL or not IsClass(what,&player)
       {
-         % Stolen from Holder, since we can't just
-         % propagate to GuildHall's version.
+         // Stolen from Holder, since we can't just
+         // propagate to GuildHall's version.
          foreach i in plActive
          {
             each_obj = Send(self,@HolderExtractObject,#data=i);
@@ -168,7 +168,7 @@ messages:
          return;
       }
 
-      % Say to people inside or outside the guild hall only.
+      // Say to people inside or outside the guild hall only.
       foreach i in plActive
       {
          each_obj = Send(self,@HolderExtractObject,#data=i);
@@ -293,8 +293,8 @@ messages:
             #height=MAIN_DOOR_CLOSED,#speed=100);
       Send(self,@CloseEntranceDoorSound);
 
-      % We now propagate this to handle removing players from the door,
-      % and so the door can still be entered while it is closing.
+      // We now propagate this to handle removing players from the door,
+      // and so the door can still be entered while it is closing.
       propagate;
    }
 
@@ -322,7 +322,7 @@ messages:
                     ];
       Send(self,@CreateOrnObjFromList,#lObjlist=lObjCoords1);
 
-      % labelled as guild hall 13?
+      // labelled as guild hall 13?
       Send(self,@NewHold,#what=Create(&TableLamp),#new_row=05,#new_col=16,
             #fine_col=24,#fine_row=16);
       Send(self,@NewHold,#what=Create(&TableLamp),#new_row=05,#new_col=18,
@@ -361,13 +361,13 @@ messages:
 
    StartSnow(bOnGround=TRUE)
    {
-      % Check if we can have weather effects here.
+      // Check if we can have weather effects here.
       if NOT pbWeatherEffects
       {
          return;
       }
 
-      % If there's a sandstorm weather effect here, clear it.
+      // If there's a sandstorm weather effect here, clear it.
       if Send(self,@CheckRoomFlag,#flag=ROOM_SANDSTORM)
       {
          Send(self,@EndSandstorm);
@@ -377,13 +377,13 @@ messages:
       {
          if pbSnowGroundTexture
          {
-            % We just want to show snow in the outside area.
+            // We just want to show snow in the outside area.
             Send(self,@ChangeTexture,#id=1,#new_texture=61015,#flags=CTF_FLOOR);
 
-            % Also, there's water here.
+            // Also, there's water here.
             Send(self,@ChangeTexture,#id=10,#new_texture=61017,
                   #flags=CTF_FLOOR);
-            % Stop water scroll effect and remove depth.
+            // Stop water scroll effect and remove depth.
             Send(self,@SetSectorFlags,#sector=10,#depth=SF_DEPTH0,
                   #scrollSpeed=SCROLL_NONE);
          }
@@ -416,4 +416,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

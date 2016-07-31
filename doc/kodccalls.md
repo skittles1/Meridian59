@@ -1098,7 +1098,7 @@ Checks if a source location has line of sight with a destination, uses the BSP t
       local start_row, start_col, start_finerow, start_finecol,
             end_row, end_col, end_finerow, end_finecol, los;
 
-      % get coordinates of source (obj1) and target (obj2)
+      // get coordinates of source (obj1) and target (obj2)
       start_row = Send(obj1, @GetRow);
       start_col = Send(obj1, @GetCol);
       start_finerow = Send(obj1, @GetFineRow);
@@ -1108,7 +1108,7 @@ Checks if a source location has line of sight with a destination, uses the BSP t
       end_finerow = Send(obj2, @GetFineRow);
       end_finecol = Send(obj2, @GetFineCol);
 
-      % call BSP LoS in C code  
+      // call BSP LoS in C code  
       return LineOfSightBSP(prmRoom,
          start_row, start_col, start_finerow, start_finecol,
          end_row, end_col, end_finerow, end_finecol);
@@ -1139,7 +1139,7 @@ Checks if you can walk along a straight line from the source to the destination.
       local start_row, start_col, start_finerow, start_finecol,
             end_row, end_col, end_finerow, end_finecol, los;
 
-      % get coordinates of source (obj1) and target (obj2)
+      // get coordinates of source (obj1) and target (obj2)
       start_row = Send(obj1, @GetRow);
       start_col = Send(obj1, @GetCol);
       start_finerow = Send(obj1, @GetFineRow);
@@ -1149,7 +1149,7 @@ Checks if you can walk along a straight line from the source to the destination.
       end_finerow = Send(obj2, @GetFineRow);
       end_finecol = Send(obj2, @GetFineCol);
 
-      % call BSP CanMoveInRoom in C code  
+      // call BSP CanMoveInRoom in C code  
       return CanMoveInRoomBSP(prmRoom,
          start_row, start_col, start_finerow, start_finecol,
          end_row, end_col, end_finerow, end_finecol);
@@ -1168,7 +1168,7 @@ Adjusts the height, speed and animation type of a sector in the room's BSP tree.
    {
       local i,each_obj;
 
-      % Update BSP room data
+      // Update BSP room data
       MoveSectorBSP(prmRoom, sector, animation, height, speed);
 ```
 
@@ -1184,7 +1184,7 @@ affect line of sight.
    {
       local i,each_obj;
 
-      % update BSP room data
+      // update BSP room data
       ChangeTextureBSP(prmRoom, id, new_texture, flags);
 ```
 
@@ -1215,7 +1215,7 @@ results. Returns TRUE if the query was successful, FALSE if it was not.
          return 0;
       }
 
-      % we're only using the floor-height with depth modifier here
+      // we're only using the floor-height with depth modifier here
       return iHeightFWD;
    }
 ```
@@ -1245,7 +1245,7 @@ update the roomdata's position stored for that object.
    {
       if NOT BlockerMoveBSP(prmRoom, what, new_row, new_col, fine_row, fine_col)
       {
-         % debug("Failed to move blocker ", what);
+         // debug("Failed to move blocker ", what);
       }
    }
 ```
@@ -1298,9 +1298,9 @@ given by the first set of coordinates. If unsuccessful, this call will return
 moving). If successful, it will also place the valid destination coordinates
 into the second set of coordinate variables.
 ```
-   % query where to step next
-   % note: these need some persistent info across
-   % calls which are stored in piState (flags from old KOD code)
+   // query where to step next
+   // note: these need some persistent info across
+   // calls which are stored in piState (flags from old KOD code)
    iState = GetStepTowardsBSP(
                Send(poOwner, @GetRoomData),
                piRow, piCol, piFine_row, piFine_col,
@@ -1485,8 +1485,8 @@ be done after the current call, such as responding to speech said by a user.
 Can also pass a message name via kod string (TAG_STRING).
 
 ```
-   % Quickly, lets check to see if it's a signet ring.  If so, give a
-   %  special message.
+   // Quickly, lets check to see if it's a signet ring.  If so, give a
+   //  special message.
    if IsClass(obj,&SignetRing)
    {
       Post(poOwner,@SomeoneSaid,#what=self,
@@ -1563,7 +1563,7 @@ Print given values on the server's terminal.  Also saves to server log god.txt.
 ```
    if bAdminPort
    {
-      % Log the teleport.
+      // Log the teleport.
       GodLog("Admin ",Send(self,@GetTrueName)," teleported to ",
             Send(oRoom,@GetName));
    }
@@ -1611,18 +1611,18 @@ Return the current wall clock time in seconds.
    {
       local i, iTime, iDay, iMinutes;
 
-      % This assumption is no longer valid, but it's how we figure things out.
-      % Remember that GetTime() returns the UDT time in seconds since
-      %  January 1, 1996.  Assume we're 5 hours behind that.
+      // This assumption is no longer valid, but it's how we figure things out.
+      // Remember that GetTime() returns the UDT time in seconds since
+      //  January 1, 1996.  Assume we're 5 hours behind that.
 
       iTime = GetTime() - 5 * HOUR;
 
-      iDay = (iTime / (24 * HOUR)) MOD 365;
+      iDay = (iTime / (24 * HOUR)) % 365;
 
-      % Our day is 2 hours long now, so get minutes into the four hours
-      iMinutes = (iTime MOD (2 * HOUR)) / 60;
+      // Our day is 2 hours long now, so get minutes into the four hours
+      iMinutes = (iTime % (2 * HOUR)) / 60;
 
-      % That number ranges from 0 to 119, so div by 5 is our game hour
+      // That number ranges from 0 to 119, so div by 5 is our game hour
       piHour = iMinutes / 5;
 
       Send(self,@NewGameHour);
@@ -1648,7 +1648,7 @@ QueryPerformanceCounter, Linux uses gettimeofday.
 
       Send(self,@LoadMailNews);
 
-      % Count right now as the last time we moved.
+      // Count right now as the last time we moved.
       piLastMoveUpdateTime = GetTickCount();
 
       propagate;
@@ -1727,7 +1727,7 @@ Return the absolute value of the given expression.
    {
       local iPlayer_karma;
 
-      % This means the monster has no Karma.
+      // This means the monster has no Karma.
       if viKarma = $
       {
          return TRUE;
@@ -1735,7 +1735,7 @@ Return the absolute value of the given expression.
 
       iPlayer_karma = Send(who,@GetKarma);
      
-      % Second clause is to give newbies a break
+      // Second clause is to give newbies a break
       if (viKarma * Send(who,@GetKarma)) < 0
          AND Abs(iPlayer_karma) >= 10
       {
@@ -1786,7 +1786,7 @@ Bound expr1 to the interval [expr2, expr3], and return the result.
    if what <> $
       AND NOT IsObject(what)
    {
-      % Log a debug message for this
+      // Log a debug message for this
       Debug("User ",self," tried to look at non-object ",what);
 
       return;
@@ -1816,7 +1816,7 @@ kod string (TAG_STRING) with the string value of the save game time.
 ```
    if (IKnowThisIsDangerous = 820965)
    {
-      % Save the game.
+      // Save the game.
       psSaveGame = SaveGame();
    }
 ```
@@ -1829,17 +1829,17 @@ string parameter. LoadGame will post the load message to the Blakserv
 interface thread, which will be executed when the message queue is empty.
 
 ```
-   % If we don't have a save game, don't try to reload.
+   // If we don't have a save game, don't try to reload.
    if psSaveGame = $
    {
       Debug("System has no save game, not ending chaos night!");
 
       return system_failure_rsc;
    }
-   % LoadGame will schedule a game reload in the blakserv main thread,
-   % which will kick all users offline and reload the saved game. This
-   % is performed in the main thread so that blakod interpreting isn't
-   % affected.
+   // LoadGame will schedule a game reload in the blakserv main thread,
+   // which will kick all users offline and reload the saved game. This
+   // is performed in the main thread so that blakod interpreting isn't
+   // affected.
    LoadGame(psSaveGame);
    psSaveGame = $;
 ```
@@ -1868,8 +1868,8 @@ of the classvar via debug string.
    {
       local i;
 
-      % Check for frenzy active first, to avoid running
-      % this accidentally.
+      // Check for frenzy active first, to avoid running
+      // this accidentally.
       if poChaosNight = $
       {
          return;

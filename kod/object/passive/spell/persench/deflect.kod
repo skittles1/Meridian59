@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%S%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////S///////////////////////////////////////////////////////
 Deflect is PersonalEnchantment
 
 constants:
@@ -81,9 +81,9 @@ classvars:
 
 properties:
 
-   % The effectiveness of purge on the target spell as a percentage.
-   % 100 will cause purge to remove its entire spellpower, 0 will
-   % prevent purge from removing this spell.
+   // The effectiveness of purge on the target spell as a percentage.
+   // 100 will cause purge to remove its entire spellpower, 0 will
+   // prevent purge from removing this spell.
    viPurgeFactor = 40
 
 messages:
@@ -110,7 +110,7 @@ messages:
    {
       local iDuration;
 
-      % 21-119 seconds
+      // 21-119 seconds
       iDuration = (20 + iSpellPower) * 1000;
 
       return iDuration;
@@ -125,7 +125,7 @@ messages:
          AND Send(oSpell,@GetNumSpellTargets) = 1
          AND IsClass(oSpell,&AttackSpell)
       {
-         % Give players a decent chance to improve the spell!
+         // Give players a decent chance to improve the spell!
          foreach i in Send(victim,@GetPassiveImprovementList)
          {
             if First(i) = self AND Random(1,3) = 3
@@ -179,4 +179,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

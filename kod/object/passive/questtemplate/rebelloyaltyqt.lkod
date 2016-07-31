@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 rebelloyalty_name_rsc = de "Rebellen Loyalitäts Quest"
 rebelloyalty_desc_rsc = de \
    "Jonas D'Accors Truppen benötigen Ausrüstung, und Du sollst sie besorgen."
@@ -9,7 +9,7 @@ rebelloyalty_deliver_rsc = de \
 rebelloyalty_completed = de \
    "Du hast das Rebellen Loyalitäts Quest abgeschlossen. Jonas ist dir dankbar... für eine Weile."
 
-% Quest resources.
+// Quest resources.
 rebel_standard2_assign = de \
    "Ah, %NAME, mein Freiheitskämpfer. Meine Truppen benötigen mehr Ausrüstung.Dieser "
    "Krieg kostet eine Menge und ich habe nicht das Geld für eine große Truhe, "

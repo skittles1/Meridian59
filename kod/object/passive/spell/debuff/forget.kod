@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ForgetSpell is Debuff
 
 constants:
@@ -88,7 +88,7 @@ messages:
 
       oTarget = First(lTargets);
 
-      % Spell effects
+      // Spell effects
       Send(self,@DoSpell,#what=who,#oTarget=oTarget,#iSpellPower=iSpellPower,
            #iDuration=Send(self,@GetDuration,#iSpellPower=iSpellPower));
 
@@ -102,8 +102,8 @@ messages:
 
       if IsClass(oTarget,&Monster)
       {
-         % Lasts quarter duration on mobs, 7.5-15 seconds. 
-         % Makes them enter the waiting state, 'forgetting' the target.
+         // Lasts quarter duration on mobs, 7.5-15 seconds. 
+         // Makes them enter the waiting state, 'forgetting' the target.
          iDuration = iDuration/4;
          Send(oTarget,@EnterStateWait,#delay=iDuration);
          Send(oTarget,@StartEnchantment,#what=self,#time=iDuration);
@@ -131,11 +131,11 @@ messages:
          propagate;
       }
 
-      % There is no protection to keep from forgetting the same spell
-      % twice, this isn't a problem, and can make the spell more dynamic
-      % in that there is a failure clause, in that a player won't lose as
-      % many spells/skills.  It also protects players who don't have many
-      % skills from losing all that they do have
+      // There is no protection to keep from forgetting the same spell
+      // twice, this isn't a problem, and can make the spell more dynamic
+      // in that there is a failure clause, in that a player won't lose as
+      // many spells/skills.  It also protects players who don't have many
+      // skills from losing all that they do have
 
       while iPowerLeft > 0
       {
@@ -201,9 +201,9 @@ messages:
    {
       local iDuration;
 
-      % Duration calculation now uses class properties, modifiable in game
-      % By default, base duration 30000ms, total time 30-60 sec using 300x
-      % spellpower multiplier, with the final duration 90-100% max
+      // Duration calculation now uses class properties, modifiable in game
+      // By default, base duration 30000ms, total time 30-60 sec using 300x
+      // spellpower multiplier, with the final duration 90-100// max
 
       iDuration = (piBaseDuration + (iSpellPower+1)*piSpellPowerModifier);
       iDuration = Random(iDuration*(100-piDeviation)/100,iDuration);
@@ -268,4 +268,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

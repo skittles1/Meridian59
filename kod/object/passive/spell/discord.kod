@@ -1,26 +1,26 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Discordance is Spell
 
 constants:
 
    include blakston.khd
 
-   % At least how many enchantments should there be in the room to check for auto-remove?
+   // At least how many enchantments should there be in the room to check for auto-remove?
    MIN_ENCHANTMENTS_FOR_AUTOREMOVE = 1
 
-   % What's the minimum chance to remove spells we want before checking for auto-remove?
+   // What's the minimum chance to remove spells we want before checking for auto-remove?
    MIN_CHANCE_FOR_AUTOREMOVE = 60
 
-   % What's percentage of the chance do we keep for trying to remove Jala spells?
+   // What's percentage of the chance do we keep for trying to remove Jala spells?
    JALA_PERCENT = 50
 
 resources:
@@ -95,7 +95,7 @@ messages:
 
       if IsClass(who,&Room)
       {
-         %% this way a room can automatically discord.
+         /// this way a room can automatically discord.
          oRoom = who;
       }
       else
@@ -103,7 +103,7 @@ messages:
          oRoom = Send(who,@GetOwner);
       }
 
-      % keep tabs on guides/bards, but not admins.
+      // keep tabs on guides/bards, but not admins.
       if IsClass(who, &DM)
       {
          if GetClass(who) = &DM
@@ -114,7 +114,7 @@ messages:
 
          if Send(who,@PlayerIsImmortal)
          {
-            % If they're immortal, let them clear everything.
+            // If they're immortal, let them clear everything.
             iSpellPower = $;
          }
       }
@@ -151,8 +151,8 @@ messages:
          return FALSE;
       }
 
-      % Chance of $ means that we want to remove it all.
-      %  Used by things like super-monsters (the Yeti)
+      // Chance of $ means that we want to remove it all.
+      //  Used by things like super-monsters (the Yeti)
       if iChance = $ OR iChance >= 100
       {
          Send(oRoom,@RemoveAllEnchantments);
@@ -164,7 +164,7 @@ messages:
       lEnchantments = Send(oRoom,@GetEnchantmentList);
       iNumEnchantments = Length(lEnchantments);
 
-      % Anti-clumpy code: If dispell is greater than 60%, then auto-remove one enchantment.
+      // Anti-clumpy code: If dispell is greater than 60//, then auto-remove one enchantment.
       if iNumEnchantments >= MIN_ENCHANTMENTS_FOR_AUTOREMOVE
          AND iChance >= MIN_CHANCE_FOR_AUTOREMOVE
       {
@@ -172,7 +172,7 @@ messages:
          Send(oRoom,@RemoveEnchantment,#what=Nth(oEnchantment,2));
          bRemovedSomething = TRUE;
 
-         % Re-get the information
+         // Re-get the information
          lEnchantments = Send(oRoom,@GetEnchantmentList);
          iNumEnchantments = Length(lEnchantments);
       }
@@ -183,7 +183,7 @@ messages:
          iModifiedChance = iChance;
          if Send(oSpell,@GetSchool) = SS_JALA
          {
-            % Only half chance to discord a Jala song
+            // Only half chance to discord a Jala song
             iModifiedChance = (iModifiedChance * JALA_PERCENT) / 100;
          }
          
@@ -198,4 +198,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

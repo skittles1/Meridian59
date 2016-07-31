@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 ResistGood is ResistanceEnchantment
 
 constants:
@@ -69,15 +69,15 @@ messages:
 
    GetResistanceStrength(iSpellpower = 0)
    {
-      %% strength varies from 9 to 20
+      /// strength varies from 9 to 20
       return iSpellPower/9 + 9;
    }
 
    GetDuration(iSpellPower = 0)
    {
-      local iDuration;	   %%% 5 to 15 minutes
+      local iDuration;	   //// 5 to 15 minutes
       iDuration = 300 + iSpellPower * 6;
-      iDuration = iDuration * 1000;	  %% translate to milliseconds
+      iDuration = iDuration * 1000;	  /// translate to milliseconds
       return iDuration;
    }
       
@@ -88,4 +88,4 @@ messages:
    
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

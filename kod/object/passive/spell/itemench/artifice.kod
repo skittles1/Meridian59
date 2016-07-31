@@ -1,16 +1,16 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Artifice is ItemEnchantment
 
-%% Puts a fake itematt on an item.
+/// Puts a fake itematt on an item.
 
 constants:
 
@@ -72,7 +72,7 @@ messages:
 
       oWeapon = First(lTargets);
 
-      % Check that target is enchantable, and is a weapon
+      // Check that target is enchantable, and is a weapon
       if oWeapon = $
       OR NOT IsClass(oWeapon,&Weapon)
       {
@@ -82,7 +82,7 @@ messages:
          return FALSE;
       }
 
-      propagate;   % Check other things higher up
+      propagate;   // Check other things higher up
    }
 
    CastSpell(who=$,lTargets=$,iSpellPower=0)
@@ -109,7 +109,7 @@ messages:
 
       oItemAtt = Send(SYS,@FindItemAttByNum,#num=IA_MISDIRECTION);
 
-      % Don't set parameter iFakeAttNum, let it choose a "fake" itematt on its own.
+      // Don't set parameter iFakeAttNum, let it choose a "fake" itematt on its own.
       Send(oItemAtt,@AddMisdirectionToItem,#oItem=oItem,
             #timer_duration=Send(self,@GetDuration,#iSpellPower=iSpellPower));
 
@@ -123,11 +123,11 @@ messages:
    {
       local iDuration;
 
-      % 1-5 minutes, this spell isn't much use so why punish builders further
+      // 1-5 minutes, this spell isn't much use so why punish builders further
       iDuration = 60000 + ((iSpellPower/2)*5000);
 
       return iDuration;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

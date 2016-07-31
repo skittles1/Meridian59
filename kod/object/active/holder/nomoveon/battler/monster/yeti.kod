@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Yeti is Monster
 
 constants:
@@ -55,7 +55,7 @@ classvars:
    viLevel = 170
    viDifficulty = 9
    viVisionDistance = 15
-   % Attack range of 192, or 3 row/col.
+   // Attack range of 192, or 3 row/col.
    viAttackRange = 192
    viKarma = 0
    viDefault_behavior = \
@@ -67,7 +67,7 @@ classvars:
    vrSound_aware = yeti_sound_aware
    vrSound_death = yeti_sound_death
 
-   % 1 in x chance to cast a spell.
+   // 1 in x chance to cast a spell.
    viSpellChance = 3
 
 properties:
@@ -133,7 +133,7 @@ messages:
          return;
       }
 
-      % if no body animation
+      // if no body animation
       propagate;
    }
 
@@ -144,7 +144,7 @@ messages:
          propagate;
       }
 
-      % Shake the ground when I take a step.
+      // Shake the ground when I take a step.
       Send(poOwner,@Rumble,#duration=250,#disruption=25);
 
       propagate;
@@ -196,7 +196,7 @@ messages:
 
       Send(self,@ClearBehavior,#timer=timer);
 
-      %%% sanity checks
+      //// sanity checks
 
       if poOwner = $
       {
@@ -216,9 +216,9 @@ messages:
 
       if NOT Send(self,@CanReach,#what=poTarget)
       {
-         % Debug("BAD: Victim no longer in range at AttackTimer:",vrname,self);
+         // Debug("BAD: Victim no longer in range at AttackTimer:",vrname,self);
 
-         % Not the optimal response, but then we should never be here.
+         // Not the optimal response, but then we should never be here.
          Send(self,@EnterStateMove);
 
          return;
@@ -231,11 +231,11 @@ messages:
       }
       else
       {
-         % Carry out attack
+         // Carry out attack
          Send(self,@TryAttack,#what=poTarget);
       }
 
-      % Sanity check, in rare occurrences mob dies before this can execute 
+      // Sanity check, in rare occurrences mob dies before this can execute 
       if poBrain <> $
       {
          Send(poBrain,@PostAttackTimer,#mob=self,#state=piState);
@@ -246,9 +246,9 @@ messages:
 
    CanMorphTo()
    {
-      % Art is too big.
+      // Art is too big.
       return FALSE;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

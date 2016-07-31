@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Smite is BoltSpell
 
 constants:
@@ -42,11 +42,11 @@ classvars:
 
    viSchool = SS_DM_COMMAND
 
-   % Projectile lighting information.
+   // Projectile lighting information.
    viProjectileLightFlags = LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC
-   % Intensity, out of 255.
+   // Intensity, out of 255.
    viProjectileLightIntensity = 50
-   % Default color is bright red.
+   // Default color is bright red.
    viProjectileLightColor = LIGHT_BRED
 
 properties:
@@ -56,7 +56,7 @@ properties:
    prSpellHit = smite_hit_rsc
    pbAbsolute = TRUE
 
-   % No reagents.
+   // No reagents.
    plReagents = $
 
 messages:
@@ -118,4 +118,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

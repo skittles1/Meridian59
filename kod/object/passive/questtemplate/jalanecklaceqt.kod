@@ -1,31 +1,31 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 JalaNecklaceQuest is QuestTemplate
-% Quest template QST_ID_JALA_NECKLACE = 71.
-% Quest nodes 201, 202, 203, 204, 205, 206, 207.
-% QNT_ID_JALA_NECKLACE_ONE, QNT_ID_JALA_NECKLACE_TWO, QNT_ID_JALA_NECKLACE_THREE
-% QNT_ID_JALA_NECKLACE_FOUR, QNT_ID_JALA_NECKLACE_FIVE, QNT_ID_JALA_NECKLACE_SIX
-% QNT_ID_JALA_NECKLACE_SEVEN
+// Quest template QST_ID_JALA_NECKLACE = 71.
+// Quest nodes 201, 202, 203, 204, 205, 206, 207.
+// QNT_ID_JALA_NECKLACE_ONE, QNT_ID_JALA_NECKLACE_TWO, QNT_ID_JALA_NECKLACE_THREE
+// QNT_ID_JALA_NECKLACE_FOUR, QNT_ID_JALA_NECKLACE_FIVE, QNT_ID_JALA_NECKLACE_SIX
+// QNT_ID_JALA_NECKLACE_SEVEN
 
-% QuestTemplate is
-% [ quest template index
-%   quest template object
-%   number of players,
-%   type of quest,
-%   eligible player restrictions,
-%   quest nodes,
-%   max number active,
-%   currently active quests,
-%   percent chance of scheduling (on timer firing)
-%   special restrictions ]
+// QuestTemplate is
+// [ quest template index
+//   quest template object
+//   number of players,
+//   type of quest,
+//   eligible player restrictions,
+//   quest nodes,
+//   max number active,
+//   currently active quests,
+//   percent chance of scheduling (on timer firing)
+//   special restrictions ]
 
 constants:
 
@@ -35,7 +35,7 @@ resources:
 
    include jalanecklaceqt.lkod
 
-   % Quest description.
+   // Quest description.
    jalanecklaceqt_icon_rsc = jalaneck.bgf
    jalanecklaceqt_name_rsc = "Jala necklace quest"
    jalanecklaceqt_desc_rsc = \
@@ -58,7 +58,7 @@ resources:
    jalanecklaceqt_completed_rsc = \
       "You have completed the Jala neckace quest."
 
-   % Quest resources.
+   // Quest resources.
    jala_necklace_trigger = "necklace"
    jala_necklace_assign_1 =\
       "A necklace of Jala?  I have heard about such lovely things, although "
@@ -119,7 +119,7 @@ classvars:
 
    vrCompleted = jalanecklaceqt_completed_rsc
 
-   % The QST_ID constant for this quest.
+   // The QST_ID constant for this quest.
    viQuestID = QST_ID_JALA_NECKLACE
 
    viIcon_Animation_start = 1
@@ -136,13 +136,13 @@ messages:
 
    Constructor()
    {
-      % Quest node list to send to QuestEngine.
+      // Quest node list to send to QuestEngine.
       plQuestNodes = [QNT_ID_JALA_NECKLACE_ONE, QNT_ID_JALA_NECKLACE_TWO,
                       QNT_ID_JALA_NECKLACE_THREE, QNT_ID_JALA_NECKLACE_FOUR,
                       QNT_ID_JALA_NECKLACE_FIVE, QNT_ID_JALA_NECKLACE_SIX,
                       QNT_ID_JALA_NECKLACE_SEVEN];
 
-      % Quest nodes with matching descriptions for the player.
+      // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_JALA_NECKLACE_TWO, vrNodeTwo],
                           [QNT_ID_JALA_NECKLACE_THREE, vrNodeThree],
                           [QNT_ID_JALA_NECKLACE_FOUR, vrNodeFour],
@@ -163,8 +163,8 @@ messages:
       oQE = Send(SYS,@GetQuestEngine);
       oLib = Send(SYS,@GetLibrary);
 
-      % Template #201 is Jala necklack kickoff
-      % QNT_ID_JALA_NECKLACE_ONE
+      // Template #201 is Jala necklack kickoff
+      // QNT_ID_JALA_NECKLACE_ONE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[ jala_necklace_trigger ],
                #quest_node_index=QNT_ID_JALA_NECKLACE_ONE)
@@ -182,8 +182,8 @@ messages:
          Debug("Error building QN: QNT_ID_JALA_NECKLACE_ONE");
       }
 
-      % Template #202 is visiting Moxal
-      % QNT_ID_JALA_NECKLACE_TWO
+      // Template #202 is visiting Moxal
+      // QNT_ID_JALA_NECKLACE_TWO
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[ jala_necklace_trigger ],
                #timelimit=6 * 3600,#quest_node_index=QNT_ID_JALA_NECKLACE_TWO)
@@ -205,8 +205,8 @@ messages:
          Debug("Error building QN: QNT_ID_JALA_NECKLACE_TWO");
       }
 
-      % Template #203 is visiting an Innkeeper or Barkeep
-      % QNT_ID_JALA_NECKLACE_THREE
+      // Template #203 is visiting an Innkeeper or Barkeep
+      // QNT_ID_JALA_NECKLACE_THREE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[ jala_necklace_trigger_2 ],
                #timelimit=6 * 3600,#quest_node_index=QNT_ID_JALA_NECKLACE_THREE)
@@ -244,8 +244,8 @@ messages:
          Debug("Error building QN: QNT_ID_JALA_NECKLACE_THREE");
       }
 
-      % Template #204 is visiting an Elder/Wiseman for backup.
-      % QNT_ID_JALA_NECKLACE_FOUR
+      // Template #204 is visiting an Elder/Wiseman for backup.
+      // QNT_ID_JALA_NECKLACE_FOUR
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[ jala_necklace_trigger_3 ],
                #timelimit=6 * 3600,#quest_node_index=QNT_ID_JALA_NECKLACE_FOUR)
@@ -283,8 +283,8 @@ messages:
          Debug("Error building QN: QNT_ID_JALA_NECKLACE_FOUR");
       }
 
-      % Template #205 is heading back to the Innkeeper or Barkeep.
-      % QNT_ID_JALA_NECKLACE_FIVE
+      // Template #205 is heading back to the Innkeeper or Barkeep.
+      // QNT_ID_JALA_NECKLACE_FIVE
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_MESSAGE,
                #cargolist=[ jala_necklace_trigger_4 ],
                #timelimit=6 * 3600,#quest_node_index=QNT_ID_JALA_NECKLACE_FIVE)
@@ -301,8 +301,8 @@ messages:
          Debug("Error building QN: QNT_ID_JALA_NECKLACE_FIVE");
       }
 
-      % Template #206 is bringing in the Lute.
-      % QNT_ID_JALA_NECKLACE_SIX
+      // Template #206 is bringing in the Lute.
+      // QNT_ID_JALA_NECKLACE_SIX
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_ITEMFINDCLASS,
                #cargolist=[ [ QN_PRIZETYPE_ITEMCLASS, &Lute, 1 ] ],
                #timelimit=6 * 3600,#quest_node_index=QNT_ID_JALA_NECKLACE_SIX)
@@ -319,8 +319,8 @@ messages:
          Debug("Error building QN: QNT_ID_JALA_NECKLACE_SIX");
       }
 
-      % Template #207 is heading to Moxal and getting our final reward.
-      % QNT_ID_JALA_NECKLACE_SEVEN
+      // Template #207 is heading to Moxal and getting our final reward.
+      // QNT_ID_JALA_NECKLACE_SEVEN
       if Send(oQE,@AddQuestNodeTemplate,#questnode_type=QN_TYPE_SHOWUP,
                #prizelist=[ [ QN_PRIZETYPE_ITEMCLASS, &JalaNecklace, 1 ] ],
                #timelimit=6 * 3600,#quest_node_index=QNT_ID_JALA_NECKLACE_SEVEN)
@@ -399,4 +399,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////

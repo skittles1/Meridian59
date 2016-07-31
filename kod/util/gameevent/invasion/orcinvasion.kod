@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////////
 OrcInvasion is Invasion
 
 constants:
@@ -378,10 +378,10 @@ messages:
       iGenRow = First(First(Nth(First(plCurrentBattlePlan),2)));
       iGenCol = Nth(First(Nth(First(plCurrentBattlePlan),2)),2);
 
-      %Send(self,@PhaseTwo);
-      if (piTicks MOD piInvaderGenTime = 0)
+      //Send(self,@PhaseTwo);
+      if (piTicks % piInvaderGenTime = 0)
       {
-         %currently spawning from first room only
+         //currently spawning from first room only
          oRoom = First(plEventRooms);
          if (Send(self,@CountAllInvaders) < piMaxInvaders)
          {
@@ -426,7 +426,7 @@ messages:
             {
                lCurrentPath = Nth(Nth(plCurrentBattlePlan,iCount),2);
                if (iCount <> Length(plCurrentBattlePlan))
-               % invader has at least 1 more toom to go
+               // invader has at least 1 more toom to go
                {
                   bNextRoomFound = True;
                   oNextRoom = Send(SYS,@FindRoomByNum,
@@ -434,7 +434,7 @@ messages:
                   lNextPath = Nth(Nth(plCurrentBattlePlan,iCount+1),2);
                }
                else
-               % invader is in the final room
+               // invader is in the final room
                {
                   oNextRoom = $;
                   lNextPath = $;
@@ -471,20 +471,20 @@ messages:
             }
          }
 
-         %if ( oCurrentRoom = poTargetRoom 
-         %   AND ((Send(poTargetRoom,@CountMonsters,#class=&Orc) +
-         %         Send(poTargetRoom,@CountMonsters,#class=&CaveOrc) +
-         %         Send(poTargetRoom,@CountMonsters,#class=&OrcWizard) +
-         %         Send(poTargetRoom,@CountMonsters,#class=&OrcPitBoss))
-         %            > piInvadersMaxInTargetRoom))
-         %{
-         %   plInvaders = DelListElem(plInvaders,i);
-         %   send(i,@Delete);
-         %}
+         //if ( oCurrentRoom = poTargetRoom 
+         //   AND ((Send(poTargetRoom,@CountMonsters,#class=&Orc) +
+         //         Send(poTargetRoom,@CountMonsters,#class=&CaveOrc) +
+         //         Send(poTargetRoom,@CountMonsters,#class=&OrcWizard) +
+         //         Send(poTargetRoom,@CountMonsters,#class=&OrcPitBoss))
+         //            > piInvadersMaxInTargetRoom))
+         //{
+         //   plInvaders = DelListElem(plInvaders,i);
+         //   send(i,@Delete);
+         //}
       }
 
       return;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////////

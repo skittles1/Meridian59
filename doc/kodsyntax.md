@@ -25,15 +25,17 @@ The special value `self` contains the identifier of the object whose message
 handler is being executed. Self is implemented as a property of every object.
 
 Blakod programs are made up of assignment statements, conditional clauses,
-loops, calls, and return statements. Kod comments are introduced with the `%`
-character, though recently C and C++ style comments were added (`//` `/* */`).
-Comments using `%` and `//` extend to the end of the line, and `/* */` comments
-can span multiple lines. Unlike C comments, kod multiline comments can be
-nested.
+loops, calls, and return statements. Kod comments use the common C and C++
+style (`//` `/* */`). Comments using `//` extend to the end of the line,
+and `/* */` comments can span multiple lines. Unlike C comments, kod multiline
+comments can be nested.
 
 Assignments take the form `lvalue = expression`, where `lvalue` is the name of
 a property or a local variable. The right hand side is evaulated, and the result
 is assigned to the left hand side.
+
+Kod has the normal assignment operator `=` along with the compound assignment
+operators `+=`, `-=`, `*=`, `\=`, `%=`, `|=` and `&=`
 
 Expressions consist of identifiers, constants, and message handler calls
 combined with standard operators.
@@ -44,17 +46,18 @@ Kod contains the following operators:
 * subtraction `-`
 * multiplication `*`
 * division `\`
+* modulus `%`
 * pre increment `++i` (add one to the variable (e.g. i))
 * post increment `i++` (add one to the variable, but use the original value)
 * pre decrement `--i` (subtract one from the variable)
 * post decrement `i--` (subract one from the variable, but use the original value)
 * unary minus `-`
-* modulo `MOD`
 * bitwise and, or and not `&`, `|` and `~`
 * logical and, or and not `AND`, `OR` and `NOT`
 * standard relational operators `>`, `<`, `>=`, `<=`,
 * inequality operator `<>`
 * equality and assignment operator (depending on context) `=`
+* compound assignment operators `+=`, `-=`, `*=`, `/=`, `%=`, `|=` and `&=`
 * local variable ID 'address' operator `*var` (for sending local var ID in C calls)
 * class ID operator `&Class` (used to compare/refer to classes)
 * message ID operator `@Message` (used to send/refer to messages)
@@ -66,7 +69,7 @@ second arguments if necessary.
 Operators arranged in precedence from highest to lowest:
 * * (local var address operator) @ & (class ID operator)
 * ++ -- - (unary minus) NOT ~
-* * / MOD
+* * / %
 * + -
 * < > <= >= = <>
 * &

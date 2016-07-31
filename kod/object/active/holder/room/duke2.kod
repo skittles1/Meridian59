@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Duke2 is Room
 
 constants:
@@ -69,7 +69,7 @@ classvars:
 
 properties:
 
-   % timer for animation
+   // timer for animation
    ptDoorTimer = $
 
    prRoom = room_Duke2
@@ -78,7 +78,7 @@ properties:
    piBaseLight = LIGHT_NICE
    piOutside_factor = 8
 
-   % timer for automating the feast hall
+   // timer for automating the feast hall
    ptFeastTimer = $
    
    piDaysLeft = 0
@@ -99,8 +99,8 @@ messages:
       
       if (ptFeastTimer = $)
       {
-         % don't create the timer yet, the feast hall may not be created yet and
-         % we need to check it's state, instead set a timer to check it and act then
+         // don't create the timer yet, the feast hall may not be created yet and
+         // we need to check it's state, instead set a timer to check it and act then
          ptFeastTimer = CreateTimer(self,@CreateFeastTimer,FEAST_TIMER_CREATE_DELAY);
       }
       
@@ -109,7 +109,7 @@ messages:
 
    SomethingTryGo(what = $,row = $,col = $)
    {
-      % steel door to east stairs and observation station
+      // steel door to east stairs and observation station
       if row >= 17 AND row <= 19 AND col >= 22 AND col <= 24
       {
          Send(self,@SetSector,#sector=EAST_DOOR,#animation=ANIMATE_FLOOR_LIFT,
@@ -120,7 +120,7 @@ messages:
          return TRUE;
       }
 
-      % steel door to west stairs and observation station
+      // steel door to west stairs and observation station
       if row >= 17 AND row <= 19 AND col >= 7 AND col <= 9
       {
          Send(self,@SetSector,#sector=WEST_DOOR,#animation=ANIMATE_FLOOR_LIFT,
@@ -131,10 +131,10 @@ messages:
          return TRUE;
       }
 
-      % wood door to west wing of keep (feast and dance halls)
+      // wood door to west wing of keep (feast and dance halls)
       if row >= 9 AND row <= 10 AND col = 14
       {
-         % If you're an actor, you may actually change the state of pbFeastHall
+         // If you're an actor, you may actually change the state of pbFeastHall
          if IsClass(what,&DM)
          {
             if NOT Send(Send(SYS,@FindRoomByNum,#num=RID_DUKE4),@IsLocked)
@@ -150,8 +150,8 @@ messages:
                     #wave_rsc=Duke2_Hall_Open_Sound);
             }
             
-            % reset the timer (if dm opened the door the timer will close it for them)
-            % if the dm closed the door, sets a time for the next feast
+            // reset the timer (if dm opened the door the timer will close it for them)
+            // if the dm closed the door, sets a time for the next feast
             if (ptFeastTimer <> $ AND IsTimer(ptFeastTimer) AND GetTimeRemaining(ptFeastTimer) > 0)
             {
                DeleteTimer(ptFeastTimer);
@@ -168,12 +168,12 @@ messages:
          }
       }
 
-      % Wood door to east wing of keep (not yet implemented, but someday a
-      %  ceremony hall might be there).
+      // Wood door to east wing of keep (not yet implemented, but someday a
+      //  ceremony hall might be there).
       if row >= 9 AND row <= 10 AND col = 17
       {
-         % TODO: if you're an actor, you may actually change the state of
-         %  pbCeremonyHall
+         // TODO: if you're an actor, you may actually change the state of
+         //  pbCeremonyHall
 
          if NOT pbCeremonyHall
          {
@@ -257,7 +257,7 @@ messages:
          Send(self,@LockFeastHall);
       }
       
-      % just in case this was called outside of the timer
+      // just in case this was called outside of the timer
       if (ptFeastTimer <> $ AND NOT auto)
       {
          DeleteTimer(ptFeastTimer);
@@ -388,4 +388,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

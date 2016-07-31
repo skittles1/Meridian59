@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 SporeBurst is WallSpell
 
 constants:
@@ -51,17 +51,17 @@ classvars:
 
    viHarmful = TRUE
 
-   % Sporeburst can't kill anyone, so don't warn about being a murderer.
+   // Sporeburst can't kill anyone, so don't warn about being a murderer.
    viWallCanKill = FALSE
 
-   % We technically have more elements, but that would never let us cast this
-   %  while another wall spell is active.  A little cheat here, only count 9
-   %  elements.
+   // We technically have more elements, but that would never let us cast this
+   //  while another wall spell is active.  A little cheat here, only count 9
+   //  elements.
    viNumElements = 9
 
    vrSummonLimitMsg = SporeBurst_failed_rsc
 
-   % If TRUE, can target others with this spell.
+   // If TRUE, can target others with this spell.
    vbCanCastOnOthers = FALSE
 
 properties:
@@ -111,19 +111,19 @@ messages:
       iRow = Send(oTarget,@GetRow);
       iCol = Send(oTarget,@GetCol);
 
-      % Active element, placed in the center of it all.
+      // Active element, placed in the center of it all.
       oActiveFog = Create(&ActiveSporeCloud,#Caster=who,#duration=iDuration,
                           #range=iRadius,#iSpellPower=iSpellPower);
       Send(oRoom,@NewHold,#what=oActiveFog,#new_row=iRow,#new_col=iCol);
 
-      % Place the inactive elems.
-      % Our goal is to place the clouds in such a way that it gives the illusion of a
-      %  a larger cloud.  We don't want to use too many elements, but a radius of 3 is
-      %  going to require a fair number of elements to look right.
+      // Place the inactive elems.
+      // Our goal is to place the clouds in such a way that it gives the illusion of a
+      //  a larger cloud.  We don't want to use too many elements, but a radius of 3 is
+      //  going to require a fair number of elements to look right.
 
       if iRadius >= 1
       {
-         % Create 4 elements on the cardinal directions.
+         // Create 4 elements on the cardinal directions.
          oPassiveFog = Create(&SporeCloud,#oRoom=oRoom,#Active_Elem=oActiveFog,
                               #Caster=who,#duration=iDuration);
          Send(oRoom,@NewHold,#what=oPassiveFog,
@@ -147,7 +147,7 @@ messages:
 
       if iRadius >= 2
       {
-         % Create a diamond around the outside.
+         // Create a diamond around the outside.
          oPassiveFog = Create(&SporeCloud,#oRoom=oRoom,#Active_Elem=oActiveFog,
                               #Caster=who,#duration=iDuration);
          Send(oRoom,@NewHold,#what=oPassiveFog,
@@ -191,9 +191,9 @@ messages:
 
       if iRadius >= 3
       {
-         % Add a few elements along the outside to simulate bulk.  The final pattern
-         % will look like a 7x7 checkerboard pattern with no corners and the center
-         % element being the active one.
+         // Add a few elements along the outside to simulate bulk.  The final pattern
+         // will look like a 7x7 checkerboard pattern with no corners and the center
+         // element being the active one.
 
          oPassiveFog = Create(&SporeCloud,#oRoom=oRoom,#Active_Elem=oActiveFog,
                               #Caster=who,#duration=iDuration);
@@ -271,10 +271,10 @@ messages:
    {
       local iDuration;
 
-      % Duration, in seconds
+      // Duration, in seconds
       iDuration = iSpellPower * 2; 
       iDuration = bound(iDuration,30,200);
-      % Convert to ms.
+      // Convert to ms.
       iDuration = iDuration * 1000;
 
       return iDuration;
@@ -290,5 +290,5 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 

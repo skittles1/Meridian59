@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 warletterqt_name_rsc = de "Kriegsbrief Quest"
 warletterqt_desc_rsc = de \
    "Überbringe einen Brief an einen NPC."
@@ -10,7 +10,7 @@ warletterqt_nodetwo_rsc = de \
 warletterqt_completed_rsc = de \
    "Du hast das Kriegsbrief Quest abgeschlossen"
 
-% Quest resources.
+// Quest resources.
 warletter_trigger1 = de "Kurier"
 warletter_assign = de \
    "Ah, ja!  Ich habe gerade einen Brief an %NPC geschrieben.  Bitte überbringe "

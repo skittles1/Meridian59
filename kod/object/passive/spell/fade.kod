@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Fade is Spell
 
 constants:
@@ -70,7 +70,7 @@ messages:
 
    CanPayCosts(who=$,lTargets=$)
    {
-      % check for enchantment already applied
+      // check for enchantment already applied
       if Send(who,@CheckPlayerFlag,#flag=PFLAG_INVISIBLE)
       {
          Send(who,@MsgSendUser,#message_rsc=fade_already_enchanted);
@@ -104,7 +104,7 @@ messages:
    {
       local iDuration;
 
-      % roughly 2-10 minutes, based on spell level
+      // roughly 2-10 minutes, based on spell level
       iDuration = 120 + (iSpellPower * 5);
       iDuration = iDuration * 1000;
 
@@ -125,7 +125,7 @@ messages:
 
    BreakTrance( who = $, state = $ )
    {
-      %% clean up trance
+      /// clean up trance
       Send(who,@ClearTranceFlag);
       Send(who,@RemoveEnchantment,#what=self);
       Send(who,@MsgSendUser,#message_rsc=fade_broke_trance);
@@ -135,7 +135,7 @@ messages:
 
    OfferToNewCharacters()
    {
-      % It's a PKing only spell.  Denied.
+      // It's a PKing only spell.  Denied.
       return FALSE;
    }
    
@@ -146,4 +146,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Relay is Spell
 
 constants:
 
    include blakston.khd
 
-   MAX_TOTAL_AMOUNT = 150      % Max target can reach after getting benefit.
+   MAX_TOTAL_AMOUNT = 150      // Max target can reach after getting benefit.
 
 resources:
 
@@ -62,7 +62,7 @@ messages:
 
    ResetReagents()
    {
-      % separate message so can change, then set from admin mode
+      // separate message so can change, then set from admin mode
 
       plReagents = $;
       plReagents = Cons([&Snack,1],plReagents);
@@ -79,7 +79,7 @@ messages:
    {
       local target, i;
       
-      % Can cast spell if the 1 target item is a user
+      // Can cast spell if the 1 target item is a user
       if Length(lTargets) <> 1
       {
          return FALSE;
@@ -101,7 +101,7 @@ messages:
          return FALSE;
       }
 
-      % no giving if less than 15 vigor
+      // no giving if less than 15 vigor
       if Send(who,@GetVigor) <= 15
       {
          Send(who,@MsgSendUser,#message_rsc=Relay_toolow_rsc);
@@ -109,7 +109,7 @@ messages:
          return FALSE;
       }
 
-      % max of 150 or so.
+      // max of 150 or so.
       if Send(target,@GetVigor) >= MAX_TOTAL_AMOUNT 
       {
          Send(who,@MsgSendUser,#message_rsc=Relay_unnecessary_rsc,
@@ -118,7 +118,7 @@ messages:
          return FALSE;
       }
 
-      propagate;   % Check other things higher up
+      propagate;   // Check other things higher up
    }
 
    CastSpell(who = $, lTargets = $, iSpellPower=0)
@@ -127,7 +127,7 @@ messages:
 
       oTarget = First(lTargets);
 
-      % Amount transferred is straight-up spell power
+      // Amount transferred is straight-up spell power
       iEpAmount = iSpellPower;
       
       if iEpAmount > (Send(who,@GetVigor) - 10)
@@ -140,16 +140,16 @@ messages:
          iEpAmount = MAX_TOTAL_AMOUNT - Send(oTarget,@GetVigor);
       }
 
-      % Convert vigor to Exertion
+      // Convert vigor to Exertion
       iEpAmount = iEpAmount * 10000;
       Send(who,@MsgSendUser,#message_rsc=Relay_caster_msg_rsc,
            #parm1=Send(oTarget,@GetDef),#parm2=Send(oTarget,@GetName));
 
-      % Positive means we decrease Vigor
+      // Positive means we decrease Vigor
       Send(who,@AddExertion,#amount=iEpAmount);
       Send(oTarget,@MsgSendUser,#message_rsc=Relay_cast_rsc);
 
-      % Negative means we increase vigor, and give a 25% bonus.
+      // Negative means we increase vigor, and give a 25// bonus.
       iEpAmount = (-5 * iEpAmount)/4;
       Send(oTarget,@AddExertion,#amount=iEpAmount);
 
@@ -158,4 +158,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

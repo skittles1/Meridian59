@@ -1,21 +1,21 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Underworld is MonsterRoom
 
 constants:
 
    include blakston.khd
 
-   MAINTENANCE_DELAY = 600000  %% (10 minutes)
-   DELETE_PORTAL_DELAY = 60000 %% (60 Seconds)
+   MAINTENANCE_DELAY = 600000  /// (10 minutes)
+   DELETE_PORTAL_DELAY = 60000 /// (60 Seconds)
 
 resources:
 
@@ -127,8 +127,8 @@ messages:
       oNode = Send(SYS,@FindNodeByNum,#num=NODE_CORPSENODE);
       if oNode <> $
       {
-         % Even if the node is not in the room, we must delete it to be sure
-         %  it's not in the system list.
+         // Even if the node is not in the room, we must delete it to be sure
+         //  it's not in the system list.
          Send(oNode,@Delete);
       }
 
@@ -326,7 +326,7 @@ messages:
             }
          }
 
-         % Now we take losses from our death.
+         // Now we take losses from our death.
          if Send(what,@GetOwner) <> $
             AND Send(what,@IsLoggedOn)
          {
@@ -343,7 +343,7 @@ messages:
 
       rUsername = Send(who,@GetTrueName);
 
-      % Paralyze them so they can't move around
+      // Paralyze them so they can't move around
       Send(who,@SetPlayerFlag,#flag=PFLAG_NO_MOVE,#value=TRUE);
       Send(who,@EffectSendUser,#what=self,#effect=EFFECT_PARALYZE_ON);
 
@@ -381,7 +381,7 @@ messages:
          }
       }
 
-      % Post this so they're in the room completely before being able to move.
+      // Post this so they're in the room completely before being able to move.
       Post(who,@SetPlayerFlag,#flag=PFLAG_NO_MOVE,#value=FALSE);
       Post(who,@EffectSendUser,#what=self,#effect=EFFECT_PARALYZE_OFF);
 
@@ -392,8 +392,8 @@ messages:
    {
       local i, poTarget, oNode;
 
-      % if puzzle is solved already, we're in a timer waiting for corpse to go away,
-      % so shouldn't get here, but sometimes it happens
+      // if puzzle is solved already, we're in a timer waiting for corpse to go away,
+      // so shouldn't get here, but sometimes it happens
       if ptReset <> $
       {
          return;
@@ -692,7 +692,7 @@ messages:
       propagate;
    }
 
-   % For paralyzation effect
+   // For paralyzation effect
    SendEffectData()
    {
       return;
@@ -710,26 +710,26 @@ messages:
 
    SendProjectileAnimation()
    {
-      AddPacket(1, ANIMATE_CYCLE, 4, 40, 2, 2, 2, 3);   % 40ms between animations
+      AddPacket(1, ANIMATE_CYCLE, 4, 40, 2, 2, 2, 3);   // 40ms between animations
 
       return;
    }
 
    GetProjectileLightFlags()
    {
-      % General lighting information.
+      // General lighting information.
       return LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC;
    }
 
    GetProjectileLightIntensity()
    {
-      % Medium light radius for projectiles.  Out of 255 levels.
+      // Medium light radius for projectiles.  Out of 255 levels.
       return 125;
    }
 
    GetProjectileLightColor()
    {
-      % Color is the same as lightning.
+      // Color is the same as lightning.
       return LIGHT_LIGHTNING;
    }
 
@@ -764,4 +764,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

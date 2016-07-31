@@ -1,22 +1,22 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% A ranged weapon is a weapon which you equip in your hand, type Ctrl to use, 
-% then a target icon comes up a la apply() with which you choose your victim.
-% Well, at least ideally.  At this point there is no good way to code that,
-% so ranged weapons are like normal weapons with a range of 13 (the max range
-% for weapons).
-% Ranged weapons do not break as often as melee weapons (not as much wear and
-% tear).
-%
-% code by Justin Houk, 98jsh@williams.edu
+////////////////////////////////////////////////////////////////////////////////
+// A ranged weapon is a weapon which you equip in your hand, type Ctrl to use, 
+// then a target icon comes up a la apply() with which you choose your victim.
+// Well, at least ideally.  At this point there is no good way to code that,
+// so ranged weapons are like normal weapons with a range of 13 (the max range
+// for weapons).
+// Ranged weapons do not break as often as melee weapons (not as much wear and
+// tear).
+//
+// code by Justin Houk, 98jsh@williams.edu
 
 RangedWeapon is Weapon
 
@@ -31,7 +31,7 @@ resources:
    ranged_desc_rsc = "This is a ranged weapon."
    ranged_wrong_ammo_rsc = "You have not equipped the proper missile to attack."
 
-   % This is the name for the type of ammo used.  Used in combat messages.
+   // This is the name for the type of ammo used.  Used in combat messages.
    ranged_ammo_name = "arrow"
 
 classvars:
@@ -48,9 +48,9 @@ classvars:
 
    vrDesc = ranged_desc_rsc
 
-   viWeaponDamage = 0   % Mostly, damage is a factor of ammo, the random factor is 
-                        % in them.  viWeaponDamage is the bow's contribution to that,
-                        % due to things like stiffer bowstrings, harder wood, whatever.
+   viWeaponDamage = 0   // Mostly, damage is a factor of ammo, the random factor is 
+                        // in them.  viWeaponDamage is the bow's contribution to that,
+                        // due to things like stiffer bowstrings, harder wood, whatever.
 
    viRange = 100 * FINENESS
 
@@ -60,16 +60,16 @@ properties:
 
 messages:
 
-   % General combat messages:
+   // General combat messages:
 
-   % Overrides message from superclass.
-   % Ranged weapons provide NO parry bonus.
+   // Overrides message from superclass.
+   // Ranged weapons provide NO parry bonus.
    GetParryAbility(who=$)
    {
       return 0;
    }
 
-   % General unsorted messages:
+   // General unsorted messages:
 
    GetDefaultStrokeNumber()
    {
@@ -212,7 +212,7 @@ messages:
       return iDamage;
    }
 
-   % This returns the weapon's attack name.  For ranged weapons, return the ammo name.
+   // This returns the weapon's attack name.  For ranged weapons, return the ammo name.
    GetAttackName()
    {
       return ranged_ammo_name;
@@ -405,7 +405,7 @@ messages:
          }
       }
 
-      % No special ammo properties
+      // No special ammo properties
       if iDamage = 0
       {
          return 0;
@@ -455,7 +455,7 @@ messages:
          }
       }
 
-      % No special ammo properties
+      // No special ammo properties
       if iDamage = 0
       {
          return 0;
@@ -477,7 +477,7 @@ messages:
       return iDamage;
    }
 
-   % Some weapons and spells have special conditions, like nerudite arrows that can shatter
+   // Some weapons and spells have special conditions, like nerudite arrows that can shatter
    GetMinSpecialDamage()
    {
       local iDamage, ammotype, i;
@@ -507,7 +507,7 @@ messages:
          }
       }
 
-      % No special ammo properties
+      // No special ammo properties
       if iDamage = 0
       {
          return 0;
@@ -546,7 +546,7 @@ messages:
          }
       }
 
-      % No special ammo properties
+      // No special ammo properties
       if iDamage = 0
       {
          return 0;
@@ -563,4 +563,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

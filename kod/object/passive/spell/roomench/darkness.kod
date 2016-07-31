@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Darkness is RoomEnchantment
 
 constants:
@@ -73,7 +73,7 @@ messages:
 
       oRoom = Send(who,@GetOwner);
 
-      % global effects of the enchantment
+      // global effects of the enchantment
       Send(oRoom,@SomeoneSaid,#type=SAY_MESSAGE,#string=darkness_on,#what=self);
       Send(oRoom,@RoomStartEnchantment,#what=self,#state=-(iSpellPower+25),
            #time=send(self,@GetDuration,#iSpellPower=iSpellPower));
@@ -104,8 +104,8 @@ messages:
    {
       local iDuration;
 
-      iDuration = 30 + (iSpellPower*2);  %% 30 - 228 seconds
-      iDuration = iDuration * 1000;      %% convert to seconds            
+      iDuration = 30 + (iSpellPower*2);  /// 30 - 228 seconds
+      iDuration = iDuration * 1000;      /// convert to seconds            
 
       return random(iDuration/2,iDuration);
    }
@@ -119,4 +119,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

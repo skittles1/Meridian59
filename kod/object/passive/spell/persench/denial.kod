@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 denial is PersonalEnchantment
 
 constants:
@@ -59,16 +59,16 @@ classvars:
 
 properties:
 
-   % The effectiveness of purge on the target spell as a percentage.
-   % 100 will cause purge to remove its entire spellpower, 0 will
-   % prevent purge from removing this spell.
+   // The effectiveness of purge on the target spell as a percentage.
+   // 100 will cause purge to remove its entire spellpower, 0 will
+   // prevent purge from removing this spell.
    viPurgeFactor = 5
 
 messages:
 
    CanPayCosts(who=$,lTargets=$,bItemCast=FALSE)
    {
-      % If they are already boosted above max health, then return FALSE
+      // If they are already boosted above max health, then return FALSE
       if Send(who,@GetHealth) >= Send(who,@GetMaxHealth)
       {
          if NOT bItemCast
@@ -95,7 +95,7 @@ messages:
    {
       local iDuration;
 
-      % 10 - 20 plus 1 second per spellpower
+      // 10 - 20 plus 1 second per spellpower
       iDuration = Random(10000,20000) + (iSpellPower * 1000);
       iDuration=Bound(iDuration,20000,120000);
 
@@ -109,8 +109,8 @@ messages:
 
       iHPGain = Send(who,@GetMaxHealth)*100 - Send(who,@GetExactHealth);
 
-      % 0 - 20, this is the percent of damage you don't
-      % get back when the enchantment fails.
+      // 0 - 20, this is the percent of damage you don't
+      // get back when the enchantment fails.
       iSpellpowerBonus = (iSpellpower + 1) / 5;
       iHPGain = Send(who,@GainHealthNormal,#amount=iHPGain,#precision=TRUE);
 
@@ -133,7 +133,7 @@ messages:
 
          if Send(who,@GetExactHealth) < 1
          {
-            % Don't die: too harsh; makes spell unusable.
+            // Don't die: too harsh; makes spell unusable.
             Send(who,@SetExactHealth,#amount=1);
          }
       }
@@ -147,4 +147,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

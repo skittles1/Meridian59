@@ -1,17 +1,17 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 RobeBase is Armor
 
-%% Robe is the first item that takes two different use positions.
-%% Note that a robe forcibly unuses anything already there.
+/// Robe is the first item that takes two different use positions.
+/// Note that a robe forcibly unuses anything already there.
 
 constants:
 
@@ -91,7 +91,7 @@ classvars:
    vrCondition_poor = robe_condition_poor 
    vrCondition_broken = robe_condition_broken
 
-   % Robes go over layer 0 items, such as shirts and pants
+   // Robes go over layer 0 items, such as shirts and pants
    viLayer = 1
 
 properties:
@@ -151,4 +151,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 MadScientistHut is KCForest
 
 constants:
@@ -46,7 +46,7 @@ messages:
 
    Constructed()
    {
-      % Each sound is [wave_file, row, col, cutoff radius, maximum volume]
+      // Each sound is [wave_file, row, col, cutoff radius, maximum volume]
       plLooping_sounds = [[ fire_sound_madscientist, 3, 7, 10, 100 ]];
 
       propagate;
@@ -56,7 +56,7 @@ messages:
    {
       plExits = $;
 
-      %% TO TOWN
+      /// TO TOWN
       plExits = Cons([ 4, 2, RID_KC5, 31, 22, ROTATE_NONE ],plExits);
       plExits = Cons([ 7, 7, RID_KC5, 35, 31, ROTATE_NONE ],plExits);
       plExits = Cons([ 7, 8, RID_KC5, 35, 31, ROTATE_NONE ],plExits);
@@ -70,7 +70,7 @@ messages:
       Send(self,@NewHold,#what=Create(&KocatanMadScientist),
             #new_row=4,#new_col=7,#fine_row=32,#fine_col=32);
 
-      % Lighting
+      // Lighting
       Send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,
             #iIntensity=30),#new_row=3,#new_col=7,#fine_row=24,#fine_col=48);
 
@@ -101,4 +101,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

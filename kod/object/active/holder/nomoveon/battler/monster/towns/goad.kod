@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////////////////////////////////////////////////////////
 
 Goad is TosTown
 
@@ -173,47 +173,47 @@ properties:
 
    piCombat_style = STYLE_NO_FIGHT
 
-   ptAdvert = $               %% every now and then, the Watcher sends off
-                              %% a blurb, asking people to fight for him
+   ptAdvert = $               /// every now and then, the Watcher sends off
+                              /// a blurb, asking people to fight for him
 
-   ptAccept = $               %% in player vs. player combat, champ has a
-                              %% chance to accept a proffered challenge.
+   ptAccept = $               /// in player vs. player combat, champ has a
+                              /// chance to accept a proffered challenge.
 
-   ptCommence = $             %% 10 second head start before a fight
+   ptCommence = $             /// 10 second head start before a fight
 
-   ptFight = $                %% The actual length of the fight.
+   ptFight = $                /// The actual length of the fight.
    
-   ptReconnectTime = $        %% The time until a logged player is 'killed'.
+   ptReconnectTime = $        /// The time until a logged player is 'killed'.
 
-   plCombatants = $           %% this is a list of player objects.
-   plKill_list = $            %% this is a list of two-element lists.
+   plCombatants = $           /// this is a list of player objects.
+   plKill_list = $            /// this is a list of two-element lists.
 
-   poChampion = $             %% poChampion points to whoever won last time
-                              %% out.  poChampion is always a player object
-   pbAccept = FALSE           %% has the player been told he only has 15 more
-                              %% seconds to accept a challenge?
-   pbLastMinute = FALSE       %% has the Watcher given the one minute warning?
+   poChampion = $             /// poChampion points to whoever won last time
+                              /// out.  poChampion is always a player object
+   pbAccept = FALSE           /// has the player been told he only has 15 more
+                              /// seconds to accept a challenge?
+   pbLastMinute = FALSE       /// has the Watcher given the one minute warning?
 
-   plUserStats = $         %% stores values for the players' HP, mana,
-               %% and vigor upon entring the battle area,
-               %% which are restored upon leaving the area.
+   plUserStats = $         /// stores values for the players' HP, mana,
+               /// and vigor upon entring the battle area,
+               /// which are restored upon leaving the area.
 
-   pbWarned = FALSE      %%Goad warns once before killing slow combatants.
+   pbWarned = FALSE      ///Goad warns once before killing slow combatants.
 
 messages:
 
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   %% Advertising                                                     %%
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   %% These messages are spat out at users every now and then, just   %%
-   %% for atmosphere, and to tell players what game is going on, etc. %%
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   //////////////////////////////////////////////////////////////////////
+   /// Advertising                                                     ///
+   //////////////////////////////////////////////////////////////////////
+   /// These messages are spat out at users every now and then, just   ///
+   /// for atmosphere, and to tell players what game is going on, etc. ///
+   //////////////////////////////////////////////////////////////////////
 
    NewOwner(what=$)
    "If Goad is ever loaded someplace other than the arena of brax, "
    "go back to brax."
    {
-      % Have to give the room time to be created on a RecreateAll, so we post.
+      // Have to give the room time to be created on a RecreateAll, so we post.
       Post(self,@PostNewOwner);
 
       propagate;
@@ -298,16 +298,16 @@ messages:
       return;
    }
 
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   %%  Per fight code                                             %
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   %                                                              %
-   %   Made a conscious decision to move as much of the actual    %
-   %   arena code here, so that these procedures would be the     %
-   %   only ones that need to change, if we ever add a new arena  %
-   %   type.                                                      %
-   %                                                              %
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   /////////////////////////////////////////////////////////////////
+   ///  Per fight code                                             //
+   /////////////////////////////////////////////////////////////////
+   //                                                              //
+   //   Made a conscious decision to move as much of the actual    //
+   //   arena code here, so that these procedures would be the     //
+   //   only ones that need to change, if we ever add a new arena  //
+   //   type.                                                      //
+   //                                                              //
+   /////////////////////////////////////////////////////////////////
 
    SetChampion(who=$)
    {
@@ -358,7 +358,7 @@ messages:
       return FALSE;
    }
 
-   AcceptingChallengers() %%How many can brax fit?
+   AcceptingChallengers() ///How many can brax fit?
    {
       if Length(plCombatants) < 2 AND piCombat_Style = STYLE_ONE_ON_ONE
       {
@@ -548,7 +548,7 @@ messages:
       {
          if NOT Send(i,@IsLoggedOn)
          {
-            % This is the player we need.
+            // This is the player we need.
             Send(self,@CombatantReneges,#who=i,#died=TRUE);
          }
       }
@@ -568,14 +568,14 @@ messages:
             OR ptCommence <> $)
          AND IsClass(who,&Player)
       {
-         % We probably lost connection or logged off.
+         // We probably lost connection or logged off.
          if Send(who,@GetOwner) = $
          {
             return;
          }
          else
          {
-            % If we got here while logged on it's probably a bug.
+            // If we got here while logged on it's probably a bug.
             Debug("Player ",Send(who,@GetTrueName),
                   " reneged from Goad's arena while still fighting!");
          }
@@ -620,12 +620,12 @@ messages:
 
       Send(self,@CheckForWinner);
 
-      %% Scenario:  champion quits during signup for last man standing.
+      /// Scenario:  champion quits during signup for last man standing.
       if poChampion = $ and Length(plCombatants) >= 2
       {
          if piCombat_Style = STYLE_LAST_MAN_STANDING
          {
-            %% choose another champion - first player in line will do
+            /// choose another champion - first player in line will do
             poChampion = First(plCombatants);
          }
       }
@@ -635,8 +635,8 @@ messages:
 
    SomethingKilled(what=$,victim=$)
    {
-      %% We handle all death messages here, but not 'win fight' messages.
-      %% Those are handled after the renege messages.
+      /// We handle all death messages here, but not 'win fight' messages.
+      /// Those are handled after the renege messages.
 
       if IsClass(what,&spell)
          AND Send(self,@IsCombatant,#who=victim)
@@ -707,7 +707,7 @@ messages:
          oldChamp = poChampion;
          poChampion = First(plCombatants);
 
-         if ptFight <> $          %% a fight was on!  This guy won!
+         if ptFight <> $          /// a fight was on!  This guy won!
          {
             Send(self,@Say,#message_rsc=Goad_victor,
                   #parm1=Send(poChampion,@GetCapDef),
@@ -715,7 +715,7 @@ messages:
             DeleteTimer(ptFight);
             ptFight = $;
 
-            %% Add to win counter.
+            /// Add to win counter.
             Send(self,@RewardWinner);
             if Send(poOwner,@CheckDefaultRoomFlag,#flag=ROOM_SAFE_DEATH)
             {
@@ -769,10 +769,10 @@ messages:
    {
       local index, i;
 
-      %% Tell room to lower maze or get rid of pests, whatever.
+      /// Tell room to lower maze or get rid of pests, whatever.
       Send(poOwner,@EndFight,#lCombatants=plCombatants);
 
-      %% Assume that everyone left in plCombatant is a winner.
+      /// Assume that everyone left in plCombatant is a winner.
 
       foreach i in plCombatants
       {
@@ -784,7 +784,7 @@ messages:
             Send(i,@GainMana,#amount=Bound(index,0,25));
          }
 
-         %% Teleport any and all combatants out of the ring.
+         /// Teleport any and all combatants out of the ring.
          if ptFight <> $
          {
             DeleteTimer(ptFight);
@@ -795,9 +795,9 @@ messages:
       return;
    }
 
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   %%  Timer Triggers                                           %
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   ///////////////////////////////////////////////////////////////
+   ///  Timer Triggers                                           //
+   ///////////////////////////////////////////////////////////////
 
    AcceptTimer()
    "Runs through twice.  The first time, it says 'accept or lose your"
@@ -866,7 +866,7 @@ messages:
       ptFight = $;
       if pbWarned = TRUE
       {
-         %% message:  EVERYBODY DIES!!!!!
+         /// message:  EVERYBODY DIES!!!!!
          foreach i in plCombatants
          {
             Send(SYS,@utilGoNearSquare,#what=i,#where=poOwner,
@@ -904,16 +904,16 @@ messages:
       return;
    }
 
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   %%  Speech Triggers                                          %
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   %%                                                           %
-   %%  Barring a better interface coming along, speech triggers %
-   %%  will continue to be used to activate a battle, to choose %
-   %%  the type of battle, and to renege a battle, among other  %
-   %%  things.                                                  %
-   %%                                                           %
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   ///////////////////////////////////////////////////////////////
+   ///  Speech Triggers                                          //
+   ///////////////////////////////////////////////////////////////
+   ///                                                           //
+   ///  Barring a better interface coming along, speech triggers //
+   ///  will continue to be used to activate a battle, to choose //
+   ///  the type of battle, and to renege a battle, among other  //
+   ///  things.                                                  //
+   ///                                                           //
+   ///////////////////////////////////////////////////////////////
 
    SomeoneSaid(what=$,type=$,string=$)
    "Checks for keywords which activate commands."
@@ -959,13 +959,13 @@ messages:
             return FALSE;
          }
 
-         %%Rumble style cut due to insufficient test.
-         %if StringEqual(string,"rumble")
-         %{
-            %Post(self,@ChooseCombat,#style=STYLE_LAST_MAN_STANDING,
-            %      #actor=what);
-            %return FALSE;
-         %}
+         ///Rumble style cut due to insufficient test.
+         //if StringEqual(string,"rumble")
+         //{
+            //Post(self,@ChooseCombat,#style=STYLE_LAST_MAN_STANDING,
+            //      #actor=what);
+            //return FALSE;
+         //}
       }
 
       if Send(self,@FightInSession)
@@ -990,9 +990,9 @@ messages:
    {
       if piCombat_style = STYLE_NO_FIGHT
       {
-         %%Only one style available: Duel.
-         %Send(self,@Say,#message_rsc=Goad_must_choose_style);
-         %return;
+         ///Only one style available: Duel.
+         //Send(self,@Say,#message_rsc=Goad_must_choose_style);
+         //return;
          Send(self,@ChooseCombat,#style=STYLE_ONE_ON_ONE,#actor=what);
       }
       if NOT Send(self,@AcceptingChampions)
@@ -1018,7 +1018,7 @@ messages:
             Send(self,@SayToOne,#target=what,#message_rsc=Goad_no_need);
          }
       }
-      else   %% accept the champion here
+      else   /// accept the champion here
       {
          Send(self,@NewCombatant,#who=what);
          Post(self,@Say,#message_rsc=Goad_new_champion,
@@ -1037,8 +1037,8 @@ messages:
       if piCombat_style = STYLE_NO_FIGHT
       {
          Post(self,@ChooseCombat,#style = STYLE_ONE_ON_ONE,#actor=what);
-         %Send(self,@SayToOne,#target=what,#message_rsc=Goad_must_choose_style);
-         %return;
+         //Send(self,@SayToOne,#target=what,#message_rsc=Goad_must_choose_style);
+         //return;
       }
 
       if Send(self,@FightInSession)
@@ -1071,13 +1071,13 @@ messages:
    {
       if piCombat_style <> STYLE_ONE_ON_ONE
       {
-         % You can only accept fights in traditional 2 man fights.
+         // You can only accept fights in traditional 2 man fights.
          return FALSE;
       }
 
       if what <> poChampion
       {
-         % Only the champion can accept a fight from a challenger.
+         // Only the champion can accept a fight from a challenger.
          return FALSE;
       }
 
@@ -1133,9 +1133,9 @@ messages:
       return;
    }
 
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   %%  Maintenance functions                                    %
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   ///////////////////////////////////////////////////////////////
+   ///  Maintenance functions                                    //
+   ///////////////////////////////////////////////////////////////
 
    Delete()
    {
@@ -1165,7 +1165,7 @@ messages:
 
    DestroyDisposable()
    {
-      return FALSE;    %% Don't delete it on random pass-throughs.
+      return FALSE;    /// Don't delete it on random pass-throughs.
    }
 
    IsCombatant(who=$)
@@ -1290,7 +1290,7 @@ messages:
             {
                Post(j,@Delete);
             }
-            %% Yuckily, this is the easiest way to deal with this.
+            /// Yuckily, this is the easiest way to deal with this.
             if IsClass(j,&WallOfFire) OR IsClass(j,&WallOfLightning)
             OR IsClass(j,&PassiveWallOfFire)
             OR IsClass(j,&PassiveWallOfLightning)
@@ -1352,8 +1352,8 @@ messages:
 
    ReqSomethingAttack(what=$,victim=$)
    {
-      % Targetless spells: heat, earthquake, umbrella and mana bomb
-      % return true as long as a fight is on.
+      // Targetless spells: heat, earthquake, umbrella and mana bomb
+      // return true as long as a fight is on.
       if victim = $
       {
          if NOT Send(self,@IsCombatant,#who=what)
@@ -1381,7 +1381,7 @@ messages:
          return TRUE;
       }
 
-      %% Monsters attacking players
+      /// Monsters attacking players
       if IsClass(what,&Monster)
       {
          if Send(self,@IsCombatant,#who=victim)
@@ -1395,7 +1395,7 @@ messages:
          }
       }
 
-      %% Spells with targets = all the rest of them
+      /// Spells with targets = all the rest of them
 
       if NOT Send(self,@IsCombatant,#who=what)
          OR NOT (Send(self,@IsCombatant,#who=victim)
@@ -1426,14 +1426,14 @@ messages:
    {
       local i, spellNum;
 
-      % DM spells are never blocked by the watcher
+      // DM spells are never blocked by the watcher
       if Send(oSpell,@GetSchool) = SS_DM_COMMAND
       {
          propagate;
       }
 
-      %%% Only combatants may cast spells on each other.
-      %% if the caster is not a combatant, don't let him cast.
+      //// Only combatants may cast spells on each other.
+      /// if the caster is not a combatant, don't let him cast.
       if (NOT Send(self,@IsCombatant,#who=who)
          AND IsClass(who,&Player))
       {
@@ -1442,7 +1442,7 @@ messages:
          return FALSE;
       }
 
-      %% If the caster's single target is not a combatant, don't let him cast.
+      /// If the caster's single target is not a combatant, don't let him cast.
       if Length(lItems) = 1
       {
          foreach i in lItems
@@ -1458,7 +1458,7 @@ messages:
          }
       }
 
-      %%% Can't cast spells unless a fight is in session.
+      //// Can't cast spells unless a fight is in session.
       if ptFight = $
       {
          if IsClass(who,&Player)
@@ -1469,7 +1469,7 @@ messages:
          return FALSE;
       }
 
-      %%% Certain spells are banned outright
+      //// Certain spells are banned outright
       if Send(oSpell,@SpellBannedInArena)
       {
          Send(self,@SayToOne,#target=who,#message_rsc=Goad_spell_banned,
@@ -1555,4 +1555,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//////////////////////////////////////////////////////////////////////////////

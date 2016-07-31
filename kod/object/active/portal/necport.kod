@@ -1,20 +1,20 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 NecropolisPortal is Portal
 
 constants:
 
    include blakston.khd
 
-   % 30 seconds (in ms)
+   // 30 seconds (in ms)
    NECROPORTAL_CLOSE_TIME = 30 * 1000
 
 resources:
@@ -66,7 +66,7 @@ messages:
 
    SomethingMoved(what = $,new_row = $,new_col = $)
    {
-      % Don't allow monsters to escape through these portals
+      // Don't allow monsters to escape through these portals
       if (NOT IsClass(what, &Player))
       {
          return;
@@ -81,7 +81,7 @@ messages:
 
       if IsClass(what,&Player)
       {
-         % A player just left, so check if there are any left in the room
+         // A player just left, so check if there are any left in the room
          foreach oPlayer in Send(poOwner,@GetHolderActive)
          {
             if IsClass(First(oPlayer),&Player)
@@ -90,7 +90,7 @@ messages:
             }
          }
 
-         % No players left, start closing it!
+         // No players left, start closing it!
          foreach oPlayer in Send(poOwner,@GetHolderActive)
          {
             if IsClass(First(oPlayer),&Player)
@@ -144,4 +144,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

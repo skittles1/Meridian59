@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+/////////////////////////////////////////////////////////////////////////////////
 Truth is HinderSpell
 
 constants:
@@ -32,9 +32,9 @@ classvars:
    vrIcon = truth_icon_rsc
    vrDesc = truth_desc_rsc
 
-   viMana = 5          % Mana is amount used upon inititiation
-   viManaDrain = 3     % Drain is amount used every viDrainTime milliseconds
-   viDrainTime = 5000    % Drain some mana every viDrainTime milliseconds
+   viMana = 5          // Mana is amount used upon inititiation
+   viManaDrain = 3     // Drain is amount used every viDrainTime milliseconds
+   viDrainTime = 5000    // Drain some mana every viDrainTime milliseconds
    viSpell_num = SID_TRUTH
 
    viSchool = SS_JALA
@@ -59,4 +59,4 @@ messages:
 
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 MummyMask is FaceMask
 
 constants:
@@ -36,7 +36,7 @@ classvars:
 
 properties:
 
-   % Places to save the users nose and mouth resources.
+   // Places to save the users nose and mouth resources.
    prSaveNose = $
    prSaveMouth = $
 
@@ -44,11 +44,11 @@ messages:
 
    NewUsed()
    {
-      % Save the face!
+      // Save the face!
       prSaveNose = Send(poOwner,@GetNoseRsc);
       prSaveMouth = Send(poOwner,@GetMouthRsc);   
 
-      % Take off mouth and nose, so mask fits all styles.
+      // Take off mouth and nose, so mask fits all styles.
       Send(poOwner,@SetNose,#nose=admin_icon_blank);
       Send(poOwner,@SetMouth,#mouth=admin_icon_blank);  
 
@@ -59,13 +59,13 @@ messages:
 
    NewUnused()
    {
-      % Pop the face back on.
+      // Pop the face back on.
       Send(poOwner,@SetNose,#nose=prSaveNose);
       Send(poOwner,@SetMouth,#mouth=prSaveMouth);
       
       Send(poOwner,@ResetHair,#what=self);
 
-      % Reset the resources to $.
+      // Reset the resources to $.
       prSaveNose = $;
       prSaveMouth = $;
 
@@ -74,4 +74,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

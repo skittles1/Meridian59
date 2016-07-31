@@ -1,27 +1,27 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Izzio is Wanderer
 
 constants:
 
    include blakston.khd
 
-   % What's the base delay between adding junk items to his inventory?
-   %  Base is about 2 hours (in seconds).
+   // What's the base delay between adding junk items to his inventory?
+   //  Base is about 2 hours (in seconds).
    JUNK_DELAY = 2 * 60 * 60
 
-   % What's the maximum items we'll hold?
+   // What's the maximum items we'll hold?
    MAX_FORSALE = 25
 
-   % How many items do we hold at the start?
+   // How many items do we hold at the start?
    NUMBER_STARTING_ITEMS = 5
 
 resources:
@@ -60,7 +60,7 @@ classvars:
    viOccupation = MOB_ROLE_MERCHANT
    viMerchant_markup = MERCHANT_DISCOUNT
 
-   % We sell what other people have given us
+   // We sell what other people have given us
    vbSellFromInventory = TRUE
 
 properties:
@@ -74,7 +74,7 @@ messages:
       local iJunkTime;
 
       iJunkTime = (JUNK_DELAY * Random(90,110)) / 100;
-      % Convert to ms.
+      // Convert to ms.
       iJunkTime = iJunkTime * 1000;
       ptNew_Junk = CreateTimer(self,@AddNewJunkToSell,iJunkTime);
 
@@ -153,7 +153,7 @@ messages:
       }
 
       iJunkTime = (JUNK_DELAY * Random(90,110)) / 100;
-      % Convert to ms.
+      // Convert to ms.
       iJunkTime = iJunkTime * 1000;
       ptNew_Junk = CreateTimer(self,@AddNewJunkToSell,iJunkTime);
 
@@ -196,7 +196,7 @@ messages:
       iRandom = Random(1,20);
 
       if iRandom > 5
-      % usually normal stuff
+      // usually normal stuff
       {
          lJunkList = [  &Longsword,
                         &LeatherArmor,
@@ -210,7 +210,7 @@ messages:
       }
 
       if iRandom > 1  and iRandom < 6
-      % occasionally good stuff
+      // occasionally good stuff
       {
          lJunkList = [  &IvyCirclet,
                         &Scimitar,
@@ -221,7 +221,7 @@ messages:
       }
 
       if iRandom = 1
-      % rarely very good stuff
+      // rarely very good stuff
       {
          lJunkList = [  &BerserkerRing,
                         &LightningWand,
@@ -237,7 +237,7 @@ messages:
 
       if IsClass(oJunk,&SpellItem)
       {
-         % Make spell items we create be identified and initially non-expiring.
+         // Make spell items we create be identified and initially non-expiring.
          Send(oJunk,@RevealHiddenAttributes);
          Send(oJunk,@StopGoBadTimer);
       }
@@ -260,7 +260,7 @@ messages:
    {
       local i;
 
-      % Don't take money for resale.  That's just silly.
+      // Don't take money for resale.  That's just silly.
       if IsClass(what,&Money)
       {
          return FALSE;
@@ -315,14 +315,14 @@ messages:
       local i,j,oHolder,lTake_items, bHadSomeNum, lForSale;
 
       lForSale = First(plFor_Sale);
-      % Set the stuff where the user can get to it.
+      // Set the stuff where the user can get to it.
       oHolder = Send(SYS,@GetSystemHolder2);
       foreach i in plOffer_items
       {
          Send(oHolder,@NewHold,#what=i);
       }
 
-      % Take stuff the user put there.
+      // Take stuff the user put there.
       oHolder = Send(SYS,@GetSystemHolder1);
       foreach lTake_items in [ Send(oHolder,@GetHolderActive),
                            Send(oHolder,@GetHolderPassive) ]
@@ -339,7 +339,7 @@ messages:
                   {
                      bHadSomeNum = TRUE;
                      Send(j,@AddNumber,#number=Send(i,@GetNumber));
-                     % We don't need 'i' any more, delete it.
+                     // We don't need 'i' any more, delete it.
                      Send(i,@Delete);
 
                      break;
@@ -352,7 +352,7 @@ messages:
             }
             else
             {
-               % If this is a spell item, then stop the go bad timer.
+               // If this is a spell item, then stop the go bad timer.
                if IsClass(i,&SpellItem)
                {
                   Send(i,@StopGoBadTimer);
@@ -363,7 +363,7 @@ messages:
          }
       }
 
-      % kill the cancel offer timer
+      // kill the cancel offer timer
       SetNth(plFor_Sale,1,lForSale);
       Send(self,@OfferCanceled);
 
@@ -394,4 +394,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

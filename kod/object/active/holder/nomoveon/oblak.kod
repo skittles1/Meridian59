@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 OldBlackSmith is NoMoveOn
 
 constants:
@@ -78,7 +78,7 @@ messages:
 	 return;
       }
 
-      % should really send fixed item here...
+      // should really send fixed item here...
 
       if not Send(who,@ReqOffer,#what=self,#item_list=plOffer_items)
       {
@@ -86,9 +86,9 @@ messages:
 	 return;
       }
 
-      % fix item 
+      // fix item 
 
-      %Send(what,@SetMaxHits,#number=(4*iMax)/9);
+      //Send(what,@SetMaxHits,#number=(4*iMax)/9);
       Send(what,@SetHits,#number=(4*iMax)/9);
 
       Send(who,@MsgSendUser,#message_rsc=oblak_cost,#parm1=Send(what,@GetName), 
@@ -113,7 +113,7 @@ messages:
 	 Send(who,@NewHold,#what=what);
 	 return;
       }
-      % user can't take it back, put on ground
+      // user can't take it back, put on ground
       oRoom = Send(who,@GetOwner);
 
       Send(oRoom,@NewHold,#what=what,#new_row=Send(who,@GetRow),#new_col=Send(who,@GetCol));
@@ -128,7 +128,7 @@ messages:
 
       oRepaired = First(plOffer_items);
 
-      %Send(oRepaired,@SetMaxHits,#number=piHits_max_prev);
+      //Send(oRepaired,@SetMaxHits,#number=piHits_max_prev);
       Send(oRepaired,@SetHits,#number=piHits_prev);
 
       Send(self,@Reject,#what=First(plOffer_items),#who=poOffer_who);
@@ -188,7 +188,7 @@ messages:
 
       Send(poOffer_who,@MsgSendUser,#message_rsc=oblak_success,
 	   #parm1=Send(oRepaired,@GetName));
-      % take his stuff
+      // take his stuff
      
       oHolder = Send(SYS,@GetSystemHolder2);
       iLists = 1;
@@ -219,4 +219,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

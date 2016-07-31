@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 jalanecklaceqt_name_rsc = de "Jala Halsketten Quest"
 jalanecklaceqt_desc_rsc = de \
    "Helfe einem NPC einen Trank zu idenzifizieren."
@@ -20,7 +20,7 @@ jalanecklaceqt_nodeseven_rsc = de \
 jalanecklaceqt_completed_rsc = de \
    "Du hast das Jala Halsketten Quest abgeschlossen."
 
-% Quest resources.
+// Quest resources.
 jala_necklace_trigger = de "Kette"
 jala_necklace_assign_1 = de \
    "Eine Kette von Jala?  Ich habe über so ein schönes Teil gehört, obwohl "

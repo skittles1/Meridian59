@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 JasperTavern is JasperRoom
 
 constants:
@@ -56,7 +56,7 @@ messages:
       oNews = Create(&Newslink,#nid=NID_ADVENTURE,#name=jastav_adv_name,#icon=jastav_adv_icon,#desc=jastav_adv_desc);
       Send(self,@NewHold,#what=oNews,#new_row=16,#new_col=2,#fine_row=8,#fine_col=32,#new_angle = ANGLE_NORTH_EAST);
 
-% Stools N of Bar
+// Stools N of Bar
       Send(self,@NewHold,#what=Create(&BarStool),
 	   #new_row=13,#new_col=4,#fine_row=48,#fine_col=32);
       Send(self,@NewHold,#what=Create(&BarStool),
@@ -68,7 +68,7 @@ messages:
       Send(self,@NewHold,#what=Create(&BarStool),
 	   #new_row=13,#new_col=8,#fine_row=48,#fine_col=32);
 
-% Stools W of Bar
+// Stools W of Bar
       Send(self,@NewHold,#what=Create(&BarStool),
 	   #new_row=14,#new_col=3,#fine_row=32,#fine_col=48);
       Send(self,@NewHold,#what=Create(&BarStool),
@@ -76,7 +76,7 @@ messages:
       Send(self,@NewHold,#what=Create(&BarStool),
 	   #new_row=16,#new_col=3,#fine_row=32,#fine_col=48);
 
-% Stools E of Bar
+// Stools E of Bar
       Send(self,@NewHold,#what=Create(&BarStool),
 	   #new_row=14,#new_col=9,#fine_row=32,#fine_col=16);
       Send(self,@NewHold,#what=Create(&BarStool),
@@ -85,7 +85,7 @@ messages:
 	   #new_row=16,#new_col=9,#fine_row=32,#fine_col=16);
 
 
-% W Tables
+// W Tables
 
       Send(self,@NewHold,#what=Create(&Table),
 	   #new_row=5,#new_col=4,#fine_col=0,#fine_row=0);
@@ -97,7 +97,7 @@ messages:
 	   #new_row=11,#new_col=4,#fine_col=0,#fine_row=0);
 
 
-% E Tables
+// E Tables
 
       Send(self,@NewHold,#what=Create(&Table),
 	   #new_row=5,#new_col=9,#fine_col=0,#fine_row=0);
@@ -110,7 +110,7 @@ messages:
 
 
 
-%      % and some braziers
+//      // and some braziers
       Send(self,@NewHold,#what=Create(&Brazier),
 	   #new_row=6,#new_col=5,#fine_col=0,#fine_row=0);
       Send(self,@NewHold,#what=Create(&Brazier),
@@ -128,7 +128,7 @@ messages:
    {
       plExits = $;
 
-  %% TO TOWN
+  /// TO TOWN
       plExits = Cons([ 2, 6, RID_JASWEST, 63, 20, ROTATE_NONE ],plExits);
 
       propagate;
@@ -137,4 +137,4 @@ messages:
    
       
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

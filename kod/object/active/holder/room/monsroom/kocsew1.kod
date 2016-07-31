@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 KocatanSewer1 is MonsterRoom
 
 constants:
@@ -56,8 +56,8 @@ properties:
 
    piMonster_count_max = 5
 
-   % A list of people that came in from the other side.
-   % Only allow them to go back.
+   // A list of people that came in from the other side.
+   // Only allow them to go back.
    plFromOtherSewer = $
 
 messages:
@@ -74,13 +74,13 @@ messages:
    {
       plExits = $;
 
-      % Locked Doors
+      // Locked Doors
       plExits = Cons([ 25, 5, ROOM_LOCKED_DOOR, kocsewer1_locked ], plExits);
       plExits = Cons([ 25, 6, ROOM_LOCKED_DOOR, kocsewer1_locked ], plExits);
       plExits = Cons([ 46, 5, ROOM_LOCKED_DOOR, kocsewer1_locked ], plExits);
       plExits = Cons([ 46, 6, ROOM_LOCKED_DOOR, kocsewer1_locked ], plExits);
 
-      % TO TOWN
+      // TO TOWN
       plExits = Cons([ 40, 20, RID_KOC_STORE, 3, 15, ROTATE_NONE ],plExits);
       plExits = Cons([ 40, 21, RID_KOC_STORE, 3, 15, ROTATE_NONE ],plExits);   
       
@@ -93,12 +93,12 @@ messages:
 
    NewHold(what = $, new_row = 1, new_col = 1)
    {
-      % If a player is put near the other door....
+      // If a player is put near the other door....
       if IsClass(what,&Player)
          AND (new_row >= 41 AND new_row <= 43)
          AND (new_col >= 7 AND new_col <= 8)
       {
-         % Record it so we can let them back.
+         // Record it so we can let them back.
          plFromOtherSewer = Cons(what,plFromOtherSewer);
       }
 
@@ -130,7 +130,7 @@ messages:
          Debug("ALERT! ",Send(self,@GetTrueName),what,
                " tried to illegally enter the door in RID_KOC_SEWER1!");
 
-         % Stop here.
+         // Stop here.
          return TRUE;
       }
 
@@ -138,4 +138,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

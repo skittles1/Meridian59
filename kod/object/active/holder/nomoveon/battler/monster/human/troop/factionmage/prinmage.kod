@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 PrincessMage is FactionMage
 
 constants:
@@ -33,8 +33,8 @@ classvars:
    vrDead_name = Princessmage_dead_name_rsc
 
 
-   viColorTranslate1 = XLAT_TO_ORANGE     % Shirt
-   viColorTranslate2 = XLAT_TO_GREEN   % Pants
+   viColorTranslate1 = XLAT_TO_ORANGE     // Shirt
+   viColorTranslate2 = XLAT_TO_GREEN   // Pants
    vcShieldClass = &PrincessShield
 
    viFaction = FACTION_PRINCESS
@@ -44,9 +44,9 @@ properties:
    piBaseLevel = 50
    piBaseDifficulty = 2
 
-   % Here so they can be set
-   viLevel = 50         % piBaseLevel
-   viDifficulty = 2     % piBaseDifficulty
+   // Here so they can be set
+   viLevel = 50         // piBaseLevel
+   viDifficulty = 2     // piBaseDifficulty
 
    vrSound_aware = Princessmage_sound_aware
 
@@ -60,4 +60,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

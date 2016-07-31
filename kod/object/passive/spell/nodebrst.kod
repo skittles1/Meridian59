@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 Nodeburst is Spell
 
 constants:
@@ -83,7 +83,7 @@ messages:
          lTargets = [who];
       }
       
-      % Check for availability of mana node links.
+      // Check for availability of mana node links.
       if Send(who,@GetNodeList) = 0
       {
 	      Send(who,@MsgSendUser,#message_rsc=Nodeburst_fail);
@@ -108,7 +108,7 @@ messages:
    {
       local iNumNodes, iOrigMana, iNewMana, iGain;
       
-      % First save original mana.  Removing a node will remove some.
+      // First save original mana.  Removing a node will remove some.
       iOrigMana = Send(who,@GetMana);
       iNumNodes = Send(who,@NumManaNodes);
 
@@ -120,8 +120,8 @@ messages:
 
       iNewMana = Send(who,@GetMana);
 
-      % At least give us our old amount of mana, but don't let us get too much
-      %  mana (currently max is 250).
+      // At least give us our old amount of mana, but don't let us get too much
+      //  mana (currently max is 250).
       iNewMana = Bound(iGain,(iOrigMana-iNewMana),(MAX_MANA_ALLOWED-iNewMana));
 
       Send(who,@GainMana,#amount=iNewMana);	              
@@ -153,4 +153,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 NecromancerTroop is FactionTroop
 
 constants:
@@ -47,16 +47,16 @@ classvars:
    viVisionDistance = 18
    viCashmin = 100
    viCashmax = 200
-   viChanceFemale = 60  % percentage chance to be female
+   viChanceFemale = 60  // percentage chance to be female
 
-   viColorTranslate1 = XLAT_TO_GRAY     % Shirt
-   viColorTranslate2 = XLAT_TO_BLACK   % Pants
+   viColorTranslate1 = XLAT_TO_GRAY     // Shirt
+   viColorTranslate2 = XLAT_TO_BLACK   // Pants
 
-   % Old guildshield info.
-   % viShieldColor1 = XLAT_TO_RED
-   % viShieldColor2 = XLAT_TO_RED
-   % viShieldShape = SHIELDSHAPE_HORIZ
-   % viInsignia = INSIG_QOR
+   // Old guildshield info.
+   // viShieldColor1 = XLAT_TO_RED
+   // viShieldColor2 = XLAT_TO_RED
+   // viShieldShape = SHIELDSHAPE_HORIZ
+   // viInsignia = INSIG_QOR
    vcShieldClass = &NecromancerShield
 
    viFaction = FACTION_NECROMANCER
@@ -66,9 +66,9 @@ properties:
    piBaseLevel = 60
    piBaseDifficulty = 4
 
-   %Here so they can be set
-   viLevel = 60         % piBaseLevel
-   viDifficulty = 4     % piBaseDifficulty
+   //Here so they can be set
+   viLevel = 60         // piBaseLevel
+   viDifficulty = 4     // piBaseDifficulty
 
    piBody_translations = 0
    vrSound_aware = NecromancerTroop_sound_aware
@@ -76,7 +76,7 @@ properties:
 messages:
 
    SetSkinColor()
-   % Sets skin to one of the four skin colors.
+   // Sets skin to one of the four skin colors.
    {
       local skin_color;
       skin_color = PT_BLUE_TO_ASHEN;
@@ -87,7 +87,7 @@ messages:
       return;
    }
 
-   % Overwrites base class
+   // Overwrites base class
    SetKarma()
    {
       viKarma = -40;
@@ -96,4 +96,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

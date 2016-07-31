@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 lovelettertwoquest_name_rsc = de "Madelias Liebesbrief Quest"
 lovelettertwoquest_desc_rsc = de \
    "Madelia hat Dich dazu beauftragt, einen Liebesbrief an ihren Geliebten zu überbringen."
@@ -9,7 +9,7 @@ lovelettertwoquest_deliver_rsc = de \
 lovelettertwoquest_completed_rsc = de \
    "Du hast das Quest abgeschlossen."
 
-% Quest resources.
+// Quest resources.
 love_letter_2_assign = de \
    "Ja, tatsächlich. Ich habe ein Schreiben was ausgeliefert werden muss.  "
    "Wenn Du diesen Brief zu %NPC bringen würdest, wäre ich Dir sehr dankbar."

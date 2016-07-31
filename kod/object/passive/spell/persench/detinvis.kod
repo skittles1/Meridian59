@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 DetectInvisible is PersonalEnchantment
 
 constants:
@@ -51,9 +51,9 @@ classvars:
 
 properties:
 
-   % The effectiveness of purge on the target spell as a percentage.
-   % 100 will cause purge to remove its entire spellpower, 0 will
-   % prevent purge from removing this spell.
+   // The effectiveness of purge on the target spell as a percentage.
+   // 100 will cause purge to remove its entire spellpower, 0 will
+   // prevent purge from removing this spell.
    viPurgeFactor = 30
 
 messages:
@@ -67,7 +67,7 @@ messages:
 
    GetStateValue(iSpellpower=$,target=$)
    {
-      % Post this so it's after the flag being applied.
+      // Post this so it's after the flag being applied.
       Post(target,@ToCliRoomContents);
 
       return iSpellpower;
@@ -83,7 +83,7 @@ messages:
    GetDuration(iSpellpower=0)
    {
       local iDuration;
-      iDuration = 2400 * (100 + iSpellPower);   % 4 - 8 minutes max,
+      iDuration = 2400 * (100 + iSpellPower);   // 4 - 8 minutes max,
 
       return iDuration;
    }
@@ -92,7 +92,7 @@ messages:
    {
       if Send(who,@IsLoggedOn)
       {
-         %% Must post this so it's after the flag being removed.
+         /// Must post this so it's after the flag being removed.
          Post(who,@ToCliRoomContents);
       }
 
@@ -105,4 +105,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

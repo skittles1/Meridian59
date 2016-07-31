@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 SwordShard is PassiveItem
 
 constants:
@@ -138,12 +138,12 @@ messages:
          }
       }
       
-      %% Okay, see if all four parts are there.
+      /// Okay, see if all four parts are there.
       if (ShardA <> $) AND (ShardB <> $)
          AND (ShardC <> $) AND (ShardD <> $)
       {
-         %% They have all the parts.  Delete 'em and give
-         %% the owner a sword.
+         /// They have all the parts.  Delete 'em and give
+         /// the owner a sword.
          oOwner = Send(self,@GetOwner);
          Send(oOwner,@msgsenduser,#message_rsc= swordshard_bind);
          Send(oOwner,@NewHold,#what=Create(&RiijaSword,#quester=poQuester));
@@ -202,4 +202,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

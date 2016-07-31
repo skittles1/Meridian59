@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 DragonFlyPet is Monster
 
 constants:
@@ -19,7 +19,7 @@ constants:
    ANIM_HOVER = 2
    HOVER_DELAY = ANIM_SPEED * 5
    LAND_DELAY = HOVER_DELAY * 5
-   % any attack or spasm animation?
+   // any attack or spasm animation?
 
    FRAME_STAND = 1
    FRAME_LAND = 1
@@ -72,7 +72,7 @@ classvars:
    viAttack_type = ATCK_WEAP_PIERCE
    viLevel = 120
    viDifficulty = 6
-   % Attack range of 192, or 3 row/col.
+   // Attack range of 192, or 3 row/col.
    viAttackRange = 192
    viVisionDistance = 18
    viKarma = 40
@@ -140,7 +140,7 @@ messages:
 
    SendProjectileAnimation()
    {
-      AddPacket(1, ANIMATE_CYCLE, 4, 40, 2, 1, 2, 5);   % 40ms between animations
+      AddPacket(1, ANIMATE_CYCLE, 4, 40, 2, 1, 2, 5);   // 40ms between animations
 
       return;
    }
@@ -199,7 +199,7 @@ messages:
    {
       AddPacket(1,ANIMATE_TRANSLATION,1,piColor);
       AddPacket(1,ANIMATE_CYCLE,4,ANIM_SPEED,2,FRAME_FLY_START,2,FRAME_FLY_END);
-      %if piState & STATE_MOVE { piAnimation = ANIM_NONE; }
+      //if piState & STATE_MOVE { piAnimation = ANIM_NONE; }
 
       return;
    }
@@ -230,7 +230,7 @@ messages:
 
       if piAnimation = ANIM_ATTACK
       {
-         % Uses normal body speed for attack
+         // Uses normal body speed for attack
          AddPacket(1,1);
          AddPacket(4,DragonFlyPet_wings_rsc,1,HS_WINGS);
          AddPacket(1,ANIMATE_EFFECT,1,DRAWFX_TRANSLUCENT_25-DRAWFX_TRANSLUCENT_25+1);
@@ -263,7 +263,7 @@ messages:
          return;
       }
 
-      % No body animation.
+      // No body animation.
       propagate;
    }
 
@@ -311,4 +311,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

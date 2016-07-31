@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 SummonWeb is WallSpell
 
 constants:
@@ -51,7 +51,7 @@ classvars:
 
    viHarmful = TRUE
 
-   % Webs can't kill anyone, so don't warn about being a murderer.
+   // Webs can't kill anyone, so don't warn about being a murderer.
    viWallCanKill = FALSE
 
    viNumElements = 9
@@ -90,67 +90,67 @@ messages:
       iDuration = Bound(iDuration,20,130);
 
 
-      % Facing East
+      // Facing East
       if iAngle >= ANGLE_ENE OR iAngle < ANGLE_ESE
       {
          iCol = Send(who,@GetCol) + 2;
          iRow = Send(who,@GetRow);
       }
 
-      % Facing SouthEast
+      // Facing SouthEast
       if iAngle >= ANGLE_ESE AND iAngle < ANGLE_SSE
       {
          iRow = Send(who,@GetRow) + 2;
          iCol = Send(who,@GetCol) + 2;
       }
 
-      % Facing South
+      // Facing South
       if iAngle >= ANGLE_SSE AND iAngle < ANGLE_SSW
       {
          iRow = Send(who,@GetRow) + 2;
          iCol = Send(who,@GetCol);
       }
 
-      % Facing SouthWest
+      // Facing SouthWest
       if iAngle >= ANGLE_SSW AND iAngle < ANGLE_WSW
       {
          iRow = Send(who,@GetRow) + 2;
          iCol = Send(who,@GetCol) - 2;
       }
 
-      % Facing West
+      // Facing West
       if iAngle >= ANGLE_WSW AND iAngle < ANGLE_WNW
       {
          iCol = Send(who,@GetCol) - 2;
          iRow = Send(who,@GetRow);
       }
 
-      % Facing NorthWest
+      // Facing NorthWest
       if iAngle >= ANGLE_WNW AND iAngle < ANGLE_NNW
       {
          iRow = Send(who,@GetRow) - 2;
          iCol = Send(who,@GetCol) - 2;
       }
 
-      % Facing North
+      // Facing North
       if iAngle >= ANGLE_NNW AND iAngle < ANGLE_NNE
       {
          iRow = Send(who,@GetRow) - 2;
          iCol = Send(who,@GetCol);
       }
 
-      % Facing NorthEast
+      // Facing NorthEast
       if iAngle >= ANGLE_NNE AND iAngle < ANGLE_ENE
       {
          iRow = Send(who,@GetRow) - 2;
          iCol = Send(who,@GetCol) + 2;
       }
 
-      % Sanity check for invalid location.
+      // Sanity check for invalid location.
       if iRow = $
          OR iCol = $
       {
-         % Don't try to place the web on $ coordinates.
+         // Don't try to place the web on $ coordinates.
          return;
       }
 
@@ -159,7 +159,7 @@ messages:
       iFine_Row = Send(who,@GetFineRow);
       iFine_Col = Send(who,@GetFineCol);
 
-      % Center, then clockwise from 12 o'clock
+      // Center, then clockwise from 12 o'clock
       oElement = Create(&Web,#MaxHoldTime=iMaxHoldTime,#Caster=who,
                         #Duration=iDuration);
       Send(oRoom,@NewHold,#what=oElement,#new_row=iRow,#new_col=iCol,
@@ -213,7 +213,7 @@ messages:
    {
       local i;
             
-      % Can cast spell if the 1 target item is a user
+      // Can cast spell if the 1 target item is a user
       if iDurationSecs = $
       {
          iDurationSecs = 10;
@@ -224,7 +224,7 @@ messages:
          return FALSE;
       }
 
-      % check for enchantment already applied
+      // check for enchantment already applied
       if Send(otarget,@IsEnchanted,#what=self)
       {
          return FALSE;
@@ -238,7 +238,7 @@ messages:
          Send(oTarget,@SetOverlay,#what=self);
          Send(oTarget,@SetPlayerFlag,#Flag=PFLAG_NO_MOVE,#value=TRUE);
       }
-      else  % class is &Monster
+      else  // class is &Monster
       {
          Send(oTarget,@ResetBehaviorFlags);
       }      
@@ -269,14 +269,14 @@ messages:
       }
       else
       {
-         % Class is &Monster
+         // Class is &Monster
          Post(who,@ResetBehaviorFlags); 
       }
      
       return;
    }
 
-   %%% Overlay messages
+   //// Overlay messages
 
    GetNumberOverlays(animation = $)
    {
@@ -325,4 +325,4 @@ messages:
 
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

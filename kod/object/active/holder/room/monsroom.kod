@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 MonsterRoom is Room
 
 constants:
@@ -21,7 +21,7 @@ resources:
 
 classvars:
 
-   % If true, reduce monster spawn rate when there are few players in the room
+   // If true, reduce monster spawn rate when there are few players in the room
    vbScaleSpawnRateWithPlayers = FALSE
    
 properties:
@@ -32,37 +32,37 @@ properties:
    ptOkay_To_Load = $
    pbOkay_To_Load = TRUE
 
-   % Timer makes 'em wait before new batch loads.
+   // Timer makes 'em wait before new batch loads.
 
-   % This is how long they have to wait before room resets, in ms.
+   // This is how long they have to wait before room resets, in ms.
    piReload_Wait_Time = 90000
 
-   % Only loads the first monster in list plMonsters if set to true.
+   // Only loads the first monster in list plMonsters if set to true.
    pbLoad_first_monster_only = FALSE
 
-   % Minimum # of monsters loaded by first_user_enters.
+   // Minimum # of monsters loaded by first_user_enters.
    piInit_count_min = 1
 
-   % Maximum # of monsters loaded by initial load.
-   %  Must never be greater than # of available coordinates!
+   // Maximum # of monsters loaded by initial load.
+   //  Must never be greater than # of available coordinates!
    piInit_count_max = 5
 
-   % percentage chance that you'll get a new monster when timer expires
+   // percentage chance that you'll get a new monster when timer expires
    piGen_percent = DEFAULT_GEN_PERCENT
 
-   % maximum number of total monsters a room can hold       
+   // maximum number of total monsters a room can hold       
    piMonster_count_max = 10
 
-   % Number of monsters currently in room
+   // Number of monsters currently in room
    piMonster_count = 0
 
-   % List of monsters we spawn, if for: [monster class, chance to spawn]
+   // List of monsters we spawn, if for: [monster class, chance to spawn]
    plMonsters = $
 
-   % Should we generate monsters?
+   // Should we generate monsters?
    pbGenerateMonsters = TRUE
 
-   % Is this a room where monsters grow in strength?
+   // Is this a room where monsters grow in strength?
    piLevel = 0
 
 messages:
@@ -93,20 +93,20 @@ messages:
    GetMonsterGenTime()
    {
       local iWaitTime, iNumberOfPlayers, iMaxPlayers;
-      % GetSpawnRate =  100
-      % iWaitTime = (20000 * (100 / 100));
-      % iWaitTime = 20000
+      // GetSpawnRate =  100
+      // iWaitTime = (20000 * (100 / 100));
+      // iWaitTime = 20000
 
-      % GetSpawnRate =  300
-      % iWaitTime = (20000 * (300 / 100));
-      % iWaitTime = 60000
+      // GetSpawnRate =  300
+      // iWaitTime = (20000 * (300 / 100));
+      // iWaitTime = 60000
      
-      % GetSpawnRate =  1
-      % iWaitTime = (20000 * (300 / 100));
-      % iWaitTime = 200
+      // GetSpawnRate =  1
+      // iWaitTime = (20000 * (300 / 100));
+      // iWaitTime = 200
       iWaitTime = (piGen_Time * Send(SETTINGS_OBJECT,@GetSpawnRate)) / 100;
 
-      % Reduce spawn time for up to 5 people.
+      // Reduce spawn time for up to 5 people.
       iNumberOfPlayers = Send(self,@CountHoldingHowMany,#class=&Player);
 
       iMaxPlayers = 5;
@@ -116,7 +116,7 @@ messages:
       }
       else
       {
-         % Always have max spawn rate
+         // Always have max spawn rate
          iNumberOfPlayers = iMaxPlayers;
       }
       iWaitTime = iWaitTime / iNumberOfPlayers;
@@ -248,20 +248,20 @@ messages:
          propagate;
       }
 
-      % Find a monster in the room, and update our count of monsters in the
-      % in the room.  Sometimes this becomes inaccurate.
+      // Find a monster in the room, and update our count of monsters in the
+      // in the room.  Sometimes this becomes inaccurate.
       bFound = FALSE;
       piMonster_Count = 0;
       foreach i in plActive
       {
          oMonster = Send(self,@HolderExtractObject,#data=i);
-         % Count monsters, but not NPCs.
+         // Count monsters, but not NPCs.
          if IsClass(oMonster,&Monster)
             AND NOT Send(oMonster,@HasAttribute,#mask=MOB_NOFIGHT)
          {
             bFound = TRUE;
 
-            % Increment our monster count.
+            // Increment our monster count.
             piMonster_Count = piMonster_Count + 1;
          }
       }
@@ -338,7 +338,7 @@ messages:
       local lPos, iRow, iCol, oMonster, bReqNewHold, bReqSomethingMoved,
             iCount, iLength;
 
-      iCount = 1;  %initialize iCount
+      iCount = 1;  //initialize iCount
 
       if plGenerators = $
       {
@@ -461,4 +461,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

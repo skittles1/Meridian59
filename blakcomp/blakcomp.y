@@ -57,12 +57,12 @@
 %type <stmt_val> 	call if_stmt assign_stmt foreach_stmt while_stmt for_stmt assign
 %type <stmt_val> case_stmt switch_stmt
 
-%token <int_val>  	NUMBER REL_OP INC_DEC_OP
+%token <int_val>  	NUMBER REL_OP INC_DEC_OP ASSIGN_OP
 %token <string_val> 	STRING_CONSTANT FILENAME
 %token <idname>		IDENTIFIER
 
 %token AND BREAK CLASSVARS CONSTANTS CONTINUE ELSE FOR IF IN IS LOCAL MESSAGES 
-%token MOD NOT OR PROPAGATE PROPERTIES RESOURCES RETURN WHILE DO SWITCH CASE
+%token NOT OR PROPAGATE PROPERTIES RESOURCES RETURN WHILE DO SWITCH CASE
 %token END EOL SEP INCLUDE FOREACH DEFAULT
 
 /* precedence of operators, lowest precedence first */
@@ -72,7 +72,7 @@
 %left '&' 
 %left REL_OP '='
 %left '+' '-'
-%left '*' '/' MOD
+%left '*' '/' '%'
 %nonassoc INC_OP DEC_OP UMINUS NOT '~'
 %%
 
@@ -269,16 +269,13 @@ assign_list:
 
 // Assignments with separators.
 assign_stmt:
-		id '=' expression SEP { $$ = make_assign_stmt($1, $3); }
-	|	id INC_OP SEP			{ $$ = make_assign_stmt($1, make_un_op(POST_INC_OP, make_expr_from_id($1))); }
-	|	DEC_OP id SEP			{ $$ = make_assign_stmt($2, make_un_op(PRE_DEC_OP, make_expr_from_id($2))); }
-	|	id DEC_OP SEP			{ $$ = make_assign_stmt($1, make_un_op(POST_DEC_OP, make_expr_from_id($1))); }
-	|	INC_OP id SEP			{ $$ = make_assign_stmt($2, make_un_op(PRE_INC_OP, make_expr_from_id($2))); }
+		assign SEP { $$ = $1; }
 	;
 
 // Assignments without separators.
 assign:
 		id '=' expression { $$ = make_assign_stmt($1, $3); }
+	|	id ASSIGN_OP expression { $$ = make_assign_stmt($1, make_bin_op(make_expr_from_id($1), $2, $3)); }
 	|	id INC_OP			{ $$ = make_assign_stmt($1, make_un_op(POST_INC_OP, make_expr_from_id($1))); }
 	|	DEC_OP id			{ $$ = make_assign_stmt($2, make_un_op(PRE_DEC_OP, make_expr_from_id($2))); }
 	|	id DEC_OP			{ $$ = make_assign_stmt($1, make_un_op(POST_DEC_OP, make_expr_from_id($1))); }
@@ -363,7 +360,7 @@ expression:
 	|	expression '-' expression	{ $$ = make_bin_op($1, MINUS_OP, $3); }
 	|	expression '*' expression	{ $$ = make_bin_op($1, MULT_OP, $3); }
 	|	expression '/' expression	{ $$ = make_bin_op($1, DIV_OP, $3); }
-	|	expression MOD expression	{ $$ = make_bin_op($1, MOD_OP, $3); }
+	|	expression '%' expression	{ $$ = make_bin_op($1, MOD_OP, $3); }
 	|	expression '&' expression	{ $$ = make_bin_op($1, BITAND_OP, $3); }
 	|	expression '|' expression	{ $$ = make_bin_op($1, BITOR_OP, $3); }
 	|	'-' expression %prec UMINUS	{ $$ = make_un_op(NEG_OP, $2); }

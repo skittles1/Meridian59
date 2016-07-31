@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 CorInn is CorNothRoom
 
 constants:
@@ -51,7 +51,7 @@ messages:
    {
       plExits = $;
 
-      %% TO TOWN
+      /// TO TOWN
       plExits = Cons([ 3, 1, RID_CORNOTH, 11, 59, ROTATE_NONE ],plExits);
 
       plExits = Cons([ 10, 7, ROOM_LOCKED_DOOR],plExits);
@@ -67,13 +67,13 @@ messages:
       Send(self,@NewHold,#what=Create(&CorNothInnKeeper),
             #new_row=3,#new_col=11,#new_angle=ANGLE_WEST);
 
-      % Create news globe.
+      // Create news globe.
       oNews = Create(&NewsLink,#nid=NID_ANNOUNCEMENTS,
                      #name=cornews_god_name,#desc=cornews_god_desc);
       Send(self,@NewHold,#what=oNews,#new_row=7,#new_col=9,
             #fine_row=40,#fine_col=40);
 
-      % And some braziers.
+      // And some braziers.
       Send(self,@NewHold,#what=Create(&Brazier),#new_row=7,#new_col=3);
       Send(self,@NewHold,#what=Create(&Brazier),#new_row=4,#new_col=12);
 
@@ -81,4 +81,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

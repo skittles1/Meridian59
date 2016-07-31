@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 AcidTouch is TouchAttackSpell
 
 constants:
@@ -65,11 +65,11 @@ classvars:
    viSpell_level = 2
    viMana = 4
 
-   viMin_Damage = 4        %% touch spells typically do good damage    
-   viMax_Damage = 8       %% but are unaffected by weapon or strength bonuses
+   viMin_Damage = 4        /// touch spells typically do good damage    
+   viMax_Damage = 8       /// but are unaffected by weapon or strength bonuses
 
-   % Max amount of damage that punch or 2*myst can add
-   % Acid touch is slightly weaker than Faren touch spells
+   // Max amount of damage that punch or 2*myst can add
+   // Acid touch is slightly weaker than Faren touch spells
    viMaxProficiencyDamage = 3
 
    viSpellType = ATCK_SPELL_ACID + ATCK_SPELL_ALL
@@ -94,4 +94,4 @@ messages:
   }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

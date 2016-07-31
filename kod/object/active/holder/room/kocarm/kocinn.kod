@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 KocatanInn is KocatanRoom
 
 constants:
@@ -65,10 +65,10 @@ messages:
    {
       plExits = $;
 
-      % To Kocatan.
+      // To Kocatan.
       plExits = Cons([ 2, 5, RID_KOCATAN, 28, 7, ROTATE_NONE ],plExits);
 
-      % To Kocatan tavern.
+      // To Kocatan tavern.
       plExits = Cons([ 12, 8, RID_KOC_TAVERN, 16, 17, ROTATE_NONE ],plExits);
 
       plExits = Cons([ 5, 2, ROOM_LOCKED_DOOR, kocinn_rentableroom_door],plExits);
@@ -80,16 +80,16 @@ messages:
       plExits = Cons([ 10, 4, ROOM_LOCKED_DOOR, kocinn_rentableroom_door],plExits);
 
       plExits = Cons([ 10, 6, ROOM_LOCKED_DOOR, kocinn_rentableroom_door],plExits);
-      %% 10,7 finecol is less than 32 has to be hardcoded
+      /// 10,7 finecol is less than 32 has to be hardcoded
 
       plExits = Cons([ 10, 8, ROOM_LOCKED_DOOR, kocinn_rentableroom_door],plExits);
-      %% 11,8 finerow is less than 32 has to be hardcoded
+      /// 11,8 finerow is less than 32 has to be hardcoded
 
       plExits = Cons([ 7, 6, ROOM_LOCKED_DOOR, kocinn_rentableroom_door],plExits);
-      %% 7, 5 finecol is greater than 32 has to be hardcoded
+      /// 7, 5 finecol is greater than 32 has to be hardcoded
 
       plExits = Cons([ 8, 6, ROOM_LOCKED_DOOR, kocinn_rentableroom_door],plExits);
-      %% 9, 6 finerow less than 32 has to be hardcoded
+      /// 9, 6 finerow less than 32 has to be hardcoded
 
       propagate;
    }
@@ -156,7 +156,7 @@ messages:
       iRow = Send(who,@GetRow);
       iCol = Send(who,@GetCol);
       
-      % coords: [5,3],[7,5],[9,6],[10,4],[10,7],[11,8]
+      // coords: [5,3],[7,5],[9,6],[10,4],[10,7],[11,8]
       if (iRow = 10
             AND (iCol = 3
                OR iCol = 4
@@ -183,4 +183,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

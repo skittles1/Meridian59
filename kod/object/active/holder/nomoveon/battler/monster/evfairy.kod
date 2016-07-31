@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 EvilFairy is Monster
 
 constants:
@@ -57,7 +57,7 @@ classvars:
    viLevel = 60
    viDifficulty = 5
    viVisionDistance = 15
-   % Attack range of 192, or 3 row/col.
+   // Attack range of 192, or 3 row/col.
    viAttackRange = 192
    viDefault_behavior = \
       AI_MOVE_REGROUP | AI_FIGHT_MONSTERS | AI_FIGHT_KARMA_AGGRESSIVE
@@ -94,7 +94,7 @@ messages:
 
    MonsterAttack(what = $)
    {
-      % add in any attack animation calls
+      // add in any attack animation calls
       Send(self,@DoSlash);
       Send(poOwner,@SomethingShot,#who=self,#target=what,#projectile=self,
            #flags=PROJ_FLAG_LIGHT_SOURCE);
@@ -158,19 +158,19 @@ messages:
 
    GetProjectileLightFlags()
    {
-      % General lighting information.
+      // General lighting information.
       return LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC;
    }
 
    GetProjectileLightIntensity()
    {
-      % Fairly small light radius for projectile.  Out of 255 levels.
+      // Fairly small light radius for projectile.  Out of 255 levels.
       return 50;
    }
 
    GetProjectileLightColor()
    {
-      % Color is orange.
+      // Color is orange.
       return LIGHT_ORANGE;
    }
 
@@ -187,9 +187,9 @@ messages:
    SendLightingInformation()
    {
       AddPacket(2,(LIGHT_FLAG_ON | LIGHT_FLAG_DYNAMIC));
-      % Intensity (out of 255)
+      // Intensity (out of 255)
       AddPacket(1,30);
-      % Color
+      // Color
       AddPacket(2,LIGHT_BLUE);
 
       return;
@@ -201,4 +201,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

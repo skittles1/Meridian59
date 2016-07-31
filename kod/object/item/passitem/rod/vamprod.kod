@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+///////////////////////////////////////////////////////////////////////////////
 VampireWand is Rod
 
 constants:
@@ -52,7 +52,7 @@ messages:
    {
       local iKarma_change;
 
-      % User moves toward (-80) karma.
+      // User moves toward (-80) karma.
       iKarma_change=Send(poOwner,@CalculateKarmaChangeFromAct,#karma_act=-80,
          #karma_doer=Send(poOwner,@GetKarma),#swing_factor=10);
       Send(poOwner,@AddKarma,#amount=iKarma_Change);
@@ -62,7 +62,7 @@ messages:
 
    SomethingKilled(what = $, victim = $)
    {
-      % Gain a charge upon our owner killing a monster that has good karma.
+      // Gain a charge upon our owner killing a monster that has good karma.
       if what = poOwner
          AND IsClass(victim,&Monster)
          AND Send(self,@GetHits) < Send(self,@GetMaxHits)
@@ -77,9 +77,9 @@ messages:
 
    FullyRecharge()
    {
-      % Can only be charged by kills.
+      // Can only be charged by kills.
       return FALSE;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 JasperElderHut is JasperRoom
 
 constants:
@@ -50,7 +50,7 @@ CreateStandardObjects()
       Send(self,@NewHold,#what=Create(&JasperElder),
            #new_row=8,#new_col=13,#new_angle=ANGLE_SOUTH_WEST);
 
-%      % and some braziers
+//      // and some braziers
 
       Send(self,@NewHold,#what=Create(&Brazier),
            #new_row=10,#new_col=10);
@@ -73,7 +73,7 @@ CreateStandardObjects()
    {
       plExits = $;
 
-  %% TO TOWN
+  /// TO TOWN
       plExits = Cons([ 11, 5, RID_JASWEST, 32, 26, ROTATE_NONE ],plExits);
       plExits = Cons([ 12, 6, RID_JASWEST, 32, 26, ROTATE_NONE ],plExits);
 
@@ -81,4 +81,4 @@ CreateStandardObjects()
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

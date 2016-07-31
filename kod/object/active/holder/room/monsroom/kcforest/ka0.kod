@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 OutdoorsKA0 is KCForest
 
 constants:
@@ -16,10 +16,10 @@ constants:
 
    NUM_VENTS = 5
 
-   % How long is the shrine around?  10 minutes, in milliseconds.
+   // How long is the shrine around?  10 minutes, in milliseconds.
    PUZZLE_RESTART_TIME = 10*60*1000
 
-   % A small delay efore the next item is shown, in milliseconds.
+   // A small delay efore the next item is shown, in milliseconds.
    NEXT_ITEM_DELAY = 5000
 
 resources:
@@ -69,11 +69,11 @@ properties:
    poGhostitem = $
    poShrine = $
 
-   % Time the user has to get each item in one hour units.  Admin adjustable.
+   // Time the user has to get each item in one hour units.  Admin adjustable.
    piResetHours = 24
 
-   % Number of items users must bring.  the last is the hard item.
-   %  piSteps + 1 is the shrine.
+   // Number of items users must bring.  the last is the hard item.
+   //  piSteps + 1 is the shrine.
    piSteps = 5
 
    ptInitPuzzleTimer = $
@@ -224,7 +224,7 @@ messages:
 
    GetHardItemNeededClass()
    {
-      % List of really pain in the ass items.
+      // List of really pain in the ass items.
       local cItemNeeded;
 
       cItemNeeded = Nth(plHardVentItems,Random(1,length(plHardVentItems)));
@@ -236,7 +236,7 @@ messages:
    {
       if IsClass(what,&Item)
       {
-         % Have to post this to handle numberitems.
+         // Have to post this to handle numberitems.
          Post(self,@CheckItemPos,#what=what);
       }
 
@@ -250,8 +250,8 @@ messages:
       iRow = Send(what,@GetRow);
       iCol = Send(what,@GetCol);
 
-      % This can happen sometimes because it is posted. If we don't have
-      % a valid position for the item, return here.
+      // This can happen sometimes because it is posted. If we don't have
+      // a valid position for the item, return here.
       if iRow = $ OR iCol = $
       {
          return;
@@ -259,7 +259,7 @@ messages:
 
       if piItemNumber > piSteps
       {
-         % Shrine in Place
+         // Shrine in Place
          Send(SYS,@ShrineCheckItem,#ShrineObj=poShrine,#what=what,#Radius=2);
       }
       else
@@ -432,7 +432,7 @@ messages:
       Send(self,@DeleteObjects);
       Send(self,@DeleteTimers);
 
-      % Delete our shrine.
+      // Delete our shrine.
       if poShrine <> $
       {
          Send(poShrine,@Delete);
@@ -443,4 +443,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

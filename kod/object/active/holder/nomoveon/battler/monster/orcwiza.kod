@@ -1,13 +1,13 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
 OrcWizard is Monster
 
 constants:
@@ -67,7 +67,7 @@ classvars:
    viLevel = 80
    viDifficulty = 7
    viVisionDistance = 20
-   % Attack range of 192, or 3 row/col.
+   // Attack range of 192, or 3 row/col.
    viAttackRange = 192
    viKarma = -60
    viDefault_behavior = \
@@ -133,8 +133,8 @@ messages:
 
    SendMoveAnimation()
    {
-      % Make it look like orc is walking
-      % Cycle through "walking" bitmaps (groups 2-6) at 125 ms per frame
+      // Make it look like orc is walking
+      // Cycle through "walking" bitmaps (groups 2-6) at 125 ms per frame
       AddPacket(1,ANIMATE_CYCLE,4,125,2,FRAME_WALK_START,2,FRAME_WALK_END);
 
       return;
@@ -222,4 +222,4 @@ messages:
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////

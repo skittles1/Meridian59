@@ -1,4 +1,4 @@
-% Quest description.
+// Quest description.
 oreqt_icon_rsc = de ore.bgf
 oreqt_name_rsc = de "Schmied: Eisenerz Quest"
 oreqt_desc_rsc = de \
@@ -11,7 +11,7 @@ oreqt_deliver_rsc = de \
 oreqt_completed_rsc = de \
    "Du hast das Schmied Eisenerz Quest abgeschlossen."
 
-% Quest resources.
+// Quest resources.
 ore_assign_2 = de \
    "%NPC hat kein Erz mehr. Bringe dieses Erz zu ihm%HIMHER_NPC.  Es wäre unklug "
    "mich zu betrügen.  Diebstahl wird gemeldet und führt dazu das Du als "

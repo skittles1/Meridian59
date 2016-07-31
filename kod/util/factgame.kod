@@ -1,16 +1,16 @@
-% Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
-% All rights reserved.
-%
-% This software is distributed under a license that is described in
-% the LICENSE file that accompanies it.
-%
-% Meridian is a registered trademark.
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% This class is the base for the faction games, like the tokens and the
-% territory game.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
+// This class is the base for the faction games, like the tokens and the
+// territory game.
+////////////////////////////////////////////////////////////////////////////////
 FactionGame is UtilityFunctions
 
 constants:
@@ -23,33 +23,33 @@ classvars:
 
 properties:
 
-   piTotalPoints = 0    % Number of points the game contributes toward total
+   piTotalPoints = 0    // Number of points the game contributes toward total
 
 messages:
 
-   % Returns the total number of points the game contributes toward total.
+   // Returns the total number of points the game contributes toward total.
    GetTotalPoints()
    {
       return piTotalPoints;
    }
 
-   % Returns the number of points due to the faction.
+   // Returns the number of points due to the faction.
    GetPoints(faction=$)
    {
       return 0;
    }
 
-   % Are we deleting the game?  Used to see if items associated with the game are accidentally deleted.
+   // Are we deleting the game?  Used to see if items associated with the game are accidentally deleted.
    SetDeleting(value=$)
    {
       return;
    }
 
-   % Creates all NPCs specific to and needed for the game.
+   // Creates all NPCs specific to and needed for the game.
    RecreateNPCs()
    {
       return;
    }
 
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+////////////////////////////////////////////////////////////////////////////////
