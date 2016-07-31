@@ -1431,7 +1431,7 @@ messages:
       // Send warning every 12 Meridian days (2 real days),
       // and when we have 4 hours left.
       if (piDaysLeft <= 2)
-         OR ((piDaysLeft MOD 12) = 0)
+         OR ((piDaysLeft % 12) = 0)
       {
          Send(self,@SendExpiryWarningMail);
       }

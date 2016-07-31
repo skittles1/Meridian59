@@ -142,7 +142,7 @@ messages:
    {
       local iDuration;
 
-      iDuration = Compound MOD 10;
+      iDuration = Compound % 10;
       iDuration = iDuration * HOURS_LOGGED_ON_PER_DAY;
       iDuration = Abs(iDuration);  // We accept negative effects, but not durations
 
@@ -176,11 +176,11 @@ messages:
 
       if state < 0
       {
-         iState = -(state MOD 100);
+         iState = -(state % 100);
       }
       else
       {
-         iState = state MOD 100;
+         iState = state % 100;
       }
 
       Send(self,@EndEnchantment,#who=who,#state=iState,#report=report);

@@ -396,7 +396,7 @@ messages:
       if Xlat > 120 AND Xlat < 131
       {
          Xlat = Xlat - 121;
-         Xlat = Xlat MOD 3;
+         Xlat = Xlat % 3;
          if Xlat = 0
          {
             return XLAT_TO_SKIN4;
@@ -416,7 +416,7 @@ messages:
       }
 
       Xlat = Xlat - XLAT_BASE_VALUE;
-      Xlat = Xlat MOD 11;
+      Xlat = Xlat % 11;
 
       return Xlat;
    }
@@ -468,7 +468,7 @@ messages:
 
    DecodeSpellAbility(compound = 0)
    {
-      return Abs(compound) MOD 100;
+      return Abs(compound) % 100;
    }
 
    GetSpellCommands(plSpells = $)

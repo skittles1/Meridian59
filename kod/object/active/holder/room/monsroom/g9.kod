@@ -858,15 +858,15 @@ messages:
                }
 
                // toggle the position of the spire after it in the list.
-               i = Nth(plLeverEffects1,((FindListElem(plOuterLevers1,oLever) mod 4) + 1));
+               i = Nth(plLeverEffects1,((FindListElem(plOuterLevers1,oLever) % 4) + 1));
                Send(Nth(plOuterSpires,i),@Toggle,#toggleback=FALSE);
 
                // toggle the position of the spire before it in the list.
-               i = Nth(plLeverEffects1,(((FindListElem(plOuterLevers1,oLever) - 2) mod 4) + 1));
+               i = Nth(plLeverEffects1,(((FindListElem(plOuterLevers1,oLever) - 2) % 4) + 1));
                Send(Nth(plOuterSpires,i),@Toggle,#toggleback=FALSE);
 
                // toggle the position of the spire before that in the list.
-               i = Nth(plLeverEffects1,(((FindListElem(plOuterLevers1,oLever) - 3) mod 4) + 1));
+               i = Nth(plLeverEffects1,(((FindListElem(plOuterLevers1,oLever) - 3) % 4) + 1));
                Send(Nth(plOuterSpires,i),@Toggle,#toggleback=FALSE);
 
                Send(self,@Touched);
@@ -882,7 +882,7 @@ messages:
                Send(Nth(plOuterSpires,i),@Toggle,#toggleback=FALSE);
 
                i = Nth(plLeverEffects1,
-                       ((Nth(plLeverEffects2,FindListElem(plOuterLevers2,oLever)) mod 4) + 1));
+                       ((Nth(plLeverEffects2,FindListElem(plOuterLevers2,oLever)) % 4) + 1));
                Send(Nth(plOuterSpires,i),@Toggle,#toggleback=FALSE);
 
                Send(self,@Touched);

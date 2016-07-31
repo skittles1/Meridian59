@@ -1377,7 +1377,7 @@ messages:
       }
 
       // Take 1 because NewGameHour will increment hour.
-      piHour = (iNum - 1) MOD 24;
+      piHour = (iNum - 1) % 24;
       Send(self,@NewGameHour);
 
       return;
@@ -1385,7 +1385,7 @@ messages:
 
    NewGameHour()
    {
-      piHour = (piHour + 1) MOD 24;
+      piHour = (piHour + 1) % 24;
 
       // Tell GameEventEngine object we have a new hour.
       Send(EVENTENGINE_OBJECT,@NewGameHour);
@@ -3969,7 +3969,7 @@ messages:
 
    GetSeason()
    {
-      return piYear MOD 4;
+      return piYear % 4;
    }
 
    CreateLightAndWeather()
@@ -3992,10 +3992,10 @@ messages:
 
       iTime = GetTime() - 5*HOUR;
 
-      iDay = (iTime/(24*HOUR)) mod 365;
+      iDay = (iTime/(24*HOUR)) % 365;
 
       // Our day is 2 hours long now, so get minutes into the four hours
-      iMinutes = (iTime mod (2*HOUR))/60;
+      iMinutes = (iTime % (2*HOUR))/60;
 
       // That number ranges from 0 to 119, so div by 5 is our game hour
       piHour = iMinutes/5;
@@ -4090,7 +4090,7 @@ messages:
       }
 
       // shift hour so doesn't get light /dark until later
-      iLight_hour = (piHour - 2) MOD 24;
+      iLight_hour = (piHour - 2) % 24;
 
       if iLight_hour <= 12
       {
@@ -4126,7 +4126,7 @@ messages:
 
    NewGameDay()
    {
-      piDay = (piDay + 1) MOD 240;
+      piDay = (piDay + 1) % 240;
 
       // Tell GameEventEngine object we have a new day.
       Send(EVENTENGINE_OBJECT,@NewGameDay);
@@ -6587,10 +6587,10 @@ messages:
       AppendTempString(number);
 
       // The teens
-      n = (number mod 100) / 10;
+      n = (number % 100) / 10;
       if (n = 1)  { AppendTempString(system_ordinal_general); return; }
 
-      m = (number mod 10);
+      m = (number % 10);
       if (m = 1) { AppendTempString(system_ordinal_ones); return; }
       if (m = 2) { AppendTempString(system_ordinal_twos); return; }
       if (m = 3) { AppendTempString(system_ordinal_threes); return; }

@@ -692,7 +692,7 @@ messages:
       if piHunger > HUNGER_4
       {
          // Start doing mild damage.
-         if (piFineHunger MOD 5) = 0
+         if (piFineHunger % 5) = 0
          {
             Send(poOwner,@MsgSendUser,#message_rsc=necamulet_hunger_4);
          }
@@ -716,7 +716,7 @@ messages:
 
       if piHunger > HUNGER_3
       {
-         if (piFineHunger MOD 15) = 0
+         if (piFineHunger % 15) = 0
          {
             Send(poOwner,@MsgSendUser,#message_rsc=necamulet_hunger_3);
          }
@@ -726,7 +726,7 @@ messages:
 
       if piHunger > HUNGER_2
       {
-         if (piFineHunger MOD 30) = 0
+         if (piFineHunger % 30) = 0
          {
             Send(poOwner,@MsgSendUser,#message_rsc=necamulet_hunger_2);
          }

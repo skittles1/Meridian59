@@ -328,7 +328,7 @@ messages:
 
       iHour = Send(SYS,@GetHour);
 
-      iGroup = 1 + (iHour MOD 12);
+      iGroup = 1 + (iHour % 12);
 
       Send(self,@AnimateWall,#wall=CLOCK_FACE,#animation=ANIMATE_NONE,
             #first_group=iGroup);

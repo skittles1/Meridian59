@@ -1803,26 +1803,26 @@ messages:
       if iNew_finerow >= FINENESS
       {
          iNew_row = piRow + (iNew_finerow / FINENESS);
-         iNew_finerow = iNew_finerow MOD FINENESS;
+         iNew_finerow = iNew_finerow % FINENESS;
       }
       else if iNew_finerow < 0
       {
          // moved up at least a full row
          iNew_row = piRow - bound((-iNew_finerow / FINENESS), 1, 100);
-         iNew_finerow = FINENESS - (-iNew_finerow MOD FINENESS);
+         iNew_finerow = FINENESS - (-iNew_finerow % FINENESS);
       }
      
       // moved right at least a full col 
       if iNew_finecol >= FINENESS
       {
          iNew_col = piCol + (iNew_finecol / FINENESS);
-         iNew_finecol = iNew_finecol MOD FINENESS;
+         iNew_finecol = iNew_finecol % FINENESS;
       }
       else if iNew_finecol < 0
       {
          // moved left at least a full row
          iNew_col = piCol - bound((-iNew_finecol / FINENESS), 1, 100);
-         iNew_finecol = FINENESS - (-iNew_finecol MOD FINENESS);
+         iNew_finecol = FINENESS - (-iNew_finecol % FINENESS);
       }
 
       if (NOT (piBehavior & AI_MOVE_WALKTHROUGH_WALLS))
@@ -2541,8 +2541,8 @@ messages:
       return Send(self, @MoveTowardsCoords,
                    #iRow=(piRow + (drow / FINENESS)),
                    #iCol=(piCol + (dcol / FINENESS)),
-                   #iFineRow=(piFine_row + (drow MOD FINENESS)),
-                   #iFineCol=(piFine_col + (dcol MOD FINENESS)),
+                   #iFineRow=(piFine_row + (drow % FINENESS)),
+                   #iFineCol=(piFine_col + (dcol % FINENESS)),
                    #face_target=face_target,
                    #face_away=face_away);
    }
@@ -3421,7 +3421,7 @@ messages:
       }
 
       // Damp out mood swings every 4 Meridian hours
-      if (iHour mod 4 = 0) OR test
+      if (iHour % 4 = 0) OR test
       {
          // if in [-5, 5] do nothing
          if piMood >= -5 AND piMood <= 5
@@ -5514,7 +5514,7 @@ messages:
       // Of we're below here, then the 1's column stores the reason, and the
       //  10s and 100s stores by how much.
       
-      iReason = iVal mod 10;
+      iReason = iVal % 10;
       iAmount = iVal/10;     
       rAmount = Send(self,@LearnHowMuchFurther,#iAmount = iAmount);
       

@@ -72,7 +72,7 @@ messages:
    GetXPBonusFromCompound(iCompound=0)
    {
       // Ranges from 1 * bonus to 10 * bonus.
-      return ((iCompound / 10) MOD 10) * viDefault_bonus + viDefault_bonus;
+      return ((iCompound / 10) % 10) * viDefault_bonus + viDefault_bonus;
    }
 
    AppendDesc(oItem =$)

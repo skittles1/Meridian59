@@ -196,9 +196,9 @@ messages:
 
       // iTime is in seconds.
       iDays = iTime / DAY;
-      iHours = (iTime MOD DAY) / HOUR;
-      iMinutes = (iTime MOD HOUR) / MINUTE;
-      iSeconds = iTime MOD MINUTE;
+      iHours = (iTime % DAY) / HOUR;
+      iMinutes = (iTime % HOUR) / MINUTE;
+      iSeconds = iTime % MINUTE;
 
       if iTime > 0
       {

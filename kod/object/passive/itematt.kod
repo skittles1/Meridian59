@@ -484,7 +484,7 @@ messages:
       /// power is the tens column.
 
       iPower = iCompound / 10;
-      iPower = iPower MOD 10;
+      iPower = iPower % 10;
 
       return iPower;
    }

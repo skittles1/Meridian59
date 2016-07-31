@@ -66,7 +66,7 @@ messages:
 
       if (piHour / 12) > 0
       {
-         iHour = piHour mod 12;
+         iHour = piHour % 12;
          rAMPM = EventSign_PM;
       }
       else

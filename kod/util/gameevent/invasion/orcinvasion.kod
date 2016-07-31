@@ -379,7 +379,7 @@ messages:
       iGenCol = Nth(First(Nth(First(plCurrentBattlePlan),2)),2);
 
       //Send(self,@PhaseTwo);
-      if (piTicks MOD piInvaderGenTime = 0)
+      if (piTicks % piInvaderGenTime = 0)
       {
          //currently spawning from first room only
          oRoom = First(plEventRooms);

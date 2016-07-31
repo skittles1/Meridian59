@@ -112,7 +112,7 @@ messages:
 
       // First, extract the spellpower from the state
       iCombined = First(state);
-      iPower = iCombined MOD 100;
+      iPower = iCombined % 100;
       iCombined = iCombined - iPower;
 
       // Ranges from 7 to 17 seconds

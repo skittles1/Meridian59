@@ -406,8 +406,8 @@ messages:
          }
          else
          {
-            if (piThreePersonWarning MOD 40) = 0
-               OR ((piThreePersonWarning MOD 10) = 0
+            if (piThreePersonWarning % 40) = 0
+               OR ((piThreePersonWarning % 10) = 0
                   AND piThreePersonWarning < 40)
             {
                if piThreePersonWarning = 10
@@ -514,9 +514,9 @@ messages:
       }
 
       if piRentCounter > 0
-         AND ((piRentCounter MOD 40) = 0
+         AND ((piRentCounter % 40) = 0
             OR (piRentCounter < 40
-               AND piRentCounter MOD 10 = 0))
+               AND piRentCounter % 10 = 0))
       {
          hourhours = necguild_hours_rsc;
          if piRentCounter = 10

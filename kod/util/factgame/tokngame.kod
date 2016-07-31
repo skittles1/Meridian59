@@ -337,7 +337,7 @@ messages:
          if Nth(i,2) = mycouncilor
          {
             bump = Send(mycouncilor,@GetStateBump);
-            state = Nth(i,3) MOD 100;
+            state = Nth(i,3) % 100;
             fact = Nth(i,3) / 100;
 
             if NOT scandal
@@ -553,7 +553,7 @@ messages:
          }
 
          if Random(1,Bound(piScandalFactor,100,500))
-               <= ((piScandalChance * (Nth(i,3)) MOD 100))
+               <= ((piScandalChance * (Nth(i,3)) % 100))
          {
             temp = TRUE;
             Send(self,@DoScandal,#mob=Nth(i,2));
@@ -917,7 +917,7 @@ messages:
       i = Nth(plSenate,num);
       con = Nth(i,2);
       faction = Nth(i,3) / 100;
-      power = Nth(i,3) MOD 100;
+      power = Nth(i,3) % 100;
 
       // We want to eventually have the mob say something about the councilor
       if faction = FACTION_NEUTRAL

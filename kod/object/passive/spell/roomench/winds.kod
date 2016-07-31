@@ -71,7 +71,7 @@ messages:
 
    GetSpellPowerFromState(state=$)
    {
-      return First(state) MOD 100;
+      return First(state) % 100;
    }
 
    CastSpell(who = $, iSpellPower = 0)
@@ -188,7 +188,7 @@ messages:
          return FALSE;
       }
 
-      iSpellPower = First(state) MOD 100;
+      iSpellPower = First(state) % 100;
 
       iMissChance = iSpellpower / 2 + 10;
       iMissChance = Bound(iMissChance,25,60);

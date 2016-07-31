@@ -74,9 +74,9 @@ messages:
    GetManaBonus(state=0)
    {
       if state < 0
-      {  return -(state mod 100); }
+      {  return -(state % 100); }
 
-      return (state mod 100);
+      return (state % 100);
    }
 
 end

@@ -1843,7 +1843,7 @@ messages:
 
       // If compound is odd, it is IDed. If even, it is not.
 
-      if (compound mod 2) = 1
+      if (compound % 2) = 1
       {
          return TRUE;
       }

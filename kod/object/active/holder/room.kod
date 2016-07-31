@@ -2663,7 +2663,7 @@ messages:
 
       if (new_angle >= MAX_ANGLE)
       {
-         new_angle = new_angle MOD MAX_ANGLE;
+         new_angle = new_angle % MAX_ANGLE;
       }
 
       // if we propagated here, it should work but be inefficient.
@@ -3261,7 +3261,7 @@ messages:
       }
 
       // Make sure we don't go over max.
-      iAngle = iAngle mod MAX_ANGLE;
+      iAngle = iAngle % MAX_ANGLE;
 
       return iAngle;
    }

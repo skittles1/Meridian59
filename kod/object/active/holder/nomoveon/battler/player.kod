@@ -891,7 +891,7 @@ properties:
 
    // A compound of if the player can advance and the WC proficiency needed
    // to use the weapon. The proficiency number is the number / 1000, while
-   // the bonus to advance is the number mod 1000.
+   // the bonus to advance is the number % 1000.
    piWeaponInfo = 0
 
    // converted guild commands list to a bitvector.
@@ -5768,13 +5768,13 @@ messages:
          iProfNum = SKID_BRAWLING;
       }
 
-      if iProfNum <> (piWeaponInfo MOD 1000)
+      if iProfNum <> (piWeaponInfo % 1000)
       {
          Send(self,@ResetWeaponSwings,#prof=iProfNum);
       }
 
       piWeaponSwings = piWeaponSwings + times;
-      if (piWeaponSwings MOD Send(SETTINGS_OBJECT,
+      if (piWeaponSwings % Send(SETTINGS_OBJECT,
                                  @GetSwingsPerImproveCheck)) = 0
       {
          // Increase this number. Allows us to advance, and
@@ -5797,7 +5797,7 @@ messages:
       }
       else
       {
-         iProf = piWeaponInfo mod 1000;
+         iProf = piWeaponInfo % 1000;
       }
 
       piWeaponSwings = 0;
@@ -7759,7 +7759,7 @@ messages:
 
    DecodeSpellAbility(compound = 0)
    {
-      return Abs(compound) MOD 100;
+      return Abs(compound) % 100;
    }
 
    GetSpellAbility(spell_num = 0)
@@ -7770,7 +7770,7 @@ messages:
       {
          if Abs(i) / 100 = spell_num
          {
-            return Abs(i) MOD 100;
+            return Abs(i) % 100;
          }
       }
 
@@ -8305,7 +8305,7 @@ messages:
 
    DecodeSkillAbility(compound = 0)
    {
-      return Abs(compound) MOD 100;
+      return Abs(compound) % 100;
    }
 
    GetSkillAbility(Skill_num = 0, absolute=FALSE)
@@ -8316,7 +8316,7 @@ messages:
       {
          if Abs(i) / 100 = Skill_num
          {
-            return Abs(i) MOD 100;
+            return Abs(i) % 100;
          }
       }
 
@@ -8982,7 +8982,7 @@ messages:
                piInform = FALSE;
             }
          }
-         else if piTraining_points MOD 100 = 0
+         else if piTraining_points % 100 = 0
                AND piTraining_points <> 0
                AND piInform
          {
@@ -13196,7 +13196,7 @@ messages:
          sid = abs(i/100);
          oSpell = Send(SYS,@FindSpellByNum,#num=sid);
          if IsClass(oSpell,&Spell) AND Send(oSpell,@GetLevel) = 5
-            AND (i mod 100) >= INTRIGUE_ENABLE_SPELL
+            AND (i % 100) >= INTRIGUE_ENABLE_SPELL
          {
             return TRUE;
          }

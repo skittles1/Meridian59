@@ -720,7 +720,7 @@ messages:
 
       // Split list into two halves, might be too big.
       iLength = Length(lList);
-      if iLength MOD 2 = 1
+      if iLength % 2 = 1
       {
          iCount = 2;
          l1 = Cons(First(lList),l1);

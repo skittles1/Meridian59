@@ -51,7 +51,7 @@ messages:
       iDay = Send(SYS,@GetDay);
 
       // east = 0, west = 2048
-      piAngle = ((iHour + 19) MOD 24) * 130;
+      piAngle = ((iHour + 19) % 24) * 130;
 
       piHeight = 420 - 7 * (iHour - 13) * (iHour - 13);
       if piHeight < -200

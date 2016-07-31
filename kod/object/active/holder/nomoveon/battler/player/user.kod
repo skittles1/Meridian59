@@ -1329,7 +1329,7 @@ messages:
       if (iNumPoints <= 0)
       {
          iNumPoints = (Length(plSpells) * iPenCount) / iEquivDeath;
-         if Random(1,(iEquivDeath - 1)) < (iPenCount MOD iEquivDeath)
+         if Random(1,(iEquivDeath - 1)) < (iPenCount % iEquivDeath)
          {
             ++iNumPoints;
          }
@@ -1397,7 +1397,7 @@ messages:
       if (iNumPoints <= 0)
       {
          iNumPoints = (Length(plSkills) * iPenCount) / iEquivDeath;
-         if Random(1,(iEquivDeath - 1)) < (iPenCount MOD iEquivDeath)
+         if Random(1,(iEquivDeath - 1)) < (iPenCount % iEquivDeath)
          {
             ++iNumPoints;
          }
@@ -1601,7 +1601,7 @@ messages:
          }
 
          Send(self,@UserMove,#new_row=iRow/FINENESS,#new_col=iCol/FINENESS,
-              #fine_row=(iRow mod FINENESS),#fine_col=(iCol mod FINENESS),
+              #fine_row=(iRow % FINENESS),#fine_col=(iCol % FINENESS),
               #speed=iSpeed);
 
          return;
@@ -2130,7 +2130,7 @@ messages:
       ClearTempString();
       AppendTempString("Suicide");
       AppendTempString(GetTime());
-      AppendTempString(GetTickCount() MOD 1000);
+      AppendTempString(GetTickCount() % 1000);
       sName = SetString($,GetTempString());
       Debug("Character",Send(self,@GetTrueName),self,"was suicided.");
       Send(SYS,@ChangeUserName,#oUser=self,#sName=sName);

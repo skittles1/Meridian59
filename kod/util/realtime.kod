@@ -597,10 +597,10 @@ messages:
 
       if (Send(self,@IsLeapYear,#year=Send(self,@GetYear)))
       {
-         return (iTime / DAY MOD 366) + OFFSET_DAY;
+         return (iTime / DAY % 366) + OFFSET_DAY;
       }
 
-      return (iTime / DAY MOD 365) + OFFSET_DAY;
+      return (iTime / DAY % 365) + OFFSET_DAY;
    }
 
    GetMonth()
@@ -675,7 +675,7 @@ messages:
       local iTime, iHour;
 
       iTime = GetTime() - piTimeZoneOffset;
-      iHour = (iTime MOD 86400) / 3600;
+      iHour = (iTime % 86400) / 3600;
 
       if (iHour < 0)
       {
@@ -690,21 +690,21 @@ messages:
       local iTime, iMinute;
 
       iTime = GetTime() - piTimeZoneOffset;
-      iMinute = (iTime MOD 3600) / 60;
+      iMinute = (iTime % 3600) / 60;
 
       return iMinute;
    }
 
    GetSecond()
    {
-      return GetTime() MOD 60;
+      return GetTime() % 60;
    }
 
    IsLeapYear(iYear=1901)
    {
-      if (iYear MOD 4 = 0
-            AND iYear MOD 100 <> 0)
-         OR iYear MOD 400 = 0
+      if (iYear % 4 = 0
+            AND iYear % 100 <> 0)
+         OR iYear % 400 = 0
       {
          return TRUE;
       }
