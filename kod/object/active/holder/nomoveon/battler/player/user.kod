@@ -1107,7 +1107,7 @@ messages:
          ++iAmount;
       }
 
-      piLogoffPenaltyCount = piLogoffPenaltyCount + iAmount;
+      piLogoffPenaltyCount += iAmount;
 
       return;
    }
@@ -1250,14 +1250,14 @@ messages:
          // Add two items for murderers.
          if (piFlags & PFLAG_MURDERER)
          {
-            iNumDrop = iNumDrop + 2;
+            iNumDrop += 2;
          }
 
       }
       else if (piFlags & PFLAG_MURDERER)
       {
          // Double item drop on flat pens for murderers.
-         iNumDrop = iNumDrop * 2;
+         iNumDrop *= 2;
       }
 
       // Need to drop more items than we have.
@@ -1376,7 +1376,7 @@ messages:
 
          iSpellNum = Send(self,@DecodeSpellNum,#compound=Nth(plSpells,i));
          Send(self,@ChangeSpellAbility,#spell_num=iSpellNum,#amount=iLossAmount);
-         iPointsLost = iPointsLost - iLossAmount;
+         iPointsLost -= iLossAmount;
       }
 
       return iPointsLost;
@@ -1444,7 +1444,7 @@ messages:
 
          iSkillNum = Send(self,@DecodeSkillNum,#compound=Nth(plSkills,i));
          Send(self,@ChangeSkillAbility,#skill_num=iSkillNum,#amount=iLossAmount);
-         iPointsLost = iPointsLost - iLossAmount;
+         iPointsLost -= iLossAmount;
       }
 
       return iPointsLost;
@@ -1555,8 +1555,7 @@ messages:
       }
       else
       {
-         piPacketsPerSecond = piPacketsPerSecond + 1;
-         if piPacketsPerSecond > INCOMING_PACKET_THROTTLE
+         if ++piPacketsPerSecond > INCOMING_PACKET_THROTTLE
             AND NOT Send(self,@PlayerIsImmortal)
          {
             piFloodCount++;
@@ -2226,11 +2225,11 @@ messages:
       {
          if value
          {
-            piPreferences = piPreferences | CF_TEMPSAFE;
+            piPreferences |= CF_TEMPSAFE;
          }
          else
          {
-            piPreferences = piPreferences & ~CF_TEMPSAFE;
+            piPreferences &= ~CF_TEMPSAFE;
          }
          Send(self,@MsgSendUser,#message_rsc=user_temp_safe_invalid);
 
@@ -2239,12 +2238,12 @@ messages:
 
       if value
       {
-         piPreferences = piPreferences | CF_TEMPSAFE;
+         piPreferences |= CF_TEMPSAFE;
          Send(self,@MsgSendUser,#message_rsc=user_temp_safe_on);
       }
       else
       {
-         piPreferences = piPreferences & ~CF_TEMPSAFE;
+         piPreferences &= ~CF_TEMPSAFE;
          Send(self,@MsgSendUser,#message_rsc=user_temp_safe_off);
       }
 
@@ -2255,12 +2254,12 @@ messages:
    {
       if value
       {
-         piPreferences = piPreferences | CF_GROUPING;
+         piPreferences |= CF_GROUPING;
          Send(self,@MsgSendUser,#message_rsc=user_grouping_on);
       }
       else
       {
-         piPreferences = piPreferences & ~CF_GROUPING;
+         piPreferences &= ~CF_GROUPING;
          Send(self,@MsgSendUser,#message_rsc=user_grouping_off);
       }
 
@@ -2271,12 +2270,12 @@ messages:
    {
       if value
       {
-         piPreferences = piPreferences | CF_AUTOLOOT;
+         piPreferences |= CF_AUTOLOOT;
          Send(self,@MsgSendUser,#message_rsc=user_autoloot_on);
       }
       else
       {
-         piPreferences = piPreferences & ~CF_AUTOLOOT;
+         piPreferences &= ~CF_AUTOLOOT;
          Send(self,@MsgSendUser,#message_rsc=user_autoloot_off);
       }
 
@@ -2287,12 +2286,12 @@ messages:
    {
       if value
       {
-         piPreferences = piPreferences | CF_AUTOCOMBINE;
+         piPreferences |= CF_AUTOCOMBINE;
          Send(self,@MsgSendUser,#message_rsc=user_autocombine_on);
       }
       else
       {
-         piPreferences = piPreferences & ~CF_AUTOCOMBINE;
+         piPreferences &= ~CF_AUTOCOMBINE;
          Send(self,@MsgSendUser,#message_rsc=user_autocombine_off);
       }
 
@@ -2303,12 +2302,12 @@ messages:
    {
       if value
       {
-         piPreferences = piPreferences | CF_REAGENTBAG;
+         piPreferences |= CF_REAGENTBAG;
          Send(self,@MsgSendUser,#message_rsc=user_reagentbag_on);
       }
       else
       {
-         piPreferences = piPreferences & ~CF_REAGENTBAG;
+         piPreferences &= ~CF_REAGENTBAG;
          Send(self,@MsgSendUser,#message_rsc=user_reagentbag_off);
       }
 
@@ -2319,12 +2318,12 @@ messages:
    {
       if value
       {
-         piPreferences = piPreferences | CF_SPELLPOWER;
+         piPreferences |= CF_SPELLPOWER;
          Send(self,@MsgSendUser,#message_rsc=user_spellpower_on);
       }
       else
       {
-         piPreferences = piPreferences & ~CF_SPELLPOWER;
+         piPreferences &= ~CF_SPELLPOWER;
          Send(self,@MsgSendUser,#message_rsc=user_spellpower_off);
       }
 
@@ -3241,11 +3240,11 @@ messages:
             // Standard player blue dot.
             if Send(what,@CheckPlayerFlag,#flag=PFLAG_TEMPSAFE)
             {
-               iFlags = iFlags | MM_TEMPSAFE;
+               iFlags |= MM_TEMPSAFE;
             }
             else
             {
-               iFlags = iFlags | MM_PLAYER;
+               iFlags |= MM_PLAYER;
             }
 
             oOtherGuild = Send(what,@GetGuild);
@@ -3323,7 +3322,7 @@ messages:
       }
 
       // Not a monster or a player. Ask the object what flags it has.
-      iFlags = iFlags | Send(what,@GetMinimapDotFlags);
+      iFlags |= Send(what,@GetMinimapDotFlags);
 
       return iFlags;
    }
@@ -3600,7 +3599,7 @@ messages:
          foreach i in plSpells
          {
             Send(self,@SendStatSpell,#index=iCount);
-            iCount = iCount + 1;
+            ++iCount;
          }
 
          SendPacket(poSession);
@@ -3615,7 +3614,7 @@ messages:
          foreach i in plSkills
          {
             Send(self,@SendStatSkill,#index=iCount);
-            iCount = iCount + 1;
+            ++iCount;
          }
 
          SendPacket(poSession);
@@ -3648,7 +3647,7 @@ messages:
          }
 
          // Increment count past any active quests.
-         iCount = iCount + 1;
+         ++iCount;
          // Send completed quests.
          if plQuestHistory <> $
          {
@@ -3696,7 +3695,7 @@ messages:
 
             if Send(oQObj,@ShowCompletedQuest,#who=self,#lHistory=i)
             {
-               iCount = iCount + 1;
+               ++iCount;
             }
          }
       }
@@ -3729,7 +3728,7 @@ messages:
          // List index, quest name, statistic type, quest object, value (//), icon.
          AddPacket(1,iCount, 4,rQuestName, 1,STAT_LIST,
                    4,oQObj, 4,iQTemplate, 4,Send(oQObj,@GetIcon));
-         iCount = iCount + 1;
+         ++iCount;
       }
 
       // Need to return the current count.
@@ -3772,7 +3771,7 @@ messages:
          // List index, quest name, statistic type, quest object, value (//), icon.
          AddPacket(1,iCount, 4,rQuestName, 1,STAT_LIST,
                    4,oQObj, 4,iQTemplate, 4,Send(oQObj,@GetIcon));
-         iCount = iCount + 1;
+         ++iCount;
       }
 
       // Don't currently use the returned count, but we might one day.
@@ -3802,7 +3801,7 @@ messages:
       num_schools = 6;
       if viDM
       {
-         num_schools = num_schools + 1;
+         ++num_schools;
       }
 
       AddPacket(1,num_schools);
@@ -4032,7 +4031,7 @@ messages:
       // 4.2 Fill up the movement bucket with tokens
       //   for the squared distance one could have travelled at maximum.
       //
-      piMovementBucket = piMovementBucket + iMaxMoveRun;
+      piMovementBucket += iMaxMoveRun;
 
       //
       // 4.3 Bound the maximum bucketsize
@@ -4050,8 +4049,8 @@ messages:
       // 4.5 Scale them up a bit further for precision later
       // We did the same with iMaxMoveRun in 4.1
       //
-      iDy = iDy * 16;
-      iDx = iDx * 16;
+      iDy *= 16;
+      iDx *= 16;
 
       //
       // 4.6 Get squared move-vector length.
@@ -4089,7 +4088,7 @@ messages:
          // Make a log entry
          if piCheaterLogs < MAX_LOGGED_THRESHOLD
          {
-            piCheaterLogs = piCheaterLogs + 1;
+            ++piCheaterLogs;
             Debug("ALERT!",Send(self,@GetTrueName),self,"was moving too fast");
          }
 
@@ -4109,7 +4108,7 @@ messages:
          // Make a log entry
          if piCheaterLogs < MAX_LOGGED_THRESHOLD
          {
-            piCheaterLogs = piCheaterLogs + 1;
+            ++piCheaterLogs;
             Debug("ALERT! ",Send(self,@GetTrueName),self,
                   " had transmitted speed changed from ",speed, "to ",
                   USER_RUNNING_SPEED);
@@ -4136,7 +4135,7 @@ messages:
             // Make a log entry
             if piCheaterLogs < MAX_LOGGED_THRESHOLD
             {
-               piCheaterLogs = piCheaterLogs + 1;
+               ++piCheaterLogs;
                Debug("ALERT!",Send(self,@GetTrueName),self,"was running with "
                      "no vigor.");
             }
@@ -4193,8 +4192,8 @@ messages:
          // Reduce speed value to old value, 5/6ths current value, then
          // square it.
          iExertion = (speed * 3)/5;
-         iExertion = iExertion * iExertion;
-         iExertion = EXERTION_PER_MOVE * iExertion;
+         iExertion *= iExertion;
+         iExertion *= EXERTION_PER_MOVE;
 
          if (piFlags2 & PFLAG2_HASTED)
          {
@@ -4226,7 +4225,7 @@ messages:
       // and subtract the move tokens we have consumed.
       //
       piLastMoveUpdateTime = iCurrentTime;
-      piMovementBucket = piMovementBucket - iMoveLength;
+      piMovementBucket -= iMoveLength;
       //Debug("Bucket after:",piMovementBucket);
 
       //
@@ -5406,8 +5405,7 @@ messages:
       {
          if stringContain(string,"~r~B~g~r")
          {
-            piCheaterLogs = piCheaterLogs + 1;
-            if piCheaterLogs < 10
+            if ++piCheaterLogs < 10
             {
                if StringContain(string,"More than 20 bad bio characters.")
                {
@@ -5416,7 +5414,7 @@ messages:
                }
                else
                {
-                  piCheaterLogs = piCheaterLogs + 1;
+                  ++piCheaterLogs;
                   Debug("ALERT! ",Send(self,@GetTrueName),self," used more "
                         "than 50 bad chars in their bio.");
                }
@@ -5903,13 +5901,13 @@ messages:
          oOwner = Send(what,@GetOwner);
          if Send(what,@HasInscription)
          {
-            byInscription = byInscription | 0x02;
+            byInscription |= 0x02;
          }
 
          if Send(what,@CanEditInscription)
             AND (oOwner = self OR oOwner = poOwner)
          {
-            byInscription = byInscription | 0x01;
+            byInscription |= 0x01;
          }
 
          AddPacket(1, byInscription);
@@ -6114,8 +6112,7 @@ messages:
          while StringContain(psPlayerDescription,"¶")
          {
             StringSubstitute(psPlayerDescription,"¶","");
-            iCount = iCount + 1;
-            if iCount > 10
+            if ++iCount > 10
             {
                // At this point, it's malicious.
                Debug("ALERT! ",Send(self,@GetTrueName)," is trying to crash "
@@ -6271,13 +6268,13 @@ messages:
             while j <= Length(lMail_strings)
             {
                AddPacket(Nth(lMail_strings,j),Nth(lMail_strings,j+1));
-               j = j + 2;
+               j += 2;
             }
 
          }
 
          SendPacket(poSession);
-         i = i + 1;
+         ++i;
       }
 
       return;
@@ -7242,8 +7239,8 @@ messages:
             }
          }
 
-         iWeight = iWeight + Send(i,@GetWeight);
-         iBulk = iBulk + Send(i,@GetBulk);
+         iWeight += Send(i,@GetWeight);
+         iBulk += Send(i,@GetBulk);
       }
 
       // Can they carry the items?
@@ -7362,7 +7359,7 @@ messages:
             }
          }
 
-         iLists = iLists + 1;
+         ++iLists;
       }
 
       poOffer_who = $;
@@ -7419,7 +7416,7 @@ messages:
             }
          }
 
-         iLists = iLists + 1;
+         ++iLists;
       }
 
       poOffer_who = $;
@@ -7545,7 +7542,7 @@ messages:
          {
             if Send(i,@GetPurchaseValue,#who=self) <> -1
             {
-               iAvailable = iAvailable + 1;
+               ++iAvailable;
             }
          }
 
@@ -7690,7 +7687,7 @@ messages:
             return;
          }
 
-         piNumberOfNewsPosts = piNumberOfNewsPosts + 1;
+         ++piNumberOfNewsPosts;
       }
       else
       {
@@ -7751,12 +7748,12 @@ messages:
             AddPacket(4,First(article), 4,Nth(article,3),
                       STRING_RESOURCE,Send(Nth(article,2),@GetTrueName),
                       0,Nth(article,4));
-            count = count + 1;
+            ++count;
             message = Rest(message);
          }
 
          SendPacket(poSession);
-         part = part + 1;
+         ++part;
       }
 
       return;
@@ -9108,7 +9105,7 @@ messages:
             AddPacket(1,BP_STAT,1,2);
             Send(self,@SendStatResistances,#num=i,#lCurrentResistances=lCurrentResistances);
             SendPacket(poSession);
-            i = i + 1;
+            ++i;
          }
          
          return;
@@ -9756,20 +9753,20 @@ messages:
       if (piFlags & PFLAG_INVISIBLE)
       {
          // invisibility overrides any other drawfx
-         iFlags = iFlags & (~DRAWFX_MASK);
-         iFlags = iFlags | DRAWFX_INVISIBLE;
+         iFlags &= (~DRAWFX_MASK);
+         iFlags |= DRAWFX_INVISIBLE;
       }
 
       if (piFlags & PFLAG_PHASED)
       {
-         iFlags = iFlags & ~DRAWFX_MASK;
-         iFlags = iFlags | DRAWFX_DITHERINVIS;
+         iFlags &= ~DRAWFX_MASK;
+         iFlags |= DRAWFX_DITHERINVIS;
       }
 
       if (piFlags & PFLAG_SPECTATOR)
       {
-         iFlags = iFlags & ~DRAWFX_MASK;
-         iFlags = iFlags | DRAWFX_DITHERGREY;
+         iFlags &= ~DRAWFX_MASK;
+         iFlags |= DRAWFX_DITHERGREY;
       }
 
       return iFlags;
@@ -9793,13 +9790,13 @@ messages:
       
       if Send(self,@IsInCannotInteractMode)
       {
-         iFlags = iFlags | OF_NOEXAMINE;
+         iFlags |= OF_NOEXAMINE;
          iFlags = (iFlags & ~OF_ATTACKABLE & ~OF_OFFERABLE
                           & ~OF_PLAYER & ~OF_DISPLAY_NAME);
       }
 
       // Get the flashing/flickering/phasing/bouncing flags.
-      iFlags = iFlags | piDrawEffectFlag;
+      iFlags |= piDrawEffectFlag;
 
       return iFlags;
    }
@@ -9814,12 +9811,12 @@ messages:
       iDrawfX = Send(self,@GetDrawingEffects);
       if (iDrawFX & DRAWFX_BLACK) = DRAWFX_BLACK
       {
-         iFlags = iFlags | NC_SHADOW;
+         iFlags |= NC_SHADOW;
       }
 
       if piNameColor <> 0
       {
-         iFlags = iFlags | piNameColor;
+         iFlags |= piNameColor;
 
          return iFlags;
       }
@@ -9827,17 +9824,17 @@ messages:
       // Send the appropriate flag to draw the name.
       if piFlags & PFLAG_MURDERER
       {
-         iFlags = iFlags | NC_KILLER;
+         iFlags |= NC_KILLER;
       }
       else
       {
          if (piFlags & PFLAG_OUTLAW)
          {
-            iFlags = iFlags | NC_OUTLAW;
+            iFlags |= NC_OUTLAW;
          }
          else
          {
-            iFlags = iFlags | NC_PLAYER;
+            iFlags |= NC_PLAYER;
          }
       }
 
@@ -9853,13 +9850,13 @@ messages:
       // Send the appropriate flag to draw the name.
       if piFlags & PFLAG_MURDERER
       {
-         iFlags = iFlags | OT_KILLER;
+         iFlags |= OT_KILLER;
       }
       else
       {
          if (piFlags & PFLAG_OUTLAW)
          {
-            iFlags = iFlags | OT_OUTLAW;
+            iFlags |= OT_OUTLAW;
          }
       }
 
@@ -10238,7 +10235,7 @@ messages:
          while Send(oQuestEngine,@IsValidQuestTemplate,#index=index)
          {
             Send(self,@ClearOneQuestHistory,#index=index);
-            index = index + step;
+            index += step;
          }
       }
       
@@ -10487,7 +10484,7 @@ messages:
 
                   return 1;
                }
-               j = j + 2;
+               j += 2;
             }
          }
          ++i;
@@ -10665,7 +10662,7 @@ messages:
          if (Nth(lSpellLevels_new,i) > 1)
          {
             ++totalSchools;
-            totalLevels = totalLevels + Nth(lSpellLevels_new,i);
+            totalLevels += Nth(lSpellLevels_new,i);
          }
          if (Nth(lSpellLevels_new,i) > Nth(lSpellLevels,i))
          {
@@ -10686,7 +10683,7 @@ messages:
          if (Nth(lSkillLevels,i) > 1)
          {
             ++totalSchools;
-            totalLevels = totalLevels + Nth(lSkillLevels_new,i);
+            totalLevels += Nth(lSkillLevels_new,i);
          }
          if (Nth(lSkillLevels_new,i) > Nth(lSkillLevels,i))
          {
@@ -10697,7 +10694,7 @@ messages:
       }
 
       // treat level 1s as level 2s
-      totalLevels = totalLevels + totalLvlOnes;
+      totalLevels += totalLvlOnes;
 
       // See if the player has enough int to support their levels
       if ((totalLevels - totalSchools > 8)
