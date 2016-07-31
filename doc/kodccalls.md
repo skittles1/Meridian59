@@ -1617,10 +1617,10 @@ Return the current wall clock time in seconds.
 
       iTime = GetTime() - 5 * HOUR;
 
-      iDay = (iTime / (24 * HOUR)) MOD 365;
+      iDay = (iTime / (24 * HOUR)) % 365;
 
       // Our day is 2 hours long now, so get minutes into the four hours
-      iMinutes = (iTime MOD (2 * HOUR)) / 60;
+      iMinutes = (iTime % (2 * HOUR)) / 60;
 
       // That number ranges from 0 to 119, so div by 5 is our game hour
       piHour = iMinutes / 5;

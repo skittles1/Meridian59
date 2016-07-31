@@ -36,10 +36,12 @@
 // BOF_VERSION 7 (29-7-2016) added:
 //    - Refactored opcodes for improved interpreter performance.
 //    - Split binary/unary/call opcodes into separate implementations
-//    depending on where the result is stored (local or property).
+//      depending on where the result is stored (local or property).
 //    - Split goto opcodes based on what type of value is retrieved
-//    (constant, local, property, classvar).
+//      (constant, local, property, classvar).
 //    - Removed kod-style % comments, switch to // and /**/ style.
+//    - Replaced the MOD operator with %.
+//    - Added compound assignment operators +=, -=, *=, /=, %=, |=, &=.
 #define BOF_VERSION 7
 
 #define IDBASE        10000      /* Lowest # of user-defined id.  Builtin ids have lower #s */

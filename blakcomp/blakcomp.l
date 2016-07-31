@@ -163,7 +163,6 @@ in		{ return IN; }
 is		{ return IS; }
 local		{ return LOCAL; }
 messages	{ yy_push_state(CODE); return MESSAGES; }
-mod             { return MOD; }
 not		{ return NOT; }
 or		{ return OR; }
 propagate	{ return PROPAGATE; }
@@ -185,6 +184,13 @@ default { return DEFAULT; }
 ">="	{ yylval.int_val = GEQ_OP; return REL_OP; }
 "--"	{ yylval.int_val = DEC_OP; return DEC_OP; }
 "++"	{ yylval.int_val = INC_OP; return INC_OP; }
+"+="  { yylval.int_val = PLUS_OP; return ASSIGN_OP; }
+"-="  { yylval.int_val = MINUS_OP; return ASSIGN_OP; }
+"*="  { yylval.int_val = MULT_OP; return ASSIGN_OP; }
+"/="  { yylval.int_val = DIV_OP; return ASSIGN_OP; }
+"%="  { yylval.int_val = MOD_OP; return ASSIGN_OP; }
+"&="  { yylval.int_val = BITAND_OP; return ASSIGN_OP; }
+"|="  { yylval.int_val = BITOR_OP; return ASSIGN_OP; }
 
 [-+*/%,:#&@()={}\$\[\]\|~]	{ return yytext[0]; }	/* return character itself */
 \;                              { return SEP; }  /* Separator */
