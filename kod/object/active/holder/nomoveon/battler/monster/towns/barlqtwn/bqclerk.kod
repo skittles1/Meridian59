@@ -334,6 +334,8 @@ properties:
    // Justicar-related properties
    piJusticar_State = STATE_NO_ELECTIONS
    piCommand = COMMAND_NONE
+   // Whether Caramo responds to "count the votes"
+   pbAllowTally = FALSE
 
    piDayCounter = 0
 
@@ -1180,7 +1182,11 @@ messages:
       // Justicar voting tally
       if (StringContain(string,bq_clerk_tally_phrase))
       {
-         Send(self,@CitizenAsksTally,#who=who);
+         if (pbAllowTally
+            OR IsClass(who,&DM))
+         {
+            Send(self,@CitizenAsksTally,#who=who);
+         }
 
          return TRUE;
       }
