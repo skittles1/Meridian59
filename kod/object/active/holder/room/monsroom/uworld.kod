@@ -320,7 +320,7 @@ messages:
       {
          foreach i in plCorpses
          {
-            if StringEqual(Send(what,@GetTrueName),Send(i,@GetCorpseName))
+            if (Send(i,@GetDearlyDeparted) = what)
             {
                plCorpses = DelListElem(plCorpses,i);
             }
@@ -339,9 +339,7 @@ messages:
 
    ZaptoCorpse(who = $)
    {
-      local i, iRow, iCol, iFineRow, iFineCol, oRoom, rUsername;
-
-      rUsername = Send(who,@GetTrueName);
+      local i, iRow, iCol, iFineRow, iFineCol, oRoom;
 
       // Paralyze them so they can't move around
       Send(who,@SetPlayerFlag,#flag=PFLAG_NO_MOVE,#value=TRUE);
@@ -349,7 +347,7 @@ messages:
 
       foreach i in plCorpses
       {
-         if StringEqual(rUserName,Send(i,@GetCorpseName))
+         if (Send(i,@GetDearlyDeparted) = who)
          {
             oRoom = Send(i,@GetOwner);
             iRow = Send(i,@GetRow);
@@ -603,7 +601,7 @@ messages:
       plCorpses = Cons(what,plCorpses);
       if inKocatan
       {
-         oDeadPlayer = Send(SYS,@FindUserByString,#string=Send(what,@GetCorpseName));
+         oDeadPlayer = Send(what,@GetDearlyDeparted);
          Send(oDeadPlayer,@SetPlayerFlag,#flag=PFLAG2_KOCATAN_DEATH,
                #value=TRUE,#flagset=2);
       }
@@ -620,7 +618,7 @@ messages:
          if i = what
          {
             plCorpses = DelListElem(plCorpses,i);
-            oDeadPlayer = Send(SYS,@FindUserByString,#string=Send(what,@GetCorpseName));
+            oDeadPlayer = Send(what,@GetDearlyDeparted);
             Send(oDeadPlayer,@SetPlayerFlag,#flag=PFLAG2_KOCATAN_DEATH,
                   #value=FALSE,#flagset=2);
          }
