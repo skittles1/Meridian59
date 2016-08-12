@@ -259,10 +259,36 @@ messages:
 
    EndEnchantment(who=$,report=TRUE,state=$)
    {
-      // Mobs don't like being charmed, so it now wants to kill the caster.
+      local oRoom, oTargetRoom, oTarget;
+
       if Send(who,@GetOwner) <> $
       {
-         Send(who,@SetMaster,#oMaster=$);
+         oTarget = Send(who,@GetMaster);
+      }
+
+      Send(who,@SetMaster,#oMaster=$);
+
+      // These mobs have their own specific behavior after seduce expires.
+      if (IsClass(who,&Reflection)
+         OR IsClass(who,&EvilTwin))
+      {
+         return;
+      }
+
+      // Mobs don't like being charmed, so it now wants to kill the caster.
+      if (oTarget <> $
+         AND NOT IsClass(oTarget,&DM))
+      {
+         oRoom = Send(who,@GetOwner);
+         oTargetRoom = Send(oTarget,@GetOwner);
+
+         if (oRoom <> $
+            AND oTargetRoom <> $
+            AND oRoom = oTargetRoom)
+         {
+            Send(who,@TargetSwitch,#what=oTarget,#iHatred=150);
+            Send(who,@EnterStateChase);
+         }
       }
 
       return;

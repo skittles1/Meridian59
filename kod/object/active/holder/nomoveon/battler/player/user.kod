@@ -1069,7 +1069,10 @@ messages:
       if (poEvilTwin <> $)
       {
          Send(poEvilTwin,@OriginalUnphased,#who=self);
-         Send(poOwner,@SomethingChanged,#what=poEvilTwin);
+         if (poOwner <> $)
+         {
+            Send(poOwner,@SomethingChanged,#what=poEvilTwin);
+         }
       }
 
       return;

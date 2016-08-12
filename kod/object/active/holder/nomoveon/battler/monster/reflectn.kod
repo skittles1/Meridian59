@@ -233,7 +233,15 @@ messages:
             poMaster = poOriginal;
 
             // If the original is logged off, just return.
-            if (NOT Send(poMaster,@IsLoggedOn))
+            if (IsClass(poMaster,&User)
+               AND NOT Send(poMaster,@IsLoggedOn))
+            {
+               return;
+            }
+
+            // If we're killed while under a Seduce enchantment, need a way
+            // to determine we're being deleted.
+            if (poArrow = $)
             {
                return;
             }

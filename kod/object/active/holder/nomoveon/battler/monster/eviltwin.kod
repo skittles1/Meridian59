@@ -376,6 +376,12 @@ messages:
          Send(poMaster,@RemoveControlledMinion,#what=self);
       }
 
+      // If there's no caster object, we likely just died.
+      if (poCaster = $)
+      {
+         return;
+      }
+
       if (oMaster = $)
       {
          // Evil twins will go after the original target.
@@ -433,7 +439,8 @@ messages:
       }
 
       // Original might be phased or spectated.
-      if (Send(poOriginal,@IsInCannotInteractMode))
+      if (IsClass(poOriginal,&User)
+         AND Send(poOriginal,@IsInCannotInteractMode))
       {
          Send(self,@SetBehaviorFlag,#flag=AI_NPC,#value=TRUE);
       }

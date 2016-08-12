@@ -6402,25 +6402,12 @@ messages:
    // Evil twin and reflection have an override for this.
    SetMaster(oMaster=$)
    {
-      local oTarget;
-
       if oMaster = $
       {
          if poMaster <> $
          {
             Send(poMaster,@RemoveControlledMinion,#what=self);
-
-            // After the honeymoon is over, go after the master!
-            Send(self,@SetBehaviorFlag,#flag=AI_MOVE_FOLLOW_MASTER,
-                  #value=FALSE);
-            oTarget = poMaster;
             poMaster = $;
-
-            if (NOT IsClass(oTarget,&DM))
-            {
-               Send(self,@TargetSwitch,#what=oTarget,#iHatred=150);
-               Send(self,@EnterStateChase);
-            }
          }
       }
       else
