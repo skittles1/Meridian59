@@ -262,6 +262,7 @@ messages:
       if state <> $
       {
          Send(First(state),@Delete);
+         SetFirst(state, $);
       }
 
       return;

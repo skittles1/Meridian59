@@ -155,13 +155,14 @@ messages:
 
    CastSpell(who=$,lTargets=$,iSpellPower=1)
    {
-      local oRisen, oRoom, iRow, iCol, iFine_Row, iFine_Col,
-            oTarget, iLevel, iNum;
+      local oRisen, oRoom, oTarget, iNum;
 
       oRoom = Send(who,@GetOwner);
       oTarget = First(lTargets);
 
-      if oRoom <> Send(oTarget,@GetOwner)
+
+      if (oTarget = $
+         OR oRoom <> Send(oTarget,@GetOwner))
       {
          if IsClass(who,&User)
          {
@@ -173,12 +174,7 @@ messages:
          return;
       }
 
-      iRow = Send(oTarget,@GetRow);
-      iCol = Send(oTarget,@GetCol);
-      iFine_Row = Send(oTarget,@GetFineRow);
-      iFine_Col = Send(oTarget,@GetFineCol);
-      iLevel = iSpellPower;
-      iNum = Random(iSpellPower/3,iSpellPower);
+      iNum = Random(iSpellPower / 3 * 2,iSpellPower);
 
       if iNum < 20
       {
@@ -186,7 +182,7 @@ messages:
       }
       else if iNum < 40
       {
-         oRisen = Create(&Zombie);
+         oRisen = Create(&SpectralMummy);
       }
       else if iNum < 60
       {
@@ -206,19 +202,17 @@ messages:
       }
 
       Send(oRisen,@SetIllusion,#value=TRUE);
-      // Add this creature to your minion list
-      Send(who,@NewControlledMinion,#minion=oRisen);
-
-      // Set initial minion behavior
-      Send(oRisen,@ResetBehaviorFlags);
-      Send(self,@ModifyMonsterBehavior,#mob=oRisen);
-
-      // Post this due to it needing to be done after the minion is placed.
-      Post(oRisen,@SetMaster,#oMaster=who);
 
       // Place the minion
-      Send(oRoom,@NewHold,#what=oRisen,#new_row=iRow,#new_col=iCol,
-            #fine_row=iFine_Row,#fine_col=iFine_Col);
+      Send(oRoom,@NewHold,#what=oRisen,#new_row=Send(oTarget,@GetRow),
+            #new_col=Send(oTarget,@GetCol),
+            #fine_row=Send(oTarget,@GetFineRow),
+            #fine_col=Send(oTarget,@GetFineCol));
+
+      Send(oRisen,@SetMaster,#oMaster=who);
+
+      // Set initial minion behavior
+      Send(self,@ModifyMonsterBehavior,#mob=oRisen);
 
       if Send(oTarget,@WasPlayer)
       {

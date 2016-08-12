@@ -102,6 +102,7 @@ messages:
       ptManaDrain = CreateTimer(self,@ManaDrainTimer,MANA_DRAIN_DELAY);
       poArrow = Create(&Arrow);
       piDamagePercent = viDamagePercent;
+
       propagate;
    }
 
@@ -214,44 +215,67 @@ messages:
 
    SetMaster(oMaster=$)
    {
+      local oRoom, oTarget;
+
       if oMaster = $
       {
          if poMaster <> $
          {
-            // Reflections return to owner's control, attacking the player
-            // who stole them.
-
-            if poMaster = Send(self,@GetOriginal)
+            // If the original master has control, just return.
+            if (poMaster = poOriginal)
             {
-               // Don't need to do anything.
                return;
             }
 
+            // Reflection goes back to original owner.
             Send(poMaster,@RemoveControlledMinion,#what=self);
-            Send(self,@TargetSwitch,#what=poMaster,#iHatred=150);
-            poMaster = Send(self,@GetOriginal);
+            oTarget = poMaster;
+            poMaster = poOriginal;
+
+            // If the original is logged off, just return.
+            if (IsClass(poMaster,&User)
+               AND NOT Send(poMaster,@IsLoggedOn))
+            {
+               return;
+            }
+
+            // If we're killed while under a Seduce enchantment, need a way
+            // to determine we're being deleted.
+            if (poArrow = $)
+            {
+               return;
+            }
+
             // Add ourselves back to master's control list.
             Send(poMaster,@NewControlledMinion,#minion=self);
-            Send(self,@EnterStateChase);
 
+            // Two cases: owner in same room, owner elsewhere.
+            oRoom = Send(poMaster,@GetOwner);
+            if (oRoom = poOwner)
+            {
+               // Attack the old master.
+               Send(self,@TargetSwitch,#what=oTarget,#iHatred=150);
+               Send(self,@EnterStateChase);
+            }
+            else
+            {
+               // Break target, go to original master.
+               Send(self,@EnterStateWait);
+               Send(self,@GotoMaster);
+            }
          }
       }
       else
       {
+         Send(poMaster,@RemoveControlledMinion,#what=self);
          poMaster = oMaster;
+         Send(poMaster,@NewControlledMinion,#minion=self);
 
          // Break target.
          Send(self,@EnterStateWait);
-
-         // Uncomment this if post-capture attack behavior changes.
-         //if NOT Send(SYS,@IsPKAllowed)
-         //   AND (poTarget <> $
-         //      AND IsClass(poTarget,&Player))
-         //{
-         //   // Forget our target
-         //   Send(self,@EnterStateWait);
-         //}
       }
+
+      Send(self,@ResetBehaviorFlags);
 
       if poOwner <> $
       {
@@ -298,9 +322,13 @@ messages:
       return;
    }
 
-   Delete(bMonsterReport=TRUE)
+   Delete(bSystem = FALSE)
    {
-      Send(SYS,@RemoveReflection,#oReflection=self);
+      // System clears this list already.
+      if (NOT bSystem)
+      {
+         Send(SYS,@RemoveReflection,#oReflection=self);
+      }
 
       if poOwner <> $
          AND (IsClass(poOriginal,&Monster)
@@ -342,12 +370,7 @@ messages:
 
    GetOriginal()
    {
-      if poOriginal <> $
-      {
-         return poOriginal;
-      }
-
-      return;
+      return poOriginal;
    }
 
    GetOriginalInfo()

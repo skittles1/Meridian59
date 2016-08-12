@@ -109,7 +109,7 @@ messages:
    PlaceEvilTwin(who=$)
    "Places the ET at the location of 'who', and makes it take a random step."
    {
-      local oTarget, iRow, iCol, iFine_Row, iFine_Col, oRoom, i, each_obj;
+      local oTarget, oRoom, i, each_obj;
 
       if (who = $)
       {
@@ -118,15 +118,11 @@ messages:
 
       oRoom = Send(who,@GetOwner);
 
-      iRow = Send(who,@GetRow);
-      iCol = Send(who,@GetCol);
-      iFine_Row = Send(who,@GetFineRow);
-      iFine_Col = Send(who,@GetFineCol);
-
       Send(self,@SetOriginal,#who=who);
 
-      Send(oRoom,@NewHold,#what=self,#new_row=iRow,#new_col=iCol,
-            #fine_row=iFine_Row,#fine_col=iFine_Col);
+      Send(oRoom,@NewHold,#what=self,#new_row=Send(who,@GetRow),
+            #new_col=Send(who,@GetCol),#fine_row=Send(who,@GetFineRow),
+            #fine_col=Send(who,@GetFineCol));
 
       Send(self,@DoRandomWalk,#override=TRUE);
 
@@ -276,7 +272,7 @@ messages:
    OriginalPhased()
    "If the original phases out, set the ET to behave like a NPC."
    {
-      piBehavior = piBehavior | AI_NPC;
+      piBehavior |= AI_NPC;
 
       return;
    }
@@ -284,7 +280,7 @@ messages:
    OriginalUnphased(who = $)
    "If original phases back in, unset the NPC flag and alert us to their entry."
    {
-      piBehavior = piBehavior & ~AI_NPC;
+      piBehavior &= ~AI_NPC;
 
       Send(self,@SomethingEntered,#who=who);
 
@@ -320,7 +316,7 @@ messages:
 
             return;
          }
-         else
+         else if (poMaster = poCaster)
          {
             Post(self,@GotoOriginal);
          }
@@ -346,12 +342,16 @@ messages:
          return;
       }
 
-      Send(oRoom,@NewHold,#what=self,#new_angle=Send(poOriginal,@GetAngle),
-            #new_row=Send(poOriginal,@GetRow),#new_col=Send(poOriginal,@GetCol));
+      if (oRoom <> poOwner)
+      {
+         Send(SYS,@UtilGoNearSquare,#what=self,#where=oRoom,
+               #new_row=Send(poOriginal,@GetRow),
+               #new_col=Send(poOriginal,@GetCol));
+      }
 
       if poOriginal <> poMaster
       {
-         Post(self,@AttackOriginal);
+         Send(self,@AttackOriginal);
       }
 
       return;
@@ -362,7 +362,7 @@ messages:
       if poOriginal <> poMaster
       {
          Send(self,@TargetSwitch,#what=poOriginal,#iHatred=1000);
-         Send(self,@EnterStateChase);
+         Send(self,@EnterStateChase,#actnow=FALSE);
       }
 
       return;
@@ -370,25 +370,24 @@ messages:
 
    SetMaster(oMaster=$)
    {
-      if oMaster = $
+      // Remove minion from old master.
+      if (poMaster <> $)
       {
-         if poMaster <> $
-         {
-            Send(poMaster,@RemoveControlledMinion,#what=self);
-            if poOwner <> $
-            {
-               Post(poOwner,@SomethingChanged,#what=self);
-            }
+         Send(poMaster,@RemoveControlledMinion,#what=self);
+      }
 
-            // Evil twins will go after the original target.
-            if IsClass(self,&EvilTwin)
-            {
-               poMaster = Send(self,@GetCaster);
-               Send(self,@SetBehaviorFlag,#flag=AI_MOVE_FOLLOW_MASTER,
-                     #value=FALSE);
-               Send(self,@GoToOriginal);
-            }
-         }
+      // If there's no caster object, we likely just died.
+      if (poCaster = $)
+      {
+         return;
+      }
+
+      if (oMaster = $)
+      {
+         // Evil twins will go after the original target.
+         poMaster = poCaster;
+         Send(self,@SetBehaviorFlag,#flag=AI_MOVE_FOLLOW_MASTER,#value=FALSE);
+         Send(self,@GoToOriginal);
       }
       else
       {
@@ -398,30 +397,52 @@ messages:
          {
             // We've been captured, break target in case the new master
             // doesn't want to attack them.
+            Send(oMaster,@NewControlledMinion,#minion=self);
             Send(self,@EnterStateWait);
          }
          else
          {
-            // Original caster captured us back, break target unless we're
-            // attacking the original.
+            // Original caster captured us back. Go kill the original target.
             if poTarget <> poOriginal
             {
                Send(self,@EnterStateWait);
+               Send(self,@SetBehaviorFlag,#flag=AI_MOVE_FOLLOW_MASTER,
+                     #value=FALSE);
+               Send(self,@GoToOriginal);
             }
          }
+      }
 
-         if poOwner <> $
-         {
-            Post(poOwner,@SomethingChanged,#what=self);
-         }
+      Send(self,@ResetBehaviorFlags);
 
-         if NOT Send(SYS,@IsPKAllowed)
-            AND (poTarget <> $
-               AND IsClass(poTarget,&Player))
-         {
-            // Forget our target
-            Send(self,@EnterStateWait);
-         }
+      if poOwner <> $
+      {
+         Post(poOwner,@SomethingChanged,#what=self);
+      }
+
+      return;
+   }
+
+   TweakBehavior()
+   {
+      if (poMaster = $
+         OR poCaster = $
+         OR poOriginal = $)
+      {
+         return;
+      }
+
+      // Don't follow if owned by caster.
+      if (poMaster = poCaster)
+      {
+         Send(self,@SetBehaviorFlag,#flag=AI_MOVE_FOLLOW_MASTER,#value=FALSE);
+      }
+
+      // Original might be phased or spectated.
+      if (IsClass(poOriginal,&User)
+         AND Send(poOriginal,@IsInCannotInteractMode))
+      {
+         Send(self,@SetBehaviorFlag,#flag=AI_NPC,#value=TRUE);
       }
 
       return;

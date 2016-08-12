@@ -351,7 +351,7 @@ admin_table_type admin_show_table[] =
 	{ AdminShowName,          {R,N}, F, A|M, NULL, 0, "name",          "Show object of user name" },
 	{ AdminShowNameIDs,       {N},   F, A|M, NULL, 0, "nameids",       "Show all name ids (message/parms)" },
 	{ AdminShowObject,        {I,N}, F, A|M, NULL, 0, "object",        "Show one object by id" },
-   { AdminShowOpcodes,       { N },   F, A | M, NULL, 0, "opcodes",   "Show opcode count" },
+	//{ AdminShowOpcodes,       {N},   F, A|M, NULL, 0, "opcodes",       "Show opcode count" },
 	{ AdminShowPackages,      {N},   F,A, NULL, 0, "packages",         "Show all packages loaded" },
 	{ AdminShowProtocol,      {N},   F, A|M, NULL, 0, "protocol",      "Show protocol message counts" },
 	{ AdminShowReferences,    {S,S,N}, F, A|M, NULL, 0, "references",  "Show what objects or lists reference a particular data value" },

@@ -898,6 +898,11 @@ messages:
    {
       local iLogonDelay, oSpell;
 
+      if (NOT pbLogged_on)
+      {
+         return;
+      }
+
       oSpell = Send(SYS,@FindSpellByNum,#num=SID_HOLD);
 
       if NOT Send(self,@IsEnchanted,#what=oSpell)
@@ -1064,7 +1069,10 @@ messages:
       if (poEvilTwin <> $)
       {
          Send(poEvilTwin,@OriginalUnphased,#who=self);
-         Send(poOwner,@SomethingChanged,#what=poEvilTwin);
+         if (poOwner <> $)
+         {
+            Send(poOwner,@SomethingChanged,#what=poEvilTwin);
+         }
       }
 
       return;
