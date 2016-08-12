@@ -898,6 +898,11 @@ messages:
    {
       local iLogonDelay, oSpell;
 
+      if (NOT pbLogged_on)
+      {
+         return;
+      }
+
       oSpell = Send(SYS,@FindSpellByNum,#num=SID_HOLD);
 
       if NOT Send(self,@IsEnchanted,#what=oSpell)

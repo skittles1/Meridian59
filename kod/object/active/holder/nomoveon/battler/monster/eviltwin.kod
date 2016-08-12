@@ -417,6 +417,30 @@ messages:
       return;
    }
 
+   TweakBehavior()
+   {
+      if (poMaster = $
+         OR poCaster = $
+         OR poOriginal = $)
+      {
+         return;
+      }
+
+      // Don't follow if owned by caster.
+      if (poMaster = poCaster)
+      {
+         Send(self,@SetBehaviorFlag,#flag=AI_MOVE_FOLLOW_MASTER,#value=FALSE);
+      }
+
+      // Original might be phased or spectated.
+      if (Send(poOriginal,@IsInCannotInteractMode))
+      {
+         Send(self,@SetBehaviorFlag,#flag=AI_NPC,#value=TRUE);
+      }
+
+      return;
+   }
+
    GetOriginalInfo()
    {
       if poOriginal = $

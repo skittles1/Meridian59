@@ -221,8 +221,6 @@ messages:
       {
          Send(self,@NotifyRoomPhaseIn,#who=who);
          Send(who,@RemoveEnchantment,#what=self);
-         Send(who,@LogonDelay);
-         Send(who,@UnphaseMinions);
       }
       else
       {
@@ -370,6 +368,9 @@ messages:
       {
          Send(who,@EffectSendUser,#what=self,#effect=EFFECT_PARALYZE_OFF);
       }
+
+      Send(who,@LogonDelay);
+      Send(who,@UnphaseMinions);
 
       Send(who,@ReactivateAllEnchantments);
 
