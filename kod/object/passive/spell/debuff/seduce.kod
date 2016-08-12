@@ -174,16 +174,12 @@ messages:
                   #parm3=Send(oTarget,@GetName));
             // Since we don't necessarily want it going after the old master,
             // use RemoveEnchantment instead of EndEnchantment
-            Send(oMaster,@RemoveControlledMinion,#what=oTarget);
             Send(oTarget,@RemoveEnchantment,#what=self);
          }
 
-         Post(oTarget,@StartEnchantment,#what=self,
-               #time=iDuration,#state=what);
-         Post(oTarget,@SetMaster,#oMaster=what);
-         Send(what,@NewControlledMinion,#minion=oTarget);
-         Post(oTarget,@ResetBehaviorFlags);
-         
+         Send(oTarget,@StartEnchantment,#what=self,#time=iDuration,#state=what);
+         Send(oTarget,@SetMaster,#oMaster=what);
+
          propagate;
       }
 
@@ -217,19 +213,16 @@ messages:
          if oMaster <> $
          {
             Send(oMaster,@MsgSendUser,#message_rsc=seduce_stolen,
-               #parm1=Send(what,@GetCapDef),#parm2=Send(what,@GetName),
-               #parm3=Send(oTarget,@GetName));
+                  #parm1=Send(what,@GetCapDef),#parm2=Send(what,@GetName),
+                  #parm3=Send(oTarget,@GetName));
             // Since we don't necessarily want it going after the old master,
             // use RemoveEnchantment instead of EndEnchantment
             Send(oMaster,@RemoveControlledMinion,#what=oTarget);
             Send(oTarget,@RemoveEnchantment,#what=self);
          }
 
-         Post(oTarget,@StartEnchantment,#what=self,
-               #time=iDuration,#state=what);
-         Post(oTarget,@SetMaster,#oMaster=what);
-         Send(what,@NewControlledMinion,#minion=oTarget);
-         Post(oTarget,@ResetBehaviorFlags);
+         Send(oTarget,@StartEnchantment,#what=self,#time=iDuration,#state=what);
+         Send(oTarget,@SetMaster,#oMaster=what);
       }
       else
       {
@@ -243,7 +236,7 @@ messages:
             // oops!  since you failed, now they really hate you!
             Send(oTarget,@TargetSwitch,#what=what,
                   #iHatred=Bound(Send(what,@GetBaseMaxHealth),25,100));
-            Send(oTarget,@EnterStateChase,#target=what,#actnow=True);
+            Send(oTarget,@EnterStateChase,#target=what,#actnow=TRUE);
          }
       }
 
@@ -266,13 +259,10 @@ messages:
 
    EndEnchantment(who=$,report=TRUE,state=$)
    {
-      /// This has to be done AFTER the enchantment is gone from the
-      /// monster's ench list - post it
-
       // Mobs don't like being charmed, so it now wants to kill the caster.
       if Send(who,@GetOwner) <> $
       {
-         Post(who,@SetMaster,#oMaster=$);
+         Send(who,@SetMaster,#oMaster=$);
       }
 
       return;

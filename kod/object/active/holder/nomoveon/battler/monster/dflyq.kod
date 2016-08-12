@@ -344,7 +344,6 @@ messages:
       {
          /// Dragonfly is charmed.
          Send(self,@SetMaster,#oMaster=who);
-         Post(self,@ResetBehaviorFlags);
          Post(who,@MsgSendUser,#message_rsc=dragonfly_charmed,
                #parm1=Send(obj,@GetName));
       }

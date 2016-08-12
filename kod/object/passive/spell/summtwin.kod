@@ -154,7 +154,7 @@ messages:
    "Creates the ET and adds the info to caster/target. Tells the ET to "
    "place itself."
    {
-      local i, j, oTwin, oRoom, iRow, iCol, iFine_Row, iFine_Col;
+      local oTwin;
 
       if (oTarget = $
          OR who = $)

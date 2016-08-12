@@ -898,7 +898,7 @@ messages:
                   DeleteTimer(First(i));
                }
             }
-            SetNth(i,1,$);
+            SetFirst(i,$);
 
             if Length(i) > ENCHANTMENT_LIST_NO_STATE
             {
@@ -1597,8 +1597,6 @@ messages:
    {
       local i, lBehavior;
 
-      lBehavior = $;
-
       // Assume if the monster is being singleminded about something,
       //  he's got a good reason.  Example: pissed off charms.
       if piBehavior & AI_FIGHT_SINGLEMINDED
@@ -1620,6 +1618,13 @@ messages:
       if piBehavior & AI_LOOPING_PATROL
       {
          lBehavior = Cons(AI_LOOPING_PATROL,lBehavior);
+      }
+
+      // Go back to the master if we don't have a target.
+      if (poMaster <> $
+         AND poTarget = $)
+      {
+         lBehavior = Cons(AI_MOVE_FOLLOW_MASTER,lBehavior);
       }
 
       piBehavior = viDefault_behavior;
@@ -1678,28 +1683,28 @@ messages:
 
    StartPalsy()
    {
-      piEnch_flags = (piEnch_flags | ENCH_PALSY);
+      piEnch_flags |= ENCH_PALSY;
 
       return;
    }
 
    EndPalsy()
    {
-      piEnch_flags = (piEnch_flags & ~ENCH_PALSY);
+      piEnch_flags &= ~ENCH_PALSY;
 
       return;
    }
    
    StartDementia()
    {
-      piEnch_flags = (piEnch_flags | ENCH_DEMENTIA);
+      piEnch_flags |= ENCH_DEMENTIA;
 
       return;
    }
 
    EndDementia()
    {
-      piEnch_flags = (piEnch_flags & ~ENCH_DEMENTIA);
+      piEnch_flags &= ~ENCH_DEMENTIA;
 
       return;
    }
@@ -6397,6 +6402,8 @@ messages:
    // Evil twin and reflection have an override for this.
    SetMaster(oMaster=$)
    {
+      local oTarget;
+
       if oMaster = $
       {
          if poMaster <> $
@@ -6406,28 +6413,26 @@ messages:
             // After the honeymoon is over, go after the master!
             Send(self,@SetBehaviorFlag,#flag=AI_MOVE_FOLLOW_MASTER,
                   #value=FALSE);
-            Send(self,@TargetSwitch,#what=poMaster,#iHatred=150);
+            oTarget = poMaster;
             poMaster = $;
 
-            Send(self,@EnterStateChase);
+            if (NOT IsClass(oTarget,&DM))
+            {
+               Send(self,@TargetSwitch,#what=oTarget,#iHatred=150);
+               Send(self,@EnterStateChase);
+            }
          }
       }
       else
       {
          poMaster = oMaster;
-
+         // Add this creature to master's minion list
+         Send(oMaster,@NewControlledMinion,#minion=self);
          // Break target.
          Send(self,@EnterStateWait);
-
-         // Uncomment this if post-capture attack behavior changes.
-         //if NOT Send(SYS,@IsPKAllowed)
-         //   AND (poTarget <> $
-         //      AND IsClass(poTarget,&Player))
-         //{
-         //   // Forget our target
-         //   Send(self,@EnterStateWait);
-         //}
       }
+
+      Send(self,@ResetBehaviorFlags);
 
       if poOwner <> $
       {

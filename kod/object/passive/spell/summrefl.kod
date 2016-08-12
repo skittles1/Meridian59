@@ -75,10 +75,7 @@ messages:
          AND NOT (IsClass(who,&DM)
             AND Send(who,@PlayerIsImmortal))
       {
-         if IsClass(who,&Player)
-         {
-            Send(who,@MsgSendUser,#message_rsc=summonreflection_limit_rsc);
-         }
+         Send(who,@MsgSendUser,#message_rsc=summonreflection_limit_rsc);
 
          return FALSE;
       }
@@ -93,26 +90,27 @@ messages:
 
    CastSpell(who=$,lTargets=$,iSpellPower=1)
    {
-      local oReflection, oRoom, iRow, iCol, iFine_Row, iFine_Col;
+      local oRoom, oReflection;
 
-      oReflection = Create(&Reflection,#iSpellpower=iSpellpower,#oMaster=who);
       oRoom = Send(who,@GetOwner);
 
-      iRow = Send(who,@GetRow);
-      iCol = Send(who,@GetCol);
-      iFine_Row = Send(who,@GetFineRow);
-      iFine_Col = Send(who,@GetFineCol);
+      if (oRoom = $)
+      {
+         Debug(who, Send(who,@GetName), " tried to create a reflection in $ room.");
 
+         return;
+      }
+
+      oReflection = Create(&Reflection,#iSpellpower=iSpellpower,#oMaster=who);
       Send(oReflection,@SetOriginal,#who=who);
 
-      Send(oRoom,@NewHold,#what=oReflection,#new_row=iRow,#new_col=iCol,
-            #fine_row=iFine_Row,#fine_col=iFine_Col);
+      Send(oRoom,@NewHold,#what=oReflection,#new_row=Send(who,@GetRow),
+            #new_col=Send(who,@GetCol),#fine_row=Send(who,@GetFineRow),
+            #fine_col=Send(who,@GetFineCol));
 
-      if IsClass(who,&Player)
-      {
-         Send(who,@MsgSendUser,#message_rsc=summonreflection_cast_rsc);
-      }
-      
+      Send(who,@MsgSendUser,#message_rsc=summonreflection_cast_rsc);
+
+      // poMaster set in Reflection's Constructor, but not added as a minion.
       Send(who,@NewControlledMinion,#minion=oReflection);
       Send(SYS,@AddReflection,#who=who,#oReflection=oReflection);
       Send(oReflection,@SetBehaviorFlag,#flag=AI_MOVE_FOLLOW_MASTER,
@@ -124,14 +122,12 @@ messages:
    CountPlayerReflections(who=$)
    "Count number of reflections being maintained by the caster."
    {
-      local i;
+      local lRefs;
 
-      foreach i in Send(SYS,@GetReflectionsList)
+      lRefs = GetListNode(Send(SYS,@GetReflectionsList), 1, who);
+      if (lRefs <> $)
       {
-         if first(i) = who
-         {
-            return length(Nth(i,2));
-         }
+         return Length(Nth(lRefs, 2));
       }
 
       return 0;
