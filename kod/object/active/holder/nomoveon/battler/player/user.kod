@@ -463,7 +463,26 @@ resources:
    user_time_string =  \
    "The time in Meridian is %i:00.  It is the %q day of the year %i."
 
-   user_tell_wav = imp.ogg
+   user_self_phase_out = \
+      "You phase out of existence, confident that you can hold onto "
+      "reality for another %i seconds."
+   user_phase_out_high = "%s phases out while completely unharmed."
+   user_phase_out_med = \
+      "Sensing the battle turning unfavorably, %s phases out."
+   user_phase_out_low = "Moments before death, %s phases out!"
+   user_phase_out_onehp = "%s phases out a split second before death!"
+   user_self_phase_in = \
+      "Only %i seconds away from losing your grip on reality, you phase "
+      "back into existence."
+   user_phase_in = "%s phases back into existence!"
+   user_spectate_on = \
+      "%s has lost physical touch with this reality."
+   user_self_spectate_on = \
+      "You have lost your physical connection to this place!"
+   user_spectate_off = \
+      "%s has regained physical touch with this reality."
+   user_self_spectate_off = \
+      "You have regained your physical connection to this place."
 
 classvars:
 
@@ -932,7 +951,7 @@ messages:
 
    UserLogoff()
    {
-      local theTime, iPenaltyTime, i, j;
+      local i, j;
 
       piTimeLoggedIn = Send(self,@GetTimeLoggedIn);
       Send(self,@BreakTrance);
@@ -1045,35 +1064,6 @@ messages:
       }
 
       poSession = $;
-
-      return;
-   }
-
-   PhaseMinions()
-   "Deletes reflections, phases any ETs attacking us."
-   {
-      Send(SYS,@DeletePlayerReflections,#who=self);
-      if (poEvilTwin <> $
-         AND poOwner <> $)
-      {
-         Send(poEvilTwin,@OriginalPhased);
-         Send(poOwner,@SomethingChanged,#what=poEvilTwin);
-      }
-
-      return;
-   }
-
-   UnphaseMinions()
-   "Unphases any ETs attacking us."
-   {
-      if (poEvilTwin <> $)
-      {
-         Send(poEvilTwin,@OriginalUnphased,#who=self);
-         if (poOwner <> $)
-         {
-            Send(poOwner,@SomethingChanged,#what=poEvilTwin);
-         }
-      }
 
       return;
    }
@@ -7955,17 +7945,7 @@ messages:
             }
 
             // If this player has created any evil twins, delete them.
-            if plEvilTwins <> $
-            {
-               foreach i in plEvilTwins
-               {
-                  if IsClass(i,&EvilTwin)
-                  {
-                     Send(i,@Delete);
-                  }
-               }
-               plEvilTwins = $;
-            }
+            Send(self,@RemoveAllCreatedEvilTwins);
          }
 
          piRow = First(Send(poOwner,@GetRoomPos,#what=self));
@@ -8042,6 +8022,117 @@ messages:
       {
          AddPacket(1,BP_REMOVE,4,what);
          SendPacket(poSession);
+      }
+
+      propagate;
+   }
+
+   SomethingPhasedOut(what = $, iHealth = 0, iMaxHealth = 0)
+   {
+      if (what = self)
+      {
+         Send(self,@RemoveAllMinions);
+
+         // Evil twin attacking us.
+         if (poEvilTwin <> $)
+         {
+            Send(poEvilTwin,@OriginalPhased);
+         }
+
+         // Delete evil twins we created.
+         Send(self,@RemoveAllCreatedEvilTwins);
+
+         Send(self,@MsgSendUser,#message_rsc=user_self_phase_out,
+               #parm1=(Send(self,@GetRemainingPhaseTime)/1000));
+      }
+      else if iHealth <= 1
+      {
+         Send(self,@MsgSendUser,#message_rsc=user_phase_out_onehp,
+               #parm1=Send(what,@GetName));
+      }
+      else if iHealth < iMaxHealth / 3
+      {
+         Send(self,@MsgSendUser,#message_rsc=user_phase_out_low,
+               #parm1=Send(what,@GetName));
+      }
+      else if iHealth = iMaxHealth
+      {
+         Send(self,@MsgSendUser,#message_rsc=user_phase_out_high,
+               #parm1=Send(what,@GetName));
+      }
+      else
+      {
+         Send(self,@MsgSendUser,#message_rsc=user_phase_out_med,
+               #parm1=Send(what,@GetName));
+      }
+
+      propagate;
+   }
+
+   SomethingPhasedIn(what = $)
+   {
+      if (what = self)
+      {
+         // Phase our evil twin back in, if we have one.
+         if (poEvilTwin <> $)
+         {
+            Send(poEvilTwin,@OriginalUnphased,#who=self);
+         }
+
+         Send(self,@MsgSendUser,#message_rsc=user_self_phase_in,
+               #parm1=(Send(self,@GetRemainingPhaseTime)/1000));
+      }
+      else
+      {
+         Send(self,@MsgSendUser,#message_rsc=user_phase_in,
+               #parm1=Send(what,@GetName));
+      }
+
+      propagate;
+   }
+
+   SomethingSpectatedOut(what = $)
+   {
+      if (what = self)
+      {
+         Send(self,@RemoveAllMinions);
+
+         // Evil twin goes to limbo, to await our return.
+         if poEvilTwin <> $
+         {
+            Send(poEvilTwin,@SomethingLeft,#what=self);
+         }
+
+         // Delete evil twins we created.
+         Send(self,@RemoveAllCreatedEvilTwins);
+
+         Send(self,@MsgSendUser,#message_rsc=user_self_spectate_on);
+      }
+      else
+      {
+         Send(self,@MsgSendUser,#message_rsc=user_spectate_on,
+               #parm1=Send(what,@GetTrueName));
+      }
+
+      propagate;
+   }
+
+   SomethingSpectatedIn(what = $)
+   {
+      if (what = self)
+      {
+         // Return our evil twin if we have one.
+         if (poEvilTwin <> $)
+         {
+            Send(poEvilTwin,@PlaceEvilTwin,#who=self);
+         }
+
+         Send(self,@MsgSendUser,#message_rsc=user_self_spectate_off);
+      }
+      else
+      {
+         Send(self,@MsgSendUser,#message_rsc=user_spectate_off,
+               #parm1=Send(what,@GetTrueName));
       }
 
       propagate;

@@ -333,3 +333,28 @@ user_say_join_guild_survival = de "Gilden Arena beitreten"
 user_say_survival_opt_unnatural = de "--unnatural"
 user_say_survival_opt_pvpon = de "--pvpon"
 user_say_survival_opt_starthere = de "--thisbase"
+
+user_self_phase_out = de \
+   "Dein Körper befindet sich nun auf einer anderen Bewußtseinsebene. "
+   "Du hast nun %i Sekunden Zeit, wieder zurück zu kehren. "
+   "Sollte das nicht gelingen, musst du mit einer Strafe rechnen."
+user_phase_out_high = de \
+   "%s steigt aus, obwohl er völlig unverletzt ist."
+user_phase_out_med = de \
+   "Sicher, das es ungünstig für ihn im Kampf steht, steigt %s aus der Realität "
+   "aus."
+user_phase_out_low = de \
+   "Kurz vor seinem Tot steigt %s aus der Realität aus!"
+user_phase_out_onehp = de \
+   "%s steigt nicht mal eine Sekunde vor seinem Tot aus der Realität aus!"
+user_self_phase_in = de \
+   "Nur %i Sekunden vor dem Verlust deiner Existenz bist du aus deinem Ausstieg "
+   "zurückgekehrt."
+user_phase_in = de "%s kehrt aus seinem Ausstieg aus der Realität zurück!"
+user_spectate_on = de "%s hat den physischen Zustand der Realität verloren."
+user_self_spectate_on = de \
+   "Du hast deine physische Verbindung zu diesem Ort verlassen!"
+user_spectate_off = de \
+   "%s hat den physischen Kontakt zur Realität wieder erhalten."
+user_self_spectate_off = de \
+   "Du hast die physische Verbindung zu diesem Platz wieder erhalten."

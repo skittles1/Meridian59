@@ -526,6 +526,59 @@ messages:
       return;
    }
 
+   SomethingPhasedOut(what = $, iHealth = $, iMaxHealth = $)
+   {
+      local i, each_obj;
+
+      foreach i in plActive
+      {
+         each_obj = Send(self,@HolderExtractObject,#data=i);
+         Send(each_obj,@SomethingPhasedOut,#what=what,#iHealth=iHealth,
+               #iMaxHealth=iMaxHealth);
+      }
+
+      return;
+   }
+
+   SomethingPhasedIn(what = $)
+   {
+      local i, each_obj;
+
+      foreach i in plActive
+      {
+         each_obj = Send(self,@HolderExtractObject,#data=i);
+         Send(each_obj,@SomethingPhasedIn,#what=what);
+      }
+
+      return;
+   }
+
+   SomethingSpectatedOut(what = $)
+   {
+      local i, each_obj;
+
+      foreach i in plActive
+      {
+         each_obj = Send(self,@HolderExtractObject,#data=i);
+         Send(each_obj,@SomethingSpectatedOut,#what=what);
+      }
+
+      return;
+   }
+
+   SomethingSpectatedIn(what = $)
+   {
+      local i, each_obj;
+
+      foreach i in plActive
+      {
+         each_obj = Send(self,@HolderExtractObject,#data=i);
+         Send(each_obj,@SomethingSpectatedIn,#what=what);
+      }
+
+      return;
+   }
+
    NewOwner(what=$,where=$)
    {
       local i, each_obj;

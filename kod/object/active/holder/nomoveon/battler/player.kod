@@ -2413,14 +2413,10 @@ messages:
       SendList(plActive,0,@UserLogoff);
 
       // If this player has created any evil twins, delete them.
-      if plEvilTwins <> $
-      {
-         foreach i in plEvilTwins
-         {
-            Send(i,@Delete);
-         }
-         plEvilTwins = $;
-      }
+      Send(self,@RemoveAllCreatedEvilTwins);
+
+      // Release our minions.
+      Send(self,@RemoveAllMinions);
 
       // client assumes not resting upon login
       Send(self,@StopResting);
@@ -9258,24 +9254,10 @@ messages:
             iRoom, lInventoryContents, lReagentBagContents;
 
       // If this player has created any evil twins, delete them.
-      if plEvilTwins <> $
-      {
-         foreach i in plEvilTwins
-         {
-            Send(i,@Delete);
-         }
-         plEvilTwins = $;
-      }
+      Send(self,@RemoveAllCreatedEvilTwins);
 
       // If we have Apparitions attacking us, delete them.
-      if plApparitionList <> $
-      {
-         foreach j in plApparitionList
-         {
-            Send(j,@Delete);
-         }
-         plApparitionList = $;
-      }
+      Send(self,@RemoveAllApparitions);
 
       if poOwner <> $
          AND Send(poOwner,@GetRoomNum) = RID_UNDERWORLD
@@ -11932,7 +11914,7 @@ messages:
       // Reset death costs to 0.
       piDeathCost = 0;
 
-      poEvilTwin = $;
+      Send(self,@RemoveAttackingEvilTwin);
 
       return Send(SYS,@GetSuccessRsc);
    }
@@ -14748,16 +14730,6 @@ messages:
             Send(self,@MsgSendUser,#message_rsc=player_cancel_rescue_phase);
             DeleteTimer(ptRescue);
             ptRescue = $;
-         }
-
-         // If this player has created any evil twins, delete them.
-         if plEvilTwins <> $
-         {
-            foreach i in plEvilTwins
-            {
-               Send(i,@Delete);
-            }
-            plEvilTwins = $;
          }
       }
 

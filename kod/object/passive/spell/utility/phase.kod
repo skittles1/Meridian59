@@ -46,21 +46,6 @@ resources:
       "You lost %s skill points, %s spell points, and %s%s."
    Phase_lost_two_items = \
       "You lost %s skill points, %s spell points, %s%s, and %s%s."
-   
-   Phase_phased_out_high_health = "%s phases out while completely unharmed."
-   Phase_phased_out_medium_health = \
-      "Sensing the battle turning unfavorably, %s phases out."
-   Phase_phased_out_low_health = "Moments before death, %s phases out!"
-   Phase_phased_out_one_health = "%s phases out a split second before death!"
-   
-   Phase_caster_out = \
-      "You phase out of existence, confident that you can hold onto "
-      "reality for another %i seconds."
-   Phase_caster_in = \
-      "Only %i seconds away from losing your grip on reality, you phase "
-      "back into existence."
-   
-   Phase_in = "%s phases back into existence!"
 
    penalties_inflicted_one_item = \
       "The torturous experience has cost you %i XP, one item, %i spell "
@@ -217,9 +202,10 @@ messages:
 
    CastSpell(who=$,lTargets=$)
    {
+      local oRoom;
+
       if Send(who,@CheckPlayerFlag,#flag=PFLAG_PHASED)
       {
-         Send(self,@NotifyRoomPhaseIn,#who=who);
          Send(who,@RemoveEnchantment,#what=self);
       }
       else
@@ -228,112 +214,20 @@ messages:
          Send(who,@BreakTrance,#event=EVENT_STEER);
          Send(who,@FreezeAllEnchantments);
          Send(who,@SetPlayerFlag,#flag=PFLAG_PHASED,#value=TRUE);
-         Send(who,@PhaseMinions);
+         oRoom = Send(who,@GetOwner);
+         if (oRoom <> $)
+         {
+            Send(oRoom,@SomethingPhasedOut,#what=who,
+                  #iHealth=Send(who,@GetHealth),
+                  #iMaxHealth=Send(who,@GetMaxHealth));
+         }
          // Post this because FreezeAllEnchantments checks for phase applied
          Post(who,@StartEnchantment,#what=self);
          Post(who,@StartPhaseTimer);
          Post(who,@EffectSendUser,#what=self,#effect=EFFECT_PARALYZE_ON);
-         Post(self,@NotifyRoomPhaseOut,#who=who);
       }
 
       propagate;
-   }
-
-   NotifyRoomPhaseOut(who=$)
-   {
-      local oRoom, i, each_obj, iHealth, iMaxHealth;
-
-      if who = $
-      {
-         return;
-      }
-
-      oRoom = Send(who,@GetOwner);
-      if oRoom = $
-      {
-         return;
-      }
-
-      iHealth = Send(who,@GetHealth);
-      iMaxHealth = Send(who,@GetMaxHealth);
-
-      foreach i in Send(oRoom,@GetplActive)
-      {
-         each_obj = Send(oRoom,@HolderExtractObject,#data=i);
-
-         if each_obj = who
-         {
-            Send(each_obj,@MsgSendUser,#message_rsc=Phase_caster_out,
-                  #parm1=(Send(each_obj,@GetRemainingPhaseTime)/1000));
-
-            continue;
-         }
-
-         if NOT IsClass(each_obj,&User)
-         {
-            continue;
-         }
-
-         if iHealth = 1
-         {
-            Send(each_obj,@MsgSendUser,#message_rsc=Phase_phased_out_one_health,
-                  #parm1=Send(who,@GetName));
-
-            continue;
-         }
-
-         if iHealth < iMaxHealth / 3
-         {
-            Send(each_obj,@MsgSendUser,#message_rsc=Phase_phased_out_low_health,
-                  #parm1=Send(who,@GetName));
-
-            continue;
-         }
-
-         if iHealth = iMaxHealth
-         {
-            Send(each_obj,@MsgSendUser,#message_rsc=Phase_phased_out_high_health,
-                  #parm1=Send(who,@GetName));
-
-            continue;
-         }
-
-         Send(each_obj,@MsgSendUser,#message_rsc=Phase_phased_out_medium_health,
-               #parm1=Send(who,@GetName));
-      }
-
-      return;
-   }
-
-   NotifyRoomPhaseIn(who=$)
-   {
-      local oRoom, i, each_obj;
-
-      if who = $
-      {
-         return;
-      }
-
-      oRoom = Send(who,@GetOwner);
-      foreach i in Send(oRoom,@GetplActive)
-      {
-         each_obj = Send(oRoom,@HolderExtractObject,#data=i);
-         if IsClass(each_obj,&User)
-         {
-            if each_obj = who
-            {
-               Send(each_obj,@MsgSendUser,#message_rsc=Phase_caster_in,
-                     #parm1=(Send(each_obj,@GetRemainingPhaseTime)/1000));
-            }
-            else
-            {
-               Send(each_obj,@MsgSendUser,#message_rsc=Phase_in,
-                     #parm1=Send(who,@GetName));
-            }
-         }
-      }
-
-      return;
    }
 
    RestartEnchantmentEffect(who = $, state = $)
@@ -358,6 +252,8 @@ messages:
 
    EndEnchantment(who = $,report = TRUE,state = $)
    {
+      local oRoom;
+
       Send(who,@EffectSendUserXlat,#xlat=0);
       Send(who,@SetPlayerFlag,#flag=PFLAG_PHASED,#value=FALSE);
       Send(who,@FreezePhaseTimer);
@@ -369,8 +265,15 @@ messages:
          Send(who,@EffectSendUser,#what=self,#effect=EFFECT_PARALYZE_OFF);
       }
 
+      // Note that if a player logs off while phased, phase is removed after
+      // the player leaves the room preventing a phase-in followed by log.
+      oRoom = Send(who,@GetOwner);
+      if (oRoom <> $)
+      {
+         Send(oRoom,@SomethingPhasedIn,#what=who);
+      }
+
       Send(who,@LogonDelay);
-      Send(who,@UnphaseMinions);
 
       Send(who,@ReactivateAllEnchantments);
 

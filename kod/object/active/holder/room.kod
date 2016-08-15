@@ -2707,6 +2707,39 @@ messages:
       return;
    }
 
+   SomethingPhasedOut(what=$, iHealth=$, iMaxHealth=$)
+   "Faster override for Room, don't need to propagate to Holder."
+   {
+      SendList(plActive,1,@SomethingPhasedOut,#what=what,#iHealth=iHealth,
+            #iMaxHealth=iMaxHealth);
+
+      return;
+   }
+
+   SomethingPhasedIn(what=$)
+   "Faster override for Room, don't need to propagate to Holder."
+   {
+      SendList(plActive,1,@SomethingPhasedIn,#what=what);
+
+      return;
+   }
+
+   SomethingSpectatedOut(what=$)
+   "Faster override for Room, don't need to propagate to Holder."
+   {
+      SendList(plActive,1,@SomethingSpectatedOut,#what=what);
+
+      return;
+   }
+
+   SomethingSpectatedIn(what=$)
+   "Faster override for Room, don't need to propagate to Holder."
+   {
+      SendList(plActive,1,@SomethingSpectatedIn,#what=what);
+
+      return;
+   }
+
    IsUserInRoom()
    {
       return pbUser_in_room;

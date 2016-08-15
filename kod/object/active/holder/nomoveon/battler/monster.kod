@@ -1195,6 +1195,9 @@ messages:
       Send(poBrain,@SomethingEntered,#mob=self,#state=piState,
            #what=what,#where=where);
 
+      // Check if it was this mob's temporary owner.
+      Send(self,@MobSeduceCheck,#what=what);
+
       // If there are active quest nodes, notify them -AJM
       if plActiveQuestNodes <> $
       {
@@ -1217,35 +1220,34 @@ messages:
    SomethingLeft(what = $, iRow=0, iCol=0)
    "We lost someone, perhaps we need to clear our targets."
    {
+      local cClass;
+
+      // Apparitions are dispelled if the caster or original target leave.
+      if ((poApparitionCaster <> $ AND what = poApparitionCaster)
+            OR (poApparitionOriginal <> $ AND what = poApparitionOriginal))
+      {
+         Send(self,@Delete);
+
+         return;
+      }
+
       // Our master may have left.  If he did, and he is close by,
       // teleport after him.
       if poMaster <> $ AND what = poMaster
       {
+         cClass = GetClass(self);
+
          if iRow <> 0 AND iCol <> 0
             AND Send(poMaster,@GetOwner) <> $
          {
             if ((piRow - iRow) <= 3
                AND (piCol - iCol) <= 3
-               AND NOT (IsClass(self,&EvilTwin)
+               AND NOT (cClass = &EvilTwin
                   AND (NOT Send(self,@IsEnchanted,#byClass=&Seduce))))
-               OR IsClass(self,&Reflection) // Flecs follow.
+               OR cClass = &Reflection // Flecs follow.
                OR vbIsUndead // So do undead (Animate).
             {
                Post(self,@GotoMaster);
-            }
-         }
-
-         // Seduced minions and dragonfly queens are loyal,
-         // but anything else is set free if the master logs off
-         if NOT IsClass(self,&DragonFlyQueen)
-            AND NOT Send(self,@IsEnchanted,#byClass=&Seduce)
-         {
-            if IsClass(poMaster,&Player)
-               AND NOT Send(poMaster,@IsLoggedOn)
-            {
-               // Send this rather than post, otherwise the master's
-               // piMonsterChasers isn't updated properly.
-               Send(self,@SetMaster,#oMaster=$);
             }
          }
       }
@@ -1255,6 +1257,67 @@ messages:
       }
 
       propagate;
+   }
+
+   SomethingPhasedOut(what=$)
+   {
+      if ((poApparitionCaster <> $ AND what = poApparitionCaster)
+            OR (poApparitionOriginal <> $ AND what = poApparitionOriginal))
+      {
+         Send(self,@Delete);
+      }
+
+      return;
+   }
+
+   SomethingPhasedIn(what=$)
+   {
+      // Check if it was this mob's temporary owner.
+      Send(self,@MobSeduceCheck,#what=what);
+
+      return;
+   }
+
+   SomethingSpectatedOut(what=$)
+   {
+      if ((poApparitionCaster <> $ AND what = poApparitionCaster)
+            OR (poApparitionOriginal <> $ AND what = poApparitionOriginal))
+      {
+         Send(self,@Delete);
+      }
+
+      return;
+   }
+
+   SomethingSpectatedIn(what=$)
+   {
+      // Check if it was this mob's temporary owner.
+      Send(self,@MobSeduceCheck,#what=what);
+
+      return;
+   }
+
+   MobSeduceCheck(what=$)
+   "Checks if the mob is under the effect of the Seduce spell, and should "
+   "return control to the master (e.g. master logs off/on)."
+   {
+      local oState;
+
+      if (NOT (piBehavior & AI_NPC)
+         AND poMaster = $)
+      {
+         oState = Send(self,@GetEnchantedState,
+                        #what=Send(SYS,@FindSpellByNum,#num=SID_SEDUCE));
+         // If we have no master and state for seduce, then our master
+         // logged off and back on again. We're still under the effect
+         // of the spell, so the player can have the mob back.
+         if (oState <> $)
+         {
+            Send(self,@SetMaster,#oMaster=oState);
+         }
+      }
+
+      return;
    }
 
    GotoMaster()
