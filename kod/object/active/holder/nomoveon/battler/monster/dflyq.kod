@@ -103,6 +103,7 @@ properties:
    piAnimation = ANIM_NONE
    ptHover = $
    ptLand = $
+   poLastFeeder = $
 
 messages:
 
@@ -297,12 +298,36 @@ messages:
          ptLand = $;
       }
 
+      poLastFeeder = $;
+
       propagate;
    }
 
    CanAcceptOffer()
    {
       return TRUE;
+   }
+
+   SetMaster(oMaster=$)
+   "Override to keep track of the last person to feed the dragonfly queen."
+   "Useful if we need to return control to that person."
+   {
+      poLastFeeder = poMaster;
+
+      propagate;
+   }
+
+   MobSeduceCheck(what=$)
+   "Check if we should return control to the last person to feed us."
+   {
+      if (poMaster = $
+         AND poLastFeeder = what)
+      {
+         Send(self,@SetMaster,#oMaster=what);
+      }
+
+      // Seduce overrides charm via feeding, checked in Monster.
+      propagate;
    }
 
    GotWantedItem(who=$, obj = 0)

@@ -125,7 +125,7 @@ messages:
       // Monsters should ONLY be waiting or moving at this point.
       if (state & STATE_CHASE) OR (state & STATE_ATTACK)
       {
-         Debug("Unreachable. Illegal state for ",mob," in room ",
+         Debug("Unreachable. Illegal state",state," for ",mob," in room ",
                Send(Send(mob,@GetOwner),@GetName));
       }
 
@@ -139,8 +139,8 @@ messages:
          Debug("Unreachable. In state LIMBO.");
       }
 
-      // don't force a monster in limbo if it has persistant timers
-      if (NOT Send(mob,@GetBehavior) & AI_MOVE_WHEN_ALONE)
+      // Don't force a monster in limbo if it has persistent timers.
+      if (NOT (Send(mob,@GetBehavior) & AI_MOVE_WHEN_ALONE))
       {
          Send(mob,@EnterStateLimbo);
       }
