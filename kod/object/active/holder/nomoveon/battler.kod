@@ -242,30 +242,13 @@ messages:
       }
 
       // If this Battler has created any evil twins, delete them.
-      if plEvilTwins <> $
-      {
-         foreach i in plEvilTwins
-         {
-            Send(i,@Delete);
-         }
-         plEvilTwins = $;
-      }
+      Send(self,@RemoveAllCreatedEvilTwins);
 
       // If this Battler has an Evil Twin, delete it too.
-      if poEvilTwin <> $
-      {
-         Send(poEvilTwin,@Delete);
-      }
+      Send(self,@RemoveAttackingEvilTwin);
 
       // If this Battler has Apparitions attacking it, delete them.
-      if plApparitionList <> $
-      {
-         foreach i in plApparitionList
-         {
-            Send(i,@Delete);
-         }
-         plApparitionList = $;
-      }
+      Send(self,@RemoveAllApparitions);
 
       if plHurtMeRecently <> $
       {
@@ -1656,14 +1639,31 @@ messages:
    }
 
    RemoveAllMinions()
+   "Removes all minions, including seduced, charmed, dragonfly queens etc."
    {
       local i;
 
+      // Delete our reflections.
+      Send(SYS,@DeletePlayerReflections,#who=self);
+
       foreach i in plControlledMinions
       {
-         if IsClass(i,&Monster)
+         // Reflections.
+         if (IsClass(i,&Reflection)
+            OR IsClass(i,&EvilTwin))
          {
+            // Release captured evil twins/reflections.
+            Send(i,@SetMaster,#oMaster=$);
+         }
+         else if (Send(i,@IsIllusion))
+         {
+            // Delete illusions.
             Send(i,@Delete);
+         }
+         else
+         {
+            // Release anything else.
+            Send(i,@SetMaster,#oMaster=$);
          }
       }
 
@@ -1687,7 +1687,7 @@ messages:
       {
          if NOT IsClass(i,&Reflection)
          {
-            iMinionCount = iMinionCount + 1;
+            ++iMinionCount;
          }
       }
 
@@ -1744,6 +1744,26 @@ messages:
       return FALSE;
    }
 
+   RemoveAttackingEvilTwin()
+   {
+      // Don't set poEvilTwin to $, ClearEvilTwin does that.
+      if (poEvilTwin <> $)
+      {
+         // Sanity check on deletion.
+         if (IsClass(poEvilTwin,&EvilTwin))
+         {
+            Send(poEvilTwin,@Delete);
+         }
+         else
+         {
+            Debug(self, Send(self,@GetTrueName)," tried to delete non-evil twin ",
+                  poEvilTwin," class ",GetClass(poEvilTwin));
+         }
+      }
+
+      return;
+   }
+
    ClearEvilTwin()
    "Clears the poEvilTwin property, called when ET is deleted."
    {
@@ -1788,6 +1808,18 @@ messages:
       return;
    }
 
+   RemoveAllCreatedEvilTwins()
+   {
+      if plEvilTwins <> $
+      {
+         // Use the 'ByClass' call since we're sending Delete.
+         SendListByClass(plEvilTwins,0,&EvilTwin,@Delete);
+         plEvilTwins = $;
+      }
+
+      return;
+   }
+
    // If Apparition is cast on the monster, this list keeps track of it.
    AddApparition(what=$)
    {
@@ -1820,10 +1852,17 @@ messages:
          }
       }
 
-      if Length(plApparitionList) = 0
-         {
-            plApparitionList = $;
-         }
+      return;
+   }
+
+   RemoveAllApparitions()
+   {
+      if plApparitionList <> $
+      {
+         // Use the 'ByClass' call since we're sending Delete.
+         SendListByClass(plApparitionList,0,&Monster,@Delete);
+         plApparitionList = $;
+      }
 
       return;
    }

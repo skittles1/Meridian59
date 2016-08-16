@@ -19,23 +19,6 @@ Phase_lost_one_item = de \
    "Du hast %s Skill Punkte, %s Zauber Punkte, und %s%s verloren."
 Phase_lost_two_items = de \
    "Du hast %s Skill Punkte, %s Zauber Punkte, %s%s, und %s%s verloren."
-Phase_phased_out_high_health = de \
-   "%s steigt aus, obwohl er völlig unverletzt ist."
-Phase_phased_out_medium_health = de \
-   "Sicher, das es ungünstig für ihn im Kampf steht, steigt %s aus der Realität "
-   "aus."
-Phase_phased_out_low_health = de \
-   "Kurz vor seinem Tot steigt %s aus der Realität aus!"
-Phase_phased_out_one_health = de \
-   "%s steigt nicht mal eine Sekunde vor seinem Tot aus der Realität aus!"
-Phase_caster_out = de \
-   "Dein Körper befindet sich nun auf einer anderen Bewußtseinsebene. "
-   "Du hast nun %i Sekunden Zeit, wieder zurück zu kehren. "
-   "Sollte das nicht gelingen, musst du mit einer Strafe rechnen."
-Phase_caster_in = de \
-   "Nur %i Sekunden vor dem Verlust deiner Existenz bist du aus deinem Ausstieg "
-   "zurückgekehrt."
-Phase_in = de "%s kehrt aus seinem Ausstieg aus der Realität zurück!"
 penalties_inflicted_one_item = de \
    "Diese qualvolle Erfahrung kostet Dich %i XP, einen Gegenstand, %i%% in "
    "Zaubersprüchen und %i%% in Waffenfertigkeiten."

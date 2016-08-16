@@ -859,9 +859,8 @@ messages:
       // Handles all help menus that include "help". Future DM commands
       // that include "help" should be handled by DMSayHelp.
       if StringContain(string,dm_help_command)
+         AND Send(self,@DMSayHelp,#string=string)
       {
-         Send(self,@DMSayHelp,#string=string);
-
          return;
       }
 
@@ -1467,25 +1466,35 @@ messages:
 #region DM Say Command Handling
 
    DMSayHelp(string=$)
+   "Return TRUE if handled here, FALSE otherwise."
    {
       if (string = $)
       {
-         return;
+         return FALSE;
       }
 
       if StringEqual(string,dm_help_lights_command)
       {
          Send(self,@MsgSendUser,#message_rsc=dm_help_lights);
+
+         return TRUE;
       }
-      else if StringEqual(string,dm_help_scenery_command)
+
+      if StringEqual(string,dm_help_scenery_command)
       {
          Send(self,@MsgSendUser,#message_rsc=dm_help_scenery);
+
+         return TRUE;
       }
-      else if StringEqual(string,dm_help_messages_command)
+
+      if StringEqual(string,dm_help_messages_command)
       {
          Send(self,@MsgSendUser,#message_rsc=dm_help_messages);
+
+         return TRUE;
       }
-      else
+
+      if StringEqual(string,dm_help_command)
       {
          // Rank-specific header followed by standard commands.
          if prRank = dm_moderator
@@ -1556,9 +1565,11 @@ messages:
          }
          // Standard help menu.
          Send(self,@MsgSendUser,#message_rsc=dm_help_all);
+
+         return TRUE;
       }
 
-      return;
+      return FALSE;
    }
 
    DMSayPlaceObject(string=$)

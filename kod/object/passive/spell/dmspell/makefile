@@ -8,6 +8,6 @@ DEPEND = ..\dmspell.bof
 
 BOFS = damn.bof pardon.bof dmrescue.bof page.bof bonk.bof scry.bof armag.bof \
        villify.bof insight.bof evaluate.bof dmhold.bof squelch.bof \
-       spectate.bof
+       spectate.bof charm.bof
 
 !include $(KODDIR)\kod.mak

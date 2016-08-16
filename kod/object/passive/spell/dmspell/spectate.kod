@@ -24,14 +24,6 @@ resources:
    spectate_desc_rsc = \
       "Puts the recipient of the spell out-of-phase with the rest of the "
       "world, leaving them unable to interact."
-   spectate_on_third = \
-      "%s has lost physical touch with this reality."
-   spectate_on_first = \
-      "You have lost your physical connection to this place!"
-   spectate_off_third = \
-      "%s has regained physical touch with this reality."
-   spectate_off_first = \
-      "You have regained your physical connection to this place."
 
 classvars:
 
@@ -93,31 +85,16 @@ messages:
       }
       else
       {
-         Send(oTarget,@RemoveAllMinions);
          Send(oTarget,@LeaveBuilderGroup);
       }
+
+      Send(oTarget,@StartEnchantment,#what=self);
 
       oRoom = Send(oTarget,@GetOwner);
       if oRoom <> $
       {
-         foreach i in Send(oRoom,@GetHolderActive)
-         {
-            each_obj = First(i);
-            if each_obj = oTarget
-            {
-               Send(oTarget,@MsgSendUser,#message_rsc=spectate_on_first);
-
-               continue;
-            }
-            if IsClass(each_obj,&User)
-            {
-               Send(each_obj,@MsgSendUser,#message_rsc=spectate_on_third,
-                     #parm1=Send(oTarget,@GetTrueName));
-            }
-         }
+         Send(oRoom,@SomethingSpectatedOut,#what=oTarget);
       }
-
-      Send(oTarget,@StartEnchantment,#what=self);
 
       propagate;
    }
@@ -153,21 +130,7 @@ messages:
       oRoom = Send(who,@GetOwner);
       if oRoom <> $
       {
-         foreach i in Send(oRoom,@GetHolderActive)
-         {
-            each_obj = First(i);
-            if each_obj = who
-            {
-               Send(who,@MsgSendUser,#message_rsc=spectate_off_first);
-
-               continue;
-            }
-            if IsClass(each_obj,&User)
-            {
-               Send(each_obj,@MsgSendUser,#message_rsc=spectate_off_third,
-                     #parm1=Send(who,@GetTrueName));
-            }
-         }
+         Send(oRoom,@SomethingSpectatedIn,#what=who);
       }
 
       return;

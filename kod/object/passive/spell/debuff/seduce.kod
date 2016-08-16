@@ -259,18 +259,22 @@ messages:
 
    EndEnchantment(who=$,report=TRUE,state=$)
    {
-      local oRoom, oTargetRoom, oTarget;
+      local cClass, oRoom, oTargetRoom, oTarget;
 
-      if Send(who,@GetOwner) <> $
+      if (Send(who,@GetOwner) <> $
+         AND state <> $
+         AND Send(who,@GetMaster) = state)
       {
-         oTarget = Send(who,@GetMaster);
+         oTarget = state;
       }
 
       Send(who,@SetMaster,#oMaster=$);
 
-      // These mobs have their own specific behavior after seduce expires.
-      if (IsClass(who,&Reflection)
-         OR IsClass(who,&EvilTwin))
+      // Reflection/ET have their own specific behavior after seduce expires.
+      cClass = GetClass(who);
+      if (oTarget = $
+         OR cClass = &Reflection
+         OR cClass = &EvilTwin)
       {
          return;
       }
@@ -296,10 +300,13 @@ messages:
 
    ModifyMonsterBehavior(mob=$)
    {
-      Send(mob,@SetBehaviorFlag,#flag=AI_MOVE_FOLLOW_MASTER,#value=TRUE);
-      Send(mob,@SetBehaviorFlag,#flag=AI_FIGHT_AGGRESSIVE,#value=FALSE);
-      Send(mob,@SetBehaviorFlag,#flag=AI_FIGHT_NEWBIESAFE);
-      Send(mob,@SetBehaviorFlag,#flag=AI_FIGHT_MONSTERS);
+      if (Send(mob,@GetMaster) <> $)
+      {
+         Send(mob,@SetBehaviorFlag,#flag=AI_MOVE_FOLLOW_MASTER,#value=TRUE);
+         Send(mob,@SetBehaviorFlag,#flag=AI_FIGHT_AGGRESSIVE,#value=FALSE);
+         Send(mob,@SetBehaviorFlag,#flag=AI_FIGHT_NEWBIESAFE);
+         Send(mob,@SetBehaviorFlag,#flag=AI_FIGHT_MONSTERS);
+      }
 
       return;
    }
