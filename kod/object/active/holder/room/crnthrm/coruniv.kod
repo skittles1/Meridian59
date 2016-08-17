@@ -409,7 +409,7 @@ resources:
       "¶"
       "The other cities lay far away, never again will they be of the same "
       "importance to us as they once were. Not that it matters, no other town "
-      "produces such tough and crafty fellows as Raza does."
+      "produces such tough and crafty fellows as Raza does. "
       "To permanently select Raza as your hometown, merely speak this phrase "
       "aloud: \"My birthplace Raza I call home once again.\"\n"
       "\n"
@@ -549,7 +549,7 @@ messages:
       }
       if iHomeRoom <> 0
       {
-         if NOT send(what,@CanChangeHomeroom)
+         if NOT Send(what,@CanChangeHomeroom)
          {
             Post(what,@MsgSendUser,#message_rsc=coruniv_no_change);
          }
