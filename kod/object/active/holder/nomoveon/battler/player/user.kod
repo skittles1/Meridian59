@@ -9453,27 +9453,24 @@ messages:
    {
       local rand;
       
-      rand = random(1,10);    
+      rand = Random(1,10);
       
       if rand < 4
       {
          piHomeroom = RID_MAR_INN;
-      }   
+      }
+      else if rand > 7
+      {
+         piHomeroom = RID_JAS_INN;
+      }
       else
       {
-         if rand > 7
-         {
-            piHomeroom = RID_JAS_INN;
-         }
-         else
-         {
-            piHomeroom = RID_COR_INN;
-         }
+         piHomeroom = RID_COR_INN;
       }
-      
+
       return;
    }
-   
+
    SetHomeroom(RID = 0, lock = FALSE)
    {
       if NOT lock
@@ -9484,20 +9481,23 @@ messages:
       {
          piHomeroom = -(rid);
       }
-      
+
       return;
    }
 
    CanChangeHomeroom()
    {
-      if piHomeRoom < 0
-      {
-         return FALSE;
-      }
-      
-      return TRUE;
+      return (piHomeRoom >= 0);
    }
-   
+
+   UnlockHomeroom()
+   "Allows the user to change their homeroom (sets it positive)."
+   {
+      piHomeRoom = Abs(piHomeRoom);
+
+      return;
+   }
+
    GetHomeRoom()
    {
       // A negative homeroom means you can't change it in the hall of
@@ -9506,8 +9506,8 @@ messages:
       {
          return $;
       }
-      
-      return abs(piHomeRoom);
+
+      return Abs(piHomeRoom);
    }
 
    AdminGoToJail()
