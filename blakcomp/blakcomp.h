@@ -42,7 +42,13 @@
 //    - Removed kod-style % comments, switch to // and /**/ style.
 //    - Replaced the MOD operator with %.
 //    - Added compound assignment operators +=, -=, *=, /=, %=, |=, &=.
-#define BOF_VERSION 7
+// BOF_VERSION 8 (20-8-2016) added:
+//    - compiler now checks whether C calls are required to store the return
+//      value, to avoid cases where they are not used properly.
+//    - IsClass call converted to 4 opcodes, 15-25% faster and allows for
+//      more type/argument checking in compiler. Syntax remains the same,
+//      but can be later modified to more resemble other OOP languages.
+#define BOF_VERSION 8
 
 #define IDBASE        10000      /* Lowest # of user-defined id.  Builtin ids have lower #s */
 #define RESOURCEBASE  20000      /* Lowest # of user-defined resource. */
@@ -91,7 +97,7 @@ enum { C_NUMBER, C_STRING, C_NIL, C_FNAME, C_RESOURCE, C_CLASS, C_MESSAGE, C_OVE
 /* Types of operators */
 enum { AND_OP, OR_OP, PLUS_OP, MINUS_OP, MULT_OP, DIV_OP, MOD_OP, NOT_OP, NEG_OP,
        NEQ_OP, EQ_OP, LT_OP, GT_OP, LEQ_OP, GEQ_OP, BITAND_OP, BITOR_OP, BITNOT_OP,
-       PRE_INC_OP, PRE_DEC_OP, POST_INC_OP, POST_DEC_OP };
+       PRE_INC_OP, PRE_DEC_OP, POST_INC_OP, POST_DEC_OP, ISCLASS_OP, ISCLASS_CONST_OP};
 
 typedef struct {
    int type;
@@ -344,6 +350,7 @@ expr_type make_expr_from_call(stmt_type);
 expr_type make_expr_from_constant(const_type);
 expr_type make_expr_from_literal(id_type id);
 expr_type make_bin_op(expr_type, int, expr_type);
+expr_type make_isclass_op(expr_type, expr_type);
 expr_type make_un_op(int, expr_type);
 
 arg_type make_arg_from_expr(expr_type expr);

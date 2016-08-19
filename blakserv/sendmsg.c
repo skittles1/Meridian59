@@ -147,7 +147,6 @@ void InitBkodInterpret(void)
       ccall_table[i] = C_Invalid;
    
    ccall_table[CREATEOBJECT] = C_CreateObject;
-   ccall_table[ISCLASS] = C_IsClass; 
    ccall_table[GETCLASS] = C_GetClass;
    
    ccall_table[SENDMESSAGE] = C_SendMessage;
@@ -1121,7 +1120,7 @@ void InterpretCallStoreLocal(int object_id, local_var_type *local_vars)
 
    info = get_byte(); /* get function id */
 
-                      // Local var ID
+   // Local var ID
    assign_index = get_int();
 
    num_normal_parms = get_byte();
@@ -1184,7 +1183,7 @@ void InterpretCallStoreProperty(int object_id, local_var_type *local_vars)
 
    info = get_byte(); /* get function id */
 
-                      // Property ID
+   // Property ID
    assign_index = get_int();
 
    num_normal_parms = get_byte();
@@ -1725,6 +1724,226 @@ void InterpretBinaryBitOr_P(int object_id, local_var_type *local_vars)
    StoreProperty(object_id, opnode->dest, source1_data);
 }
 
+// 'IsClass' binary instructions. Two opcodes used when the class ID is known
+// to be a constant (compiler checked), for storing to local or property. Two
+// opcodes for when the class ID is either a classvar, property or local,
+// storing in either property or local. Layout of instruction is same as other
+// binary ops:
+// 1 byte opcode, 1 byte source1/source2 type, 8 bytes source IDs, 4 bytes dest ID.
+
+// Macros for building IsClass instructions.
+#define ISCLASS_OP_VAR_RETRIEVE(a, b, c, d) \
+   val_type object_val = RetrieveValue(a, b, c->source1, d->source1); \
+   val_type class_val = RetrieveValue(a, b, c->source2, d->source2);
+#define ISCLASS_OP_CONST_RETRIEVE(a, b, c, d) \
+   val_type object_val = RetrieveValue(a, b, c->source1, d->source1); \
+   val_type class_val = *(val_type *)&opnode->source2;
+#define ISCLASS_STORE_FALSE_LOCAL \
+   store_val.int_val = KOD_FALSE; \
+   StoreLocal(local_vars, opnode->dest, store_val);
+#define ISCLASS_STORE_TRUE_LOCAL \
+   store_val.int_val = KOD_TRUE; \
+   StoreLocal(local_vars, opnode->dest, store_val);
+#define ISCLASS_STORE_FALSE_PROP \
+   store_val.int_val = KOD_FALSE; \
+   StoreProperty(object_id, opnode->dest, store_val);
+#define ISCLASS_STORE_TRUE_PROP \
+   store_val.int_val = KOD_TRUE; \
+   StoreProperty(object_id, opnode->dest, store_val);
+
+// OP_ISCLASS_L: IsClass with variable class ID location, store result in local.
+void InterpretIsClass_L(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   ISCLASS_OP_VAR_RETRIEVE(object_id, local_vars, opcode, opnode)
+   val_type store_val;
+
+   if (object_val.v.tag != TAG_OBJECT)
+   {
+      bprintf("InterpretIsClass_L can't deal with non-object %i,%i\n",
+         object_val.v.tag, object_val.v.data);
+      ISCLASS_STORE_FALSE_LOCAL
+      return;
+   }
+
+   if (class_val.v.tag != TAG_CLASS)
+   {
+      bprintf("InterpretIsClass_L can't look for non-class %i,%i\n",
+         class_val.v.tag, class_val.v.data);
+      ISCLASS_STORE_FALSE_LOCAL
+      return;
+   }
+
+   object_node *o = GetObjectByID(object_val.v.data);
+   if (o == NULL)
+   {
+      bprintf("InterpretIsClass_L can't find object %i\n", object_val.v.data);
+      ISCLASS_STORE_FALSE_LOCAL
+      return;
+   }
+
+   class_node *c = GetClassByID(o->class_id);
+   if (c == NULL)
+   {
+      bprintf("InterpretIsClass_L can't find class %i, DIE totally\n", o->class_id);
+      FlushDefaultChannels();
+      ISCLASS_STORE_FALSE_LOCAL
+      return;
+   }
+
+   do
+   {
+      if (c->class_id == class_val.v.data)
+      {
+         ISCLASS_STORE_TRUE_LOCAL
+         return;
+      }
+      c = c->super_ptr;
+   } while (c != NULL);
+
+   ISCLASS_STORE_FALSE_LOCAL
+}
+// OP_ISCLASS_P: IsClass with variable class ID location, store result in property.
+void InterpretIsClass_P(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   ISCLASS_OP_VAR_RETRIEVE(object_id, local_vars, opcode, opnode)
+   val_type store_val;
+
+   if (object_val.v.tag != TAG_OBJECT)
+   {
+      bprintf("InterpretIsClass_P can't deal with non-object %i,%i\n",
+         object_val.v.tag, object_val.v.data);
+      ISCLASS_STORE_FALSE_PROP
+      return;
+   }
+
+   if (class_val.v.tag != TAG_CLASS)
+   {
+      bprintf("InterpretIsClass_P can't look for non-class %i,%i\n",
+         class_val.v.tag, class_val.v.data);
+      ISCLASS_STORE_FALSE_PROP
+      return;
+   }
+
+   object_node *o = GetObjectByID(object_val.v.data);
+   if (o == NULL)
+   {
+      bprintf("InterpretIsClass_P can't find object %i\n", object_val.v.data);
+      ISCLASS_STORE_FALSE_PROP
+      return;
+   }
+
+   class_node *c = GetClassByID(o->class_id);
+   if (c == NULL)
+   {
+      bprintf("InterpretIsClass_P can't find class %i, DIE totally\n", o->class_id);
+      FlushDefaultChannels();
+      ISCLASS_STORE_FALSE_PROP
+      return;
+   }
+
+   do
+   {
+      if (c->class_id == class_val.v.data)
+      {
+         ISCLASS_STORE_TRUE_PROP
+         return;
+      }
+      c = c->super_ptr;
+   } while (c != NULL);
+
+   ISCLASS_STORE_FALSE_PROP
+}
+// OP_ISCLASS_CONST_L: IsClass with constant class ID, store result in local.
+void InterpretIsClassConst_L(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   ISCLASS_OP_CONST_RETRIEVE(object_id, local_vars, opcode, opnode)
+   val_type store_val;
+
+   if (object_val.v.tag != TAG_OBJECT)
+   {
+      bprintf("InterpretIsClassConst_L can't deal with non-object %i,%i\n",
+         object_val.v.tag, object_val.v.data);
+      ISCLASS_STORE_FALSE_LOCAL
+      return;
+   }
+
+   object_node *o = GetObjectByID(object_val.v.data);
+   if (o == NULL)
+   {
+      bprintf("InterpretIsClassConst_L can't find object %i\n", object_val.v.data);
+      ISCLASS_STORE_FALSE_LOCAL
+      return;
+   }
+
+   class_node *c = GetClassByID(o->class_id);
+   if (c == NULL)
+   {
+      bprintf("InterpretIsClassConst_L can't find class %i, DIE totally\n", o->class_id);
+      FlushDefaultChannels();
+      ISCLASS_STORE_FALSE_LOCAL
+      return;
+   }
+
+   do
+   {
+      if (c->class_id == class_val.v.data)
+      {
+         ISCLASS_STORE_TRUE_LOCAL
+         return;
+      }
+      c = c->super_ptr;
+   } while (c != NULL);
+
+   ISCLASS_STORE_FALSE_LOCAL
+}
+// OP_ISCLASS_CONST_P: IsClass with constant class ID, store result in property.
+void InterpretIsClassConst_P(int object_id, local_var_type *local_vars)
+{
+   BINARY_OP_INIT
+   ISCLASS_OP_CONST_RETRIEVE(object_id, local_vars, opcode, opnode)
+   val_type store_val;
+
+   if (object_val.v.tag != TAG_OBJECT)
+   {
+      bprintf("InterpretIsClassConst_P can't deal with non-object %i,%i\n",
+         object_val.v.tag, object_val.v.data);
+      ISCLASS_STORE_FALSE_PROP
+      return;
+   }
+
+   object_node *o = GetObjectByID(object_val.v.data);
+   if (o == NULL)
+   {
+      bprintf("InterpretIsClassConst_P can't find object %i\n", object_val.v.data);
+      ISCLASS_STORE_FALSE_PROP
+      return;
+   }
+
+   class_node *c = GetClassByID(o->class_id);
+   if (c == NULL)
+   {
+      bprintf("InterpretIsClassConst_P can't find class %i, DIE totally\n", o->class_id);
+      FlushDefaultChannels();
+      ISCLASS_STORE_FALSE_PROP
+      return;
+   }
+
+   do
+   {
+      if (c->class_id == class_val.v.data)
+      {
+         ISCLASS_STORE_TRUE_PROP
+         return;
+      }
+      c = c->super_ptr;
+   } while (c != NULL);
+
+   ISCLASS_STORE_FALSE_PROP
+}
+
 void CreateOpcodeTable(void)
 {
    opcode_table[OP_GOTO_UNCOND] = InterpretGotoUncond;
@@ -1781,4 +2000,8 @@ void CreateOpcodeTable(void)
    opcode_table[OP_BINARY_BITAND_P] = InterpretBinaryBitAnd_P;
    opcode_table[OP_BINARY_BITOR_L] = InterpretBinaryBitOr_L;
    opcode_table[OP_BINARY_BITOR_P] = InterpretBinaryBitOr_P;
+   opcode_table[OP_ISCLASS_L] = InterpretIsClass_L;
+   opcode_table[OP_ISCLASS_P] = InterpretIsClass_P;
+   opcode_table[OP_ISCLASS_CONST_L] = InterpretIsClassConst_L;
+   opcode_table[OP_ISCLASS_CONST_P] = InterpretIsClassConst_P;
 }

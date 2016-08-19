@@ -640,6 +640,16 @@ int flatten_expr(expr_type e, id_type destvar, int maxlocal)
             ? OutputByte(outfile, (BYTE)OP_BINARY_BITOR_L)
             : OutputByte(outfile, (BYTE)OP_BINARY_BITOR_P);
          break;
+      case ISCLASS_OP:
+         (binary_dest_type == LOCAL_VAR)
+            ? OutputByte(outfile, (BYTE)OP_ISCLASS_L)
+            : OutputByte(outfile, (BYTE)OP_ISCLASS_P);
+         break;
+      case ISCLASS_CONST_OP:
+         (binary_dest_type == LOCAL_VAR)
+            ? OutputByte(outfile, (BYTE)OP_ISCLASS_CONST_L)
+            : OutputByte(outfile, (BYTE)OP_ISCLASS_CONST_P);
+         break;
       default:
          codegen_error("Unknown unary operator type (%d) encountered", op);
       }

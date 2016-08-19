@@ -75,7 +75,6 @@ function_type Functions[] = {
 {"DeleteTimer",         DELETETIMER,     STORE_OPTIONAL, AEXPRESSION,   ANONE},
 {"IsTimer",             ISTIMER,         STORE_REQUIRED, AEXPRESSION,   ANONE},
 {"IsList",              ISLIST,          STORE_REQUIRED, AEXPRESSION,   ANONE},
-{"IsClass",             ISCLASS,         STORE_REQUIRED, AEXPRESSION,   AEXPRESSION,  ANONE},
 {"RoomData",            ROOMDATA,        STORE_REQUIRED, AEXPRESSION,   ANONE},
 {"LoadRoom",            CREATEROOMDATA,  STORE_REQUIRED, AEXPRESSION,   ANONE},
 {"FreeRoom",            FREEROOM,        STORE_OPTIONAL, AEXPRESSION,   ANONE},

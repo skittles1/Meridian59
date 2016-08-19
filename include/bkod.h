@@ -81,6 +81,10 @@ enum opcode_id {
    OP_BINARY_BITAND_P,
    OP_BINARY_BITOR_L,
    OP_BINARY_BITOR_P,
+   OP_ISCLASS_L,
+   OP_ISCLASS_P,
+   OP_ISCLASS_CONST_L,
+   OP_ISCLASS_CONST_P,
    NUMBER_OF_OPCODES // Must be last.
 };
 
@@ -106,7 +110,6 @@ enum
 enum
 {
    CREATEOBJECT = 1,
-   ISCLASS = 3,
    GETCLASS = 5,
 
    SENDMESSAGE = 11,
