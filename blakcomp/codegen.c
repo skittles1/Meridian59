@@ -158,7 +158,7 @@ void codegen_filename(char *filename)
  *   maxlocal is highest # local variable used so far in this message handler.
  *   Returns highest # local variable used in code for call.
  */
-int codegen_call(call_stmt_type c, id_type destvar, int maxlocal)
+int codegen_call(call_stmt_type c, id_type destvar, int linenumber, int maxlocal)
 {
    /* our_maxlocal gives highest #ed temporary needed to evaluate the
     * entire call.  maxtemps is the highest temp needed for a single arg. */
@@ -192,7 +192,14 @@ int codegen_call(call_stmt_type c, id_type destvar, int maxlocal)
 
    /* Output the call opcode */
    if (destvar == NULL)
+   {
+      // Check if this function is allowed to discard the return value.
+      // Warn but don't halt codegen.
+      if (c->store_required == STORE_REQUIRED)
+         codegen_warning(linenumber, "Function call %s discarding required return value",
+            get_function_name_by_opcode(c->function));
       OutputByte(outfile, (BYTE)OP_CALL_STORE_NONE);
+   }
    else
    {
       switch (destvar->type)
@@ -853,9 +860,10 @@ int codegen_foreach(foreach_stmt_type s, int numlocals)
    temp_expr->value.idval = temp_id;
    arg->type = ARG_EXPR;
    arg->value.expr_val = temp_expr;
+   call_stmt->store_required = STORE_REQUIRED;
    call_stmt->function = FIRST;
    call_stmt->args = list_create(arg);
-   codegen_call(call_stmt, s->id, numlocals);  /* Won't require more temps */
+   codegen_call(call_stmt, s->id, s->condition->lineno, numlocals);  /* Won't require more temps */
 
    /* Write code for loop body */
    for (p = s->body; p != NULL; p = p->next)
@@ -872,7 +880,7 @@ int codegen_foreach(foreach_stmt_type s, int numlocals)
    /**** Statement #4:    temp = Rest(temp) ****/
    /* Can reuse most of statement #3 above */
    call_stmt->function = REST;
-   codegen_call(call_stmt, temp_id, numlocals);  /* Won't require more temps */
+   codegen_call(call_stmt, temp_id, s->condition->lineno, numlocals);  /* Won't require more temps */
 
    /**** Statement #5:    goto top ****/
    OutputGotoOpcode(outfile, GOTO_UNCONDITIONAL, 0);
@@ -915,7 +923,7 @@ int codegen_statement(stmt_type s, int numlocals)
    }
 
    case S_CALL:
-      our_maxtemp = codegen_call(s->value.call_stmt_val, NULL, numlocals);
+      our_maxtemp = codegen_call(s->value.call_stmt_val, NULL, s->lineno, numlocals);
       break;
 
    case S_PROP:

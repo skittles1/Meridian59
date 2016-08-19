@@ -1615,7 +1615,7 @@ messages:
    {
       if ptMinionControlCheck = $
       {
-         CreateTimer(self,@MinionControlCheck,2000);
+         ptMinionControlCheck = CreateTimer(self,@MinionControlCheck,2000);
       }
 
       plControlledMinions = Cons(minion,plControlledMinions);
@@ -1694,9 +1694,14 @@ messages:
       return iMinionCount;
    }
 
-   MinionControlCheck()
+   MinionControlCheck(timer = $)
    {
       local i;
+
+      if (ptMinionControlCheck <> timer)
+      {
+         DeleteTimer(ptMinionControlCheck);
+      }
 
       if Length(plControlledMinions) > 0
       {
@@ -1715,14 +1720,10 @@ messages:
                      #value=TRUE);
             }
          }
-         CreateTimer(self,@MinionControlCheck,2000);
+         ptMinionControlCheck = CreateTimer(self,@MinionControlCheck,2000);
       }
       else
       {
-         if ptMinionControlCheck <> $
-         {
-            DeleteTimer(ptMinionControlCheck);
-         }
          ptMinionControlCheck = $;
       }
 

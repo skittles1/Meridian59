@@ -181,6 +181,7 @@ enum {S_IF = 1, S_ASSIGN, S_CALL, S_FOREACH, S_WHILE, S_PROP, S_RETURN,
 
 typedef struct {
    int function;    /* Opcode of function to call */
+   int store_required; /* Does the function require a destvar? */
    list_type args;  /* Arguments */
 } *call_stmt_type, call_stmt_struct;
 
@@ -266,9 +267,12 @@ typedef struct _class {
 
 /* Function parameter types --see function.c */
 enum {ANONE=0, AEXPRESSION, AEXPRESSIONS, ASETTING, ASETTINGS};
+enum {STORE_OPTIONAL = 0, STORE_REQUIRED};
+
 typedef struct {
    const char name[MAXFNAME];
    int  opcode;
+   int  store_required;
    int  params[MAXARGS];
 } function_type;
 
@@ -315,6 +319,9 @@ char *assemble_string(char *str);
 
 void include_file(char *filename);   
 
+
+// functions.c
+const char * get_function_name_by_opcode(int opcode);
 
 /* action handlers */
 const_type make_numeric_constant(int);

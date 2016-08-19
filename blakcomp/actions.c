@@ -1312,7 +1312,10 @@ stmt_type make_list_call(list_type l)
    
    s->function = MLIST;
    s->args = NULL;
-   
+
+   // Must store result of call.
+   s->store_required = STORE_REQUIRED;
+
    for ( ; l != NULL; l = l->next)
       s->args = list_add_item(s->args, make_arg_from_expr((expr_type) l->data));
 
@@ -1345,7 +1348,10 @@ stmt_type make_call(id_type function_id, list_type args)
 
    fname = Functions[index].name;
    s->function = Functions[index].opcode;
-      
+
+   // Keep track of whether the function requires a destvar.
+   s->store_required = Functions[index].store_required;
+
    /* Check that types of arguments match "function prototype" in table */
    for ( ; args != NULL; args = args->next)
    {

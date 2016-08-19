@@ -51,6 +51,7 @@ void BackpatchGotoUnconditional(int outfile, int source, int destination);
 void BackpatchGotoConditional(int outfile, int source, int destination);
 
 void codegen_error(const char *fmt, ...);
+void codegen_warning(int linenumber, const char *fmt, ...);
 int const_to_int(const_type c);
 int set_source_id(opcode_data *opcode, int sourcenum, expr_type e);
 int set_dest_id(opcode_data *opcode, id_type id);
@@ -70,6 +71,6 @@ void codegen_parameter(param_type p);
 void codegen_property(property_type p);
 void codegen_message(message_handler_type m);
 void codegen_class(class_type c);
-int codegen_call(call_stmt_type c, id_type destvar, int maxlocal);
+int codegen_call(call_stmt_type c, id_type destvar, int linenumber, int maxlocal);
 
 #endif /* #ifndef _CODEGEN_H */

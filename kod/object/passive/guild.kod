@@ -1298,13 +1298,11 @@ messages:
    {
       local i, lOfficers;
 
-      lOfficers = [];
-
       foreach i in plMembers
       {
          if Nth(i,2) >= RANK_LIEUTENANT
          {
-            Cons(First(i), lOfficers);
+            lOfficers = Cons(First(i), lOfficers);
          }
       }
 

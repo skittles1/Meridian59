@@ -14,7 +14,23 @@
 // file opened in codegen.c -- ugly that it has the same name as a parameter
 // to many functions in this file.
 extern int outfile;
+extern char *current_fname;
+/************************************************************************/
+/*
+ * codegen_warning: Print a warning message during code generation.
+ *   Doesn't halt code generation.
+ */
+void codegen_warning(int linenumber, const char *fmt, ...)
+{
+   va_list marker;
 
+   fprintf(stderr, "%s(%d): warning: ", current_fname, linenumber);
+
+   va_start(marker, fmt);
+   vprintf(fmt, marker);
+   va_end(marker);
+   printf("\n");
+}
 /************************************************************************/
 /* 
  * codegen_error: Print an error message during code generation
@@ -23,7 +39,7 @@ void codegen_error(const char *fmt, ...)
 {
    va_list marker;
 
-   printf("error: ");
+   fprintf(stderr, "%s: error: ", current_fname);
 
    va_start(marker, fmt);
    vprintf(fmt, marker);
@@ -644,7 +660,7 @@ int flatten_expr(expr_type e, id_type destvar, int maxlocal)
    case E_CALL:
       /* Place return value of call into destination variable */
       our_maxlocal = codegen_call( ((stmt_type) (e->value.callval))->value.call_stmt_val, 
-            destvar, our_maxlocal);
+            destvar, e->lineno, our_maxlocal);
       break;
 
    default:
