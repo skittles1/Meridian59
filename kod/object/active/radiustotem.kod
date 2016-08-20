@@ -44,31 +44,33 @@ messages:
    Constructor(totem_spell=$,totem_caster=$,totem_power=0,totem_range=0)
    {
       local oRoom, iTime;
-      
+
       poSpell = totem_spell;
       poCaster = totem_caster;
       piSpellpower = totem_power;
-      
+
       oRoom = Send(poCaster,@GetOwner);
-      
-      If oRoom = $
+
+      if oRoom = $
          OR poCaster = $
          OR poSpell = $
          OR piSpellpower = 0
          OR NOT IsClass(oRoom,&Room)
       {
          Post(self,@Delete);
+
          return;
       }
 
       Send(SYS,@AddSpellTotemToServerList,#oTotem=self);
-      
+
       piRow = Send(poCaster,@GetRow);
       piCol = Send(poCaster,@GetCol);
 
       Send(oRoom,@NewHold,#what=self,#new_row=piRow,#new_col=piCol);
 
-      Send(poSpell,@InitiateNewRadiusEnchantment,#source=self,#iSpellPower=piSpellpower,#iRange=totem_range);
+      Send(poSpell,@InitiateNewRadiusEnchantment,#source=self,
+            #iSpellPower=piSpellpower,#iRange=totem_range);
 
       iTime = Send(poSpell,@GetDuration,#iSpellPower=piSpellpower);
       if iTime <> $
@@ -78,14 +80,15 @@ messages:
 
       propagate;
    }
-   
+
    TotemExpire()
    {
       local i;
 
       ptExpirationTimer = $;
-      
+
       Send(self,@Delete);
+
       return;
    }
 
@@ -101,7 +104,7 @@ messages:
 
       foreach i in plRadiusEnchantments
       {
-         Send(Nth(i,1),@BreakTrance,#who=self,#event=EVENT_STEER);
+         Send(First(i),@BreakTrance,#who=self,#event=EVENT_STEER);
       }
 
       poCaster = $;
@@ -112,12 +115,12 @@ messages:
 
       propagate;
    }
-   
+
    GetCaster()
    {
       return poCaster;
    }
-   
+
    GetSpell()
    {
       return poSpell;
@@ -132,7 +135,7 @@ messages:
    {
       return Send(poCaster,@GetTrueName);
    }
-   
+
    GetGuild()
    {
       if IsClass(poCaster,&Monster)
@@ -142,7 +145,7 @@ messages:
 
       return Send(poCaster,@GetGuild);
    }
-   
+
    AllowPlayerAttack(victim=$,report=FALSE)
    {
       if IsClass(poCaster,&Monster)
@@ -173,12 +176,12 @@ messages:
    {
       return;
    }
-   
+
    SomethingLeft(where = $,what = $)
    {
       return;
    }
-   
+
    SomethingMoved(what = $,new_row = $,new_col = $)
    {
       propagate;
@@ -196,29 +199,30 @@ messages:
    }
 
    GetEnchantedState(what = $)
-   "If enchanted by <what>, returns the state data (which MUST exist, or it's an error.  "
-   "In other words, the caller must know that <what> adds state data).  Returns $ otherwise."
+   "If enchanted by <what>, returns the state data (which MUST exist, or "
+   "it's an error.  In other words, the caller must know that <what> adds "
+   "state data).  Returns $ otherwise."
    {
       local i;
 
       foreach i in plRadiusEnchantments
       {
-         if Nth(i,1) = what
+         if First(i) = what
          {
             return Nth(i,2);
          }
       }
-      
+
       return $;
    }
 
    AddRadiusEnchantment(what=$,iPower=0,source=$)
    {
       local i;
-      
+
       foreach i in plRadiusEnchantments
       {
-         if Nth(i,1) = what
+         if First(i) = what
             AND Nth(i,2) = iPower
             AND Nth(i,3) = source
          {
@@ -227,17 +231,7 @@ messages:
       }
 
       plRadiusEnchantments = Cons([what,iPower,source],plRadiusEnchantments);
-      
-      If IsClass(self,&User)
-      {
-         Send(self,@ShowAddEnchantment,#what=what,#type=2);
-         
-         If source = self
-         {
-            Send(self,@ShowAddEnchantment,#what=what,#type=1);
-         }
-      }
-      
+
       return;
    }
 
@@ -245,23 +239,13 @@ messages:
    {
       local i, bFound;
 
-      bFound = FALSE ;
+      bFound = FALSE;
       foreach i in plRadiusEnchantments
       {
-         if Nth(i,1) = what
+         if First(i) = what
             AND Nth(i,2) = iPower
             AND Nth(i,3) = source
          {
-            If IsClass(self,&User)
-            {
-               Send(self,@ShowRemoveEnchantment,#what=Nth(i,1),#type=2);
-
-               If source = self
-               {
-                  Send(self,@ShowRemoveEnchantment,#what=Nth(i,1),#type=1);
-               }
-            }
-         
             plRadiusEnchantments = DelListElem(plRadiusEnchantments,i);
             bFound = TRUE;
          }
@@ -275,12 +259,12 @@ messages:
 
       return;
    }
-   
+
    IsAffectedByRadiusEnchantment(what=$,caster=$,byClass=&RadiusEnchantment)
    "Returns whether or not currently enchanted by <what> radius enchantment."
    {
       local i;
-      
+
       if plRadiusEnchantments = $
       {
          return FALSE;
@@ -290,19 +274,10 @@ messages:
       {
          foreach i in plRadiusEnchantments
          {
-            if IsClass(Nth(i,1),byClass)
+            if IsClass(First(i),byClass)
+               AND (caster = $ OR Nth(i,3) = caster)
             {
-               if caster = $
-               {
-                  return TRUE;
-               }
-               else
-               {
-                  if Nth(i,3) = caster
-                  {
-                     return TRUE;
-                  }
-               }
+               return TRUE;
             }
          }
       }
@@ -310,57 +285,41 @@ messages:
       {
          foreach i in plRadiusEnchantments
          {
-            if Nth(i,1) = what
+            if First(i) = what
+               AND (caster = $ OR Nth(i,3) = caster)
             {
-               if caster = $
-               {
-                  return TRUE;
-               }
-               else
-               {
-                  if Nth(i,3) = caster
-                  {
-                     return TRUE;
-                  }
-               }
-            }
-         }      
-      }
-      
-      return FALSE;
-   }
-   
-   GetMostPowerfulRadiusEnchantmentState(byClass=&RadiusEnchantment)
-   {
-      local i, oHighest;
-   
-      oHighest = $;
-   
-      foreach i in plRadiusEnchantments
-      {
-         if IsClass(Nth(i,1), byClass)
-         {
-            if oHighest = $
-            {
-               oHighest = i;
-            }
-            else
-            {
-               if Nth(i,2) > Nth(oHighest,2)
-               {
-                  oHighest = i;
-               }
+               return TRUE;
             }
          }
       }
+
+      return FALSE;
+   }
+
+   GetMostPowerfulRadiusEnchantmentState(byClass=&RadiusEnchantment)
+   {
+      local i, oHighest;
+
+      foreach i in plRadiusEnchantments
+      {
+         if IsClass(First(i),byClass)
+         {
+            if (oHighest = $
+               OR Nth(i,2) > Nth(oHighest,2))
+            {
+               oHighest = i;
+            }
+         }
+      }
+
       return oHighest;
    }
-   
+
    GetRadiusEnchantments()
    {
       return plRadiusEnchantments;
    }
-   
+
    IsInSameRoom(what = $)
    {
       if Send(self,@GetOwner) <> $
@@ -369,18 +328,19 @@ messages:
          AND IsClass(Send(what,@GetOwner),&Room)
          AND Send(self,@GetOwner) = Send(what,@GetOwner)
       {
-         return 1;
+         return TRUE;
       }
-         
-      return 0;
+
+      return FALSE;
    }
 
    SquaredDistanceTo(what = $)
-   "Computes squared distance to <what>. Returns $ for any object that is not within a room."
+   "Computes squared distance to <what>. Returns $ for any object that "
+   "is not within a room."
    {
       local iRow, iCol;
-      
-      If NOT Send(self,@IsInSameRoom,#what=what)
+
+      if NOT Send(self,@IsInSameRoom,#what=what)
       {
          return $;
       }
@@ -394,7 +354,7 @@ messages:
          return $;
       }
 
-      return send(self,@SquaredDistanceToLocation,#row=iRow,#col=iCol);
+      return Send(self,@SquaredDistanceToLocation,#row=iRow,#col=iCol);
    }
 
    SquaredDistanceToLocation(row = $, col = $)

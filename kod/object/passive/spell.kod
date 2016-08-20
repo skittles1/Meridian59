@@ -2606,16 +2606,10 @@ messages:
    GetRingCharges()
    "Returns the number of charges needed to fuel the ring of Far'nohl."
    {
-      // Default is one, more charges might be needed for more costly spells,
-      //  such as Bond.
-      if IsClass(self,&Bond)
-      {
-         return 3;
-      }
-
+      // Default is one, override for more charges.
       return 1;
    }
-   
+
    TranceBlocksSay()
    "Returns TRUE only if the spell purposely blocks spoken messages during its own trance."
    {

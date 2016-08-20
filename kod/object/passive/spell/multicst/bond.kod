@@ -170,14 +170,15 @@ messages:
    {
       if BondedPlayer = $
       {
-         DEBUG("tried to report to a $ player!");
+         Debug("tried to report to a $ player!");
 
          return;
       }
 
       if BondedItem = $
       {
-         DEBUG("tried to report to ",Send(BondedPlayer,@GetTrueName)," on a $ item!  Clearing bond.");
+         Debug("tried to report to ",Send(BondedPlayer,@GetTrueName),
+               " on a $ item!  Clearing bond.");
          Send(BondedPlayer,@ClearBondedItem);
 
          return;
@@ -196,7 +197,8 @@ messages:
 
       if BondedItemOwner = $
       {
-         DEBUG(Send(BondedItem,@GetTrueName)," bonded to ",Send(BondedPlayer,@GetTrueName)," has no owner!  Clearing bond.");
+         Debug(Send(BondedItem,@GetTrueName)," bonded to ",
+               Send(BondedPlayer,@GetTrueName)," has no owner!  Clearing bond.");
          Send(BondedPlayer,@ClearBondedItem);
 
          return;
@@ -208,7 +210,7 @@ messages:
 
          return;
       }
-      
+
       if IsClass(BondedItemOwner,&StorageBox)
       {
          BondedItemOwner = Send(SYS,@UtilGetRoomRecurse,#what=BondedItemOwner);
@@ -237,7 +239,10 @@ messages:
          return;
       }
 
-      debug(Send(BondedItem,@GetTrueName)," bonded to ",Send(BondedPlayer,@GetTrueName)," not in room or in player's possession!  In ",Send(BondedItemOwner,@GetTrueName));
+      Debug(Send(BondedItem,@GetTrueName)," bonded to ",
+            Send(BondedPlayer,@GetTrueName),
+            " not in room or in player's possession!  In ",
+            Send(BondedItemOwner,@GetTrueName));
       Send(BondedPlayer,@MsgSendUser,#message_rsc=bond_report_room,
             #parm1=Send(BondedItem,@GetName),
             #parm2=Send(BondedItemOwner,@GetName));
@@ -245,6 +250,11 @@ messages:
       return;
    }
 
+   GetRingCharges()
+   "Returns the number of charges needed to fuel the ring of Far'nohl."
+   {
+      return 3;
+   }
 
 end
 ////////////////////////////////////////////////////////////////////////////////

@@ -358,6 +358,12 @@ messages:
    // State Transition Functions
    //////////////////////////////////////////
 
+   // Revenant doesn't need random/spasm timers.
+   StartBasicTimers()
+   {
+      return;
+   }
+
    // Called when the user leaves the screen, as we're being deleted.
    // We don't add to the target's piMonsterChasers, so override the
    // superclass here.
