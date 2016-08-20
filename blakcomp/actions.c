@@ -747,6 +747,62 @@ expr_type make_bin_op(expr_type expr1, int op, expr_type expr2)
    return e;
 }
 /************************************************************************/
+expr_type make_isclass_op(expr_type expr1, expr_type expr2)
+{
+   // These are binary ops since they share the same structure:
+   // Take two inputs (object, class ID) and store boolean result
+   // into local or property.
+
+   expr_type e = (expr_type)SafeMalloc(sizeof(expr_struct));
+
+   e->type = E_BINARY_OP;
+   e->value.binary_opval.left_exp = expr1;
+   e->value.binary_opval.right_exp = expr2;
+   e->lineno = lineno;
+
+   // Separate opcode if we can type-check the class at compile time.
+   if (expr2->type == E_CONSTANT)
+   {
+      // Only class constants (literals) allowed.
+      if (expr2->value.constval->type != C_CLASS)
+      {
+         action_error("IsClass call with non-class constant!");
+         return e;
+      }
+      e->value.binary_opval.op = ISCLASS_CONST_OP;
+
+      // Check if we're making a comparison on self that can
+      // be resolved to true.
+      if (expr1->type == E_IDENTIFIER
+         && (expr1->value.idval->type == I_PROPERTY
+            && expr1->value.idval->idnum == 0)
+         && st.curclass == expr2->value.constval->value.numval)
+      {
+         action_error("Found IsClass call always evaluating to true!");
+      }
+   }
+   else if (expr2->type == E_CALL || expr2->type == E_IDENTIFIER)
+   {
+      // These are valid ways of obtaining class ID at runtime.
+      e->value.binary_opval.op = ISCLASS_OP;
+   }
+   else
+   {
+      // Anything else is invalid.
+      action_error("IsClass call must have class literal, identifier or call for class field.");
+   }
+
+   // Check LHS also - must be call or ID.
+   if (expr1->type == E_CONSTANT)
+      action_error("IsClass call cannot use constant for object field.");
+   else if (expr1->type == E_BINARY_OP)
+      action_error("IsClass call cannot use binary op for object field.");
+   else if (expr1->type == E_UNARY_OP)
+      action_error("IsClass call cannot use unary op for object field.");
+
+   return e;
+}
+/************************************************************************/
 expr_type make_un_op(int op, expr_type expr1)
 {
    expr_type e = (expr_type) SafeMalloc(sizeof(expr_struct));
@@ -1312,7 +1368,10 @@ stmt_type make_list_call(list_type l)
    
    s->function = MLIST;
    s->args = NULL;
-   
+
+   // Must store result of call.
+   s->store_required = STORE_REQUIRED;
+
    for ( ; l != NULL; l = l->next)
       s->args = list_add_item(s->args, make_arg_from_expr((expr_type) l->data));
 
@@ -1345,7 +1404,10 @@ stmt_type make_call(id_type function_id, list_type args)
 
    fname = Functions[index].name;
    s->function = Functions[index].opcode;
-      
+
+   // Keep track of whether the function requires a destvar.
+   s->store_required = Functions[index].store_required;
+
    /* Check that types of arguments match "function prototype" in table */
    for ( ; args != NULL; args = args->next)
    {

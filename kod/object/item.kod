@@ -2513,16 +2513,6 @@ messages:
 
       plRadiusEnchantments = Cons([what,iPower,source],plRadiusEnchantments);
 
-      if IsClass(self,&User)
-      {
-         Send(self,@ShowAddEnchantment,#what=what,#type=2);
-
-         if source = self
-         {
-            Send(self,@ShowAddEnchantment,#what=what,#type=1);
-         }
-      }
-
       return;
    }
 
@@ -2538,16 +2528,6 @@ messages:
             AND Nth(i,2) = iPower
             AND Nth(i,3) = source
          {
-            if IsClass(self,&User)
-            {
-               Send(self,@ShowRemoveEnchantment,#what=First(i),#type=2);
-
-               if source = self
-               {
-                  Send(self,@ShowRemoveEnchantment,#what=First(i),#type=1);
-               }
-            }
-
             plRadiusEnchantments = DelListElem(plRadiusEnchantments,i);
             bFound = TRUE;
          }
@@ -2601,8 +2581,6 @@ messages:
    GetMostPowerfulRadiusEnchantmentState(byClass=&RadiusEnchantment)
    {
       local i, oHighest;
-
-      oHighest = $;
 
       foreach i in plRadiusEnchantments
       {

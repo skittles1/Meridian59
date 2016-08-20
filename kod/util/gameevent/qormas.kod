@@ -55,9 +55,6 @@ properties:
    // number of game days before presents auto-reset
    piGiftRefreshDays = 12
 
-   // Queue to handle delayed gift assignment
-   plLogonQueue = $
-
    // Automatically refill gifts when low?
    pbRefillGiftsWhenLow = TRUE
 
@@ -1024,47 +1021,17 @@ messages:
 
    UserLogon(who=$)
    {
-      if who <> $
-      {
-         plLogonQueue = Cons(who,plLogonQueue);
-         CreateTimer(self,@OnLogonTimer,500);
-      }
-
-      return;
-   }
-
-   OnLogonTimer()
-   {
-      local oPlayer;
-
-      if plLogonQueue <> $
-      {
-         oPlayer = Last(plLogonQueue);
-         Send(self,@ProcessLogon,#who=oPlayer);
-         plLogonQueue = DelListElem(plLogonQueue,oPlayer);
-      }
-
-      return;
-   }
-
-   ProcessLogon(who=$)
-   {
-      local i, j, lIP, count, oGift;
+      local i, j, lIP, count;
 
       if who = $
       {
          return;
       }
 
-      oGift = $;
-
       // Only 1 claim per user per day.
-      foreach i in plGiftClaims
+      if (FindListElem(plGiftClaims,who))
       {
-         if i = who
-         {
-            return;
-         }
+         return;
       }
 
       // Check per IP limit
@@ -1092,16 +1059,32 @@ messages:
 
       if (pbGifts)
       {
-         oGift = Send(self,@SelectPlayerGift,#who=who);
-
-         if (oGift = $)
-         {
-            return;
-         }
-
-         Send(oGift,@SetRecipient,#who=who);
-         Send(self,@SendPlayerGiftHint,#what=oGift,#who=who);
+         // Post so it runs after user fully logs on.
+         Post(self,@GivePlayerGift,#who=who);
       }
+
+      return;
+   }
+
+   GivePlayerGift(who=$)
+   "Can be called manually to assign a present to a player."
+   {
+      local oGift;
+
+      if (who = $)
+      {
+         return;
+      }
+
+      oGift = Send(self,@SelectPlayerGift,#who=who);
+
+      if (oGift = $)
+      {
+         return;
+      }
+
+      Send(oGift,@SetRecipient,#who=who);
+      Send(self,@SendPlayerGiftHint,#what=oGift,#who=who);
 
       return;
    }
@@ -1128,11 +1111,6 @@ messages:
                }
             }
          }
-      }
-
-      if FindListElem(plLogonQueue,who)
-      {
-         plLogonQueue = DelListElem(plLogonQueue,who);
       }
 
       return;

@@ -161,6 +161,7 @@ foreach	{ return FOREACH; }
 if		{ return IF; }
 in		{ return IN; }
 is		{ return IS; }
+isclass { return ISCLASS; }
 local		{ return LOCAL; }
 messages	{ yy_push_state(CODE); return MESSAGES; }
 not		{ return NOT; }

@@ -434,9 +434,13 @@ messages:
       return;
    }
 
-   TokenGenerationTimer()
+   TokenGenerationTimer(timer=$)
    {
-      local i;
+      // If the timer parameter doesn't match our timer, we need to delete it.
+      if (ptGenerationTimer <> timer)
+      {
+         DeleteTimer(ptGenerationTimer);
+      }
 
       ptGenerationTimer = $;
 

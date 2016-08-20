@@ -498,9 +498,12 @@ properties:
 
    // A list of room type objects used forr room icons
    plRoomIcons = $
-   
+
    // Keeps track of the last save before a frenzy.
    psSaveGame = $
+
+   // Used for testing game time.
+   ptTestTimer = $
 
 messages:
 
@@ -4188,7 +4191,11 @@ messages:
 
       if piHour <> 0
       {
-         CreateTimer(self,@TestGameDayTimer,1500);
+         ptTestTimer = CreateTimer(self,@TestGameDayTimer,1500);
+      }
+      else
+      {
+         ptTestTimer = $;
       }
 
       return;

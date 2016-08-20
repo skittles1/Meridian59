@@ -1050,63 +1050,6 @@ int C_CreateObject(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_IsClass(int object_id,local_var_type *local_vars,
-			  int num_normal_parms,parm_node normal_parm_array[],
-			  int num_name_parms,parm_node name_parm_array[])
-{
-	val_type object_val,class_val,ret_val;
-	object_node *o;
-	class_node *c;
-	
-	object_val = RetrieveValue(object_id,local_vars,normal_parm_array[0].type,
-		normal_parm_array[0].value);
-	if (object_val.v.tag != TAG_OBJECT)
-	{
-		bprintf("C_IsClass can't deal with non-object %i,%i\n",
-			object_val.v.tag,object_val.v.data);
-		return NIL;
-	}
-	
-	class_val = RetrieveValue(object_id,local_vars,normal_parm_array[1].type,
-			     normal_parm_array[1].value);
-	if (class_val.v.tag != TAG_CLASS)
-	{
-		bprintf("C_IsClass can't look for non-class %i,%i\n",
-			class_val.v.tag,class_val.v.data);
-		return NIL;
-	}
-	
-	o = GetObjectByID(object_val.v.data);
-	if (o == NULL)
-	{
-		bprintf("C_IsClass can't find object %i\n",object_val.v.data);
-		return NIL;
-	}
-	
-	c = GetClassByID(o->class_id);
-	if (c == NULL)
-	{
-		bprintf("C_IsClass can't find class %i, DIE totally\n",o->class_id);
-		FlushDefaultChannels();
-		return NIL;
-	}
-	
-	do
-	{
-		if (c->class_id == class_val.v.data)
-		{
-			ret_val.v.tag = TAG_INT;
-			ret_val.v.data = True;
-			return ret_val.int_val;
-		}
-		c = c->super_ptr;
-	} while (c != NULL);
-	
-	ret_val.v.tag = TAG_INT;
-	ret_val.v.data = False;
-	return ret_val.int_val;
-}
-
 int C_GetClass(int object_id,local_var_type *local_vars,
 			   int num_normal_parms,parm_node normal_parm_array[],
 			   int num_name_parms,parm_node name_parm_array[])

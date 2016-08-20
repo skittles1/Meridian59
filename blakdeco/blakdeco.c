@@ -14,7 +14,7 @@
 
 #include "bkod.h"
 
-#define BOF_VERSION 7
+#define BOF_VERSION 8
 
 #define MAX_CLASSES 100
 #define MAX_HANDLERS 500
@@ -51,6 +51,7 @@ enum
    GREATER_EQUAL = 12,
    BITWISE_AND = 13,
    BITWISE_OR = 14,
+   BINARY_ISCLASS = 15,
 };
 
 /* function prototypes */
@@ -448,6 +449,7 @@ char * name_binary_operation(int binary_op)
    case GREATER_EQUAL : return ">=";
    case BITWISE_AND : return "&";
    case BITWISE_OR : return "|";
+   case BINARY_ISCLASS: return "is";
    default : return "INVALID";
    }
 }
@@ -482,7 +484,6 @@ char * name_function(int fnum)
    {
    case CREATEOBJECT : return "Create";
    //   case DELETEOBJECT : return "Delete";
-   case ISCLASS : return "IsClass";
    case GETCLASS : return "GetClass";
 
    case SENDMESSAGE : return "Send";
@@ -617,7 +618,7 @@ char *str_constant(int num)
    static char s[64];
    constant_type bc;
 
-   memcpy(&bc,&num,4);
+   memcpy(&bc, &num, sizeof(constant_type));
    switch (bc.tag)
    {
    case TAG_NIL : 
@@ -1058,6 +1059,22 @@ void dump_binary_bitor_P(char *text)
 {
    dump_binary(text, PROPERTY, BITWISE_OR);
 }
+void dump_isclass_L(char *text)
+{
+   dump_binary(text, LOCAL_VAR, BINARY_ISCLASS);
+}
+void dump_isclass_P(char *text)
+{
+   dump_binary(text, PROPERTY, BINARY_ISCLASS);
+}
+void dump_isclass_const_L(char *text)
+{
+   dump_binary(text, LOCAL_VAR, BINARY_ISCLASS);
+}
+void dump_isclass_const_P(char *text)
+{
+   dump_binary(text, PROPERTY, BINARY_ISCLASS);
+}
 
 void CreateOpcodeTable(void)
 {
@@ -1118,5 +1135,8 @@ void CreateOpcodeTable(void)
    opcode_table[OP_BINARY_BITAND_P] = dump_binary_bitand_P;
    opcode_table[OP_BINARY_BITOR_L] = dump_binary_bitor_L;
    opcode_table[OP_BINARY_BITOR_P] = dump_binary_bitor_P;
+   opcode_table[OP_ISCLASS_L] = dump_isclass_L;
+   opcode_table[OP_ISCLASS_P] = dump_isclass_P;
+   opcode_table[OP_ISCLASS_CONST_L] = dump_isclass_const_L;
+   opcode_table[OP_ISCLASS_CONST_P] = dump_isclass_const_P;
 }
-
