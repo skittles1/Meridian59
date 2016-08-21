@@ -132,8 +132,7 @@ directories (libzlib, libarchive, libpng and libjansson).
 Contact Information
 --------------
 For further information please join the #Meridian59de channel on
-irc.esper.net. You can also join us on the
-[forums](http://openmeridian.org/forums/index.php/board,23.0.html)
+irc.esper.net. You can also join us on the [forums](https://www.meridiannext.com/phpbb3/)
 where you can ask any questions about the game or the codebase.
 
 Forked from the [OpenMeridian codebase](https://github.com/OpenMeridian/Meridian59),

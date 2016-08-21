@@ -4,7 +4,7 @@
 
 Please submit any issues, bug reports or smaller feature requests to the
 GitHub issues page. Any longer feature requests or gameplay-related
-discussion should be directed to the [forums](http://openmeridian.org/forums/index.php/board,23.0.html)
+discussion should be directed to the [forums](https://www.meridiannext.com/phpbb3/)
 or the IRC channel (irc.esper.net, channel #Meridian59de).
 
 ## Pull Requests
