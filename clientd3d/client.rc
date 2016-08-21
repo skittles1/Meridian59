@@ -791,7 +791,7 @@ BEGIN
     180                     "Wähle die Gegenstände zum Hinterlegen aus."
     187                     "Unable to send an HTTP request for the file %s to the server %s."
     188                     "Unable to get size of file %s from the server %s."
-    189                     "http://openmeridian.org/forums/index.php/board,23.0.html"
+    189                     "https://www.meridiannext.com/phpbb3/"
     190                     "http://wiki.meridian59.de/"
     191                     "Kann Patchfile nicht laden %s. Fehler: %s."
 END
@@ -1748,14 +1748,14 @@ BEGIN
     IDS_DEPOSIT_ITEMS       "Select Items to Deposit"
     IDS_CANTSENDREQUEST     "Unable to send an HTTP request for the file %s to the server %s."
     IDS_CANTGETFILESIZE     "Unable to get size of file %s from the server %s."
-    IDS_FORUMURL            "http://openmeridian.org/forums/index.php/board,23.0.html"
+    IDS_FORUMURL            "https://www.meridiannext.com/phpbb3/"
     IDS_WIKIURL             "http://wiki.meridian59.de/"
     IDS_JSONERROR           "Unable to load patch file %s. Error: %s."
 END
 
 STRINGTABLE
 BEGIN
-    IDS_CANTUPDATE          "Unable to run the patcher to update Meridian 59.\nPlease contact the admins at http://openmeridian.org/forums/index.php/board,23.0.html."
+    IDS_CANTUPDATE          "Unable to run the patcher to update Meridian 59.\nPlease contact the admins at https://www.meridiannext.com/phpbb3/."
     IDS_NEEDNEWVERSION      "You need to get an updated version of Meridian 59.\nDo you want to retrieve it automatically now?"
     IDS_CANTMOVE            "Can't move the downloaded file %s to %s.\n\nTry again?"
     IDS_LONGCMDLINE         "The automatic update program will fail because its command line is too long.\nPlease report the following command line:\n\n%s"
