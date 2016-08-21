@@ -3189,11 +3189,16 @@ messages:
          return MM_NONE;
       }
 
+      // Choose our own line color on minimap.
       if (what = self)
       {
          if (piFlags & PFLAG_TEMPSAFE)
          {
             return MM_TEMPSAFE;
+         }
+         else if (piFlags & PFLAG_PERMA_NO_PVP)
+         {
+            return MM_NO_PVP;
          }
 
          return MM_NONE;
@@ -3235,13 +3240,20 @@ messages:
                return MM_PLAYER | MM_PLAYER_IS_ENEMY;
             }
 
-            // Standard player blue dot.
+            // Player dot color.
             if Send(what,@CheckPlayerFlag,#flag=PFLAG_TEMPSAFE)
             {
+               // Light blue dot.
                iFlags |= MM_TEMPSAFE;
+            }
+            else if Send(what,@CheckPlayerFlag,#flag=PFLAG_PERMA_NO_PVP)
+            {
+               // White dot.
+               iFlags |= MM_NO_PVP;
             }
             else
             {
+               // Standard blue dot.
                iFlags |= MM_PLAYER;
             }
 
