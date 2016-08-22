@@ -3398,7 +3398,10 @@
    Q_PLAYER_QUEST_MASK              = 0x3C000
 
    Q_PLAYER_INTRIGUING           = 0x40000           // player allowed to join factions
-   Q_PLAYER_GUILDMASTER           = 0x80000           // player is a guildmaster, and guild has colors
+   Q_PLAYER_GUILDMASTER          = 0x80000           // player is a guildmaster, and guild has colors
+
+   // Does player have pvp enabled, i.e. not perma pvp off.
+   Q_PLAYER_PVP_ENABLED          = 0x100000
 
    // quest player restrictions2
    //        used for restrictions which require parameter passing/setting

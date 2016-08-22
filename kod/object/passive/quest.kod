@@ -561,6 +561,17 @@ messages:
          return FALSE;
       }
 
+      if (iPlayerRestrict & Q_PLAYER_PVP_ENABLED)
+         AND Send(quester_wannabe,@CheckPlayerFlag,#flag=PFLAG_PERMA_NO_PVP)
+      {
+         if bDebug
+         {
+            Debug("failed Q_PLAYER_PVP_ENABLED.");
+         }
+
+         return FALSE;
+      }
+
       if bDebug > 1
       {
          Debug("Checking plPlayerRestrict2 restrictions.");
