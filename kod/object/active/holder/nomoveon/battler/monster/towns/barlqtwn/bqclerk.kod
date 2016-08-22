@@ -50,6 +50,9 @@ resources:
    bq_clerk_for_shame = \
       "For shame, %s!  Because of your unlawful status, I am forced to "
       "strip you of your office!"
+   bq_clerk_non_pvp_justicar = \
+      "%s, you have chosen not to involve yourself in matters of combat and "
+      "are thus no longer eligible to perform your duties as Justicar."
    bq_clerk_hail_justicar = "All hail, the honorable Justicar %s hath arrived!"
    bq_clerk_bye_justicar = \
       "The honorable Justicar %q hath just left the Office."
@@ -170,6 +173,8 @@ resources:
    bq_clerk_hands_back = "~bCaramo hands back the ballot."
    bq_clerk_bad_candidate = "%q is ineligible for the office of Justicar."
    bq_clerk_no_newbie_voter = "You are not yet eligible to vote."
+   bq_clerk_non_pvper = \
+      "Only players participating in combat have the right to vote."
    bq_clerk_no_outlaw_voter = "Criminals have no voting rights.  Begone."
 
    bq_clerk_notify_ad = \
@@ -793,17 +798,29 @@ messages:
       // TODO: this should be checked as soon as the player gains
       // outlaw status.
       if poJusticar <> $
-         AND (Send(poJusticar,@CheckPlayerFlag,#flag=PFLAG_OUTLAW)
-               OR Send(poJusticar,@CheckPlayerFlag,#flag=PFLAG_MURDERER))
       {
-         // Scold them as they enter.
-         Post(self,@Say,#message_rsc=bq_clerk_for_shame,
-               #parm1=Send(poJusticar,@GetTrueName));
+         if (Send(poJusticar,@CheckPlayerFlag,#flag=PFLAG_OUTLAW)
+            OR Send(poJusticar,@CheckPlayerFlag,#flag=PFLAG_MURDERER))
+         {
+            // Scold them as they enter.
+            Post(self,@Say,#message_rsc=bq_clerk_for_shame,
+                  #parm1=Send(poJusticar,@GetTrueName));
 
-         // Strip Justicar of power.
-         Send(self,@SetJusticar,#who=$);
+            // Strip Justicar of power.
+            Send(self,@SetJusticar,#who=$);
 
-         return FALSE;
+            return FALSE;
+         }
+
+         if Send(poJusticar,@CheckPlayerFlag,#flag=PFLAG_PERMA_NO_PVP)
+         {
+            Post(self,@Say,#message_rsc=bq_clerk_non_pvp_justicar,
+                  #parm1=Send(poJusticar,@GetTrueName));
+            // Strip Justicar of power.
+            Send(self,@SetJusticar,#who=$);
+
+            return FALSE;
+         }
       }
 
       return TRUE;
@@ -1576,6 +1593,13 @@ messages:
          return FALSE;
       }
 
+      if Send(voter,@CheckPlayerFlag,#flag=PFLAG_PERMA_NO_PVP)
+      {
+         Send(self,@SayToOne,#message_rsc=bq_clerk_non_pvper,#target=voter);
+
+         return FALSE;
+      }
+
       if Send(voter,@CheckPlayerFlag,#flag=PFLAG_OUTLAW)
          OR Send(voter,@CheckPlayerFlag,#flag=PFLAG_MURDERER)
       {
@@ -1589,11 +1613,14 @@ messages:
 
    IsLegalJusticar(candidate=$)
    {
+      // Must be non-angeled, and have pvp on.
       if NOT Send(candidate,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
+         OR Send(candidate,@CheckPlayerFlag,#flag=PFLAG_PERMA_NO_PVP)
       {
          return FALSE;
       }
 
+      // Must be innocent.
       if Send(candidate,@CheckPlayerFlag,#flag=PFLAG_OUTLAW)
          OR Send(candidate,@CheckPlayerFlag,#flag=PFLAG_MURDERER)
       {
