@@ -904,7 +904,7 @@ messages:
       }
 
       // Check for newbies/mules using attack or annoyance spells.
-      if NOT Send(who,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
+      if NOT Send(who,@CanPlayerPvP)
          AND NOT Send(oRoom,@CheckRoomFlag,#flag=ROOM_SAFE_DEATH)
          AND NOT Send(oRoom,@CheckRoomFlag,#flag=ROOM_KILL_ZONE)
       {
@@ -1070,8 +1070,7 @@ messages:
                      AND Send(i,@PlayerIsImmortal))
                   OR (IsClass(i,&User)
                      AND (Send(i,@IsInCannotInteractMode)
-                        OR (NOT Send(i,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE))
-                        OR Send(i,@CheckPlayerFlag,#flag=PFLAG_TEMPSAFE)))
+                        OR (NOT Send(i,@CanPlayerPvP))))
                   OR (IsClass(i,&Monster)
                      AND (Send(i,@GetBehavior) & AI_NPC))
                   OR Send(oRoom,@IsArena)
@@ -1139,7 +1138,7 @@ messages:
             }
 
             // Check for angel
-            if NOT Send(who,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
+            if NOT Send(who,@CanPlayerPvP)
             {
                // No helping the bad guys as an outlaw/murderer!
                Send(who,@MsgSendUser,#message_rsc=spell_angel_no_unlawful,
