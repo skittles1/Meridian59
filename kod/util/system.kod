@@ -5954,7 +5954,7 @@ messages:
             each_obj = send(oRoom,@HolderExtractObject,#data=i);
             if IsClass(each_obj,&User)
                AND NOT IsClass(each_obj,&DM)
-               AND Send(each_obj,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
+               AND Send(each_obj,@CanPlayerPvP)
             {
                if number <> -1
                {

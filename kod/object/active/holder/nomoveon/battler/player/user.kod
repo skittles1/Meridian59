@@ -7897,7 +7897,8 @@ messages:
       // one, then tell him he's safe again.  Ignore during chaos night.
 
       if NOT Send(SYS,@GetChaosNight)
-         AND NOT (piFlags & PFLAG_PKILL_ENABLE)
+         AND (NOT (piFlags & PFLAG_PKILL_ENABLE)
+            OR piFlags & PFLAG_PERMA_NO_PVP)
       {
          if Send(what,@CheckRoomFlag,#flag=ROOM_KILL_ZONE)
          {
@@ -9848,6 +9849,7 @@ messages:
 
       // Angeled characters cannot block other players.
       if NOT (piFlags & PFLAG_PKILL_ENABLE)
+         OR (piFlags & PFLAG_PERMA_NO_PVP)
       {
          iFlags = (iFlags & ~MOVEON_NO);
       }

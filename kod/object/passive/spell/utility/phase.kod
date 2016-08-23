@@ -327,7 +327,7 @@ messages:
       Send(self,@NotifyRoomPenalty,#who=who);
 
       if IsClass(who,&Player)
-         AND (NOT Send(who,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
+         AND (NOT Send(who,@CanPlayerPvP)
             OR Send(who,@PlayerIsImmortal))
       {
          Send(who,@ResetLogoffPenaltyTime);

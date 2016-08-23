@@ -722,7 +722,7 @@ messages:
       local oRaidingGuild;
 
       if (NOT Send(SETTINGS_OBJECT, @GuildHallRaidsEnabled))
-         OR NOT Send(who,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
+         OR NOT Send(who,@CanPlayerPvP)
       {
          return FALSE;
       }

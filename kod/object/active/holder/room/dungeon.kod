@@ -110,12 +110,13 @@ messages:
    {
       local find,iNewRow,iNewCol;
 
-      if (row = 10) and (col = 7)
-         AND send(what,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
+      if (row = 10)
+         AND (col = 7)
+         AND Send(what,@CanPlayerPvP)
       {
-         send(SYS,@UtilGoNearSquare,#what=what,#where=self,#new_row=10,#new_col=6);
-         send(what,@MsgSendUser,#message_rsc=climb_crates_rsc);
-         
+         Send(SYS,@UtilGoNearSquare,#what=what,#where=self,#new_row=10,#new_col=6);
+         Send(what,@MsgSendUser,#message_rsc=climb_crates_rsc);
+
          return TRUE;
       }
 
@@ -132,11 +133,12 @@ messages:
       //
 
       // Don't let angeled characters climb up on the crates and search around.
-      if (row = 10) and (col = 6)
-         AND send(what,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
+      if (row = 10)
+         AND (col = 6)
+         AND Send(what,@CanPlayerPvP)
       {
-         send(what,@MsgSendUser,#message_rsc=search_crates_rsc);
-         
+         Send(what,@MsgSendUser,#message_rsc=search_crates_rsc);
+
          if what = poLastFinder
          {
             return TRUE;

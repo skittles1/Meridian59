@@ -216,8 +216,8 @@ messages:
       {
          propagate;
       }
-      // Don't let them pick it up if they're a newbie!
-      if NOT Send(what,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
+      // Don't let them pick it up if they can't pvp!
+      if NOT Send(what,@CanPlayerPvP)
       {
          if Send(what,@GetKarma) < 0
          {

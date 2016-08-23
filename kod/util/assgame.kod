@@ -915,7 +915,7 @@ messages:
          return FALSE;
       }
 
-      if not isClass(who,&user)
+      if NOT IsClass(who,&User)
       {
          Debug("Non-players are not valid combatants!");
 
