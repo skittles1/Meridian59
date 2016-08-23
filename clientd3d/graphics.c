@@ -326,8 +326,10 @@ void RedrawForce(void)
    int totalFrameTime, oldMode;
    char buffer[32];
 
-   if (GameGetState() == GAME_INVALID || /*!need_redraw ||*/ IsIconic(hMain) ||
-       view.cx == 0 || view.cy == 0 || current_room.rows == 0 || current_room.cols == 0)
+   if (!GetGameDataValid() || GameGetState() == GAME_INVALID
+      || /*!need_redraw ||*/ IsIconic(hMain)
+      || view.cx == 0 || view.cy == 0
+      || current_room.rows == 0 || current_room.cols == 0)
    {
       need_redraw = False;
       return;
