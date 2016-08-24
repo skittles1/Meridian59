@@ -3862,19 +3862,14 @@ messages:
    }
 
    TrySayGroup(users=$)
-   "Called when the user wants to say a string to a list of people.  Return True/False, "
-   "and use some mana too."
+   "Called when the user wants to say a string to a list of people.  "
+   "Return True/False."
    {
       if piFlags2 & PFLAG2_SQUELCHED_TELLS
       {
          Send(self,@MsgSendUser,#message_rsc=player_squelched);
 
          return FALSE;
-      }
-
-      if NOT IsClass(self,&DM)
-      {
-         Send(self,@LoseMana,#amount=1);
       }
 
       return TRUE;
