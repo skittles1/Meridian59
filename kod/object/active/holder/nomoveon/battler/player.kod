@@ -245,6 +245,11 @@ resources:
 
    player_health_gain_maxed = "Your health cannot increase any further."
 
+   player_cant_hit_optout = \
+      "You have opted not to participate in player versus player combat."
+   player_cant_hit_optout_minion = \
+      "This creature is the servant of another player - you have opted not "
+      "to participate in player versus player combat."
    player_cant_hit_newbie = \
       "You are not yet experienced enough to fight other players."
    player_cant_hit_newbie_minion = \
@@ -4269,13 +4274,10 @@ messages:
          return FALSE;
       }
 
-      // If we're in an arena and it let us attack, then it's a legal attack.
+      // If we're in an arena or chaos zone and it let us attack, then
+      // it's a legal attack.
       if Send(oRoom,@IsArena)
-      {
-         return TRUE;
-      }
-      
-      if Send(oRoom,@GetChaosZone)
+         OR Send(oRoom,@GetChaosZone)
       {
          return TRUE;
       }
@@ -4396,8 +4398,16 @@ messages:
                {
                   if (report)
                   {
-                     Send(self,@MsgSendUser,
-                           #message_rsc=player_cant_hit_newbie_minion);
+                     if (piFlags & PFLAG_PERMA_NO_PVP)
+                     {
+                        Send(self,@MsgSendUser,
+                              #message_rsc=player_cant_hit_optout_minion);
+                     }
+                     else
+                     {
+                        Send(self,@MsgSendUser,
+                              #message_rsc=player_cant_hit_newbie_minion);
+                     }
                   }
 
                   return FALSE;
@@ -4485,7 +4495,14 @@ messages:
                {
                   if Send(SYS,@IsPKAllowed)
                   {
-                     Send(self,@MsgSendUser,#message_rsc=player_cant_hit_newbie);
+                     if (piFlags & PFLAG_PERMA_NO_PVP)
+                     {
+                        Send(self,@MsgSendUser,#message_rsc=player_cant_hit_optout);
+                     }
+                     else
+                     {
+                        Send(self,@MsgSendUser,#message_rsc=player_cant_hit_newbie);
+                     }
                   }
                   else
                   {
@@ -4496,7 +4513,9 @@ messages:
                return FALSE;
             }
 
+            // Can attack non-pvpable players if they're holding a token.
             if NOT Send(victim,@CanPlayerPvP)
+               AND NOT Send(victim,@PossessesA,#class=&Token)
             {
                // The target is a newbie. Murderers are perfectly attackable
                if report
