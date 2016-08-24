@@ -3062,6 +3062,7 @@
    QST_ID_DUKE_SOLDIER           = 72
    QST_ID_PRINCESS_SOLDIER       = 73
    QST_ID_REBEL_SOLDIER          = 74
+   QST_ID_ABSTAIN_PVP            = 75
 
    // Quest Node Template IDs. Each quest has multple Quest Nodes.
    QNT_ID_DUKE_JOIN_ONE          = 1
@@ -3346,6 +3347,9 @@
    QNT_ID_REBEL_SOLDIER_TWO      = 215
    QNT_ID_REBEL_SOLDIER_THREE    = 216
 
+   QNT_ID_ABSTAIN_PVP_ONE        = 217
+   QNT_ID_ABSTAIN_PVP_TWO        = 218
+
    // Quest misc constants
 
    // An player must be this close to an NPC to offer/receive items, talk, etc.
@@ -3466,6 +3470,7 @@
    QN_PRIZETYPE_NPC_RESPONSE              = 0x13      // Let the QuestTemplate give different responses for each NPC.
    QN_PRIZETYPE_TRAINING_POINTS           = 0x014      // Award training points.
    QN_PRIZETYPE_EXPERIENCE_POINTS         = 0x015      // Award "experience points" (gain chance).
+   QN_PRIZETYPE_NO_PVP_FLAG               = 0x016      // Switch the player's pvp off
 
    // Quest node prize statistic types
    QN_PRIZE_STAT_MIGHT    = 0x0
