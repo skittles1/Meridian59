@@ -94,8 +94,7 @@ messages:
          return FALSE;
       }
 
-      if NOT Send(who,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
-         OR Send(who,@CheckPlayerFlag,#flag=PFLAG_TEMPSAFE)
+      if NOT Send(who,@CanPlayerPvP)
       {
          Send(who,@MsgSendUser,#message_rsc=truce_guardian);
 

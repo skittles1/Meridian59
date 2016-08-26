@@ -233,7 +233,7 @@ messages:
 
       if Send(SYS,@GetLogoffPenaltyEnable)
       {
-         if Send(poGhostedPlayer,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
+         if Send(poGhostedPlayer,@CanPlayerPvP)
          {
             Send(self,@InflictPenalties);
          }
@@ -259,7 +259,7 @@ messages:
       // penalties. Hometown Penalties is intended to keep PvP players from
       // being 'kept offline' by opponents.
 
-      if Send(poGhostedPlayer,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
+      if Send(poGhostedPlayer,@CanPlayerPvP)
       {
          if Send(SETTINGS_OBJECT,@ReturnToSafetyPenaltiesEnabled)
          {

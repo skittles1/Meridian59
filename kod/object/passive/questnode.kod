@@ -1582,7 +1582,17 @@ messages:
 
          return;
       }
-   
+
+      if iPrizeType = QN_PRIZETYPE_NO_PVP_FLAG
+      {
+         foreach oQuester in recipients
+         {
+            Send(oQuester,@SetPlayerPvPPermaOff);
+         }
+
+         return;
+      }
+
       Debug("AwardPrizesOrPenalties got unknown prize type",iPrizeType);
 
       return;

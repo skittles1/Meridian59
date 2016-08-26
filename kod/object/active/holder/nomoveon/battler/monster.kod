@@ -3411,10 +3411,15 @@ messages:
 
    //// Random Messages
 
-   RandomTimer(test = FALSE)
+   RandomTimer(timer = $,test = FALSE)
    "Handle a random timer, and set up the next one."
    {
       local lAction, iNum, oTarget, i, lActives, oLibrary;
+
+      if (ptRandom <> timer)
+      {
+         DeleteTimer(ptRandom);
+      }
 
       ptRandom = $;
 

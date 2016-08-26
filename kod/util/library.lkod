@@ -151,6 +151,10 @@ LM_haz_tomas = de \
 LM_haz_eric = de \
    "Der bester Barkeeper auf dieser Seite von Barloque! Ich habe gehört er "
    "sucht etwas..."
+LM_towns_nopvp = de \
+   "Wenn Du dich entscheiden willst, nicht an Kämpfen gegen andere Spieler "
+   "teilzunehmen, dann besuche den Tempel von Shal'ill im Norden von Marion "
+   "und sprich mit der Priesterin dort."
 LM_no_mana_nodes = de "Du bist noch mit keiner Mana Node verbunden."
 LM_mana_nodes = de "Dein Geist ist mit den folgenden Mana Nodes verbunden: %r."
 QM_missed_middle = de \

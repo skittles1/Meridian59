@@ -110,6 +110,12 @@ player_experience_gained = de "Du hast ~B~s%i~v~B XP erhalten."
 player_experience_lost = de "Du hast ~B~r%i~B~v XP verloren!"
 player_health_gain_maxed = de \
    "Deine Lebensenergie kann sich nicht weiter erhöhen."
+player_cant_hit_optout = de \
+   "Du hast dich dazu entschieden nicht am Kampf gegen andere Spieler "
+   "teilzunehmen."
+player_cant_hit_optout_minion = de \
+   "Diese Kreatur ist der Diener eines anderen Spielers - Du hast dich dazu "
+   "entschieden nicht am Kampf gegen andere Spieler teilzunehmen."
 player_cant_hit_newbie = de \
    "Du hast nicht genügend Erfahrung, um gegen andere Spieler zu kämpfen."
 player_cant_hit_newbie_minion = de \

@@ -3189,11 +3189,16 @@ messages:
          return MM_NONE;
       }
 
+      // Choose our own line color on minimap.
       if (what = self)
       {
          if (piFlags & PFLAG_TEMPSAFE)
          {
             return MM_TEMPSAFE;
+         }
+         else if (piFlags & PFLAG_PERMA_NO_PVP)
+         {
+            return MM_NO_PVP;
          }
 
          return MM_NONE;
@@ -3235,13 +3240,20 @@ messages:
                return MM_PLAYER | MM_PLAYER_IS_ENEMY;
             }
 
-            // Standard player blue dot.
+            // Player dot color.
             if Send(what,@CheckPlayerFlag,#flag=PFLAG_TEMPSAFE)
             {
+               // Light blue dot.
                iFlags |= MM_TEMPSAFE;
+            }
+            else if Send(what,@CheckPlayerFlag,#flag=PFLAG_PERMA_NO_PVP)
+            {
+               // White dot.
+               iFlags |= MM_NO_PVP;
             }
             else
             {
+               // Standard blue dot.
                iFlags |= MM_PLAYER;
             }
 
@@ -7885,7 +7897,8 @@ messages:
       // one, then tell him he's safe again.  Ignore during chaos night.
 
       if NOT Send(SYS,@GetChaosNight)
-         AND NOT (piFlags & PFLAG_PKILL_ENABLE)
+         AND (NOT (piFlags & PFLAG_PKILL_ENABLE)
+            OR piFlags & PFLAG_PERMA_NO_PVP)
       {
          if Send(what,@CheckRoomFlag,#flag=ROOM_KILL_ZONE)
          {
@@ -9835,10 +9848,12 @@ messages:
       }
 
       // Angeled characters cannot block other players.
-      if NOT (piFlags & PFLAG_PKILL_ENABLE)
+      // Disabled for now because minions try to stand on top of them.
+      /*if NOT (piFlags & PFLAG_PKILL_ENABLE)
+         OR (piFlags & PFLAG_PERMA_NO_PVP)
       {
          iFlags = (iFlags & ~MOVEON_NO);
-      }
+      }*/
 
       return iFlags;
    }

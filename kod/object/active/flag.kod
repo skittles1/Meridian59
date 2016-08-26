@@ -74,7 +74,7 @@ resources:
    flag_failed_not_soldier = \
       "By the laws of the Council, you must be a recognized "
       "soldier of your faction."
-   flag_failed_temp_safe = \
+   flag_failed_angel = \
       "Your guardian angel prevents you from interfering here."
    flag_failed_in_progress = \
       "A claim to this territory staked by %s%s is already in progress."
@@ -242,10 +242,10 @@ messages:
          return FALSE;
       }
 
-      if Send(who,@CheckPlayerFlag,#flag=PFLAG_TEMPSAFE)
+      if NOT Send(self,@CanPlayerPVP)
       {
-         // Message: temp safe angel prevents flagpole interference.
-         Send(who,@MsgSendUser,#message_rsc=flag_failed_temp_safe);
+         // Message: angel prevents flagpole interference.
+         Send(who,@MsgSendUser,#message_rsc=flag_failed_angel);
 
          return FALSE;
       }

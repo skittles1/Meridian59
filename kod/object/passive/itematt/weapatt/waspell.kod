@@ -88,7 +88,6 @@ messages:
       }
 
       if Random(1,100) <= piEffect_percent
-         AND Send(wielder,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
       {
          oSpell = Send(SYS,@FindSpellByNum,#num=Nth(lData,2));
 

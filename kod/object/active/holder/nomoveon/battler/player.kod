@@ -245,6 +245,11 @@ resources:
 
    player_health_gain_maxed = "Your health cannot increase any further."
 
+   player_cant_hit_optout = \
+      "You have opted not to participate in player versus player combat."
+   player_cant_hit_optout_minion = \
+      "This creature is the servant of another player - you have opted not "
+      "to participate in player versus player combat."
    player_cant_hit_newbie = \
       "You are not yet experienced enough to fight other players."
    player_cant_hit_newbie_minion = \
@@ -1238,36 +1243,35 @@ messages:
    {
       local ccond;
 
-      if flagset = 1 AND (flag & PFLAG_PKILL_ENABLE) AND value
+      if flagset = 1
       {
-         if (piFlags & PFLAG_PKILL_ENABLE)
+         if (flag & PFLAG_PKILL_ENABLE) AND value
          {
-            return;
-         }
-         else
-         {
-            ccond = player_safety_off_mail;
-            if NOT Send(self,@CheckPlayerPreference,#flag=CF_SAFETY_OFF)
+            if (piFlags & PFLAG_PKILL_ENABLE)
             {
-               ccond = player_safety_on_mail;
-            }
-
-            if Send(SYS,@IsPKAllowed)
-            {
-               Send(self,@ReceiveNestedMail,#from=player_angel,
-                 #dest_list=[self],#nest_list=[4,player_ready_to_kill,4,ccond]);
+               return;
             }
             else
             {
-               Send(self,@ReceiveNestedMail,#from=player_angel,
-                 #dest_list=[self],#nest_list=[4,player_ready_to_guild,4,ccond]);
+               ccond = player_safety_off_mail;
+               if NOT Send(self,@CheckPlayerPreference,#flag=CF_SAFETY_OFF)
+               {
+                  ccond = player_safety_on_mail;
+               }
+
+               if Send(SYS,@IsPKAllowed)
+               {
+                  Send(self,@ReceiveNestedMail,#from=player_angel,
+                    #dest_list=[self],#nest_list=[4,player_ready_to_kill,4,ccond]);
+               }
+               else
+               {
+                  Send(self,@ReceiveNestedMail,#from=player_angel,
+                    #dest_list=[self],#nest_list=[4,player_ready_to_guild,4,ccond]);
+               }
             }
          }
-      }
-
-      if flagset = 1
-      {
-         if NOT Value
+         else if NOT Value
          {
             piFlags = piFlags & ~flag;
          }
@@ -2858,6 +2862,7 @@ messages:
       Send(self,@SetPlayerFlag,#flag=PFLAG_PKILL_LOCK,#value=FALSE);
       Send(self,@SetPlayerFlag,#flag=PFLAG_INTRIGUING,#value=FALSE);
       Send(self,@SetPlayerFlag,#flag=PFLAG_TEMPSAFE,#value=FALSE);
+      Send(self,@SetPlayerFlag,#flag=PFLAG_PERMA_NO_PVP,#value=FALSE);
 
       Send(SYS,@SystemRemoveFromChampionLists,#oldchamp=self);
 
@@ -4269,13 +4274,10 @@ messages:
          return FALSE;
       }
 
-      // If we're in an arena and it let us attack, then it's a legal attack.
+      // If we're in an arena or chaos zone and it let us attack, then
+      // it's a legal attack.
       if Send(oRoom,@IsArena)
-      {
-         return TRUE;
-      }
-      
-      if Send(oRoom,@GetChaosZone)
+         OR Send(oRoom,@GetChaosZone)
       {
          return TRUE;
       }
@@ -4392,12 +4394,20 @@ messages:
             if (Send(victim,@IsOwnedByPlayer))
             {
                // Newbies can't attack players' pets.
-               if (NOT (piFlags & PFLAG_PKILL_ENABLE))
+               if (NOT Send(self,@CanPlayerPvP))
                {
                   if (report)
                   {
-                     Send(self,@MsgSendUser,
-                           #message_rsc=player_cant_hit_newbie_minion);
+                     if (piFlags & PFLAG_PERMA_NO_PVP)
+                     {
+                        Send(self,@MsgSendUser,
+                              #message_rsc=player_cant_hit_optout_minion);
+                     }
+                     else
+                     {
+                        Send(self,@MsgSendUser,
+                              #message_rsc=player_cant_hit_newbie_minion);
+                     }
                   }
 
                   return FALSE;
@@ -4475,7 +4485,7 @@ messages:
 
          if NOT Send(oRoom,@CheckRoomFlag,#flag=ROOM_KILL_ZONE)
          {
-            if NOT (piFlags & PFLAG_PKILL_ENABLE)
+            if NOT Send(self,@CanPlayerPvP)
             {
                // A newbie (someone below GetPKillEnableHP) tried to attack
                // another player! note that this does not affect murderers
@@ -4485,7 +4495,14 @@ messages:
                {
                   if Send(SYS,@IsPKAllowed)
                   {
-                     Send(self,@MsgSendUser,#message_rsc=player_cant_hit_newbie);
+                     if (piFlags & PFLAG_PERMA_NO_PVP)
+                     {
+                        Send(self,@MsgSendUser,#message_rsc=player_cant_hit_optout);
+                     }
+                     else
+                     {
+                        Send(self,@MsgSendUser,#message_rsc=player_cant_hit_newbie);
+                     }
                   }
                   else
                   {
@@ -4496,7 +4513,9 @@ messages:
                return FALSE;
             }
 
-            if NOT Send(victim,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
+            // Can attack non-pvpable players if they're holding a token.
+            if NOT Send(victim,@CanPlayerPvP)
+               AND NOT Send(victim,@PossessesA,#class=&Token)
             {
                // The target is a newbie. Murderers are perfectly attackable
                if report
@@ -12569,6 +12588,13 @@ messages:
       return;
    }
 
+   CanPlayerPvP()
+   {
+      return (piFlags & PFLAG_PKILL_ENABLE)
+         AND NOT (piFlags & PFLAG_PERMA_NO_PVP)
+         AND NOT (piFlags & PFLAG_TEMPSAFE);
+   }
+
    PKillEnable()
    "This will ALWAYS ignore the checks and ALWAYS sets the flag."
    "Made to be used ONLY from admin mode."
@@ -12688,6 +12714,40 @@ messages:
 
       piFlags = piFlags | PFLAG_TEMPSAFE;
       Send(self,@MsgSendUser,#message_rsc=player_temp_safe);
+
+      return;
+   }
+
+   SetPlayerPvPPermaOff()
+   "Called to switch the player to non-pvp mode."
+   {
+      local oShield;
+
+      piflags |= PFLAG_PERMA_NO_PVP;
+
+      // Drop shield if we have one.
+      oShield = Send(self,@FindUsing,#class=&SoldierShield);
+      if oShield <> $
+      {
+         Send(oShield,@LostFaction);
+      }
+
+      if (poOwner <> $)
+      {
+         Send(poOwner,@SomethingChanged,#what=self);
+      }
+
+      return;
+   }
+
+   SetPlayerPvPPermaOn()
+   {
+      piflags &= ~PFLAG_PERMA_NO_PVP;
+
+      if (poOwner <> $)
+      {
+         Send(poOwner,@SomethingChanged,#what=self);
+      }
 
       return;
    }
@@ -13371,8 +13431,7 @@ messages:
       }
 
       if IsClass(oRoom,&GuildHall)
-         AND (NOT (piFlags & PFLAG_PKILL_ENABLE)
-            OR (piFlags & PFLAG_TEMPSAFE))
+         AND (NOT Send(self,@CanPlayerPvP))
       {
          Send(self,@MsgSendUser,#message_rsc=player_no_enter);
 

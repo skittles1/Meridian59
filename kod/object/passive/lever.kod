@@ -76,8 +76,7 @@ messages:
       }
 
       if (pbPKillOnly
-         AND (NOT Send(who,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
-            OR Send(who,@CheckPlayerFlag,#flag=PFLAG_TEMPSAFE)))
+         AND (NOT Send(who,@CanPlayerPvP)))
       {
          Send(who,@MsgSendUser,#message_rsc=lever_not_experienced);
 
@@ -86,7 +85,7 @@ messages:
 
       if pbBlueNameProtected
          AND (NOT IsClass(who,&Admin))
-            AND (NOT send(who,@CanAdvance))
+            AND (NOT Send(who,@CanAdvance))
       {
          Send(who,@DontInterfere);
 

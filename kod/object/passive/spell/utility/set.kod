@@ -52,23 +52,41 @@ messages:
       return;
    }
 
+   CanPayCosts(who=$)
+   {
+      if (who = $
+         OR NOT IsClass(who,&User))
+      {
+         return FALSE;
+      }
+
+      // Player can't use if no-pvp flagged.
+      if (Send(who,@CheckPlayerFlag,#flag=PFLAG_PERMA_NO_PVP))
+      {
+         Send(who,@MsgSendUser,#message_rsc=spell_no_pvp_flag);
+
+         return FALSE;
+      }
+
+      propagate;
+   }
+
    CastSpell(who = $, lTargets = $)
    {
-      local oItem, lPassive, lLocal_list;
+      local cClass, oItem, lLocal_list;
 
-      lLocal_list = $;
-      lPassive = Send(who,@GetHolderPassive);
-
-      foreach oItem in lPassive
+      if (who = $)
       {
-         // Ignore scrolls of set.
-         if IsClass(oItem,&SetScroll)
-         {
-            continue;
-         }
+         return;
+      }
 
-         // Ignore money.
-         if IsClass(oItem,&Money)
+      foreach oItem in Send(who,@GetHolderPassive)
+      {
+         cClass = GetClass(oItem);
+
+         // Ignore scrolls of set and money.
+         if (cClass = &SetScroll
+            OR cClass = &Money)
          {
             continue;
          }
@@ -78,17 +96,13 @@ messages:
          {
             lLocal_list = Cons([GetClass(oItem),Send(oItem,@GetSchool)],
                                  lLocal_list);
-            continue;
          }
-
-         if IsClass(oItem,&SpellItem)
+         else if IsClass(oItem,&SpellItem)
          {
             lLocal_list = Cons([GetClass(oItem),Send(oItem,@GetHits)],
                                  lLocal_list);
-            continue;
          }
-
-         if IsClass(oItem,&NumberItem)
+         else if IsClass(oItem,&NumberItem)
          {
             lLocal_list = Cons([GetClass(oItem),Send(oItem,@GetNumber)],
                                  lLocal_list);

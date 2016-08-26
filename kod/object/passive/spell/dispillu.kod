@@ -84,8 +84,8 @@ messages:
          iChance = Bound(iSpellPower,10,99);
       }
 
-      // Only attempt to dispell all illusions if the player is unangeled.
-      bAll = Send(who,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE);
+      // Only attempt to dispell all illusions if the player can PvP.
+      bAll = Send(who,@CanPlayerPvP);
 
       if bAll
       {
@@ -100,7 +100,6 @@ messages:
 
       propagate;
    }
-
 
 end
 ////////////////////////////////////////////////////////////////////////////////

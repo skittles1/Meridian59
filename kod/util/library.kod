@@ -116,6 +116,10 @@ resources:
    LM_haz_tomas = "An armed warrior is always better than a naked one.  Spend what you have on weaponry at Tomas' shop - you'll earn more."
    LM_haz_eric = "The finest barman this side of Barloque!  I've heard he seeks something..."
 
+   LM_towns_nopvp = \
+      "If you wish to opt-out of player versus player combat, visit the Temple "
+      "of Shal'ille to the north of Marion and speak to the priestess there."
+
    LM_no_mana_nodes = "You have not yet bonded with any mana nodes."
    LM_mana_nodes = "Your aura is connected with these mana nodes: %r."
 
@@ -1093,9 +1097,12 @@ messages:
    {
       plRandomLib = $;
 
-      // plRandomLib = Cons([&Towns,[
-      // [25,LIBRES_NOT_NEWBIE,[ LIBACT_RUMOR_COURT_STATE ,0]],
-      // ]],plRandomLib);
+      if (Send(SETTINGS_OBJECT,@PvPOptOutEnabled))
+      {
+         plRandomLib = Cons([&Towns,[
+            [25,0,[ LIBACT_SAY, LM_towns_nopvp ]]
+         ]],plRandomLib);
+      }
 
       plRandomLib = Cons([&CorNothTown,[
          [40,LIBRES_NOT_NEWBIE,[ LIBACT_RUMOR_TOKEN_LOC ]] 

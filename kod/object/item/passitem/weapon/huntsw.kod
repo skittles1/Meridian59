@@ -266,7 +266,7 @@ messages:
       {
          Send(what,@MsgSendUser,#message_rsc=HunterSword_holding_damage);
 
-         if Send(what,@CheckPlayerFlag,#flag=PFLAG_PKILL_ENABLE)
+         if Send(what,@CanPlayerPvP)
          {
             iDamage = Random(1,2);
             if Send(what,@GetKarma) < 0

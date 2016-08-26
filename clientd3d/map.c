@@ -34,6 +34,7 @@
 #define MAP_ENEMY_COLOR         PALETTERGB(255, 0, 0)    // Red
 #define MAP_GUILDMATE_COLOR     PALETTERGB(255, 255, 0)  // Yellow
 #define MAP_BUILDGRP_COLOR      PALETTERGB(0, 255, 0)    // Bright Green
+#define MAP_COLOR_NOPVP         PALETTERGB(255,255,255)  // White
 #define MAP_NPC_COLOR           PALETTERGB(0, 0, 0)      // Black
 #define MAP_TEMPSAFE_COLOR      PALETTERGB(0,170,255)    // Cyan
 #define MAP_MINIBOSS_COLOR      PALETTERGB(160, 66, 194) // Purple
@@ -49,11 +50,11 @@
 
 #define MAP_OBJECT_DISTANCE (7 * FINENESS) // Draw all object closer than this to player
 
-static HBRUSH hObjectBrush, hPlayerBrush, hNullBrush, hMinionBrush,
+static HBRUSH hObjectBrush, hPlayerBrush, hNullBrush, hMinionBrush, hNoPVPBrush,
               hMinionOtherBrush, hNpcBrush, hTempsafeBrush, hItemBrush;
 static HPEN hWallPen, hPlayerPen, hObjectPen, hMinionPen, hMinionOtherPen,
             hMinibossPen, hBossPen, hItemPen, hFriendPen, hEnemyPen,
-            hGuildmatePen, hBuilderPen, hNpcPen, hTempsafePen;
+            hGuildmatePen, hBuilderPen, hNpcPen, hTempsafePen, hNoPVPPen;
 
 static float zoom;              // Factor to zoom in on map
 
@@ -147,6 +148,7 @@ void MapInitialize(void)
    hMinionPen = CreatePen(PS_SOLID, MAP_OBJECT_THICKNESS, MAP_MINION_COLOR);
    hMinionOtherPen = CreatePen(PS_SOLID, MAP_OBJECT_THICKNESS, MAP_MINION_OTH_COLOR);
    hBuilderPen = CreatePen(PS_SOLID, MAP_OBJECT_THICKNESS, MAP_BUILDGRP_COLOR);
+   hNoPVPPen = CreatePen(PS_SOLID, MAP_OBJECT_THICKNESS, MAP_COLOR_NOPVP);
    hNpcPen = CreatePen(PS_SOLID, MAP_OBJECT_THICKNESS, MAP_NPC_COLOR);
    hTempsafePen = CreatePen(PS_SOLID, MAP_OBJECT_THICKNESS, MAP_TEMPSAFE_COLOR);
    hMinibossPen = CreatePen(PS_SOLID, MAP_BOSS_THICKNESS, MAP_MINIBOSS_COLOR);
@@ -159,6 +161,7 @@ void MapInitialize(void)
    hObjectBrush = CreateSolidBrush(MAP_OBJECT_COLOR);
    hPlayerBrush = CreateSolidBrush(MAP_PLAYER_COLOR);
    hTempsafeBrush = CreateSolidBrush(MAP_TEMPSAFE_COLOR);
+   hNoPVPBrush = CreateSolidBrush(MAP_COLOR_NOPVP);
    hItemBrush = CreateSolidBrush(MAP_RARE_ITEM_COLOR);
    hNullBrush = CreateBrushIndirect(&logBrush);
 
@@ -192,6 +195,7 @@ void MapClose(void)
    DeleteObject(hMinionPen);
    DeleteObject(hMinionOtherPen);
    DeleteObject(hBuilderPen);
+   DeleteObject(hNoPVPPen);
    DeleteObject(hNpcPen);
    DeleteObject(hTempsafePen);
    DeleteObject(hMinibossPen);
@@ -204,6 +208,7 @@ void MapClose(void)
    DeleteObject(hNullBrush);
    DeleteObject(hNpcBrush);
    DeleteObject(hTempsafeBrush);
+   DeleteObject(hNoPVPBrush);
    DeleteObject(hItemBrush);
 
    if (pMapWalls)
@@ -447,6 +452,8 @@ void MapDrawObjects(HDC hdc, list_type objects, int x, int y, float scale)
          DrawMinimapDot(hdc, hPlayerPen, hPlayerBrush, radius, new_x, new_y);
       else if (r->obj.minimapflags & MM_TEMPSAFE)
          DrawMinimapDot(hdc, hTempsafePen, hTempsafeBrush, radius, new_x, new_y);
+      else if (r->obj.minimapflags & MM_NO_PVP)
+         DrawMinimapDot(hdc, hNoPVPPen, hNoPVPBrush, radius, new_x, new_y);
       else if (r->obj.minimapflags & MM_MINION_SELF)
          DrawMinimapDot(hdc, hMinionPen, hMinionBrush, radius, new_x, new_y);
       else if (r->obj.minimapflags & MM_MINION_OTHER)
@@ -514,6 +521,8 @@ void MapDrawPlayer(HDC hdc, int x, int y, float scale, int minimapflags)
 
    if (minimapflags & MM_TEMPSAFE)
       hOldPen = (HPEN)SelectObject(hdc, hTempsafePen);
+   else if (minimapflags & MM_NO_PVP)
+      hOldPen = (HPEN)SelectObject(hdc, hNoPVPPen);
    else
       hOldPen = (HPEN)SelectObject(hdc, hPlayerPen);
 

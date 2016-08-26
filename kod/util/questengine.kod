@@ -493,6 +493,9 @@ messages:
       // QST_ID_RIIJA_OFFERING
       Create(&RiijaOfferingQuest);
 
+      // QST_ID_ABSTAIN_PVP
+      Create(&AbstainPvPQuest);
+
       // QST_ID_CHICKEN_SOUP
       Create(&ChickenSoupQuest);
       // QST_ID_POLISH_SERAPHYM
