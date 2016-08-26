@@ -26,7 +26,6 @@ ladypheonix_step = de "Schritt"
 ladypheonix_steps = de "Schritte"
 ladypheonix_south = de "nach Süden"
 ladypheonix_north = de "nach Norden"
-ladypheonix_step_forward = de "dann mache einen Schritt nach vorne."
 ladypheonix_protect_command = de "schütze"
 ladypheonix_wlll_protect = de \
    "~kLadyPhoenix flüstert, \"Ich werde Dich schützen.\""

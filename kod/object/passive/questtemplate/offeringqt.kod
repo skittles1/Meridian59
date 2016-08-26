@@ -34,10 +34,8 @@ resources:
    // Quest description.
    offeringquest_accept_rsc = \
       "%s%s has invited you to chant with %s, do you accept?"
-
    offeringquest_chant_rsc = \
       "Speak the following words aloud: \"%s\"."
-
    offering_trigger_2 = "yes"
 
 classvars:

@@ -13,13 +13,11 @@ BqInn_unwanted_give = de \
 BarloqueInnkeeper_room_rented = de \
    "Hier ist der Schlüssel zu deinem Zimmer.  Ich denke du wirst unsere Zimmer "
    "gut ausgestattet finden.  Genieße deine Zeit hier!"
-BarloqueInnkeeper_cost1 = de "Die Zimmer hier sind die besten.  Ich benötige "
-BarloqueInnkeeper_cost2 = de \
-   " Schillinge wenn du ~Iein Zimmer~nhier ~Imietest~n für 85 Tage.  Nach "
-   "dieser Zeit brauche ich es wieder "
-BarloqueInnkeeper_cost3 = de " pro Tag von.  Eine Kopie kostet "
-BarloqueInnkeeper_cost4 = de \
-   " Schillinge, wenn du dein Zimmer mit jemanden besonderes teilen möchtest."
+BarloqueInnkeeper_cost = de \
+   "Die Zimmer hier sind die besten.  Ich benötige %i Schillinge wenn du "
+   "~Iein Zimmer~nhier ~Imietest~n für 85 Tage.  Nach dieser Zeit brauche ich "
+   "es wieder %i pro Tag von.  Eine Kopie kostet %i Schillinge, wenn du dein "
+   "Zimmer mit jemanden besonderes teilen möchtest."
 BarloqueInnkeeper_days_left = de \
    "Ich danke dir.  Du hast %q verbleibende Tage hier zu verweilen."
 BarloqueInnkeeper_too_long = de \

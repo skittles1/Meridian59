@@ -12,7 +12,6 @@ riijaofferingqt_completed = de \
 // Quest resources.
 riijaoffering_assign_2 = de \
    "%NAME, Lord Riija will Dich stärken!? Willst Du mit mir singen?"
-riijaoffering_trigger_2 = de "ja"
 riijaoffering_assign_3 = de \
    "Sprich diese Wörter mit mir: %CARGO.  Fühle die Macht, die bei jedem "
    "Wort wächst.."
