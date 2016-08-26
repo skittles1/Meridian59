@@ -67,21 +67,38 @@ messages:
 
    CanPayCosts(who = $)
    {
-      if Send(who,@GetGuild) = $
+      local oGuild;
+
+      if (who = $
+         OR NOT IsClass(who,&User))
+      {
+         return FALSE;
+      }
+
+      if (Send(who,@CheckPlayerFlag,#flag=PFLAG_PERMA_NO_PVP))
+      {
+         Send(who,@MsgSendUser,#message_rsc=spell_no_pvp_flag);
+
+         return FALSE;
+      }
+
+      oGuild = Send(who,@GetGuild);
+
+      if oGuild = $
       {
          Send(who,@MsgSendUser,#message_rsc=loadout_not_guilded);
 
          return FALSE;
       }
 
-      if Send(Send(who,@GetGuild),@GetRank,#who=who) = RANK_APPRENTICE
+      if Send(oGuild,@GetRank,#who=who) = RANK_APPRENTICE
       {
          Send(who,@MsgSendUser,#message_rsc=loadout_rank_too_low);
 
          return FALSE;
       }
 
-      if Send(Send(who,@GetGuild),@GetGuildHall) = $
+      if Send(oGuild,@GetGuildHall) = $
       {
          Send(who,@MsgSendUser,#message_rsc=loadout_no_hall);
 

@@ -50,6 +50,9 @@ spell_failed_by_chance = de \
 spell_advanced = de \
    "Du hast Deine Fähigkeiten in %s verbessert! Deine Fähigkeit liegt nun "
    "bei %s."
+spell_no_pvp_flag = de \
+   "Shal'ill verhindert, dass Du diesen Zauberspruch ausführst, da Du dich "
+   "dazu entschlossen hast nicht an Kämpfen gegen andere Spieler teilzunehmen."
 spell_guardian = de \
    "Dein Schutzengel sagt zu Dir, \"Du bist noch nicht so weit, offensive "
    "Zaubersprüche gegen andere Spieler auszusprechen.\""

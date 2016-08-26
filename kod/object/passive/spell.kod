@@ -73,6 +73,9 @@ resources:
    spell_failed_by_chance = "You were unsuccessful in casting %s."
 
    spell_advanced = "You advanced in %s!  Your ability is now at %s."
+   spell_no_pvp_flag = \
+      "Shal'ille prevents the casting of this spell, as you have opted out of "
+      "player versus player combat."
    spell_guardian = \
       "Your guardian angel tells you, \"You are not ready to cast offensive "
       "spells on other players.\""
