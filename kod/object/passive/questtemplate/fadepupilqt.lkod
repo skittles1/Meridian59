@@ -16,7 +16,7 @@ fadepupilquest_nodethree2_rsc = de \
 fadepupilquest_nodefour_rsc = de \
    "Kehre mit der Formel zu Koldor zurück."
 
- fadepupilquest_completed = de \
+fadepupilquest_completed_rsc = de \
    "Du hast die Verblassen Schüler Quest abgeschlossen. Koldor wird "
    "Dir nun den Verblassen Zauber beibringen."
 

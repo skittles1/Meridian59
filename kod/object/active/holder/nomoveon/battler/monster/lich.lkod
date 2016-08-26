@@ -46,7 +46,6 @@ lich_killed_world_saved_nolich = de \
 lich_and = de " und "
 lich_tribute_trigger = de "Anerkennung"
 lich_hunger_trigger = de "Hunger"
-Lich_starting_password = de "Todesmagier"
 lich_hunger_5 = de \
    "~rMein Hunger ist wie ein glühende Kohle in meiner Brust! Füttere mich "
    "sofort!"

@@ -37,7 +37,7 @@ resources:
    iashroud_gone = "The mystical cloak slips away from your %s."
    iashroud_name = "shrouded %s"
 
-   shroud_dm = shrouded
+   shroud_dm = "shrouded"
 
 classvars:
 

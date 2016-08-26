@@ -10,16 +10,13 @@ MrIk_entry_welcome = de \
 MarionInnkeeper_room_rented = de \
    "Na dann willkommen. Solltest du irgendwelche Fragen haben, wird Tova "
    "gerne helfen."
-MarionInnkeeper_cost1 = de \
-   "Oh, gut. Du solltest Rasten.  Lass mal sehen....  Ich berechne "
-MarionInnkeeper_cost2 = de \
-   " Schillinge um den schönen ~IRaum~n hier zu ~Imieten~n für die nächsten "
-   "85 Tage.  Wenn Du willst, kannst du länger bleiben, dann berechne ich "
-   ""
-MarionInnkeeper_cost3 = de \
-   " pro Tag bei Vorauszahlung.  Kopie des Schlüssels, uh, eine Schlüsselkopie....  "
-   "Oh, die kosten "
-MarionInnkeeper_cost4 = de " Schilling.  Ich weiß, du wirst dein Zimmer mögen."
+MarionInnkeeper_cost = de \
+   "Oh, gut. Du solltest Rasten.  Lass mal sehen....  Ich berechne %i "
+   "Schillinge um den schönen ~IRaum~n hier zu ~Imieten~n für die nächsten "
+   "85 Tage.  Wenn Du willst, kannst du länger bleiben, dann berechne ich %i "
+   "pro Tag bei Vorauszahlung.  Kopie des Schlüssels, uh, eine "
+   "Schlüsselkopie....  Oh, die kosten %i Schilling.  Ich weiß, du wirst "
+   "dein Zimmer mögen."
 MarionInnkeeper_days_left = de \
    "Du magst es hier, wie ich sehe.  Es verbleiben %q Tage bis du mich noch "
    "einmal bezahlen musst."

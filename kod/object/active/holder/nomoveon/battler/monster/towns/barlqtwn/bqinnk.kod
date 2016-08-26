@@ -39,7 +39,7 @@ resources:
 
    BarloqueInnkeeper_cost = \
       "The rooms here are the finest.  I needeth %i shillings when thou "
-      "~Irent~neth a ~Iroom~n for for 85 days.  After that, I requireth %i "
+      "~Irent~neth a ~Iroom~n for 85 days.  After that, I requireth %i "
       "per day up front.  Key copies costeth %i shillings if thou wishest to "
       "share thine room with a special someone."
 

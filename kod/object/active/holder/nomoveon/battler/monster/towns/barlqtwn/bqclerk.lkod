@@ -224,14 +224,14 @@ bq_clerk_glare = de "Versucht Euch zivilisiert zu benehmen, %s."
 
 // Pardons
 
-barloque_clerk_pardon_1 = de "Lasst es bekannt werden, dass "
-barloque_clerk_pardon_2 = de " eine Gnadenfrist gewährt wurde. Ehemals "
-// barloque_clerk_pardon_3 = de ", "
-barloque_clerk_pardon_4 = de "weilt diese Person nun als "
-barloque_clerk_pardon_5 = de " unter uns. Im Namen des Justiziars "
-barloque_clerk_pardon_6 = de \
+bq_clerk_pardon_1 = de "Lasst es bekannt werden, dass "
+bq_clerk_pardon_2 = de " eine Gnadenfrist gewährt wurde. Ehemals "
+bq_clerk_pardon_3 = de ", "
+bq_clerk_pardon_4 = de "weilt diese Person nun als "
+bq_clerk_pardon_5 = de " unter uns. Im Namen des Justiziars "
+bq_clerk_pardon_6 = de \
    ". So ward es gesprochen, so soll es geschehen.\n\n-- Caramo"
-barloque_clerk_pardon_7 = de " wurde offiziell begnadigt."
+bq_clerk_pardon_7 = de " wurde offiziell begnadigt."
 
 // Bribes
 

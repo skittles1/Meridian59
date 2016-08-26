@@ -24,9 +24,7 @@ resources:
    gift_desc_rsc = \
       "This is a gift from the gods, to thank you for your patience and "
       "your patronage."
-
    gift_open = "With unbridled delight, you open the gift to find %s%s inside!"
-
    gift_desc_name = \
       "This is a neatly wrapped present.  A tag attached to the bow reads, "
       "'From %q with love'."
