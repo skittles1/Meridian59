@@ -10,7 +10,7 @@ sandstorm_on = de \
    "Luft, was es dir schwer macht zu atmen.  Du fühlst dich ermüdet."
 sandstorm_off = de "Die Luft klärt auf."
 sandstorm_new_entrant = de \
-   "Di Luft ist voller Staub, und macht es schwer zu atmen. Du fühlst dich "
+   "Die Luft ist voller Staub, und macht es schwer zu atmen. Du fühlst dich "
    "ermüdet."
 sandstorm_hurts_you = de "Du wirst on den wehendem Sandsturm erschöpfter."
 sandstorm_miss_rsc = de "Der kraftvolle Sandsturm wirbelt deinen Schuss davon."

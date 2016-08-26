@@ -527,15 +527,14 @@ oo_modprism_desc = de \
    "es mehreren Magiern erlaubt, gemeinsam ihre Energien zu bündeln und zu "
    "verwenden. Die Resultate solcher Vereinigungen sind meist mächtige Zaubersprüche "
    "oder auch ein mächtiger Fehlschlag."
-oo_modinkycap_name = de "wax inkycap mushrooms"
+oo_modinkycap_name = de "Ein Streifenpilz aus Wachs"
 oo_modinkycap_desc = de \
-   "A plaque below the model reads:\nRich and meaty in texture, inkycap mushrooms "
-   "are considered ambrosia by the populace of Meridian, and their restorative "
-   "properties are widely documented."
-oo_modsignetring_name = de "model signet ring"
+   "Auf einem Schild unter dem Modell steht:\nAuf den ersten Blick sehen diese "
+   "Pilze ziemlich gewöhnlich aus, aber sieh nur, dieses merkwürdige Grün!"
+oo_modsignetring_name = de "Modell eines Siegelrings"
 oo_modsignetring_desc = de \
-   "A plaque below the model reads:\nEveryone seems to have one of these rings.  "
-   "And everyone seems to lose them, as well."
+   "Auf einem Schild unter dem Modell steht:\nJeder scheint einen dieser Ringe zu besitzen.  "
+   "Und jeder scheint ihn zu verlieren... irgendwie..."
 oo_modnewsb_name = de "Wächserner Streifenpilz"
 oo_modnewsb_desc = de \
    "Auf einem Schild unter dem Modell steht:\nNahrhaft und wohlbekömmlich "
