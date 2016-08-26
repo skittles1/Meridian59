@@ -95,6 +95,15 @@ messages:
       // Quest nodes with matching descriptions for the player.
       plQuestNodeDesc = [ [QNT_ID_ABSTAIN_PVP_TWO, vrNodeTwo] ];
 
+      if (Send(SETTINGS_OBJECT,@PvPOptOutEnabled))
+      {
+         piSchedulePct = 100;
+      }
+      else
+      {
+         piSchedulePct = 0;
+      }
+
       propagate;
    }
 
