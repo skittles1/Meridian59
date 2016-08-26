@@ -14,7 +14,7 @@ static const int RSC_VERSION = 5;
 static char rsc_magic[] = {0x52, 0x53, 0x43, 0x01};
 
 char *GetStringFromResource(resource_type r, int j);
-void ResourceStringModVerify(resource_type r);
+void ResourceStringModVerify(resource_type r, char *fname);
 /******************************************************************************/
 /*
  * check_for_class_resource_string: Uses a resource's ID to check if the same
@@ -111,7 +111,7 @@ void write_resources(char *fname)
             r = (resource_type) (l->data);
 
             // Verify string modifiers in different language strings.
-            ResourceStringModVerify(r);
+            ResourceStringModVerify(r, fname);
 
             // For each language string present,
             // write out language data and string.
@@ -161,11 +161,30 @@ typedef struct {
    int rsc_mod_count;
 } check_rsc_type;
 
-void ResourceStringModVerify(resource_type r)
+void ResourceStringModVerify(resource_type r, char *fname)
 {
-   // Sanity check, plus only check actual strings.
-   if (!r || !r->resource[0] || r->resource[0]->type != C_STRING)
+   if (!r)
       return;
+
+   // If we don't have an English string, warn.
+   if (!r->resource[0])
+   {
+      simple_warning("%s: No English string for resource %s.",
+         fname, r->lhs->name);
+      return;
+   }
+
+   // Check types only on non-string resources.
+   if (r->resource[0]->type != C_STRING)
+   {
+      for (int i = 1; i < MAX_LANGUAGE_ID; ++i)
+      {
+         if (r->resource[i] && r->resource[i]->type != r->resource[0]->type)
+            simple_warning("%s: Got mismatched resource types for resource %s.",
+               fname, r->lhs->name);
+      }
+      return;
+   }
 
    check_rsc_type check_array[MAX_LANGUAGE_ID];
    char *str;
@@ -178,12 +197,17 @@ void ResourceStringModVerify(resource_type r)
 
       if (r->resource[i])
       {
+         if (r->resource[i]->type != r->resource[0]->type)
+            simple_warning("%s: Got mismatched resource types for resource %s.",
+               fname, r->lhs->name);
+
          str = GetStringFromResource(r, i);
          if (!str)
          {
             if (i == 0)
             {
-               simple_warning("No English string for resource %s!", r->lhs->name);
+               simple_warning("%s: No English string for resource %s.",
+                  fname, r->lhs->name);
                return;
             }
             // Don't report missing strings for other languages, can be
@@ -226,8 +250,8 @@ void ResourceStringModVerify(resource_type r)
          // Check total count first.
          if (check_array[i].rsc_mod_count != check_array[0].rsc_mod_count)
          {
-            simple_warning("Got mismatched number of string modifiers in resource %s.",
-               r->lhs->name);
+            simple_warning("%s: Got mismatched number of string modifiers in resource %s.",
+               fname, r->lhs->name);
             return;
          }
          // Check number of each type of string modifier.
@@ -235,8 +259,8 @@ void ResourceStringModVerify(resource_type r)
          {
             if (check_array[i].rsc_mod[j] != check_array[0].rsc_mod[j])
             {
-               simple_warning("Got mismatched types of string modifiers in resource %s.",
-                  r->lhs->name);
+               simple_warning("%s: Got mismatched types of string modifiers in resource %s.",
+                  fname, r->lhs->name);
                return;
             }
          }
