@@ -49,7 +49,7 @@ classvars:
    viSpeed = SPEED_AVERAGE
    viAttack_type = ATCK_WEAP_SLASH
    viAttributes = 0
-   viLevel = 45
+   viLevel = 50
    viDifficulty = 6
    viVisionDistance = 10
    viKarma = -40
@@ -65,14 +65,12 @@ classvars:
    vrSound_aware = orc_sound_aware
    vrSound_death = orc_sound_death
 
-   
 properties:
 
    piAnimation = ANIM_NONE
-
    piReputationGroup = REP_ORC
    plReputationEnemies = $
-   
+
 messages:
 
    Constructed()
@@ -147,12 +145,7 @@ messages:
 
    IsFrightenedOf(target=$)
    {
-      if IsClass(target,&GiantRat)
-      {
-         return TRUE;
-      }
-
-      return FALSE;
+      return IsClass(target,&GiantRat);
    }
 
 end

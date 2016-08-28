@@ -213,12 +213,7 @@ messages:
 
    IsFrightenedOf(target=$)
    {
-      if target <> $ AND IsClass(target,&ShadowBeast)
-      {
-         return TRUE;
-      }
-
-      return FALSE;
+      return IsClass(target,&ShadowBeast);
    }
 
 end

@@ -144,13 +144,7 @@ messages:
 
    IsFrightenedOf(target=$)
    {
-      if target <> $
-         AND IsClass(target,&GiantRat)
-      {
-         return TRUE;
-      }
-
-      return FALSE;
+      return IsClass(target,&GiantRat);
    }
 
 end
