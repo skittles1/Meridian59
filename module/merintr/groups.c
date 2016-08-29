@@ -37,8 +37,8 @@ void GroupsLoad(void)
    num_groups = 0;
    while (*ptr != 0 && num_groups < MAX_NUMGROUPS)
    {
-      strncpy(groups[num_groups], ptr, MAX_NUMGROUPS);
-      groups[num_groups][MAX_NUMGROUPS] = 0;
+      strncpy(groups[num_groups], ptr, MAX_GROUPNAME);
+      groups[num_groups][MAX_GROUPNAME] = 0;
       ptr += strlen(ptr) + 1;
       num_groups++;
    }

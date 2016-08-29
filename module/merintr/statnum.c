@@ -106,20 +106,20 @@ void StatsNumResize(list_type stats)
       Statistic *s = (Statistic *) (l->data);
 
       if (s->numeric.tag != STAT_INT)
-	 continue;
+         continue;
 
       num_stats++;
 
       if (y + s->cy <= stats_area.cy)
       {
-	 y += s->cy;
-	 num_visible++;
+         y += s->cy;
+         num_visible++;
       }
    }
 
    if (num_visible < num_stats)
       has_scrollbar = True;
-   
+
    top_stat = min(top_stat, num_stats - num_visible);
 
    // Move graph bars
@@ -129,55 +129,57 @@ void StatsNumResize(list_type stats)
    stats_bar_width -= RIGHT_BORDER;
    num_visible = 0;
    count = 0;
-   
+
    y = StatsGetButtonBorder();
-   
+
    for (l = stats; l != NULL; l = l->next)
    {
       Statistic *s = (Statistic *) (l->data);
-      
+
       if (s->numeric.tag != STAT_INT)
-	 continue;
-      
+         continue;
+
       // Take into account position of scrollbar
       if (count++ < top_stat)
       {
-	 ShowWindow(s->hControl, SW_HIDE);
-	 continue;
+         ShowWindow(s->hControl, SW_HIDE);
+         continue;
       }
-      
+
       // Center bar vertically
       s->y = y;
       y += s->cy;
-      
-      MoveWindow(s->hControl, x, s->y + (s->cy - STATS_BAR_HEIGHT) / 2, 
-		 stats_bar_width, STATS_BAR_HEIGHT, TRUE);
-      
+
+      MoveWindow(s->hControl, x, s->y + (s->cy - STATS_BAR_HEIGHT) / 2,
+         stats_bar_width, STATS_BAR_HEIGHT, TRUE);
+
       // Only show graph bar if it's completely visible
-	  //	And Inventory is not selected.	ajw
-      if (s->y + s->cy <= stats_area.cy && StatsGetCurrentGroup() != STATS_INVENTORY )
+      // And Inventory is not selected.	ajw
+      if (s->y + s->cy <= stats_area.cy && StatsGetCurrentGroup() != STATS_INVENTORY)
       {
-	 ShowWindow(s->hControl, SW_NORMAL);
-	 num_visible++;
+         ShowWindow(s->hControl, SW_NORMAL);
+         num_visible++;
       }
-      else ShowWindow(s->hControl, SW_HIDE);
+      else
+         ShowWindow(s->hControl, SW_HIDE);
       height = s->cy;
    }
-   
+
    // Show scrollbar if necessary
    if (has_scrollbar)
    {
       y = StatsGetButtonBorder();
       MoveWindow(hStatsScroll, stats_area.cx - stats_scrollbar_width, 
-		 y, stats_scrollbar_width, num_visible * height, FALSE);
+         y, stats_scrollbar_width, num_visible * height, FALSE);
       ShowWindow(hStatsScroll, SW_HIDE);
       SetScrollRange(hStatsScroll, SB_CTL, 0, num_stats - num_visible, TRUE);
-      SetScrollPos(hStatsScroll, SB_CTL, top_stat, TRUE); 
-	  if( StatsGetCurrentGroup() != STATS_INVENTORY )	//	ajw
-			ShowWindow(hStatsScroll, SW_SHOWNORMAL);
+      SetScrollPos(hStatsScroll, SB_CTL, top_stat, TRUE);
+      if( StatsGetCurrentGroup() != STATS_INVENTORY )	//	ajw
+         ShowWindow(hStatsScroll, SW_SHOWNORMAL);
    }
-   else ShowWindow(hStatsScroll, SW_HIDE);
-   
+   else
+      ShowWindow(hStatsScroll, SW_HIDE);
+
    StatsDraw();
 }
 /************************************************************************/

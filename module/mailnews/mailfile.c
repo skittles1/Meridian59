@@ -370,8 +370,8 @@ Bool MailParseMessage(int msgnum, MailInfo *info)
          break;
          
       case IDS_FROM:
-         strncpy(info->sender, ptr, MAXNAME);
-         info->sender[MAXNAME - 1] = 0;
+         strncpy(info->sender, ptr, MAXUSERNAME);
+         info->sender[MAXUSERNAME - 1] = 0;
          break;
          
       case IDS_TO:

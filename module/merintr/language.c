@@ -239,7 +239,8 @@ void LanguageInit(void)
          MenuAddLanguage(i);
 
    // Add a check to the selected language.
-   CheckMenuItem(language_menu, cinfo->config->language + ID_LANGUAGE, MF_CHECKED);
+   if (language_menu != NULL)
+      CheckMenuItem(language_menu, cinfo->config->language + ID_LANGUAGE, MF_CHECKED);
 }
 /********************************************************************/
 /*
@@ -271,13 +272,14 @@ void MenuAddLanguage(int lang_id)
 
    num = GetMenuItemCount(language_menu);
 
-   for(int i = 0; i < MAX_LANGUAGE_ID; i++)
-      if(language_id_table[i].languageid == lang_id)
+   for (int i = 0; i < MAX_LANGUAGE_ID; i++)
+   {
+      if (language_id_table[i].languageid == lang_id)
       {
          name = language_id_table[i].language_name;
-
          break;
       }
+   }
 
    // Add in sorted order.
    for (index = 0; index < num; index++)
