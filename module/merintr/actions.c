@@ -81,10 +81,9 @@ void ActionsExit(void)
    {
       RemoveMenu(cinfo->main_menu, MENU_POSITION_ACTIONS, MF_BYPOSITION);
       DrawMenuBar(cinfo->hMain);
+      DestroyMenu(actions_menu);
+      actions_menu = NULL;
    }
-
-   DestroyMenu(actions_menu);
-   actions_menu = NULL;
 }
 /********************************************************************/
 /*

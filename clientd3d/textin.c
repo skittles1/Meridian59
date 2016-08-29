@@ -24,6 +24,7 @@ static keymap textin_key_table[] = {
 { VK_TAB,         KEY_NONE,             A_TABFWD,    (void *) IDC_TEXTINPUT },
 { VK_TAB,         KEY_SHIFT,            A_TABBACK,   (void *) IDC_TEXTINPUT },
 { VK_ESCAPE,      KEY_ANY,              A_GOTOMAIN },
+{ 0, 0, 0 },   // Must end table this way
 };
 
 // True when we should ignore next selection message (used to override default

@@ -244,8 +244,10 @@ int CALLBACK GuildHallCompareProc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamS
 
   
   ListView_GetItemText(hList, index1, 1, str, MAXAMOUNT);
+  str[MAXAMOUNT] = 0;
   cost1 = atoi(str);
   ListView_GetItemText(hList, index2, 1, str, MAXAMOUNT);
+  str[MAXAMOUNT] = 0;
   cost2 = atoi(str);
 
   return (cost1 > cost2);
