@@ -4492,6 +4492,7 @@ messages:
                // who have been knocked below this level by angry retributers.
 
                if report
+                  AND victim <> self
                {
                   if Send(SYS,@IsPKAllowed)
                   {
