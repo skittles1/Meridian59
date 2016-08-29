@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4E237A90-C6F7-4C12-9E2E-4B852E859E70}</ProjectGuid>
     <RootNamespace>ClientD3D</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -120,8 +121,7 @@ $(SolutionDir)postbuild.bat
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <StringPooling>true</StringPooling>
-      <DebugInformationFormat>
-      </DebugInformationFormat>
+      <DebugInformationFormat>None</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FloatingPointModel>Precise</FloatingPointModel>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -142,6 +142,7 @@ $(SolutionDir)postbuild.bat
       <DataExecutionPrevention />
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
+      <FullProgramDatabaseFile>false</FullProgramDatabaseFile>
     </Link>
     <PostBuildEvent>
       <Command>copy /y "$(OutDir)$(TargetName).exe" "$(SolutionDir)run\localclient"
