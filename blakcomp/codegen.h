@@ -18,7 +18,6 @@
 #define FileGotoEnd(f) lseek(f, 0, SEEK_END)
 
 typedef unsigned char BYTE;
-#define MAX_LOCALS 255      /* Greatest # of local variables allowed */
 enum { SOURCE1 = 1, SOURCE2 = 2 };  /* See set_source_id */
 
 /* Structure for loop addresses */

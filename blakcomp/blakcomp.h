@@ -248,6 +248,7 @@ typedef struct {
 } *stmt_type, stmt_struct;
 
 typedef struct {
+   int lineno;
    id_type message_id;
    list_type params;
 } *message_header_type, message_header_struct;

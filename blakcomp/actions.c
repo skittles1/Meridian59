@@ -1672,7 +1672,7 @@ message_header_type make_message_header(id_type id, list_type args)
    default:            /* Other types indicate name already used */
       action_error("Duplicate identifier %s", id->name);
    }
-
+   s->lineno = lineno;
    s->message_id = id;
    /* Sort parameters in increasing id # order.
       SortParameterList will throw action_error on duplicate parameters. */

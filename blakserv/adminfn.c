@@ -886,6 +886,11 @@ void AdminTable(int len_command_table,admin_table_type command_table[],int sessi
 		i = 0;
 		while ((parm_str = strtok(NULL," \t\n")) != NULL)
 		{
+			if (i >= MAX_ADMIN_BLAK_PARM)
+			{
+				aprintf("Too many parameters, command ignored.\n");
+				return;
+			}
 			blak_parm[i].type = CONSTANT;
 			blak_parm[i].name_id = GetIDByName(parm_str);
 			if (blak_parm[i].name_id == INVALID_ID)

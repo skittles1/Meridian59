@@ -1040,16 +1040,9 @@ void InterpretGotoIfFalseClassVar(int object_id, local_var_type *local_vars)
 }
 
 // Call instructions, separate implementations for where result is
-// stored (none, local, property)
-
-// Macro for building call instructions.
-#define CALL_PARM_CHECK(a, b, c) \
-   if (a > b) \
-   { \
-      bprintf(c, b); \
-      FlushDefaultChannels(); \
-      a = b; \
-   }
+// stored (none, local, property). Note that the parm arrays no longer
+// need to be bounds checked, as the compiler checks this when it
+// outputs the opcodes.
 
 // OP_CALL_STORE_NONE: 1 byte instruction, 1 byte call ID, call data.
 void InterpretCallStoreNone(int object_id, local_var_type *local_vars)
@@ -1063,9 +1056,6 @@ void InterpretCallStoreNone(int object_id, local_var_type *local_vars)
 
    num_normal_parms = get_byte();
 
-   CALL_PARM_CHECK(num_normal_parms, MAX_C_PARMS,
-      "InterpretCallStoreNone found a call w/ more than %i parms, DEATH\n")
-
    for (int i = 0; i < num_normal_parms; ++i)
    {
       normal_parm_array[i].type = get_byte();
@@ -1073,9 +1063,6 @@ void InterpretCallStoreNone(int object_id, local_var_type *local_vars)
    }
 
    num_name_parms = get_byte();
-
-   CALL_PARM_CHECK(num_name_parms, MAX_NAME_PARMS,
-      "InterpretCallStoreNone found a call w/ more than %i name parms, DEATH\n")
 
    for (int i = 0; i < num_name_parms; ++i)
    {
@@ -1125,9 +1112,6 @@ void InterpretCallStoreLocal(int object_id, local_var_type *local_vars)
 
    num_normal_parms = get_byte();
 
-   CALL_PARM_CHECK(num_normal_parms, MAX_C_PARMS,
-      "InterpretCallStoreLocal found a call w/ more than %i parms, DEATH\n")
-
    for (int i = 0; i < num_normal_parms; ++i)
    {
       normal_parm_array[i].type = get_byte();
@@ -1135,9 +1119,6 @@ void InterpretCallStoreLocal(int object_id, local_var_type *local_vars)
    }
 
    num_name_parms = get_byte();
-
-   CALL_PARM_CHECK(num_name_parms, MAX_NAME_PARMS,
-      "InterpretCallStoreLocal found a call w/ more than %i name parms, DEATH\n")
 
    for (int i = 0; i < num_name_parms; ++i)
    {
@@ -1188,9 +1169,6 @@ void InterpretCallStoreProperty(int object_id, local_var_type *local_vars)
 
    num_normal_parms = get_byte();
 
-   CALL_PARM_CHECK(num_normal_parms, MAX_C_PARMS,
-      "InterpretCallStoreProperty found a call w/ more than %i parms, DEATH\n")
-
    for (int i = 0; i < num_normal_parms; ++i)
    {
       normal_parm_array[i].type = get_byte();
@@ -1198,9 +1176,6 @@ void InterpretCallStoreProperty(int object_id, local_var_type *local_vars)
    }
 
    num_name_parms = get_byte();
-
-   CALL_PARM_CHECK(num_name_parms, MAX_NAME_PARMS,
-      "InterpretCallStoreProperty found a call w/ more than %i name parms, DEATH\n")
 
    for (int i = 0; i < num_name_parms; ++i)
    {
