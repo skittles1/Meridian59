@@ -1,8 +1,6 @@
 // Quest description.
 abstainpvp_name_rsc = de "Enthaltung vom PvP Quest"
 abstainpvp_desc_rsc = de \
-   "Enthaltung von Spieler gegen Spieler Kämpfen in aller Form."
-abstainpvp_nodetwo_rsc = de \
    "Wenn Du dir sicher bist, dass es dein Wunsch ist, mit diesem Charakter "
    "niemals an Spieler gegen Spieler Kämpfen teilzunehmen, dann sprich die "
    "folgenden Worte zur Priesterin von Shal'ill: \"Ich bitte Shal'ill mich vor "
@@ -11,9 +9,6 @@ abstainpvp_nodetwo_rsc = de \
    "wirst Du nicht mehr in der Lage sein an PvP Kämpfen teilzunehmen, ein "
    "Fraktionsschild zu tragen (oder zukünftige PvP Gegenstände), Gildenhallen "
    "zu betreten und an Richterwahlen teilzunehmen."
-abstainpvp_success = de \
-   "Du wurdest von Shal'ill gesegnet, und stehst nun unter Ihrem "
-   "dauerhaftem Schutz."
 abstainpvp_completed_rsc = de \
    "Du bist dauerhaft vor anderen Spielern geschützt. Du kannst niemanden "
    "angreifen, noch angegriffen werden, Gildenhallen betreten, an der "
@@ -27,6 +22,9 @@ abstainpvp_assign = de \
    "Shal'ill wird dich vor Gewalt von anderen Abenteurern beschützen. Um "
    "diesen Schutz zu erhalten musst Du folgende Worte laut sagen: "
    "\"~IIch bitte Shal'ill mich vor Leid zu beschützen.~I\"."
+abstainpvp_success = de \
+   "Du wurdest von Shal'ill gesegnet, und stehst nun unter Ihrem "
+   "dauerhaftem Schutz."
 abstainpvp_failure = de "Betreff: Dein Wunsch nach Schutz\n"
    "Wenn Du in der Zukunft den Wunsch nach einem permanentem Schutz hast, "
    "kehre zurück und sprich mit mir."

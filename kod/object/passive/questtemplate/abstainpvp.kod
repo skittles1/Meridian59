@@ -37,9 +37,6 @@ resources:
    abstainpvp_icon_rsc = rescuico.bgf
    abstainpvp_name_rsc = "abstain from PvP quest"
    abstainpvp_desc_rsc = \
-      "Abstain from player versus player combat in all its forms."
-
-   abstainpvp_nodetwo_rsc = \
       "If you are certain you wish to never engage in player versus player "
       "combat with this character, speak these words to the priestess of "
       "Shal'ille: \"I request that Shal'ille protect me from harm.\"."
@@ -47,9 +44,7 @@ resources:
       "choose this path you will be unable to engage in PvP, hold a soldier "
       "shield or future PvP-related items, enter guild halls or participate "
       "in Justicar elections."
-   abstainpvp_success = \
-      "You have been blessed by Shal'ille, and are now permanently under "
-      "her protection."
+
    abstainpvp_completed_rsc = \
       "You are permamently safe from other players. You cannot attack them or "
       "be attacked, enter guild halls, participate in Justicar elections, hold "
@@ -62,6 +57,9 @@ resources:
       "Shal'ille will protect you from the violence of combat with other "
       "adventurers. To obtain protection, you must speak these words aloud: "
       "\"~II request that Shal'ille protect me from harm.~I\"."
+   abstainpvp_success = \
+      "You have been blessed by Shal'ille, and are now permanently under "
+      "her protection."
    abstainpvp_failure = "Subject: Your request for protection\n"
       "If you wish to obtain protection in the future, come speak to me again."
 
@@ -71,7 +69,6 @@ classvars:
    vrName = abstainpvp_name_rsc
    vrDesc = abstainpvp_desc_rsc
 
-   vrNodeTwo = abstainpvp_nodetwo_rsc
    vrCompleted = abstainpvp_completed_rsc
 
    // The QST_ID constant for this quest.
@@ -90,10 +87,7 @@ messages:
    Constructor()
    {
       // Quest node list to send to QuestEngine.
-      plQuestNodes = [QNT_ID_ABSTAIN_PVP_ONE, QNT_ID_ABSTAIN_PVP_TWO ];
-
-      // Quest nodes with matching descriptions for the player.
-      plQuestNodeDesc = [ [QNT_ID_ABSTAIN_PVP_TWO, vrNodeTwo] ];
+      plQuestNodes = [QNT_ID_ABSTAIN_PVP_ONE, QNT_ID_ABSTAIN_PVP_TWO];
 
       if (Send(SETTINGS_OBJECT,@PvPOptOutEnabled))
       {
