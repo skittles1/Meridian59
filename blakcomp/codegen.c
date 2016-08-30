@@ -162,7 +162,7 @@ int codegen_call(call_stmt_type c, id_type destvar, int linenumber, int maxlocal
 {
    /* our_maxlocal gives highest #ed temporary needed to evaluate the
     * entire call.  maxtemps is the highest temp needed for a single arg. */
-   int our_maxlocal = maxlocal, maxtemps, normal_args = 0;
+   int our_maxlocal = maxlocal, maxtemps, normal_args = 0, num_settings;
    int argnum;
    list_type p;
    arg_type arg;
@@ -231,6 +231,11 @@ int codegen_call(call_stmt_type c, id_type destvar, int linenumber, int maxlocal
       if (((arg_type)(p->data))->type != ARG_SETTING)
          normal_args++;
 
+   // Error if too many normal params in a call.
+   if (normal_args > MAX_C_PARMS)
+      codegen_error("Call %s has too many arguments, found %i when max is %i.",
+         get_function_name_by_opcode(c->function), normal_args, MAX_C_PARMS);
+
    /* # of "normal" parameters */
    OutputByte(outfile, (BYTE)normal_args);
 
@@ -257,7 +262,15 @@ int codegen_call(call_stmt_type c, id_type destvar, int linenumber, int maxlocal
    }
 
    /* # of settings */
-   OutputByte(outfile, (BYTE)(list_length(c->args) - normal_args));
+   num_settings = list_length(c->args) - normal_args;
+
+   // Error if too many settings in a call.
+   if (normal_args > MAX_NAME_PARMS)
+      codegen_error("Call %s has too many settings, found %i when max is %i.",
+         get_function_name_by_opcode(c->function), num_settings, MAX_NAME_PARMS);
+
+   // Output # of settings.
+   OutputByte(outfile, (BYTE)(num_settings));
 
    /* Now take care of settings */
    for (p = c->args; p != NULL; p = p->next)
@@ -1033,20 +1046,26 @@ void codegen_property(property_type p)
  */
 void codegen_message(message_handler_type m)
 {
-   int numlocals, maxtemp, maxlocals;
+   int numlocals, maxtemp, maxlocals, numparams;
    list_type s, p = m->header->params;
    long localpos;
 
    /* Leave space for # of local variables */
-   localpos = FileCurPos(outfile); 
+   localpos = FileCurPos(outfile);
    OutputByte(outfile, (BYTE) 0);
-   
+
    /* Write out # of arguments */
-   OutputByte(outfile,  (BYTE) list_length(p));
-   
+   numparams = list_length(p);
+   // We can't address more than this amount, so check for it here too.
+   if (numparams > MAX_NAME_PARMS)
+      codegen_error("Too many parameters in message %s, found %i when max is %i.",
+         m->header->message_id->name, numparams, MAX_NAME_PARMS);
+
+   OutputByte(outfile,  (BYTE) numparams);
+
    /* Write out arguments themselves */
-      for ( ; p != NULL; p = p->next)
-	 codegen_parameter( (param_type) p->data);
+   for ( ; p != NULL; p = p->next)
+      codegen_parameter( (param_type) p->data);
 
    /* # of local variables, including parameters.  -1 is to start at 0. */
    numlocals = list_length(m->locals) + list_length(m->header->params) - 1;
@@ -1057,18 +1076,22 @@ void codegen_message(message_handler_type m)
    {
       maxtemp = codegen_statement( (stmt_type) s->data, numlocals);
       if (maxtemp > maxlocals)
-	 maxlocals = maxtemp;
+         maxlocals = maxtemp;
 
       /* Bomb out if statement had unforseen errors */
       if (!codegen_ok)
-	 return;
+         return;
    }
 
-   /* Backpatch in # of local variables */
+   // Error if we go over max locals, warning if we're approaching it.
    if (maxlocals > MAX_LOCALS)
-      codegen_error("More than %d local variables in handler %s.", MAX_LOCALS, 
-		    m->header->message_id->name);
+      codegen_error("Too many locals + params in message %s, found %i when max is %i.",
+         m->header->message_id->name, maxlocals, MAX_LOCALS);
+   else if (maxlocals > MAX_LOCALS - 8)
+      codegen_warning(m->header->lineno,"Message %s has %i locals + params, approaching max of %i.",
+         m->header->message_id->name, maxlocals, MAX_LOCALS);
 
+   /* Backpatch in # of local variables */
    FileGoto(outfile, localpos);
    OutputByte(outfile,  (BYTE) (maxlocals + 1));  /* +1 because we start counting at 0 */
    FileGotoEnd(outfile);

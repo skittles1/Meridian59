@@ -249,6 +249,14 @@ enum
 #define KOD_FALSE (1 << 28)
 #define KOD_TRUE ((1 << 28)+1)
 
+// Defined here for sendmsg.h/c and codegen.c.
+// Max number of locals in a message.
+#define MAX_LOCALS 50
+// Max number of named parameters in message header.
+#define MAX_NAME_PARMS 45
+// Max number of parameters to a call.
+#define MAX_C_PARMS 40
+
 typedef struct
 {
    int data:28;
