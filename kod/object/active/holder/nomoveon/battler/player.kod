@@ -4492,6 +4492,7 @@ messages:
                // who have been knocked below this level by angry retributers.
 
                if report
+                  AND victim <> self
                {
                   if Send(SYS,@IsPKAllowed)
                   {
@@ -5530,16 +5531,15 @@ messages:
          // Allow protective spells a chance to improve when they take effect!
          foreach i in plPassiveImprovement
          {
-            if (aspell & -Nth(i,4)) AND random(1,10) = 10
+            if (aspell & -Nth(i,4)) AND Random(1,10) = 10
             {
                Send(First(i),@ImproveAbility,#who=self,#target=what);
             }
          }
 
          // Add attmods AFTER resistance/suscep mods.
-         damage = damage + bonus;
-
-         damage = damage * scalefactor / 1000;
+         damage += bonus;
+         damage *= scalefactor / 1000;
       }
 
       // Make sure we don't deal negative damage.
@@ -5562,7 +5562,7 @@ messages:
       // Show Pain option in client config.
       if aspell <> 0
       {
-         iDuration = iDuration / 2;
+         iDuration /= 2;
          Send(self,@DamageTypeFlashEffect,#aspell=aspell,#duration=iDuration);
       }
       else

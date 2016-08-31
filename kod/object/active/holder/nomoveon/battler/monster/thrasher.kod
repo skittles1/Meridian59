@@ -18,9 +18,9 @@ constants:
    PALSY_CHANCE = 20
 
    // These are high precision damage amounts, with two 'decimal places'.
-   // Actual damage shown to player will be (default) 7-15.
-   SPIN_DAMAGE_MIN = 700
-   SPIN_DAMAGE_MAX = 1500
+   // Actual damage shown to player will be (default) 5-9.
+   SPIN_DAMAGE_MIN = 500
+   SPIN_DAMAGE_MAX = 900
 
 resources:
 
@@ -82,7 +82,7 @@ properties:
 
    viSpeed = SPEED_FAST
    viLevel = 150
-   viDifficulty = 7
+   viDifficulty = 8
 
    piAnimation = ANIM_NONE
    // Default shield or $ for default.
@@ -103,7 +103,7 @@ messages:
       }
 
       propagate;
-   }   
+   }
 
    Constructed()
    {
@@ -128,35 +128,32 @@ messages:
    "Decides which shield/weapon/drumstick is part of the thrasher and sets "
    "the appropriate overlay and stat adjustments."
    {
-      local RandomNumber, oObject;
+      local iRandom, oObject;
 
       // Choose randomly
-      RandomNumber = Random(0,2);
-      if RandomNumber = 0
+      iRandom = Random(0,2);
+      if iRandom = 0
       {
          // Shield: Increase hps.
-         viLevel = viLevel + 10;
+         viLevel += 10;
          oObject = Create(&GoldShield);
          Send(self,@NewHold,#what=oObject);
          prShieldOverlay = thrasher_shield_overlay;
       }
+      else if iRandom = 1
+      {
+         // Mace: No change in stats, we just get a second attack.
+         oObject = Create(&Mace);
+         Send(self,@NewHold,#what=oObject);
+         prShieldOverlay = thrasher_mace_overlay;
+      }
       else
       {
-         if RandomNumber = 1
-         {
-            // Mace: No change in stats, we just get a second attack.
-            oObject = Create(&Mace);
-            Send(self,@NewHold,#what=oObject);
-            prShieldOverlay = thrasher_mace_overlay;
-         }
-         else
-         {
-            // Scimitar: Increase difficulty by 1 and get second attack.
-            viDifficulty = viDifficulty + 1;
-            oObject = Create(&Scimitar);
-            Send(self,@NewHold,#what=oObject);
-            prShieldOverlay = thrasher_scimitar_overlay;
-         }
+         // Scimitar: Get second attack.
+         ++viDifficulty;
+         oObject = Create(&Scimitar);
+         Send(self,@NewHold,#what=oObject);
+         prShieldOverlay = thrasher_scimitar_overlay;
       }
 
       return;
@@ -164,7 +161,7 @@ messages:
 
    //// Thrasher dormant code.
 
-   // Stolen from Living Statue, but with a 100// chance of waking up, and none
+   // Stolen from Living Statue, but with a 100% chance of waking up, and none
    // of that going back to sleep crap. Wussy statues. =)
 
    TweakBehavior()
@@ -210,7 +207,7 @@ messages:
    {
       // Make ourselves mobile!
       viSpeed = viNormalSpeed;
-      piBehavior = piBehavior & ~(AI_NOMOVE | AI_NOFIGHT | AI_NPC);
+      piBehavior &= ~(AI_NOMOVE | AI_NOFIGHT | AI_NPC);
       Send(poOwner,@SomethingChanged,#what=self);
       Send(self,@EnterStateChase,#target=poTarget,#actnow=TRUE);
 
@@ -234,7 +231,7 @@ messages:
       lFinalTargets = Send(self,@GetFinalTargets);
       if Length(lFinalTargets) > 1
          AND NOT Send(oRoom,@CheckRoomFlag,#flag=ROOM_NO_COMBAT)
-         And NOT Send(oRoom,@CheckRoomFlag,#flag=ROOM_NO_MOB_COMBAT)
+         AND NOT Send(oRoom,@CheckRoomFlag,#flag=ROOM_NO_MOB_COMBAT)
       {
          Send(self,@StartSpin);
 
@@ -253,9 +250,9 @@ messages:
       if pbFirstAttack
       {
          Send(self,@DoBludgeon);
-         if ptSecondAttack = $ 
+         if ptSecondAttack = $
          {
-            ptSecondAttack = CreateTimer(self,@SecondAttackTimer,400); 
+            ptSecondAttack = CreateTimer(self,@SecondAttackTimer,400);
             pbFirstAttack = FALSE;
 
             return;
@@ -320,12 +317,10 @@ messages:
    {
       local oRoom, i, each_obj, lValidTargets;
 
-      lValidTargets = $;
-
       oRoom = Send(self,@GetOwner);
       foreach i in Send(oRoom,@GetHolderActive)
       {
-         each_obj = Send(oRoom,@HolderExtractObject,#data=i);
+         each_obj = First(i);
          if IsClass(each_obj,&User)
             AND Send(self,@CanReach,#what=each_obj)
             AND (NOT Send(each_obj,@IsInCannotInteractMode))
@@ -353,8 +348,8 @@ messages:
       foreach i in lTargets
       {
          if Send(i,@AssessDamage,#what=self,#damage=iDamage,
-                        #atype=viAttack_type,#aspell=viAttack_spell,
-                        #precision=TRUE) = $
+                  #atype=viAttack_type,#aspell=viAttack_spell,
+                  #absolute=TRUE,#precision=TRUE) = $
          {
             Send(self,@KilledSomething,#what=i,#use_weapon=self);
          }
@@ -370,8 +365,6 @@ messages:
 
    StartSpin(delay = 200)
    {
-      local i;
-
       if poOwner = $
       {
          return;
@@ -404,7 +397,7 @@ messages:
 
       Send(poOwner,@SomethingTurned,#what=self,#new_angle=piSpinAngle);
       Send(poOwner,@SomethingChanged,#what=self);
-      piSpinAngle = piSpinAngle + (MAX_ANGLE / 4);
+      piSpinAngle += (MAX_ANGLE / 4);
 
       ptSpin = CreateTimer(self,@SpinTimer,piSpinDelay);
 
@@ -450,7 +443,7 @@ messages:
       }
 
       // Standing is frame 9
-      AddPacket(1,ANIMATE_NONE, 2,9); 
+      AddPacket(1,ANIMATE_NONE, 2,9);
 
       return;
    }
