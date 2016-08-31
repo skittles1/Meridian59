@@ -1052,6 +1052,9 @@ properties:
    piKill_count_decay = 0
    piJustified_kill_count = 0
 
+   // Last time the player murdered someone.
+   piTimeLastMurder = 0
+
    ptAttackTimer = $
 
    plHonor = $
@@ -2519,7 +2522,7 @@ messages:
       // list of initial spells
       // list of initial skills
 
-      lFaceparts = Nth(charinfo,1);
+      lFaceparts = First(charinfo);
       if (Length(lFaceparts) <> 5)
       {
          // Hacking the protocol -> default char
@@ -2591,10 +2594,10 @@ messages:
          lStats = [1, 1, 1, 1, 1, 1];
       }
 
-      iPoints = Nth(lStats,1) + Nth(lStats,2) + Nth(lStats,3);
-      iPoints = iPoints + Nth(lStats,4) + Nth(lStats,5) + Nth(lStats,6);
+      iPoints = First(lStats) + Nth(lStats,2) + Nth(lStats,3)
+               + Nth(lStats,4) + Nth(lStats,5) + Nth(lStats,6);
 
-      if Nth(lStats,1) < 1 OR Nth(lStats,1) > 50
+      if First(lStats) < 1 OR First(lStats) > 50
          OR Nth(lStats,2) < 1 OR Nth(lStats,2) > 50
          OR Nth(lStats,3) < 1 OR Nth(lStats,3) > 50
          OR Nth(lStats,4) < 1 OR Nth(lStats,4) > 50
@@ -2641,7 +2644,7 @@ messages:
       if gender = GENDER_MALE
       {
          piGender = GENDER_MALE;
-         vrIcon = player_male_icon_rsc; 
+         vrIcon = player_male_icon_rsc;
          prLegs = player_legs_a_rsc;
          prRight_arm = player_rightarm_a_rsc;
          prLeft_arm = player_leftarm_a_rsc;
@@ -2649,7 +2652,7 @@ messages:
       else
       {
          piGender = GENDER_FEMALE;
-         vrIcon = player_female_icon_rsc; 
+         vrIcon = player_female_icon_rsc;
          prLegs = player_legs_b_rsc;
          prRight_arm = player_rightarm_b_rsc;
          prLeft_arm = player_leftarm_b_rsc;
@@ -2672,11 +2675,11 @@ messages:
 
          if iLevel >= 2
          {
-            iPoints = iPoints + 25;
+            iPoints += 25;
          }
          else
          {
-            iPoints = iPoints + 10;
+            iPoints += 10;
          }
       }
 
@@ -2686,11 +2689,11 @@ messages:
 
          if iLevel >= 2
          {
-            iPoints = iPoints + 25;
+            iPoints += 25;
          }
          else
          {
-            iPoints = iPoints + 10;
+            iPoints += 10;
          }
       }
 
@@ -2774,6 +2777,9 @@ messages:
          Post(self,@MsgSendUser,#message_rsc=player_newbie_commands);
       }
 
+      // Reset their non-pvp flag if present.
+      piflags &= ~PFLAG_PERMA_NO_PVP;
+
       // Update stomach so it starts ticking down properly
       Send(self,@UpdateStomach);
 
@@ -2781,6 +2787,7 @@ messages:
       // friends can buff and heal them.
       piTimeAttackedPlayer = 0;
       piTimeAttackedByPlayer = 0;
+      piTimeLastMurder = 0;
 
       return;
    }
@@ -5968,6 +5975,7 @@ messages:
                         Send(self,@MsgSendUser,#message_rsc=player_wanted_now,
                               #parm1=Send(what,@GetDef),#parm2=Send(what,@GetName));
                         Send(self,@SetPlayerFlag,#flag=PFLAG_MURDERER,#value=TRUE);
+                        piTimeLastMurder = GetTime();
                         Send(self,@SetPlayerFlag,#flag=PFLAG_OUTLAW,#value=FALSE);
                         Send(self,@EvaluatePKStatus,#dbug=TRUE);
                      }
@@ -14278,6 +14286,7 @@ messages:
       piTimeLastStomachUpdate = 0;
       piTimeAttackedPlayer = 0;
       piTimeAttackedByPlayer = 0;
+      piTimeLastMurder = 0;
 
       return;
    }
@@ -14982,16 +14991,15 @@ messages:
       return;
    }
 
+   GetTimeLastMurder()
+   {
+      return piTimeLastMurder;
+   }
+
    // Use this for when either phase or spectator do the same thing
    IsInCannotInteractMode()
    {
-      if (piFlags & PFLAG_PHASED)
-         OR (piFlags & PFLAG_SPECTATOR)
-      {
-         return TRUE;
-      }
-
-      return FALSE;
+      return (piFlags & PFLAG_PHASED) OR (piFlags & PFLAG_SPECTATOR);
    }
 
    IsLikelyVictim()

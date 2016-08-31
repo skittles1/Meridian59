@@ -127,6 +127,16 @@ resources:
       "Your Honor, that person hath already been pardoned for murder.  "
       "The Crown doth not look kindly upon unrepentant murderers and will "
       "allow not another pardon this term."
+   bq_clerk_too_soon = \
+      "Your honor, %s%s has only recently been branded a murderer.  Pardoning "
+      "them so soon after their crime would bring this office into disrepute.  "
+      "You must wait another %i %s before you can grant them reprieve "
+      "from their crimes."
+   bq_clerk_days = "days"
+   bq_clerk_hours = "hours"
+   bq_clerk_minutes = "minutes"
+   bq_clerk_seconds = "seconds"
+   bq_clerk_second = "second"
    bq_clerk_citizen_unknown = \
       "Your Honor, there is no record of a citizen by such name."
    bq_clerk_no_more = \
@@ -375,6 +385,9 @@ properties:
    pbIndulgenceActive = TRUE
    piPardonIndulgenceCost = 1000000
 
+   // The amount of time murderers must wait after their last kill
+   // before they can be pardoned.
+   piMurderPardonDelay = 3600 * 24 * 7
 messages:
 
    Recreate()
@@ -1017,6 +1030,8 @@ messages:
 
    JusticarRequestsPardon(who=$)
    {
+      local iTime, rTime;
+
       if who = $
       {
          return;
@@ -1044,6 +1059,43 @@ messages:
          AND plPardons <> $ AND FindListElem(plPardons,who) <> 0
       {
          Send(self,@Say,#message_rsc=bq_clerk_already_pardoned);
+
+         return;
+      }
+
+      // If they've killed too recently, don't pardon them.
+      iTime = GetTime() - Send(who,@GetTimeLastMurder);
+
+      if (iTime < piMurderPardonDelay)
+      {
+         iTime = piMurderPardonDelay - iTime;
+
+         if (iTime > DAY * 2)
+         {
+            rTime = bq_clerk_days;
+            iTime /= DAY;
+         }
+         else if (iTime > HOUR * 2)
+         {
+            rTime = bq_clerk_hours;
+            iTime /= HOUR;
+         }
+         else if (iTime > MINUTE * 2)
+         {
+            rTime = bq_clerk_minutes;
+            iTime /= MINUTE;
+         }
+         else if (iTime = 1)
+         {
+            rTime = bq_clerk_second;
+         }
+         else
+         {
+            rTime = bq_clerk_seconds;
+         }
+         Send(self,@Say,#message_rsc=bq_clerk_too_soon,
+               #parm1=Send(who,@GetDef),#parm2=Send(who,@GetName),
+               #parm3=iTime,#parm4=rTime);
 
          return;
       }
@@ -1208,12 +1260,16 @@ messages:
          return TRUE;
       }
 
-      oTarget = Send(SYS,@FindUserByString,#string=string);
-      if oTarget <> $
+      // Justicar asking for record handled separately.
+      if (who <> poJusticar)
       {
-         Send(self,@CitizenRequestsPlayerRecord,#citizen=who,#who=oTarget);
+         oTarget = Send(SYS,@FindUserByString,#string=string);
+         if oTarget <> $
+         {
+            Send(self,@CitizenRequestsPlayerRecord,#citizen=who,#who=oTarget);
 
-         return TRUE;
+            return TRUE;
+         }
       }
 
       return FALSE;

@@ -93,6 +93,16 @@ bq_clerk_step_forward = de \
 bq_clerk_already_pardoned = de \
    "Euer Ehren, die Krone schaut nicht freundlich auf reuelose Mörder, und "
    "erlaubt in diesem Fall keine weitere Begnadigung."
+bq_clerk_too_soon = de \
+   "Euer Ehren, %s%s hat erst vor kurzem den Status als Mörder(in) erhalten. "
+   "Einer solche Person so bald eine Begnadigung zu gewähren würde dieses Amt "
+   "in Verruf bringen. Ihr müsst noch %i %s warten, bevor Ihr diese Handlung "
+   "vollziehen könnt."
+bq_clerk_days = de "Tage"
+bq_clerk_hours = de "Stunden"
+bq_clerk_minutes = de "Minuten"
+bq_clerk_seconds = de "Sekunden"
+bq_clerk_second = de "Sekunde"
 bq_clerk_citizen_unknown = de \
    "Euer Ehren, es gibt keine Aufzeichnungen über einen Bürger solches Namens."
 bq_clerk_no_more = de \

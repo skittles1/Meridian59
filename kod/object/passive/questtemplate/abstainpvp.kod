@@ -77,7 +77,8 @@ classvars:
 properties:
 
    piNumPlayers = 1
-   piPlayerRestrict = Q_PLAYER_NOTSUCCEEDED | Q_PLAYER_NOTFAILED_RECENTLY
+   piPlayerRestrict = \
+      Q_PLAYER_NOTSUCCEEDED | Q_PLAYER_NOTFAILED_RECENTLY | Q_PLAYER_LAWFUL
    plSpecialRestrict = $
    piMaxPlayers = 3 // Don't need to schedule more.
    piSchedulePct = 100
