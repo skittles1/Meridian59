@@ -1768,7 +1768,7 @@ messages:
 
       foreach i in plUsing
       {
-         if IsClass(i,&Shirt)
+         if IsClass(i,&ShirtBase)
          {
             return Send(i,@GetPaletteTranslation);
          }
