@@ -254,7 +254,7 @@ player_newbie_commands = de \
    "Konfiguration.\n~rRechtsklick auf ein Objekt~b - untersucht ein Object "
    "und lässt Dich nähere Details betrachten. \nKlicke rechts auf das Schild "
    "in diesem Raum um mehr zu erfahren.\n~rLeertaste~b - gehe durch Türen, "
-   "wie die blaue Tür im Norden.\n~rE-Taste~b - greife Monster an. Vielleicht "
+   "wie die blaue Tür im Süden.\n~rE-Taste~b - greife Monster an. Vielleicht "
    "möchtst Du erst eine Waffe anlegen!\n\n~n~ITippe die folgenden Kommandos "
    "(~rroter Text~n) in die Textzeile unten. Du kannst die ENTER-Taste drücken "
    "um direkt ins Chatfenster zu springen.~I\n~rsagen (Nachricht)~b - sendet "
