@@ -1451,6 +1451,9 @@
    // This is a squared distance
    SAY_RADIUS = 50
 
+   // Chest access distance - 5 row/col, squared distance in fineness
+   CHEST_ACCESS_DIST = 25 * FINENESS_SQUARED
+
    // Constants for the action parser
    // OBJD = definite article + object name
    // OBJI = indfinite article + object name
