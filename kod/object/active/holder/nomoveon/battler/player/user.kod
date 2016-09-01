@@ -84,6 +84,7 @@ resources:
    user_err_put = "You can't put %s%s in %s%s; %s%s can't hold things!"
    user_disallow_put = "You're unable to put %s%s in %s%s."
    user_err_get_contents = "You can't look inside %s%s!"
+   user_chest_too_far = "You can't look inside %s%s; it's too far away."
 
    user_err_activate_unk = \
       "You can't activate %s%s; it is no longer accessible."
@@ -5237,11 +5238,22 @@ messages:
       }
 
       if IsClass(what,&StorageBox)
-         AND NOT Send(poOwner,@LineOfSight,#obj1=self,#obj2=what)
       {
-         Debug("User ",self,vrName," tried to look at storebox item they could not see!");
+         if NOT Send(poOwner,@LineOfSight,#obj1=self,#obj2=what)
+         {
+            Debug("ALERT: ",self,vrName," tried to look at storebox out of LOS!");
 
-         return;
+            return;
+         }
+
+         if Send(self,@SquaredFineDistanceTo3D,#what=what) > CHEST_ACCESS_DIST
+         {
+            Debug("ALERT: ",self,vrName," tried to access chest from too far away!");
+            Send(self,@MsgSendUser,#message_rsc=user_chest_too_far,
+                  #parm1=Send(what,@GetDef),#parm2=Send(what,@GetName));
+
+            return;
+         }
       }
 
       if IsClass(what,&User)

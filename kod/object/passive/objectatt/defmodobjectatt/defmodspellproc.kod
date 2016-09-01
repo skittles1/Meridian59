@@ -233,7 +233,7 @@ messages:
          }
       }
 
-      if IsClass(host_object,&Shirt)
+      if IsClass(host_object,&ShirtBase)
       {
          if iRandomSpell < 33
          {

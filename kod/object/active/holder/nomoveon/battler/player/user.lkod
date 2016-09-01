@@ -16,6 +16,8 @@ user_err_put = de \
 user_disallow_put = de \
    "%s%s kann nicht abgelegt werden. %s%s ist schon zu voll."
 user_err_get_contents = de "%s%s kann von Dir nicht eingesehen werden!"
+user_chest_too_far = de \
+   "Du kannst nicht in %s%s schauen, da sie zu weit entfernt ist."
 user_err_activate_unk = de \
    "%s%s kann nicht aktiviert werden, da er nicht länger verfügbar ist."
 user_activate_failed = de "%s%s ist nicht aktivierbar."

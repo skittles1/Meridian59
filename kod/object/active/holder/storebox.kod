@@ -50,7 +50,7 @@ messages:
       if bLocked
       {
          pbLocked = TRUE;
-         viObject_Flags = viObject_Flags & ~OF_CONTAINER;
+         viObject_Flags &= ~OF_CONTAINER;
       }
 
       propagate;
@@ -102,7 +102,7 @@ messages:
 
    NewOwner(what=$)
    {
-      if what <> $ 
+      if what <> $
       {
          if ptClean <> $
          {
@@ -121,7 +121,7 @@ messages:
          DeleteTimer(ptClean);
          ptClean = $;
       }
-      
+
       Send(SYS,@RemoveChestFromList,#oChest=self);
 
       propagate;
@@ -177,7 +177,7 @@ messages:
                Send(oWhoOwner,@GetRoomNum),
                " depositing to a chest they cannot see! ");
 
-         return FALSE ;
+         return FALSE;
       }
 
       if IsClass(who,&User)
@@ -213,14 +213,14 @@ messages:
 
       if pbLocked
       {
-         viObject_Flags = viObject_Flags & ~OF_CONTAINER;
+         viObject_Flags &= ~OF_CONTAINER;
       }
 
       if NOT pbLocked
       {
-         viObject_Flags = viObject_Flags | OF_CONTAINER;
+         viObject_Flags |= OF_CONTAINER;
       }
-      
+
       Send(poOwner,@SomethingChanged,#what=self);
 
       return;

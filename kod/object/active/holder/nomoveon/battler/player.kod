@@ -13871,7 +13871,7 @@ messages:
 
       foreach i in plUsing
       {
-         if IsClass(i,&shirt)
+         if IsClass(i,&ShirtBase)
          {
             return Send(i,@GetPaletteTranslation);
          }
@@ -14172,7 +14172,7 @@ messages:
       
       foreach i in plUsing
       {
-         if IsClass(i,&Shirt)
+         if IsClass(i,&ShirtBase)
             OR IsClass(i,&LightRobe)
             OR IsClass(i,&Robe)
          {
