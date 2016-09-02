@@ -1053,60 +1053,42 @@ messages:
    CheckPlayerAttackCast(who=$,lTargets=$)
    "Checks to see if player can attack said targets."
    {
-      local oRoom, i, lFinalTargets, oTarget;
+      local oRoom, i, lFinalTargets;
 
       // If we don't go outlaw, then don't worry.
       //  This can happen for wall spells: harmful elements cause outlaw
       //  status, but not mere casting.
-      if viOutlaw
+      if NOT viOutlaw
       {
-         if lTargets = $
+         return TRUE;
+      }
+
+      if lTargets = $
+      {
+         // Targets everyone in the room, and cannot target any less.
+         foreach i in Send(Send(who,@GetOwner),@GetHolderActive)
          {
-            // Targets everyone in the room, and cannot target any less.
-            oRoom = Send(who,@GetOwner);
-            foreach i in Send(oRoom,@GetHolderActive)
+            if NOT Send(self,@SpellAttackCheck,#who=who,#what=First(i))
             {
-               i = Send(oRoom,@HolderExtractObject,#data=i);
-               if i = who
-                  OR NOT IsClass(i,&Battler)
-                  OR (IsClass(i,&DM)
-                     AND Send(i,@PlayerIsImmortal))
-                  OR (IsClass(i,&User)
-                     AND (Send(i,@IsInCannotInteractMode)
-                        OR (NOT Send(i,@CanPlayerPvP))))
-                  OR (IsClass(i,&Monster)
-                     AND (Send(i,@GetBehavior) & AI_NPC))
-                  OR Send(oRoom,@IsArena)
-               {
-                  continue;
-               }
-
-               if NOT Send(oRoom,@ReqSomethingAttack,#what=who,#victim=i,
-                           #stroke_obj=self)
-                  OR NOT Send(who,@AllowPlayerAttack,#victim=i,
-                              #stroke_obj=self)
-               {
-                  return FALSE;
-               }
-            }
-         }
-         else
-         {
-            lFinalTargets = Send(self,@GetAttackTargets,#who=who,
-                                 #lTargets=lTargets);
-
-            // Don't cast the spell if there's no valid targets.
-            if lFinalTargets = $
-               OR Length(lFinalTargets) = 0
-            {
-               if Send(self,@GetNumSpellTargets) <> 1
-               {
-                  Send(who,@MsgSendUser,#message_rsc=spell_no_targets,
-                        #parm1=Send(self,@GetName));
-               }
-
                return FALSE;
             }
+         }
+      }
+      else
+      {
+         lFinalTargets = Send(self,@GetAttackTargets,#who=who,#lTargets=lTargets);
+
+         // Don't cast the spell if there's no valid targets.
+         if lFinalTargets = $
+            OR Length(lFinalTargets) = 0
+         {
+            if Send(self,@GetNumSpellTargets) <> 1
+            {
+               Send(who,@MsgSendUser,#message_rsc=spell_no_targets,
+                     #parm1=Send(self,@GetName));
+            }
+
+            return FALSE;
          }
       }
 
@@ -1170,7 +1152,7 @@ messages:
    GetAttackTargets(who=$, lTargets=$, report=TRUE)
    "Returns a list of targets the caster can attack."
    {
-      local i, oWhoRoom, lFinalTargets;
+      local i, lFinalTargets;
 
       // Monsters can attack anyone.
       if (NOT IsClass(who,&Player))
@@ -1182,37 +1164,32 @@ messages:
 
       lFinalTargets = lTargets;
 
-      oWhoRoom = Send(who,@GetOwner);
-
       foreach i in lFinalTargets
       {
-         // Remove an element from the list if:
-         // - We've targetted ourself with a spell that's not single-target
-         //   (if we targetted ourself with a single-target spell, it was
-         //    probably intentional.  We stop this behavior in most spell
-         //    subclasses if it is not allowed).
-         // - Target isn't a Battler
-         // - Target is an Immortal DM
-         // - Target can't be attacked according to the caster.
-         // - Target not in same room
-         // - Target is in an Arena and not a valid target
-         // - The attacker can't attack the target
-         if (i = who AND Send(self,@GetNumSpellTargets) <> 1)
-            OR NOT IsClass(i,&Battler)
-            OR (IsClass(i,&Monster)
-                AND NOT Send(i,@CanMonsterFight,#who=who,#oStroke=self))
-            OR (IsClass(i,&DM) AND Send(i,@PlayerIsImmortal))
-            OR oWhoRoom <> Send(i,@GetOwner)
-            OR (Send(oWhoRoom,@IsArena)
-                AND NOT Send(oWhoRoom,@IsValidTarget,#who=who))
-            OR NOT Send(who,@AllowPlayerAttack,#victim=i,#stroke_obj=self,
-                        #report=report)
+         if (NOT Send(self,@SpellAttackCheck,#who=who,#what=i,#report=report))
          {
             lFinalTargets = DelListElem(lFinalTargets,i);
          }
       }
 
       return lFinalTargets;
+   }
+
+   SpellAttackCheck(who = $, what = $,report = TRUE)
+   "Checks if 'who' can attack 'what' with this spell."
+   {
+      if (who = what
+            AND Send(self,@GetNumSpellTargets) <> 1)
+         OR NOT IsClass(what,&Battler)
+         OR (IsClass(what,&Monster)
+            AND NOT Send(what,@CanMonsterFight,#who=who,#oStroke=self))
+         OR NOT Send(who,@AllowPlayerAttack,#victim=what,#stroke_obj=self,
+                     #report=report)
+      {
+         return FALSE;
+      }
+
+      return TRUE;
    }
 
    GetGoodTargets(who=$, lTargets=$, report=TRUE)

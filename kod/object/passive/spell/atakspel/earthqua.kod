@@ -155,55 +155,56 @@ messages:
    {
       local iDamage, oRoom;
 
-      // First off, get the room this was cast in. If a room cast this, set
-      // that room to oRoom.
-      if who <> $
-      {
-         if IsClass(who,&Room)
-         {
-            oRoom = who;
-         }
-         else
-         {
-            oRoom = Send(who,@GetOwner);
-         }
-      }
-      else
+      if (who = $)
       {
          return;
       }
 
-   // Call DoEarthQuake to handle special messages
-   Send(self,@DoEarthQuake,#who=who,#lTargets=lTargets,#oRoom=oRoom);
+      // Get the room this was cast in. If a room cast this, set
+      // that room to oRoom.
+      if IsClass(who,&Room)
+      {
+         oRoom = who;
+      }
+      else
+      {
+         oRoom = Send(who,@GetOwner);
+      }
+
+      // Call DoEarthQuake to handle special messages
+      Send(self,@DoEarthQuake,#who=who,#lTargets=lTargets,#oRoom=oRoom);
 
       propagate;
    }
 
    DoEarthQuake(who=$,lTargets=$,oRoom=$)
    {
-      local i, lActive, each_obj;
+      local i, each_obj;
 
-      lActive = Send(oRoom,@GetHolderActive);
+      if (who = $)
+      {
+         return;
+      }
 
       // Do the rumble effect, with a chance to disrupt casting. :)
       // Post it so that it won't affect this casting.
       Post(oRoom,@Rumble,#duration=3000,#disruption=100);
 
-      // Send a message to all in room of spellcasters actions
-      foreach i in lActive
+      // Send a message to all in room of spellcasters actions.
+      // Only do this for a Battler caster
+      if (who <> oRoom)
       {
-         each_obj = Send(oRoom,@HolderExtractObject,#data=i);
-         
-         if IsClass(each_obj,&Player)
-            AND who <> $
+         foreach i in Send(oRoom,@GetHolderActive)
          {
-            if each_obj = who
+            each_obj = First(i);
+
+            if IsClass(each_obj,&Player)
             {
-               Send(each_obj,@MsgSendUser,#message_rsc=earthquake_first_rsc);
-            }
-            else
-            {
-               if who <> oRoom
+               if each_obj = who
+               {
+                  Send(each_obj,@MsgSendUser,#message_rsc=earthquake_first_rsc);
+               }
+               else if who <> oRoom
                {
                   Send(each_obj,@MsgSendUser,#message_rsc=earthquake_third_rsc,
                      #parm1=Send(who,@GetCapDef),#parm2=Send(who,@GetName),
@@ -224,7 +225,7 @@ messages:
    "distance."
    {
       local iPercent, iDistance_squared, iMax_distance_squared,
-         iZero_distance_squared;
+            iZero_distance_squared;
 
       if IsClass(who,&Room)
       {
@@ -262,13 +263,14 @@ messages:
          }
          else
          {
-         iPercent = 100 * (iZero_distance_squared - iDistance_squared) /
+            iPercent = 100 * (iZero_distance_squared - iDistance_squared) /
                               (iZero_Distance_squared - iMax_distance_squared);
          }
       }
       //Debug("percent = ", iPercent, " and iDamage is ", iDamage);
       iDamage = (iDamage*iPercent)/100;
       //Debug("damage after % is ",iDamage);
+
       return iDamage;
    }
 

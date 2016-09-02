@@ -60,40 +60,22 @@ messages:
    GetTargets(who=$,lTargets=$)
    "This returns a list of valid targets in range."
    {
-      local lFinalTargets, oRoom, i, each_obj, iRange_squared, lActive,
-            iDistance;
-
-      lFinalTargets = $;
+      local lFinalTargets, i, each_obj, iRange_squared;
 
       iRange_squared = piRange * piRange;
-      oRoom = Send(who,@GetOwner);
-      lActive = Send(oRoom,@GetplActive);
 
-      foreach i in lActive
+      foreach i in Send(Send(who,@GetOwner),@GetHolderActive)
       {
-         each_obj = Send(oRoom,@HolderExtractObject,#data=i);
+         each_obj = First(i);
+
+         // Valid targets are battlers, in range, and attackable.
          if each_obj <> who
             AND IsClass(each_obj,&Battler)
+            AND (Send(who,@SquaredFineDistanceTo3D,#what=each_obj) <= iRange_squared)
+            AND Send(who,@AllowPlayerAttack,#victim=each_obj,#stroke_obj=self,
+                     #report=FALSE)
          {
-            // Skip players who are phased/in spectator mode.
-            if IsClass(each_obj,&Player)
-               AND Send(each_obj,@IsInCannotInteractMode)
-            {
-               continue;
-            }
-
-            iDistance = Send(who,@SquaredFineDistanceToLocation3D,
-                              #row=Send(each_obj,@GetRow),
-                              #col=Send(each_obj,@GetCol),
-                              #fine_row=Send(each_obj,@GetFineRow),
-                              #fine_col=Send(each_obj,@GetFineCol));
-            if iDistance <= iRange_squared
-               AND NOT (IsClass(oRoom,&GuildHall)
-                     AND Send(oRoom,@InFoyer,#who=each_obj)
-                        <> Send(oRoom,@InFoyer,#who=who))
-            {
-               lFinalTargets = Cons(each_obj,lFinalTargets);
-            }
+            lFinalTargets = Cons(each_obj,lFinalTargets);
          }
       }
 
@@ -102,18 +84,16 @@ messages:
 
    CastSpell(who=$,lTargets=$)
    {
-      local oOwner, i, lActive, each_obj;
+      local oOwner, i, each_obj;
 
       oOwner = Send(who,@GetOwner);
 
       // Show bolt flying through the air.
-      lActive = Send(oOwner,@GetHolderActive);
-
-      foreach i in lActive
+      foreach i in Send(oOwner,@GetHolderActive)
       {
-         each_obj = Send(oOwner,@HolderExtractObject,#data=i);
+         each_obj = First(i);
 
-         if isClass(each_obj,&Player)
+         if IsClass(each_obj,&Player)
          {
             Send(oOwner,@SomethingShotRadius,#who=who,#projectile=self,
                   #flags=viProjectileFlag,#range=piRange/FINENESS,

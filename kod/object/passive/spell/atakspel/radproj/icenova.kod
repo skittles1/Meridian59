@@ -111,23 +111,19 @@ messages:
 
    DoIceNova(who=$,bItemCast=FALSE)
    {
-      local i, oRoom, lActive, each_obj;
+      local i, oRoom, each_obj;
 
-      if who <> $
-      {
-         oRoom = Send(who,@GetOwner);
-      }
-      else
+      if (who = $)
       {
          return;
       }
 
-      lActive = Send(oRoom,@GetHolderActive);
+      oRoom = Send(who,@GetOwner);
 
       // Send a message to all in room of spellcasters actions
-      foreach i in lActive
+      foreach i in Send(oRoom,@GetHolderActive)
       {
-         each_obj = Send(oRoom,@HolderExtractObject,#data=i);
+         each_obj = First(i);
 
          if IsClass(each_obj,&User)
          {
