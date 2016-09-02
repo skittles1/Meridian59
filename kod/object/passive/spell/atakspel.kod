@@ -119,8 +119,8 @@ messages:
          AND Send(target,@GetOwner) <> Send(who,@GetOwner)
       {
          Send(who,@MsgSendUser,#message_rsc=attack_spell_out_of_range,
-                    #parm1=Send(target,@GetCapDef),#parm2=Send(target,@GetName),
-                    #parm3=vrName);
+               #parm1=Send(target,@GetCapDef),#parm2=Send(target,@GetName),
+               #parm3=vrName);
 
          return FALSE;
       }
@@ -132,7 +132,7 @@ messages:
          // A little fudge factor to account for lag drift, etc.
          if IsClass(target,&Player) AND Send(target,@HasMovedRecently)
          {
-            iTotalRange = iTotalRange + RANGE_MOVEMENT_BONUS;
+            iTotalRange += RANGE_MOVEMENT_BONUS;
          }
 
          if Send(target,@GetOwner) <> $
@@ -142,8 +142,8 @@ messages:
             if NOT bItemCast
             {
                Send(who,@MsgSendUser,#message_rsc=attack_spell_out_of_range,
-                    #parm1=Send(target,@GetCapDef),#parm2=Send(target,@GetName),
-                    #parm3=vrName);
+                     #parm1=Send(target,@GetCapDef),#parm2=Send(target,@GetName),
+                     #parm3=vrName);
             }
 
             return FALSE;
@@ -204,7 +204,7 @@ messages:
       if vbSelfHarming
          AND IsClass(who,&Player)
       {
-         Send(Self,@HurtCaster,#who=who,#iDamage=iDamage);
+         Send(self,@HurtCaster,#who=who,#iDamage=iDamage);
       }
 
       // After figuring damage, do an AssessDamage.  This will handle the necessary
