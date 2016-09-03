@@ -180,7 +180,7 @@ messages:
                {
                   Send(find,@Exotic);
                }
-               if IsClass(find,&Shirt)
+               if IsClass(find,&ShirtBase)
                {
                   Send(find,@Randomize);
                }
