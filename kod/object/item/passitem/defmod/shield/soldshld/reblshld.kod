@@ -138,15 +138,18 @@ messages:
       {
          iNewAdjustment = Send(poOwner,@AddMight,
                                  #points=(iStatAdjustment-piMightChange));
-         piMightChange = piMightChange + iNewAdjustment;
+         piMightChange += iNewAdjustment;
       }
 
       if iStatAdjustment <> piAimChange
       {
          iNewAdjustment = Send(poOwner,@AddAim,
                                  #points=(iStatAdjustment-piAimChange));
-         piAimChange = piAimChange + iNewAdjustment;
+         piAimChange += iNewAdjustment;
       }
+
+      // Might need to redraw armor.
+      Send(poOwner,@DrawArmor);
 
       return;
    }
