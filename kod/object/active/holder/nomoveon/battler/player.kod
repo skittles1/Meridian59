@@ -1274,7 +1274,8 @@ messages:
                }
             }
          }
-         else if NOT Value
+
+         if NOT Value
          {
             piFlags = piFlags & ~flag;
          }
