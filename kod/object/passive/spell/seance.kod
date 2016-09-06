@@ -55,8 +55,6 @@ classvars:
   
    viFlash = FLASH_GOOD
 
-   vbCastable_in_HappyLand = FALSE
-
 properties:
 
 messages:

@@ -53,7 +53,6 @@ classvars:
    viMeditate_ratio = 30
 
    vrSucceed_wav = defile_sound
-   vbCastable_in_HappyLand = FALSE
 
 properties:
 

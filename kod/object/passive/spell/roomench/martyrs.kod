@@ -57,8 +57,6 @@ classvars:
    viMeditate_ratio = 20
    vrSucceed_wav = martrysbg_sound
 
-   vbCastable_in_HappyLand = FALSE
-
 properties:
 
 messages:

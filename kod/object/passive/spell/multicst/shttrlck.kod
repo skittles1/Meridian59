@@ -69,7 +69,6 @@ classvars:
    viDrainTime = 1000    // Drain some mana every viDrainTime milliseconds
 
    viOutlaw = TRUE
-   vbCastable_in_HappyLand = FALSE
 
 properties:
 

@@ -69,8 +69,6 @@ classvars:
    viChance_To_Increase = 35
    viMeditate_ratio = 20
 
-   vbCastable_in_HappyLand = FALSE
-
 properties:
 
 messages:
