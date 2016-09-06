@@ -64,7 +64,6 @@ classvars:
    viFlash = FLASH_BAD
 
    vrSucceed_wav = MarkOfDishonor_sound
-   vbCastable_in_HappyLand = FALSE
 
 properties:
 

@@ -62,8 +62,6 @@ classvars:
    // in seconds, since it works off GetTime()
    viPostCast_time = 5
 
-   vbCastable_in_HappyLand = FALSE
-
 properties:
 
 messages:

@@ -54,7 +54,6 @@ classvars:
    viHarmful = TRUE
    viOutlaw = TRUE
    viNoNewbieOffense = TRUE
-   vbCastable_in_HappyLand = FALSE
 
    vrSucceed_wav = brittle_sound
 

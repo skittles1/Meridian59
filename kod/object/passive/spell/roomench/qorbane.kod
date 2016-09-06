@@ -73,7 +73,6 @@ classvars:
 
    vrSucceed_wav = QorBane_sound
    viHarmful = TRUE
-   vbCastable_in_HappyLand = FALSE
 
 properties:
 

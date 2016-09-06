@@ -53,7 +53,6 @@ classvars:
    viNoNewbieOffense = TRUE
 
    viCast_time = 6000
-   vbCastable_in_HappyLand = FALSE
 
    vrSucceed_wav = shatter_sound
    viFlash = FLASH_BAD

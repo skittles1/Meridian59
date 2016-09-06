@@ -50,8 +50,6 @@ classvars:
 
    vrSucceed_wav = summonEvilTwin_sound
 
-   vbCastable_in_HappyLand = FALSE
-
 properties:
 
 
