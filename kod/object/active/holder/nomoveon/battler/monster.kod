@@ -2009,28 +2009,55 @@ messages:
 
    //// Combat messages
 
-   TryAttack(what=$,stroke_obj=$)
-   "Ok, we got someone to attack, lets try and hit them."
+   AllowBattlerAttack(victim=$,stroke_obj=$,report=TRUE,minion=FALSE,
+                      oMinionRoom=$)
+    "Can this monster attack the victim? "
    {
-      local bWasBad, lMinions;
+      local oRoom, bWasBad, lMinions;
 
-      /// okay, NPCs and NOFIGHT mobs can't attack
-      if (piBehavior & AI_NOFIGHT) OR (piBehavior & AI_NPC)
+      // Must be in a room to attack.
+      if (poOwner = $)
       {
          return FALSE;
       }
 
+      // NPCs can't attack. Don't check AI_NOFIGHT here, as those mobs
+      // might have a non-direct attack to cause damage with (e.g. brambles).
+      if (piBehavior & AI_NPC)
+      {
+         return FALSE;
+      }
+
+      // Default location to check is where we are.
+      oRoom = poOwner;
+
+      // If the victim is in a room, then check that location instead.  This
+      // allows distance attacks (like wall spells) to work properly.
+      if victim <> $
+         AND Send(victim,@GetOwner) <> poOwner
+      {
+         if (minion
+            AND oMinionRoom <> $)
+         {
+            oRoom = oMinionRoom;
+         }
+         else
+         {
+            oRoom = Send(victim,@GetOwner);
+         }
+      }
+
       // Phased players can't be hit.
       // Jig prevents combat between players and monsters.
-      if IsClass(what,&User)
-         AND Send(what,@IsInCannotInteractMode)
-         OR Send(what,@IsAffectedByRadiusEnchantment,#byClass=&Jig)
+      if IsClass(victim,&User)
+         AND (Send(victim,@IsInCannotInteractMode)
+            OR Send(victim,@IsAffectedByRadiusEnchantment,#byClass=&Jig))
       {
          return FALSE;
       }
 
       // Make sure room allows the attack.
-      if NOT Send(poOwner,@ReqSomethingAttack,#what=self,#victim=what,
+      if NOT Send(oRoom,@ReqSomethingAttack,#what=self,#victim=victim,
                   #stroke_obj=stroke_obj)
       {
          // Check if room has special combat effects.
@@ -2038,9 +2065,9 @@ messages:
       }
 
       // If we're hitting another monster, check if we can reach or attack it.
-      if IsClass(what,&Monster)
+      if IsClass(victim,&Monster)
       {
-         if NOT Send(what,@CanMonsterFight,#who=self,#oStroke=stroke_obj,
+         if NOT Send(victim,@CanMonsterFight,#who=self,#oStroke=stroke_obj,
                      #use_weapon=stroke_obj)
          {
             return FALSE;
@@ -2051,40 +2078,54 @@ messages:
       // Seduced and Animated monsters here. If the master can't attack,
       // we can't either. If they can, we treat it as if they personally
       // attacked the target.
-
       if poMaster <> $
          AND IsClass(poMaster,&Player)
       {
-         // Check the attack here. If it fails, AllowPlayerAttack handles
-         // the message sent to the player.
-         if NOT Send(poMaster,@AllowPlayerAttack,#victim=what,#report=FALSE,
-                     #stroke_obj=self)
-         {
-            return FALSE;
-         }
-
-         // Don't attack other minions of the caster, or (if we're a reflection)
-         // the caster himself. Other minions can attack the caster, to prevent
-         // Seducing something just to kill it.
-         lMinions = Send(poMaster,@GetControlledMinions);
-         if (lMinions <> $
-               AND FindListElem(lMinions,what))
-            OR (IsClass(self,&Reflection)
-               AND what = poMaster)
-         {
-            return FALSE;
-         }
-
          // Is the caster bad to start with? This is for flavor text.
          bWasBad = (Send(poMaster,@CheckPlayerFlag,#flag=PFLAG_OUTLAW)
                     OR Send(poMaster,@CheckPlayerFlag,#flag=PFLAG_MURDERER));
+
+         // Check the attack here. If it fails, Player's AllowBatterAttack
+         // handles the message sent to the player.
+         if NOT Send(poMaster,@AllowBattlerAttack,#victim=victim,
+                     #report=report,#stroke_obj=self)
+         {
+            return FALSE;
+         }
+
+         // Don't attack other minions of the caster.
+         lMinions = Send(poMaster,@GetControlledMinions);
+         if (lMinions <> $ AND FindListElem(lMinions,victim))
+         {
+            return FALSE;
+         }
+
          // If they weren't bad and become bad, let them know.
-         if NOT bWasBad
+         if report
+            AND NOT bWasBad
             AND (Send(poMaster,@CheckPlayerFlag,#flag=PFLAG_OUTLAW)
                OR Send(poMaster,@CheckPlayerFlag,#flag=PFLAG_MURDERER))
          {
             Send(poMaster,@MsgSendUser,#message_rsc=vrMinion_trouble);
          }
+      }
+
+      return TRUE;
+   }
+
+   TryAttack(what=$,stroke_obj=$)
+   "Ok, we got someone to attack, lets try and hit them."
+   {
+      // AI_NOFIGHT means they can't directly attack.
+      if (piBehavior & AI_NOFIGHT)
+      {
+         return FALSE;
+      }
+
+      // AllowBattlerAttack handles all other attack checks.
+      if (NOT Send(self,@AllowBattlerAttack,#victim=what,#stroke_obj=stroke_obj))
+      {
+         return FALSE;
       }
 
       // If we have minions, see if they can attack too
