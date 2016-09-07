@@ -1181,9 +1181,7 @@ messages:
       if (who = what
             AND Send(self,@GetNumSpellTargets) <> 1)
          OR NOT IsClass(what,&Battler)
-         OR (IsClass(what,&Monster)
-            AND NOT Send(what,@CanMonsterFight,#who=who,#oStroke=self))
-         OR NOT Send(who,@AllowPlayerAttack,#victim=what,#stroke_obj=self,
+         OR NOT Send(who,@AllowBattlerAttack,#victim=what,#stroke_obj=self,
                      #report=report)
       {
          return FALSE;
