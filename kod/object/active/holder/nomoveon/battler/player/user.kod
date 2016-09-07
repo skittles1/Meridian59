@@ -3280,7 +3280,7 @@ messages:
 
             // Draw a red halo for any attackable player.
             if NOT IsClass(self,&DM)
-               AND Send(self,@AllowPlayerAttack,#victim=what,
+               AND Send(self,@AllowBattlerAttack,#victim=what,
                         #report=FALSE,#actual=FALSE)
             {
                iFlags = (iFlags | MM_PLAYER_IS_ENEMY);

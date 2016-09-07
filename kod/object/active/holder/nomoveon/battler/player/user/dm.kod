@@ -753,7 +753,7 @@ messages:
       propagate;
    }
 
-   AllowPlayerAttack(victim=$,stroke_obj=$,use_weapon=$,report=TRUE)
+   AllowBattlerAttack(victim=$,stroke_obj=$,use_weapon=$,report=TRUE)
    {
       // Don't allow normal DMs to attack.  Ignore restriction for green names.
       if NOT (piDMFlags & DMFLAG_ALLOW_COMBAT)

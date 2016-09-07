@@ -72,8 +72,8 @@ messages:
          if each_obj <> who
             AND IsClass(each_obj,&Battler)
             AND (Send(who,@SquaredFineDistanceTo3D,#what=each_obj) <= iRange_squared)
-            AND Send(who,@AllowPlayerAttack,#victim=each_obj,#stroke_obj=self,
-                     #report=FALSE)
+            AND Send(who,@AllowBattlerAttack,#victim=each_obj,
+                     #stroke_obj=self,#report=FALSE)
          {
             lFinalTargets = Cons(each_obj,lFinalTargets);
          }

@@ -90,7 +90,7 @@ messages:
       propagate;
    }
 
-   AllowPlayerAttack(victim=$,stroke_obj=$,use_weapon=$,report=TRUE)
+   AllowBattlerAttack(victim=$,stroke_obj=$,use_weapon=$,report=TRUE)
    {
       if IsClass(victim,&Player)
          AND Send(victim,@IsInCannotInteractMode)

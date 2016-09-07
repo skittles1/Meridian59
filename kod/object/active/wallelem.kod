@@ -171,11 +171,10 @@ messages:
 
       // If this is harmful, and both caster and victim are players, then
       // disallow damage if caster's safety is on or if cannot do attack.
-      // AllowPlayerAttack also performs all the other required checks,
+      // AllowBattlerAttack also performs all the other required checks,
       // so they are no longer needed in this class.
       if vbIsHarmful
-         AND IsClass(poCaster,&Player)
-         AND NOT Send(poCaster,@AllowPlayerAttack,#victim=what,
+         AND NOT Send(poCaster,@AllowBattlerAttack,#victim=what,
                         #report=FALSE,#stroke_obj=self)
       {
          // We've been "affected" for this cycle.  This prevents super-spam.
