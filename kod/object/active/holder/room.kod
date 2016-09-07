@@ -4284,7 +4284,12 @@ messages:
    DispelIllusionEnchantments(who = $, report = TRUE, iChance = 100,
                               stroke_obj = $)
    {
-      local i,pSpell,each_obj,oSpell;
+      local i, each_obj, oSpell;
+
+      if (who = $)
+      {
+         return;
+      }
 
       foreach i in plEnchantments
       {
@@ -4300,9 +4305,7 @@ messages:
       {
          each_obj = First(i);
          if IsClass(each_obj,&Battler)
-            AND who <> $
-            AND Send(self,@ReqSomethingAttack,#what=who,#victim=each_obj)
-            AND Send(who,@AllowPlayerAttack,#victim=each_obj,
+            AND Send(who,@AllowBattlerAttack,#victim=each_obj,
                      #stroke_obj=stroke_obj)
          {
             Send(each_obj,@DispelIllusionEnchantments,#report=report,
@@ -4318,6 +4321,11 @@ messages:
    {
       local i, each_obj, oTarget;
 
+      if (who = $)
+      {
+         return;
+      }
+
       if NOT bAll
       {
          // This means we just want to dispel room illusions, not the specific
@@ -4330,13 +4338,11 @@ messages:
          each_obj = First(i);
          if Send(each_obj,@IsIllusion)
             AND Random(1,100) <= iChance
-            AND who <> $
          {
             if (IsClass(each_obj,&Monster))
             {
-               if (Send(self,@ReqSomethingAttack,#what=who,#victim=each_obj)
-                     AND Send(who,@AllowPlayerAttack,#victim=each_obj,
-                              #stroke_obj=stroke_obj))
+               if (Send(who,@AllowBattlerAttack,#victim=each_obj,
+                        #stroke_obj=stroke_obj))
                {
                   Send(each_obj,@Delete);
                }
@@ -4345,9 +4351,8 @@ messages:
             {
                oTarget = Send(each_obj,@GetCaster);
 
-               if (Send(self,@ReqSomethingAttack,#what=who,#victim=oTarget)
-                  AND Send(who,@AllowPlayerAttack,#victim=oTarget,
-                           #stroke_obj=stroke_obj))
+               if (Send(who,@AllowBattlerAttack,#victim=oTarget,
+                        #stroke_obj=stroke_obj))
                {
                   Send(each_obj,@Delete);
                }
@@ -4364,9 +4369,8 @@ messages:
             if IsClass(each_obj,&PassiveWallofFire)
             {
                oTarget = Send(each_obj,@GetCaster);
-               if Send(self,@ReqSomethingAttack,#what=who,#victim=oTarget)
-                  AND Send(who,@AllowPlayerAttack,#victim=oTarget,
-                           #stroke_obj=stroke_obj)
+               if Send(who,@AllowBattlerAttack,#victim=oTarget,
+                        #stroke_obj=stroke_obj)
                {
                   Send(each_obj,@Delete);
                }

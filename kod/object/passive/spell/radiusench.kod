@@ -446,14 +446,7 @@ messages:
 
       if viAffectsCasterOnly
       {
-         if target=source
-         {
-            return TRUE;
-         }
-         else
-         {
-            return FALSE;
-         }
+         return target = source;
       }
 
       if viAffectsEveryone
@@ -463,14 +456,7 @@ messages:
 
       if target = source
       {
-         if viAffectsCaster
-         {
-            return TRUE;
-         }
-         else
-         {
-            return FALSE;
-         }
+         return viAffectsCaster;
       }
 
       if IsClass(target,&User)
@@ -498,11 +484,8 @@ messages:
       if viAffectsEnemies
          AND IsClass(target,&Battler)
          AND IsClass(source,&Battler)
-         AND ((IsClass(source,&User)
-               AND Send(source,@AllowPlayerAttack,#victim=target,#report=FALSE,
-                        #stroke_obj=self))
-            OR (IsClass(source,&Monster)
-               AND IsClass(target,&User)))
+         AND Send(source,@AllowBattlerAttack,#victim=target,#report=FALSE,
+                  #stroke_obj=self)
       {
          return TRUE;
       }

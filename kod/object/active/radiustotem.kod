@@ -146,7 +146,7 @@ messages:
       return Send(poCaster,@GetGuild);
    }
 
-   AllowPlayerAttack(victim=$,report=FALSE)
+   AllowBattlerAttack(victim=$,report=FALSE)
    {
       if IsClass(poCaster,&Monster)
       {
@@ -158,7 +158,7 @@ messages:
          return TRUE;
       }
 
-      return Send(poCaster,@AllowPlayerAttack,#victim=victim,#report=FALSE,
+      return Send(poCaster,@AllowBattlerAttack,#victim=victim,#report=FALSE,
                   #stroke_obj=poSpell);
    }
    
