@@ -16,6 +16,8 @@ constants:
 
 resources:
 
+   include charm.lkod
+
    charm_name_rsc = "charm"
    charm_icon_rsc = iseduce.bgf
    charm_desc_rsc = \
