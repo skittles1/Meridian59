@@ -59,97 +59,64 @@ messages:
 
    Constructor()
    {
-      local iRandomNumber;
-
-      iRandomNumber = random(0,17);
-
       // 0 keeps the "default" name
-      if iRandomNumber = 1
+      switch (Random(0,17))
       {
+      case 1:
          vrName = LabeledPotion_name1_rsc;
-      } else {
-         if iRandomNumber = 2
-         {
-            vrName = LabeledPotion_name2_rsc;
-         } else {
-            if iRandomNumber = 3
-            {
-               vrName = LabeledPotion_name3_rsc;
-            } else {
-               if iRandomNumber = 4
-               {
-                  vrName = LabeledPotion_name4_rsc;
-               } else {
-                  if iRandomNumber = 5
-                  {
-                     vrName = LabeledPotion_name5_rsc;
-                  } else {
-                     if iRandomNumber = 6
-                     {
-                        vrName = LabeledPotion_name6_rsc;
-                     } else {
-                        if iRandomNumber = 7
-                        {
-                           vrName = LabeledPotion_name7_rsc;
-                        } else {
-                           if iRandomNumber = 8
-                           {
-                              vrName = LabeledPotion_name8_rsc;
-                           } else {
-                              if iRandomNumber = 9
-                              {
-                                 vrName = LabeledPotion_name9_rsc;
-                              } else {    
-                                 if iRandomNumber = 10
-                                 {
-                                    vrName = LabeledPotion_name10_rsc;
-                                 } else {
-                                    if iRandomNumber = 11
-                                    {
-                                       vrName = LabeledPotion_name11_rsc;
-                                    } else {
-                                       if iRandomNumber = 12
-                                       {
-                                          vrName = LabeledPotion_name12_rsc;
-                                       } else {
-                                          if iRandomNumber = 13
-                                          {
-                                             vrName = LabeledPotion_name13_rsc;
-                                          } else {
-                                             if iRandomNumber = 14
-                                             {
-                                                vrName = LabeledPotion_name14_rsc;
-                                             } else {
-                                                if iRandomNumber = 15
-                                                {
-                                                   vrName = LabeledPotion_name15_rsc;
-                                                } else {
-                                                   if iRandomNumber = 16
-                                                   {
-                                                      vrName = LabeledPotion_name16_rsc;
-                                                   } else {
-                                                      vrName = LabeledPotion_name17_rsc;
-                                                   }
-                                                }
-                                             }
-                                          }
-                                       }
-                                    }
-                                 }
-                              }
-                           }
-                        }
-                     }
-                  }
-               }
-            }
-         }
+         break;
+      case 2:
+         vrName = LabeledPotion_name2_rsc;
+         break;
+      case 3:
+         vrName = LabeledPotion_name3_rsc;
+         break;
+      case 4:
+         vrName = LabeledPotion_name4_rsc;
+         break;
+      case 5:
+         vrName = LabeledPotion_name5_rsc;
+         break;
+      case 6:
+         vrName = LabeledPotion_name6_rsc;
+         break;
+      case 7:
+         vrName = LabeledPotion_name7_rsc;
+         break;
+      case 8:
+         vrName = LabeledPotion_name8_rsc;
+         break;
+      case 9:
+         vrName = LabeledPotion_name9_rsc;
+         break;
+      case 10:
+         vrName = LabeledPotion_name10_rsc;
+         break;
+      case 11:
+         vrName = LabeledPotion_name11_rsc;
+         break;
+      case 12:
+         vrName = LabeledPotion_name12_rsc;
+         break;
+      case 13:
+         vrName = LabeledPotion_name13_rsc;
+         break;
+      case 14:
+         vrName = LabeledPotion_name14_rsc;
+         break;
+      case 15:
+         vrName = LabeledPotion_name15_rsc;
+         break;
+      case 16:
+         vrName = LabeledPotion_name16_rsc;
+         break;
+      case 17:
+         vrName = LabeledPotion_name17_rsc;
+         break;
       }
-   
+
       return;
    }
-
-         
 
 end
 ////////////////////////////////////////////////////////////////////////////////

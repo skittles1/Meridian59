@@ -1795,6 +1795,8 @@ messages:
 
    Delete()
    {
+      local iNodeType;
+
       poQuest = $;
       poPreviousSourceNPC = $;
       poSourceNPC = $;
@@ -1802,7 +1804,24 @@ messages:
       plDescs = $;
       plIndefDescs = $;
       plDefDescs = $;
-      pCargo = $;
+
+      if pCargo <> $
+      {
+         iNodeType = Send(Send(SYS,@GetQuestEngine),@GetQuestNodeType,
+                           #index=piQuestNodeTemplateIndex);
+         // Remove the quest attribute if we have item cargo.
+         if (iNodeType = QN_TYPE_ITEM)
+         {
+            if NOT Send(Send(SYS,@FindItemAttByNum,#num=IA_QUEST_CARGO),
+                     @RemoveFromItem,#oItem=pCargo,#oQuestnode=self)
+            {
+               Debug("Item didn't have quest attribute for ",self);
+            }
+         }
+
+         pCargo = $;
+      }
+
       if poMonster <> $
       {
          Send(poMonster,@Delete);
@@ -1813,7 +1832,6 @@ messages:
 
       propagate;
    }
-
 
 end
 ////////////////////////////////////////////////////////////////////////////////

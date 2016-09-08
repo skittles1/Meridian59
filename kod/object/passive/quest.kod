@@ -1085,6 +1085,10 @@ messages:
       {
          if (FindListElem(plQuesters,quester))
          {
+            // Remove the quest from the player's active quests.
+            Send(quester,@RemoveCurrentQuest,#index=piQuestTemplateIndex);
+
+            // Cancel single player quests completely.
             if Length(plQuesters) = 1
             {
                Send(self,@Cancel);
