@@ -2710,6 +2710,13 @@ messages:
    SomethingPhasedOut(what=$, iHealth=$, iMaxHealth=$)
    "Faster override for Room, don't need to propagate to Holder."
    {
+      local i;
+
+      foreach i in plEnchantments
+      {
+         Send(Nth(i,2),@EndRoomEnchantment,#who=what,#state=Nth(i,3));
+      }
+
       SendList(plActive,1,@SomethingPhasedOut,#what=what,#iHealth=iHealth,
             #iMaxHealth=iMaxHealth);
 
@@ -2719,6 +2726,16 @@ messages:
    SomethingPhasedIn(what=$)
    "Faster override for Room, don't need to propagate to Holder."
    {
+      local i;
+
+      // Add room enchantment effects.
+      foreach i in plEnchantments
+      {
+         // Users already have enchantment icon.
+         Send(Nth(i,2),@StartEnchantmentNewOccupant,#who=what,
+               #state=(Nth(i,3)));
+      }
+
       SendList(plActive,1,@SomethingPhasedIn,#what=what);
 
       return;
@@ -2727,6 +2744,13 @@ messages:
    SomethingSpectatedOut(what=$)
    "Faster override for Room, don't need to propagate to Holder."
    {
+      local i;
+
+      foreach i in plEnchantments
+      {
+         Send(Nth(i,2),@EndRoomEnchantment,#who=what,#state=Nth(i,3));
+      }
+
       SendList(plActive,1,@SomethingSpectatedOut,#what=what);
 
       return;
@@ -2735,6 +2759,16 @@ messages:
    SomethingSpectatedIn(what=$)
    "Faster override for Room, don't need to propagate to Holder."
    {
+      local i;
+
+      // Add room enchantment effects.
+      foreach i in plEnchantments
+      {
+         // Users already have enchantment icon.
+         Send(Nth(i,2),@StartEnchantmentNewOccupant,#who=what,
+               #state=(Nth(i,3)));
+      }
+
       SendList(plActive,1,@SomethingSpectatedIn,#what=what);
 
       return;

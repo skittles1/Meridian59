@@ -265,6 +265,9 @@ messages:
          Send(who,@EffectSendUser,#what=self,#effect=EFFECT_PARALYZE_OFF);
       }
 
+      // Reactivate enchantments before telling room we phased in.
+      Send(who,@ReactivateAllEnchantments);
+
       // Note that if a player logs off while phased, phase is removed after
       // the player leaves the room preventing a phase-in followed by log.
       oRoom = Send(who,@GetOwner);
@@ -274,8 +277,6 @@ messages:
       }
 
       Send(who,@LogonDelay);
-
-      Send(who,@ReactivateAllEnchantments);
 
       return;
    }
