@@ -703,11 +703,15 @@ messages:
    "End of monster. Clean up any quests it might have spawned."
    {
       local i, j, k;
+
       // Minion Management - upon dying they should leave your control list
       if poMaster <> $
       {
          Send(poMaster,@RemoveControlledMinion,#what=self);
       }
+
+      // Enchantments must be removed before brain gets set to $.
+      Send(self,@RemoveAllEnchantments);
 
       // Clear reagent return list.
       plSpellList = $;
@@ -775,7 +779,6 @@ messages:
 
       plSpellBook = $;
 
-      Send(self,@RemoveAllEnchantments);
       poMaster = $;
       poHolySymbolCaster = $;
       if ptUnturn <> $
@@ -3497,7 +3500,8 @@ messages:
 
          if oTarget = $
          {
-            Debug("BAD: RandomTimer Expired without user present");
+            Debug("BAD: RandomTimer expired without user present for mob ",
+                  self, Send(self,@GetName));
 
             return;
          }

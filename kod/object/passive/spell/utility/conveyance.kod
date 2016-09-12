@@ -11,6 +11,7 @@
 Conveyance is UtilitySpell
 
 constants:
+
    include blakston.khd
 
 resources:
@@ -22,13 +23,15 @@ resources:
    Conveyance_desc_rsc = \
       "Sends a stack of items to your closest personal vault.  "
       "Requires only the fee for depositing items."
-
    Conveyance_cant = "You cannot cast conveyance on %s%s."
-   Conveyance_not_enough_cash = "You don't have enough shillings to convey %s%s."
-   Conveyance_not_enough_space = "Your vault does not have enough space!"
-   Conveyance_not_holding = "You cannot cast conveyance on an item you are not holding!"
-
-   Conveyance_cast = "A small portal whips into existence, pulling %s%s to your vault."
+   Conveyance_not_enough_cash = \
+      "You don't have enough shillings to convey %s%s."
+   Conveyance_not_enough_space = \
+      "Your vault does not have enough space!"
+   Conveyance_not_holding = \
+      "You cannot cast conveyance on an item you are not holding!"
+   Conveyance_cast = \
+      "A small portal whips into existence, pulling %s%s to your vault."
 
 classvars:
 
@@ -64,23 +67,33 @@ messages:
    CastSpell(who = $, lTargets = $)
    {
       local oTarget, oRoom, oVault, iFee, oMoney, iCash;
-      
+
+      if (lTargets = $)
+      {
+         return;
+      }
+
       oTarget = First(lTargets);
-   
-      if NOT isClass(oTarget,&NumberItem)
+
+      if (oTarget = $)
+      {
+         return;
+      }
+
+      if NOT IsClass(oTarget,&NumberItem)
          OR NOT Send(oTarget,@CanBeStoredInVault)
-         OR isClass(oTarget,&Money)
+         OR IsClass(oTarget,&Money)
       {
          Send(who,@MsgSendUser,#message_rsc=conveyance_cant,
-            #parm1=Send(oTarget,@GetDef),
-            #parm2=Send(oTarget,@GetName));
+               #parm1=Send(oTarget,@GetDef),#parm2=Send(oTarget,@GetName));
 
          return;
       }
-    
+
       if NOT Send(who,@IsHolding,#what=oTarget)
       {
          Send(who,@MsgSendUser,#message_rsc=conveyance_not_holding);
+
          return;
       }
 
@@ -96,17 +109,17 @@ messages:
          oVault = Send(SYS,@FindVaultByNum,#num=VID_KOCATAN);
          iFee = Send(oTarget,@GetBulk) * 2;
       }
-      
+
       if iFee = $
          OR iFee = 0
          OR NOT Send(who,@ReqLeaveHold,#what=oTarget)
       {
          Send(who,@MsgSendUser,#message_rsc=conveyance_cant,
-            #parm1=Send(oTarget,@GetDef),
-            #parm2=Send(oTarget,@GetName));
+               #parm1=Send(oTarget,@GetDef),#parm2=Send(oTarget,@GetName));
+
          return;
       }
-      
+
       oMoney = Send(who,@GetMoneyObject);
       if oMoney = $
       {
@@ -122,8 +135,7 @@ messages:
          AND iFee <> 0
       {
          Send(who,@MsgSendUser,#message_rsc=conveyance_not_enough_cash,
-            #parm1=Send(oTarget,@GetDef),
-            #parm2=Send(oTarget,@GetName));
+               #parm1=Send(oTarget,@GetDef),#parm2=Send(oTarget,@GetName));
 
          return;
       }
@@ -132,10 +144,9 @@ messages:
       {
          Send(oVault,@DepositItems,#lItems=lTargets,#who=who);
          Send(who,@MsgSendUser,#message_rsc=Conveyance_cast,
-                  #parm1=Send(First(lTargets),@GetDef),
-                  #parm2=Send(First(lTargets),@GetName));
-                  
-         if iFee <> 0
+               #parm1=Send(oTarget,@GetDef),#parm2=Send(oTarget,@GetName));
+
+         if iFee > 0
          {
             Send(oMoney,@SubtractNumber,#number=iFee);
          }
@@ -153,6 +164,6 @@ messages:
    {
       return TRUE;
    }
- 
+
 end
 ////////////////////////////////////////////////////////////////////////////////
