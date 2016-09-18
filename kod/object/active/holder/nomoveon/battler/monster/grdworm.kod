@@ -393,7 +393,6 @@ messages:
 
    CanMonsterFight(who=$, oStroke = $, use_weapon = $)
    {
-
       if (oStroke <> $)
          AND (IsClass(oStroke,&DMSpell) OR IsClass(oStroke,&Smite))
       {
@@ -408,6 +407,7 @@ messages:
                OR IsClass(use_weapon,&Mace))
          {
             Send(who,@MsgSendUser,#message_rsc=groundworm_cannot_hit);
+
             return FALSE;
          }
       }

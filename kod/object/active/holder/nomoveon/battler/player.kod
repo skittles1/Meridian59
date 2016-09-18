@@ -4260,7 +4260,8 @@ messages:
 
       // No attacking NPCs.
       if (IsClass(victim,&Monster)
-         AND NOT Send(victim,@CanMonsterFight,#who=self))
+         AND NOT Send(victim,@CanMonsterFight,#who=self,#oStroke=stroke_obj,
+                        #use_weapon=use_weapon))
       {
          return FALSE;
       }
