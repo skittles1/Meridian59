@@ -4216,11 +4216,19 @@ messages:
 
    RoomReqCommunication(who=$,type=$,string=$)
    {
-      local oSpell;
+      local lState, oSpell;
+
+      // DMs can always speak.
+      if (IsClass(who,&DM))
+      {
+         return TRUE;
+      }
 
       oSpell = Send(SYS,@FindSpellByNum,#num=SID_SILENCE);
 
-      if Send(self,@IsEnchanted,#what=oSpell) AND (NOT IsClass(who,&DM))
+      lState = Send(self,@GetEnchantmentState,#what=oSpell);
+      if (lState <> $)
+         AND Send(First(lState),@AllowBattlerAttack,#victim=who,#stroke_obj=self)
       {
          Send(who,@MsgSendUser,#message_rsc=room_silenced_rsc);
 
