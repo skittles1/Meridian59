@@ -571,9 +571,12 @@ messages:
       if NOT bItemCast
       {
          oSpell = Send(SYS,@FindSpellByNum,#num=SID_SILENCE);
-         if Send(where,@IsEnchanted,#what=oSpell)
+         lState = Send(where,@GetEnchantmentState,#what=oSpell);
+         if (lState <> $)
          {
             if IsClass(who,&Player)
+               AND Send(First(lState),@AllowBattlerAttack,#victim=who,
+                        #stroke_obj=self)
             {
                if report
                {

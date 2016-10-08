@@ -242,7 +242,7 @@ messages:
          return FALSE;
       }
 
-      if NOT Send(self,@CanPlayerPVP)
+      if NOT Send(who,@CanPlayerPVP)
       {
          // Message: angel prevents flagpole interference.
          Send(who,@MsgSendUser,#message_rsc=flag_failed_angel);

@@ -86,6 +86,7 @@ messages:
       oTarget = First(lTargets);
 
       if NOT IsClass(oTarget,&Monster)
+         OR (Send(oTarget,@GetAttributes) & MOB_NOMOVE)
       {
          if NOT bItemCast
          {

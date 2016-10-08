@@ -1849,7 +1849,7 @@ messages:
 
    IsCombatant(who=$)
    {
-      local i, count;
+      local i, count, oMaster;
 
       count = 1;
       foreach i in plCombatants
@@ -1864,9 +1864,12 @@ messages:
 
       if IsClass(who,&Monster)
          AND NOT IsClass(who,&TosTown)
-         AND Send(poOwner,@InPlay,#what=who,#bNonPlayerOkay=TRUE)
       {
-         return TRUE;
+         oMaster = Send(who,@GetMaster);
+         if (oMaster <> $)
+         {
+            return Send(self,@IsCombatant,#who=oMaster);
+         }
       }
 
       return FALSE;
@@ -1886,7 +1889,7 @@ messages:
 
    Teleport(what=$, goinplay=FALSE, outofplay=FALSE)
    {
-      local i, bInList, iAmount, lMinions;
+      local i, bInList, iAmount;
 
       if goinplay OR Send(self,@IsCombatant,#who=what)
       {
@@ -1941,21 +1944,6 @@ messages:
 
       Send(poOwner,@Teleport,#what=what,#goinplay=goinplay,
             #outofplay=outofplay);
-      if IsClass(what,&Player)
-      {
-         lMinions = Send(what,@GetControlledMinions);
-         if lMinions <> $
-         {
-            foreach i in lMinions
-            {
-               if Send(i,@GetOwner) = Send(self,@GetOwner)
-               {
-                  Send(poOwner,@Teleport,#what=i,#goinplay=goinplay,
-                        #outofplay=outofplay);
-               }
-            }
-         }
-      }
 
       return;
    }
