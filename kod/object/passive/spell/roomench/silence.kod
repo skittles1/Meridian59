@@ -21,20 +21,21 @@ resources:
    Silence_name_rsc = "silence"
    Silence_icon_rsc = isilence.bgf
    Silence_desc_rsc = \
-      "Muffles all speech preventing spell casting and communication as long as caster concentrates.  "
-      "Requires dark angel feathers and purple mushrooms."
-   
+      "Muffles all speech preventing spell casting and communication as long "
+      "as caster concentrates.  Requires dark angel feathers and purple "
+      "mushrooms."
    Silence_unnecessary = "This area already is already silenced."
-
    Silence_on = "A curtain of silence falls across the room."
    Silence_off = "The curtain of silence is lifted."
    Silence_new_entrant = "This place is strangely quiet."
-
-   Silence_cant_block_jala_caster = "Your spell fails to silence the singing bard in the area."
-   Silence_cant_block_jala_victim = "Your words ring through the silence spell covering the room."
+   Silence_cant_block_jala_caster = \
+      "Your spell fails to silence the singing bard in the area."
+   Silence_cant_block_jala_victim = \
+      "Your words ring through the silence spell covering the room."
    Silence_blocked_jala_victim = "The silence spell muffles your song."
-
-   Silence_spell_intro = "Qor Level 3: Draws a curtain of Silence over the room, stirring the servants of Qor."
+   Silence_spell_intro = \
+      "Qor Level 3: Draws a curtain of Silence over the room, stirring the "
+      "servants of Qor."
 
 classvars:
 
@@ -56,11 +57,13 @@ classvars:
    viChance_To_Increase = 10
    viMeditate_ratio = 50
 
-   viOutlaw = TRUE
    viHarmful = TRUE
    viNoNewbieOffense = TRUE
-   
+
 properties:
+
+   pbAccessible = FALSE
+   pbEnabled = FALSE
 
 messages:
 
@@ -76,36 +79,38 @@ messages:
    CastSpell(who = $, iSpellPower = 0)
    "Initiation point for the spell."
    {
-      local oRoom, lJalaInfo, oJalaSpell, lJalaState;
+      local oRoom, lJalaInfo, oJalaCaster, oJalaSpell, lJalaState;
 
       oRoom = Send(who,@GetOwner);
 
       // global effects of the enchantment
       Send(oRoom,@SomeoneSaid,#type=SAY_MESSAGE,#string=Silence_on,#what=self);
       Send(oRoom,@RoomStartEnchantment,#what=self,#state=[who,iSpellPower],
-           #time=send(self,@GetDuration,#iSpellPower=iSpellPower),#iSpellPower=iSpellPower,#lastcall=FALSE);
+            #time=Send(self,@GetDuration,#iSpellPower=iSpellPower),
+            #iSpellPower=iSpellPower,#lastcall=FALSE);
       Send(who,@SetTranceFlag);
 
       // See if there's a Jala song going on and try to kill it
       // Format of lJalaInfo is: [timer, spell object, state]
-      lJalaInfo = send(oRoom,@GetJalaInfo);
+      lJalaInfo = Send(oRoom,@GetJalaInfo);
 
       if lJalaInfo <> $
       {
          // Format of lJalaState is: [volume, caster, spellpower]
          lJalaState = Nth(lJalaInfo,3);
+         oJalaCaster = Nth(lJalaInfo,2);
 
-         if random(iSpellPower/2,iSpellPower) > Nth(lJalaState,1)
+         if Random(iSpellPower/2,iSpellPower) > First(lJalaState)
          {
             // We have blocked the Jala song.
-            send(Nth(lJalaState,2),@MsgSendUser,#message_rsc=Silence_blocked_jala_victim);
-            send(oRoom,@RemoveEnchantment,#what=Nth(lJalaInfo,2));
+            Send(oJalaCaster,@MsgSendUser,#message_rsc=Silence_blocked_jala_victim);
+            Send(oRoom,@RemoveEnchantment,#what=oJalaCaster);
          }
          else
          {
             // The Jala song continues on!
-            send(who,@MsgSendUser,#message_rsc=Silence_cant_block_jala_caster);
-            send(Nth(lJalaState,2),@MsgSendUser,#message_rsc=Silence_cant_block_jala_victim);
+            Send(who,@MsgSendUser,#message_rsc=Silence_cant_block_jala_caster);
+            Send(oJalaCaster,@MsgSendUser,#message_rsc=Silence_cant_block_jala_victim);
          }
       }
 
@@ -123,13 +128,13 @@ messages:
 
       if location = $
       {
-         oRoom = send(who,@GetOwner);
+         oRoom = Send(who,@GetOwner);
       }
       else
       {
          oRoom = location;
       }
-      
+
       Send(oRoom,@RemoveEnchantment,#what=self);
 
       propagate;
@@ -140,24 +145,25 @@ messages:
    "but silent, and done as often as necessary"
     {
       local oCaster;
-      
-      oCaster = first(state);
-   
-      // If caster runs out of mana or loses trance, spell ends.
-      if send(oCaster,@GetMana) < viManaDrain * 2
-      {
-         Send(where,@RoomStartEnchantment,#what=self,#time=send(self,@GetDuration,#iSpellPower=Nth(state,2)),
-              #state=state,#addicon=FALSE,#lastcall=TRUE);
 
+      oCaster = First(state);
+
+      // If caster runs out of mana or loses trance, spell ends.
+      if Send(oCaster,@GetMana) < viManaDrain * 2
+      {
+         Send(where,@RoomStartEnchantment,#what=self,
+               #time=Send(self,@GetDuration,#iSpellPower=Nth(state,2)),
+               #state=state,#addicon=FALSE,#lastcall=TRUE);
       }
       else
-      {      
-         Send(where,@RoomStartEnchantment,#what=self,#time=send(self,@GetDuration,#iSpellPower=Nth(state,2)),
-              #state=state,#addicon=FALSE,#lastcall=FALSE);
+      {
+         Send(where,@RoomStartEnchantment,#what=self,
+               #time=Send(self,@GetDuration,#iSpellPower=Nth(state,2)),
+               #state=state,#addicon=FALSE,#lastcall=FALSE);
       }
-      
+
       Send(oCaster,@LoseMana,#amount=viManaDrain);
-      
+
       return;
    }
 
@@ -165,7 +171,7 @@ messages:
    "Called on new occupants of the enchanted room."
    {
       Send(who,@MsgSendUser,#message_rsc=Silence_new_entrant);
-      
+
       return;
    }
 
@@ -193,5 +199,4 @@ messages:
    }
 
 end
-
 ////////////////////////////////////////////////////////////////////////////////

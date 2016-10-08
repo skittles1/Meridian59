@@ -22,7 +22,7 @@ properties:
 messages:
 
    UtilGoNearSquare(what = $,where = $,new_row = $,new_col = $,do_move = TRUE,
-                    max_distance = 50000,new_angle = $,
+                    max_distance = 50000,new_angle = $, mob_override = FALSE,
                     fine_row = FINENESS/2,fine_col = FINENESS/2)
    "Move any object anywhere in any room.\n"
    "<where> must be a room.  "
@@ -69,7 +69,7 @@ messages:
                      AND Send(self,@UtilGoToSquare,#what=what,#where=where,
                               #new_row=row,#new_col=col,#new_angle=new_angle,
                               #fine_row=fine_row,#fine_col=fine_col,
-                              #do_move=do_move)
+                              #do_move=do_move,#mob_override=mob_override)
                   {
                      return TRUE;
                   }
@@ -87,7 +87,8 @@ messages:
                   col = new_col - distance;
                   if (col >= 1 and col <= room_cols)
                      AND Send(self,@UtilGoToSquare,#what=what,#where=where,
-                              #new_row=row,#new_col=col)
+                              #new_row=row,#new_col=col,
+                              #mob_override=mob_override)
                   {
                      return TRUE;
                   }
@@ -95,7 +96,8 @@ messages:
                   col = new_col + distance;
                   if col >= 1 AND col <= room_cols
                      AND Send(self,@UtilGoToSquare,#what=what,#where=where,
-                              #new_row=row,#new_col=col)
+                              #new_row=row,#new_col=col,
+                              #mob_override=mob_override)
                   {
                      return TRUE;
                   }
@@ -112,7 +114,8 @@ messages:
    }
 
    UtilGoToSquare(what = $,where = $,new_row = $,new_col = $,new_angle = $,
-             fine_row = FINENESS/2,fine_col = FINENESS/2,do_move = TRUE)
+             fine_row = FINENESS/2,fine_col = FINENESS/2,do_move = TRUE,
+             mob_override = FALSE)
    "Called only by UtilGoNearSquare.\n"
    "<new_row> and <new_col> MUST be inside coords of <where>, otherwise "
    "the room move could go to adjacent rooms!! blah. If <new_angle> = $, "
@@ -122,9 +125,9 @@ messages:
       if Send(what,@GetOwner) = where
       {
          if IsClass(what,&User)
-            OR Send(where,@ReqSomethingMoved,#what=what,
-                     #new_row=new_row,
+            OR Send(where,@ReqSomethingMoved,#what=what,#new_row=new_row,
                      #new_col=new_col)
+            OR mob_override
          {
             if do_move
             {
