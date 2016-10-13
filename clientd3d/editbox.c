@@ -19,9 +19,14 @@ static WNDPROC lpfnDefEditProc; /* Default edit box message handler */
 /* Position & size of edit box */
 static AREA edit_area;
 
-// When adding text, keep track of whether the player has scrolled back, so that
-// we shouldn't scroll the added text into view.
-static Bool scrolled_back;  
+// When adding text, keep track of whether the player has scrolled back, so
+// that we shouldn't scroll the added text into view.
+static Bool scrolled_back;
+
+// Buffer for editbox contents.
+static char edit_contents[MAX_TEXT];
+// Keep track of whether edit_contents has been filled.
+static Bool edit_readd;
 
 static keymap editbox_key_table[] = {
 { VK_TAB,         KEY_NONE,             A_TABFWD,   (void *) IDC_MAINTEXT },
@@ -53,6 +58,17 @@ void EditBoxCreate(HWND hParent)
 
    lpfnDefEditProc = SubclassWindow(hwndText, EditProc);
    SetWindowFont(hwndText, GetFont(FONT_EDIT), FALSE);
+
+   // If edit_contents has been filled, edit_readd will be true.
+   // Add the contents back to the edit box with no color/style.
+   if (edit_readd)
+   {
+      EditBoxStartAdd();
+      EditBoxAddText(edit_contents, 0, 0);
+      EditBoxEndAdd();
+      edit_readd = 0;
+      edit_contents[0] = 0;
+   }
 }
 /************************************************************************/
 /*
@@ -60,6 +76,15 @@ void EditBoxCreate(HWND hParent)
  */
 void EditBoxDestroy(void)
 {
+   // Save contents of edit box into buffer in case we're reconnecting.
+   int textlen = Edit_GetText(hwndText, edit_contents, MAX_TEXT);
+   if (textlen > MAX_TEXT - 1)
+      edit_contents[MAX_TEXT - 1] = 0;
+   else
+      edit_contents[textlen] = 0;
+
+   edit_readd = TRUE;
+
    DestroyWindow(hwndText);
    hwndText = NULL;
 }
