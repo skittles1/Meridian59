@@ -370,6 +370,7 @@
 #define IDD_WITHDRAWAL                  1165
 #define ID_DESCNAME                     1166
 #define IDD_GRAPHICS                    1166
+#define IDC_TIMESTAMPS                  1166
 #define IDC_SCROLL                      1167
 #define IDC_SPECIAL1                    1168
 #define IDC_SPECIAL2                    1169
@@ -484,7 +485,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        196
+#define _APS_NEXT_RESOURCE_VALUE        197
 #define _APS_NEXT_COMMAND_VALUE         3519
 #define _APS_NEXT_CONTROL_VALUE         1222
 #define _APS_NEXT_SYMED_VALUE           105

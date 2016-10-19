@@ -589,6 +589,20 @@ static int num_format_codes = sizeof(code_table) / sizeof(FormatCode);
 
 /************************************************************************/
 /*
+ * AddTimeStamp:  Adds a system-colored timestamp to the edit box (no newline).
+ */
+void AddTimeStamp()
+{
+   time_t now = time(NULL);
+   struct tm *now_tm;
+   now_tm = localtime(&now);
+
+   char nowstr[16];
+   int num_chars = sprintf(nowstr, "[%02d:%02d] ", now_tm->tm_hour, now_tm->tm_min);
+   EditBoxAddText(nowstr, GetColor(COLOR_SYSMSGFGD), STYLE_NORMAL);
+}
+/************************************************************************/
+/*
  * DisplayServerMessage:  Display message from server, extracting any style or color codes.
  *   color and style give default style and color values.
  */
@@ -596,8 +610,12 @@ void DisplayServerMessage(char *message, COLORREF start_color, BYTE start_style)
 {
    EditBoxStartAdd();
 
+   // Prefix a timestamp if user has enabled it.
+   if (config.chat_time_stamps)
+      AddTimeStamp();
+
    DisplayMessage(message, start_color, start_style);
-   
+
    EditBoxEndAdd();
 }
 /************************************************************************/
@@ -616,23 +634,24 @@ void DisplayMessage(char *message, COLORREF start_color, BYTE start_style)
    char* p;
 
    message = strdup(message);
+
    p = message;
 
    if (config.antiprofane)
    {
       if (config.ignoreprofane)
       {
-	 if (ContainsProfaneTerms(message))
-	 {
- 	    message = (char *) SafeMalloc(MAXSTRINGLEN);
-	    LoadString(hInst, IDS_PROFANITYREMOVED, message, MAXSTRINGLEN);
-	    bFree = TRUE;
-	 }
+         if (ContainsProfaneTerms(message))
+         {
+            message = (char *)SafeMalloc(MAXSTRINGLEN);
+            LoadString(hInst, IDS_PROFANITYREMOVED, message, MAXSTRINGLEN);
+            bFree = TRUE;
+         }
       }
       else
       {
-	 message = CleanseProfaneString(message);
-	 bFree = TRUE;
+         message = CleanseProfaneString(message);
+         bFree = TRUE;
       }
    }
 
@@ -642,64 +661,64 @@ void DisplayMessage(char *message, COLORREF start_color, BYTE start_style)
    for (ptr = message; *ptr != 0; ptr++)
    {
       if (strchr(format_chars, *ptr) == NULL)
-	 continue;
+         continue;
 
       ch = *(ptr + 1);
 
       // Check for format char right before end of string
       if (ch == 0)
-	 break;
+         break;
 
       new_type = 0;
-      for (i=0; i < num_format_codes; i++)
+      for (i = 0; i < num_format_codes; i++)
       {
-	 if (code_table[i].code != ch)
-	    continue;
+         if (code_table[i].code != ch)
+            continue;
 
-	 switch (code_table[i].type)
-	 {
-	 case CODE_COLOR:
-	    new_color = code_table[i].data;
-	    new_type |= CODE_COLOR;
-	    break;
+         switch (code_table[i].type)
+         {
+         case CODE_COLOR:
+            new_color = code_table[i].data;
+            new_type |= CODE_COLOR;
+            break;
 
-	 case CODE_STYLE:
-	    switch (code_table[i].data)
-	    {
-	    case STYLE_NORMAL:
-	       new_style = STYLE_NORMAL;
-	       break;
+         case CODE_STYLE:
+            switch (code_table[i].data)
+            {
+            case STYLE_NORMAL:
+               new_style = STYLE_NORMAL;
+               break;
 
-	    case STYLE_RESET:
-	       new_style = start_style;
-	       new_color = start_color;
-	       new_type |= CODE_COLOR;
-	       break;
-	       
-	    default:
-	       new_style = style ^ code_table[i].data;  // Toggle style
-	       break;
-	    }
-	       
-	    new_type |= CODE_STYLE;
-	    break;
+            case STYLE_RESET:
+               new_style = start_style;
+               new_color = start_color;
+               new_type |= CODE_COLOR;
+               break;
 
-	 default:
-	    debug(("DisplayServerMessage got unknown code type %d\n", code_table[i].type));
-	    break;
-	 }
+            default:
+               new_style = style ^ code_table[i].data;  // Toggle style
+               break;
+            }
+
+            new_type |= CODE_STYLE;
+            break;
+
+         default:
+            debug(("DisplayServerMessage got unknown code type %d\n", code_table[i].type));
+            break;
+         }
       }
-      
+
       if (new_type != 0)
       {
-	 *ptr = 0;
-	 EditBoxAddText(str, color, style);
-	 if (new_type & CODE_COLOR)
-	    color = new_color;
-	 if (new_type & CODE_STYLE)
-	    style = new_style;
-	 ptr++;
-	 str = ptr + 1;   // Skip code
+         *ptr = 0;
+         EditBoxAddText(str, color, style);
+         if (new_type & CODE_COLOR)
+            color = new_color;
+         if (new_type & CODE_STYLE)
+            style = new_style;
+         ptr++;
+         str = ptr + 1;   // Skip code
       }
    }
 
