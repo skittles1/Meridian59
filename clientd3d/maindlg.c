@@ -204,7 +204,7 @@ BOOL CALLBACK PreferencesDialogProc(HWND hDlg, UINT message, UINT wParam, LONG l
       CheckDlgButton(hDlg, IDC_DRAWMAP, config.drawmap);
       CheckDlgButton(hDlg, IDC_MAP_ANNOTATIONS, config.map_annotations);
       CheckDlgButton(hDlg, IDC_XP_AS_PERCENT, config.xp_display_percent);
-
+      CheckDlgButton(hDlg, IDC_TIMESTAMPS, config.chat_time_stamps);
       CheckDlgButton(hDlg, IDC_MUSIC, config.play_music);
       CheckDlgButton(hDlg, IDC_SOUNDFX, config.play_sound);
       CheckDlgButton(hDlg, IDC_LOOPSOUNDS, config.play_loop_sounds);
@@ -328,6 +328,8 @@ BOOL CALLBACK PreferencesDialogProc(HWND hDlg, UINT message, UINT wParam, LONG l
          config.drawmap         = IsDlgButtonChecked(hDlg, IDC_DRAWMAP);
          config.map_annotations = IsDlgButtonChecked(hDlg, IDC_MAP_ANNOTATIONS);
          config.xp_display_percent = IsDlgButtonChecked(hDlg, IDC_XP_AS_PERCENT);
+         config.chat_time_stamps = IsDlgButtonChecked(hDlg, IDC_TIMESTAMPS);
+
          temp                 = IsDlgButtonChecked(hDlg, IDC_TOOLBAR);
          toolbar_changed = (temp != config.toolbar);
          config.toolbar = temp;
