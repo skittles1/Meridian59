@@ -3255,6 +3255,7 @@ messages:
       Send(self,@CreateOneSpellIfNew,#num=SID_MANA_FOCUS,#class=&ManaFocus);
       Send(self,@CreateOneSpellIfNew,#num=SID_MANA_BOMB,#class=&ManaBomb);
       Send(self,@CreateOneSpellIfNew,#num=SID_DETECT_INVISIBLE,#class=&DetectInvisible);
+      Send(self,@CreateOneSpellIfNew,#num=SID_DM_DETECT_INVISIBLE,#class=&DMDetectInvisible);
       Send(self,@CreateOneSpellIfNew,#num=SID_DETECT_GOOD,#class=&DetectGood);
       Send(self,@CreateOneSpellIfNew,#num=SID_DETECT_EVIL,#class=&DetectEvil);
       Send(self,@CreateOneSpellIfNew,#num=SID_ICE_NOVA,#class=&IceNova);
