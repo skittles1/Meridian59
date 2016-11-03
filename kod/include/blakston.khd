@@ -1987,6 +1987,7 @@
    STROKE_ICY_FINGERS = 24
    STROKE_ACID_TOUCH = 25
    STROKE_UNHOLY_TOUCH = 26
+   STROKE_DELVIERANCE = 27
 
    // Unique skill constants
    // Don't create any lower than 400 - conflict with spells (1-399).
@@ -2117,6 +2118,7 @@
    SID_TRUTH     = 88
    SID_DISPEL_ILLUSION = 89
    SID_SUPER_ROOM_HOLD = 90
+   SID_DELIVERANCE_TOUCH = 91
 
    SID_REFLECTION = 99
    SID_SPIRITUAL_HAMMER = 100

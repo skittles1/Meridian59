@@ -4890,14 +4890,25 @@ messages:
          return FALSE;
       }
 
-      // Special case assassin's daggers
+      // Special case attacks
       if use_weapon <> $
-         AND IsClass(use_weapon,&BlackDagger)
-         AND IsClass(stroke_obj,&Stroke)
       {
-         // Let the assassin's game handle it
-         return Send(Send(SYS,@GetAssassinGame),@TryAssassinAttack,
-                     #attacker=self,#target=what,#dagger_obj=use_weapon);
+         // Black dagger.
+         if IsClass(use_weapon,&BlackDagger)
+            AND IsClass(stroke_obj,&Stroke)
+         {
+            // Let the assassin's game handle it
+            return Send(Send(SYS,@GetAssassinGame),@TryAssassinAttack,
+                        #attacker=self,#target=what,#dagger_obj=use_weapon);
+         }
+
+         // Deliverance touch attack for DMs. Handled here to trigger attack
+         // timer and range checks.
+         if (IsClass(use_weapon,&DeliveranceTouch))
+         {
+            return Send(use_weapon,@TryDeliveranceAttack,#who=self,
+                        #oTarget=what);
+         }
       }
 
       if IsClass(what,&Monster)

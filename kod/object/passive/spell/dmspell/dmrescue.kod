@@ -19,6 +19,11 @@ resources:
    include dmrescue.lkod
 
    dmrescue_name_rsc = "deliverance"
+   dmrescue_desc_rsc = \
+      "Sends the target to their home town.  If removing the target from Out "
+      "of Grace, will remove the 'damned' string from their description."
+   dmrescue_hit_rsc = \
+      "You open a rip in space to %s%s's hometown and push them into it."
    dmrescue_icon_rsc = light.bgf
 
 classvars:
@@ -55,23 +60,22 @@ messages:
 
             // If they have the damned string, this will remove it.
             Send(i,@RemoveHonorString,#string=damn_last_annoyed);
-
-            continue;
          }
-
-         if IsClass(i,&Player)
+         else if IsClass(i,&Player)
          {
             Send(i,@AdminGoToSafety);
 
             // If they have the damned string, this will remove it.
             Send(i,@RemoveHonorString,#string=damn_last_annoyed);
-
-            continue;
+            Send(who,@MsgSendUser,#message_rsc=dmrescue_hit_rsc,
+                  #parm1=Send(i,@GetDef),#parm2=Send(i,@GetTrueName));
          }
-
-         Send(who,@MsgSendUser,#message_rsc=spell_bad_target,
-              #parm1=Send(self,@GetName),#parm2=Send(i,@GetIndef),
-              #parm3=Send(i,@GetName));
+         else
+         {
+            Send(who,@MsgSendUser,#message_rsc=spell_bad_target,
+                  #parm1=Send(self,@GetName),#parm2=Send(i,@GetIndef),
+                  #parm3=Send(i,@GetName));
+         }
       }
 
       propagate;
