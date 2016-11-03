@@ -82,25 +82,17 @@ messages:
       return lFinalTargets;
    }
 
-   CastSpell(who=$,lTargets=$)
+   CastSpell(who=$)
    {
-      local oOwner, i, each_obj;
+      local oOwner;
 
       oOwner = Send(who,@GetOwner);
 
-      // Show bolt flying through the air.
-      foreach i in Send(oOwner,@GetHolderActive)
-      {
-         each_obj = First(i);
-
-         if IsClass(each_obj,&Player)
-         {
-            Send(oOwner,@SomethingShotRadius,#who=who,#projectile=self,
-                  #flags=viProjectileFlag,#range=piRange/FINENESS,
-                  #number=piNumber,#iLightIntensity=viProjectileLightIntensity,
-                  #iLightColor=viProjectileLightColor,#speed=piSpeed);
-         }
-      }
+      // Show projectiles.
+      Send(oOwner,@SomethingShotRadius,#who=who,#projectile=self,
+            #flags=viProjectileFlag,#range=piRange/FINENESS,
+            #number=piNumber,#iLightIntensity=viProjectileLightIntensity,
+            #iLightColor=viProjectileLightColor,#speed=piSpeed);
 
       propagate;
    }
