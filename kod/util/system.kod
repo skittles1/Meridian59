@@ -3316,6 +3316,7 @@ messages:
       Send(self,@CreateOneSpellIfNew,#num=SID_QORBANE,#class=&QorBane);
       Send(self,@CreateOneSpellIfNew,#num=SID_VERTIGO,#class=&Vertigo);
       Send(self,@CreateOneSpellIfNew,#num=SID_DMHOLD,#class=&DMHold);
+      Send(self,@CreateOneSpellIfNew,#num=SID_SUPER_ROOM_HOLD,#class=&DMRoomHold);
       Send(self,@CreateOneSpellIfNew,#num=SID_SPELLBANE,#class=&Spellbane);
       Send(self,@CreateOneSpellIfNew,#num=SID_FLASH,#class=&Flash);
       Send(self,@CreateOneSpellIfNew,#num=SID_ANIMATE,#class=&Animate);
