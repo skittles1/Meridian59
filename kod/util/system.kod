@@ -3178,6 +3178,7 @@ messages:
       Send(self,@CreateOneSpellIfNew,#num=SID_NIGHT_VISION,#class=&NightVision);
       Send(self,@CreateOneSpellIfNew,#num=SID_FIREBALL,#class=&Fireball);
       Send(self,@CreateOneSpellIfNew,#num=SID_DMRESCUE,#class=&DMRescue);
+      Send(self,@CreateOneSpellIfNew,#num=SID_DELIVERANCE_TOUCH,#class=&DeliveranceTouch);
       Send(self,@CreateOneSpellIfNew,#num=SID_SPECTATE,#class=&Spectate);
       Send(self,@CreateOneSpellIfNew,#num=SID_RESCUE,#class=&Rescue);
       Send(self,@CreateOneSpellIfNew,#num=SID_SMITE,#class=&Smite);
@@ -3255,6 +3256,7 @@ messages:
       Send(self,@CreateOneSpellIfNew,#num=SID_MANA_FOCUS,#class=&ManaFocus);
       Send(self,@CreateOneSpellIfNew,#num=SID_MANA_BOMB,#class=&ManaBomb);
       Send(self,@CreateOneSpellIfNew,#num=SID_DETECT_INVISIBLE,#class=&DetectInvisible);
+      Send(self,@CreateOneSpellIfNew,#num=SID_DM_DETECT_INVISIBLE,#class=&DMDetectInvisible);
       Send(self,@CreateOneSpellIfNew,#num=SID_DETECT_GOOD,#class=&DetectGood);
       Send(self,@CreateOneSpellIfNew,#num=SID_DETECT_EVIL,#class=&DetectEvil);
       Send(self,@CreateOneSpellIfNew,#num=SID_ICE_NOVA,#class=&IceNova);
@@ -3315,6 +3317,7 @@ messages:
       Send(self,@CreateOneSpellIfNew,#num=SID_QORBANE,#class=&QorBane);
       Send(self,@CreateOneSpellIfNew,#num=SID_VERTIGO,#class=&Vertigo);
       Send(self,@CreateOneSpellIfNew,#num=SID_DMHOLD,#class=&DMHold);
+      Send(self,@CreateOneSpellIfNew,#num=SID_SUPER_ROOM_HOLD,#class=&DMRoomHold);
       Send(self,@CreateOneSpellIfNew,#num=SID_SPELLBANE,#class=&Spellbane);
       Send(self,@CreateOneSpellIfNew,#num=SID_FLASH,#class=&Flash);
       Send(self,@CreateOneSpellIfNew,#num=SID_ANIMATE,#class=&Animate);

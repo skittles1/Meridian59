@@ -13,6 +13,7 @@ DM is User
 constants:
 
    include blakston.khd
+   include protocol.khd
 
    // These two constants were stolen from player, should be synchronized.
    DM_TRANSLATION_BODY_MASK = 0xff00
@@ -130,6 +131,19 @@ resources:
    dm_hidden_command = "hidden"
    dm_blank_command = "blank"
 
+   dm_detect_invis = "detect invis"
+   dm_detect_invis_list = "list"
+   dm_detect_invis_list_header = \
+      "Players enchanted by greater detect invisible: %q"
+   dm_detect_invis_list_none = \
+      "No players enchanted by greater detect invisible."
+   dm_detect_invis_remove = "remove"
+   dm_user_not_found = "Could not lookup user %q."
+   dm_detect_invis_removed = "Removed greater DI enchantment from %q."
+
+   dm_detect_invis_no_rmv = \
+      "User %q doesn't appear to be enchanted with greater DI."
+
    // NOTE: if an internationalised string is added for dm_place_command,
    // then all the items that can be placed need to be changed also.
    dm_place_command = "place"
@@ -191,6 +205,9 @@ resources:
       "\nUse ~bdm event sign~n to create an event sign at your location.\n"
       "Use ~bdm get roo~n to get the filename and number of the current room, "
       "and ~bdm get coords~n to get your current coordinates.\n"
+      "~cNew! ~nUse ~bdm detect invis list ~nto show players enchanted with the "
+      "DM detect invisible spell, and ~bdm detect invis remove ~rplayername "
+      "~nto remove the enchantment from a player.\n"
       "You can place scenery and lights using the ~bdm place~n command.\n"
       "Type ~bdm help lights~n and ~bdm help scenery~n to get a list of "
       "available objects to place.\nYou can also send custom messages to users "
@@ -983,6 +1000,13 @@ messages:
          }
       }
 
+      if (StringContain(string,dm_detect_invis))
+      {
+         Send(self,@DMSayDetectInvis,#string=string);
+
+         return;
+      }
+
       if (StringEqual(string,dm_rumble_command))
       {
          Send(poOwner,@Rumble);
@@ -1464,6 +1488,86 @@ messages:
    }
 
 #region DM Say Command Handling
+
+   DMSayDetectInvis(string=$)
+   {
+      local i, iCount, oSpell, lEnchanted, oUser;
+
+      // Remove initial command part.
+      StringSubstitute(string,dm_detect_invis,"");
+
+      oSpell = Send(SYS,@FindSpellByNum,#num=SID_DM_DETECT_INVISIBLE);
+
+      // Get list of players enchanted with the DM DI spell.
+      lEnchanted = Send(oSpell,@GetEnchantedPlayers);
+
+      // Print list of enchanted players.
+      if (StringEqual(string,dm_detect_invis_list))
+      {
+         iCount = Length(lEnchanted);
+
+         if (iCount = 0)
+         {
+            Send(self,@MsgSendUser,#message_rsc=dm_detect_invis_list_none);
+
+            return;
+         }
+
+         ClearTempString();
+
+         foreach i in lEnchanted
+         {
+            AppendTempString(Send(i,@GetTrueName));
+            if (--iCount > 0)
+            {
+               AppendTempString(", ");
+            }
+            else
+            {
+               AppendTempString(".");
+            }
+         }
+         Send(self,@MsgSendUser,#message_rsc=dm_detect_invis_list_header,
+               #parm1=GetTempString());
+
+         return;
+      }
+
+      // Remove enchantment from a player.
+      if (StringContain(string,dm_detect_invis_remove))
+      {
+         // Remove command part.
+         StringSubstitute(string,dm_detect_invis_remove,"");
+
+         // Lookup player by name so we can use the object ID for comparison.
+         oUser = Send(SYS,@FindUserByString,#string=string);
+         if (oUser = $)
+         {
+            Send(self,@MsgSendUser,#message_rsc=dm_user_not_found,#parm1=string);
+
+            return;
+         }
+
+         // Remove enchantment from user.
+         foreach i in lEnchanted
+         {
+            if (i = oUser)
+            {
+               Send(i,@RemoveEnchantment,#what=oSpell);
+               Send(self,@MsgSendUser,#message_rsc=dm_detect_invis_removed,
+                     #parm1=Send(oUser,@GetTrueName),#type1=STRING_RESOURCE);
+
+               return;
+            }
+         }
+
+         // If we get here, user wasn't in enchantment list.
+         Send(self,@MsgSendUser,#message_rsc=dm_detect_invis_no_rmv,
+               #parm1=Send(oUser,@GetTrueName),#type1=STRING_RESOURCE);
+      }
+
+      return;
+   }
 
    DMSayHelp(string=$)
    "Return TRUE if handled here, FALSE otherwise."
