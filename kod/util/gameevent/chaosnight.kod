@@ -48,10 +48,23 @@ resources:
       "go to your nearest Innkeeper and check what they have for sale.  For "
       "a price, they may part with some much needed supplies."
    chaos_gift = \
-       "~B~U~k[###]~n ~B~vQor grants you %s%s to smite your enemies!"
+      "~B~U~k[###]~n ~B~vQor grants you %s%s to smite your enemies!"
+
+   chaos_kill_header = "Kill scoreboard:"
+   chaos_death_header = "Death scoreboard:"
+   chaos_kill_header_color = "~B~rKill scoreboard:"
+   chaos_death_header_color = "~B~rDeath scoreboard:"
+   chaos_score_1_kill = "~b%q~n has ~B1~B kill."
+   chaos_score_n_kills = "~b%q~n has ~B%i~B kills."
+   chaos_score_1_death = "~b%q~n has ~B1~B death."
+   chaos_score_n_deaths = "~b%q~n has ~B%i~B deaths."
+   chaos_score_has = " has "
+   chaos_score_kill = " kill."
+   chaos_score_kills = " kills."
+   chaos_score_death = " death."
+   chaos_score_deaths = " deaths."
 
    chaos_wav = chaosup.ogg
-
 
 classvars:
 
@@ -75,6 +88,11 @@ properties:
    
    // If we hand out shillings during frenzy, how much do we give at one time?
    piFrenzyMoneyAmount = 200000
+
+   // Keep score of all frenzy kills and deaths so we can print them
+   // to log when frenzy is finished.
+   plFrenzyKills = $
+   plFrenzyDeaths = $
 
 messages:
 
@@ -118,6 +136,10 @@ messages:
 
       // Set NPCs back to selling the correct items.
       Send(self,@UnsetFrenzyNPCSellers);
+
+      // Delete score lists.
+      plFrenzyKills = $;
+      plFrenzyDeaths = $;
 
       return;
    }
@@ -236,6 +258,9 @@ messages:
    
    EndChaosNightTimer()
    {
+      // Print scores to GodLog before exiting.
+      Send(self,@LogScores);
+
       ptChaosNightEnd = $;
       Send(self,@NotifyEngineEndEvent);
 
@@ -249,6 +274,9 @@ messages:
          DeleteTimer(ptChaosNightEnd);
          ptChaosNightEnd = $;
       }
+
+      // Print scores to GodLog before exiting.
+      Send(self,@LogScores);
 
       return event_success_rsc;
    }
@@ -426,6 +454,128 @@ messages:
 
       ptChaosNightLootTimer = CreateTimer(self,@ChaosNightPeriodicLoot,
                                     piChaosNightLootTimerIntervalMs);
+
+      return;
+   }
+
+   UserKilled(who=$,killer=$)
+   {
+      plFrenzyKills = Send(self,@AddToSortedList,#what=killer,
+                           #lList=plFrenzyKills);
+      plFrenzyDeaths = Send(self,@AddToSortedList,#what=who,
+                           #lList=plFrenzyDeaths);
+
+      propagate;
+   }
+
+   PrintScores()
+   "Broadcasts names and kills/deaths for frenzy participants."
+   {
+      local i, iScore, sName;
+
+      if (plFrenzyKills <> $)
+      {
+         // Score header.
+         Send(SYS,@SystemBroadcast,#type=SAY_MESSAGE,
+               #string=chaos_kill_header_color);
+
+         foreach i in plFrenzyKills
+         {
+            // Have to make a string, if the player logged off
+            // other players might not have their dynamic resource.
+            sName = SetString(sName,Send(First(i),@GetTrueName));
+            iScore = Nth(i,2);
+
+            if iScore = 1
+            {
+               Send(SYS,@SystemBroadcast,#type=SAY_MESSAGE,
+                     #string=chaos_score_1_kill,#parm1=sName);
+            }
+            else
+            {
+               Send(SYS,@SystemBroadcast,#type=SAY_MESSAGE,
+                     #string=chaos_score_n_kills,#parm1=sName,#parm2=iScore);
+            }
+         }
+      }
+
+      if (plFrenzyDeaths <> $)
+      {
+         // Score header.
+         Send(SYS,@SystemBroadcast,#type=SAY_MESSAGE,
+               #string=chaos_death_header_color);
+
+         foreach i in plFrenzyDeaths
+         {
+            // Have to make a string, if the player logged off
+            // other players might not have their dynamic resource.
+            sName = SetString(sName,Send(First(i),@GetTrueName));
+            iScore = Nth(i,2);
+
+            if iScore = 1
+            {
+               Send(SYS,@SystemBroadcast,#type=SAY_MESSAGE,
+                     #string=chaos_score_1_death,#parm1=sName);
+            }
+            else
+            {
+               Send(SYS,@SystemBroadcast,#type=SAY_MESSAGE,
+                     #string=chaos_score_n_deaths,#parm1=sName,#parm2=iScore);
+            }
+         }
+      }
+
+      return;
+   }
+
+   LogScores()
+   "Prints scores to GodLog, so they can be accessed after reloading game."
+   {
+      local i, iScore;
+
+      if (plFrenzyKills <> $)
+      {
+         // Score header.
+         GodLog(chaos_kill_header);
+
+         foreach i in plFrenzyKills
+         {
+            iScore = Nth(i,2);
+
+            if (iScore = 1)
+            {
+               GodLog(Send(First(i),@GetTrueName),chaos_score_has, 1,
+                  chaos_score_kill);
+            }
+            else
+            {
+               GodLog(Send(First(i),@GetTrueName),chaos_score_has, iScore,
+                  chaos_score_kills);
+            }
+         }
+      }
+
+      if (plFrenzyDeaths <> $)
+      {
+         // Score header.
+         GodLog(chaos_death_header);
+
+         foreach i in plFrenzyDeaths
+         {
+            iScore = Nth(i,2);
+
+            if (iScore = 1)
+            {
+               GodLog(Send(First(i),@GetTrueName),chaos_score_has, 1,
+                  chaos_score_death);
+            }
+            else
+            {
+               GodLog(Send(First(i),@GetTrueName),chaos_score_has, iScore,
+                  chaos_score_deaths);
+            }
+         }
+      }
 
       return;
    }
