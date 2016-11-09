@@ -16,10 +16,9 @@ constants:
 
 classvars:
 
-
 properties:
 
-   piBank			// bank ID (BID)
+   piBank   // bank ID (BID)
 
    // each element of this list is a list, containing
    // user object id, amount.
@@ -27,17 +26,18 @@ properties:
 
 messages:
 
-   constructor(bid = $)
+   Constructor(bid = $)
    {
       if bid = $
       {
-         debug("Bank created with no bid",self);
+         Debug("Bank created with no bid",self);
+
          propagate;
       }
-      
+
       piBank = bid;
 
-      propagate;      
+      propagate;
    }
 
    Delete()
@@ -55,20 +55,20 @@ messages:
 
    DepositAccount(what = $,amount = $)
    {
-      local i;
+      local lAccount;
 
-      // if already have account, add to it.
-      foreach i in plAccounts
+      lAccount = GetListNode(plAccounts,1,what);
+
+      if (lAccount = $)
       {
-         if First(i) = what
-         {
-            SetNth(i,2,Nth(i,2) + amount);
-            return;
-         }
+         // Create account if not found.
+         plAccounts = Cons([what, amount],plAccounts);
       }
-
-      // otherwise create account
-      plAccounts = Cons([what, amount],plAccounts);
+      else
+      {
+         // If already have account, add to it.
+         SetNth(lAccount,2,Nth(lAccount,2) + amount);
+      }
 
       return;
    }
@@ -76,48 +76,58 @@ messages:
    WithdrawAccount(what = $,amount = $)
    "If <amount> = $, then withdraw all.  Returns amount withdrawn"
    {
-      local i,iCurrent;
+      local lAccount, iCurrent;
 
-      // if already have account, subtract from it.
-      foreach i in plAccounts
+      lAccount = GetListNode(plAccounts,1,what);
+
+      // No account, no money.
+      if (lAccount = $)
       {
-         if First(i) = what
-         {
-            iCurrent = Nth(i,2);
-            if amount = $ or (amount >= iCurrent)
-            {
-               // withdraw all
-               plAccounts = DelListElem(plAccounts,i);
-               return iCurrent;
-            }
-             
-            SetNth(i,2,iCurrent - amount);
-            return amount;
-         }
+         return 0;
       }
 
-      return 0;
+      iCurrent = Nth(lAccount,2);
+
+      // If no amount given or amount greater than balance,
+      // give everything and delete the account.
+      if (amount = $
+         OR (amount >= iCurrent))
+      {
+         plAccounts = DelListElem(plAccounts,lAccount);
+
+         return iCurrent;
+      }
+
+      // Remove the money from the account.
+      SetNth(lAccount,2,iCurrent - amount);
+
+      return amount;
    }
 
    GetAccount(what = $)
    "Return the amount deposited by <what>"
    {
-      local i;
+      local lAccount;
 
-      foreach i in plAccounts
+      lAccount = GetListNode(plAccounts,1,what);
+
+      if (lAccount = $)
       {
-         if First(i) = what
-         {
-            return Nth(i,2);
-         }
+         return 0;
       }
 
-      return 0;
+      return Nth(lAccount,2);
    }
 
-   FixMoney(amount = $)
+   FixMoney(amount = $, bAreYouSure = FALSE)
    {
-      local i,new_num;
+      local i, new_num;
+
+      // Check for really wanting to do this - can destroy bank accounts.
+      if (NOT bAreYouSure)
+      {
+         return;
+      }
 
       foreach i in plAccounts
       {
@@ -133,14 +143,13 @@ messages:
    {
       local lTops, account;
 
-      number = bound(number,1,length(plAccounts));
+      number = Bound(number,1,Length(plAccounts));
 
-      lTops = $;
-      while length(lTops) < number
+      while Length(lTops) < number
       {
-         account = send(self,@FindTopAccountHelper,#except=lTops);
-         lTops = cons(account, lTops);
-      }      
+         account = Send(self,@FindTopAccountHelper,#except=lTops);
+         lTops = Cons(account, lTops);
+      }
 
       return lTops;
    }
@@ -150,15 +159,13 @@ messages:
       local i, best, max;
 
       max = -1;
-      best = $;
 
       // Find the highest account that isn't listed in except.
-
       foreach i in plAccounts
       {
          if Nth(i,2) >= max
          {
-            if FindListElem(except, first(i)) = 0
+            if FindListElem(except, First(i)) = 0
             {
                best = i;
                max = Nth(i,2);
@@ -171,22 +178,26 @@ messages:
          return $;
       }
 
-      return first(best);
+      return First(best);
    }
-   
+
    GetPlayerMoneyTotal()
    {
-      local i,l2,PlayerMoneyTotal;
-	  
-	  PlayerMoneyTotal = 0;
-	  
+      local i, iTotal;
+
+      iTotal = 0;
+
       foreach i in plAccounts
-	  {
-		 l2 = Nth(i,2);
-	     PlayerMoneyTotal = PlayerMoneyTotal + l2;
-	  }
-	  
-	  return PlayerMoneyTotal;
+      {
+         iTotal += Nth(i,2);
+      }
+
+      return iTotal;
+   }
+
+   GetBankAccounts()
+   {
+      return plAccounts;
    }
 
 end

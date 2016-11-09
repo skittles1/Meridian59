@@ -7521,6 +7521,11 @@ messages:
       return bound(piMysticism,1,50);
    }
 
+   GetRawStatisticsTotal()
+   {
+      return piMight + piIntellect + piAgility + piAim + piStamina + piMysticism;
+   }
+
    GetKarma()
    "Returns karma in natural units"
    {
