@@ -38,6 +38,8 @@ void ServiceTimers(void);
 void QuitTimerLoop(void);
 timer_node * GetTimerByID(int timer_id);
 void ForEachTimer(void (*callback_func)(timer_node *t));
+void ForEachTimerMatchingMsgID(void (*callback_func)(timer_node *t), int m_id);
+void ForEachTimerMatchingObjID(void (*callback_func)(timer_node *t), int o_id);
 void SetNumTimers(int new_next_timer_num);
 Bool InMainLoop(void);
 int  GetNumActiveTimers(void);
