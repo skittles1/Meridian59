@@ -121,6 +121,9 @@ void AdminShowUserHeader(void);
 void AdminShowOneUser(user_node *u);
 void AdminShowAccounts(int session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[]);
+void AdminShowActive(int session_id,admin_parm_type parms[],
+                       int num_blak_parm,parm_node blak_parm[]);
+void AdminShowOneAccountIfActive(account_node *a);
 void AdminShowAccByEmail(int session_id, admin_parm_type parms[],
                          int num_blak_parm, parm_node blak_parm[]);
 void AdminPrintAccountByEmail(account_node *a, char *email);
@@ -344,6 +347,7 @@ admin_table_type admin_show_table[] =
 {
 	{ AdminShowAccount,       {R,N}, F, A|M, NULL, 0, "account",       "Show one account by account id or name" },
 	{ AdminShowAccounts,      {N},   F, A|M, NULL, 0, "accounts",      "Show all accounts" },
+	{ AdminShowActive,        {I, N},F, A|M, NULL, 0, "active",        "Show accounts active in the last n days" },
 	{ AdminShowObjects,       {I,N}, F, A|M, NULL, 0, "belong",        "Show objects belonging to id" },
 	{ AdminShowBlockers,      {I,N}, F, A|M, NULL, 0, "blockers",      "Show all blockers in a room (TAG_ROOM_DATA parameter)" },
 	{ AdminShowCalled,        {I,N}, F, A|M, NULL, 0, "called",        "Show top (int) called messages" },
@@ -1865,6 +1869,36 @@ void AdminShowAccounts(int session_id,admin_parm_type parms[],
 {
 	AdminShowAccountHeader();
 	ForEachAccount(AdminShowOneAccount);
+}
+
+// For checking active accounts.
+static int login_time_check;
+static int num_active_accts;
+
+void AdminShowActive(int session_id, admin_parm_type parms[],
+                     int num_blak_parm, parm_node blak_parm[])
+{
+   int days = (int)parms[0];
+
+   // Reset active acct number.
+   num_active_accts = 0;
+   // Set time to compare against to now minus days given.
+   login_time_check = GetTime() - days * 86400;
+   AdminShowAccountHeader();
+   ForEachAccount(AdminShowOneAccountIfActive);
+
+   // Also print the number.
+   aprintf("%i accounts active in the last %i days.\n", num_active_accts, days);
+}
+
+void AdminShowOneAccountIfActive(account_node *a)
+{
+   // Check last login time against login_time_check, print acct if active.
+   if (a->last_login_time < login_time_check)
+      return;
+
+   ++num_active_accts;
+   AdminShowOneAccount(a);
 }
 
 void AdminShowAccByEmail(int session_id, admin_parm_type parms[],
