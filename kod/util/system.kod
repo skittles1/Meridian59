@@ -6841,6 +6841,39 @@ messages:
       return GetTime();
    }
 
+   AdminCreateList(iNum = 0, parm1 = $, parm2 = $, parm3 = $, parm4 = $,
+                   parm5 = $, parm6 = $, parm7 = $, parm8 = $, parm9 = $,
+                   parm10 = $)
+   "Creates a list with up to 10 elements. Number of elements needs to be "
+   "specified."
+   {
+      switch (iNum)
+      {
+         case 1:
+            return [parm1];
+         case 2:
+            return [parm1, parm2];
+         case 3:
+            return [parm1, parm2, parm3];
+         case 4:
+            return [parm1, parm2, parm3, parm4];
+         case 5:
+            return [parm1, parm2, parm3, parm4, parm5];
+         case 6:
+            return [parm1, parm2, parm3, parm4, parm5, parm6];
+         case 7:
+            return [parm1, parm2, parm3, parm4, parm5, parm6, parm7];
+         case 8:
+            return [parm1, parm2, parm3, parm4, parm5, parm6, parm7, parm8];
+         case 9:
+            return [parm1, parm2, parm3, parm4, parm5, parm6, parm7, parm8, parm9];
+         case 10:
+            return [parm1, parm2, parm3, parm4, parm5, parm6, parm7, parm8, parm9, parm10];
+      }
+
+      return;
+   }
+
 ////////////////////////////////////////////////////////////////////////////////
 
    GetVisibleCargoTypes()
