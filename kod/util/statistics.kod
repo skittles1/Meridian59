@@ -309,6 +309,30 @@ messages:
       return;
    }
 
+   PrintActiveUsers(iDays = 30)
+   "Prints the number of active users in the given number of days."
+   {
+      local i, iActiveUsers, iLastLoginTime, iNow;
+
+      iNow = GetTime();
+      iActiveUsers = 0;
+
+      foreach i in Send(SYS,@GetUsers)
+      {
+         iLastLoginTime = Send(i,@GetLastLoginTime);
+         if (iNow > iLastLoginTime
+            AND iNow - iLastLoginTime < iDays * 24 * 60 * 60)
+         {
+            ++iActiveUsers;
+         }
+      }
+
+      // Note that we're checking characters, not individual accts or users.
+      Debug(iActiveUsers," characters active in the past ",iDays, " days.");
+
+      return;
+   }
+
    PrintUserStats(iDays = 30)
    "Prints out stats about users who have played in the last given number of days. "
    "DMs are not included."

@@ -121,6 +121,9 @@ void AdminShowUserHeader(void);
 void AdminShowOneUser(user_node *u);
 void AdminShowAccounts(int session_id,admin_parm_type parms[],
                        int num_blak_parm,parm_node blak_parm[]);
+void AdminShowActive(int session_id,admin_parm_type parms[],
+                       int num_blak_parm,parm_node blak_parm[]);
+void AdminShowOneAccountIfActive(account_node *a);
 void AdminShowAccByEmail(int session_id, admin_parm_type parms[],
                          int num_blak_parm, parm_node blak_parm[]);
 void AdminPrintAccountByEmail(account_node *a, char *email);
@@ -139,6 +142,10 @@ void AdminShowDynamicResources(int session_id,admin_parm_type parms[],
 void AdminShowTimers(int session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[]);
 void AdminShowTimer(int session_id,admin_parm_type parms[],
+                    int num_blak_parm,parm_node blak_parm[]);
+void AdminShowTimerMessageID(int session_id,admin_parm_type parms[],
+                    int num_blak_parm,parm_node blak_parm[]);
+void AdminShowTimerObjectID(int session_id,admin_parm_type parms[],
                     int num_blak_parm,parm_node blak_parm[]);
 void AdminShowTime(int session_id,admin_parm_type parms[],
                    int num_blak_parm,parm_node blak_parm[]);
@@ -328,10 +335,19 @@ void AdminRead(int session_id,admin_parm_type parms[],
 void AdminMark(int session_id,admin_parm_type parms[],
                int num_blak_parm,parm_node blak_parm[]);
 
+admin_table_type admin_showtimer_table[] =
+{
+   { AdminShowTimer,          {I},   F, A|M, NULL, 0, "id",      "Show one timer by id" },
+   { AdminShowTimerMessageID, {R,N}, F, A|M, NULL, 0, "message", "Show timers matching message name" },
+   { AdminShowTimerObjectID,  {I,N}, F, A|M, NULL, 0, "object",  "Show timers matching object ID" },
+};
+#define LEN_ADMIN_SHOWTIMER_TABLE (sizeof(admin_showtimer_table)/sizeof(admin_table_type))
+
 admin_table_type admin_show_table[] =
 {
 	{ AdminShowAccount,       {R,N}, F, A|M, NULL, 0, "account",       "Show one account by account id or name" },
 	{ AdminShowAccounts,      {N},   F, A|M, NULL, 0, "accounts",      "Show all accounts" },
+	{ AdminShowActive,        {I, N},F, A|M, NULL, 0, "active",        "Show accounts active in the last n days" },
 	{ AdminShowObjects,       {I,N}, F, A|M, NULL, 0, "belong",        "Show objects belonging to id" },
 	{ AdminShowBlockers,      {I,N}, F, A|M, NULL, 0, "blockers",      "Show all blockers in a room (TAG_ROOM_DATA parameter)" },
 	{ AdminShowCalled,        {I,N}, F, A|M, NULL, 0, "called",        "Show top (int) called messages" },
@@ -363,7 +379,8 @@ admin_table_type admin_show_table[] =
 	{ AdminShowSysTimers,     {N},   F, A|M, NULL, 0, "systimers",     "Show system timers" },
 	{ AdminShowTable,         {I,N}, F, A|M, NULL, 0, "hashtable",     "Show a hash table" },
 	{ AdminShowTable,         {I,N}, F, A|M, NULL, 0, "table",         "Show a hash table" },
-	{ AdminShowTimer,         {I},   F, A|M, NULL, 0, "timer",         "Show one timer by id" },
+	{ NULL, {N}, F, A|M, admin_showtimer_table,  LEN_ADMIN_SHOWTIMER_TABLE, "timer",
+	"Timer subcommand" },
 	{ AdminShowTimers,        {N},   F, A|M, NULL, 0, "timers",        "Show all timers" },
 	{ AdminShowTransmitted,   {N},   F,A, NULL, 0, "transmitted",      "Show # of bytes transmitted in last minute" },
 	{ AdminShowUsage,         {N},   F,A|M,NULL, 0, "usage",           "Show current usage" },
@@ -1854,6 +1871,36 @@ void AdminShowAccounts(int session_id,admin_parm_type parms[],
 	ForEachAccount(AdminShowOneAccount);
 }
 
+// For checking active accounts.
+static int login_time_check;
+static int num_active_accts;
+
+void AdminShowActive(int session_id, admin_parm_type parms[],
+                     int num_blak_parm, parm_node blak_parm[])
+{
+   int days = (int)parms[0];
+
+   // Reset active acct number.
+   num_active_accts = 0;
+   // Set time to compare against to now minus days given.
+   login_time_check = GetTime() - days * 86400;
+   AdminShowAccountHeader();
+   ForEachAccount(AdminShowOneAccountIfActive);
+
+   // Also print the number.
+   aprintf("%i accounts active in the last %i days.\n", num_active_accts, days);
+}
+
+void AdminShowOneAccountIfActive(account_node *a)
+{
+   // Check last login time against login_time_check, print acct if active.
+   if (a->last_login_time < login_time_check)
+      return;
+
+   ++num_active_accts;
+   AdminShowOneAccount(a);
+}
+
 void AdminShowAccByEmail(int session_id, admin_parm_type parms[],
                          int num_blak_parm, parm_node blak_parm[])
 {
@@ -2043,16 +2090,21 @@ void AdminCheckTimerHeap(int session_id, admin_parm_type parms[],
       aprintf("Timer heap is NOT valid.\n");
 }
 
+// Keep track of how many timers get printed.
+static int num_timers_printed;
+
 void AdminShowTimers(int session_id,admin_parm_type parms[],
                      int num_blak_parm,parm_node blak_parm[])
 {
-	aprintf("%-7s%-14s%-8s%-20s\n","Timer","Remaining ms","Object",
-		"Message");
-	ForEachTimer(AdminShowOneTimer);
+   aprintf("%-7s%-14s%-8s%-20s\n","Timer","Remaining ms","Object",
+      "Message");
+   num_timers_printed = 0;
+   ForEachTimer(AdminShowOneTimer);
+   aprintf("%i timers found.\n", num_timers_printed);
 }
 
 void AdminShowTimer(int session_id,admin_parm_type parms[],
-                    int num_blak_parm,parm_node blak_parm[])                    
+                    int num_blak_parm,parm_node blak_parm[])
 {
 	timer_node *t;
 	
@@ -2071,22 +2123,59 @@ void AdminShowTimer(int session_id,admin_parm_type parms[],
 	AdminShowOneTimer(t);
 }
 
+void AdminShowTimerMessageID(int session_id,admin_parm_type parms[],
+                    int num_blak_parm,parm_node blak_parm[])
+{
+   char *message_str;
+   int message_id;
+
+   message_str = (char *)parms[0];
+   message_id = GetIDByName(message_str);
+   if (message_id == INVALID_ID)
+   {
+      aprintf("Invalid message name, message not found.");
+
+      return;
+   }
+
+   aprintf("%-7s%-14s%-8s%-20s\n","Timer","Remaining ms","Object",
+      "Message");
+   num_timers_printed = 0;
+   ForEachTimerMatchingMsgID(AdminShowOneTimer, message_id);
+   aprintf("%i timers found.\n", num_timers_printed);
+}
+
+void AdminShowTimerObjectID(int session_id,admin_parm_type parms[],
+                    int num_blak_parm,parm_node blak_parm[])
+{
+   int object_id;
+   object_id = (int)parms[0];
+
+   aprintf("%-7s%-14s%-8s%-20s\n","Timer","Remaining ms","Object",
+      "Message");
+   num_timers_printed = 0;
+   ForEachTimerMatchingObjID(AdminShowOneTimer, object_id);
+   aprintf("%i timers found.\n", num_timers_printed);
+}
+
 void AdminShowOneTimer(timer_node *t)
 {
-	int expire_time;
-	object_node *o;
-	
-	o = GetObjectByID(t->object_id);
-	if (o == NULL)
-	{
-		aprintf("Timer has invalid object %i?\n",t->object_id);
-		return;
-	}
-	
-	expire_time = (int)(t->time - GetMilliCount());
-	
-	aprintf("%5i  %-14u%-8i%-20s\n",t->timer_id,expire_time,
-		t->object_id,GetNameByID(t->message_id));
+   int expire_time;
+   object_node *o;
+
+   o = GetObjectByID(t->object_id);
+   if (o == NULL)
+   {
+      aprintf("Timer has invalid object %i?\n", t->object_id);
+      return;
+   }
+
+   // Increment the count of printed timers.
+   ++num_timers_printed;
+   expire_time = (int)(t->time - GetMilliCount());
+
+   aprintf("%5i  %-14u%-8i%-20s\n", t->timer_id, expire_time,
+      t->object_id, GetNameByID(t->message_id));
 }
 
 void AdminShowTime(int session_id,admin_parm_type parms[],

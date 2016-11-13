@@ -490,6 +490,30 @@ void ForEachTimer(void (*callback_func)(timer_node *t))
       callback_func(timer_heap[i]);
 }
 
+void ForEachTimerMatchingMsgID(void (*callback_func)(timer_node *t), int m_id)
+{
+   if (numActiveTimers == 0)
+      return;
+
+   for (int i = 0; i < numActiveTimers; ++i)
+   {
+      if (timer_heap[i]->message_id == m_id)
+         callback_func(timer_heap[i]);
+   }
+}
+
+void ForEachTimerMatchingObjID(void (*callback_func)(timer_node *t), int o_id)
+{
+   if (numActiveTimers == 0)
+      return;
+
+   for (int i = 0; i < numActiveTimers; ++i)
+   {
+      if (timer_heap[i]->object_id == o_id)
+         callback_func(timer_heap[i]);
+   }
+}
+
 /* functions for garbage collection */
 
 void SetNumTimers(int new_next_timer_num)
