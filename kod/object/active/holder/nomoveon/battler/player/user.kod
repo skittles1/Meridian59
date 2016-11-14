@@ -8003,6 +8003,10 @@ messages:
          piLastSafeRoom = Send(self,@GetHomeRoom);
       }
 
+      // Draw defense to handle buffs that change
+      // based on room (e.g. shadow form).
+      Send(self,@DrawDefense);
+
       propagate;
    }
 
