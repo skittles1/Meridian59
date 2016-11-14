@@ -3894,19 +3894,26 @@ messages:
 
    CheckPosition(what=$,type=$,space=0)
    {
-      local i, iSpace;
+      local i, iSpace, bToken;
 
       if space = 0 OR type = $ OR what = $
       {
          return FALSE;
       }
 
+      bToken = FALSE;
+
       iSpace = space;
       foreach i in plUsing
       {
          if Send(i,@GetItemUseType) & type
          {
-            iSpace = iSpace - Send(i,@GetItemUseAmount);
+            iSpace -= Send(i,@GetItemUseAmount);
+         }
+
+         if (IsClass(i,&Token) OR IsClass(i,&Totem))
+         {
+            bToken = TRUE;
          }
       }
 
@@ -3918,8 +3925,16 @@ messages:
          }
 
          // These unequip amongst themselves automatically.
+         if IsClass(what,&Gauntlet)
+         {
+            return TRUE;
+         }
+
+         // Defense modifiers unequip the competing item, but if the player
+         // has a token or totem they cannot equip another hand slot item.
          if IsClass(what,&DefenseModifier)
-            OR IsClass(what,&Gauntlet)
+            AND NOT (bToken
+               AND type = ITEM_USE_HAND)
          {
             return TRUE;
          }
@@ -7519,6 +7534,11 @@ messages:
    GetRawMysticism()
    {
       return bound(piMysticism,1,50);
+   }
+
+   GetRawStatisticsTotal()
+   {
+      return piMight + piIntellect + piAgility + piAim + piStamina + piMysticism;
    }
 
    GetKarma()

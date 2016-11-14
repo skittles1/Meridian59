@@ -50,9 +50,14 @@ messages:
       propagate;
    }
 
-   TeleportTimerTrigger()
+   TeleportTimerTrigger(timer = $)
    {
       local lActive, i;
+
+      if (ptTeleport <> timer)
+      {
+         DeleteTimer(ptTeleport);
+      }
 
       ptTeleport = CreateTimer(self,@TeleportTimerTrigger,
                            Random(TELEPORT_MIN, TELEPORT_MAX) );

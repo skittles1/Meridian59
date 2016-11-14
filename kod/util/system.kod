@@ -7195,6 +7195,37 @@ messages:
       return iList;
    }
 
+   ValidStatCheck()
+   "Checks all players for valid statistics (200 points or less)."
+   {
+      local i, bFound;
+
+      bFound = FALSE;
+
+      foreach i in plUsers
+      {
+         if (IsClass(i,&DM)
+            OR IsClass(i,&EscapedConvict))
+         {
+            continue;
+         }
+
+         if (Send(i,@GetRawStatisticsTotal) > 200)
+         {
+            bFound = TRUE;
+            Debug("ALERT!! Player ",i,Send(i,@GetTrueName),
+               " has more than 200 raw stat points!");
+         }
+      }
+
+      if (NOT bFound)
+      {
+         Debug("No players with invalid stats found.");
+      }
+
+      return;
+   }
+
    FixSpellLevelChange(num=0)
    "Removes a spell from one level and adds it to another for all players "
    "who have the spell, and also have the second level."

@@ -24,9 +24,7 @@ resources:
       "A fresh bit of parchment paper, without a mark on it."
    inscript_desc_written_rsc = \
       "A small sheet of parchment paper, with something scrawled across it."
-
    inscript_emote_write_third_rsc = "%s scribbles something on %s%s."
-
    inscript_blank_rsc = ""
    inscript_q = "%q"
 
@@ -90,16 +88,15 @@ messages:
       {
          return TRUE;
       }
-      
+
       return FALSE;
    }
 
    NewApplied()
    {
-      local oOwner, oletter, rString;
+      local oOwner;
 
-      rString=psInscription;
-      if rString = $
+      if psInscription = $
       {
          return;
       }
@@ -107,9 +104,7 @@ messages:
       oOwner = Send(self,@GetOwner);
       if IsClass(oOwner,&DM)
       {
-         oLetter = Create(&bardletter);
-         Send(oLetter,@SetDesc,#desc=rString);
-         Send(oOwner,@NewHold,#what=oLetter);
+         Send(oOwner,@NewHold,#what=Create(&BardLetter,#desc=psInscription));
          Send(self,@Delete);
       }
 
