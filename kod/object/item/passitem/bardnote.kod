@@ -25,18 +25,47 @@ resources:
 
 classvars:
 
-   vrName = inscript_name_rsc
-   vrIcon = inscript_icon_rsc
- 
+   vrName = bardletter_name_rsc
+   vrIcon = bardletter_icon_rsc
+   vrDesc  = bardletter_desc_written_rsc
+
 properties:
 
-   vrDesc = $
+   psInscription = $
 
 messages:
 
+   Constructor(desc = $)
+   {
+      Send(self,@SetDesc,#desc=desc);
+
+      propagate;
+   }
+
    SetDesc(desc = $)
    {
-      vrDesc = desc;
+      // If not a string, try create one.
+      if (IsString(desc))
+      {
+         psInscription = desc;
+      }
+      else
+      {
+         psInscription = SetString($,desc);
+      }
+
+      // If we couldn't make a string, set a blank one.
+      if (psInscription = $)
+      {
+         psInscription = SetString($, " ");
+      }
+
+      return;
+   }
+
+   DoBaseDesc()
+   {
+      AddPacket(4,vrDesc, 4, psInscription);
 
       return;
    }
