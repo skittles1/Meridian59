@@ -58,7 +58,7 @@ constants:
    LIGHTNING_TOUCHEDTIMELIMIT = 1000 * 60 * 5
 
    // 2 seconds
-   LEVER_REACTIVATE_DELAY = 1000 * 1      
+   LEVER_REACTIVATE_DELAY = 1000 * 1
 
 resources:
 
@@ -70,19 +70,24 @@ resources:
 
    G9_door_sound = down2.ogg
 
-   g9_lever_activated = "~BYou feel a sense of foreboding as you hear stone gears grinding in the distance."
-   G9_center_lever_desc = "Clearly of ancient design, you somehow doubt that this lever still does what it "
-      "was originally enchanted to do, if it does anything at all.  A label along the handle, written in an "
-      "archaic but still legible variant of modern Meridian script, reads "
-      "\"Activate Center\""
-   G9_outer1_lever_desc = "Clearly of ancient design, you somehow doubt that this lever still does what it "
-      "was originally enchanted to do, if it does anything at all.  A label along the handle, written in an "
-      "archaic but still legible variant of modern Meridian script, reads "
-      "\"Activate Corner\""
-   G9_outer2_lever_desc = "Clearly of ancient design, you somehow doubt that this lever still does what it "
-      "was originally enchanted to do, if it does anything at all.  A label along the handle, written in an "
-      "archaic but still legible variant of modern Meridian script, reads "
-      "\"Raise/Lower Corner\""
+   g9_lever_activated = \
+      "~BYou feel a sense of foreboding as you hear stone gears grinding "
+      "in the distance."
+   G9_center_lever_desc = \
+      "Clearly of ancient design, you somehow doubt that this lever still "
+      "does what it was originally enchanted to do, if it does anything at "
+      "all.  A label along the handle, written in an archaic but still legible "
+      "variant of modern Meridian script, reads \"Activate Center\""
+   G9_outer1_lever_desc = \
+      "Clearly of ancient design, you somehow doubt that this lever still "
+      "does what it was originally enchanted to do, if it does anything at "
+      "all.  A label along the handle, written in an archaic but still legible "
+      "variant of modern Meridian script, reads \"Activate Corner\""
+   G9_outer2_lever_desc = \
+      "Clearly of ancient design, you somehow doubt that this lever still does "
+      "what it was originally enchanted to do, if it does anything at all.  A "
+      "label along the handle, written in an archaic but still legible variant "
+      "of modern Meridian script, reads \"Raise/Lower Corner\""
 
    G9_lever_icon = neclever.bgf
 
@@ -98,7 +103,7 @@ resources:
       "be directed in just the right way to trigger the summoning of an undead horde "
       "for the Queen's sacrificial ceremonies, as well as raising the central stands to "
       "a safe height above the ensuing mayhem.\n"
-	   "¶"
+      "¶"
       "Note that under normal circumstances, raising and activating all the pillars "
       "is as simple as pulling all nine control levers (although it should be noted "
       "that activation levers will only activate that pillar if it is already raised).  "
@@ -174,26 +179,30 @@ messages:
 
    Constructor()
    {
-      plNec_Area = [RID_G8, RID_G9, RID_LICH_MAZE, RID_NECROAREA3a, RID_NECROAREA3b, RID_NECROAREA1, RID_NECROAREA2, RID_NECROAREA3, RID_NECROAREA4, RID_NECROAREA5, RID_guildh15];
-	  
+      plNec_Area = [RID_G8, RID_G9, RID_LICH_MAZE, RID_NECROAREA3A,
+                    RID_NECROAREA3B, RID_NECROAREA1, RID_NECROAREA2,
+                    RID_NECROAREA3, RID_NECROAREA4, RID_NECROAREA5,
+                    RID_GUILDH15];
+
       propagate;
    }
-   
+
    Constructed()
    {
       local oMovingSpire;
+
       plMonsters = [ [&Orc, 80], [&DeathSpider, 20] ];
       plGenerators = [ [10, 44], [25, 47], [29, 58], [22, 63], [14, 68],
-		                 [19,  6], [25, 11], [35, 12], [35, 23], [18, 20],
-		                 [ 9, 18], [13, 24], [ 8, 31], [24, 28], [14, 38],
-		                 [30, 35], [44, 39], [44, 49], [44, 61]
-		               ];
+                       [19,  6], [25, 11], [35, 12], [35, 23], [18, 20],
+                       [ 9, 18], [13, 24], [ 8, 31], [24, 28], [14, 38],
+                       [30, 35], [44, 39], [44, 49], [44, 61]
+                     ];
 
-		plSkellyGenPoints = [ [ 5, 48], [ 6, 48], [ 7, 48],
-		                      [13, 72], [13, 73], [13, 74],
-		                      [33, 65], [34, 65], [35, 65],
-		                      [32, 47], [33, 47], [33, 47]
-	                       ];
+      plSkellyGenPoints = [ [ 5, 48], [ 6, 48], [ 7, 48],
+                            [13, 72], [13, 73], [13, 74],
+                            [33, 65], [34, 65], [35, 65],
+                            [32, 47], [33, 47], [33, 47]
+                          ];
 
       poPlatform = Create(&MovingSector,#sectorroom=self,#sectorID=SECTOR_PLATFORM,
                           #upH=SECTOR_PLATFORM_UP,#downH=SECTOR_PLATFORM_DN,
@@ -228,31 +237,31 @@ messages:
                             #surface=ANIMATE_FLOOR_LIFT,#state=SECTOR_DN,
                             #upspeed=G9_UP_SPEED,#downspeed=G9_DN_SPEED,#toggletime=0,
                             #movesound=G9_door_sound);
-      plOuterSpires = cons(oMovingSpire, plOuterSpires);
+      plOuterSpires = Cons(oMovingSpire, plOuterSpires);
 
       oMovingSpire = Create(&MovingSector,#sectorroom=self,#sectorID=SECTOR_SPIRE_SE,
                             #upH=SECTOR_SPIRE_UP,#downH=SECTOR_SPIRE_DN,
                             #surface=ANIMATE_FLOOR_LIFT,#state=SECTOR_DN,
                             #upspeed=G9_UP_SPEED,#downspeed=G9_DN_SPEED,#toggletime=0,
                             #movesound=G9_door_sound);
-      plOuterSpires = cons(oMovingSpire, plOuterSpires);
+      plOuterSpires = Cons(oMovingSpire, plOuterSpires);
 
       oMovingSpire = Create(&MovingSector,#sectorroom=self,#sectorID=SECTOR_SPIRE_SW,
                             #upH=SECTOR_SPIRE_UP,#downH=SECTOR_SPIRE_DN,
                             #surface=ANIMATE_FLOOR_LIFT,#state=SECTOR_DN,
                             #upspeed=G9_UP_SPEED,#downspeed=G9_DN_SPEED,#toggletime=0,
                             #movesound=G9_door_sound);
-      plOuterSpires = cons(oMovingSpire, plOuterSpires);
+      plOuterSpires = Cons(oMovingSpire, plOuterSpires);
 
       oMovingSpire = Create(&MovingSector,#sectorroom=self,#sectorID=SECTOR_SPIRE_NW,
                             #upH=SECTOR_SPIRE_UP,#downH=SECTOR_SPIRE_DN,
                             #surface=ANIMATE_FLOOR_LIFT,#state=SECTOR_DN,
                             #upspeed=G9_UP_SPEED,#downspeed=G9_DN_SPEED,#toggletime=0,
                             #movesound=G9_door_sound);
-      plOuterSpires = cons(oMovingSpire, plOuterSpires);
+      plOuterSpires = Cons(oMovingSpire, plOuterSpires);
 
-      post(self,@ResetLightningPuzzle);
-      post(self,@RandomizeLeverEffects);
+      Post(self,@ResetLightningPuzzle);
+      Post(self,@RandomizeLeverEffects);
 
       propagate;
    }
@@ -260,106 +269,111 @@ messages:
    CreateStandardExits()
    {
       plEdge_exits = $;
-      plEdge_Exits = Cons([LEAVE_EAST, RID_H9, 46, 5, ROTATE_NONE], plEdge_exits);
-      plEdge_Exits = Cons([LEAVE_WEST, RID_TEMPLE_KRAANAN, 46, 41, ROTATE_NONE], plEdge_exits);
+      plEdge_Exits = Cons([LEAVE_EAST, RID_H9, 46, 5, ROTATE_NONE],
+                        plEdge_exits);
+      plEdge_Exits = Cons([LEAVE_WEST, RID_TEMPLE_KRAANAN, 46, 41, ROTATE_NONE],
+                        plEdge_exits);
       
-      plEdge_Exits = Cons([LEAVE_NORTH, RID_G8, 46, 48, ROTATE_NONE,COL_IS_GREATER_THAN,20], plEdge_exits);
-      plEdge_Exits = Cons([LEAVE_NORTH, RID_G8, 46, 18, ROTATE_NONE,COL_IS_LESS_THAN,21], plEdge_exits);
+      plEdge_Exits = Cons([LEAVE_NORTH, RID_G8, 46, 48, ROTATE_NONE,COL_IS_GREATER_THAN,20],
+                        plEdge_exits);
+      plEdge_Exits = Cons([LEAVE_NORTH, RID_G8, 46, 18, ROTATE_NONE,COL_IS_LESS_THAN,21],
+                        plEdge_exits);
 
-      return;      
+      return;
    }
 
    CreateStandardObjects()
    {
       local oPortal, oLever, oBook;
 
-      Send(self,@NewHold,#what=Create(&ManaNode,#node_num=NODE_g9),
-           #new_row=52,#new_col=30,#fine_row=0,#fine_col=48,
-           #new_angle=ANGLE_WEST);
+      Send(self,@NewHold,#what=Create(&ManaNode,#node_num=NODE_G9),
+            #new_row=52,#new_col=30,#fine_row=0,#fine_col=48,
+            #new_angle=ANGLE_WEST);
 
       if NOT Send(SYS,@AreRoomIllusionsEnabled)
       {
          oPortal = Create(&Portal,#dest_room_num=RID_G9,#dest_row=7,#dest_col=55,
-                          #dest_fine_row=39, #dest_fine_col=60);
+                        #dest_fine_row=39, #dest_fine_col=60);
          Send(self,@NewHold,#what=oPortal,#new_row=20, #new_col=56,
-              #fine_row=0,#fine_col=0,#new_angle=ANGLE_SOUTH_EAST);
+               #fine_row=0,#fine_col=0,#new_angle=ANGLE_SOUTH_EAST);
       }
 
       oBook = Create(&BookPedestal,#Name=G9_tome_name,#Text=G9_tome_text);
       Send(self,@NewHold,#what=oBook,#new_row=37,#new_col=58,
-           #fine_row=39,#fine_col=2,#new_angle=ANGLE_NORTH_WEST);
+            #fine_row=39,#fine_col=2,#new_angle=ANGLE_NORTH_WEST);
 
       poCenterLever = Create(&Lever,#description=G9_center_lever_desc,
-                      #icon=G9_lever_icon,#range=2);
+                           #icon=G9_lever_icon,#range=2);
       Send(self,@NewHold,#what=poCenterLever,#new_row=35,#new_col=57,
-           #fine_row=2,#fine_col=38,#new_angle=ANGLE_SOUTH);
-           
+            #fine_row=2,#fine_col=38,#new_angle=ANGLE_SOUTH);
+
       oLever = Create(&Lever,#description=G9_outer1_lever_desc,
-                      #icon=G9_lever_icon,#range=2);
-      plOuterLevers1 = cons(oLever,plOuterLevers1);
+                     #icon=G9_lever_icon,#range=2);
+      plOuterLevers1 = Cons(oLever,plOuterLevers1);
       Send(self,@NewHold,#what=oLever,#new_row=35,#new_col=58,
-           #fine_row=46,#fine_col=28,#new_angle=ANGLE_WEST);
+            #fine_row=46,#fine_col=28,#new_angle=ANGLE_WEST);
 
       oLever = Create(&Lever,#description=G9_outer1_lever_desc,
-                      #icon=G9_lever_icon,#range=2);
-      plOuterLevers1 = cons(oLever,plOuterLevers1);
+                     #icon=G9_lever_icon,#range=2);
+      plOuterLevers1 = Cons(oLever,plOuterLevers1);
       Send(self,@NewHold,#what=oLever,#new_row=36,#new_col=58,
-           #fine_row=14,#fine_col=28,#new_angle=ANGLE_WEST);
+            #fine_row=14,#fine_col=28,#new_angle=ANGLE_WEST);
 
       oLever = Create(&Lever,#description=G9_outer1_lever_desc,
-                      #icon=G9_lever_icon,#range=2);
-      plOuterLevers1 = cons(oLever,plOuterLevers1);
+                     #icon=G9_lever_icon,#range=2);
+      plOuterLevers1 = Cons(oLever,plOuterLevers1);
       Send(self,@NewHold,#what=oLever,#new_row=36,#new_col=58,
-           #fine_row=46,#fine_col=28,#new_angle=ANGLE_WEST);
+            #fine_row=46,#fine_col=28,#new_angle=ANGLE_WEST);
 
       oLever = Create(&Lever,#description=G9_outer1_lever_desc,
-                      #icon=G9_lever_icon,#range=2);
-      plOuterLevers1 = cons(oLever,plOuterLevers1);
+                     #icon=G9_lever_icon,#range=2);
+      plOuterLevers1 = Cons(oLever,plOuterLevers1);
       Send(self,@NewHold,#what=oLever,#new_row=37,#new_col=58,
-           #fine_row=14,#fine_col=28,#new_angle=ANGLE_WEST);
-           
+            #fine_row=14,#fine_col=28,#new_angle=ANGLE_WEST);
+
       oLever = Create(&Lever,#description=G9_outer2_lever_desc,
-                      #icon=G9_lever_icon,#range=2);
-      plOuterLevers2 = cons(oLever,plOuterLevers2);
+                     #icon=G9_lever_icon,#range=2);
+      plOuterLevers2 = Cons(oLever,plOuterLevers2);
       Send(self,@NewHold,#what=oLever,#new_row=38,#new_col=57,
-           #fine_row=3,#fine_col=45,#new_angle=ANGLE_NORTH);
+            #fine_row=3,#fine_col=45,#new_angle=ANGLE_NORTH);
 
       oLever = Create(&Lever,#description=G9_outer2_lever_desc,
-                      #icon=G9_lever_icon,#range=2);
-      plOuterLevers2 = cons(oLever,plOuterLevers2);
+                     #icon=G9_lever_icon,#range=2);
+      plOuterLevers2 = Cons(oLever,plOuterLevers2);
       Send(self,@NewHold,#what=oLever,#new_row=38,#new_col=57,
-           #fine_row=3,#fine_col=13,#new_angle=ANGLE_NORTH);
+            #fine_row=3,#fine_col=13,#new_angle=ANGLE_NORTH);
 
       oLever = Create(&Lever,#description=G9_outer2_lever_desc,
-                      #icon=G9_lever_icon,#range=2);
-      plOuterLevers2 = cons(oLever,plOuterLevers2);
+                     #icon=G9_lever_icon,#range=2);
+      plOuterLevers2 = Cons(oLever,plOuterLevers2);
       Send(self,@NewHold,#what=oLever,#new_row=38,#new_col=56,
-           #fine_row=3,#fine_col=45,#new_angle=ANGLE_NORTH);
+            #fine_row=3,#fine_col=45,#new_angle=ANGLE_NORTH);
 
       oLever = Create(&Lever,#description=G9_outer2_lever_desc,
-                      #icon=G9_lever_icon,#range=2);
-      plOuterLevers2 = cons(oLever,plOuterLevers2);
+                     #icon=G9_lever_icon,#range=2);
+      plOuterLevers2 = Cons(oLever,plOuterLevers2);
       Send(self,@NewHold,#what=oLever,#new_row=38,#new_col=56,
-           #fine_row=3,#fine_col=13,#new_angle=ANGLE_NORTH);
-      
+            #fine_row=3,#fine_col=13,#new_angle=ANGLE_NORTH);
+
       propagate;
    }
 
    DisableIllusions()
    {
       local oPortal;
-      if not (Send(self,@CouNtholdingHowMany,#class=&portal) > 0)
+
+      if NOT (Send(self,@CountHoldingHowMany,#class=&portal) > 0)
       {
          oPortal = Create(&Portal,#dest_room_num=RID_G9,#dest_row=7,#dest_col=55,
-                          #dest_fine_row=39,#dest_fine_col=60);
+                        #dest_fine_row=39,#dest_fine_col=60);
          Send(self,@NewHold,#what=oPortal,#new_row=20,#new_col=56,
-              #fine_row=0,#fine_col=0,#new_angle=ANGLE_SOUTH_EAST);
+               #fine_row=0,#fine_col=0,#new_angle=ANGLE_SOUTH_EAST);
       }
 
       Send(self,@SetSector,#sector=2,#animation=ANIMATE_FLOOR_LIFT,
-           #height=224,#speed=0);
+            #height=224,#speed=0);
       Send(self,@SetSector,#sector=3,#animation=ANIMATE_FLOOR_LIFT,
-           #height=224,#speed=0);
+            #height=224,#speed=0);
 
       return;
    }
@@ -371,16 +385,16 @@ messages:
       foreach i in plActive
       {
          each_obj = Send(self,@HolderExtractObject,#Data=i);
-         if IsClass(each_obj,&portal)
+         if IsClass(each_obj,&Portal)
          {
             Send(each_obj,@Delete);
          }
       }
 
       Send(self,@SetSector,#sector=2,#animation=ANIMATE_FLOOR_LIFT,
-           #height=400,#speed=0);
+            #height=400,#speed=0);
       Send(self,@SetSector,#sector=3,#animation=ANIMATE_FLOOR_LIFT,
-           #height=264,#speed=0);
+            #height=264,#speed=0);
 
       return;
    }
@@ -390,9 +404,9 @@ messages:
       if NOT (Send(SYS,@AreRoomIllusionsEnabled))
       {
          Send(self,@SetSector,#sector=2,#animation=ANIMATE_FLOOR_LIFT,
-              #height=224,#speed=0);
+               #height=224,#speed=0);
          Send(self,@SetSector,#sector=3,#animation=ANIMATE_FLOOR_LIFT,
-              #height=224,#speed=0);
+               #height=224,#speed=0);
       }
 
       propagate;
@@ -407,9 +421,9 @@ messages:
          propagate;
       }
 
-      if isClass(what,&WallofLightning)
+      if IsClass(what,&WallofLightning)
       {
-         post(self,@UpdateSpireState,#oLightning=what);
+         Post(self,@UpdateSpireState,#oLightning=what);
       }
 
       propagate;
@@ -426,10 +440,7 @@ messages:
          AND NOT pbCenterLit
       {
          Send(self,@ToggleCenterLight);
-         Send(Nth(plOuterSpires,1),@Toggle,#toggleback=FALSE);
-         Send(Nth(plOuterSpires,2),@Toggle,#toggleback=FALSE);
-         Send(Nth(plOuterSpires,3),@Toggle,#toggleback=FALSE);
-         Send(Nth(plOuterSpires,4),@Toggle,#toggleback=FALSE);
+         SendList(plOuterSpires,0,@Toggle,#toggleback=FALSE);
 
          Send(self,@Touched);
       }
@@ -463,14 +474,14 @@ messages:
       }
 
       if pbCenterLit AND pbNWLit AND pbSWLit AND pbSELit AND pbNELit
-         AND (Send(Nth(plOuterSpires,1),@GetState)=SECTOR_UP)
+         AND (Send(First(plOuterSpires),@GetState)=SECTOR_UP)
          AND (Send(Nth(plOuterSpires,2),@GetState)=SECTOR_UP)
          AND (Send(Nth(plOuterSpires,3),@GetState)=SECTOR_UP)
          AND (Send(Nth(plOuterSpires,4),@GetState)=SECTOR_UP)
       {
          Send(self,@LightningPuzzleSolved);
       }
-      
+
       return;
    }
 
@@ -550,16 +561,13 @@ messages:
          Send(self,@ToggleNELight);
       }
 
+      // South ledge no longer moves, as levers activated
+      // here - players need time to jump.
       Send(poCenterSpire,@MoveDown);
-      Send(Nth(plOuterSpires,1),@MoveDown);
-      Send(Nth(plOuterSpires,2),@MoveDown);
-      Send(Nth(plOuterSpires,3),@MoveDown);
-      Send(Nth(plOuterSpires,4),@MoveDown);
+      SendList(plOuterSpires,0,@MoveDown);
       Send(poPlatform,@MoveDown);
       Send(poLedgeN,@MoveUp);
-      
-	  // South ledge no longer moves, as levers activated here - players need time to jump
-	  
+
       if ptReactivateLevers <> $
       {
          DeleteTimer(ptReactivateLevers);
@@ -572,18 +580,35 @@ messages:
       return;
    }
 
+   LightningPuzzleMove(timer = $)
+   "Does the actual platform moving. Delayed to give players a chance to jump."
+   {
+      ptResetLightningPuzzle = CreateTimer(self,@ResetLightningPuzzle,
+                                           LIGHTNING_TIMELIMIT);
+
+      // Move platforms, spires etc.
+      // South ledge no longer moves, as levers activated
+      // here - players need time to jump.
+      Send(poCenterSpire,@MoveUp);
+      SendList(plOuterSpires,0,@MoveDown);
+      Send(poPlatform,@MoveUp);
+      Send(poLedgeN,@MoveDown);
+
+      return;
+   }
+
    LightningPuzzleSolved()
    {
       local i, oRoom;
-	  
+
       if ptResetLightningPuzzle <> $
       {
          DeleteTimer(ptResetLightningPuzzle);
          ptResetLightningPuzzle = $;
       }
 
-      ptResetLightningPuzzle = CreateTimer(self,@ResetLightningPuzzle,
-                                           LIGHTNING_TIMELIMIT);
+      // 2 second delay before we move anything.
+      ptResetLightningPuzzle = CreateTimer(self,@LightningPuzzleMove,2000);
       Send(self,@DeactivateLevers);
 
       if pbCenterLit
@@ -611,17 +636,7 @@ messages:
          Send(self,@ToggleNELight);
       }
 
-      Send(poCenterSpire,@MoveUp);
-      Send(Nth(plOuterSpires,1),@MoveDown);
-      Send(Nth(plOuterSpires,2),@MoveDown);
-      Send(Nth(plOuterSpires,3),@MoveDown);
-      Send(Nth(plOuterSpires,4),@MoveDown);
-
-      Send(poPlatform,@MoveUp);
-      Send(poLedgeN,@MoveDown);
-	  // South ledge no longer moves, as levers activated here - players need time to jump
-	  
-	  foreach i in plNec_Area
+      foreach i in plNec_Area
       {
          oRoom = Send(SYS,@FindRoomByNum,#num=i);
 
@@ -629,19 +644,15 @@ messages:
          {
             continue;
          }
-         
-         Send(oRoom,@SomeoneSaid,#type=SAY_MESSAGE,#what=self,#string=g9_lever_activated);
-         
+
+         Send(oRoom,@SomeoneSaid,#type=SAY_MESSAGE,#what=self,
+               #string=g9_lever_activated);
       }
-      
-	  
-	  
-	  
-      
+
       Send(self,@GenerateSkellies);
 
       // 1 out of 100 chance to randomize the levers after the puzzle is solved.
-      if random(1,100) = 1
+      if Random(1,100) = 1
       {
          Send(self,@RandomizeLeverEffects);
       }
@@ -653,12 +664,13 @@ messages:
    "Admin supported"
    {
       local numSkellies, oSkelly, iSkellyLocation;
-      // first count how many are already here
-      numSkellies = (Send(self,@CouNtholdingHowMany,#class=&Skeleton)
-                    + Send(self,@CouNtholdingHowMany,#class=&BatteredSkeleton));
+
+      // First count how many are already here.
+      numSkellies = (Send(self,@CountHoldingHowMany,#class=&Skeleton)
+                    + Send(self,@CountHoldingHowMany,#class=&BatteredSkeleton));
 
       // now allow us 6 holdovers
-      numSkellies = numSkellies - 6;
+      numSkellies -= 6;
 
       // then decide how many new ones to gen
       if numSkellies <> $ and numSkellies > 0
@@ -677,10 +689,9 @@ messages:
 
       Send(poSkellyCubbyholes,@MoveUp);
 
-      while numSkellies > 0
+      while numSkellies-- > 0
       {
-         numSkellies = numSkellies - 1;
-         if random(1,2) = 1
+         if Random(1,2) = 1
          {
             oSkelly = Create(&Skeleton);
          }
@@ -689,11 +700,11 @@ messages:
             oSkelly = Create(&BatteredSkeleton);
          }
 
-         iSkellyLocation = random(1,length(plSkellyGenPoints));
+         iSkellyLocation = Random(1,Length(plSkellyGenPoints));
 
          Send(self,@NewHold,#what=oSkelly,
-               #new_row=Nth(Nth(plSkellyGenPoints,iSkellyLocation),1),
-               #new_col=Nth(Nth(plSkellyGenPoints,iSkellyLocation),2) );
+               #new_row=First(Nth(plSkellyGenPoints,iSkellyLocation)),
+               #new_col=Nth(Nth(plSkellyGenPoints,iSkellyLocation),2));
       }
 
       if ptResetLightningPuzzle = $
@@ -711,21 +722,21 @@ messages:
       {
          pbCenterLit = FALSE;
          Send(self,@ChangeTexture,#id=SECTOR_SPIRE_CENTER,#new_texture=SPIRE_OFF,
-              #flags=CTF_BELOWWALL);
+               #flags=CTF_BELOWWALL);
       }
       else
       {
          pbCenterLit = TRUE;
          Send(self,@ChangeTexture,#id=SECTOR_SPIRE_CENTER,#new_texture=SPIRE_ON,
-              #flags=CTF_BELOWWALL);
+               #flags=CTF_BELOWWALL);
       }
 
       return;
    }
-   
+
    ToggleNWLight()
    {
-      if Send(Nth(plOuterSpires,1),@GetState) = SECTOR_DN
+      if Send(First(plOuterSpires),@GetState) = SECTOR_DN
       {
          return;
       }
@@ -734,18 +745,18 @@ messages:
       {
          pbNWLit = FALSE;
          Send(self,@ChangeTexture,#id=SECTOR_SPIRE_NW,#new_texture=SPIRE_OFF,
-              #flags=CTF_BELOWWALL);
+               #flags=CTF_BELOWWALL);
       }
       else
       {
          pbNWLit = TRUE;
          Send(self,@ChangeTexture,#id=SECTOR_SPIRE_NW,#new_texture=SPIRE_ON,
-              #flags=CTF_BELOWWALL);
+               #flags=CTF_BELOWWALL);
       }
 
       return;
    }
-   
+
    ToggleSWLight()
    {
       if Send(Nth(plOuterSpires,2),@GetState) = SECTOR_DN
@@ -757,18 +768,18 @@ messages:
       {
          pbSWLit = FALSE;
          Send(self,@ChangeTexture,#id=SECTOR_SPIRE_SW,#new_texture=SPIRE_OFF,
-              #flags=CTF_BELOWWALL);
+               #flags=CTF_BELOWWALL);
       }
       else
       {
          pbSWLit = TRUE;
          Send(self,@ChangeTexture,#id=SECTOR_SPIRE_SW,#new_texture=SPIRE_ON,
-              #flags=CTF_BELOWWALL);
+               #flags=CTF_BELOWWALL);
       }
 
       return;
    }
-   
+
    ToggleSELight()
    {
       if Send(Nth(plOuterSpires,3),@GetState) = SECTOR_DN
@@ -780,18 +791,18 @@ messages:
       {
          pbSELit = FALSE;
          Send(self,@ChangeTexture,#id=SECTOR_SPIRE_SE,#new_texture=SPIRE_OFF,
-              #flags=CTF_BELOWWALL);
+               #flags=CTF_BELOWWALL);
       }
       else
       {
          pbSELit = TRUE;
          Send(self,@ChangeTexture,#id=SECTOR_SPIRE_SE,#new_texture=SPIRE_ON,
-              #flags=CTF_BELOWWALL);
+               #flags=CTF_BELOWWALL);
       }
 
       return;
    }
-   
+
    ToggleNELight()
    {
       if Send(Nth(plOuterSpires,4),@GetState) = SECTOR_DN
@@ -803,13 +814,13 @@ messages:
       {
          pbNELit = FALSE;
          Send(self,@ChangeTexture,#id=SECTOR_SPIRE_NE,#new_texture=SPIRE_OFF,
-              #flags=CTF_BELOWWALL);
+               #flags=CTF_BELOWWALL);
       }
       else
       {
          pbNELit = TRUE;
          Send(self,@ChangeTexture,#id=SECTOR_SPIRE_NE,#new_texture=SPIRE_ON,
-              #flags=CTF_BELOWWALL);
+               #flags=CTF_BELOWWALL);
       }
 
       return;
@@ -819,15 +830,12 @@ messages:
    {
       local oLever, i;
 
-      if isClass(what,&Lever)
+      if IsClass(what,&Lever)
       {
          if what = poCenterLever
          {
             Send(self,@ToggleCenterLight);
-            Send(Nth(plOuterSpires,1),@Toggle,#toggleback=FALSE);
-            Send(Nth(plOuterSpires,2),@Toggle,#toggleback=FALSE);
-            Send(Nth(plOuterSpires,3),@Toggle,#toggleback=FALSE);
-            Send(Nth(plOuterSpires,4),@Toggle,#toggleback=FALSE);
+            SendList(plOuterSpires,0,@Toggle,#toggleback=FALSE);
             Send(self,@Touched);
          }
 
@@ -841,18 +849,15 @@ messages:
                {
                   Send(self,@ToggleNWLight);
                }
-
-               if i = 2
+               else if i = 2
                {
                   Send(self,@ToggleSWLight);
                }
-
-               if i = 3
+               else if i = 3
                {
                   Send(self,@ToggleSELight);
                }
-
-               if i = 4
+               else if i = 4
                {
                   Send(self,@ToggleNELight);
                }
@@ -892,7 +897,7 @@ messages:
          Send(self,@DeactivateLevers);
          ptReactivateLevers = CreateTimer(self,@ReactivateLevers,LEVER_REACTIVATE_DELAY);
          if pbCenterLit AND pbNWLit AND pbSWLit AND pbSELit AND pbNELit
-            AND (Send(Nth(plOuterSpires,1),@GetState)=SECTOR_UP)
+            AND (Send(First(plOuterSpires),@GetState)=SECTOR_UP)
             AND (Send(Nth(plOuterSpires,2),@GetState)=SECTOR_UP)
             AND (Send(Nth(plOuterSpires,3),@GetState)=SECTOR_UP)
             AND (Send(Nth(plOuterSpires,4),@GetState)=SECTOR_UP)
@@ -905,27 +910,27 @@ messages:
    }
 
    RandomizeLeverEffects()
-   "generates a random permutation of 1-4 for each lever set."
+   "Generates a random permutation of 1-4 for each lever set."
    {
       local l, index;
 
       l = [1, 2, 3, 4];
       plLeverEffects1 = $;
 
-      while length(l) > 0
+      while Length(l) > 0
       {
-         index = random(1,length(l));
-         plLeverEffects1 = cons(Nth(l,index),plLeverEffects1);
+         index = Random(1,Length(l));
+         plLeverEffects1 = Cons(Nth(l,index),plLeverEffects1);
          l = DelListElem(l,Nth(l,index));
       }
 
       l = [1, 2, 3, 4];
       plLeverEffects2 = $;
 
-      while length(l) > 0
+      while Length(l) > 0
       {
-         index = random(1,length(l));
-         plLeverEffects2 = cons(Nth(l,index),plLeverEffects2);
+         index = Random(1,Length(l));
+         plLeverEffects2 = Cons(Nth(l,index),plLeverEffects2);
          l = DelListElem(l,Nth(l,index));
       }
 
@@ -1002,7 +1007,7 @@ messages:
 
       return;
    }
-   
+
    Delete()
    {
       if ptReactivateLevers <> $
@@ -1039,7 +1044,7 @@ messages:
 
       if plOuterSpires <> $
       {
-         Send(Nth(plOuterSpires,1),@Delete);
+         Send(First(plOuterSpires),@Delete);
          Send(Nth(plOuterSpires,2),@Delete);
          Send(Nth(plOuterSpires,3),@Delete);
          Send(Nth(plOuterSpires,4),@Delete);
@@ -1061,7 +1066,7 @@ messages:
       plLeverEffects1 = $;
       plLeverEffects2 = $;
       poSkellyCubbyholes = $;
-      
+
       propagate;
    }
 
@@ -1106,7 +1111,6 @@ messages:
       {
          Send(self,@SetRoomFlag,#flag=ROOM_SNOWING,#value=FALSE);
          Send(self,@WeatherChanged);
-
       }
 
       if pbSnowGroundTexture
