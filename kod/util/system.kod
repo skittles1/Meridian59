@@ -420,9 +420,9 @@ properties:
 
    piLogoffPenaltyDecayCounter = 0
    // Players' LogoffPenaltyCounters decrement this often.
-   //  units: 2 hrs (12 = 24 hrs)
-   piLogoffPenaltyDecayTime = 12                
-                                                
+   //  units: 2 hrs (6 = 12 hrs)
+   piLogoffPenaltyDecayTime = 6
+
    pbLogoffPenaltyEnable = TRUE
 
    // At this value of the player's penalty counter, penalties are as severe as
