@@ -930,6 +930,43 @@ messages:
       return;
    }
 
+   SkipQuestNode()
+   "Skips to next quest node without awarding anything."
+   {
+      local iNodeType;
+
+      poQuestActivated = $;
+      piStatus = QN_STATUS_COMPLETED;
+
+      // Remove monster if we have one.
+      if (poMonster <> $)
+      {
+         Send(poMonster,@Delete);
+         poMonster = $;
+      }
+
+      // Delete cargo if it's a quest item.
+      iNodeType = Send(Send(SYS,@GetQuestEngine),@GetQuestNodeType,
+                        #index=piQuestNodeTemplateIndex);
+
+      if (iNodeType = QN_TYPE_ITEM
+         AND pCargo <> $)
+      {
+         // Remove quest attribute first, otherwise attribute calls
+         // DeadlineExpired to end the quest.
+         if NOT Send(Send(SYS,@FindItemAttByNum,#num=IA_QUEST_CARGO),
+                     @RemoveFromItem,#oItem=pCargo,#oQuestnode=self)
+         {
+            Debug("Item didn't have quest attribute for ",self);
+         }
+         Send(pCargo,@Delete);
+      }
+
+      Send(poQuest,@AssignNextNode,#current_NPC=poDestNPC);
+
+      return;
+   }
+
    AwardPrizeOrPenaltyActivateQuest(prize=$,recipients=$,oQuestEngine=$)
    {
       local lActiveQuests, oQuest;
@@ -1809,14 +1846,19 @@ messages:
       {
          iNodeType = Send(Send(SYS,@GetQuestEngine),@GetQuestNodeType,
                            #index=piQuestNodeTemplateIndex);
-         // Remove the quest attribute if we have item cargo.
+
+         // Intermediate quest items get deleted.
          if (iNodeType = QN_TYPE_ITEM)
          {
+            // Remove quest attribute first, otherwise attribute calls
+            // DeadlineExpired to end the quest.
             if NOT Send(Send(SYS,@FindItemAttByNum,#num=IA_QUEST_CARGO),
                      @RemoveFromItem,#oItem=pCargo,#oQuestnode=self)
             {
                Debug("Item didn't have quest attribute for ",self);
             }
+
+            Send(pCargo,@Delete);
          }
 
          pCargo = $;

@@ -636,7 +636,7 @@ messages:
       Send(self,@CreateUserTable);
 
       Send(self,@RecreateNecromancerBalance);
-      Send(self,@ClearAllQuests);
+      Send(self,@RecreateClearQuests);
       Send(self,@CreateAllBanksIfNew);
       Send(self,@CreateAllVaultsIfNew);
       Send(self,@RecreateAllBrains);
@@ -4883,16 +4883,15 @@ messages:
             Send(i,@SetBirthYear,#year=Send(i,@GetBirthYear) + adjust);
          }
       }
-      
+
       return;
-      
    }
 
-   ClearAllQuests()
+   RecreateClearQuests()
    {
       if poQuestEngine <> $
       {
-         Send(poQuestEngine,@ClearAllQuests);
+         Send(poQuestEngine,@RecreateClearQuests);
       }
 
       return TRUE;
