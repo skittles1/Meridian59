@@ -168,41 +168,34 @@ messages:
       // Setup dest NPC
       iNPCMod = Send(oQuestEngine,@GetQuestNodeNPCModifier,#index=index);
 
-      if iNPCMod = QN_NPCMOD_PREVIOUS
+      switch (iNPCMod)
       {
+      case QN_NPCMOD_PREVIOUS:
          // Use the previous node's source NPC (for back and forth quests)
          poDestNPC = poPreviousSourceNPC;
-      }
-
-      if iNPCMod = QN_NPCMOD_SAME
-      {
+         break;
+      case QN_NPCMOD_SAME:
          // Use the same NPC (for return to me quests)
          poDestNPC = poSourceNPC;
-      }
-      
-      if iNPCMod = QN_NPCMOD_NONE
-      {
+         break;
+      case QN_NPCMOD_NONE:
          // pick a new random NPC from the list
          poDestNPC = Send(oQuestEngine,@GetRandomNPCFromQuestNodeTemplate,
-                          #index=index);
-      }
-
-      if iNPCMod = QN_NPCMOD_DIFFERENT
-      {
+                           #index=index);
+         break;
+      case QN_NPCMOD_DIFFERENT:
          // Pick a new random NPC from the list, not the same as the source NPC
          poDestNPC = Send(oQuestEngine,@GetRandomNPCFromQuestNodeTemplate,
-                          #index=index,#not_NPC=poSourceNPC);
-      }
-
-      if iNPCMod = QN_NPCMOD_PASSED
-      {
+                           #index=index,#not_NPC=poSourceNPC);
+         break;
+      case QN_NPCMOD_PASSED:
          if passed_NPC = $
          {
             // We'll call init() again when the npc is passed in.
             return index;
          }
-
          poDestNPC = passed_NPC;
+         break;
       }
 
       // Validate dest NPC
@@ -1101,7 +1094,7 @@ messages:
 
    AwardPrizeOrPenaltyInsignia(prize=$,recipients=$,oQuestEngine=$)
    {
-      local oQuester, oGuildShield, i, iInsignia;
+      local oQuester, oGuildShield, i, iInsignia, cNPC;
 
       foreach oQuester in recipients
       {
@@ -1141,50 +1134,39 @@ messages:
 
             if oGuildShield <> $
             {
-               iInsignia = INSIG_NONE;
-               if IsClass(poDestNPC,&RiijaMonk)
+               cNPC = GetClass(poDestNPC);
+               switch (cNPC)
                {
+               case &RiijaMonk:
                   iInsignia = INSIG_RIIJA;
-               }
-
-               if IsClass(poDestNPC,&QorPriestess)
-               {
+                  break;
+               case &QorPriestess:
                   iInsignia = INSIG_QOR;
-               }
-
-               if IsClass(poDestNPC,&KraananPriestess)
-               {
+                  break;
+               case &KraananPriestess:
                   iInsignia = INSIG_KRAANAN;
-               }
-
-               if IsClass(poDestNPC,&FarenPriestess)
-               {
+                  break;
+               case &FarenPriestess:
                   iInsignia = INSIG_FAREN;
-               }
-
-               if IsClass(poDestNPC,&Minstrel)
-               {
+                  break;
+               case &Minstrel:
                   iInsignia = INSIG_JALA;
-               }
-
-               if IsClass(poDestNPC,&PrincessLiege)
-               {
+                  break;
+               case &PrincessLiege:
                   iInsignia = INSIG_PRINCESS;
-               }
-
-               if IsClass(poDestNPC,&DukeLiege)
-               {
+                  break;
+               case &DukeLiege:
                   iInsignia = INSIG_DUKE;
-               }
-
-               if IsClass(poDestNPC,&ShalillePriestess)
-               {
+                  break;
+               case &ShalillePriestess:
                   iInsignia = INSIG_SHALILLE;
-               }
-
-               if IsClass(poDestNPC,&RebelLiege)
-               {
+                  break;
+               case &RebelLiege:
                   iInsignia = INSIG_REBEL;
+                  break;
+               default:
+                  iInsignia = INSIG_NONE;
+                  break;
                }
 
                Send(oGuildShield,@ChangeGuildInsignia,#Insignia=iInsignia);
@@ -1206,15 +1188,11 @@ messages:
             oLich, oNewLich, oQuestTemplate;
 
       if prize = $
+         OR recipients = $
       {
          return;
       }
 
-      if recipients = $
-      {
-         return;
-      }
-   
       iPrizeType = First(prize);
       oQuestEngine = Send(SYS,@GetQuestEngine);
 
@@ -1265,50 +1243,41 @@ messages:
             iPrizeStat = Nth(prize,2);
             iAmount = Nth(prize,3);
 
-            if iPrizeStat = QN_PRIZE_STAT_MIGHT
+            switch (iPrizeStat)
             {
+            case QN_PRIZE_STAT_MIGHT:
                Send(oQuester,@AddMight,#points=iAmount);
-            }
-            else if iPrizeStat = QN_PRIZE_STAT_INTELLECT
-            {
+               break;
+            case QN_PRIZE_STAT_INTELLECT:
                Send(oQuester,@AddIntellect,#points=iAmount);
-            }
-            else if iPrizeStat = QN_PRIZE_STAT_AIM
-            {
+               break;
+            case QN_PRIZE_STAT_AIM:
                Send(oQuester,@AddAim,#points=iAmount);
-            }
-            else if iPrizeStat = QN_PRIZE_STAT_STAMINA
-            {
+               break;
+            case QN_PRIZE_STAT_STAMINA:
                Send(oQuester,@AddStamina,#points=iAmount);
-            }
-            else if iPrizeStat = QN_PRIZE_STAT_AGILITY
-            {
+               break;
+            case QN_PRIZE_STAT_AGILITY:
                Send(oQuester,@AddAgility,#points=iAmount);
-            }
-            else if iPrizeStat = QN_PRIZE_STAT_MYSTICISM
-            {
+               break;
+            case QN_PRIZE_STAT_MYSTICISM:
                Send(oQuester,@AddMysticism,#points=iAmount);
-               Send(oQuester,@ComputeMaxMana);
-            }
-            else if iPrizeStat = QN_PRIZE_STAT_HEALTH
-            {
+               break;
+            case QN_PRIZE_STAT_HEALTH:
                Send(oQuester,@GainHealth,#amount=iAmount);
-            }
-            else if iPrizeStat = QN_PRIZE_STAT_MAXHEALTH
-            {
+               break;
+            case QN_PRIZE_STAT_MAXHEALTH:
                Send(oQuester,@GainMaxHealth,#amount=iAmount);
-            }
-            else if iPrizeStat = QN_PRIZE_STAT_BASEMAXHEALTH
-            {
+               break;
+            case QN_PRIZE_STAT_BASEMAXHEALTH:
                Send(oQuester,@AddXP,#iAmount=Send(oQuester,@GetXPRemainingForNextLevel));
-            }
-            else if iPrizeStat = QN_PRIZE_STAT_MANA
-            {
+               break;
+            case QN_PRIZE_STAT_MANA:
                Send(oQuester,@GainMana,#amount=iAmount);
-            }
-            else if iPrizeStat = QN_PRIZE_STAT_KARMA
-            {
+               break;
+            case QN_PRIZE_STAT_KARMA:
                Send(oQuester,@GainKarma,#amount=iAmount);
+               break;
             }
          }
 
@@ -1350,42 +1319,38 @@ messages:
             iAmount = Nth(prize,3);
             iDays = Nth(prize,4);
 
-            iBoonNum = $;
-            if iPrizeBoon = QN_PRIZE_BOON_VIGOR
+            switch (iPrizeBoon)
             {
+            case QN_PRIZE_BOON_VIGOR:
                iBoonNum = SID_VIGOR_BOON;
-            }
-            else if iPrizeBoon = QN_PRIZE_BOON_INTELLECT
-            {
+               break;
+            case QN_PRIZE_BOON_INTELLECT:
                iBoonNum = SID_INTELLECT_BOON;
-            }
-            else if iPrizeBoon = QN_PRIZE_BOON_AIM
-            {
+               break;
+            case QN_PRIZE_BOON_AIM:
                iBoonNum = SID_AIM_BOON;
-            }
-            else if iPrizeBoon = QN_PRIZE_BOON_STAMINA
-            {
+               break;
+            case QN_PRIZE_BOON_STAMINA:
                iBoonNum = SID_STAMINA_BOON;
-            }
-            else if iPrizeBoon = QN_PRIZE_BOON_AGILITY
-            {
+               break;
+            case QN_PRIZE_BOON_AGILITY:
                iBoonNum = SID_AGILITY_BOON;
-            }
-            else if iPrizeBoon = QN_PRIZE_BOON_MYSTICISM
-            {
+               break;
+            case QN_PRIZE_BOON_MYSTICISM:
                iBoonNum = SID_MYSTICISM_BOON;
-            }
-            else if iPrizeBoon = QN_PRIZE_BOON_STRENGTH
-            {
+               break;
+            case QN_PRIZE_BOON_STRENGTH:
                iBoonNum = SID_STRENGTH_BOON;
-            }
-            else if iPrizeBoon = QN_PRIZE_BOON_HITPOINTS
-            {
+               break;
+            case QN_PRIZE_BOON_HITPOINTS:
                iBoonNum = SID_HP_BOON;
-            }
-            else if iPrizeBoon = QN_PRIZE_BOON_MANA
-            {
+               break;
+            case QN_PRIZE_BOON_MANA:
                iBoonNum = SID_MANA_BOON;
+               break;
+            default:
+               iBoonNum = $;
+               break;
             }
 
             if iBoonNum <> $
