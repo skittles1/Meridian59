@@ -1116,6 +1116,7 @@ properties:
 
    // Time remaining phased out
    ptPhaseTimer = $
+   ptPhaseRegenTimer = $
    ptPhaseVisualEffectTimer = $
    piRemainingPhaseTime = 60000 * 8
    ptCanPhaseTimer = $
@@ -1198,6 +1199,12 @@ messages:
       }
 
       Send(self,@CancelRescue);
+
+      if (ptPhaseRegenTimer <> $)
+      {
+         DeleteTimer(ptPhaseRegenTimer);
+         ptPhaseRegenTimer = $;
+      }
 
       if ptAttackTimer <> $
       {
@@ -2343,6 +2350,17 @@ messages:
          Send(self,@UnpauseTempSafe);
       }
 
+      // Possibly start phase time regen.
+      if (piRemainingPhaseTime < Send(self,@GetBasePhaseTime))
+      {
+         if (ptPhaseRegenTimer <> $)
+         {
+            DeleteTimer(ptPhaseRegenTimer);
+         }
+         // 5 sec delay so flashing on/off doesn't regen time.
+         ptPhaseRegenTimer = CreateTimer(self,@RegenPhaseTime,5000);
+      }
+
       if piPoisonStrength > 0
       {
          ptPoison = CreateTimer(self,@PoisonTimer,10000);
@@ -2459,6 +2477,13 @@ messages:
       }
 
       Send(self,@CancelRescue);
+
+      // If phase time regen timer is active, delete it.
+      if (ptPhaseRegenTimer <> $)
+      {
+         DeleteTimer(ptPhaseRegenTimer);
+         ptPhaseRegenTimer = $;
+      }
 
       // Tell others that we're leaving
       if poOwner <> $ AND NOT IsClass(self,&DM)
@@ -14823,6 +14848,13 @@ messages:
    {
       local i;
 
+      // If phase time regen timer is active, delete it.
+      if (ptPhaseRegenTimer <> $)
+      {
+         DeleteTimer(ptPhaseRegenTimer);
+         ptPhaseRegenTimer = $;
+      }
+
       if ptPhaseTimer = $
       {
          ptPhaseTimer = CreateTimer(self,@PhaseTimerEnd,piRemainingPhaseTime);
@@ -14905,6 +14937,44 @@ messages:
       {
          piTimeAttackedPlayer = piTimeAttackedPlayer
                                  - (Send(self,@GetRemainingPhaseTime) / 1000);
+      }
+
+      // Possibly start phase time regen.
+      if (ptPhaseRegenTimer <> $)
+      {
+         DeleteTimer(ptPhaseRegenTimer);
+      }
+      // 5 sec delay so phasing in/out doesn't regen time.
+      ptPhaseRegenTimer = CreateTimer(self,@RegenPhaseTime,5000);
+
+      return;
+   }
+
+   RegenPhaseTime(timer = $)
+   {
+      local iBaseTime;
+
+      if (ptPhaseRegenTimer <> timer)
+      {
+         DeleteTimer(ptPhaseRegenTimer);
+      }
+      ptPhaseRegenTimer = $;
+
+      if (Send(self,@IsInCannotInteractMode)
+         OR NOT pbLogged_on)
+      {
+         return;
+      }
+
+      iBaseTime = Send(self,@GetBasePhaseTime);
+
+      // Add time in 3 second increments to reduce timers needed.
+      piRemainingPhaseTime = Bound(piRemainingPhaseTime + 3000,0,iBaseTime);
+
+      // Make another timer if we are still regenerating phase time.
+      if (piRemainingPhaseTime < iBaseTime)
+      {
+         ptPhaseRegenTimer = CreateTimer(self,@RegenPhaseTime,3000);
       }
 
       return;
