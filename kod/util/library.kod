@@ -3301,7 +3301,7 @@ messages:
          plSignetNewbies = Cons(who,plSignetNewbies);
          while Length(plSignetNewbies) > Send(self,@GetMaxSignetNewbies)
          {
-            plSignetNewbies = DelListElem(plSignetNewbies,Last(plSignetNewbies));
+            plSignetNewbies = DelLastListElem(plSignetNewbies);
          }
       }
 
@@ -3357,8 +3357,8 @@ messages:
       while Length(plSignetRings) > Send(self,@GetMaxSignets)
       {
          oldring = Last(plSignetRings);
-         plSignetRings = DelListElem(plSignetRings,oldring);
-         oRingOwner=Send(oldRing,@GetOwner);
+         plSignetRings = DelLastListElem(plSignetRings);
+         oRingOwner = Send(oldRing,@GetOwner);
          if oRingOwner <> $
          {
             Send(oRingOwner,@MsgSendUser,#message_rsc=lib_signet_lost);
@@ -3380,7 +3380,7 @@ messages:
 
       while Length(plSignetNewbies) > Send(self,@GetMaxSignetNewbies)
       {
-         plSignetNewbies = DelListElem(plSignetNewbies,Last(plSignetNewbies));
+         plSignetNewbies = DelLastListElem(plSignetNewbies);
       }
 
       return;

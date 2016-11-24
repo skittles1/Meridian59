@@ -512,28 +512,24 @@ messages:
          piPKcountPerDay = 0;
          if Length(plArchivedPKCounts) > 12
          {
-            plArchivedPKCounts = DelListElem(plArchivedPKCounts,
-                                       Last(plArchivedPKCounts));
+            plArchivedPKCounts = DelLastListElem(plArchivedPKCounts);
          }
          plArchivedNKCounts = Cons(piNKcountPerDay,plArchivedNKCounts);
          piNKcountPerDay = 0;
          if Length(plArchivedNKCounts) > 12
          {
-            plArchivedNKCounts = DelListElem(plArchivedNKCounts,
-                                       Last(plArchivedNKCounts));
+            plArchivedNKCounts = DelLastListElem(plArchivedNKCounts);
          }
          plArchivedHKCounts = Cons(piHKcountPerDay,plArchivedHKCounts);
          piHKcountPerDay = 0;
          if Length(plArchivedHKCounts) > 12
          {
-            plArchivedHKCounts = DelListElem(plArchivedHKCounts,
-                                       Last(plArchivedHKCounts));
+            plArchivedHKCounts = DelLastListElem(plArchivedHKCounts);
          }
          plArchivedPkPercents = Cons(piPkPercentDueToScenario,plArchivedPkPercents);
          if Length(plArchivedPkPercents) > 12
          {
-            plArchivedPkPercents = DelListElem(plArchivedPkPercents,
-                                          Last(plArchivedPkPercents));
+            plArchivedPkPercents = DelLastListElem(plArchivedPkPercents);
          }
       }
 
