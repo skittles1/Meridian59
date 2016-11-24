@@ -67,6 +67,7 @@ messages:
 
       // Create and initialize first node
       piQuestNodeCounter = 1;
+
       iFirstNodeTemplateIndex = Send(oQE,@GetNextQuestNode,
                                     #quest_template=piQuestTemplateIndex);
 
@@ -959,6 +960,17 @@ messages:
       return;
    }
 
+   SkipCurrentQuestNode()
+   "Tells the quest node to complete and advance to the next node."
+   {
+      if (poQuestNode <> $)
+      {
+         Send(poQuestNode,@SkipQuestNode);
+      }
+
+      return;
+   }
+
    SetQuestNode(node_object=$)
    "Sets this quest's questnode object."
    {
@@ -1069,6 +1081,16 @@ messages:
    GetQuestTemplateIndex()
    {
       return piQuestTemplateIndex;
+   }
+
+   GetQuestNodeTemplateIndex()
+   {
+      if (poQuestNode = $)
+      {
+         return -1;
+      }
+
+      return Send(poQuestNode,@GetQuestNodeTemplateIndex);
    }
 
    Cancel(bRecreate=FALSE)

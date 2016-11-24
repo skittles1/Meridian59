@@ -228,6 +228,13 @@ properties:
    piCensusTallyActiveOrphaned = 0
    piCensusTallyActiveDuplicate = 0
 
+   // Quests active when recreateall run. They are saved and given back to
+   // the players after recreate finishes. Stored in a list with each element
+   // consisting of [ quester obj ID, quest ID, quest node ID, info bitfield ].
+   // Info bitfield contains extra info on the quest if necessary (e.g. if a
+   // monster has already been killed for a 'kill mob' quest node.
+   plRecreateActiveQuests = $
+
 messages:
 
    Constructor()
@@ -351,8 +358,6 @@ messages:
    "Does not start timer. After this call, call RecreateQuestNodes "
    "to create questnodes and start timer."
    {
-      local i;
-
       plQuestTemplates = $;
       plQuestNodeTemplates = $;
 
@@ -712,6 +717,142 @@ messages:
          i = i + 1;
          Send(self,@ScheduleQuest,#index=QST_ID_REBEL_SERVICE,#override=TRUE);
       }
+
+      // If we have a saved quest list, reassign them.
+      Send(self,@ReassignSavedQuests);
+
+      return;
+   }
+
+   RecreateClearQuests()
+   "Called by System during RecreateAll. Saves questnodes in play and clears "
+   "quests. Note this currently only supports single-player quests, however "
+   "all quests are of this type for now."
+   {
+      local lQT, oQuest, oQuester, iQT, iQNT, oQN, iInfo, iNodeType;
+
+      // Save all active quest nodes so we can reassign them later.
+      foreach lQT in plQuestTemplates
+      {
+         // Quest template index.
+         iQT = Nth(lQT,QT_QST_ID);
+
+         foreach oQuest in Nth(lQT,QT_ACTIVE_QUESTS)
+         {
+            // Quest node for this quest. Might be $.
+            oQN = Send(oQuest,@GetActiveQuestNode);
+            if (oQN = $)
+            {
+               continue;
+            }
+
+            // Reset info field.
+            iInfo = 0;
+
+            // Quest node index.
+            iQNT = Send(oQN,@GetQuestNodeTemplateIndex);
+            
+            // Quest node type
+            iNodeType = Send(self,@GetQuestNodeType,#index=iQNT);
+
+            // Monster quests need to fill out the info field.
+            if (iNodeType = QN_TYPE_MONSTER)
+            {
+               if (Send(oQN,@GetQuestMonster) = $)
+               {
+                  iInfo |= QSTA_MOB_KILLED;
+               }
+               else
+               {
+                  iInfo |= QSTA_MOB_NOTKILLED;
+               }
+            }
+
+            foreach oQuester in Send(oQuest,@GetQuesters)
+            {
+               // Add quester, indexes and info to list.
+               plRecreateActiveQuests = Cons([oQuester, iQT, iQNT, iInfo],
+                                          plRecreateActiveQuests);
+            }
+         }
+      }
+
+      Send(self,@ClearAllQuests);
+
+      return;
+   }
+
+   ReassignSavedQuests()
+   "Create and assign quests saved during RecreateAll. Also advances the quest "
+   "to the specific quest node the player was up to."
+   {
+      local i, iCount, oQuest, oQuestNode, oQuester, lQT, iQTIndex, iQNTIndex;
+
+      foreach i in plRecreateActiveQuests
+      {
+         // Quest template index.
+         iQTIndex = Nth(i,2);
+         // Quest template for this index.
+         lQT = Send(self,@GetQuestTemplate,#index=iQTIndex);
+
+         // Quest template must exist.
+         if (lQT = $)
+         {
+            Debug("Quest template ",iQTIndex," not found when recreating quests!");
+
+            continue;
+         }
+
+         // Quest node template index.
+         iQNTIndex = Nth(i,3);
+         // Quest node index must be part of this quest template.
+         if (FindListElem(Nth(lQT,QT_QUEST_NODES),iQNTIndex) = 0)
+         {
+            Debug("Quest node index ",iQNTIndex," not part of quest ",iQTIndex);
+
+            continue;
+         }
+
+         // Creates a quest of the required type.
+         // Bypasses max num active checks.
+         oQuest = Send(self,@CreateQuest,#quest_template=iQTIndex);
+         if (oQuest = $)
+         {
+            Debug("Could not create quest for quest template ",iQTIndex);
+
+            continue;
+         }
+
+         // Add the quester.
+         oQuester = First(i);
+         Send(oQuest,@SetQuesters,#questers=[oQuester]);
+
+         // Have to advance the quest to the correct quest node, without
+         // any speech or prize awarding. Quester needs to receive any cargo
+         // for the appropriate quest node.
+         iCount = Length(Nth(lQT,QT_QUEST_NODES));
+         while (Send(oQuest,@GetQuestNodeTemplateIndex) <> iQNTIndex
+            AND iCount-- > 0)
+         {
+            Send(oQuest,@SkipCurrentQuestNode);
+         }
+
+         // Record the activation.
+         Debug("Reactivating quest ",iQTIndex, " node ", iQNTIndex,
+            " for player ", Send(oQuester,@GetTrueName));
+
+         // Handle quest nodes with multiple parts (e.g. mob kill quest).
+         if (Nth(i,4) & QSTA_MOB_KILLED)
+         {
+            // Emulate a mob kill using the quester and quest node's mob
+            oQuestNode = Send(oQuest,@GetActiveQuestNode);
+
+            Send(oQuestNode,@MonsterKilled,#killing_player=oQuester,
+                  #dead_monster=Send(oQuestNode,@GetQuestMonster));
+         }
+      }
+
+      plRecreateActiveQuests = $;
 
       return;
    }
@@ -1627,7 +1768,7 @@ messages:
       Send(self,@AddQuestToActiveList,#quest_template=quest_template,
             #new_quest=oQuest);
 
-      return;
+      return oQuest;
    }
 
    AddQuestToActiveList(quest_template = $, new_quest = $)
