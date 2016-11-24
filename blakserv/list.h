@@ -47,6 +47,7 @@ int GetListElemByClass(val_type list_id, int class_id);
 int ListCopy(int list_id);
 int InsertListElem(int n,int list_id,val_type new_val);
 int DelListElem(val_type list_id,val_type list_elem);
+int DelLastListElem(val_type list_id);
 
 // List sending messages.
 int SendListMessage(int list_id, bool ret_false, int message_id,

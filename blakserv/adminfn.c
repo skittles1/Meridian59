@@ -2410,6 +2410,7 @@ void AdminShowCalls(int session_id,admin_parm_type parms[],
 		case SWAPLISTELEM : strcpy(c_name, "SwapListElem"); break;
 		case INSERTLISTELEM : strcpy(c_name, "InsertListElem"); break;
 		case DELLISTELEM : strcpy(c_name, "DelListElem"); break;
+		case DELLASTLISTELEM: strcpy(c_name, "DelLastListElem"); break;
 		case FINDLISTELEM : strcpy(c_name, "FindListElem"); break;
 		case GETLISTELEMBYCLASS : strcpy(c_name, "GetListElemByClass"); break;
 		case GETLISTNODE : strcpy(c_name, "GetListNode"); break;

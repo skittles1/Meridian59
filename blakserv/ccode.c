@@ -3960,6 +3960,26 @@ int C_DelListElem(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
+int C_DelLastListElem(int object_id, local_var_type *local_vars,
+                      int num_normal_parms, parm_node normal_parm_array[],
+                      int num_name_parms, parm_node name_parm_array[])
+{
+   val_type list_val, ret_val;
+
+   list_val = RetrieveValue(object_id, local_vars, normal_parm_array[0].type,
+      normal_parm_array[0].value);
+   if (list_val.v.tag != TAG_LIST)
+   {
+      bprintf("C_DelLastListElem object %i can't delete elem from non-list %i,%i\n",
+         object_id, list_val.v.tag, list_val.v.data);
+      return NIL;
+   }
+
+   ret_val.int_val = DelLastListElem(list_val);
+
+   return ret_val.int_val;
+}
+
 int C_FindListElem(int object_id,local_var_type *local_vars,
                int num_normal_parms,parm_node normal_parm_array[],
                int num_name_parms,parm_node name_parm_array[])

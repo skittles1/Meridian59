@@ -216,6 +216,7 @@ void InitBkodInterpret(void)
    ccall_table[SWAPLISTELEM] = C_SwapListElem;
    ccall_table[INSERTLISTELEM] = C_InsertListElem;
    ccall_table[DELLISTELEM] = C_DelListElem;
+   ccall_table[DELLASTLISTELEM] = C_DelLastListElem;
    ccall_table[FINDLISTELEM] = C_FindListElem;
    ccall_table[ISLISTMATCH] = C_IsListMatch;
    ccall_table[GETLISTELEMBYCLASS] = C_GetListElemByClass;

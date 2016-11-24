@@ -24,6 +24,7 @@ present in the current codebase.
   * [SetFirst](#setfirst)
   * [SetNth](#setnth)
   * [DelListElem](#dellistelem)
+  * [DelLastListElem](#dellastlistelem)
   * [FindListElem](#findlistelem)
   * [IsList](#islist)
   * [GetAllListNodesByClass](#getalllistnodesbyclass)
@@ -450,6 +451,31 @@ from the list.
 
          continue;
       }
+```
+
+#### DelLastListElem
+`DelLastListElem(list)`
+
+Removes the last element from a list, and returns the list. If the list only
+had a single element, $ is returned.
+
+```
+   SignetDelivered(who=$)
+   {
+      if (who = $)
+      {
+         return;
+      }
+
+      plSignetNewbies = Cons(who,plSignetNewbies);
+
+      while (Length(plSignetNewbies) > Send(self,@GetMaxSignetNewbies))
+      {
+         plSignetNewbies = DelLastListElem(plSignetNewbies);
+      }
+
+      return;
+   }
 ```
 
 #### FindListElem
