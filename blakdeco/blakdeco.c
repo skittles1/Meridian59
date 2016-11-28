@@ -558,6 +558,7 @@ char * name_function(int fnum)
    case SETFIRST : return "SetFirst";
    case SETNTH : return "SetNth";
    case DELLISTELEM : return "DelListElem";
+   case DELLASTLISTELEM: return "DelLastListElem";
    case FINDLISTELEM : return "FindListElem";
    case SWAPLISTELEM : return "SwapListElem";
    case INSERTLISTELEM : return "InsertListElem";

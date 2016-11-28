@@ -951,6 +951,42 @@ int DelListElem(val_type list_id,val_type list_elem)
 	return list_id.int_val;
 }
 
+int DelLastListElem(val_type list_id)
+{
+   list_node *l, *prev;
+
+   l = GetListNodeByID(list_id.v.data);
+   if (!l)
+   {
+      bprintf("DelLastListElem given invalid list ID %i\n", list_id);
+      return NIL;
+   }
+
+   // Deleting only element, return $.
+   if (l->rest.v.data == NIL)
+      return NIL;
+
+   prev = l;
+
+   while (l && l->rest.v.data != NIL)
+   {
+      prev = l;
+      l = GetListNodeByID(l->rest.v.data);
+   }
+
+   // Now at end of list.
+   if (!l)
+   {
+      bprintf("DelLastListElem got invalid list node in list %i\n",
+         list_id);
+
+      return list_id.int_val;
+   }
+
+   prev->rest = l->rest;
+   return list_id.int_val;
+}
+
 // Next 6 functions deal with sending a message to objects in a list.
 
 // ret_false is True if we return on a single false return from SendBlakodMessage.

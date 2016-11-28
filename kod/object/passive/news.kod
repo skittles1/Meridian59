@@ -289,7 +289,7 @@ messages:
       lOld = Nth(plMessages,piMax_messages);
       while lOld <> $
       {
-         DelListElem(plMessages,lOld);
+         plMessages = DelListElem(plMessages,lOld);
          if Length(plMessages) < piMax_messages
          {
             break;
