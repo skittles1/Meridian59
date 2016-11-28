@@ -6532,7 +6532,7 @@ messages:
       if lTargets <> $
          AND IsClass(oSpell,&AttackSpell)
       {
-         Send(self,@CommandMinionAttack,#oMaster=self,#oTarget=First(lTargets));
+         Send(self,@CommandMinionAttack,#oTarget=First(lTargets));
       }
 
       // User took an action!  Wake any AIs in the room to the user's presence!

@@ -2018,8 +2018,15 @@ messages:
    {
       local oRoom, bWasBad, lMinions;
 
-      // Must be in a room to attack.
-      if (poOwner = $)
+      // Must be in a room to attack, must have target.
+      if (poOwner = $
+         OR victim = $)
+      {
+         return FALSE;
+      }
+
+      // Can't attack the master.
+      if (victim = poMaster)
       {
          return FALSE;
       }
@@ -2036,8 +2043,7 @@ messages:
 
       // If the victim is in a room, then check that location instead.  This
       // allows distance attacks (like wall spells) to work properly.
-      if victim <> $
-         AND Send(victim,@GetOwner) <> poOwner
+      if Send(victim,@GetOwner) <> poOwner
       {
          if (minion
             AND oMinionRoom <> $)
@@ -2132,7 +2138,7 @@ messages:
       }
 
       // If we have minions, see if they can attack too
-      Send(self,@CommandMinionAttack,#oMaster=self,#oTarget=what);
+      Send(self,@CommandMinionAttack,#oTarget=what);
 
       // Face the target.
       Send(self,@MonsterOrient,#new_row=Send(what,@GetRow),
@@ -2274,7 +2280,7 @@ messages:
       }
 
       // Attacks against a minion master will cause minions to defend the master
-      Send(self,@CommandMinionAttack,#oMaster=self,#oTarget=what);
+      Send(self,@CommandMinionAttack,#oTarget=what);
 
       // Check for any applicable resistances.
       if NOT absolute
@@ -6450,7 +6456,7 @@ messages:
    }
 
    // This section deals with minion code.
-   CommandMinionAttack(oMaster=$,oTarget=$)
+   CommandMinionAttack(oTarget=$)
    {
       local oActive;
 
