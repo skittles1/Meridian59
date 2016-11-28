@@ -4415,7 +4415,8 @@ messages:
          return TRUE;
       }
 
-      if Send(self,@IsInCannotInteractMode)
+      if actual
+         AND Send(self,@IsInCannotInteractMode)
       {
          if report
          {
@@ -14775,6 +14776,15 @@ messages:
       // a minion under our control.
       if IsClass(oTarget,&Monster)
          AND Send(oTarget,@GetMaster) = self
+      {
+         return;
+      }
+
+      // Check here for phase/spectate, as calling AllowBattlerAttack with
+      // actual=FALSE will bypass that check for accurate minimap dots.
+      // It is unlikely we still even have minions if phased, but better to
+      // be safe here.
+      if (Send(self,@IsInCannotInteractMode))
       {
          return;
       }
