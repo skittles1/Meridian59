@@ -47,8 +47,10 @@ properties:
    piBaseLight = LIGHT_NICE
    piOutside_factor = OUTDOORS_SOME
 
-
    prMusic = barlbar1_music
+
+   // Every 5 min.
+   piGen_object_time = 300000
 
 messages:
 
