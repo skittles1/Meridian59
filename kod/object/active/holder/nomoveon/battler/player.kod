@@ -4415,7 +4415,8 @@ messages:
          return TRUE;
       }
 
-      if Send(self,@IsInCannotInteractMode)
+      if actual
+         AND Send(self,@IsInCannotInteractMode)
       {
          if report
          {
@@ -4896,7 +4897,7 @@ messages:
       }
 
       // If we have minions, see if they can attack too
-      Send(self,@CommandMinionAttack,#oMaster=self,#oTarget=what);
+      Send(self,@CommandMinionAttack,#oTarget=what);
 
       // Can pay costs?  Only check for skills, spells have already been cast.
       if IsClass(stroke_obj,&Skill)
@@ -5556,7 +5557,7 @@ messages:
       if what <> $
          AND IsClass(what,&Battler)
       {
-         Send(self,@CommandMinionAttack,#oMaster=self,#oTarget=what);
+         Send(self,@CommandMinionAttack,#oTarget=what);
       }
 
       if what <> $ AND IsClass(what,&monster)
@@ -14756,7 +14757,7 @@ messages:
    }
 
    // This section deals with minion code.
-   CommandMinionAttack(oMaster=$,oTarget=$)
+   CommandMinionAttack(oTarget=$)
    {
       local oActive;
 
@@ -14764,6 +14765,7 @@ messages:
       // not items or anything else that can damage us.
       if plControlledMinions = $
          OR oTarget = $
+         OR oTarget = self
          OR NOT IsClass(oTarget,&Battler)
          OR IsClass(oTarget,&Revenant)
       {
@@ -14774,6 +14776,15 @@ messages:
       // a minion under our control.
       if IsClass(oTarget,&Monster)
          AND Send(oTarget,@GetMaster) = self
+      {
+         return;
+      }
+
+      // Check here for phase/spectate, as calling AllowBattlerAttack with
+      // actual=FALSE will bypass that check for accurate minimap dots.
+      // It is unlikely we still even have minions if phased, but better to
+      // be safe here.
+      if (Send(self,@IsInCannotInteractMode))
       {
          return;
       }

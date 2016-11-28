@@ -54,6 +54,9 @@ properties:
 
    prMusic = marinn_music
 
+   // Every 5 min.
+   piGen_object_time = 300000
+
 messages:
 
    CreateObjectGeneration()

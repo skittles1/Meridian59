@@ -3263,18 +3263,18 @@ messages:
             {
                if poGuild = oOtherGuild
                {
-                  iFlags = (iFlags | MM_PLAYER_IS_GUILDMATE);
+                  iFlags |= MM_PLAYER_IS_GUILDMATE;
                }
 
                if Send(poGuild,@IsAlly,#otherguild=oOtherGuild)
                   AND Send(oOtherGuild,@IsAlly,#otherguild=poGuild)
                {
-                  iFlags = (iFlags | MM_PLAYER_IS_FRIEND);
+                  iFlags |= MM_PLAYER_IS_FRIEND;
                }
 
                if Send(poGuild,@IsMutualEnemy,#otherguild=oOtherGuild)
                {
-                  iFlags = (iFlags | MM_PLAYER_IS_ENEMY);
+                  iFlags |= MM_PLAYER_IS_ENEMY;
                }
             }
 
@@ -3283,18 +3283,18 @@ messages:
                AND Send(self,@AllowBattlerAttack,#victim=what,
                         #report=FALSE,#actual=FALSE)
             {
-               iFlags = (iFlags | MM_PLAYER_IS_ENEMY);
+               iFlags |= MM_PLAYER_IS_ENEMY;
             }
 
             // Add builder group halo.
             if Send(poOwner,@AreGroupedHere,#who=self,#what=what)
             {
-               iFlags = (iFlags | MM_BUILDER_GROUP);
+               iFlags |= MM_BUILDER_GROUP;
             }
          }
          else
          {
-            iFlags = (iFlags | MM_MONSTER);
+            iFlags |= MM_MONSTER;
          }
       }
 
@@ -6532,7 +6532,7 @@ messages:
       if lTargets <> $
          AND IsClass(oSpell,&AttackSpell)
       {
-         Send(self,@CommandMinionAttack,#oMaster=self,#oTarget=First(lTargets));
+         Send(self,@CommandMinionAttack,#oTarget=First(lTargets));
       }
 
       // User took an action!  Wake any AIs in the room to the user's presence!

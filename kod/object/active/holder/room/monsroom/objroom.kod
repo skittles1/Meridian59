@@ -18,7 +18,6 @@ resources:
 
 classvars:
 
-
 properties:
 
    ptGen_object
@@ -32,7 +31,8 @@ properties:
    // An object must be passive if GEN_ONE
    plObject_gen = $
 
-   piGen_object_time = 1350000 // defaults to every five minutes
+   // Every 40 min.
+   piGen_object_time = 2400000
 
 messages:
 
@@ -53,9 +53,10 @@ messages:
    {
       if ptGen_object <> $
       {
-	 DeleteTimer(ptGen_object);
-	 ptGen_object = $;
+         DeleteTimer(ptGen_object);
+         ptGen_object = $;
       }
+
       propagate;
    }
 
@@ -65,10 +66,10 @@ messages:
    {
       ptGen_object = $;
 
-      if send(self,@isuserinroom)
-        {
-           send(self,@objectGenerator);
-        }
+      if Send(self,@IsUserInRoom)
+      {
+         Send(self,@ObjectGenerator);
+      }
 
       return;
    }
@@ -76,37 +77,44 @@ messages:
   ObjectGenerator()
   "Added 5/15 by Damion.  This is called without any checks for modified "
   "firstuserentered routine."
-    {
-       Send(self,@TryCreateObject);
-       ptGen_object = CreateTimer(self,@ObjectGenTimer,piGen_object_time);
-       return;
-    }
+   {
+      Send(self,@TryCreateObject);
+      ptGen_object = CreateTimer(self,@ObjectGenTimer,piGen_object_time);
+
+      return;
+   }
 
    TestGenPoints(bApple = TRUE)
    {
       local lObjectInfo, oObject, row, col, finerow, finecol;
-            
+
       foreach lObjectInfo in plObject_gen
-      {	 
-	 /// create apples so we know that it's not naturally created or dropped
-	 if bApple   { oObject = create(&Apple); }
-	 else	     { oObject = create(first(lObjectInfo)); }
+      {
+         // Create apples so we know that it's not naturally created or dropped.
+         if bApple
+         {
+            oObject = Create(&Apple);
+         }
+         else
+         {
+            oObject = Create(First(lObjectInfo));
+         }
 
-	 /// Go ahead and gen 'em
-	 row = nth(lObjectInfo,4);
-	 col = nth(lObjectInfo,5);
+         // Go ahead and gen 'em.
+         row = Nth(lObjectInfo,4);
+         col = Nth(lObjectInfo,5);
+         finerow = FINENESS_HALF;
+         finecol = FINENESS_HALF;
 
-	 finerow = FINENESS_HALF;
-	 finecol = FINENESS_HALF;
-	 
-	 if Length(lObjectinfo) >= 7
-	 {
-	    finerow = Nth(lObjectinfo,6);
-	    finecol = Nth(lObjectinfo,7);	    
-	 }		  	 
-	 Send(self,@newhold,#what=oObject,
-	    #new_row = row, #new_col = col, #fine_row = finerow, #fine_col = finecol);
+         if Length(lObjectinfo) >= 7
+         {
+            finerow = Nth(lObjectinfo,6);
+            finecol = Nth(lObjectinfo,7);
+         }
+         Send(self,@NewHold,#what=oObject,#new_row=row,#new_col=col,
+               #fine_row=finerow,#fine_col=finecol);
       }
+
       return;
    }
 
@@ -117,7 +125,7 @@ messages:
 
       if plObject_gen = $
       {
-	 return;
+         return;
       }
 
       lObject_info = Nth(plObject_gen,Random(1,Length(plObject_gen)));
@@ -125,43 +133,44 @@ messages:
       iNumber = Nth(lObject_info,3);
       iRow = Nth(lObject_info,4);
       iCol = Nth(lObject_info,5);
-      
+
       if Nth(lObject_info,2) = GEN_ONE
       {
-	 // check to make sure no other object with same class in this square
-	 foreach i in plPassive
-	 {
-	    // get row and col from the list 
-	    if Nth(i,3) = iRow and Nth(i,4) = iCol and 
-	       GetClass(First(i)) = First(lObject_info)
-	    {
-	       //debug("Try to create object already there",First(lObject_info),iRow,iCol);
-	       return;
-	    }
-	 }
+         // Check to make sure no other object with same class in this square.
+         foreach i in plPassive
+         {
+            // get row and col from the list 
+            if Nth(i,3) = iRow
+               AND Nth(i,4) = iCol
+               AND GetClass(First(i)) = First(lObject_info)
+            {
+               //Debug("Try to create object already there",First(lObject_info),iRow,iCol);
+               return;
+            }
+         }
       }
-      
+
       iFine_row = FINENESS_HALF;
       iFine_col = FINENESS_HALF;
       if Length(lObject_info) >= 7
       {
-	 iFine_row = Nth(lObject_info,6);
-	 iFine_col = Nth(lObject_info,7);
+         iFine_row = Nth(lObject_info,6);
+         iFine_col = Nth(lObject_info,7);
 
-	 //debug("Object gen make at fineness",iFine_row,iFine_col);
-      }		   
+         //debug("Object gen make at fineness",iFine_row,iFine_col);
+      }
 
       oNew_creation = Create(First(lObject_info),#number=iNumber);
-      
-      if Send(self,@ReqNewHold,#what=oNew_creation,#new_row=iRow,#new_col=iCol) and 
-         Send(self,@ReqSomethingMoved,#what=oNew_creation,#new_row=iRow,#new_col=iCol)
+
+      if Send(self,@ReqNewHold,#what=oNew_creation,#new_row=iRow,#new_col=iCol)
+         AND Send(self,@ReqSomethingMoved,#what=oNew_creation,#new_row=iRow,#new_col=iCol)
       {
-	 Send(self,@NewHold,#what=oNew_creation,#new_row=iRow,#new_col=iCol,
-	      #fine_row=iFine_row,#fine_col=iFine_col);
+         Send(self,@NewHold,#what=oNew_creation,#new_row=iRow,#new_col=iCol,
+               #fine_row=iFine_row,#fine_col=iFine_col);
       }
       else
       {
-	 Send(oNew_creation,@Delete);
+         Send(oNew_creation,@Delete);
       }
 
       return;
@@ -170,13 +179,14 @@ messages:
    FirstUserEntered(what = $)
    {
       if ptGen_object <> $
-      { 
-	 //debug("Timer exists.  Someone tried to leave and then reenter."); 
+      {
+         //Debug("Timer exists.  Someone tried to leave and then reenter.");
       }
       else
       {
          Send(self,@ObjectGenerator);
       }
+
       propagate;
    }
 
