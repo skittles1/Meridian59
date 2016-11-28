@@ -2119,7 +2119,7 @@
    SID_DISPEL_ILLUSION = 89
    SID_SUPER_ROOM_HOLD = 90
    SID_DELIVERANCE_TOUCH = 91
-
+   SID_DM_ITEMATT = 92
    SID_REFLECTION = 99
    SID_SPIRITUAL_HAMMER = 100
    SID_APPARITION = 101
@@ -2410,56 +2410,58 @@
 
    // Set of flags just for DM's
    // DM is completely invisible
-   DMFLAG_INVISIBLE              = 0x000001
-   DMFLAG_SHADOW                 = 0x000002
-   DMFLAG_ANONYMOUS              = 0x000004
+   DMFLAG_INVISIBLE              = 0x0000001
+   DMFLAG_SHADOW                 = 0x0000002
+   DMFLAG_ANONYMOUS              = 0x0000004
    // DM gets server number attached to gmails
-   DMFLAG_LABELMAIL              = 0x000008
+   DMFLAG_LABELMAIL              = 0x0000008
    // DM is a special event character
-   DMFLAG_EVENTCHAR              = 0x000010
+   DMFLAG_EVENTCHAR              = 0x0000010
    // DM doesn't show up in the "who" list to players.
-   DMFLAG_HIDDEN                 = 0x000020
+   DMFLAG_HIDDEN                 = 0x0000020
    // Allow "dm hidden, dm blank etc." DM commands.
-   DMFLAG_ALLOW_HIDE             = 0x000040
+   DMFLAG_ALLOW_HIDE             = 0x0000040
    // Allow creating mobs with no restrictions.
-   DMFLAG_ALLOW_CREATE_MOB       = 0x000080
+   DMFLAG_ALLOW_CREATE_MOB       = 0x0000080
    // Allow creating mobs from a budget.
-   DMFLAG_ALLOW_MOB_BUDGET       = 0x000100
+   DMFLAG_ALLOW_MOB_BUDGET       = 0x0000100
    // Allow setting mob creation budget for other DMs.
-   DMFLAG_ALLOW_SET_MOB_BUDGET   = 0x000200
+   DMFLAG_ALLOW_SET_MOB_BUDGET   = 0x0000200
    // Allow temporarily switching off PvP in a room.
-   DMFLAG_ALLOW_TURNOFF_ROOMPK   = 0x000400
+   DMFLAG_ALLOW_TURNOFF_ROOMPK   = 0x0000400
    // Allow deleting all items in inventory.
-   DMFLAG_ALLOW_CLEAR_INVENTORY  = 0x000800
+   DMFLAG_ALLOW_CLEAR_INVENTORY  = 0x0000800
    // Allow get/clear spell/skill DM commands, and buying them from NPCs.
-   DMFLAG_ALLOW_GET_ABILITIES    = 0x001000
+   DMFLAG_ALLOW_GET_ABILITIES    = 0x0001000
    // Allow item creation.
-   DMFLAG_ALLOW_CREATE_ITEMS     = 0x002000
+   DMFLAG_ALLOW_CREATE_ITEMS     = 0x0002000
    // Allow boosting stats and obtaining XP.
-   DMFLAG_ALLOW_BOOST_STATS      = 0x004000
+   DMFLAG_ALLOW_BOOST_STATS      = 0x0004000
    // Allow setting game time.
-   DMFLAG_ALLOW_SET_TIME         = 0x008000
+   DMFLAG_ALLOW_SET_TIME         = 0x0008000
    // Allow setting angel/PK status.
-   DMFLAG_ALLOW_PKSTATUS_SET     = 0x010000
+   DMFLAG_ALLOW_PKSTATUS_SET     = 0x0010000
    // Test mob/item gen points, exit points.
-   DMFLAG_ALLOW_TEST_CMDS        = 0x020000
+   DMFLAG_ALLOW_TEST_CMDS        = 0x0020000
    // Arena/tournament commands.
-   DMFLAG_ALLOW_ARENA_CMDS       = 0x040000
+   DMFLAG_ALLOW_ARENA_CMDS       = 0x0040000
    // Assassin's Game commands.
-   DMFLAG_ALLOW_AGAME_CMDS       = 0x080000
+   DMFLAG_ALLOW_AGAME_CMDS       = 0x0080000
    // Picking up tokens, pulling levers etc.
-   DMFLAG_ALLOW_GAMEPLAY         = 0x100000
+   DMFLAG_ALLOW_GAMEPLAY         = 0x0100000
    // Allow attacking players/mobs.
-   DMFLAG_ALLOW_COMBAT           = 0x200000
+   DMFLAG_ALLOW_COMBAT           = 0x0200000
    // Allow giving items to NPCs/mobs.
-   DMFLAG_ALLOW_GIVE_MOBS        = 0x400000
+   DMFLAG_ALLOW_GIVE_MOBS        = 0x0400000
    // Allow switching immortality on/off
-   DMFLAG_ALLOW_SET_MORTAL       = 0x800000
+   DMFLAG_ALLOW_SET_MORTAL       = 0x0800000
+   // Allow modifying items
+   DMFLAG_ALLOW_MODIFY_ITEMS     = 0x1000000
 
-   DMFLAG_SET_MODERATOR          = 0x000000
-   DMFLAG_SET_BARD               = 0x0414C0
-   DMFLAG_SET_GUIDE              = 0x7D7EC0
-   DMFLAG_SET_ADMIN              = 0x7FFEC0
+   DMFLAG_SET_MODERATOR          = 0x0000000
+   DMFLAG_SET_BARD               = 0x10414C0
+   DMFLAG_SET_GUIDE              = 0x17D7EC0
+   DMFLAG_SET_ADMIN              = 0x17FFEC0
 
    // Special effect constants
    EFFECT_INVERT = 1

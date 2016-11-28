@@ -89,7 +89,7 @@ messages:
    ItemUnused(oItem=$,oPlayer=$)
    "Stops Glowing when unwielded."
    {
-      local iLightStr, i;
+      local iLightStr;
 
       iLightStr = Nth(Send(oItem,@GetAttributeData,#ItemAtt=WA_GLOWING),3);
       Send(oPlayer,@LoseLight,#amount=iLightStr);
@@ -108,15 +108,17 @@ messages:
          return FALSE;
       }
 
-      iGlowLevel = 50 + random(1,50);
+      iGlowLevel = 50 + Random(1,50);
 
       if Send(self,@ReqAddToItem,#state1=iGlowLevel,#oItem=oItem)
       {
          Send(self,@AddToItem,#oItem=oItem,#state1=iGlowLevel,
-              #timer_duration=random(3600000,86400000),#random_gen=TRUE);
+               #timer_duration=random(3600000,86400000),#random_gen=TRUE);
+
+         return TRUE;
       }
 
-      return;
+      return FALSE;
    }
 
    SetPrimaryState(state1=$)
@@ -145,7 +147,7 @@ messages:
       local oPlayer, oRoom;
 
       oPlayer = Send(oItem,@GetOwner);
-      if oPlayer<> $ AND IsClass(oPlayer,&Player)
+      if oPlayer <> $ AND IsClass(oPlayer,&Player)
       {
          Send(oPlayer,@MsgSendUser,#message_rsc=waglowing_gone,
               #parm1=Send(oItem,@GetName));

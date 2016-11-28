@@ -3187,6 +3187,7 @@ messages:
       Send(self,@CreateOneSpellIfNew,#num=SID_INSIGHT,#class=&Insight);
       Send(self,@CreateOneSpellIfNew,#num=SID_EVALUATE,#class=&Evaluate);
       Send(self,@CreateOneSpellIfNew,#num=SID_ENGRAVE,#class=&Engrave);
+      Send(self,@CreateOneSpellIfNew,#num=SID_DM_ITEMATT,#class=&DivineEnchantment);
       Send(self,@CreateOneSpellIfNew,#num=SID_SLITHERBOLT,#class=&Slitherbolt);
 
       Send(self,@CreateOneSpellIfNew,#num=SID_CURSE_WEAPON,#class=&CurseWeapon);

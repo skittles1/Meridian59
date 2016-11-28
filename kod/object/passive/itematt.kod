@@ -144,6 +144,9 @@ messages:
          if random_x < 1         /// we have a winner!
          {
             oItem = Create(First(i));
+            // Don't need to check the return value here, assume it worked.
+            // Only collision is Kran dedication on mystic swords, which
+            // makes a mystic that can later be dedicated to Shal/Qor.
             Send(self,@AddSelfToRandomItem,#oItem=oItem,#who=who,
                   #diff_seed=diff_seed);
 
@@ -154,30 +157,31 @@ messages:
       return oItem;
    }
 
+   GetDMTrigger()
+   {
+      return vrDM_Trigger;
+   }
+
    DMCreateItemAtt(who=$,string=$,oWeapon=$)
    {
-      if who = $ or string= $ or oWeapon = $
+      if who = $ OR string = $ OR oWeapon = $
       {
          Debug("BAD data sent to DMCreateItemAtt!");
 
          return FALSE;
       }
 
-      /// some itematts are for internal use only, such as corpsepointer.
-      /// So we only give 'creation' triggers to those that do exist.
-      if vrDM_trigger = $  {  return FALSE;  }
-
-      if not StringContain(string,vrDM_Trigger)
+      // Some itematts are for internal use only, such as corpsepointer.
+      // So we only give 'creation' triggers to those that do exist.
+      if vrDM_trigger = $
+         OR NOT StringContain(string,vrDM_Trigger)
       {
          return FALSE;
       }
 
-      //// Okay, they've chosen our itematt.  Most of the time, let's
-      //// just apply ourselves using the 'random' thing we use to make treasure.
-
-      Send(self,@AddSelfToRandomItem,#oItem=oWeapon,#who=who);
-
-      return TRUE;
+      // Okay, they've chosen our itematt.  Most of the time, let's just
+      // apply ourselves using the 'random' thing we use to make treasure.
+      return Send(self,@AddSelfToRandomItem,#oItem=oWeapon,#who=who);
    }
 
    AddSelfToRandomItem(oItem=$,who=$,diff_seed=1)
@@ -190,9 +194,11 @@ messages:
       if Send(self,@ReqAddToItem,#oItem=oItem)
       {
          Send(self,@AddToItem,#oItem=oItem,#diff_seed=diff_seed);
+
+         return TRUE;
       }
 
-      return;
+      return FALSE;
    }
 
 ////////////////////////////////////////////////

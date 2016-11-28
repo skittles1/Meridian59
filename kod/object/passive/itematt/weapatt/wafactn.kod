@@ -43,18 +43,23 @@ resources:
    weapatt_faction_rebel = \
       " The rebel army flag is embossed on the weapon, giving %s "
       "advantage for the rebellion."
+   weapatt_faction_necro = \
+      " The dark symbol of the necromancers is embossed on this weapon, "
+      "giving %s advantage for the undead army."
 
    weapatt_faction_duke_name = "%s of the duke"
    weapatt_faction_princess_name = "the princess' %s"
    weapatt_faction_rebel_name = "the rebel %s"
+   weapatt_faction_necro_name = "the necromancer %s"
 
    iafaction_duke_dm = "duke"
    iafaction_princess_dm = "princess"
    iafaction_rebel_dm = "rebel"
+   iafaction_necro_dm = "necromancer"
 
 classvars:
 
-   viItem_Att_Num = WA_FACTION   
+   viItem_Att_Num = WA_FACTION
 
    viDifficulty = 8
    vrDM_trigger = iafaction_duke_dm
@@ -63,7 +68,7 @@ classvars:
 
 properties:
 
-   piValue_modifier = 150   /// modify the object's price by 150//
+   piValue_modifier = 150   /// modify the object's price by 150%
    piValue_power_modifier = 10
 
 messages:
@@ -85,35 +90,34 @@ messages:
 
       if StringContain(string,iafaction_duke_dm)
       {
-         Send(self,@AddSelfToRandomItem,#oItem=oWeapon,
+         return Send(self,@AddSelfToRandomItem,#oItem=oWeapon,
                #who=who,#iFact=FACTION_DUKE);
-
-         return TRUE;
       }
 
       if StringContain(string,iafaction_princess_dm)
       {
-         Send(self,@AddSelfToRandomItem,#oItem=oWeapon,
+         return Send(self,@AddSelfToRandomItem,#oItem=oWeapon,
                #who=who,#iFact=FACTION_PRINCESS);
-
-         return TRUE;
       }
 
       if StringContain(string,iafaction_rebel_dm)
       {
-         Send(self,@AddSelfToRandomItem,#oItem=oWeapon,
+         return Send(self,@AddSelfToRandomItem,#oItem=oWeapon,
                #who=who,#iFact=FACTION_REBEL);
+      }
 
-         return TRUE;
+      if StringContain(string,iafaction_necro_dm)
+      {
+         return Send(self,@AddSelfToRandomItem,#oItem=oWeapon,
+               #who=who,#iFact=FACTION_NECROMANCER);
       }
 
       return FALSE;
-
    }
 
    AddSelfToRandomItem(oItem=$,who=$,iFact=FACTION_NEUTRAL)
    {
-      if oItem = $ or who = $
+      if oItem = $ OR who = $
       {
          Debug("BAD BAD BAD");
 
@@ -131,7 +135,7 @@ messages:
             iFact = Send(who,@GetFaction);
          }
 
-         if iFact = FACTION_NEUTRAL	
+         if iFact = FACTION_NEUTRAL
          {
             // Choose a random faction, because either the weapatt 
             //  failed the random check, or the player isn't allied with either.
@@ -143,9 +147,11 @@ messages:
       if Send(self,@ReqAddToItem,#state1=iFact,#oItem=oItem)
       {
          Send(self,@AddToItem,#oItem=oItem,#state1=iFact);
+
+         return TRUE;
       }
 
-      return;
+      return FALSE;
    }
 
 ////////////////////////////////////////////////
@@ -156,8 +162,10 @@ messages:
 
    ReqAddToItem(state1=$)
    {
+      // Use FACTION_MAX rather than FACTION_NORMAL_MAX here, since we can
+      // manually add faction attributes not normally available in-game.
       if state1 <= FACTION_NEUTRAL
-         OR state1 > FACTION_NORMAL_MAX
+         OR state1 > FACTION_MAX
       {
          Debug("Illegal faction chosen.  No attribute added.");
 
@@ -328,10 +336,14 @@ messages:
       {
          AddPacket(4,weapatt_faction_princess,4,rPowerDesc);
       }
+      else if iData = FACTION_REBEL
+      {
+         AddPacket(4,weapatt_faction_rebel,4,rPowerDesc);
+      }
       else
       {
-         // iData = FACTION_REBEL
-         AddPacket(4,weapatt_faction_rebel,4,rPowerDesc);
+         // iData = FACTION_NECROMANCER
+         AddPacket(4,weapatt_faction_necro,4,rPowerDesc);
       }
 
       return;
@@ -376,10 +388,14 @@ messages:
       {
          AddPacket(4,weapatt_faction_princess_name);
       }
+      else if iData = FACTION_REBEL
+      {
+         AddPacket(4,weapatt_faction_rebel_name);
+      }
       else
       {
-         // iData = FACTION_REBEL
-         AddPacket(4,weapatt_faction_rebel_name);
+         // iData = FACTION_NECROMANCER
+         AddPacket(4,weapatt_faction_necro_name);
       }
 
       AddPacket(4,Send(oItem,@GetName));
