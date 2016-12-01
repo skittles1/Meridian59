@@ -636,19 +636,14 @@ messages:
 
    FindTrees(oRoom=$)
    {
-      local i, j, lPassive, lTrees;
-
-      lPassive = $;
-      lTrees = $;
+      local i, j, lTrees;
 
       if oRoom = $
       {
          return;
       }
 
-      lPassive = Send(oRoom,@GetPlPassive);
-
-      foreach j in lPassive
+      foreach j in Send(oRoom,@GetPlPassive)
       {
          foreach i in j
          {
@@ -704,8 +699,8 @@ messages:
          
          if (iNewFineRow < 0)
          {
-            iNewRow = iNewRow - 1;
-            iNewFineRow = iNewFineRow + 64;
+            --iNewRow;
+            iNewFineRow += 64;
          }
 
          if (pbGiftMasks)
@@ -725,20 +720,20 @@ messages:
       // NorthEast
       if bNE
       {
-         iNewRow=iRow;
-         iNewCol=iCol;
+         iNewRow = iRow;
+         iNewCol = iCol;
          iNewFineRow = iFineRow - (TREE_DISTANCE / 4 * 3);
          iNewFineCol = iFineCol + (TREE_DISTANCE / 4 * 3);
 
          if (iNewFineRow < 0)
          {
-            iNewRow = iNewRow - 1;
-            iNewFineRow = iNewFineRow + 64;
+            --iNewRow;
+            iNewFineRow += 64;
          }
          if (iNewFineCol > 63)
          {
-            iNewCol = iNewCol + 1;
-            iNewFineCol = iNewFineCol - 64;
+            ++iNewCol;
+            iNewFineCol -= 64;
          }
 
          if (pbGiftMasks)
@@ -757,15 +752,15 @@ messages:
       // East
       if bE
       {
-         iNewRow=iRow;
-         iNewCol=iCol;
+         iNewRow = iRow;
+         iNewCol = iCol;
          iNewFineRow = iFineRow;
          iNewFineCol = iFineCol + TREE_DISTANCE;
          
          if (iNewFineCol > 63)
          {
-            iNewCol = iNewCol + 1;
-            iNewFineCol = iNewFineCol - 64;
+            ++iNewCol;
+            iNewFineCol -= 64;
          }
 
          if (pbGiftMasks)
@@ -784,20 +779,20 @@ messages:
       // SouthEast
       if bSE
       {
-         iNewRow=iRow;
-         iNewCol=iCol;
+         iNewRow = iRow;
+         iNewCol = iCol;
          iNewFineRow = iFineRow + (TREE_DISTANCE / 4 * 3);
          iNewFineCol = iFineCol + (TREE_DISTANCE / 4 * 3);
          
          if (iNewFineRow > 63)
          {
-            iNewRow = iNewRow + 1;
-            iNewFineRow = iNewFineRow - 64;
+            ++iNewRow;
+            iNewFineRow -= 64;
          }
          if (iNewFineCol > 63)
          {
-            iNewCol = iNewCol + 1;
-            iNewFineCol = iNewFineCol - 64;
+            ++iNewCol;
+            iNewFineCol -= 64;
          }
 
          if (pbGiftMasks)
@@ -816,15 +811,15 @@ messages:
       // South
       if bS
       {
-         iNewRow=iRow;
-         iNewCol=iCol;
+         iNewRow = iRow;
+         iNewCol = iCol;
          iNewFineRow = iFineRow + TREE_DISTANCE;
          iNewFineCol = iFineCol;
 
          if (iNewFineRow > 63)
          {
-            iNewRow = iNewRow + 1;
-            iNewFineRow = iNewFineRow - 64;
+            ++iNewRow;
+            iNewFineRow -= 64;
          }
 
          if (pbGiftMasks)
@@ -843,20 +838,20 @@ messages:
       // SouthWest
       if bSW
       {
-         iNewRow=iRow;
-         iNewCol=iCol;
+         iNewRow = iRow;
+         iNewCol = iCol;
          iNewFineRow = iFineRow + (TREE_DISTANCE / 4 * 3);
          iNewFineCol = iFineCol - (TREE_DISTANCE / 4 * 3);
          
          if (iNewFineRow > 63)
          {
-            iNewRow = iNewRow + 1;
-            iNewFineRow = iNewFineRow - 64;
+            ++iNewRow;
+            iNewFineRow -= 64;
          }
          if (iNewFineCol < 0)
          {
-            iNewCol = iNewCol - 1;
-            iNewFineCol = iNewFineCol + 64;
+            --iNewCol;
+            iNewFineCol += 64;
          }
       
          if (pbGiftMasks)
@@ -875,15 +870,15 @@ messages:
       // West
       if bW
       {
-         iNewRow=iRow;
-         iNewCol=iCol;
+         iNewRow = iRow;
+         iNewCol = iCol;
          iNewFineRow = iFineRow;
          iNewFineCol = iFineCol - TREE_DISTANCE;
 
          if (iNewFineCol < 0)
          {
-            iNewCol = iNewCol - 1;
-            iNewFineCol = iNewFineCol + 64;
+            --iNewCol;
+            iNewFineCol += 64;
          }
 
          if (pbGiftMasks)
@@ -902,20 +897,20 @@ messages:
       // NorthWest
       if bNW
       {
-         iNewRow=iRow;
-         iNewCol=iCol;
+         iNewRow = iRow;
+         iNewCol = iCol;
          iNewFineRow = iFineRow - (TREE_DISTANCE / 4 * 3);
          iNewFineCol = iFineCol - (TREE_DISTANCE / 4 * 3);
 
          if (iNewFineRow < 0)
          {
-            iNewRow = iNewRow - 1;
-            iNewFineRow = iNewFineRow + 64;
+            --iNewRow;
+            iNewFineRow += 64;
          }
          if (iNewFineCol < 0)
          {
-            iNewCol = iNewCol - 1;
-            iNewFineCol = iNewFineCol + 64;
+            --iNewCol;
+            iNewFineCol += 64;
          }
 
          if (pbGiftMasks)
@@ -936,9 +931,7 @@ messages:
 
    RefillGifts()
    {
-      local i,j,lGiftsBackup;
-
-      lGiftsBackup = $;
+      local i, j, lGiftsBackup;
 
       foreach i in plGifts
       {
@@ -953,34 +946,26 @@ messages:
       Send(self,@RemoveGifts);
       Send(self,@PlaceGifts);
 
-      if (lGiftsBackup <> $)
+      foreach i in lGiftsBackup
       {
-         foreach i in lGiftsBackup
+         foreach j in plGifts
          {
-            foreach j in plGifts
+            if (First(i) = Send(j,@GetRow))
+               AND (Nth(i,2) = Send(j,@GetCol))
+               AND (Nth(i,3) = Send(j,@GetFineRow))
+               AND (Nth(i,4) = Send(j,@GetFineCol))
             {
-               if (First(i) = Send(j,@GetRow))
-                  AND (Nth(i,2) = Send(j,@GetCol))
-                  AND (Nth(i,3) = Send(j,@GetFineRow))
-                  AND (Nth(i,4) = Send(j,@GetFineCol))
-               {
-                  Send(j,@SetRecipient,#who=Nth(i,5));
-               }
+               Send(j,@SetRecipient,#who=Nth(i,5));
             }
          }
       }
-   
+
       return;
    }
 
    RemoveGifts()
    {
       local i, oOwner;
-
-      if plGifts = $
-      {
-         return;
-      }
 
       foreach i in plGifts
       {
@@ -1001,16 +986,11 @@ messages:
    {
       local i, oOwner;
 
-      if plGifts = $
-      {
-         return;
-      }
-
       foreach i in plGifts
       {
          oOwner = Send(i,@GetOwner);
 
-         if IsClass(oOwner,&User)
+         if oOwner <> $ AND IsClass(oOwner,&User)
          {
             Send(i,@Delete);
          }
@@ -1138,8 +1118,6 @@ messages:
    {
       local i, oRoom, iRoomNum, bIsland, rand, lIslandGifts, lMainlandGifts;
 
-      lIslandGifts = $;
-      lMainlandGifts = $;
       bIsland = FALSE;
       oRoom = Send(who,@GetOwner);
 
@@ -1153,7 +1131,7 @@ messages:
       // 2100 to 2599 is Island/Caves
       if (iRoomNum >= 2000 AND iRoomNum <=2599)
       {
-         bIsland = True;
+         bIsland = TRUE;
       }
 
       // Build lists of island and mainland gifts available.
