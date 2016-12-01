@@ -107,17 +107,22 @@ messages:
    }
 
    // required GameEvent Overload
-   StartEvent()
+   StartEvent(parm2=$)
    {
       local sMessage;
+
+      // parm2 is an optional boolean for gifts.
+      // parm1 from GameEventEngine is always class ID.
+      if (parm2 = TRUE OR parm2 = FALSE)
+      {
+         pbGifts = parm2;
+      }
 
       Send(self,@StartQormas);
 
       sMessage = SetString($,@NotifyEngineEndEvent);
-      Send(REALTIME_OBJECT,@RegisterCallbackInDays,
-                     #oObject=self,
-                     #days=viRunDays,
-                     #message=sMessage);
+      Send(REALTIME_OBJECT,@RegisterCallbackInDays,#oObject=self,
+            #days=viRunDays,#message=sMessage);
 
       propagate;
    }
@@ -338,6 +343,32 @@ messages:
          plWreaths = Cons([oRoom,23],plWreaths);
       }
 
+      // TODO: add wreaths/bells for Raza doors.
+      // Raza
+      oRoom = Send(SYS,@FindRoomByNum,#num=RID_RAZA);
+      oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_SNOWMAN);
+      Send(oRoom,@NewHold,#what=oDecoration,#new_row=4,#new_col=35,#fine_row=6,
+            #fine_col=48,#new_angle=ANGLE_SOUTH_WEST);
+      plDecorations = Cons(oDecoration,plDecorations);
+      oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_TREE_BIG);
+      Send(oRoom,@NewHold,#what=oDecoration,#new_row=10,#new_col=23,#fine_row=32,
+            #fine_col=32,#new_angle=ANGLE_EAST);
+      plDecorations = Cons(oDecoration,plDecorations);
+
+      // Raza Inn
+      oRoom = Send(SYS,@FindRoomByNum,#num=RID_RAZA_INN);
+      oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_TREE);
+      Send(oRoom,@NewHold,#what=oDecoration,#new_row=3,#new_col=6,#fine_row=10,
+            #fine_col=48,#new_angle=ANGLE_NORTH_WEST);
+      plDecorations = Cons(oDecoration,plDecorations);
+
+      // Raza adv hall
+      oRoom = Send(SYS,@FindRoomByNum,#num=RID_RAZA_HALL);
+      oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_TREE);
+      Send(oRoom,@NewHold,#what=oDecoration,#new_row=10,#new_col=5,#fine_row=44,
+            #fine_col=11,#new_angle=ANGLE_NORTH_WEST);
+      plDecorations = Cons(oDecoration,plDecorations);
+
       // Marion Inn/Tavern
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_MAR_INN);
       oDecoration = Create(&OrnamentalObject,#type=OO_QORMAS_TREE);
@@ -526,9 +557,9 @@ messages:
          {
             Send(oRoom,@RemoveTextureChange,#id=Nth(i,2));
          }
-         plWreaths = DelListElem(plWreaths,i);
       }
 
+      plWreaths = $;
       plDecorations = $;
 
       return;
@@ -590,6 +621,18 @@ messages:
       Send(self,@PlaceGiftsAroundTree,#oTree=oTree,#bW=FALSE,
             #bSW=FALSE,#bS=FALSE);
 
+      // Raza Inn
+      oRoom = Send(SYS,@FindRoomByNum,#num=RID_RAZA_INN);
+      oTree = First(Send(self,@FindTrees,#oRoom=oRoom));
+      Send(self,@PlaceGiftsAroundTree,#oTree=oTree,#bN=FALSE,
+            #bNE=FALSE,#bNW=FALSE);
+
+      // Raza Hall
+      oRoom = Send(SYS,@FindRoomByNum,#num=RID_RAZA_HALL);
+      oTree = First(Send(self,@FindTrees,#oRoom=oRoom));
+      Send(self,@PlaceGiftsAroundTree,#oTree=oTree,#bSE=FALSE,
+            #bSW=FALSE,#bS=FALSE);
+
       // Marion Inn
       oRoom = Send(SYS,@FindRoomByNum,#num=RID_MAR_INN);
       oTree = First(Send(self,@FindTrees,#oRoom=oRoom));
@@ -636,19 +679,14 @@ messages:
 
    FindTrees(oRoom=$)
    {
-      local i, j, lPassive, lTrees;
-
-      lPassive = $;
-      lTrees = $;
+      local i, j, lTrees;
 
       if oRoom = $
       {
          return;
       }
 
-      lPassive = Send(oRoom,@GetPlPassive);
-
-      foreach j in lPassive
+      foreach j in Send(oRoom,@GetPlPassive)
       {
          foreach i in j
          {
@@ -704,8 +742,8 @@ messages:
          
          if (iNewFineRow < 0)
          {
-            iNewRow = iNewRow - 1;
-            iNewFineRow = iNewFineRow + 64;
+            --iNewRow;
+            iNewFineRow += 64;
          }
 
          if (pbGiftMasks)
@@ -725,20 +763,20 @@ messages:
       // NorthEast
       if bNE
       {
-         iNewRow=iRow;
-         iNewCol=iCol;
+         iNewRow = iRow;
+         iNewCol = iCol;
          iNewFineRow = iFineRow - (TREE_DISTANCE / 4 * 3);
          iNewFineCol = iFineCol + (TREE_DISTANCE / 4 * 3);
 
          if (iNewFineRow < 0)
          {
-            iNewRow = iNewRow - 1;
-            iNewFineRow = iNewFineRow + 64;
+            --iNewRow;
+            iNewFineRow += 64;
          }
          if (iNewFineCol > 63)
          {
-            iNewCol = iNewCol + 1;
-            iNewFineCol = iNewFineCol - 64;
+            ++iNewCol;
+            iNewFineCol -= 64;
          }
 
          if (pbGiftMasks)
@@ -757,15 +795,15 @@ messages:
       // East
       if bE
       {
-         iNewRow=iRow;
-         iNewCol=iCol;
+         iNewRow = iRow;
+         iNewCol = iCol;
          iNewFineRow = iFineRow;
          iNewFineCol = iFineCol + TREE_DISTANCE;
          
          if (iNewFineCol > 63)
          {
-            iNewCol = iNewCol + 1;
-            iNewFineCol = iNewFineCol - 64;
+            ++iNewCol;
+            iNewFineCol -= 64;
          }
 
          if (pbGiftMasks)
@@ -784,20 +822,20 @@ messages:
       // SouthEast
       if bSE
       {
-         iNewRow=iRow;
-         iNewCol=iCol;
+         iNewRow = iRow;
+         iNewCol = iCol;
          iNewFineRow = iFineRow + (TREE_DISTANCE / 4 * 3);
          iNewFineCol = iFineCol + (TREE_DISTANCE / 4 * 3);
          
          if (iNewFineRow > 63)
          {
-            iNewRow = iNewRow + 1;
-            iNewFineRow = iNewFineRow - 64;
+            ++iNewRow;
+            iNewFineRow -= 64;
          }
          if (iNewFineCol > 63)
          {
-            iNewCol = iNewCol + 1;
-            iNewFineCol = iNewFineCol - 64;
+            ++iNewCol;
+            iNewFineCol -= 64;
          }
 
          if (pbGiftMasks)
@@ -816,15 +854,15 @@ messages:
       // South
       if bS
       {
-         iNewRow=iRow;
-         iNewCol=iCol;
+         iNewRow = iRow;
+         iNewCol = iCol;
          iNewFineRow = iFineRow + TREE_DISTANCE;
          iNewFineCol = iFineCol;
 
          if (iNewFineRow > 63)
          {
-            iNewRow = iNewRow + 1;
-            iNewFineRow = iNewFineRow - 64;
+            ++iNewRow;
+            iNewFineRow -= 64;
          }
 
          if (pbGiftMasks)
@@ -843,20 +881,20 @@ messages:
       // SouthWest
       if bSW
       {
-         iNewRow=iRow;
-         iNewCol=iCol;
+         iNewRow = iRow;
+         iNewCol = iCol;
          iNewFineRow = iFineRow + (TREE_DISTANCE / 4 * 3);
          iNewFineCol = iFineCol - (TREE_DISTANCE / 4 * 3);
          
          if (iNewFineRow > 63)
          {
-            iNewRow = iNewRow + 1;
-            iNewFineRow = iNewFineRow - 64;
+            ++iNewRow;
+            iNewFineRow -= 64;
          }
          if (iNewFineCol < 0)
          {
-            iNewCol = iNewCol - 1;
-            iNewFineCol = iNewFineCol + 64;
+            --iNewCol;
+            iNewFineCol += 64;
          }
       
          if (pbGiftMasks)
@@ -875,15 +913,15 @@ messages:
       // West
       if bW
       {
-         iNewRow=iRow;
-         iNewCol=iCol;
+         iNewRow = iRow;
+         iNewCol = iCol;
          iNewFineRow = iFineRow;
          iNewFineCol = iFineCol - TREE_DISTANCE;
 
          if (iNewFineCol < 0)
          {
-            iNewCol = iNewCol - 1;
-            iNewFineCol = iNewFineCol + 64;
+            --iNewCol;
+            iNewFineCol += 64;
          }
 
          if (pbGiftMasks)
@@ -902,20 +940,20 @@ messages:
       // NorthWest
       if bNW
       {
-         iNewRow=iRow;
-         iNewCol=iCol;
+         iNewRow = iRow;
+         iNewCol = iCol;
          iNewFineRow = iFineRow - (TREE_DISTANCE / 4 * 3);
          iNewFineCol = iFineCol - (TREE_DISTANCE / 4 * 3);
 
          if (iNewFineRow < 0)
          {
-            iNewRow = iNewRow - 1;
-            iNewFineRow = iNewFineRow + 64;
+            --iNewRow;
+            iNewFineRow += 64;
          }
          if (iNewFineCol < 0)
          {
-            iNewCol = iNewCol - 1;
-            iNewFineCol = iNewFineCol + 64;
+            --iNewCol;
+            iNewFineCol += 64;
          }
 
          if (pbGiftMasks)
@@ -936,9 +974,7 @@ messages:
 
    RefillGifts()
    {
-      local i,j,lGiftsBackup;
-
-      lGiftsBackup = $;
+      local i, j, lGiftsBackup;
 
       foreach i in plGifts
       {
@@ -953,34 +989,26 @@ messages:
       Send(self,@RemoveGifts);
       Send(self,@PlaceGifts);
 
-      if (lGiftsBackup <> $)
+      foreach i in lGiftsBackup
       {
-         foreach i in lGiftsBackup
+         foreach j in plGifts
          {
-            foreach j in plGifts
+            if (First(i) = Send(j,@GetRow))
+               AND (Nth(i,2) = Send(j,@GetCol))
+               AND (Nth(i,3) = Send(j,@GetFineRow))
+               AND (Nth(i,4) = Send(j,@GetFineCol))
             {
-               if (First(i) = Send(j,@GetRow))
-                  AND (Nth(i,2) = Send(j,@GetCol))
-                  AND (Nth(i,3) = Send(j,@GetFineRow))
-                  AND (Nth(i,4) = Send(j,@GetFineCol))
-               {
-                  Send(j,@SetRecipient,#who=Nth(i,5));
-               }
+               Send(j,@SetRecipient,#who=Nth(i,5));
             }
          }
       }
-   
+
       return;
    }
 
    RemoveGifts()
    {
       local i, oOwner;
-
-      if plGifts = $
-      {
-         return;
-      }
 
       foreach i in plGifts
       {
@@ -1001,16 +1029,11 @@ messages:
    {
       local i, oOwner;
 
-      if plGifts = $
-      {
-         return;
-      }
-
       foreach i in plGifts
       {
          oOwner = Send(i,@GetOwner);
 
-         if IsClass(oOwner,&User)
+         if oOwner <> $ AND IsClass(oOwner,&User)
          {
             Send(i,@Delete);
          }
@@ -1138,8 +1161,6 @@ messages:
    {
       local i, oRoom, iRoomNum, bIsland, rand, lIslandGifts, lMainlandGifts;
 
-      lIslandGifts = $;
-      lMainlandGifts = $;
       bIsland = FALSE;
       oRoom = Send(who,@GetOwner);
 
@@ -1153,7 +1174,7 @@ messages:
       // 2100 to 2599 is Island/Caves
       if (iRoomNum >= 2000 AND iRoomNum <=2599)
       {
-         bIsland = True;
+         bIsland = TRUE;
       }
 
       // Build lists of island and mainland gifts available.

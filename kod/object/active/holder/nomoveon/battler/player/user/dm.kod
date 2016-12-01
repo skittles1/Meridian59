@@ -169,6 +169,7 @@ resources:
    dm_no_item = "No item with that name exists in the Meridian universe."
    dm_no_monster = "No monster with that name exists in the Meridian universe."
    dm_no_item_group = "There is no item group with that name."
+   dmplace_not_found = "Unable to find item to place."
    dm_q = "Q"
 
    dm_gone_mortal = "%s appears more vulnerable."
@@ -286,7 +287,8 @@ resources:
       "pine tree, elm tree, spider tree, fey tree, bush (low res), shrub, "
       "raza shrub, vine tree, kichan tree, kriipa tree, oak tree, "
       "spine vine (Brax tree), necro vine, rock1, rock2, rock3, rock4, rock5, "
-      "rock 6, stalagmite1, stalagmite2, stool, barstool and table."
+      "rock 6, stalagmite1, stalagmite2, stool, barstool, table, snowman, "
+      "small qormas tree, big qormas tree and wreath."
 
    dm_dontinterfere = "~B~gYou should not try to interfere with the game."
 
@@ -1678,242 +1680,215 @@ messages:
 
    DMSayPlaceObject(string=$)
    {
-      local bItemFound, oObject;
+      local oObject;
 
       if (string = $)
       {
          return;
       }
 
-      bItemFound = FALSE;
-
       if StringEqual(string,dm_create_dynamic_light_command)
       {
          oObject = Create(&DynamicLight,#bVisible=TRUE);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place lamp")
+      else if StringContain(string,"place lamp")
       {
          oObject = Create(&Lamp);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place brazierswitch")
+      else if StringContain(string,"place brazierswitch")
       {
          oObject = Create(&BrazierSwitch);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place brazier")
+      else if StringContain(string,"place brazier")
       {
          oObject = Create(&Brazier);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place candelabra")
+      else if StringContain(string,"place candelabra")
       {
          oObject = Create(&Candelabra);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place candle")
+      else if StringContain(string,"place candle")
       {
          oObject = Create(&Candle);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place firepit")
+      else if StringContain(string,"place firepit")
       {
          oObject = Create(&Firepit);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place glowtree")
+      else if StringContain(string,"place glowtree")
       {
          oObject = Create(&GlowTree);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place kocatan brazier")
+      else if StringContain(string,"place kocatan brazier")
       {
          oObject = Create(&KocatanBrazier);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place kocatan lamp")
+      else if StringContain(string,"place kocatan lamp")
       {
          oObject = Create(&KocatanLamp);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place orc torch")
+      else if StringContain(string,"place orc torch")
       {
          oObject = Create(&OrcTorch);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place skull brazier")
+      else if StringContain(string,"place skull brazier")
       {
          oObject = Create(&SkullBrazier);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place smoke")
+      else if StringContain(string,"place smoke")
       {
          oObject = Create(&SmokeColumn);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place table lamp")
+      else if StringContain(string,"place table lamp")
       {
          oObject = Create(&TableLamp);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place lantern")
+      else if StringContain(string,"place lantern")
       {
          oObject = Create(&OrnamentalObject,#type=OO_LANTERN);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place jasper lantern1")
+      else if StringContain(string,"place jasper lantern1")
       {
          oObject = Create(&OrnamentalObject,#type=OO_JASPERLAMP1);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place jasper lantern")
+      else if StringContain(string,"place jasper lantern")
       {
          oObject = Create(&OrnamentalObject,#type=OO_JASPERLAMP);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place tree")
+      else if StringContain(string,"place tree")
       {
          oObject = Create(&Tree);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place pine tree")
+      else if StringContain(string,"place pine tree")
       {
          oObject = Create(&Tree,#bottom=TREE_PINE);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place elm tree")
+      else if StringContain(string,"place elm tree")
       {
          oObject = Create(&Tree,#bottom=TREE_ELM);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place raza tree")
+      else if StringContain(string,"place raza tree")
       {
          oObject = Create(&OrnamentalObject,#type=OO_RAZA_TREE1);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place dead tree")
+      else if StringContain(string,"place dead tree")
       {
          oObject = Create(&OrnamentalObject,#type=OO_DEADTREE);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place vine tree")
+      else if StringContain(string,"place vine tree")
       {
          oObject = Create(&OrnamentalObject,#type=OO_TREE1);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place kichan tree")
+      else if StringContain(string,"place kichan tree")
       {
          oObject = Create(&OrnamentalObject,#type=OO_TREE2);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place kriipa tree")
+      else if StringContain(string,"place kriipa tree")
       {
          oObject = Create(&OrnamentalObject,#type=OO_TREE3);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place gnarlwood tree")
+      else if StringContain(string,"place gnarlwood tree")
       {
          oObject = Create(&OrnamentalObject,#type=OO_NECTREE1);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place oak tree")
+      else if StringContain(string,"place oak tree")
       {
          oObject = Create(&OrnamentalObject,#type=OO_NECTREE2);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place spine vine")
+      else if StringContain(string,"place spine vine")
       {
          oObject = Create(&OrnamentalObject,#type=OO_NECTREE4);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place raza shrub")
+      else if StringContain(string,"place raza shrub")
       {
          oObject = Create(&OrnamentalObject,#type=OO_RAZA_SHRUB);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place necro vine")
+      else if StringContain(string,"place necro vine")
       {
          oObject = Create(&OrnamentalObject,#type=OO_NECVINE1);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place spider tree")
+      else if StringContain(string,"place spider tree")
       {
          oObject = Create(&SingleTree);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place fey tree")
+      else if StringContain(string,"place fey tree")
       {
          oObject = Create(&FeyTree);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place bush")
+      else if StringContain(string,"place bush")
       {
          oObject = Create(&TallBush);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place shrub")
+      else if StringContain(string,"place shrub")
       {
          oObject = Create(&Shrub);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place stool")
+      else if StringContain(string,"place stool")
       {
          oObject = Create(&Stool);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place barstool")
+      else if StringContain(string,"place barstool")
       {
          oObject = Create(&BarStool);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place table")
+      else if StringContain(string,"place table")
       {
          oObject = Create(&Table);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place rock1")
+      else if StringContain(string,"place rock1")
       {
          oObject = Create(&OrnamentalObject,#type=OO_ROCK1);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place rock2")
+      else if StringContain(string,"place rock2")
       {
          oObject = Create(&OrnamentalObject,#type=OO_ROCK2);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place rock3")
+      else if StringContain(string,"place rock3")
       {
          oObject = Create(&OrnamentalObject,#type=OO_ROCK3);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place rock4")
+      else if StringContain(string,"place rock4")
       {
          oObject = Create(&OrnamentalObject,#type=OO_ROCKB);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place rock5")
+      else if StringContain(string,"place rock5")
       {
          oObject = Create(&OrnamentalObject,#type=OO_ROCKC);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place rock6")
+      else if StringContain(string,"place rock6")
       {
          oObject = Create(&OrnamentalObject,#type=OO_NECROCK);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place stalagmite1")
+      else if StringContain(string,"place stalagmite1")
       {
          oObject = Create(&OrnamentalObject,#type=OO_STALACTITE1);
-         bItemFound = TRUE;
       }
-      if NOT bItemFound AND StringContain(string,"place stalagmite2")
+      else if StringContain(string,"place stalagmite2")
       {
          oObject = Create(&OrnamentalObject,#type=OO_STALACTITE2);
-         bItemFound = TRUE;
+      }
+      else if StringContain(string,"place small qormas tree")
+      {
+         oObject = Create(&OrnamentalObject,#type=OO_QORMAS_TREE);
+      }
+      else if StringContain(string,"place big qormas tree")
+      {
+         oObject = Create(&OrnamentalObject,#type=OO_QORMAS_TREE_BIG);
+      }
+      else if StringContain(string,"place snowman")
+      {
+         oObject = Create(&OrnamentalObject,#type=OO_QORMAS_SNOWMAN);
+      }
+      else if StringContain(string,"place wreath")
+      {
+         oObject = Create(&OrnamentalObject,#type=OO_QORMAS_WREATH);
       }
 
-      if oObject <> $
+      if oObject = $
+      {
+         Send(self,@MsgSendUser,#message_rsc=dmplace_not_found);
+      }
+      else
       {
          Send(poOwner,@NewHold,#what=oObject,#new_row=piRow,#new_col=piCol,
                #fine_row=piFine_row,#fine_col=piFine_col);
