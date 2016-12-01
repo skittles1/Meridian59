@@ -2732,7 +2732,7 @@ messages:
       foreach i in plEnchantments
       {
          // Users already have enchantment icon.
-         Send(Nth(i,2),@StartEnchantmentNewOccupant,#who=what,
+         Post(Nth(i,2),@StartEnchantmentNewOccupant,#who=what,
                #state=(Nth(i,3)));
       }
 
@@ -2765,7 +2765,7 @@ messages:
       foreach i in plEnchantments
       {
          // Users already have enchantment icon.
-         Send(Nth(i,2),@StartEnchantmentNewOccupant,#who=what,
+         Post(Nth(i,2),@StartEnchantmentNewOccupant,#who=what,
                #state=(Nth(i,3)));
       }
 
@@ -3463,6 +3463,7 @@ messages:
       {
          each_obj = First(i);
          if IsClass(each_obj,&User)
+            AND NOT Send(each_obj,@IsInCannotInteractMode)
          {
             Send(what,@StartEnchantment,#who=each_obj,
                   #iSpellPower=iSpellPower,#state=state);
