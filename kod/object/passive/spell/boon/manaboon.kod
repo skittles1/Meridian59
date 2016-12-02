@@ -26,12 +26,12 @@ resources:
    manaboon_icon_rsc = iboonman.bgf
    manaboon_desc_rsc = "Something is affecting your natural mana levels."
    manaboon_intro_rsc = "The mana level of the victim is boosted temporarily."
-
    manaboon_inc = "You feel a higher capacity for magic!"
    manaboon_dec = "You feel a lesser magical capacity."
 
 classvars:
-   viPersonal_ench = True
+
+   viPersonal_ench = TRUE
    vrName = manaboon_name_rsc
    vrIcon = manaboon_icon_rsc
    vrDesc = manaboon_desc_rsc
@@ -46,26 +46,37 @@ messages:
 
    DoSpellEffect(who = $, amount = $)
    {
-   post(who,@ComputeMaxMana);
-   if amount >= 0
-      { Send(who,@MsgSendUser,#message_rsc=manaboon_inc); }
-   else
-      { Send(who,@MsgSendUser,#message_rsc=manaboon_dec); }
+      Post(who,@ComputeMaxMana);
 
-   return;
+      if amount >= 0
+      {
+         Send(who,@MsgSendUser,#message_rsc=manaboon_inc);
+      }
+      else
+      {
+         Send(who,@MsgSendUser,#message_rsc=manaboon_dec);
+      }
+
+      return;
    }
 
    UndoSpellEffect(who = $, amount = $)
    {
-   amount = -amount;
-   post(who,@ComputeMaxMana);
-   if amount >= 0
-      { Send(who,@MsgSendUser,#message_rsc=manaboon_inc); }
-   else
-      { Send(who,@MsgSendUser,#message_rsc=manaboon_dec); }
-   return;
+      amount = -amount;
+      Post(who,@ComputeMaxMana);
+
+      if amount >= 0
+      {
+         Send(who,@MsgSendUser,#message_rsc=manaboon_inc);
+      }
+      else
+      {
+         Send(who,@MsgSendUser,#message_rsc=manaboon_dec);
+      }
+
+      return;
    }
-   
+
    AffectsMaxMana()
    {
       return TRUE;
@@ -74,9 +85,12 @@ messages:
    GetManaBonus(state=0)
    {
       if state < 0
-      {  return -(state % 100); }
+      {
+         return -(state % 100);
+      }
 
       return (state % 100);
    }
 
 end
+////////////////////////////////////////////////////////////////////////////////

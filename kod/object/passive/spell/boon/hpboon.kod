@@ -26,7 +26,6 @@ resources:
    hpboon_icon_rsc = iboonhea.bgf
    hpboon_desc_rsc = "Your carnal health seems unnaturally influenced."
    hpboon_intro_rsc = "The maximum health of the victim is boosted temporarily."
-
    hpboon_inc = \
       "A wave of magical energy sweeps through your body, leaving your "
       "muscles tingling in its wake.  It feels like your skin and flesh "
@@ -36,7 +35,8 @@ resources:
       "body feeling somehow naked, more vulnerable."
 
 classvars:
-   viPersonal_ench = True
+
+   viPersonal_ench = TRUE
    vrName = hpboon_name_rsc
    vrIcon = hpboon_icon_rsc
    vrDesc = hpboon_desc_rsc
@@ -51,24 +51,36 @@ messages:
 
    DoSpellEffect(who = $, amount = $)
    {
-   Send(who, @GainMaxHealth,#amount=amount);
-   if amount >= 0
-      { Send(who,@MsgSendUser,#message_rsc=hpboon_inc); }
-   else
-      { Send(who,@MsgSendUser,#message_rsc=hpboon_dec); }
+      Send(who,@GainMaxHealth,#amount=amount);
 
-   return;
+      if amount >= 0
+      {
+         Send(who,@MsgSendUser,#message_rsc=hpboon_inc);
+      }
+      else
+      {
+         Send(who,@MsgSendUser,#message_rsc=hpboon_dec);
+      }
+
+      return;
    }
 
    UndoSpellEffect(who = $, amount = $)
    {
-   amount = -amount;
-   Send(who, @GainMaxHealth,#amount=-amount);
-   if amount >= 0
-      { Send(who,@MsgSendUser,#message_rsc=hpboon_inc); }
-   else
-      { Send(who,@MsgSendUser,#message_rsc=hpboon_dec); }
-   return;
+      amount = -amount;
+      Send(who,@GainMaxHealth,#amount=amount);
+
+      if amount >= 0
+      {
+         Send(who,@MsgSendUser,#message_rsc=hpboon_inc);
+      }
+      else
+      {
+         Send(who,@MsgSendUser,#message_rsc=hpboon_dec);
+      }
+
+      return;
    }
 
 end
+////////////////////////////////////////////////////////////////////////////////

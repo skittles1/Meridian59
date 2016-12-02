@@ -142,9 +142,9 @@ messages:
    {
       local iDuration;
 
-      iDuration = Compound % 10;
-      iDuration = iDuration * HOURS_LOGGED_ON_PER_DAY;
-      iDuration = Abs(iDuration);  // We accept negative effects, but not durations
+      iDuration = (Compound % 10) * HOURS_LOGGED_ON_PER_DAY;
+      // We accept negative effects, but not durations
+      iDuration = Abs(iDuration);
 
       return iDuration;
    }
@@ -159,7 +159,7 @@ messages:
       local iSpellPower;
 
       iSpellPower = days;
-      iSpellPower = iSpellPower + Abs(amount * 10);
+      iSpellPower += Abs(amount * 10);
       if amount < 0
       {
          iSpellPower = -iSpellPower;
@@ -203,18 +203,18 @@ messages:
    {
       if (state / 100 = 0)
       {
-         state = state * 1;
-         send(self,@UndoSpellEffect,#who=who,#amount=state);
+         state *= 1;
+         Send(self,@UndoSpellEffect,#who=who,#amount=state);
       }
       else
       {
          if state > 0
          {
-            state = state - 100;
+            state -= 100;
          }
          else
          {
-            state = state + 100;
+            state += 100;
          }
 
          Send(who,@StartEnchantment,#what=self,#time=BOON_HOUR,#state=state);

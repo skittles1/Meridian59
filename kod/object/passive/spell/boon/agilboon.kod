@@ -26,12 +26,12 @@ resources:
    agilboon_icon_rsc = iboonagi.bgf
    agilboon_desc_rsc = "Your physical agility is not natural."
    agilboon_intro_rsc = "The agility of the victim is boosted temporarily."
-
    agilboon_inc = "You suddenly feel much quicker!"
    agilboon_dec = "You suddenly feel more sluggish."
 
 classvars:
-   viPersonal_ench = True
+
+   viPersonal_ench = TRUE
    vrName = agilboon_name_rsc
    vrIcon = agilboon_icon_rsc
    vrDesc = agilboon_desc_rsc
@@ -46,23 +46,36 @@ messages:
 
    DoSpellEffect(who = $, amount = $)
    {
-   send(who,@AddAgility,#points=amount);
-   if amount >= 0
-      { Send(who,@MsgSendUser,#message_rsc=agilboon_inc); }
-   else
-      { Send(who,@MsgSendUser,#message_rsc=agilboon_dec); }
-   return;
+      Send(who,@AddAgility,#points=amount);
+
+      if amount >= 0
+      {
+         Send(who,@MsgSendUser,#message_rsc=agilboon_inc);
+      }
+      else
+      {
+         Send(who,@MsgSendUser,#message_rsc=agilboon_dec);
+      }
+
+      return;
    }
 
    UndoSpellEffect(who = $, amount = $)
    {
-   amount = -amount;
-   send(who,@AddAgility,#points=amount);
-   if amount >= 0
-      { Send(who,@MsgSendUser,#message_rsc=agilboon_inc); }
-   else
-      { Send(who,@MsgSendUser,#message_rsc=agilboon_dec); }
-   return;
+      amount = -amount;
+      Send(who,@AddAgility,#points=amount);
+
+      if amount >= 0
+      {
+         Send(who,@MsgSendUser,#message_rsc=agilboon_inc);
+      }
+      else
+      {
+         Send(who,@MsgSendUser,#message_rsc=agilboon_dec);
+      }
+
+      return;
    }
 
 end
+////////////////////////////////////////////////////////////////////////////////

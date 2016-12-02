@@ -26,13 +26,13 @@ resources:
    mystboon_icon_rsc = iboonmys.bgf
    mystboon_desc_rsc = "You feel a change in your natural mysticism."
    mystboon_intro_rsc = "The mysticism of the victim is boosted temporarily."
-
    mystboon_inc = "You feel more magically powerful!"
    mystboon_dec = "You suddenly feel less magically powerful."
 
- 
+
 classvars:
-   viPersonal_ench = True
+
+   viPersonal_ench = TRUE
    vrName = mystboon_name_rsc
    vrIcon = mystboon_icon_rsc
    vrDesc = mystboon_desc_rsc
@@ -42,29 +42,41 @@ classvars:
    viMana = 0
 
 properties:
-   
+
 messages:
 
    DoSpellEffect(who = $, amount = $)
    {
-   send(who,@AddMysticism,#points=amount);
-   if amount >= 0
-      { Send(who,@MsgSendUser,#message_rsc=mystboon_inc); }
-   else
-      { Send(who,@MsgSendUser,#message_rsc=mystboon_dec); }
+      Send(who,@AddMysticism,#points=amount);
 
-   return;
+      if amount >= 0
+      {
+         Send(who,@MsgSendUser,#message_rsc=mystboon_inc);
+      }
+      else
+      {
+         Send(who,@MsgSendUser,#message_rsc=mystboon_dec);
+      }
+
+      return;
    }
 
    UndoSpellEffect(who = $, amount = $)
    {
-   amount = -amount;
-   send(who,@AddMysticism,#points=amount);
-   if amount >= 0
-      { Send(who,@MsgSendUser,#message_rsc=mystboon_inc); }
-   else
-      { Send(who,@MsgSendUser,#message_rsc=mystboon_dec); }
-   return;
+      amount = -amount;
+      Send(who,@AddMysticism,#points=amount);
+
+      if amount >= 0
+      {
+         Send(who,@MsgSendUser,#message_rsc=mystboon_inc);
+      }
+      else
+      {
+         Send(who,@MsgSendUser,#message_rsc=mystboon_dec);
+      }
+
+      return;
    }
 
 end
+////////////////////////////////////////////////////////////////////////////////

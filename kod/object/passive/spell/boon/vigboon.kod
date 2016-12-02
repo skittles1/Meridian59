@@ -26,12 +26,12 @@ resources:
    vigorboon_icon_rsc = iboonvig.bgf
    vigorboon_desc_rsc = "Your vigor seems unnaturally affected."
    vigorboon_intro_rsc = "The vigor of the victim is boosted temporarily."
-
    vigorboon_inc = "You suddenly feel more energetic!"
    vigorboon_dec = "You feel less energetic."
 
 classvars:
-   viPersonal_ench = True
+
+   viPersonal_ench = TRUE
    vrName = vigorboon_name_rsc
    vrIcon = vigorboon_icon_rsc
    vrDesc = vigorboon_desc_rsc
@@ -41,40 +41,43 @@ classvars:
    viMana = 0
 
 properties:
-   
+
 messages:
 
    DoSpellEffect(who = $, amount = $)
    {
-   local iVigorRestThreshold;
-   iVigorRestThreshold = send(who, @GetVigorRestThreshold);
-   iVigorRestThreshold = iVigorRestThreshold + amount;
-   
-   send(who, @SetVigorRestThreshold, #amount = iVigorRestThreshold);
+      Send(who,@SetVigorRestThreshold,
+            #amount=Send(who,@GetVigorRestThreshold) + amount);
 
-   if amount >= 0
-      { Send(who,@MsgSendUser,#message_rsc=vigorboon_inc); }
-   else
-      { Send(who,@MsgSendUser,#message_rsc=vigorboon_dec); }
+      if amount >= 0
+      {
+         Send(who,@MsgSendUser,#message_rsc=vigorboon_inc);
+      }
+      else
+      {
+         Send(who,@MsgSendUser,#message_rsc=vigorboon_dec);
+      }
 
-   return;
+      return;
    }
 
    UndoSpellEffect(who = $, amount = $)
    {
-   local iVigorRestThreshold;
+      amount = -amount;
+      Send(who,@SetVigorRestThreshold,
+            #amount=Send(who,@GetVigorRestThreshold) + amount);
 
-   amount = -amount;
-   iVigorRestThreshold = send(who, @GetVigorRestThreshold);
-   iVigorRestThreshold = iVigorRestThreshold + amount;
-   
-   send(who, @SetVigorRestThreshold, #amount = iVigorRestThreshold);
-   if amount >= 0
-      { Send(who,@MsgSendUser,#message_rsc=vigorboon_inc); }
-   else
-      { Send(who,@MsgSendUser,#message_rsc=vigorboon_dec); }
+      if amount >= 0
+      {
+         Send(who,@MsgSendUser,#message_rsc=vigorboon_inc);
+      }
+      else
+      {
+         Send(who,@MsgSendUser,#message_rsc=vigorboon_dec);
+      }
 
-   return;
+      return;
    }
 
 end
+////////////////////////////////////////////////////////////////////////////////

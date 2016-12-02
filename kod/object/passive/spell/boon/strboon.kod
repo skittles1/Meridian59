@@ -27,12 +27,12 @@ resources:
    strboon_icon_rsc = iboonmig.bgf
    strboon_desc_rsc = "Your strength is under an abnormal effect."
    strboon_intro_rsc = "The strength of the victim is boosted temporarily."
-
    strboon_inc = "You feel stronger!"
    strboon_dec = "You suddenly feel weaker."
 
 classvars:
-   viPersonal_ench = True
+
+   viPersonal_ench = TRUE
    vrName = strboon_name_rsc
    vrIcon = strboon_icon_rsc
    vrDesc = strboon_desc_rsc
@@ -47,24 +47,36 @@ messages:
 
    DoSpellEffect(who = $, amount = $)
    {
-   send(who,@AddMight,#points=amount);
-   if amount >= 0
-      { Send(who,@MsgSendUser,#message_rsc=strboon_inc); }
-   else
-      { Send(who,@MsgSendUser,#message_rsc=strboon_dec); }
+      Send(who,@AddMight,#points=amount);
+
+      if amount >= 0
+      {
+         Send(who,@MsgSendUser,#message_rsc=strboon_inc);
+      }
+      else
+      {
+         Send(who,@MsgSendUser,#message_rsc=strboon_dec);
+      }
 
    return;
    }
 
    UndoSpellEffect(who = $, amount = $)
    {
-   amount = -amount;
-   send(who,@AddMight,#points=amount);
-   if amount >= 0
-      { Send(who,@MsgSendUser,#message_rsc=strboon_inc); }
-   else
-      { Send(who,@MsgSendUser,#message_rsc=strboon_dec); }
-   return;
+      amount = -amount;
+      Send(who,@AddMight,#points=amount);
+
+      if amount >= 0
+      {
+         Send(who,@MsgSendUser,#message_rsc=strboon_inc);
+      }
+      else
+      {
+         Send(who,@MsgSendUser,#message_rsc=strboon_dec);
+      }
+
+      return;
    }
 
 end
+////////////////////////////////////////////////////////////////////////////////
