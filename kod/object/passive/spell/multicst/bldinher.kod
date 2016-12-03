@@ -22,16 +22,21 @@ resources:
    BloodInheritance_name_rsc = "blood inheritance"
    BloodInheritance_icon_rsc = ibloodin.bgf
    BloodInheritance_desc_rsc = \
-      "Infuses a weapon with the malevolent power of Qor.  "
-      "It is impossible to predict exactly what form this dark "
-      "benediction will take, but it will always be deadly.  "
-      "Requires shaman blood, entroot berries, and orc teeth."
-   
+      "Infuses a weapon with the malevolent power of Qor.  It is impossible "
+      "to predict exactly what form this dark benediction will take, but it "
+      "will always be deadly.  Requires 16 shaman blood, 16 entroot berries, "
+      "and 16 orc teeth."
+
    BloodInheritance_sound = qunbond.ogg
 
-   BloodInheritance_bad_target = "You must target this spell at a melee weapon."
-   BloodInheritance_bad_target2 = "You cannot give Qor's gift to a weapon which is already enchanted."
-   BloodInheritance_succeeded = "The evil force of your spell lashes out at %s%s, infusing it with Qor's power."
+   BloodInheritance_bad_target = \
+      "You must target this spell at a melee weapon."
+   BloodInheritance_bad_target2 = \
+      "You cannot give Qor's gift to a weapon which already has such "
+      "a strong enchantment."
+   BloodInheritance_succeeded = \
+      "The evil force of your spell lashes out at %s%s, infusing "
+      "it with Qor's power."
 
 classvars:
 
@@ -51,91 +56,95 @@ classvars:
    viCast_time = 20000
    viChance_To_Increase = 35
 
-   viManaDrain = 1       // Drain is amount used every viDrainTime milliseconds
-   viDrainTime = 1000    // Drain some mana every viDrainTime milliseconds
+   // Drain is amount used every viDrainTime milliseconds
+   viManaDrain = 1
+   // Drain some mana every viDrainTime milliseconds
+   viDrainTime = 1000
 
-   viMultiCast_Spellpower = 3000  // 10 minutes for worst case, 2.3 mins for best case. 
+   // 10 minutes for worst case, 2.3 mins for best case.
+   viMultiCast_Spellpower = 3000
 
-properties:                     
+properties:
 
-messages:      
-
+messages:
 
    ResetReagents()
    {
       plReagents = $;
-      plReagents = Cons([&ShamanBlood,2] ,plReagents);
-      plReagents = Cons([&EntrootBerry,2] ,plReagents);
-      plReagents = Cons([&OrcTooth,1] ,plReagents);
+      plReagents = Cons([&ShamanBlood,16] ,plReagents);
+      plReagents = Cons([&EntrootBerry,16] ,plReagents);
+      plReagents = Cons([&OrcTooth,16] ,plReagents);
 
       return;
    }
-   
+
    CastSpell(who = $, lTargets = $, iSpellPower = 0)
    {
+      local oTarget;
+
+      oTarget = First(lTargets);
+
       // Gotta be a melee weapon. This spell will only create magical weapons that
       // can normally be obtained, so don't allow ranged weapon to be given procs.
-      if not isClass(first(lTargets),&Weapon)
-         OR isClass(first(lTargets),&RangedWeapon)
+      if oTarget = $
+         OR NOT IsClass(oTarget,&Weapon)
+         OR IsClass(oTarget,&RangedWeapon)
       {
          Send(who,@MsgSendUser,#message_rsc=BloodInheritance_bad_target);
+
          return;
       }
 
-      // Can't have any other enchantments.
-      if send(first(lTargets),@HasAnyAttribute)
+      // Can't have any powerful enchantments.
+      if (NOT Send(oTarget,@CanUserAddSpecialAttributes))
       {
          Send(who,@MsgSendUser,#message_rsc=BloodInheritance_bad_target2);
+
          return;
       }
-      
+
       propagate;
    }
 
-   PrismCast(spellpower = 0, lCasters=$, lTargets=$) 
+   PrismCast(spellpower = 0, lCasters=$, lTargets=$)
    {
-      local oCaster, iRandom, ItemAtt;
+      local oCaster, oTarget, ItemAtt, iCount;
 
-      // Can't have any other enchantments.
-      if Send(first(lTargets),@HasAnyAttribute)
+      oTarget = First(lTargets);
+
+      // Can't have any powerful enchantments.
+      if (NOT Send(oTarget,@CanUserAddSpecialAttributes))
       {
          foreach oCaster in lCasters
          {
             Send(oCaster,@MsgSendUser,#message_rsc=BloodInheritance_bad_target2);
          }
+
          return;
       }
 
       foreach oCaster in lCasters
       {
          Send(oCaster,@MsgSendUser,#message_rsc=BloodInheritance_succeeded,
-                  #parm1=send(first(lTargets),@GetIndef),
-                    #parm2=send(first(lTargets),@GetName));
+               #parm1=Send(oTarget,@GetDef),#parm2=Send(oTarget,@GetName));
       }
 
-      iRandom = Random(1,10);
-
-      if iRandom = 1
+      // Try 10x to add an itematt not already present.
+      iCount = 0;
+      do
       {
-         ItemAtt = WA_VAMPER;
-      }
+         switch(Random(1,8))
+         {
+            case 1: ItemAtt = WA_VAMPER; break;
+            case 2: ItemAtt = WA_BLINDER; break;
+            case 3: ItemAtt = WA_PARALYZER; break;
+            case 4: ItemAtt = WA_SIPHON; break;
+            default: ItemAtt = WA_CURSED;
+         }
+      } while (Send(oTarget,@HasAttribute,#ItemAtt=ItemAtt)
+         AND ++iCount < 10);
 
-      if iRandom = 2
-      {
-         ItemAtt = WA_BLINDER;
-      }
-
-      if iRandom = 3
-      {
-         ItemAtt = WA_PARALYZER;
-      }
-
-      if iRandom >= 4
-      {
-         ItemAtt = WA_CURSED;
-      }
-
-      send(send(SYS,@FindItemAttByNum,#Num=ItemAtt),@AddToItem,#oItem=first(lTargets));
+      Send(Send(SYS,@FindItemAttByNum,#Num=ItemAtt),@AddToItem,#oItem=oTarget);
 
       return;
    }

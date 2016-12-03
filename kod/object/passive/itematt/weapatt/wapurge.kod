@@ -42,6 +42,7 @@ classvars:
    viDifficulty = 9
    vrDM_trigger = purger_dm
    vbAppears_in_Happyland = FALSE
+   vbAllowSpecialAttributes = FALSE
 
 properties:
 

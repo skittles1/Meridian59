@@ -48,6 +48,10 @@ classvars:
 
    vrDM_Trigger = cursed_dm
 
+   // Has to be false to disallow cursing a weapon then adding a non-cursed
+   // attribute via blood inheritance.
+   vbAllowSpecialAttributes = FALSE
+
 properties:
 
    piValue_modifier = 100   /// modify the object's price by 100//

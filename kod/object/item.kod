@@ -195,10 +195,10 @@ messages:
             iKraananPower, iJalaPower, iShalPower, iQorPower, iInstrumentPower,
             iNum, bID, iMinDamage, iMinDamageOwner, iAttackType, oItemAtt;
 
-      // This message 'telescopes' resources into the 5th //r of
+      // This message 'telescopes' resources into the 5th %r of
       // item_desc_template. There are 16 different stats we can add;
       // when we first add a stat to be displayed we add a template with
-      // the correct number of //r formatters to match the number of stats
+      // the correct number of %r formatters to match the number of stats
       // remaining (plus one for the special_properties_header). If a stat
       // is missing after we have already added the headers, add a blank
       // resource ("") in its place. If new stats are added to this message,
@@ -1778,27 +1778,46 @@ messages:
    //  This 'telescoping' saves memory.
 
    //// Item Attribute Functions
-   
+
    HasAttribute(ItemAtt = $)
    {
       local i;
 
       foreach i in plItem_attributes
-      { 
-         if Send(self,@GetNumFromCompound,#compound=First(i)) = ItemAtt  
+      {
+         if Send(self,@GetNumFromCompound,#compound=First(i)) = ItemAtt
          {
             return TRUE;
-         }  
+         }
       }
-      
+
       return FALSE;
    }
 
    HasAnyAttribute()
    {
-      if plItem_attributes = $
+      return plItem_attributes <> $;
+   }
+
+   CanUserAddSpecialAttributes()
+   "Special attributes would be enchantments more powerful than glow, shroud "
+   "or the school-based holy/unholy/Kraanan enchants. To prevent the creation "
+   "of super powerful weapons, disallow adding special attributes if the item "
+   "already has a very powerful attribute on it."
+   {
+      local i, iNum, oItemAtt;
+
+      foreach i in plItem_attributes
       {
-         return FALSE;
+         iNum = Send(self,@GetNumFromCompound,#compound=First(i));
+         oItemAtt = Send(SYS,@FindItemAttByNum,#num=iNum);
+
+         // Specific itematts can disallow the addition of another powerful
+         // itematt. Things like blind, hold and purge attributes would do this.
+         if (NOT Send(oItemAtt,@ItemCanAddSpecialAttributes))
+         {
+            return FALSE;
+         }
       }
 
       return TRUE;
@@ -1810,7 +1829,7 @@ messages:
 
       n = 0;
       foreach i in plItem_attributes
-      { 
+      {
          if Send(self,@GetNumFromCompound,#compound=First(i)) = ItemAtt
          {
             n = n + 1;
@@ -1818,11 +1837,11 @@ messages:
             {
                return i;
             }
-         }  
+         }
       }
-      
+
       return $;
-   }   
+   }
 
    GetNumFromCompound(compound = $)
    {
@@ -1860,11 +1879,11 @@ messages:
       {
          if NOT Send(self,@GetIDStatusFromCompound,#compound=First(i))
          {
-            setNth(i,1,(First(i)+1));
+            SetFirst(i,(First(i)+1));
             bDone = TRUE;
          }
       }
-      
+
       return bDone;
    }
 
@@ -1914,14 +1933,14 @@ messages:
    "This function is largely unnecessary, and is here only for convenience."
    {
       local oItemAtt;
-      
+
       if ItemAtt = $
       {
          return;
       }
- 
+
       oItemAtt = Send(SYS,@FindItemAttByNum,#num=ItemAtt);
-      
+
       if oItemAtt = $
       {
          Debug("Illegal data sent to RemoveAttribute");
@@ -1929,8 +1948,8 @@ messages:
          return;
       }
 
-      Send(oitemAtt,@RemoveFromItem,#oItem=self);
-      
+      Send(oItemAtt,@RemoveFromItem,#oItem=self);
+
       return;
    }
 
@@ -1942,7 +1961,7 @@ messages:
       if oItemAtt = $ OR ItemAtt = 0
       {
          Debug("Illegal data sent to RemoveAttributeSpecific");
-         
+
          return;
       }
 
@@ -1974,6 +1993,7 @@ messages:
       if timer = $
       {
          Debug("Timer = $!");
+
          return;
       }
 
@@ -1986,7 +2006,7 @@ messages:
             iNum = Send(self,@GetNumFromCompound,#compound=First(i));
             oItemAtt = Send(SYS,@FindItemAttByNum,#num=iNum);
             Send(oItemAtt,@TimerExpired,#oItem=self,#lData=i);
-            
+
             return;
          }
       }

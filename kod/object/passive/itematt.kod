@@ -56,6 +56,10 @@ classvars:
    vrDM_Trigger = $
    vbAppears_in_Happyland = TRUE
 
+   // Whether users can add special attributes (e.g. via blood inheritance)
+   // if this attribute is present.
+   vbAllowSpecialAttributes = TRUE
+
 properties:
 
    plItems_to_Attribute = $
@@ -74,22 +78,23 @@ messages:
 
    CheckItemAttForValidity(iServer=SERVER_NORMAL)
    {
-      if iServer=SERVER_NO_MURDER
+      if iServer = SERVER_NO_MURDER
       {
          if vbAppears_in_happyland
          {
             return TRUE;
          }
          else
-         {  
+         {
             Send(self,@delete);
 
             return FALSE;
          }
       }
+
       return TRUE;
    }
-  
+
    SetItemsToAttribute()
    {
       /// This is used by the weapon attribute when trestype decides
@@ -270,7 +275,12 @@ messages:
    ItemCanIdentify()
    {
       return TRUE;
-   }   
+   }
+
+   ItemCanAddSpecialAttributes()
+   {
+      return vbAllowSpecialAttributes;
+   }
 
    ItemGetSpellModifier(oCaster=$,oItem=$)
    {
@@ -294,8 +304,8 @@ messages:
 
          return FALSE;
       }
-      
-      if isClass(oItem,&Item)
+
+      if IsClass(oItem,&Item)
       {
          return TRUE;
       }

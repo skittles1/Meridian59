@@ -43,6 +43,7 @@ classvars:
 
    viDifficulty = 9
    vrDM_trigger = Paralyzer_dm
+   vbAllowSpecialAttributes = FALSE
 
 properties:
 
