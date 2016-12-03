@@ -34,14 +34,17 @@ resources:
    purger_worked_user = "Your weapon tears at the magic surrounding %s%s."
    purger_worked_target = "%s%s's weapon tears at the magic surrounding you!"
    purger_dm = "purger"
+   purger_info_desc = "15%% chance to cast Purge on hit\n"
 
 classvars:
 
    vrDesc = weapattpurger_desc
+   vrInfoDesc = purger_info_desc
    viItem_Att_Num = WA_PURGER
    viDifficulty = 9
    vrDM_trigger = purger_dm
    vbAppears_in_Happyland = FALSE
+   vbAllowSpecialAttributes = FALSE
 
 properties:
 

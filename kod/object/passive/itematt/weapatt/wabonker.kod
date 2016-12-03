@@ -31,11 +31,12 @@ resources:
    weapattbonker_desc = \
       " Mocker's signature flamboyantly emblazons the pommel."
    bonker_dm = "bonker"
+   bonker_info_desc = "8%% chance to cast Bonk on hit\n"
 
 classvars:
 
    vrDesc = weapattbonker_desc
-
+   vrInfoDesc = bonker_info_desc
    viItem_Att_Num = WA_BONKER
 
    viDifficulty = 9

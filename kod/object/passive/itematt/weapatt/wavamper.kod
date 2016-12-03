@@ -37,12 +37,13 @@ resources:
    vamper_worked = "%s%s shudders as %s life is sucked away!"
    vamper_worked_target = \
       "%s%s seems enervated as the metal of %s weapon touches your flesh!"
+   vamper_info_desc = "10%% chance to gain up to 8 health on hit\n"
 
 classvars:
 
    vrDesc = weapattVamper_desc
-
-   viItem_Att_Num = WA_Vamper
+   vrInfoDesc = vamper_info_desc
+   viItem_Att_Num = WA_VAMPER
 
    viDifficulty = 10
    vrDM_trigger = Vamper_dm

@@ -34,19 +34,21 @@ resources:
    Paralyzer_dm = "Paralyzer"
    paralyzer_fail_use = "You are not ready to use %s%s."
    holder_worked = "%s%s seems rooted to the very ground!"
+   holder_info_desc = "15%% chance to cast Hold on hit\n"
 
 classvars:
 
    vrDesc = weapattParalyzer_desc
-
+   vrInfoDesc = holder_info_desc
    viItem_Att_Num = WA_Paralyzer
 
    viDifficulty = 9
    vrDM_trigger = Paralyzer_dm
+   vbAllowSpecialAttributes = FALSE
 
 properties:
 
-   // modify the object's price by 100//
+   // modify the object's price by 100%
    piValue_modifier = 200
    piValue_power_modifier = 10
    piEffect_percent = 15

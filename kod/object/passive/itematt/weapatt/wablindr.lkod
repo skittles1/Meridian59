@@ -4,3 +4,4 @@ weapattblinder_desc = de \
 blinder_fail_use = de "%s%s entgleitet Deinen Händen, da Du noch nicht so weit bist diese Waffe zu benutzen."
 blinder_worked = de "%s%s stolpert schreiend und %s Augen bedeckend davon!"
 blinder_dm = de "Blender"
+blinder_info_desc = de "15%% Chance deinen Gegner beim Schlag zu Blenden\n"

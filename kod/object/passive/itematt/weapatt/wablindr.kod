@@ -34,15 +34,17 @@ resources:
    blinder_fail_use = "You are not yet ready to use %s%s."
    blinder_worked = "%s%s stumbles away, screaming and clutching %s eyes!"
    blinder_dm = "blinder"
+   blinder_info_desc = "15%% chance to cast Blind on hit\n"
 
 classvars:
 
    vrDesc = weapattblinder_desc
-
+   vrInfoDesc = blinder_info_desc
    viItem_Att_Num = WA_BLINDER
 
    viDifficulty = 9
    vrDM_trigger = blinder_dm
+   vbAllowSpecialAttributes = FALSE
 
 properties:
 

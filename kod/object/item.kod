@@ -78,13 +78,6 @@ resources:
    item_stats_jala_instrument_sp = "%i Jala instrument power\n"
    item_stats_resistance = "%i%% %s\n"
    item_stats_dmg_type = "Deals %s damage\n"
-   item_stats_proc_hold = "15%% chance to cast Hold on hit\n"
-   item_stats_proc_blind = "15%% chance to cast Blind on hit\n"
-   item_stats_proc_bonk = "8%% chance to cast Bonk on hit\n"
-   item_stats_proc_purge = "15%% chance to cast Purge on hit\n"
-   item_stats_proc_twister = "8%% chance to disorient victim on hit\n"
-   item_stats_proc_vamp = "10%% chance to gain up to 8 health on hit\n"
-   item_stats_bonus_xp = "%i bonus XP per kill\n"
 
 classvars:
 
@@ -193,12 +186,12 @@ messages:
    {
       local i, bFoundProperties, iHigh_level, n, iFarenPower, iRiijaPower,
             iKraananPower, iJalaPower, iShalPower, iQorPower, iInstrumentPower,
-            iNum, bID, iMinDamage, iMinDamageOwner, iAttackType, oItemAtt;
+            iNum, iMinDamage, iMinDamageOwner, iAttackType, oItemAtt;
 
-      // This message 'telescopes' resources into the 5th //r of
+      // This message 'telescopes' resources into the 5th %r of
       // item_desc_template. There are 16 different stats we can add;
       // when we first add a stat to be displayed we add a template with
-      // the correct number of //r formatters to match the number of stats
+      // the correct number of %r formatters to match the number of stats
       // remaining (plus one for the special_properties_header). If a stat
       // is missing after we have already added the headers, add a blank
       // resource ("") in its place. If new stats are added to this message,
@@ -625,95 +618,21 @@ messages:
                            #iNum=Length(plItem_attributes)));
          }
 
-         // TODO: Item attributes should handle this.
          foreach i in plItem_attributes
          {
             iNum = Send(self,@GetNumFromCompound,#compound=First(i));
-            bID = Send(self,@GetIDStatusFromCompound,#compound=First(i));
-            if bID
+            oItemAtt = Send(SYS,@FindItemAttByNum,#num=iNum);
+
+            if NOT bFoundProperties
             {
-               if iNum = WA_PARALYZER
-               {
-                  if NOT bFoundProperties
-                  {
-                     AddPacket(4,system_rsc_template_2,
-                               4,special_properties_header);
-                     bFoundProperties = TRUE;
-                  }
-                  AddPacket(4,item_stats_proc_hold);
-               }
-               else if iNum = WA_BLINDER
-               {
-                  if NOT bFoundProperties
-                  {
-                     AddPacket(4,system_rsc_template_2,
-                               4,special_properties_header);
-                     bFoundProperties = TRUE;
-                  }
-                  AddPacket(4,item_stats_proc_blind);
-               }
-               else if iNum = WA_BONKER
-               {
-                  if NOT bFoundProperties
-                  {
-                     AddPacket(4,system_rsc_template_2,
-                               4,special_properties_header);
-                     bFoundProperties = TRUE;
-                  }
-                  AddPacket(4,item_stats_proc_bonk);
-               }
-               else if iNum = WA_PURGER
-               {
-                  if NOT bFoundProperties
-                  {
-                     AddPacket(4,system_rsc_template_2,
-                               4,special_properties_header);
-                     bFoundProperties = TRUE;
-                  }
-                  AddPacket(4,item_stats_proc_purge);
-               }
-               else if iNum = WA_TWISTER
-               {
-                  if NOT bFoundProperties
-                  {
-                     AddPacket(4,system_rsc_template_2,
-                               4,special_properties_header);
-                     bFoundProperties = TRUE;
-                  }
-                  AddPacket(4,item_stats_proc_twister);
-               }
-               else if iNum = WA_VAMPER
-               {
-                  if NOT bFoundProperties
-                  {
-                     AddPacket(4,system_rsc_template_2,
-                               4,special_properties_header);
-                     bFoundProperties = TRUE;
-                  }
-                  AddPacket(4,item_stats_proc_vamp);
-               }
-               else if iNum = IA_XP_KILL_BONUS
-               {
-                  if NOT bFoundProperties
-                  {
-                     AddPacket(4,system_rsc_template_2,
-                               4,special_properties_header);
-                     bFoundProperties = TRUE;
-                  }
-                  oItemAtt = Send(SYS,@FindItemAttByNum,#num=IA_XP_KILL_BONUS);
-                  AddPacket(4,item_stats_bonus_xp,
-                            4,Send(oItemAtt,@GetXPBonusFromCompound,
-                                    #iCompound=First(i)));
-               }
-               else
-               {
-                  AddPacket(4,system_blank_resource);
-               }
+               AddPacket(4,system_rsc_template_2,
+                         4,special_properties_header);
+               bFoundProperties = TRUE;
             }
-            else
-            {
-               AddPacket(4,system_blank_resource);
-            }
+
+            // Each item attribute can add a description, or possibly
+            // a blank resource if it isn't identified.
+            Send(oItemAtt,@AppendDescInfo,#oItem=self,#compound=First(i));
          }
       }
       else
@@ -1778,27 +1697,46 @@ messages:
    //  This 'telescoping' saves memory.
 
    //// Item Attribute Functions
-   
+
    HasAttribute(ItemAtt = $)
    {
       local i;
 
       foreach i in plItem_attributes
-      { 
-         if Send(self,@GetNumFromCompound,#compound=First(i)) = ItemAtt  
+      {
+         if Send(self,@GetNumFromCompound,#compound=First(i)) = ItemAtt
          {
             return TRUE;
-         }  
+         }
       }
-      
+
       return FALSE;
    }
 
    HasAnyAttribute()
    {
-      if plItem_attributes = $
+      return plItem_attributes <> $;
+   }
+
+   CanUserAddSpecialAttributes()
+   "Special attributes would be enchantments more powerful than glow, shroud "
+   "or the school-based holy/unholy/Kraanan enchants. To prevent the creation "
+   "of super powerful weapons, disallow adding special attributes if the item "
+   "already has a very powerful attribute on it."
+   {
+      local i, iNum, oItemAtt;
+
+      foreach i in plItem_attributes
       {
-         return FALSE;
+         iNum = Send(self,@GetNumFromCompound,#compound=First(i));
+         oItemAtt = Send(SYS,@FindItemAttByNum,#num=iNum);
+
+         // Specific itematts can disallow the addition of another powerful
+         // itematt. Things like blind, hold and purge attributes would do this.
+         if (NOT Send(oItemAtt,@ItemCanAddSpecialAttributes))
+         {
+            return FALSE;
+         }
       }
 
       return TRUE;
@@ -1810,7 +1748,7 @@ messages:
 
       n = 0;
       foreach i in plItem_attributes
-      { 
+      {
          if Send(self,@GetNumFromCompound,#compound=First(i)) = ItemAtt
          {
             n = n + 1;
@@ -1818,11 +1756,11 @@ messages:
             {
                return i;
             }
-         }  
+         }
       }
-      
+
       return $;
-   }   
+   }
 
    GetNumFromCompound(compound = $)
    {
@@ -1860,11 +1798,11 @@ messages:
       {
          if NOT Send(self,@GetIDStatusFromCompound,#compound=First(i))
          {
-            setNth(i,1,(First(i)+1));
+            SetFirst(i,(First(i)+1));
             bDone = TRUE;
          }
       }
-      
+
       return bDone;
    }
 
@@ -1914,14 +1852,14 @@ messages:
    "This function is largely unnecessary, and is here only for convenience."
    {
       local oItemAtt;
-      
+
       if ItemAtt = $
       {
          return;
       }
- 
+
       oItemAtt = Send(SYS,@FindItemAttByNum,#num=ItemAtt);
-      
+
       if oItemAtt = $
       {
          Debug("Illegal data sent to RemoveAttribute");
@@ -1929,8 +1867,8 @@ messages:
          return;
       }
 
-      Send(oitemAtt,@RemoveFromItem,#oItem=self);
-      
+      Send(oItemAtt,@RemoveFromItem,#oItem=self);
+
       return;
    }
 
@@ -1942,7 +1880,7 @@ messages:
       if oItemAtt = $ OR ItemAtt = 0
       {
          Debug("Illegal data sent to RemoveAttributeSpecific");
-         
+
          return;
       }
 
@@ -1974,6 +1912,7 @@ messages:
       if timer = $
       {
          Debug("Timer = $!");
+
          return;
       }
 
@@ -1986,7 +1925,7 @@ messages:
             iNum = Send(self,@GetNumFromCompound,#compound=First(i));
             oItemAtt = Send(SYS,@FindItemAttByNum,#num=iNum);
             Send(oItemAtt,@TimerExpired,#oItem=self,#lData=i);
-            
+
             return;
          }
       }
