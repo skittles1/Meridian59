@@ -136,10 +136,12 @@ messages:
       if Send(self,@ReqAddToItem,#oItem=oItem)
       {
          Send(self,@AddToItem,#oItem=oItem,
-               #timer_duration = random(3600000,86400000));
+               #timer_duration=Random(3600000,86400000));
+
+         return TRUE;
       }
 
-      return;
+      return FALSE;
    }
 
 end

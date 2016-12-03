@@ -67,7 +67,7 @@ messages:
    {
       local iHall, oGuild, oHall;
 
-      if oItem = $ or who = $
+      if oItem = $ OR who = $
       {
          Debug("BAD BAD BAD");
 
@@ -91,7 +91,8 @@ messages:
          }
       }
 
-      if iHall = $ or (iHall < RID_GUILDH_MIN or iHall > RID_GUILDH_MAX)
+      if iHall = $
+         OR (iHall < RID_GUILDH_MIN OR iHall > RID_GUILDH_MAX)
       {
          /// choose a random guild hall
 
@@ -110,14 +111,16 @@ messages:
       if Send(self,@ReqAddToItem,#state1=iHall,#oItem=oItem)
       {
          Send(self,@AddToItem,#oItem=oItem,#state1=iHall);
+
+         return TRUE;
       }
 
-      return;
+      return FALSE;
    }
 
    ReqAddToItem(state1=$)
    {
-      if state1 < RID_GUILDH_MIN or state1 > RID_GUILDH_MAX
+      if state1 < RID_GUILDH_MIN OR state1 > RID_GUILDH_MAX
       {
          Debug("Illegal guild hall chosen.  No attribute added.");
 
@@ -257,7 +260,7 @@ messages:
       local iData, oRoom, iPower;
 
       iData = 0;
-      if lData = $ 
+      if lData = $
       {
          if iFakeData = 0
          {

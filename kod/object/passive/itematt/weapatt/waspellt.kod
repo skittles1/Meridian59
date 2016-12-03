@@ -205,7 +205,7 @@ messages:
       if Send(self,@ReqAddToItem,#state1=iSpellType,#oItem=oWeapon)
       {
          Send(self,@AddToItem,#oItem=oWeapon,#state1=iSpellType,
-              #timer_duration=random(3600000,86400000),#random_gen=TRUE);
+              #timer_duration=Random(3600000,86400000),#random_gen=TRUE);
 
          return TRUE;
       }
@@ -215,7 +215,7 @@ messages:
 
    AddSelfToRandomItem(oItem=$,who=$)
    {
-      local iSpellType, iRand;
+      local iSpellType, iKarma;
 
       if oItem = $ OR who = $
       {
@@ -224,16 +224,15 @@ messages:
 
       iSpellType = 0;
 
-      // 40// chance the weapon will choose to be karma allied with whoever found it.
-      if random(1,100) > 40
+      // 40% chance the weapon will choose to be karma allied with whoever found it.
+      if Random(1,100) > 40
       {
-         // If player is good, give 'em a holy blade.  If not, unholy will be fine.
-         if Send(who,@GetKarma) > 0
+         iKarma = Send(who,@GetKarma);
+         if iKarma > 0
          {
             iSpellType = ATCK_SPELL_HOLY;
          }
-
-         if Send(who,@GetKarma) < 0
+         else if iKarma < 0
          {
             iSpellType = ATCK_SPELL_UNHOLY;
          }
@@ -241,36 +240,14 @@ messages:
 
       if iSpellType = 0
       {
-         iRand = Random(1,6);
-
-         if iRand = 1
+         switch (Random(1,6))
          {
-            iSpellType = ATCK_SPELL_FIRE;
-         }
-
-         if iRand = 2
-         {
-            iSpellType = ATCK_SPELL_SHOCK;
-         }
-
-         if iRand = 3
-         {
-            iSpellType = ATCK_SPELL_COLD;
-         }
-
-         if iRand = 4
-         {
-            iSpellType = ATCK_SPELL_HOLY;
-         }
-
-         if iRand = 5
-         {
-            iSpellType = ATCK_SPELL_UNHOLY;
-         }
-
-         if iRand = 6
-         {
-            iSpellType = ATCK_SPELL_ACID;
+         case 1: iSpellType = ATCK_SPELL_FIRE; break;
+         case 2: iSpellType = ATCK_SPELL_SHOCK; break;
+         case 3: iSpellType = ATCK_SPELL_COLD; break;
+         case 4: iSpellType = ATCK_SPELL_HOLY; break;
+         case 5: iSpellType = ATCK_SPELL_UNHOLY; break;
+         case 6: iSpellType = ATCK_SPELL_ACID; break;
          }
       }
 
@@ -278,20 +255,18 @@ messages:
       {
          Send(self,@AddToItem,#oItem=oItem,#state1=iSpellType,
               #timer_duration=random(3600000,86400000),#random_gen=TRUE);
+
+         return TRUE;
       }
 
-      return;
+      return FALSE;
    }
 
    ReqAddToItem(oItem=$)
    "You currently cannot have two different spelltypes on a weapon at the same time."
    {
-      if Send(oItem,@GetAttackSpell) > 0
-      {
-         return FALSE;
-      }
-
-      return TRUE;
+      // Can only add if no attack spell present.
+      return Send(oItem,@GetAttackSpell) = 0;
    }
 
    SetPrimaryState(state1=$)
@@ -319,7 +294,7 @@ messages:
    TimerExpired(oItem=$,lData=$)
    {
       // Timer is gone, now remove reference.
-      SetNth(lData,2,$);   
+      SetNth(lData,2,$);
       Send(self,@RemoveFromItem,#oItem=oItem,#lData=lData);
 
       return;
@@ -400,43 +375,20 @@ messages:
       return TRUE;
    }
 
-
    //// Artifice Spell Functions
 
    FakeAttData()
    {
-      local iRand, iSpellType;
+      local iSpellType;
 
-      iRand = random(1,6);
-
-      if iRand = 1
+      switch (Random(1,6))
       {
-         iSpellType = ATCK_SPELL_FIRE;
-      }
-
-      if iRand = 2
-      {
-         iSpellType = ATCK_SPELL_SHOCK;
-      }
-
-      if iRand = 3
-      {
-         iSpellType = ATCK_SPELL_COLD;
-      }
-
-      if iRand = 4
-      {
-         iSpellType = ATCK_SPELL_HOLY;
-      }
-
-      if iRand = 5
-      {
-         iSpellType = ATCK_SPELL_UNHOLY;
-      }
-
-      if iRand = 6
-      {
-         iSpellType = ATCK_SPELL_ACID;
+      case 1: iSpellType = ATCK_SPELL_FIRE; break;
+      case 2: iSpellType = ATCK_SPELL_SHOCK; break;
+      case 3: iSpellType = ATCK_SPELL_COLD; break;
+      case 4: iSpellType = ATCK_SPELL_HOLY; break;
+      case 5: iSpellType = ATCK_SPELL_UNHOLY; break;
+      case 6: iSpellType = ATCK_SPELL_ACID; break;
       }
 
       return iSpellType;
@@ -446,12 +398,12 @@ messages:
 
    ItemBuildDescName(oItem=$,iFakeData=$)
    {
-      local lData, iData, rName, sMakerInfo;
+      local lData, iData, rName;
 
       if iFakeData = $
       {
          lData = Send(oItem,@GetAttributeData,#ItemAtt=viItem_Att_num);
-      
+
          if Send(self,@HasTimer,#lData=lData)
          {
             iData = Nth(lData,3);
@@ -470,35 +422,30 @@ messages:
       {
          rName = iaSpelltype_name_holy;
       }
-
-      if iData & ATCK_SPELL_UNHOLY
+      else if iData & ATCK_SPELL_UNHOLY
       {
          rName = iaSpelltype_name_unholy;
       }
-
-      if iData & ATCK_SPELL_FIRE
+      else if iData & ATCK_SPELL_FIRE
       {
          rName = iaSpelltype_name_fire;
       }
-
-      if iData & ATCK_SPELL_COLD
+      else if iData & ATCK_SPELL_COLD
       {
          rName = iaSpelltype_name_cold;
       }
-
-      if iData & ATCK_SPELL_SHOCK
+      else if iData & ATCK_SPELL_SHOCK
       {
          rName = iaSpelltype_name_shock;
       }
-
-      if iData & ATCK_SPELL_ACID
+      else if iData & ATCK_SPELL_ACID
       {
          rName = iaSpelltype_name_acid;
       }
 
       AddPacket(4,rName);
       Addpacket(4,Send(oItem,@GetName));
-      
+
       return;
    }
 

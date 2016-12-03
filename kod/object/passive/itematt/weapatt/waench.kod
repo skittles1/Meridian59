@@ -48,7 +48,7 @@ classvars:
    vrDesc = waEnchanted
    vrName = waEnchanted_name
 
-   vrDM_trigger = "enchanted"
+   vrDM_trigger = enchanted_dm
 
 properties:
 
@@ -62,9 +62,7 @@ messages:
 
    AddSelfToRandomItem(oItem=$,who=$)
    {
-      local iSpellType, iRand;
-
-      if oItem = $ or who = $
+      if oItem = $ OR who = $
       {
          Debug("BAD BAD BAD");
 
@@ -74,22 +72,19 @@ messages:
       if Send(self,@ReqAddToItem,#oItem=oItem)
       {
          Send(self,@AddToItem,#oItem=oItem,
-               #timer_duration = random(3600000,86400000),#random_gen=TRUE);
+               #timer_duration = Random(3600000,86400000),#random_gen=TRUE);
+
+         return TRUE;
       }
 
-      return;
+      return FALSE;
    }
 
    ReqAddToItem(oItem=$)
    "You currently cannot have two different spelltypes "
    "on a weapon at the same time."
    {
-      if Send(oItem,@GetAttackSpell) > 0
-      {
-         return FALSE;
-      }
-
-      return TRUE;
+      return Send(oItem,@GetAttackSpell) = 0;
    }
 
    HasTimer(lData=$)
@@ -112,7 +107,8 @@ messages:
    AddEffects(oItem=$,lData=$)
    {
       local iSpellType;
-      if oItem = $ or lData = $
+
+      if oItem = $ OR lData = $
       {
          Debug("AddEffects failed!");
 
@@ -126,8 +122,8 @@ messages:
          return;
       }
 
-      Send(oItem,@SetTypeFlag,#flag=ATCK_WEAP_MAGIC,#value=True);
-      Send(oItem,@SetTypeFlag,#flag=ATCK_WEAP_NONMAGIC,#value=False);
+      Send(oItem,@SetTypeFlag,#flag=ATCK_WEAP_MAGIC,#value=TRUE);
+      Send(oItem,@SetTypeFlag,#flag=ATCK_WEAP_NONMAGIC,#value=FALSE);
 
       return;
    }
@@ -136,13 +132,13 @@ messages:
    {
       local iSpellType, oPlayer;
 
-      if oItem = $ or lData = $
+      if oItem = $ OR lData = $
       {
-//        Debug("RemoveEffects failed!");
+         // Debug("RemoveEffects failed!");
 
          return FALSE;
       }
-   
+
       if not Send(oItem,@CheckTypeFlag,#flag=ATCK_WEAP_MAGIC)
       {
          Debug("This shouldn't have happened!  Removing effect not here!");
@@ -151,7 +147,7 @@ messages:
       }
 
       oPlayer = Send(oItem,@GetOwner);
-      if oPlayer <> $ and IsClass(oPlayer,&user)
+      if oPlayer <> $ AND IsClass(oPlayer,&User)
       {
          Send(oPlayer,@MsgSendUser,#message_rsc=waenchant_gone,
                #parm1=Send(oItem,@GetName));
