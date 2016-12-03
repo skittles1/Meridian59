@@ -10,3 +10,4 @@ Vamper_fail_use_karma = de \
 vamper_worked = de "%s%s schaudert, während %s herausgesaugt wird!"
 vamper_worked_target = de \
    "%s%s scheint entkräftet, als das Metall der Waffe von %s Dein Fleisch berührt!"
+vamper_info_desc = de "10%% Chance beim Schlag 8 Lebenspunkte auf Dich zu übertragen\n"

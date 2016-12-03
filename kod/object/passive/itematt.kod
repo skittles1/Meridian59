@@ -47,6 +47,7 @@ classvars:
 
    vrDesc = attribute_desc_default
    vrName = attribute_name_default
+   vrInfoDesc = system_blank_resource
 
    viDifficulty = 4   /// number from 1 to 10
          /// this determines the types of monsters you'll have to 
@@ -460,7 +461,8 @@ messages:
 
    SetTertiaryState(state3=$)
    "NOT Defined for each individual enchantment."
-   "Since state3 is used for labling info it is best to do it in the superclass so that all enchantments can use it."
+   "Since state3 is used for labling info it is best to do it in the "
+   "superclass so that all enchantments can use it."
    {
       return state3;
    }
@@ -524,6 +526,8 @@ messages:
    }
 
    AppendDesc(oItem=$,lData=$)
+   "This is for the initial part of the description, joined to the item's "
+   "description."
    {
       local sMakerInfo;
 
@@ -554,6 +558,23 @@ messages:
       else
       {
          AddPacket(4,vrDesc);
+      }
+
+      return;
+   }
+
+   AppendDescInfo(oItem = $,compound = $)
+   "This adds the attribute's info to the informational part of an item's "
+   "description, i.e. what the attribute does."
+   {
+      if (Send(oItem,@GetIDStatusFromCompound,#compound=compound))
+      {
+         AddPacket(4,vrInfoDesc);
+      }
+      else
+      {
+         // Not identified, add nothing (blank resource).
+         AddPacket(4,system_blank_resource);
       }
 
       return;
