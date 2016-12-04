@@ -2099,6 +2099,50 @@ messages:
       return piDebug;
    }
 
+   GetNumActiveQuests(index=0)
+   {
+      local i, iCount, lQuest;
+
+      // No index, count all quests.
+      if (index = 0)
+      {
+         iCount = 0;
+         foreach i in plQuestTemplates
+         {
+            iCount += Length(Nth(i,QT_ACTIVE_QUESTS));
+         }
+      }
+      else
+      {
+         lQuest = Send(self,@GetQuestTemplate,#index=index);
+         iCount = Length(Nth(lQuest,QT_ACTIVE_QUESTS));
+      }
+
+      return iCount;
+   }
+
+   GetMaxNumActiveQuests(index=0)
+   {
+      local i, iCount, lQuest;
+
+      // No index, count all quests.
+      if (index = 0)
+      {
+         iCount = 0;
+         foreach i in plQuestTemplates
+         {
+            iCount += Nth(i,QT_MAX_NUM_ACTIVE);
+         }
+      }
+      else
+      {
+         lQuest = Send(self,@GetQuestTemplate,#index=index);
+         iCount = Nth(lQuest,QT_MAX_NUM_ACTIVE);
+      }
+
+      return iCount;
+   }
+
    QuestReport(who = $)
    "Mails a list of quests and their active players to 'who'."
    {
