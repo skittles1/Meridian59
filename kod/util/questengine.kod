@@ -863,7 +863,7 @@ messages:
 
    AddQuestNodeTemplate(NPC_modifier = $, questnode_type = $, cargolist = $,
                         monsterlist = $, prizelist = $, penaltylist = $,
-                        timelimit = 0, quest_node_index = $, bDuplicate = FALSE)
+                        timelimit = $, quest_node_index = $, bDuplicate = FALSE)
    "Adds a new questnode template to plQuestNodeTemplates.  Returns index "
    "number of new questnode template if successful, 0 otherwise.  bDuplicate "
    "indicates more than one QuestTemplate will be sending the same quest node."
@@ -920,9 +920,13 @@ messages:
       }
 
       // Time limit must be valid
-      if timelimit = 0
+      if timelimit = $
       {
          timelimit = piDefaultTimeLimit;
+      }
+      else if timelimit < 0
+      {
+         timelimit = 0;
       }
 
       // Penaltylist must be valid
@@ -1047,6 +1051,11 @@ messages:
       if not_NPC = $
       {
          return oNPC;
+      }
+
+      if (oNPC = not_NPC)
+      {
+         lNPCList = ListCopy(lNPCList);
       }
 
       while ((oNPC = not_NPC)

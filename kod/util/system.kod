@@ -6811,6 +6811,16 @@ messages:
       return FindListElem(l,e);
    }
 
+   AdminListCopy(l = $)
+   {
+      return ListCopy(l);
+   }
+
+   AdminInsertListElem(l = $, i = 1, e = $)
+   {
+      return InsertListElem(l, i, e);
+   }
+
    AdminNth(l = $, n = $)
    {
       return Nth(l,n);

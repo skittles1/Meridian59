@@ -981,7 +981,7 @@ messages:
    CheckDeadline( time = 0 )
    "Returns FALSE if time expired (and cancels quest), TRUE if time left."
    {
-      local iStatus, iTimeLeft, bDebug;
+      local iStatus, iTimeLeft, bDebug, iDeadline;
 
       bDebug = Send(Send(SYS,@GetQuestEngine),@GetDebugStatus);
 
@@ -992,7 +992,14 @@ messages:
          return;
       }
 
-      iTimeLeft = Send(poQuestNode,@GetDeadline) - time;
+      iDeadline = Send(poQuestNode,@GetDeadline);
+      if (iDeadline = 0)
+      {
+         // Infinite time quest, can't expire.
+         return;
+      }
+
+      iTimeLeft = iDeadline - time;
 
       if (iTimeLeft < 1)
       {
