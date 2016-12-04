@@ -1086,6 +1086,18 @@ messages:
 #endregion Occupation List
 
 #region Speech/Random Library Creation
+
+   AppendRandomLib(element=$)
+   "Adds another random lib entry to the most recent class added."
+   {
+      if (element <> $)
+      {
+         SetNth(First(plRandomLib),2,Cons(element,Nth(First(plRandomLib),2)));
+      }
+
+      return;
+   }
+
    CreateRandomLibrary()
    "Basically, any library entry desired is just added in "
    "at an appropriate place. The library is a list of two-element nodes. "
@@ -1095,18 +1107,29 @@ messages:
    "action to be triggered, the incoming percentage must be greater or "
    "equal to the library percentage (so 0 is never, 100 is always, etc)"
    {
+      local bPvPOptOut;
+
       plRandomLib = $;
 
-      if (Send(SETTINGS_OBJECT,@PvPOptOutEnabled))
-      {
-         plRandomLib = Cons([&Towns,[
-            [25,0,[ LIBACT_SAY, LM_towns_nopvp ]]
-         ]],plRandomLib);
-      }
+      bPvPOptOut = Send(SETTINGS_OBJECT,@PvPOptOutEnabled);
 
       plRandomLib = Cons([&CorNothTown,[
          [40,LIBRES_NOT_NEWBIE,[ LIBACT_RUMOR_TOKEN_LOC ]] 
       ]],plRandomLib);
+
+      if (bPvPOptOut)
+      {
+         // Append to CorNothTown.
+         Send(self,@AppendRandomLib,#element=[25,0,[ LIBACT_SAY, LM_towns_nopvp ]]);
+
+         plRandomLib = Cons([&JasperTown,[
+            [25,0,[ LIBACT_SAY, LM_towns_nopvp ]]
+         ]],plRandomLib);
+
+         plRandomLib = Cons([&MarionTown,[
+            [25,0,[ LIBACT_SAY, LM_towns_nopvp ]]
+         ]],plRandomLib);
+      }
 
       plRandomLib = Cons([&RazaTown,[
          [48,0,[ LIBACT_SAY, LM_haz_rand17 ]],
@@ -1127,6 +1150,12 @@ messages:
          [48,0,[ LIBACT_SAY, LM_haz_rand2 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand1 ]]
       ]],plRandomLib);
+
+      if (bPvPOptOut)
+      {
+         // Append to RazaTown.
+         Send(self,@AppendRandomLib,#element=[50,0,[ LIBACT_SAY, LM_towns_nopvp ]]);
+      }
 
        plRandomLib = Cons([&RazaBartender,[
          [48,0,[ LIBACT_SAY, LM_haz_rand_apoth1 ]],
