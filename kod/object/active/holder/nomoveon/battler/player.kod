@@ -570,6 +570,12 @@ resources:
       "fleeting.  Vigor can be restored either through needed rest or a "
       "hearty meal."
       "\n\n"
+      "When you reach 50 health, I will no longer be able to protect you from "
+      "combat with other players.  If you do not wish to partake in player-"
+      "versus player combat, you can opt-out by visiting the Temple of "
+      "Shal'ille (north from the town of Marion) and following the directions "
+      "on the sign placed there."
+      "\n\n"
       "I congratulate you on your recent success.  I know the bards will sing "
       "of your future exploits."
       "\n\n"
@@ -2559,7 +2565,7 @@ messages:
       }
 
       // Validate that all face parts were in the list of choices
-      prHead = Send(self, @RestrictToResourceList, #res = Nth(lFaceparts,1),
+      prHead = Send(self, @RestrictToResourceList, #res = First(lFaceparts),
           #res_list = Send(SYS, @GetAllowedHeadIcons, #iGender = gender));
 
       prToupee = Send(self, @RestrictToResourceList, #res = Nth(lFaceparts,2), 
@@ -2641,7 +2647,7 @@ messages:
       }
       else
       {
-         piMight = Nth(lStats,1);
+         piMight = First(lStats);
          piIntellect = Nth(lStats,2);
          piStamina = Nth(lStats,3);
          piAgility = Nth(lStats,4);

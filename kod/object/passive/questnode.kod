@@ -439,7 +439,7 @@ messages:
    "Quest::AssignNextNode) Returns TRUE if successful, FALSE otherwise."
    {
       local oQuester, oQuestEngine, iNodeType, lCargo, cItemClass, iAmount,
-            iQuestType, cMonsterClass, sSay;
+            iQuestType, cMonsterClass, sSay, iTime;
 
       sSay = CreateString();
 
@@ -625,8 +625,16 @@ messages:
       }
 
       //   Calculate the deadline
-      piDeadline = GetTime() + Send(oQuestEngine,@GetQuestNodeTimeLimit,
-                                    #index=piQuestNodeTemplateIndex );
+      iTime = Send(oQuestEngine,@GetQuestNodeTimeLimit,
+                  #index=piQuestNodeTemplateIndex);
+      if (iTime = 0)
+      {
+         piDeadline = 0;
+      }
+      else
+      {
+         piDeadline = GetTime() + iTime;
+      }
 
       // Give the player(s) the quest and questnode to keep track of.
       foreach oQuester in Send(poQuest,@GetQuesters)

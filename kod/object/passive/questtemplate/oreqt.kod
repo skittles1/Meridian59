@@ -90,7 +90,7 @@ properties:
    piPlayerRestrict = Q_PLAYER_NOTNEWBIE | Q_PLAYER_LAWFUL \
                       | Q_PLAYER_NOTTRIED_RECENTLY
    plSpecialRestrict = $
-   piMaxPlayers = 20
+   piMaxPlayers = 12
    piSchedulePct = 100
 
 messages:
