@@ -125,7 +125,7 @@ void MailNewMessage(int server_index, char *sender, int num_recipients,
 		    char recipients[MAX_RECIPIENTS][MAXUSERNAME + 1], char *message, long msg_time)
 {
    int index, num_msgs, msgnum;
-   char new_msg[MAXMAIL + 200 + MAX_SUBJECT + MAXUSERNAME * MAX_RECIPIENTS];
+   char new_msg[MAXMAIL * 2 + 200 + MAX_SUBJECT + MAXUSERNAME * MAX_RECIPIENTS];
    char *subject = NULL, *ptr = NULL, *subject_str;
    int i, num;
    char filename[FILENAME_MAX + MAX_PATH];
@@ -198,7 +198,31 @@ void MailNewMessage(int server_index, char *sender, int num_recipients,
    }
       
    strcat(new_msg, "\r\n-------------\r\n");
-   strcat(new_msg, message);
+   
+
+   // Add the message, replacing single '\n' with '\r\n'
+   char newline_msg[MAXMAIL * 2];
+   char *newline_ptr = newline_msg;
+   while (message[0] != '\0')
+   {
+      // if we already have \r\n, don't make it \r\r\n
+      if (message[0] == '\r' && message[1] == '\n')
+      {
+         newline_ptr[0] = message[0];
+         message++;
+         newline_ptr++;
+      }
+      else if (message[0] == '\n')
+      {
+         newline_ptr[0] = '\r';
+         newline_ptr++;
+      }
+
+      newline_ptr[0] = message[0];
+      newline_ptr++;
+      message++;
+   }
+   strcat(new_msg, newline_msg);
 
    // Save message
 

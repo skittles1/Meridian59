@@ -96,8 +96,31 @@ void UserReadArticle(char *article)
 {
    if (hReadNewsDialog == NULL)
       return;
+   char newarticle[MAXMAIL * 2];
+   char *newp = newarticle;
 
-   SendMessage(hReadNewsDialog, BK_ARTICLE, 0, (LPARAM) article);
+   while (article[0] != '\0')
+   {
+      // if we already have \r\n, don't make it \r\r\n
+      if (article[0] == '\r' && article[1] == '\n')
+      {
+         newp[0] = article[0];
+         newp++;
+         article++;
+      }
+      else if (article[0] == '\n')
+      {
+         newp[0] = '\r';
+         newp++;
+      }
+
+      newp[0] = article[0];
+      newp++;
+      article++;
+   }
+   newp[0] = 0;
+
+   SendMessage(hReadNewsDialog, BK_ARTICLE, 0, (LPARAM)newarticle);
 }
 /****************************************************************************/
 BOOL CALLBACK ReadNewsDialogProc(HWND hDlg, UINT message, UINT wParam, LONG lParam)
