@@ -243,6 +243,11 @@ resources:
    player_experience_gained = "You have gained ~B~s%i~v~B XP."
    player_experience_lost = "You have lost ~B~r%i~B~v XP!"
 
+   player_unbound_energy_gained = "You gather ~B~t%i~v~B unbound energy "
+      "from your fallen enemy."
+   player_unbound_energy_lost = "You channel ~B~t%i~v~B unbound energy "
+      "to shape your spell."
+
    player_health_gain_maxed = "Your health cannot increase any further."
 
    player_cant_hit_optout = \
@@ -858,6 +863,10 @@ properties:
    piTraining_points = 0
    piInform = TRUE
 
+   // This keeps track of unbound energy, which isused for free spell casts.
+   piUnbound_energy = 0
+   pbFree_cast = FALSE
+
    // This keeps track of when we've last received our daily training points.
    piReward_timestamp = 0
 
@@ -971,6 +980,7 @@ properties:
    ptHealth = $
    ptAdvancement = $
    ptRest = $
+   ptUnboundEnergy = $
 
    // Poison info
    ptPoison = $
@@ -1146,6 +1156,12 @@ messages:
       foreach i in Send(SYS,@GetGuilds)
       {
          Send(i,@RemoveFromFormerMemberList,#who=self);
+      }
+
+      if ptUnboundEnergy <> $
+      {
+         DeleteTimer(ptUnboundEnergy);
+         ptUnboundEnergy = $;
       }
 
       if ptHealth <> $
@@ -2309,7 +2325,8 @@ messages:
       SendList(plPassive, 0, @UserLogon);
       SendList(plActive, 0, @UserLogon);
 
-      // Restart Health and Mana timers
+      // Restart Unbound Energy, Health and Mana timers
+      Send(self,@NewUnboundEnergy);
       Send(self,@NewHealth);
       Send(self,@NewMana);
 
@@ -2458,7 +2475,13 @@ messages:
          Send(self,@FactionServiceTimer,#renew=FALSE);
       }
 
-      // Stop health and mana timers.
+      // Stop unbound energy, health and mana timers.
+      if ptUnboundEnergy <> $
+      {
+         DeleteTimer(ptUnboundEnergy);
+         ptUnboundEnergy=$;
+      }
+
       if ptHealth <> $
       {
          DeleteTimer(ptHealth);
@@ -3241,6 +3264,15 @@ messages:
    SetKillTarget(target=$)
    {
       poKill_target = target;
+
+      return;
+   }
+
+   UnboundEnergyTimer()
+   {
+      ptUnboundEnergy = $;
+
+      Send(self,@LoseUnboundEnergy);
 
       return;
    }
@@ -6885,6 +6917,23 @@ messages:
       return;
    }
 
+   LoseUnboundEnergy()
+   {
+      local iReduction;
+
+      if Send(self,@IsInCannotInteractMode)
+      {
+         return;
+      }
+
+      iReduction = bound(piUnbound_energy * Send(SETTINGS_OBJECT, @GetUnboundDecay) / 1000,1,$);
+      piUnbound_energy = piUnbound_energy - iReduction;
+
+      Send(self,@NewUnboundEnergy);
+
+      return;
+   }
+
    LoseHealth(amount = $, decay = FALSE, precision = FALSE)
    "decay = TRUE if you lose a HP over time because you are boosted over max "
    "by some sort of vamp effect. If this is true, you shouldn't break a trance."
@@ -6978,6 +7027,46 @@ messages:
       Send(self,@NewHealth);
 
       return (piHealth - iOldhealth);
+   }
+
+   NewUnboundEnergy(bDelay = FALSE)
+   {
+      if piUnbound_energy < 0
+      {
+         piUnbound_energy = 0;
+      }
+
+      if ptUnboundEnergy = $
+      {
+         if piUnbound_energy > 0
+         {
+            if bDelay
+            {
+               ptUnboundEnergy = CreateTimer(self,@UnboundEnergyTimer,Send(SETTINGS_OBJECT,@GetUnboundDelay));
+            }
+            else
+            {
+               ptUnboundEnergy = CreateTimer(self,@UnboundEnergyTimer,1000);
+            }
+         }
+      }
+      else
+      {
+         if piUnbound_energy = 0
+         {
+            DeleteTimer(ptUnboundEnergy);
+            ptUnboundEnergy = $;
+         }
+         else if bDelay
+         {
+            DeleteTimer(ptUnboundEnergy);
+            ptUnboundEnergy = CreateTimer(self,@UnboundEnergyTimer,Send(SETTINGS_OBJECT,@GetUnboundDelay));
+         }
+      }
+
+      Send(self,@DrawUnboundEnergy);
+
+      return;
    }
 
    NewHealth()
@@ -8886,7 +8975,7 @@ messages:
    "stamina, all the way down to half for those with high staminas."
    {
       local i, iMaxHealth, dodgeskill, oSkill, monster_level, iXP, oWeapon,
-            iItemBonus;
+            iItemBonus, iUnbound, iDist, iDifference;
 
       iXP = 0;
       iItemBonus = 0;
@@ -9035,6 +9124,36 @@ messages:
          // AddXP checks for HP gain and redraws the XP bar.
          // NOTE: iMaxHealth could be wrong after this point.
          Send(self,@AddXP,#iAmount=iXP);
+
+         // Also grant unbound energy for your own kills.
+         // Unbound energy allows free spell casts.
+         if IsClass(what,&Monster) AND killing_blow
+         {
+            // Let's figure the amount, mostly based on monster level.
+            iUnbound = monster_level*Send(SETTINGS_OBJECT,@GetUnboundAbsorption)*(random(30,80)
+               + (Send(self,@GetMysticism)*2/5))/10000;
+
+            // Scale with distance to victim.
+            iDist = bound(Send(self,@SquaredFineDistanceTo3D,#what=what),1,$);
+            iUnbound = bound(iUnbound * 110592/iDist,$,iUnbound);
+
+            // Scale with player level.
+            iDifference = piMax_health - monster_level;
+            if iDifference > 10
+            {
+               iUnbound = bound(iUnbound*100/(iDifference*iDifference),$,iUnbound);
+            }
+
+            // Grant only one fourth of the energy if the mob didn't attack the player.
+            if ((piFlags & PFLAG_TOOK_DAMAGE) OR (piFlags & PFLAG_DODGED))
+            {
+               Send(self,@AddUnboundEnergy,#iAmount=iUnbound);
+            }
+            else
+            {
+               Send(self,@AddUnboundEnergy,#iAmount=iUnbound/4);
+            }
+         }
 
          // Here, we work out if the player deserves a training point.
          // They qualify if they got at least one gain point from the monster,
@@ -9231,6 +9350,41 @@ messages:
       return;
    }
 
+   AddUnboundEnergy(iAmount=0,report=TRUE)
+   {
+      // Add to total. Check reasonable limits first. You can't lose
+      // more points than you have and you can't get more points than
+      // you need to reach the cap.
+      iAmount = Bound(iAmount,-piUnbound_energy,Send(SETTINGS_OBJECT,@GetUnboundMax)-piUnbound_energy);
+      piUnbound_energy = piUnbound_energy + iAmount;
+
+      if (pbLogged_on AND report)
+      {
+         if iAmount > 0
+         {
+            Send(self,@MsgSendUser,#message_rsc=player_unbound_energy_gained,
+                  #parm1=iAmount);
+         }
+         else if iAmount < 0
+         {
+            Send(self,@MsgSendUser,#message_rsc=player_unbound_energy_lost,
+                  #parm1=-iAmount);
+         }
+      }
+
+      // Only delay decay if we gain points.
+      if iAmount > 0
+      {
+         Send(self,@NewUnboundEnergy,#bDelay=TRUE);
+      }
+      else
+      {
+         Send(self,@NewUnboundEnergy,#bDelay=FALSE);
+      }
+
+      return;
+   }
+
    GetXPRemainingForNextLevel()
    {
       // Use raw base max health here, can go higher than 150.
@@ -9262,6 +9416,17 @@ messages:
    GetTrainingPoints()
    {
       return piTraining_points;
+   }
+
+   GetUnboundEnergy()
+   {
+      return piUnbound_energy;
+   }
+
+   // Returns true if the last spell cast was a free cast.
+   GetFreeCast()
+   {
+      return pbFree_cast;
    }
 
    AddTrainingPoints(points=0,report=TRUE,bCap=TRUE)

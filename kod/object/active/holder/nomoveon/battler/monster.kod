@@ -6088,14 +6088,14 @@ messages:
 
       // Add one set of spell reagents to the treasure for each type of spell 
       // that was cast on the monster.
-      foreach i in plSpellList
-      {
-         foreach j in Send(Send(SYS,@FindSpellByNum,#num=i),@GetReagents)
-         {
-            oReagent = Create(First(j),#corpse=corpse,#number=Nth(j,2));
-            lTreasureItems = Cons(oReagent,lTreasureItems);
-         }
-      }
+      // foreach i in plSpellList
+      // {
+      //    foreach j in Send(Send(SYS,@FindSpellByNum,#num=i),@GetReagents)
+      //    {
+      //       oReagent = Create(First(j),#corpse=corpse,#number=Nth(j,2));
+      //       lTreasureItems = Cons(oReagent,lTreasureItems);
+      //    }
+      // }
 
       iNumberOfItemsDropped = 0;
       iNumberOfItemsLooted = 0;
