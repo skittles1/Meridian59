@@ -41,12 +41,6 @@ properties:
 
 messages:
 
-   DoFailure(what = $)
-   {
-      piHits = 1;
-      return;
-   }
-
    DropOnDeath()
    {
       // Don't want these cluttering up penalty loot.
