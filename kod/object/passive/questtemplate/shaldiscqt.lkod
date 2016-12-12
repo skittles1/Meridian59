@@ -38,16 +38,16 @@ shalilledisciple_failure = de \
 
 // NPC responses.
 shaldisc_qorpr_resp = de \
-   "~kPriestess Zuxana sagt, \"~r~IJa, ich vermute, für Qor ist die Zeit gekommen, Erlösung zu "
+   "~kPriesterin Zuxana sagt, \"~r~IJa, ich vermute, für Qor ist die Zeit gekommen, Erlösung zu "
    "suchen. Du bist der Schlüssel für ihre Rettung. Schließe dich unserer Gemeinde an, und "
    "wir werden uns gemeinsam auf den Weg zum Malumnea machen.~I~k\""
 shaldisc_farenpr_resp = de \
-   "~kPriestess Tenuv'vyal sagt, \"~B~gWie kannst Du es wagen, von Lord Faren Vergebung zu erwarten "
+   "~kPriesterin Tenuv'vyal sagt, \"~B~gWie kannst Du es wagen, von Lord Faren Vergebung zu erwarten "
    "Geh!!~B~k\""
 shaldisc_kranpr_resp = de \
-   "~kPriestess Qerti'nya sagt, \"~B~bUnsere kleine Xiana möchte einen neuen Schüler ausbilden."
+   "~kPriesterin Qertina sagt, \"~B~bUnsere kleine Xiana möchte einen neuen Schüler ausbilden."
    "  Sehr gut, Du hast die Nachricht abgeliefert. Du kannst jetzt zu ihr zurückkehren.~B~k\""
 shaldisc_duke_resp = de \
-   "~kDuke Akardius lacht und sagt, \"~B~bSicherlich meinst Du das nicht ernst?  "
+   "~kHerzog Akardius lacht und sagt, \"~B~bSicherlich meinst Du das nicht ernst?  "
    "Ich brauche keine Vergebung.  Krieche zurück in Deinen Templel, Dein Tod ist Dir "
    "sicher.~B~k\""

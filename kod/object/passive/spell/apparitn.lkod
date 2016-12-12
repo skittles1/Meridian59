@@ -12,5 +12,5 @@ summonapp_toomany_rsc = de \
    "Es gibt hier zu viele Monster, damit ist das Riskio zu hoch ein weiteres "
    "zu beschwören."
 summonapparition_failed_inanimate = de \
-   "%s%s hat keinen Sinn, mit deiner Magie gebastelt zu werden."
+   "Es hat keinen Sinn, bei %s%s mit deiner Magie herum zu pfuschen."
 apparition_fizzle = de "Dein Illusionsgeschöpf verpufft!"
