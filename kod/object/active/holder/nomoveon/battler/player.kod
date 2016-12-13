@@ -2479,7 +2479,7 @@ messages:
       if ptUnboundEnergy <> $
       {
          DeleteTimer(ptUnboundEnergy);
-         ptUnboundEnergy=$;
+         ptUnboundEnergy = $;
       }
 
       if ptHealth <> $
@@ -6911,8 +6911,8 @@ messages:
 
    EatSomething(nutrition = 0, filling = 0)
    {
-      Send(self,@AddExertion,#amount=-10000*nutrition);
-      piStomach = piStomach + filling;
+      Send(self,@AddExertion,#amount=-10000 * nutrition);
+      piStomach += filling;
 
       return;
    }
@@ -6921,13 +6921,12 @@ messages:
    {
       local iReduction;
 
-      if Send(self,@IsInCannotInteractMode)
+      if NOT Send(self,@IsInCannotInteractMode)
       {
-         return;
+         iReduction = Bound(piUnbound_energy * Send(SETTINGS_OBJECT,@GetUnboundDecay)
+                           / 1000,1,$);
+         piUnbound_energy -= iReduction;
       }
-
-      iReduction = bound(piUnbound_energy * Send(SETTINGS_OBJECT, @GetUnboundDecay) / 1000,1,$);
-      piUnbound_energy = piUnbound_energy - iReduction;
 
       Send(self,@NewUnboundEnergy);
 
@@ -6940,7 +6939,7 @@ messages:
    {
       if NOT precision
       {
-         amount = amount*100;
+         amount *= 100;
       }
 
       if Send(self,@IsInCannotInteractMode)
@@ -6964,7 +6963,7 @@ messages:
    {
       if NOT precision
       {
-         amount = amount*100;
+         amount *= 100;
       }
 
       if NOT Send(self,@IsInCannotInteractMode)
@@ -6976,7 +6975,7 @@ messages:
          }
          else
          {
-            piHealth = piHealth + amount;
+            piHealth += amount;
          }
       }
 
@@ -7000,7 +6999,7 @@ messages:
 
       if NOT precision
       {
-         amount = amount*100;
+         amount *= 100;
       }
 
       iOldhealth = piHealth;
@@ -7017,10 +7016,10 @@ messages:
 
       if NOT Send(self,@IsInCannotInteractMode)
       {
-         pihealth = piHealth + amount;
-         if piHealth > piMax_health*100
+         pihealth += amount;
+         if piHealth > piMax_health * 100
          {
-            piHealth = piMax_health*100;
+            piHealth = piMax_health * 100;
          }
       }
 
@@ -7042,7 +7041,8 @@ messages:
          {
             if bDelay
             {
-               ptUnboundEnergy = CreateTimer(self,@UnboundEnergyTimer,Send(SETTINGS_OBJECT,@GetUnboundDelay));
+               ptUnboundEnergy = CreateTimer(self,@UnboundEnergyTimer,
+                                       Send(SETTINGS_OBJECT,@GetUnboundDelay));
             }
             else
             {
@@ -7050,18 +7050,16 @@ messages:
             }
          }
       }
-      else
+      else if piUnbound_energy = 0
       {
-         if piUnbound_energy = 0
-         {
-            DeleteTimer(ptUnboundEnergy);
-            ptUnboundEnergy = $;
-         }
-         else if bDelay
-         {
-            DeleteTimer(ptUnboundEnergy);
-            ptUnboundEnergy = CreateTimer(self,@UnboundEnergyTimer,Send(SETTINGS_OBJECT,@GetUnboundDelay));
-         }
+         DeleteTimer(ptUnboundEnergy);
+         ptUnboundEnergy = $;
+      }
+      else if bDelay
+      {
+         DeleteTimer(ptUnboundEnergy);
+         ptUnboundEnergy = CreateTimer(self,@UnboundEnergyTimer,
+                                 Send(SETTINGS_OBJECT,@GetUnboundDelay));
       }
 
       Send(self,@DrawUnboundEnergy);
@@ -9071,7 +9069,7 @@ messages:
 
             // Add stamina modifier here.
             // 1// bonus for 1 stamina, 70// bonus for 70 stamina.
-            iXP = iXP + iXP * Send(self,@GetStamina) / 100;
+            iXP += iXP * Send(self,@GetStamina) / 100;
          }
          else if (monster_level + 5) > iMaxHealth
                AND IsClass(what,&Monster) AND killing_blow
@@ -9106,7 +9104,7 @@ messages:
 
          if Send(what,@GetBoostedLevel) > 0
          {
-            iXP = iXP + (Send(what,@GetBoostedLevel)
+            iXP += (Send(what,@GetBoostedLevel)
                  * Send(Send(SYS,@GetSurvivalRoomMaintenance),@GetSurvivalXP));
          }
 
@@ -9115,12 +9113,12 @@ messages:
          if piMax_health > iMaxHealth * 2
             AND monster_level < piMax_health
          {
-            iXP = iXP / 2;
+            iXP /= 2;
          }
 
          iXP = iXP * Bound(Send(SETTINGS_OBJECT,@GetXPPercent),50,500) / 100;
          // Add in XP bonus from items after this.
-         iXP = iXP + iItemBonus;
+         iXP += iItemBonus;
          // AddXP checks for HP gain and redraws the XP bar.
          // NOTE: iMaxHealth could be wrong after this point.
          Send(self,@AddXP,#iAmount=iXP);
@@ -9130,18 +9128,19 @@ messages:
          if IsClass(what,&Monster) AND killing_blow
          {
             // Let's figure the amount, mostly based on monster level.
-            iUnbound = monster_level*Send(SETTINGS_OBJECT,@GetUnboundAbsorption)*(random(30,80)
-               + (Send(self,@GetMysticism)*2/5))/10000;
+            iUnbound = monster_level * Send(SETTINGS_OBJECT,@GetUnboundAbsorption)
+               * (Random(30,80) + (Send(self,@GetMysticism) * 2 / 5)) / 10000;
 
             // Scale with distance to victim.
-            iDist = bound(Send(self,@SquaredFineDistanceTo3D,#what=what),1,$);
-            iUnbound = bound(iUnbound * 110592/iDist,$,iUnbound);
+            iDist = Bound(Send(self,@SquaredFineDistanceTo3D,#what=what),1,$);
+            // 36864 is 3 range in fine units, cf. SquaredFineDistanceTo3D.
+            iUnbound = Bound(iUnbound * 36864 / iDist,$,iUnbound);
 
             // Scale with player level.
             iDifference = piMax_health - monster_level;
             if iDifference > 10
             {
-               iUnbound = bound(iUnbound*100/(iDifference*iDifference),$,iUnbound);
+               iUnbound = Bound(iUnbound * 100 / (iDifference * iDifference),$,iUnbound);
             }
 
             // Grant only one fourth of the energy if the mob didn't attack the player.
@@ -9151,7 +9150,7 @@ messages:
             }
             else
             {
-               Send(self,@AddUnboundEnergy,#iAmount=iUnbound/4);
+               Send(self,@AddUnboundEnergy,#iAmount=iUnbound / 4);
             }
          }
 
@@ -9355,8 +9354,8 @@ messages:
       // Add to total. Check reasonable limits first. You can't lose
       // more points than you have and you can't get more points than
       // you need to reach the cap.
-      iAmount = Bound(iAmount,-piUnbound_energy,Send(SETTINGS_OBJECT,@GetUnboundMax)-piUnbound_energy);
-      piUnbound_energy = piUnbound_energy + iAmount;
+      iAmount = Bound(iAmount,-piUnbound_energy,Send(SETTINGS_OBJECT,@GetUnboundMax) - piUnbound_energy);
+      piUnbound_energy += iAmount;
 
       if (pbLogged_on AND report)
       {

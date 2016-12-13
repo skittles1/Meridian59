@@ -6590,14 +6590,12 @@ messages:
          return;
       }
 
-      iCost = send(oSpell,@GetMeditateRatio);
-      pbFree_cast = FALSE;
+      iCost = Send(oSpell,@GetMeditateRatio);
 
       // Check if it's a free cast.
-      if iCost <= send(self,@GetUnboundEnergy) AND iCost < 100
-      {
-         pbFree_cast = TRUE;
-      }
+      pbFree_cast = (iCost <= Send(self,@GetUnboundEnergy)
+                     AND iCost < 100
+                     AND iCost > 0);
 
       // Get the spell power
       iSpellPower = Send(oSpell,@GetSpellPower,#who=self);
@@ -6605,7 +6603,7 @@ messages:
       // Free casts get a bonus.
       if pbFree_cast
       {
-         iSpellPower = bound(iSpellPower + 20,20,100);
+         iSpellPower = Bound(iSpellPower + 20,SPELLPOWER_MINIMUM,SPELLPOWER_MAXIMUM);
       }
 
       // First make sure user has enough magic points, reagents, etc.
@@ -6617,7 +6615,7 @@ messages:
       }
 
       if Send(oSpell,@PayCosts,#who=self,#iSpellPower=iSpellPower,
-              #lTargets=lFinalTargets,#bFreeCast=pbFree_cast)
+               #lTargets=lFinalTargets,#bFreeCast=pbFree_cast)
       {
          // If we had a free cast, deduct points from our unbound energy.
          if pbFree_cast
@@ -6627,7 +6625,7 @@ messages:
 
          // Alright, cast that spell already.
          Send(oSpell,@BeginCastingTrance,#who=self,#lTargets=lFinalTargets,
-              #iSpellPower=iSpellPower);
+               #iSpellPower=iSpellPower);
       }
 
       return;

@@ -3795,6 +3795,11 @@ messages:
          plNewCharSpells = DelListElem(plNewCharSpells,what);
       }
 
+      if (phSpells <> $)
+      {
+         DeleteTableEntry(phSpells,Send(what,@GetSpellNum));
+      }
+
       if (plSpells <> $
          AND FindListElem(plSpells,what))
       {
