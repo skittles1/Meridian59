@@ -213,6 +213,8 @@ classvars:
 
    vbCastable_in_HappyLand = TRUE
 
+   vbFree_Castable = TRUE
+
    vrEnchantment_type = spell_Enchantment_type_default_rsc
 
    vrToo_few_hp = spell_too_few_hp_rsc
@@ -550,6 +552,11 @@ messages:
    IsRangedAttack()
    {
       return FALSE;
+   }
+
+   IsFreeCastable()
+   {
+      return vbFree_Castable;
    }
 
    CanCastHere(who=$,where=$,lTargets=$,iSpellPower=0,bItemCast=FALSE,

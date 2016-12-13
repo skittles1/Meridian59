@@ -6594,8 +6594,8 @@ messages:
 
       // Check if it's a free cast.
       pbFree_cast = (iCost <= Send(self,@GetUnboundEnergy)
-                     AND iCost < 100
-                     AND iCost > 0);
+                     AND iCost > 0
+                     AND send(oSpell,@IsFreeCastable));
 
       // Get the spell power
       iSpellPower = Send(oSpell,@GetSpellPower,#who=self);
