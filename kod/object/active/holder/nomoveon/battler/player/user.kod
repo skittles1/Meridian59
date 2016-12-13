@@ -153,6 +153,7 @@ resources:
    user_stat_defense = "Defense"
    user_stat_armor = "Armor"
    user_stat_training = "Training Pts"
+   user_stat_unbound_energy = "Unbound Energy"
 
    user_resist_magic = "Magic Resist"
    user_resist_fire = "Fire Resist"
@@ -3572,7 +3573,7 @@ messages:
 
       if group = 2
       {
-         AddPacket(1,BP_STAT_GROUP, 1,group, 1,26);
+         AddPacket(1,BP_STAT_GROUP, 1,group, 1,27);
 
          Send(self,@SendStatMight);
          Send(self,@SendStatIntellect);
@@ -3597,6 +3598,8 @@ messages:
                   #lCurrentResistances=lCurrentResistances);
             ++i;
          }
+
+         Send(self,@SendStatUnboundEnergy);
 
          SendPacket(poSession);
 
@@ -6517,7 +6520,7 @@ messages:
 
    UserCast(oSpell=$,lTargets=$)
    {
-      local i, bFound, iSpell, iSpellNum, iSpellPower, lFinalTargets;
+      local i, bFound, iSpell, iSpellNum, iSpellPower, lFinalTargets, iCost;
 
       // Check for valid spell first. This is mainly an issue during
       // system saves where a user might cast something with the wrong
@@ -6587,20 +6590,42 @@ messages:
          return;
       }
 
+      iCost = send(oSpell,@GetMeditateRatio);
+      pbFree_cast = FALSE;
+
+      // Check if it's a free cast.
+      if iCost <= send(self,@GetUnboundEnergy) AND iCost < 100
+      {
+         pbFree_cast = TRUE;
+      }
+
       // Get the spell power
       iSpellPower = Send(oSpell,@GetSpellPower,#who=self);
 
+      // Free casts get a bonus.
+      if pbFree_cast
+      {
+         iSpellPower = bound(iSpellPower + 20,20,100);
+      }
+
       // First make sure user has enough magic points, reagents, etc.
       if NOT Send(oSpell,@CanPayCosts,#who=self,#lTargets=lFinalTargets,
-                  #iSpellpower=iSpellpower)
+                  #iSpellpower=iSpellpower,#bFreeCast=pbFree_cast)
       {
          // Player failed some sort of internal check
          return;
       }
 
       if Send(oSpell,@PayCosts,#who=self,#iSpellPower=iSpellPower,
-              #lTargets=lFinalTargets)
+              #lTargets=lFinalTargets,#bFreeCast=pbFree_cast)
       {
+         // If we had a free cast, deduct points from our unbound energy.
+         if pbFree_cast
+         {
+            Send(self,@AddUnboundEnergy,#iAmount=-iCost);
+         }
+
+         // Alright, cast that spell already.
          Send(oSpell,@BeginCastingTrance,#who=self,#lTargets=lFinalTargets,
               #iSpellPower=iSpellPower);
       }
@@ -9266,6 +9291,30 @@ messages:
          Send(self,@SendStatXP);
          SendPacket(poSession);
       }
+
+      return;
+   }
+
+   DrawUnboundEnergy()
+   {
+      if pbLogged_on
+      {
+         AddPacket(1,BP_STAT,1,2);
+         Send(self,@SendStatUnboundEnergy);
+         SendPacket(poSession);
+      }
+
+      return;
+   }
+
+   SendStatUnboundEnergy()
+   {
+      local iPoints;
+
+      iPoints = Send(self,@GetUnboundEnergy);
+
+      AddPacket(1,27, 4,user_stat_unbound_energy, 1,STAT_VALUE, 1,STAT_INTEGER,
+                4,iPoints, 4,0, 4,Send(SETTINGS_OBJECT,@GetUnboundMax), 4,iPoints);
 
       return;
    }

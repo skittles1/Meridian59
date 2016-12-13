@@ -78,6 +78,18 @@ properties:
    // The training points we grant players each day to reward them for logging on.
    piLogonBonus = 50
 
+   // The maximum amount of unbound energy we can absorb
+   piUnboundMax = 500
+
+   // The maximum percentage of XP we can absorb as unbound energy.
+   piUnboundAbsorption = 100
+
+   // The permillage of unbound energy that is lost every second. 50 means 5 percent.
+   piUnboundDecay = 50
+
+   // Delay between receiving unbound energy and decay setting in in ms.
+   piUnboundDelay = 30000
+
    // XP percent awarded, can be raised to give a bonus.
    piXPPercent = 100
    
@@ -398,6 +410,26 @@ messages:
    GetLogonBonus()
    {
       return piLogonBonus;
+   }
+
+   GetUnboundMax()
+   {
+      return piUnboundMax;
+   }
+
+   GetUnboundAbsorption()
+   {
+      return piUnboundAbsorption;
+   }
+
+   GetUnboundDecay()
+   {
+      return piUnboundDecay;
+   }
+
+   GetUnboundDelay()
+   {
+      return piUnboundDelay;
    }
 
    GetXPPercent()
