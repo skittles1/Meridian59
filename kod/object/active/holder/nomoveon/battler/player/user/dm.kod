@@ -102,6 +102,12 @@ resources:
    dm_plain_command = "plain"
    dm_mortal_command = "mortal"
    dm_immortal_command = "immortal"
+   dm_diceroll_command = "dice roll"
+   dm_diceroll_display = \
+      "~k%s%s rolls the dice from ~b%i ~kto ~b%i ~kand gets ~b~B%i~k~B!"
+   dm_diceroll_usage = \
+      "To roll the dice you must use two numbers separated by a comma, e.g. "
+      "1, 6."
 
    dm_currently_in = "The ROO for `b%s`n is `k`B%s`n.  The room number is %i."
    dm_currently_at = \
@@ -209,6 +215,8 @@ resources:
       "~cNew! ~nUse ~bdm detect invis list ~nto show players enchanted with the "
       "DM detect invisible spell, and ~bdm detect invis remove ~rplayername "
       "~nto remove the enchantment from a player.\n"
+      "~cNew! ~nUse ~bdm dice roll n, m ~nto pick a random number between "
+      "'n' and 'm'.\n"
       "You can place scenery and lights using the ~bdm place~n command.\n"
       "Type ~bdm help lights~n and ~bdm help scenery~n to get a list of "
       "available objects to place.\nYou can also send custom messages to users "
@@ -370,6 +378,10 @@ properties:
 
    // What's this DM's "standard" icon? Nil means it's human.
    prStandardIcon = $
+
+   pbSetLowRoll = FALSE
+   piLowRoll = 0
+   piHighRoll = 0
 
 messages:
 
@@ -958,6 +970,13 @@ messages:
       if StringContain(string,dm_gettotem)
       {
          Send(self,@NewHold,#what=Send(SYS,@GetTotem));
+
+         return;
+      }
+
+      if (StringContain(string,dm_diceroll_command))
+      {
+         Send(self,@DMSayDiceRoll,#string=string);
 
          return;
       }
@@ -1676,6 +1695,61 @@ messages:
       }
 
       return FALSE;
+   }
+
+   DMSayDiceRoll(string = $)
+   {
+      local iRoll;
+
+      if (string = $)
+      {
+         return;
+      }
+
+      // Remove command part.
+      StringSubstitute(string,dm_diceroll_command,"");
+      // Parse out the numbers (save in properties).
+      ParseString(string,",",@DMParseDiceRoll);
+
+      if (piLowRoll <> $
+         AND piHighRoll <> $
+         AND piLowRoll < piHighRoll)
+      {
+         iRoll = Random(piLowRoll,piHighRoll);
+
+         Send(poOwner,@SomeoneSaid,#what=self,#type=SAY_MESSAGE,
+               #string=dm_diceroll_display,#parm1=Send(self,@GetCapDef),
+               #parm2=Send(self,@GetName),#parm3=piLowRoll,#parm4=piHighRoll,
+               #parm5=iRoll);
+      }
+      else
+      {
+         Send(self,@MsgSendUser,#message_rsc=dm_diceroll_usage);
+      }
+
+      // Reset data.
+      pbSetLowRoll = FALSE;
+      piLowRoll = 0;
+      piHighRoll = 0;
+
+      return;
+   }
+
+   DMParseDiceRoll(string = $)
+   "Called only by ParseString from DMSayDiceRoll, sets two properties with "
+   "numbers corresponding to the min/max of a random roll."
+   {
+      if (pbSetLowRoll)
+      {
+         piHighRoll = StringToNumber(string);
+      }
+      else
+      {
+         piLowRoll = StringToNumber(string);
+         pbSetLowRoll = TRUE;
+      }
+
+      return;
    }
 
    DMSayPlaceObject(string=$)

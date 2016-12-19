@@ -90,6 +90,12 @@ dm_plain = de "Du wirst für die Spieler wieder sichtbar."
 dm_blank = de "You are now blank."
 dm_mortal_command = de "mortal"
 dm_immortal_command = de "immortal"
+dm_diceroll_display = de \
+   "~k%s%s nimmt einen Würfel mit den Zahlen ~b%i ~kbis ~b%i ~kund würfelt "
+   "eine ~b~B%i~k~B!"
+dm_diceroll_usage = de \
+   "Um zu würfeln musst Du zwei durch ein Komma getrennte Zahlen eingeben, "
+   "z.B. 1, 6."
 dm_no_longer = de \
    "Dieser Befehl existiert nicht mehr. Gib ~Idm help~I ein, um mehr Infos "
    "zu erhalten."
@@ -167,6 +173,11 @@ dm_admin_help = de \
    "~w[Aktualisiert Deinen Client]~n\nGETPLAYER <name> ~w[Holt einen Spieler "
    "zu Dir]~n\nGOPLAYER <name> ~w[Bringt Dich zu einem Spieler]~n\n"
 dm_help_all = de \
+   "~cNew! ~nUse ~bdm detect invis list ~nto show players enchanted with the "
+   "DM detect invisible spell, and ~bdm detect invis remove ~rplayername "
+   "~nto remove the enchantment from a player.\n"
+   "~cNew! ~nUse ~bdm dice roll n, m ~nto pick a random number between "
+   "'n' and 'm'.\n"
    "You can place scenery and lights using the \"dm place \" command.\nType "
    "\"dm help lights\" and \"dm help scenery\" to get a list of available objects "
    "to place."
