@@ -2393,8 +2393,7 @@ void AdminShowCalls(int session_id,admin_parm_type parms[],
 		case BLOCKERMOVEBSP: strcpy(c_name, "BlockerMoveBSP"); break;
 		case BLOCKERREMOVEBSP: strcpy(c_name, "BlockerRemoveBSP"); break;
 		case BLOCKERCLEARBSP: strcpy(c_name, "BlockerClearBSP"); break;
-		case MINIGAMENUMBERTOSTRING : strcpy(c_name, "MinigameNumberToString"); break;
-		case MINIGAMESTRINGTONUMBER : strcpy(c_name, "MinigameStringToNumber"); break;
+		case STRINGTONUMBER : strcpy(c_name, "StringToNumber"); break;
 		case APPENDLISTELEM : strcpy(c_name, "AppendListElem"); break;
 		case CONS : strcpy(c_name, "Cons"); break;
 		case FIRST : strcpy(c_name, "First"); break;

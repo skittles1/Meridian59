@@ -1933,6 +1933,12 @@ int C_SetString(int object_id,local_var_type *local_vars,
       SetString(snod,(char*)str,strlen(str));
       break;
 
+   case TAG_INT:
+      char buf[21];
+      snprintf(buf, 21, "%i", s2_val.v.data);
+      SetString(snod, buf, strlen(buf));
+      break;
+
    default :
       bprintf("C_SetString can't set from non-string thing %i,%i\n",
          s2_val.v.tag,s2_val.v.data);
@@ -4574,109 +4580,41 @@ int C_IsObject(int object_id,local_var_type *local_vars,
 	return ret_val.int_val;
 }
 
-int C_MinigameNumberToString(int object_id,local_var_type *local_vars,
-				int num_normal_parms,parm_node normal_parm_array[],
-				int num_name_parms,parm_node name_parm_array[])
+int C_StringToNumber(int object_id, local_var_type *local_vars,
+   int num_normal_parms, parm_node normal_parm_array[],
+   int num_name_parms, parm_node name_parm_array[])
 {
-	val_type s1_val,s2_val;
-	string_node *snod;
-   int number;
-   char newString[4];
-   int index, iTemp;
-	
-	s1_val = RetrieveValue(object_id,local_vars,normal_parm_array[0].type,
-		normal_parm_array[0].value);
-	
-	if (s1_val.v.tag != TAG_STRING)
-	{
-		bprintf("C_MinigameNumberToString can't set non-string %i,%i\n",
-			s1_val.v.tag,s1_val.v.data);
-		return NIL;
-	}
-	
-	snod = GetStringByID(s1_val.v.data);
-	if (snod == NULL)
-	{
-		bprintf("C_MinigameNumberToString can't set invalid string %i,%i\n",
-			s1_val.v.tag,s1_val.v.data);
-		return NIL;
-	}
-	
-	s2_val = RetrieveValue(object_id,local_vars,normal_parm_array[1].type,
-		normal_parm_array[1].value);
+   val_type s1_val, ret_val;
+   string_node *snod;
 
-	if (s2_val.v.tag != TAG_INT)
-	{
-		bprintf("C_MinigameNumberToString can't set from non-int %i,%i\n",
-			s2_val.v.tag,s2_val.v.data);
-		return NIL;
-	}
+   s1_val = RetrieveValue(object_id, local_vars, normal_parm_array[0].type,
+      normal_parm_array[0].value);
 
-   number = s1_val.v.data;
-
-   index = 3;
-
-   // This reverses the number on purpose, since the first four bits aren't a full number.
-   while (index >= 0)
+   switch (s1_val.v.tag)
    {
-      // Take off last byte off number.
-      iTemp = number & 0xFF;
-      number = number >> 8;
-
-      newString[index] = (char)iTemp;
-
-      index--;
+   case TAG_STRING:
+      snod = GetStringByID(s1_val.v.data);
+      break;
+   case TAG_TEMP_STRING:
+      snod = GetTempString();
+      break;
+   default:
+      bprintf("C_StringToNumber can't use non-string %i,%i\n",
+         s1_val.v.tag, s1_val.v.data);
+      return NIL;
    }
 
-   SetString(snod, newString, 4);
-
-	return NIL;
-}
-
-int C_MinigameStringToNumber(int object_id,local_var_type *local_vars,
-				int num_normal_parms,parm_node normal_parm_array[],
-				int num_name_parms,parm_node name_parm_array[])
-{
- 	val_type s1_val, ret_val;
-	string_node *snod;
-   int number;
-   int index;
-
-	s1_val = RetrieveValue(object_id,local_vars,normal_parm_array[0].type,
-		normal_parm_array[0].value);
-	
-	if (s1_val.v.tag != TAG_STRING)
-	{
-		bprintf("C_MinigameNumberToString can't set non-string %i,%i\n",
-			s1_val.v.tag,s1_val.v.data);
-		return NIL;
-	}
-	
-	snod = GetStringByID(s1_val.v.data);
-	if (snod == NULL)
-	{
-		bprintf("C_MinigameNumberToString can't set invalid string %i,%i\n",
-			s1_val.v.tag,s1_val.v.data);
-		return NIL;
-	}
-
-   number = 0;
-
-   index = 0;
-
-   // Chew the string, spit out an int in reverse order.
-   while (index < 4)
+   if (!snod)
    {
-      number = number << 8;
-      number = number & snod->data[index];
-
-      index = index + 1;
+      bprintf("C_StringToNumber can't use invalid string %i,%i\n",
+         s1_val.v.tag, s1_val.v.data);
+      return NIL;
    }
 
-	ret_val.v.tag = TAG_INT;
-	ret_val.v.data = number;
-	
-	return ret_val.int_val;
+   ret_val.v.tag = TAG_INT;
+   ret_val.v.data = (int)strtol(snod->data, NULL, 10);
+
+   return ret_val.int_val;
 }
 
 int C_RecordStat(int object_id,local_var_type *local_vars,

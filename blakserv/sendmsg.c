@@ -250,8 +250,7 @@ void InitBkodInterpret(void)
    ccall_table[BOUND] = C_Bound;
    ccall_table[SQRT] = C_Sqrt;
 
-   ccall_table[MINIGAMENUMBERTOSTRING] = C_MinigameNumberToString;
-   ccall_table[MINIGAMESTRINGTONUMBER] = C_MinigameStringToNumber;
+   ccall_table[STRINGTONUMBER] = C_StringToNumber;
 }
 
 kod_statistics * GetKodStats()
