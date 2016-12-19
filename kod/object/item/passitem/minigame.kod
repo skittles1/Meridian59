@@ -48,7 +48,7 @@ resources:
 
    // Initial state of game, before anyone has moved
    minigame_default_state = ""
-   
+
 classvars:
 
    vrName = minigame_name_rsc
@@ -72,43 +72,39 @@ properties:
    viObject_flags = OF_ACTIVATABLE | OF_GETTABLE
 
 messages:
-   
-   constructor()
+
+   Constructor()
    {
-      psState = CreateString();
-      SetString(psState, minigame_default_state);
-	  Send(self, @SetAppearance);
+      psState = SetString(psState, minigame_default_state);
+      Send(self,@SetAppearance);
+
       propagate;
    }
 
    Delete()
    {
-      local i;
-
       // Unload module for players, so that they don't send any messages to a 
       // deleted object
+      SendList(plPlayers,0,@UserUnloadModule,#module=vrModule);
 
-      foreach i in plPlayers
-      {
-	 Send(i, @UserUnloadModule, #module = vrModule);
-      }
       propagate;
    }
 
    DestroyDisposable()
-   "Don't destroy self if any player is in the room"
+   "Don't destroy self if any player is in the room."
    {
-      local i, room;
+      local i, oRoom;
 
-      room = Send(SYS, @UtilGetRoom, #what = self);
-      
+      oRoom = Send(SYS,@UtilGetRoom,#what=self);
+
       foreach i in plPlayers
       {
-	 if Send(SYS, @UtilGetRoom, #what = i) = room
-	 {
-	    return;
-	 }
+         if Send(SYS,@UtilGetRoom,#what=i) = oRoom
+         {
+            return;
+         }
       }
+
       propagate;
    }
 
@@ -124,149 +120,122 @@ messages:
       local player_num, found, i;
 
       // See if already a player
-      player_num = piNumPlayers;   // Count down, since added to list in reverse order
-      found = False;
+      // Count down, since added to list in reverse order
+      player_num = piNumPlayers;
+      found = FALSE;
       foreach i in plPlayers
       {
-	 if i = who
-	 {
-	    found = True;
-	    break;
-	 }
-	 player_num = player_num - 1;
+         if i = who
+         {
+            found = TRUE;
+            break;
+         }
+         --player_num;
       }
 
       if NOT found
       {
-	 if piNumPlayers >= viMaxPlayers
-	 {
-	    // Game is full--become an observer
-	    found = False;
-	    foreach i in plObservers
-	    {
-	       if i = who
-	       {
-		  found = True;
-		  break;
-	       }
-	    }
-	    if NOT found
-	    {
-	       plObservers = Cons(who, plObservers);
-	    }
-	    Send(who, @MsgSendUser, #message_rsc = minigame_game_full);
-	    player_num = piNumPlayers + 1;    // An observer
-	 } 
-	 else
-	 {
-	    piNumPlayers = piNumPlayers + 1;
+         if piNumPlayers >= viMaxPlayers
+         {
+            // Game is full--become an observer
+            if (NOT FindListElem(plObservers,who))
+            {
+               plObservers = Cons(who,plObservers);
+            }
+            Send(who,@MsgSendUser,#message_rsc=minigame_game_full);
+            player_num = piNumPlayers + 1;    // An observer
+         }
+         else
+         {
+            ++piNumPlayers;
 
-	    // Tell current players & observers about new player
-	    Send(self, @SendNewPlayer, #who = who, #player_num = piNumPlayers);
+            // Tell current players & observers about new player
+            Send(self,@SendNewPlayer,#who=who,#player_num=piNumPlayers);
 
-	    // Add a new player
-	    plPlayers = Cons(who, plPlayers);
-	    player_num = piNumPlayers;
-	 }
+            // Add a new player
+            plPlayers = Cons(who, plPlayers);
+            player_num = piNumPlayers;
+         }
       }
 
-      Send(self, @SetAppearance);
-      Send(who, @UserLoadModule, #module = vrModule);
-      Send(who, @UserGameStart, #game = self, #player_num = player_num);
-      Send(who, @GameStateSendUser, #game = self, #state = psState);
+      Send(self,@SetAppearance);
+      Send(who,@UserLoadModule,#module=vrModule);
+      Send(who,@UserGameStart,#game=self,#player_num=player_num);
+      Send(who,@GameStateSendUser,#game=self,#state=psState);
 
       // Tell this person about current players
-      Send(self, @SendPlayers, #who = who);
+      Send(self,@SendPlayers,#who=who);
 
-      return True;
+      return TRUE;
    }
 
    ReqNewApply(what = $, apply_on = $)
    {
-      return True;
+      return TRUE;
    }
 
    NewApplied(what = $, apply_on = $)
    "Turn a use command into an apply command"
    {
-      Send(self, @TryActivate, #who = what);
+      Send(self,@TryActivate,#who=what);
+
       return;
    }
 
    GotNewState(who = $, state = $)
    "Got new game state from a player (i.e. player took his turn)"
    {
-      local i, found;
+      local i;
 
       // Make sure that "who" is playing the game
-      found = False;
+      if (NOT FindListElem(plPlayers,who))
+      {
+         Send(who,@MsgSendUser,#message_rsc=minigame_not_playing);
 
-      foreach i in plPlayers
-      {
-	 if i = who
-	 {
-	    found = True;
-	    break;
-	 }
-      }
-      if NOT found
-      {
-	 Send(who, @MsgSendUser, #message_rsc = minigame_not_playing);
-	 return;
+         return;
       }
 
-      SetString(psState, state);
-      Send(self, @SetAppearance);
+      SetString(psState,state);
+      Send(self,@SetAppearance);
 
       // Send new state to players
       foreach i in plPlayers
       {
-	 if (i <> who)
-	 {
-	    Send(i, @GameStateSendUser, #game = self, #state = state);
-	 }
+         if (i <> who)
+         {
+            Send(i,@GameStateSendUser,#game=self,#state=state);
+         }
       }
 
       // Send new state to observers--remove from list if not in same room as game
       foreach i in plObservers
       {
-	 if Send(SYS, @UtilGetRoom, #what = i) = Send(SYS, @UtilGetRoom, #what = self)
-	 {
-	    Send(i, @GameStateSendUser, #game = self, #state = state);
-	 }
-	 else
-	 {
-	    plObservers = DelListElem(plObservers, i);
-	    Send(i, @UserUnloadModule, #module = vrModule);
-	 }
+         if Send(SYS,@UtilGetRoom,#what=i) = Send(SYS,@UtilGetRoom,#what=self)
+         {
+            Send(i,@GameStateSendUser,#game=self,#state=state);
+         }
+         else
+         {
+            plObservers = DelListElem(plObservers,i);
+            Send(i,@UserUnloadModule,#module=vrModule);
+         }
       }
 
       return;
    }
 
    ResetPlayers(who = $)
-   "Player asked to reset player list for game"
+   "Player asked to reset player list for game."
    {
-      local i, found;
-
       // Make sure that "who" is playing the game
-      found = False;
-
-      foreach i in plPlayers
+      if (FindListElem(plPlayers,who))
       {
-	 if i = who
-	 {
-	    found = True;
-	    break;
-	 }
+         Send(self,@ResetGame);
       }
-      if not found
+      else
       {
-	 Send(who, @MsgSendUser, #message_rsc = minigame_not_playing);
-	 return;
+         Send(who,@MsgSendUser,#message_rsc=minigame_not_playing);
       }
-
-      Send(self, @ResetGame);
 
       return;
    }
@@ -278,40 +247,28 @@ messages:
 
    ReqNewOwner(what = $)
    {
-      local i;
-
-      // Only a player can pick up a game in progress
-      if NOT IsClass(what, &User) OR plPlayers = $
+      // Only a player can pick up a game in progress.
+      if NOT IsClass(what,&User)
+         OR plPlayers = $
+         OR FindListElem(plPlayers,what)
       {
-	 propagate;
+         propagate;
       }
 
-      foreach i in plPlayers
-      {
-	 if (i = what)
-	 {
-	    propagate;
-	 }
-      }
+      Send(what,@MsgSendUser,#message_rsc=minigame_cant_pickup);
 
-      Send(what, @MsgSendUser, #message_rsc = minigame_cant_pickup);
-      return False;
+      return FALSE;
    }
 
    FixOwner()
    {
-      // if put somewhere for storage, etc., the game is over.
+      // If put somewhere for storage, etc., the game is over.
 
-      if (poOwner = $)
+      if (poOwner = $
+         OR (NOT IsClass(poOwner,&Room)
+            AND NOT IsClass(poOwner,&User)))
       {
-         send(self,@ResetGame);
-	 return;
-      }
-
-      if not isClass(poOwner,&Room) and not isClass(poOwner,&User)
-      {
-         send(self,@ResetGame);
-	 return;
+         Send(self,@ResetGame);
       }
 
       return;
@@ -322,88 +279,77 @@ messages:
       local i;
 
       // if put somewhere for storage, etc., the game is over.
-      if not isClass(what,&Room) and not isClass(what,&User)
+      if NOT IsClass(what,&Room)
+         AND NOT IsClass(what,&User)
       {
-         send(self,@ResetGame);
-	 propagate;
+         Send(self,@ResetGame);
+
+         propagate;
       }
 
-      // if not being picked up by a user, then leave game in progress
-      if not IsClass(what, &User)
+      // If not being picked up by a user, then leave game in progress.
+      if NOT IsClass(what,&User)
       {
-	 propagate;
+         propagate;
       }
 
-      // being picked up by a user; keep game going but kick off any users watching
-
-      foreach i in plObservers
-      {
-	 Send(i, @UserUnloadModule, #module = vrModule);
-	 // XXX Send message here
-      }
+      // Being picked up by a user; keep game going but
+      // kick off any users watching.
+      SendList(plObservers,0,@UserUnloadModule,#module=vrModule);
+      // XXX Send message here
       plObservers = $;
 
       foreach i in plPlayers
       {
-	 if (i <> what)
-	 {
-	    Send(i, @UserUnloadModule, #module = vrModule);
-	    // XXX Send message here
-	 }
+         if (i <> what)
+         {
+            Send(i,@UserUnloadModule,#module=vrModule);
+            // XXX Send message here
+         }
       }
-      
+
       propagate;
    }
 
-   // Send given user a list of all people currently playing this game
+   // Send given user a list of all people currently playing this game.
    SendPlayers(who = $)
    {
       local i, player_num;
 
-      player_num = piNumPlayers;   // Count down, since added to list in reverse order
+      // Count down, since added to list in reverse order
+      player_num = piNumPlayers;
       foreach i in plPlayers
       {
-	 Send(who, @GamePlayerSendUser, #who = i, #num = player_num);
-	 player_num = player_num - 1;
+         Send(who,@GamePlayerSendUser,#who=i,#num=player_num);
+         --player_num;
       }
+
       return;
    }
 
-   // Send all people currently playing this game the new player information
+   // Send all people currently playing this game the new player information.
    SendNewPlayer(who = $, player_num = 0)
    {
-      local i;
+      SendList(plPlayers,0,@GamePlayerSendUser,#who=who,#num=player_num);
 
-      foreach i in plPlayers
-      {
-	 Send(i, @GamePlayerSendUser, #who = who, #num = player_num);
-      }
       return;
    }
 
    ResetGame()
    "Reset game state, remove all players and observers"
    {
-      local i;
-
       // Remove players and observers
-      foreach i in plObservers
-      {
-	 Send(i, @UserUnloadModule, #module = vrModule);
-      }
+      SendList(plObservers,0,@UserUnloadModule,#module=vrModule);
       plObservers = $;
 
-      foreach i in plPlayers
-      {
-	 Send(i, @UserUnloadModule, #module = vrModule);
-      }
+      SendList(plPlayers,0,@UserUnloadModule,#module=vrModule);
       plPlayers = $;
       piNumPlayers = 0;
 
       // Reset game
-      SetString(psState, minigame_default_state);
-      Send(self, @SetAppearance);
-      
+      SetString(psState,minigame_default_state);
+      Send(self,@SetAppearance);
+
       return;
    }
 

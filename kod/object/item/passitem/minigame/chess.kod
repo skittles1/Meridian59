@@ -24,10 +24,12 @@ resources:
    chess_closed_rsc = chesclos.bgf
    chess_open_rsc = chesopen.bgf
    chess_table_rsc = chestabl.bgf
-   chess_desc_rsc = "Two players can use this board to play a game of chess.  Anyone else can use the board to observe.  "
-       "The board must be on the ground for people to be able to play each other.  If you pick up a board "
-       "in the middle of a match, the board will save the status of the game so that it may be concluded later.  "
-       "It is wise to find a safe area to play."
+   chess_desc_rsc = \
+      "Two players can use this board to play a game of chess.  Anyone else "
+      "can use the board to observe.  The board must be on the ground for "
+      "people to be able to play each other.  If you pick up a board in the "
+      "middle of a match, the board will save the status of the game so that "
+      "it may be concluded later.  It is wise to find a safe area to play."
    chess_module_rsc = chess.dll
 
 classvars:
@@ -48,29 +50,30 @@ messages:
 
    SetAppearance()
    {
-        local icon;
-		
-        if chess_table_rsc = vrIcon
-		{
-			return;
-		}
+      local icon;
 
-		icon = vrIcon;
-		if 0 = piNumPlayers
-		{
-			icon = chess_closed_rsc;
-		}
-		else
-		{
-			icon = chess_open_rsc;
-		}
+      if chess_table_rsc = vrIcon
+      {
+         return;
+      }
 
-		if icon <> vrIcon
-		{
-		    vrIcon = icon;
-			send(poOwner, @somethingchanged, #what=self);
-		}
-		return;
+      icon = vrIcon;
+      if piNumPlayers = 0
+      {
+         icon = chess_closed_rsc;
+      }
+      else
+      {
+         icon = chess_open_rsc;
+      }
+
+      if icon <> vrIcon
+      {
+         vrIcon = icon;
+         Send(poOwner,@SomethingChanged,#what=self);
+      }
+
+      return;
    }
 
 end

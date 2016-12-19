@@ -51,6 +51,7 @@ present in the current codebase.
   * [CreateString](#createstring)
   * [SetResource](#setresource)
   * [IsString](#isstring)
+  * [StringToNumber](#stringtonumber)
 * [Timers](#timers)
   * [CreateTimer](#createtimer)
   * [DeleteTimer](#deletetimer)
@@ -106,8 +107,6 @@ present in the current codebase.
   * [LoadGame](#loadgame)
   * [RecycleUser](#recycleuser)
   * [SetClassVar](#setclassvar)
-  * [MiniGameNumberToString](#minigamenumbertostring)
-  * [MiniGameStringToNumber](#minigamestringtonumber)
   * [DumpStack](#dumpstack)
 
 ## List Operations
@@ -947,6 +946,29 @@ otherwise.
    if NOT IsString(message)
    {
       message = SetString($,message);
+   }
+```
+
+#### StringToNumber
+`StringToNumber(string)`
+
+Returns the int (TAG_INT) value of the given string.
+```
+   DMParseDiceRoll(string = $)
+   "Called only by ParseString from DMSayDiceRoll, sets two properties with "
+   "numbers corresponding to the min/max of a random roll."
+   {
+      if (pbSetLowRoll)
+      {
+         piHighRoll = StringToNumber(string);
+      }
+      else
+      {
+         piLowRoll = StringToNumber(string);
+         pbSetLowRoll = TRUE;
+      }
+
+      return;
    }
 ```
 
@@ -1912,18 +1934,6 @@ of the classvar via debug string.
 
       return;
    }
-```
-
-#### MiniGameNumberToString
-
-```
-
-```
-
-#### MiniGameStringToNumber
-
-```
-
 ```
 
 #### DumpStack

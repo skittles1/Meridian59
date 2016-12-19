@@ -541,8 +541,7 @@ char * name_function(int fnum)
    case GETRANDOMPOINTBSP: return "GetRandomPointBSP";
    case GETSTEPTOWARDSBSP: return "GetStepTowardsBSP";
 
-   case MINIGAMENUMBERTOSTRING : return "MiniGameNumberToString";
-   case MINIGAMESTRINGTONUMBER : return "MiniGameStringToNumber";
+   case STRINGTONUMBER : return "StringToNumber";
 
    case CANMOVEINROOMBSP: return "CanMoveInRoomBSP";
 
