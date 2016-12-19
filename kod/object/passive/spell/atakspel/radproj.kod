@@ -36,6 +36,10 @@ classvars:
 
    viChance_To_Increase = 15
 
+   // Skip Line of Sight check for this spell?
+   // False by default - check LoS to stop projectiles going through walls.
+   vbSkipLoSCheck = FALSE
+
 properties:
 
    // Range in FINENESS units, default 6 row/col units.
@@ -60,18 +64,21 @@ messages:
    GetTargets(who=$,lTargets=$)
    "This returns a list of valid targets in range."
    {
-      local lFinalTargets, i, each_obj, iRange_squared;
+      local lFinalTargets, i, each_obj, iRange_squared, oRoom;
 
       iRange_squared = piRange * piRange;
 
-      foreach i in Send(Send(who,@GetOwner),@GetHolderActive)
+      oRoom = Send(who,@GetOwner);
+
+      foreach i in Send(oRoom,@GetHolderActive)
       {
          each_obj = First(i);
 
-         // Valid targets are battlers, in range, and attackable.
+         // Valid targets are battlers, in range, in direct LoS and attackable.
          if each_obj <> who
             AND IsClass(each_obj,&Battler)
             AND (Send(who,@SquaredFineDistanceTo3D,#what=each_obj) <= iRange_squared)
+            AND (vbSkipLoSCheck OR Send(oRoom,@LineOfSight,#obj1=who,#obj2=each_obj))
             AND Send(who,@AllowBattlerAttack,#victim=each_obj,
                      #stroke_obj=self,#report=FALSE)
          {
