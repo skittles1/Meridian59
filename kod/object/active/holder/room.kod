@@ -2083,7 +2083,7 @@ messages:
             Nth(new_pos, 2), Nth(new_pos, 3),
             Nth(new_pos, 4), Nth(new_pos, 5))
          {
-            debug("Failed to add BSP blocker ", what, " to ", prmRoom);
+            Debug("Failed to add BSP blocker ", what, " to ", prmRoom);
          }
       }
 
@@ -2092,9 +2092,10 @@ messages:
          // NPCs might need to do or say something.
          foreach i in plActive
          {
-            if IsClass(First(i),&Monster)
+            each_obj = First(i);
+            if IsClass(each_obj,&Monster)
             {
-               Send(First(i),@UserEntered,#who=what);
+               Send(each_obj,@UserEntered,#who=what);
             }
          }
 
@@ -2107,14 +2108,16 @@ messages:
          // Now send music.
          Send(what,@SendRoomMusic,#music_rsc=prMusic);
 
-         // add room enchantment effects
-         foreach i in plEnchantments
+         // Add room enchantment effects, if not spectated or phased.
+         if (NOT Send(what,@IsInCannotInteractMode))
          {
-            // User will request to get enchantment icons, so don't need to send
-            //  here.
-            each_obj = Nth(i,2);
-            Send(each_obj,@StartEnchantmentNewOccupant,#who=what,
-                 #state=(Nth(i,3)));
+            foreach i in plEnchantments
+            {
+               // User will request to get enchantment icons, so don't
+               // need to send here.
+               Send(Nth(i,2),@StartEnchantmentNewOccupant,#who=what,
+                     #state=(Nth(i,3)));
+            }
          }
       }
 
@@ -2728,15 +2731,20 @@ messages:
    {
       local i;
 
+      if (Send(what,@GetOwner) <> self)
+      {
+         return;
+      }
+
+      SendList(plActive,1,@SomethingPhasedIn,#what=what);
+
       // Add room enchantment effects.
       foreach i in plEnchantments
       {
          // Users already have enchantment icon.
-         Post(Nth(i,2),@StartEnchantmentNewOccupant,#who=what,
+         Send(Nth(i,2),@StartEnchantmentNewOccupant,#who=what,
                #state=(Nth(i,3)));
       }
-
-      SendList(plActive,1,@SomethingPhasedIn,#what=what);
 
       return;
    }
@@ -2761,15 +2769,20 @@ messages:
    {
       local i;
 
+      if (Send(what,@GetOwner) <> self)
+      {
+         return;
+      }
+
+      SendList(plActive,1,@SomethingSpectatedIn,#what=what);
+
       // Add room enchantment effects.
       foreach i in plEnchantments
       {
          // Users already have enchantment icon.
-         Post(Nth(i,2),@StartEnchantmentNewOccupant,#who=what,
+         Send(Nth(i,2),@StartEnchantmentNewOccupant,#who=what,
                #state=(Nth(i,3)));
       }
-
-      SendList(plActive,1,@SomethingSpectatedIn,#what=what);
 
       return;
    }

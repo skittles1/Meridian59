@@ -273,7 +273,9 @@ messages:
       oRoom = Send(who,@GetOwner);
       if (oRoom <> $)
       {
-         Send(oRoom,@SomethingPhasedIn,#what=who);
+         // Post so it gets processed after enchantment is fully removed
+         // from the player.
+         Post(oRoom,@SomethingPhasedIn,#what=who);
       }
 
       Send(who,@LogonDelay);
