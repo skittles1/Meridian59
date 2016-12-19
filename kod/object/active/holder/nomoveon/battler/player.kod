@@ -5097,8 +5097,8 @@ messages:
    // iRange=$ means there's no range check.
    TargetWithinSightAndRange(oTarget=$,iRange=$,use_weapon=$,stroke_obj=$)
    {
-      local iSquareRange, iDist, oTargetOwner, oFinalTarget, iAngle,
-            iRow, iCol, iTargetRow, iTargetCol;
+      local iDist, oTargetOwner, oFinalTarget, iAngle, iRow, iCol,
+            iTargetRow, iTargetCol;
 
       oTargetOwner = Send(oTarget,@GetOwner);
 
@@ -5130,17 +5130,12 @@ messages:
 
       // See if target is within range, if we provided a range.
       if iRange <> $
+         AND iDist > iRange * iRange
       {
-         iSquareRange = iRange;
-         iSquareRange = iSquareRange * iSquareRange;
+         Send(self,@SendAttackOutOfRangeMessage,#what=oFinalTarget,
+              #use_weapon=use_weapon,#stroke_obj=stroke_obj);
 
-         if iDist > iSquareRange
-         {
-            Send(self,@SendAttackOutOfRangeMessage,#what=oFinalTarget,
-                 #use_weapon=use_weapon,#stroke_obj=stroke_obj);
-
-            return FALSE;
-         }
+         return FALSE;
       }
 
       // See if target is in a reasonable viewing area.
