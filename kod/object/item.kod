@@ -624,6 +624,7 @@ messages:
             oItemAtt = Send(SYS,@FindItemAttByNum,#num=iNum);
 
             if NOT bFoundProperties
+               AND Send(oItemAtt,@GetInfoDesc) <> system_blank_resource
             {
                AddPacket(4,system_rsc_template_2,
                          4,special_properties_header);
