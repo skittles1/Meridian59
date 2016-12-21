@@ -580,6 +580,11 @@ messages:
       return;
    }
 
+   GetInfoDesc()
+   {
+      return vrInfoDesc;
+   }
+
    GetTitle(iAbility=0)
    {
       iAbility = Bound(iAbility,1,4);
