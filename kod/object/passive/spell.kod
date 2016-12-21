@@ -1891,17 +1891,11 @@ messages:
    {
       local iBonus, iFaction, iFinal;
 
-      // Give up to a 50// bonus to the initial chance to learn for high intellect.
+      // Give up to a 50% bonus to the initial chance to learn for high intellect.
       iBonus = (viChance_to_increase * Send(who,@GetIntellect)) / 100;
 
-      // And another 50 percent bonus to the initial chance if it's a free cast.
-      if Send(who,@GetFreeCast)
-      {
-         iBonus = iBonus + viChance_to_increase /2;
-      }
- 
-      iBonus = iBonus + Send(Send(SYS,@GetParliament),@GetFactionLearnBonus,
-                             #who=who,#theskill=self);
+      iBonus += Send(Send(SYS,@GetParliament),@GetFactionLearnBonus,
+                     #who=who,#theskill=self);
       
       iFinal = (viChance_to_increase + iBonus);
 
@@ -1914,19 +1908,19 @@ messages:
       
       requisitestat = Send(self,@GetRequisiteStat,#who=who);
 
-      // 110// chance at 1st level for 50 requisite stat
-      increase_chance = 60 + requisitestat;            
-      increase_chance = increase_chance - (Send(self,@GetLevel) * 10);
+      // 110% chance at 1st level for 50 requisite stat
+      increase_chance = 60 + requisitestat;
+      increase_chance -= (Send(self,@GetLevel) * 10);
 
       // This is the penalty for generalization
-      increase_chance = increase_chance - Send(who,@GetTotalLearnPoints,
-                                               #except=Send(self,@GetSchool));
+      increase_chance -= Send(who,@GetTotalLearnPoints,
+                              #except=Send(self,@GetSchool));
 
       difficulty = 75;
       if target <> $ AND IsClass(target,&Monster)
       {
-         difficulty = bound(Send(target,@GetLevel),1,150);
-      }    
+         difficulty = Bound(Send(target,@GetLevel),1,150);
+      }
 
       iAbility = Send(who,@GetSpellAbility,#spell_num=viSpell_num);
 
@@ -1934,32 +1928,26 @@ messages:
       //  a better chance to imp on harder monsters.  Adding 10 to compensate
       //  for losing the "knowing more in the school" bonus.
       factor = ((2*difficulty) - (iAbility) + 10);
-      factor = bound(factor,50,100);
+      factor = Bound(factor,50,100);
 
       final = (increase_chance * factor)/100;
-      final = bound(final,5,$);
-      
+      final = Bound(final,5,$);
+
       // Now, add the spell cast improvement bonuses.  Divide it by spell level,
       //  so that high level spells don't get quite as big a benefit from the
       //  casting. (This balances out, because higher level spells give a bigger
       //  casting bonus.) Then, divide the number by CASTS_PER_PERCENT_BONUS to
       //  give final bonus.
-      final = final + ((Send(who,@GetSchoolCast,#school=viSchool)
-                       / viSpell_Level) / CASTS_PER_PERCENT_BONUS);
+      final += ((Send(who,@GetSchoolCast,#school=viSchool)
+                     / viSpell_Level) / CASTS_PER_PERCENT_BONUS);
 
       // Are we above the spells requisite stat?  Apply the "soft cap".
       if iability > ((2*requisitestat)-1)
       {
-         final = final / bound(Send(SETTINGS_OBJECT,@GetSpellSoftcapPenalty),1,$);
-      }     
-
-      final = bound(final,1,$);
-
-      // If it's a free cast, we double the chance and won't let it drop below 10 percent.
-      if Send(who,@GetFreeCast)
-      {
-         final = bound(final*2,10,$);
+         final /= Bound(Send(SETTINGS_OBJECT,@GetSpellSoftcapPenalty),1,$);
       }
+
+      final = Bound(final,1,$);
 
       // The global modifier from system.
       final = (final * Send(SETTINGS_OBJECT, @GetAdvancementRate)) / 100;
