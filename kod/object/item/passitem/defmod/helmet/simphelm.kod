@@ -19,7 +19,8 @@ resources:
    include simphelm.lkod
 
    SimpleHelm_name_rsc = "helm"
-   SimpleHelm_icon_rsc = helm.bgf
+   SimpleHelm_icon_male_rsc = helm.bgf
+   SimpleHelm_icon_female_rsc = helmb.bgf
    SimpleHelm_desc_rsc = \
       "Steel and chain links give moderate protection to the wearer of this padded helmet."   
 
@@ -27,7 +28,7 @@ classvars:
 
    vrName = SimpleHelm_name_rsc
    vrDesc = SimpleHelm_desc_rsc
-   vrIcon = SimpleHelm_icon_rsc
+   vrIcon = SimpleHelm_icon_male_rsc
 
    viHits_init_min = 200
    viHits_init_max = 225
@@ -71,7 +72,18 @@ messages:
       return [ [ATCK_WEAP_BLUDGEON,-10]
              ];
    }
+   
+   // Called by player, for normal 3rd-person overlays on user.
+   GetOverlay(animation = $)
+   {
+      if Send(poOwner,@GetGender) = GENDER_FEMALE
+      {
+         return SimpleHelm_icon_female_rsc;
+      }
 
+      return SimpleHelm_icon_male_rsc;
+   }
+   
    GetHeatDamage()
    {
       return 2;
