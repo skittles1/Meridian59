@@ -356,5 +356,10 @@ messages:
       return vbIsAreaEffect;
    }
 
+   IsRangedAttack()
+   {
+      return FALSE;
+   }
+
 end
 ////////////////////////////////////////////////////////////////////////////////
