@@ -767,12 +767,15 @@ messages:
          Send(self,@SetStatueArmor,#NewArmor=oEquipmentItem);
 
          // Helmet?
-         if random(1,10) <= 5
+         // Commented out pending rewrite to properly implement equipment
+         // on living statues (this is only half-complete, the items they use
+         // have no owner.)
+         /*if Random(1,10) <= 5
          {
             HelmetHair = create(&SimpleHelm);
             Send(self,@AddEquipmentObject,#what=HelmetHair);
             poHair_Remove = HelmetHair;
-         }
+         }*/
 
          // Gauntlets?
          if random(1,10) <= 5
