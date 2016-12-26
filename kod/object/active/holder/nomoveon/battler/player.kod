@@ -6607,43 +6607,34 @@ messages:
 
    GetMoneyObject()
    {
-      local i;
-
-      foreach i in plPassive
-      {
-         if IsClass(i,&Money)
-         {
-            return i;
-         }
-      }
-
-      return $;
+      return GetListElemByClass(plPassive,&Money);
    }
 
    // Returns wielded Melee/Ranged weapon.
    LookupPlayerWeapon()
    {
-      local i;
-
-      foreach i in plUsing
-      {
-         if IsClass(i,&Weapon)
-         {
-            return i;
-         }
-      }
-
-      return $;
+      return GetListElemByClass(plUsing,&Weapon);
    }
 
    LookupPlayerShield()
    {
       local i;
 
+      // Can be using two shields at once - soldier shield on back and normal
+      // shield in the shield position. Skip over the soldier shield if it
+      // is in the back position.
       foreach i in plUsing
       {
-         if IsClass(i,&Shield)
-            AND Send(i,@GetBlockAbility,#who=self) > 0
+         if (IsClass(i,&SoldierShield))
+         {
+            if (NOT Send(i,@IsOnBack)
+               AND Send(i,@GetBlockAbility,#who=self) > 0)
+            {
+               return i;
+            }
+         }
+         else if (IsClass(i,&Shield)
+            AND Send(i,@GetBlockAbility,#who=self) > 0)
          {
             return i;
          }
@@ -6709,33 +6700,14 @@ messages:
 
    IsUsingA(class=$)
    {
-      local i;
-
-      if class = $
-      {
-         return FALSE;
-      }
-
-      if GetListElemByClass(plUsing, class)
-      {
-         return TRUE;
-      }
-
-      return FALSE;
+      return GetListElemByClass(plUsing,class) <> $;
    }
 
    FindUsing(class=$)
    "Find the first instance of 'class' that player has equipped. "
    "Returns $ if nothing is found."
    {
-      local i;
-
-      if class = $
-      {
-         return $;
-      }
-
-      return GetListElemByClass(plUsing, class);
+      return GetListElemByClass(plUsing,class);
    }
 
    ChooseArmorPosition()
@@ -6745,7 +6717,7 @@ messages:
    {
       local rand, armor_pos;
 
-      rand = random(1,12);
+      rand = Random(1,12);
       armor_pos = 0;
 
       if rand < 6
@@ -6770,62 +6742,6 @@ messages:
 
       // Default position: shield
       return -1;
-   }
-
-   GetDefenseModifier()
-   "Returns a number from 0-100."
-   {
-      local armor_mod, armor_pos, i, shirt;
-
-      armor_mod = 0;
-      armor_pos = Send(self,@ChooseArmorPosition);
-
-      if armor_pos = -1
-      {
-         foreach i in plUsing
-         {
-            if IsClass(i,&Shield)
-            {
-               return i;
-            }
-         }
-
-         return $;
-      }
-      else
-      {
-         if armor_pos & ITEM_USE_BODY
-         {
-            shirt = $;
-            foreach i in plUsing
-            {
-               if Send(i,@GetItemUseType) & armor_pos
-               {
-                  return i;
-               }
-               if Send(i,@GetItemUseType) & ITEM_USE_SHIRT
-               {
-                  shirt = i;
-               }
-            }
-
-            return shirt;
-         }
-         else
-         {
-            foreach i in plUsing
-            {
-               if Send(i,@GetItemUseType) = armor_pos
-               {
-                  return i;
-               }
-            }
-         }
-
-         return $;
-      }
-
-      return $;
    }
 
    CalculateHealthTime()
@@ -11496,27 +11412,27 @@ messages:
    {
       if aspell > 0 // do spell attacks first, so flaming swords use the special
       {
-         if (aspell&ATCK_SPELL_FIRE) > 0 { return player_was_burned;}
-         if (aspell&ATCK_SPELL_SHOCK) > 0 { return player_was_shocked;}
-         if (aspell&ATCK_SPELL_COLD) > 0 { return player_was_frozen;}
-         if (aspell&ATCK_SPELL_HOLY) > 0 { return player_was_holyhit;}
-         if (aspell&ATCK_SPELL_UNHOLY) > 0 { return player_was_unholyhit;}
-         if (aspell&ATCK_SPELL_QUAKE) > 0 { return player_was_quaked;}
+         if (aspell & ATCK_SPELL_FIRE) > 0 { return player_was_burned;}
+         if (aspell & ATCK_SPELL_SHOCK) > 0 { return player_was_shocked;}
+         if (aspell & ATCK_SPELL_COLD) > 0 { return player_was_frozen;}
+         if (aspell & ATCK_SPELL_HOLY) > 0 { return player_was_holyhit;}
+         if (aspell & ATCK_SPELL_UNHOLY) > 0 { return player_was_unholyhit;}
+         if (aspell & ATCK_SPELL_QUAKE) > 0 { return player_was_quaked;}
       }
 
       if atype > 0   // do weapon attacks (odd ones first).
       {
-         if (atype&ATCK_WEAP_BITE) > 0 { return player_was_bitten;}
-         if (atype&ATCK_WEAP_CLAW) > 0 { return player_was_clawed;}
-         if (atype&ATCK_WEAP_STING) > 0 { return player_was_stung;}
-         if (atype&ATCK_WEAP_SLASH) > 0 { return player_was_slashed;}
-         if (atype&ATCK_WEAP_BLUDGEON) > 0 { return player_was_bludgeoned;}
-         if (atype&ATCK_WEAP_PIERCE) > 0 { return player_was_pierced;}
-         if (atype&ATCK_WEAP_THRUST) > 0 { return player_was_thrusted;}
+         if (atype & ATCK_WEAP_BITE) > 0 { return player_was_bitten;}
+         if (atype & ATCK_WEAP_CLAW) > 0 { return player_was_clawed;}
+         if (atype & ATCK_WEAP_STING) > 0 { return player_was_stung;}
+         if (atype & ATCK_WEAP_SLASH) > 0 { return player_was_slashed;}
+         if (atype & ATCK_WEAP_BLUDGEON) > 0 { return player_was_bludgeoned;}
+         if (atype & ATCK_WEAP_PIERCE) > 0 { return player_was_pierced;}
+         if (atype & ATCK_WEAP_THRUST) > 0 { return player_was_thrusted;}
 
          // Put non-weapon strokes here.
-         if (atype&ATCK_WEAP_PUNCH) > 0 {return player_was_punched;}
-         if (atype&ATCK_WEAP_KICK) > 0 {return player_was_kicked;}
+         if (atype & ATCK_WEAP_PUNCH) > 0 {return player_was_punched;}
+         if (atype & ATCK_WEAP_KICK) > 0 {return player_was_kicked;}
       }
 
       return player_was_hit;
@@ -11565,11 +11481,7 @@ messages:
       }
 
       if poOwner = $
-      {
-         return;
-      }
-
-      if Send(self,@IsInCannotInteractMode)
+         OR Send(self,@IsInCannotInteractMode)
       {
          return;
       }
@@ -11736,19 +11648,14 @@ messages:
    IsResting()
    "If there is no rest timer, the player is not resting."
    {
-      if ptRest = $
-      {
-         return FALSE;
-      }
-
-      return TRUE;
+      return ptRest <> $;
    }
 
    GetRestTime()
    {
-      local iTime, lRadiusState;
+      local iTime;
 
-      iTime = 1000 + (30* (51-Send(self,@getStamina)));
+      iTime = 1000 + (30* (51-Send(self,@GetStamina)));
 
       return iTime;
    }
@@ -11817,17 +11724,7 @@ messages:
    GetArmor()
    "If plUsing holds any armor, return that object."
    {
-      local i;
-
-      foreach i in plUsing
-      {
-         if IsClass(i,&Armor)
-         {
-            return i;
-         }
-      }
-
-      return $;
+      return GetListElemByClass(plUsing,&Armor);
    }
 
    IsDead()
@@ -12222,7 +12119,7 @@ messages:
 
          // Is this in the same school?
          if (Send(nObj,@GetSchool) = school)
-            and (Send(nobj,@GetLevel)) = level
+            AND (Send(nobj,@GetLevel)) = level
          {
             count = count + 1;
          }
@@ -12451,40 +12348,44 @@ messages:
          if NOT IsClass(nobj,&Blink)  // DON'T COUNT BLINK!
             AND NOT IsClass(nobj,&UtilitySpell) // Don't count utility spells
          {
-            if nSchool = SS_KRAANAN
-               AND nLevel > iKraanan
+            switch (nSchool)
             {
-               iKraanan = nLevel;
-            }
-
-            if nSchool = SS_SHALILLE
-               AND nLevel > iShalille
-            {
-               iShalille = nLevel;
-            }
-
-            if nSchool = SS_QOR
-               AND nLevel > iQor
-            {
-               iQor = nLevel;
-            }
-
-            if nSchool = SS_FAREN
-               AND nLevel > iFaren
-            {
-               iFaren = nLevel;
-            }
-
-            if nSchool = SS_RIIJA
-               AND nLevel > iRiija
-            {
-               iRiija = nLevel;
-            }
-
-            if nSchool = SS_JALA
-               AND nLevel > iJala
-            {
-               iJala = nLevel;
+            case SS_KRAANAN:
+               if nLevel > iKraanan
+               {
+                  iKraanan = nLevel;
+               }
+               break;
+            case SS_SHALILLE:
+               if nLevel > iShalille
+               {
+                  iShalille = nLevel;
+               }
+               break;
+            case SS_QOR:
+               if nLevel > iQor
+               {
+                  iQor = nLevel;
+               }
+               break;
+            case SS_FAREN:
+               if nLevel > iFaren
+               {
+                  iFaren = nLevel;
+               }
+               break;
+            case SS_RIIJA:
+               if nLevel > iRiija
+               {
+                  iRiija = nLevel;
+               }
+               break;
+            case SS_JALA:
+               if nLevel > iJala
+               {
+                  iJala = nLevel;
+               }
+               break;
             }
          }
       }
@@ -12557,8 +12458,8 @@ messages:
 
       // Bound iNeed to a reasonable low level so people can't just rush in and
       //  get high level with very little work.
-      iNeed = bound(iNeed,MIN_NEEDED_TO_ADVANCE,$);
-      
+      iNeed = Bound(iNeed,MIN_NEEDED_TO_ADVANCE,$);
+
       if scryer <> $
       {
          // nSchool will equal how much the intended school's points added.
@@ -12566,37 +12467,29 @@ messages:
          {
             nSchool = iWeapon;
          }
-         else
+         else if school = SS_KRAANAN
          {
-            if school = SS_KRAANAN
-            {
-               nSchool = iKraanan;
-            }
-
-            if school = SS_SHALILLE
-            {
-               nSchool = iShalille;
-            }
-
-            if school = SS_QOR
-            {
-               nSchool = iQor;
-            }
-
-            if school = SS_FAREN
-            {
-               nSchool = iFaren;
-            }
-
-            if school = SS_RIIJA
-            {
-               nSchool = iRiija;
-            }
-
-            if school = SS_JALA
-            {
-               nSchool = iJala;
-            }
+            nSchool = iKraanan;
+         }
+         else if school = SS_SHALILLE
+         {
+            nSchool = iShalille;
+         }
+         else if school = SS_QOR
+         {
+            nSchool = iQor;
+         }
+         else if school = SS_FAREN
+         {
+            nSchool = iFaren;
+         }
+         else if school = SS_RIIJA
+         {
+            nSchool = iRiija;
+         }
+         else if school = SS_JALA
+         {
+            nSchool = iJala;
          }
 
          // Bring the points back down to the original total, before learning.
@@ -12693,40 +12586,44 @@ messages:
             AND iSchool <> SS_DM_COMMAND
             AND except <> iSchool
          {
-            if iSchool = SS_KRAANAN
-               AND iLevel > iKraanan
+            switch (iSchool)
             {
-               iKraanan = iLevel;
-            }
-
-            if iSchool = SS_SHALILLE
-               AND iLevel > iShalille
-            {
-               iShalille = iLevel;
-            }
-
-            if iSchool = SS_QOR
-               AND iLevel > iQor
-            {
-               iQor = iLevel;
-            }
-
-            if iSchool = SS_FAREN
-               AND iLevel > iFaren
-            {
-               iFaren = iLevel;
-            }
-
-            if iSchool = SS_RIIJA
-               AND iLevel > iRiija
-            {
-               iRiija = iLevel;
-            }
-
-            if iSchool = SS_JALA
-               AND iLevel > iJala
-            {
-               iJala = iLevel;
+            case SS_KRAANAN:
+               if iLevel > iKraanan
+               {
+                  iKraanan = iLevel;
+               }
+               break;
+            case SS_SHALILLE:
+               if iLevel > iShalille
+               {
+                  iShalille = iLevel;
+               }
+               break;
+            case SS_QOR:
+               if iLevel > iQor
+               {
+                  iQor = iLevel;
+               }
+               break;
+            case SS_FAREN:
+               if iLevel > iFaren
+               {
+                  iFaren = iLevel;
+               }
+               break;
+            case SS_RIIJA:
+               if iLevel > iRiija
+               {
+                  iRiija = iLevel;
+               }
+               break;
+            case SS_JALA:
+               if iLevel > iJala
+               {
+                  iJala = iLevel;
+               }
+               break;
             }
          }
       }
@@ -13971,11 +13868,11 @@ messages:
 
       return;
    }
-   
+
    StripSpellsOfSchoolByLevel(school = 0, level = 0)
    {
       local i, oSpell, iSchool, iLevel, iCanForget, iSpellNum;
-   
+
       foreach i in plSpells
       {
          iSpellNum = Send(self,@DecodeSpellNum,#compound=i);
@@ -13989,39 +13886,38 @@ messages:
             Send(self,@RemoveSpell,#num=iSpellNum);
          }
       }
+
       return;
    }
 
    StripSkillsOfSchoolByLevel(school = 0, level = 0)
    {
       local i, oSkill, iSchool, iLevel;
+
       foreach i in plSkills
       {
          oSkill = Send(SYS,@FindSkillByNum,#num=Send(self,@DecodeSkillNum,#compound=i));
          iSchool = Send(oSkill,@GetSchool);
          iLevel = Send(oSkill,@GetLevel);
-         
+
          if (iSchool = school) AND (iLevel = level)
          {
             Send(self,@RemoveSkill,#num=Send(self,@DecodeSkillNum,#compound=i));
          }
       }
+
       return;
    }
-   
+
    IsWizard()
    {
-      if Length(plSpells) > 50
-      {
-         return TRUE;
-      }
-
-      return FALSE;
+      return Length(plSpells) > 50;
    }
 
    ClearSpellList()
    {
       plSpells = $;
+
       return;
    }
 
@@ -14153,48 +14049,40 @@ messages:
 
    SetHead(head=$)
    {
-      if head = $
+      if head <> $
       {
-         return;
+         prHead = head;
       }
-
-      prHead = head;
 
       return;
    }
 
    SetEyes(eyes=$)
    {
-      if eyes = $
+      if eyes <> $
       {
-         return;
+         prEyes = eyes;
       }
-
-      prEyes = eyes;
 
       return;
    }
 
    SetNose(Nose=$)
    {
-      if Nose = $
+      if Nose <> $
       {
-         return;
+         prNose = Nose;
       }
-
-      prNose = Nose;
 
       return;
    }
 
    SetMouth(Mouth=$)
    {
-      if Mouth = $
+      if Mouth <> $
       {
-         return;
+         prMouth = Mouth;
       }
-
-      prMouth = Mouth;
 
       return;
    }
@@ -15296,19 +15184,6 @@ messages:
       }
 
       propagate;
-   }
-
-   FixDefaultResources()
-   "Temporary message to clear up some issues with default resources."
-   {
-      if (prMouth = charinfo_nose_ax_icon
-         OR prNose = charinfo_mouth_ax_icon)
-      {
-         prNose = charinfo_nose_ax_icon;
-         prMouth = charinfo_mouth_ax_icon;
-      }
-
-      return;
    }
 
 end

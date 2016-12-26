@@ -660,25 +660,37 @@ messages:
    }
 
    // Next two messages affect the defense messages.
+   // GetDodgeAbility handled by Monster.
    GetParryAbility(stroke_obj=$)
    {
-      if stroke_obj <> $
-         AND NOT Send(stroke_obj,@CanParry)
+      local oWeapon;
+
+      oWeapon = Send(self,@GetWeapon);
+      if oWeapon = $
+         OR (stroke_obj <> $ AND NOT Send(stroke_obj,@CanParry))
       {
          return 0;
       }
 
+      // Can't ask the weapon for its parry ability since this just asks
+      // us for our parry skill % and human mobs don't have it (i.e. weapons
+      // don't have individual parry abilities).
       return (viDifficulty * 10) / 2;
    }
 
    GetBlockAbility(stroke_obj=$)
    {
-      if stroke_obj <> $
-         AND NOT Send(stroke_obj,@CanBlock)
+      local oShield;
+
+      oShield = Send(self,@LookupPlayerShield);
+      if oShield = $
+         OR ((stroke_obj <> $) AND NOT Send(stroke_obj,@CanBlock))
       {
          return 0;
       }
 
+      // Shields query the player for their block ability, so can't request
+      // the shields block ability.
       return (viDifficulty * 10);
    }
 
@@ -708,11 +720,28 @@ messages:
    // Returns wielded Melee/Ranged weapon.
    LookupPlayerWeapon()
    {
+      return GetListElemByClass(plUsing,&Weapon);
+   }
+
+   LookupPlayerShield()
+   {
       local i;
 
+      // Can be using two shields at once - soldier shield on back and normal
+      // shield in the shield position. Skip over the soldier shield if it
+      // is in the back position.
       foreach i in plUsing
       {
-         if IsClass(i,&Weapon)
+         if (IsClass(i,&SoldierShield))
+         {
+            if (NOT Send(i,@IsOnBack)
+               AND Send(i,@GetBlockAbility,#who=self) > 0)
+            {
+               return i;
+            }
+         }
+         else if (IsClass(i,&Shield)
+            AND Send(i,@GetBlockAbility,#who=self) > 0)
          {
             return i;
          }
@@ -724,39 +753,14 @@ messages:
    GetArmor()
    "If plUsing holds any armor, return that object."
    {
-      local i;
-
-      foreach i in plUsing
-      {
-         if IsClass(i,&Armor)
-         {
-            return i;
-         }
-      }
-
-      return $;
+      return GetListElemByClass(plUsing,&Armor);
    }
 
    FindUsing(class=$)
    "Find the first instance of 'class' that the human has equipped. "
    "Returns $ if nothing is found."
    {
-      local i;
-
-      if class = $
-      {
-         return $;
-      }
-
-      foreach i in plUsing
-      {
-         if IsClass(i,class)
-         {
-            return i;
-         }
-      }
-
-      return $;
+      return GetListElemByClass(plUsing,class);
    }
 
    GetDamageType(what = $, use_weapon = $)
