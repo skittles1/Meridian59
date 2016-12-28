@@ -119,15 +119,16 @@ messages:
 
    Constructor(bIsSoldier=FALSE)
    {
-      pbIsSoldier = bIsSoldier;
-
-      if pbIsSoldier
+      // Base 20% chance to be a soldier type statue.
+      if Random(1,100) <= SOLDIER_PERCENT
+         OR bIsSoldier
       {
+         pbIsSoldier = TRUE;
          prProfession = LivingStatue_soldier;
 
          // Give us a little boost to our stats
          viLevel += 15;
-         viDifficulty *= 2;
+         viDifficulty += 2;
 
          // This makes the soliders not have karma
          pbDontDispose = TRUE;
@@ -195,12 +196,9 @@ messages:
 
       Send(self,@AddEquipmentObject,#what=oEquipmentItem);
 
-      // Base 20% chance to be a soldier type statue.
-      if Random(1,100) <= SOLDIER_PERCENT
-         OR pbIsSoldier
+      // Add armor to soldiers.
+      if pbIsSoldier
       {
-         pbIsSoldier = TRUE;
-
          // Armor
          iRandomNumber = Random(1,10);
 
