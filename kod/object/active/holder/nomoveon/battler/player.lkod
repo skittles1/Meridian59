@@ -112,6 +112,9 @@ player_unbound_energy_gained = de "Du absorbierst ~B~t%i~v~B ungebundene Energie
       "von Deinem gefallenen Gegner."
 player_unbound_energy_lost = de "Du kanalisierst ~B~t%i~v~B ungebundene Energie "
       "um deinen Zauberspruch zu formen."
+player_unbound_energy_wasted = de "Deine Gedanken sind zu sehr mit den jüngsten "
+      "Ereignissen beschäftigt, als dass du irgendeinen Nutzen aus der sich vor "
+      "deinen Augen verflüchtigenden Energie ziehen könntest."
 player_health_gain_maxed = de \
    "Deine Lebensenergie kann sich nicht weiter erhöhen."
 player_cant_hit_optout = de \

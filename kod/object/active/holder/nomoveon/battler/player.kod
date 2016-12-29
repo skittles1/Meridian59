@@ -247,6 +247,9 @@ resources:
       "from your fallen enemy."
    player_unbound_energy_lost = "You channel ~B~t%i~v~B unbound energy "
       "to shape your spell."
+   player_unbound_energy_wasted = "Your mind is too preoccupied with your "
+      "recent encounter to make any use of the subtle energies dispersing "
+      "before your eyes."
 
    player_health_gain_maxed = "Your health cannot increase any further."
 
@@ -9054,14 +9057,29 @@ messages:
                iUnbound = Bound(iUnbound * 100 / (iDifference * iDifference),$,iUnbound);
             }
 
-            // Grant only one fourth of the energy if the mob didn't attack the player.
-            if ((piFlags & PFLAG_TOOK_DAMAGE) OR (piFlags & PFLAG_DODGED))
+            // Not awarding any unbound energy to players who have recently been involved
+            // in PvP.
+            if Send(self,@GetLastPlayerAttackTime)
+               + Send(SETTINGS_OBJECT,@UnboundEnergyAttackDelaySec)
+               > GetTime()
             {
-               Send(self,@AddUnboundEnergy,#iAmount=iUnbound);
+               if iUnbound > 0
+               {
+                  Send(self,@MsgSendUser,#message_rsc=player_unbound_energy_wasted);
+               }
             }
             else
             {
-               Send(self,@AddUnboundEnergy,#iAmount=iUnbound / 4);
+            
+               // Grant only one fourth of the energy if the mob didn't attack the player.
+               if ((piFlags & PFLAG_TOOK_DAMAGE) OR (piFlags & PFLAG_DODGED))
+               {
+                  Send(self,@AddUnboundEnergy,#iAmount=iUnbound);
+               }
+               else
+               {
+                  Send(self,@AddUnboundEnergy,#iAmount=iUnbound / 4);
+               }
             }
          }
 
