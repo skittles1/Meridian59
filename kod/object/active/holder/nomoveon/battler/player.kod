@@ -243,6 +243,8 @@ resources:
    player_experience_gained = "You have gained ~B~s%i~v~B XP."
    player_experience_lost = "You have lost ~B~r%i~B~v XP!"
 
+   player_unbound_energy_wiped = "The volatile energy surrounding you "
+      "dissipates in the violently twisting aether."
    player_unbound_energy_gained = "You gather ~B~t%i~v~B unbound energy "
       "from your fallen enemy."
    player_unbound_energy_lost = "You channel ~B~t%i~v~B unbound energy "
@@ -9291,6 +9293,19 @@ messages:
       {
          Send(self,@NewUnboundEnergy,#bDelay=FALSE);
       }
+
+      return;
+   }
+
+   WipeUnboundEnergy(report=TRUE)
+   {
+      if (pbLogged_on AND report AND piUnbound_energy > 0)
+      {
+         Send(self,@MsgSendUser,#message_rsc=player_unbound_energy_wiped);
+      }
+
+      // Remove all unbound energy, for example after a teleport.
+      send(self,@AddUnboundEnergy,#iAmount=-piUnbound_energy,#report=FALSE);
 
       return;
    }
