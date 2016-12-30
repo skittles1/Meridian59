@@ -3066,6 +3066,8 @@ messages:
          piSave_Angle = 3072;
       }
 
+      Send(self,@WipeUnboundEnergy);
+
       return Send(SYS,@GetSuccessRsc);
    }
 
