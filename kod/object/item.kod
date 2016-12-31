@@ -186,7 +186,8 @@ messages:
    {
       local i, bFoundProperties, iHigh_level, n, iFarenPower, iRiijaPower,
             iKraananPower, iJalaPower, iShalPower, iQorPower, iInstrumentPower,
-            iNum, iMinDamage, iMinDamageOwner, iAttackType, oItemAtt;
+            iNum, iMinDamage, iMinDamageOwner, iAttackType, oItemAtt,
+            lResists, iLen;
 
       // This message 'telescopes' resources into the 5th %r of
       // item_desc_template. There are 16 different stats we can add;
@@ -519,7 +520,8 @@ messages:
          AddPacket(4,system_blank_resource);
       }
 
-      if Send(self,@GetCurrentResistances) <> $
+      lResists = Send(self,@GetCurrentResistances);
+      if lResists <> $
       {
          if NOT bFoundProperties
          {
@@ -527,16 +529,16 @@ messages:
             bFoundProperties = TRUE;
          }
 
-         if Length(Send(self,@GetCurrentResistances)) > 1
+         iLen = Length(lResists);
+         if iLen > 1
          {
-            AddPacket(4,Send(SYS,@AddResourceTemplate,
-                           #iNum=Length(Send(self,@GetCurrentResistances))));
+            AddPacket(4,Send(SYS,@AddResourceTemplate,#iNum=iLen));
          }
 
-         foreach i in Send(self,@GetCurrentResistances)
+         foreach i in lResists
          {
             AddPacket(4,item_stats_resistance, 4,Nth(i,2),
-                      4,Send(SYS,@GetResistanceName,#type=Nth(i,1)));
+                      4,Send(SYS,@GetResistanceName,#type=First(i)));
          }
       }
       else if bFoundProperties
@@ -580,16 +582,16 @@ messages:
       iAttackType = Send(self,@GetAttackSpell);
       if iAttackType <> 0
       {
+         iLen = Length(Send(SYS,@GetSpellTypeList));
          if NOT bFoundProperties
          {
             AddPacket(4,system_rsc_template_3, 4,special_properties_header);
             bFoundProperties = TRUE;
          }
 
-         if Length(Send(SYS,@GetSpellTypeList)) > 1
+         if iLen > 1
          {
-            AddPacket(4,Send(SYS,@AddResourceTemplate,
-                        #iNum=Length(Send(SYS,@GetSpellTypeList))));
+            AddPacket(4,Send(SYS,@AddResourceTemplate,#iNum=iLen));
          }
 
          foreach i in Send(SYS,@GetSpellTypeList)
@@ -612,10 +614,10 @@ messages:
 
       if plItem_attributes <> $
       {
-         if Length(plItem_attributes) > 1
+         iLen = Length(plItem_attributes);
+         if iLen > 1
          {
-            AddPacket(4,Send(SYS,@AddResourceTemplate,
-                           #iNum=Length(plItem_attributes)));
+            AddPacket(4,Send(SYS,@AddResourceTemplate,#iNum=iLen));
          }
 
          foreach i in plItem_attributes
@@ -626,8 +628,7 @@ messages:
             if NOT bFoundProperties
                AND Send(oItemAtt,@GetInfoDesc) <> system_blank_resource
             {
-               AddPacket(4,system_rsc_template_2,
-                         4,special_properties_header);
+               AddPacket(4,system_rsc_template_2, 4,special_properties_header);
                bFoundProperties = TRUE;
             }
 
