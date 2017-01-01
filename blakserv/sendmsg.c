@@ -224,9 +224,9 @@ void InitBkodInterpret(void)
    ccall_table[GETALLLISTNODESBYCLASS] = C_GetAllListNodesByClass;
    ccall_table[LISTCOPY] = C_ListCopy;
 
-   ccall_table[GETTIMEZONEOFFSET] = C_GetTimeZoneOffset;
    ccall_table[GETTIME] = C_GetTime;
    ccall_table[GETTICKCOUNT] = C_GetTickCount;
+   ccall_table[GETDATEANDTIME] = C_GetDateAndTime;
    ccall_table[SETCLASSVAR] = C_SetClassVar;
    
    ccall_table[CREATETABLE] = C_CreateTable;

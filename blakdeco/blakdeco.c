@@ -567,9 +567,9 @@ char * name_function(int fnum)
    case GETALLLISTNODESBYCLASS : return "C_GetAllListNodesByClass";
    case LISTCOPY : return "ListCopy";
 
-   case GETTIMEZONEOFFSET : return "GetTimeZoneOffset";
    case GETTIME : return "GetTime";
    case GETTICKCOUNT : return "GetTickCount";
+   case GETDATEANDTIME : return "GetDateAndTime";
 
    case ABS : return "Abs";
    case BOUND : return "Bound";
