@@ -203,6 +203,7 @@ void MailNewMessage(int server_index, char *sender, int num_recipients,
    // Add the message, replacing single '\n' with '\r\n'
    char newline_msg[MAXMAIL * 2];
    char *newline_ptr = newline_msg;
+
    while (message[0] != '\0')
    {
       // if we already have \r\n, don't make it \r\r\n
@@ -222,6 +223,8 @@ void MailNewMessage(int server_index, char *sender, int num_recipients,
       newline_ptr++;
       message++;
    }
+
+   newline_ptr[0] = 0;
    strcat(new_msg, newline_msg);
 
    // Save message
