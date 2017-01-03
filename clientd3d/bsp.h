@@ -194,10 +194,10 @@ typedef struct WallData
       int next_num;            /* number of next wall (used during loading) */
    };
 
-   WORD pos_xoffset;           /* X offset of + side bitmap */
-   WORD neg_xoffset;           /* X offset of - side bitmap */
-   WORD pos_yoffset;           /* Y offset of + side bitmap */
-   WORD neg_yoffset;           /* Y offset of - side bitmap */
+   short pos_xoffset;          /* X offset of + side bitmap */
+   short neg_xoffset;          /* X offset of - side bitmap */
+   short pos_yoffset;          /* Y offset of + side bitmap */
+   short neg_yoffset;          /* Y offset of - side bitmap */
 
    Plane separator;
    
