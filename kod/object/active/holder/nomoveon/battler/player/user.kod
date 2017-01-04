@@ -10090,25 +10090,6 @@ messages:
       return FALSE;
    }
 
-   InitialSetBaseMaxHealth()
-   {
-      local i;
-      
-      foreach i in plUsing
-      {
-         if Send(i,@AdjustsMaxHealth)
-         {
-           Send(self,@TryUnuseItem,#what=i);
-           Send(self,@MsgSendUser,#message_rsc=user_fumble,
-                #parm1=Send(i,@GetName));
-         }
-      }
-
-      piBase_Max_health = piMax_health;
-
-      return;
-   }
-
    FixMoney(amount = 50000)
    {
       local oMoney,num;
