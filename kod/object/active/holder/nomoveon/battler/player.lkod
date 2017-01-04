@@ -409,7 +409,7 @@ player_first_mail = de \
    "nicht vollständig verlassen konnte, als Du ausgeloggt bist.\nWir hoffen, "
    "dass Du den kleinen Abstecher in unser Land genießt.\n -- Dein Schutzengel"
 player_death_mail = de \
-   "Betreff: Der Tod\n\nEs betrübt mich dass Du im Kampfe in die Unterwelt "
+   "Betreff: Der Tod\nEs betrübt mich dass Du im Kampfe in die Unterwelt "
    "gefallen bist. Das Leben als Abenteurer ist gefährlich, wie Du nun hast "
    "erfahren müssen.\n\nDa Du so jung bist, habe ich bei den Göttern erfleht, "
    "dass Dir einige der Strafen des Todes erspart bleiben. Normalerweise "
