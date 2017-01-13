@@ -15139,12 +15139,10 @@ messages:
       // Logoff ghosts call this when the player returns, so we remove
       // the phase time remaining from piTimeAttackedPlayer here if we
       // added it when the user logged off.
-      if piTimeAttackedPlayer
-            + Send(SETTINGS_OBJECT,@TeleportAttackDelaySec)
+      if piTimeAttackedPlayer + Send(SETTINGS_OBJECT,@TeleportAttackDelaySec)
             > GetTime()
       {
-         piTimeAttackedPlayer = piTimeAttackedPlayer
-                                 - (Send(self,@GetRemainingPhaseTime) / 1000);
+         piTimeAttackedPlayer -= (Send(self,@GetRemainingPhaseTime) / 1000);
       }
 
       return;
