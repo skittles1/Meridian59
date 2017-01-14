@@ -2579,6 +2579,7 @@ messages:
       Send(self,@CreateOneRoomIfNew,#num=RID_OLD_MARION,#class=&OldMarion);
       Send(self,@CreateOneRoomIfNew,#num=RID_OLD_BAR_NORTH,#class=&OldBarloqueNorth);
       Send(self,@CreateOneRoomIfNew,#num=RID_OLD_BAR_SOUTH,#class=&OldBarloqueSouth);
+      Send(self,@CreateOneRoomIfNew,#num=RID_OLD_CORNOTH,#class=&OldCorNoth);
       
       Send(self,@CreateOneRoomIfNew,#num=RID_DESERTPATH1,#class=&DesertPath1);
       Send(self,@CreateOneRoomIfNew,#num=RID_DESERTCLIFFACCESS,#class=&DesertCliffAccess);
