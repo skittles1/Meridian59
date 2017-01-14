@@ -8,7 +8,7 @@
 
 
 ////////////////////////////////////////////////////////////////////////////////
-OldBarloqueNorth is MonsterRoom
+OldBarloqueNorth is OldTown
 
 constants:
 
@@ -46,15 +46,6 @@ properties:
 
 messages:
 
-   Constructed()
-   {
-      plMonsters = $;
-
-      plGenerators = $;
-
-      propagate;
-   }
-
    SomethingMoved(what = $, new_row = $, new_col = $)
    {
       if new_col = 53 AND (new_row >= 44 AND new_row <= 46)
@@ -71,17 +62,6 @@ messages:
 
       propagate;
    }
-
-   GetRegion()
-   {
-      return RID_HISTORIC;
-   }
-
-   SeanceCheck()
-   {
-      return FALSE;
-   }
-
 
 end
 ////////////////////////////////////////////////////////////////////////////////

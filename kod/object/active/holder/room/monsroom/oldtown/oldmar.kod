@@ -8,7 +8,7 @@
 
 
 ////////////////////////////////////////////////////////////////////////////////
-OldMarion is MonsterRoom
+OldMarion is OldTown
 
 constants:
 
@@ -45,26 +45,6 @@ properties:
    pbSnowGroundTexture = TRUE
 
 messages:
-
-   Constructed()
-   {
-      plMonsters = $;
-
-      plGenerators = $;
-
-      propagate;
-   }
-
-   GetRegion()
-   {
-      return RID_HISTORIC;
-   }
-
-   SeanceCheck()
-   {
-      return FALSE;
-   }
-
 
 end
 ////////////////////////////////////////////////////////////////////////////////
