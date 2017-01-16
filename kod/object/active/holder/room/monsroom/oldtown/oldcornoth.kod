@@ -81,7 +81,6 @@ messages:
       plExits = Cons([ 38, 31, RID_GUILDH1, 20, 13, ROTATE_270 ],plExits);
       plExits = Cons([ 39, 31, RID_GUILDH1, 20, 13, ROTATE_270 ],plExits);
 
-
       plExits = Cons([ 37, 58, RID_GUILDH6, 11, 10, ROTATE_225 ],plExits);
 
       plExits = Cons([ 24, 20, RID_COR_GROCER, 9, 7, ROTATE_180 ],plExits);
@@ -89,9 +88,10 @@ messages:
 
       plExits = Cons([ 41,12, RID_COR_TAILOR, 4, 3, ROTATE_NONE ],plExits);
 
-      plExits = Cons([ 11, 33, RID_COR_UNIV, 10, 25, ROTATE_NONE ],plExits);
       plExits = Cons([ 10, 8, RID_COR_WEAPONSMASTER, 7, 6, ROTATE_NONE ],plExits);
       */
+
+      plExits = Cons([ 11, 33, RID_OLD_COR_UNIV, 10, 25, ROTATE_NONE ],plExits);
 
       plExits = Cons([ 40,22, ROOM_LOCKED_DOOR ],plExits);
       plExits = Cons([ 44,9 , ROOM_LOCKED_DOOR ],plExits);
