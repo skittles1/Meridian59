@@ -294,10 +294,21 @@ messages:
                      AND NOT Send(oTreasure,@SpellItemIsAccessible))
                   AND iSafetyCntr++ < 5)
                {
+                  Send(oTreasure,@Delete);
                   oTreasure = Send(self,@GenerateTreasure,#level=level,
                                     #who=who,#mob=mob,#tokengen=tokengen,
                                     #corpse=corpse,#attributes=attributes);
                }
+            }
+
+            // If we ended up with an inaccessible item anyway,
+            // delete it and move to next item.
+            if (IsClass(oTreasure,&SpellItem)
+               AND NOT Send(oTreasure,@SpellItemIsAccessible))
+            {
+               Send(oTreasure,@Delete);
+
+               continue;
             }
 
             if IsClass(oTreasure,&Token)
