@@ -10941,7 +10941,7 @@ messages:
          }
          else if (iPrimaryStat = STAT_ID_MYSTICISM)
          {
-            if (iSpellAbility > (piMysticism * 2)) AND (mysticism < piMysticism)
+            if (iSpellAbility > (mysticism * 2)) AND (mysticism < piMysticism)
                OR (iSpellAbility = 99 AND piMysticism = 50 AND mysticism < 50)
             {
                Send(self,@ChangeSpellAbility,#spell_num=iSpellNum,
