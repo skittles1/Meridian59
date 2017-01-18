@@ -2639,5 +2639,10 @@ messages:
       return vbIsAreaEffect;
    }
 
+   IsAffectedByRadiusEnchantment()
+   {
+      return FALSE;
+   }
+
 end
 ////////////////////////////////////////////////////////////////////////////////
