@@ -1814,9 +1814,8 @@ messages:
 
       oOwner = Send(who,@GetOwner);
 
-      // Can advance in real death arenas
-      if Send(oOwner,@CheckRoomFlag,#flag=ROOM_SAFE_DEATH)
-         OR (Send(oOwner,@IsArena) AND NOT Send(oOwner,@ArenaRealDeath))
+      if (Send(oOwner,@CheckRoomFlag,#flag=ROOM_SAFE_DEATH)
+         OR Send(oOwner,@IsArena))
       {
          return FALSE;
       }

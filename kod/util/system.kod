@@ -58,6 +58,8 @@ resources:
       "~B~U~k[###]~n ~B~v%q just hurled %sself from the cliffs of Riija to find a watery "
       "grave."
    system_user_killed_token = "~B~U~k[###]~n ~B~v%q lost a token to %s%q."
+   system_user_killed_arena = \
+      "~B~U~k[###]~n ~B~v%q was bested in combat by %s%q."
    system_user_killed_shield = "~B~U~k[###]~n ~B~v%q was bested by faction rival %s%q."
    system_user_killed_guild = \
       "~B~U~k[###]~n ~B~v%q of %s%q has been slaughtered by %s%q of %s%q in guild combat."
@@ -1727,8 +1729,6 @@ messages:
          return;
       }
 
-      oKillingBlow = $;
-
       if stroke_obj <> $ AND Send(stroke_obj,@GetName) <> $
       {
          oKillingBlow = Send(stroke_obj,@GetName);
@@ -1807,6 +1807,10 @@ messages:
       {
          // Notify of a token death.
          rMessage = system_user_killed_token;
+      }
+      else if (Send(oRoom,@IsArena) AND Send(oRoom,@ArenaRealDeath))
+      {
+         rMessage = system_user_killed_arena;
       }
       else
       {

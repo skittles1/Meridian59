@@ -1,1 +1,8 @@
 room_name_tosdeatharena = de "Die Arena des Todes"
+deatharena_no_offer = de \
+   "Johlan Tulca sagt, \"Zuschauer und Teilnehmer dürfen während "
+   "der Kämpfe keine Gegenstände austauschen.\""
+deatharena_start_tournament = de \
+   "Die Banner werden gehißt und die Hörner erklingen, um das Königliche "
+   "Turnier zu eröffnen!"
+deatharena_end_tournament = de "Das Königliche Turnier ist beendet."

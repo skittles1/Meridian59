@@ -2481,6 +2481,35 @@ messages:
       return TRUE;
    }
 
+   GetSectorIDAtLocation(row = $, col = $, fine_row = FINENESS_HALF,
+                         fine_col = FINENESS_HALF)
+   "Gets the sector tag ID in this room for the given location.  Returns -1 on "
+   "error, as valid tags are all >= 0."
+   {
+      local iQflags, iRflags, iHeightF, iHeightFWD, iHeightC, iServerID;
+
+      if (row = $ OR col = $)
+      {
+         Debug("GetSectorIDAtLocation called with $ params for room ",
+               Send(self,@GetName));
+
+         return -1;
+      }
+      // set query-flags, here we're only interested in the sectorinfo
+      iQflags = LIQ_GET_SECTORINFO;
+
+      // query data from bsp in c-function
+      if NOT GetLocationInfoBSP(prmRoom, iQflags, row, col, fine_row, fine_col,
+                  *iRflags, *iHeightF, *iHeightFWD, *iHeightC, *iServerID)
+      {
+         Debug("Failed to get location info in ", Send(self,@GetName));
+
+         return -1;
+      }
+
+      return iServerID;
+   }
+
    LineOfSight(obj1 = $, obj2 = $)
    "Returns TRUE if there is a line of sight between obj1 and obj2"
    {
@@ -4256,6 +4285,12 @@ messages:
       // Should never get called from here but just in case . . .
       Debug("ArenaRealDeath() called in room.kod  Ergo: SNAFU  Q.E.D.");
 
+      return FALSE;
+   }
+
+   ArenaDropItems()
+   "Whether combatants in real death arena drop items when killed."
+   {
       return FALSE;
    }
 

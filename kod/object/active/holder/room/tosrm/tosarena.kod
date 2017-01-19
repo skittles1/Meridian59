@@ -33,46 +33,58 @@ resources:
    wind_sound_tosarena = ambcntry.ogg
    wind1_sound_tosarena = rs_wind.ogg
 
-   TosArena_no_offer = "The Watcher says, \"Spectators and combatants may not exchange goods during matches."
+   TosArena_no_offer = \
+      "The Watcher says, \"Spectators and combatants may not exchange goods "
+      "during matches."
    TosArena_no_attack = "You may not fight here unless you are a combatant."
    TosArena_no_spell = "Only the combatants may cast spells."
    TosArena_no_rescue = "No chickening out!"
    TosArena_no_target = "That's awfully rude of you!"
    TosArena_between_bouts = "No horseplay between bouts!"
 
-   TosArena_cant_go = "The Watcher says, \"You can't leave!  You're a combatant!\""
+   TosArena_cant_go = \
+      "The Watcher says, \"You can't leave!  You're a combatant!\""
 
    TosArena_traditional = "Traditional"
-   TosArena_traditional_rules = "Traditional bouts are those between only two combatants, a champion "
-      "and a challenger.  If there is no champion, say CHAMPION to claim the title.  A potential "
-      "fighter then says CHALLENGE to challenge the champion.  The champion may then choose to either ACCEPT the "
-      "challenge or RENEGE his title."
+   TosArena_traditional_rules = \
+      "Traditional bouts are those between only two combatants, a champion "
+      "and a challenger.  If there is no champion, say CHAMPION to claim the "
+      "title.  A potential fighter then says CHALLENGE to challenge the "
+      "champion.  The champion may then choose to either ACCEPT the challenge "
+      "or RENEGE his title."
    TosArena_lastman = "Last Man Standing"
-   TosArena_lastman_rules = "Last man standing bouts may have up to 25 combatants.  First, a CHAMPION "
-      "must be declared.  Once someone CHALLENGES him, others have 30 seconds to also CHALLENGE.  "
-      "After the Watcher has begun the match, it's every man for himself.  The last gladiator left in "
-      "the ring wins the glory of Kraanan."
+   TosArena_lastman_rules = \
+      "Last man standing bouts may have up to 25 combatants.  First, a "
+      "CHAMPION must be declared.  Once someone CHALLENGES him, others have "
+      "30 seconds to also CHALLENGE.  After the Watcher has begun the match, "
+      "it's every man for himself.  The last gladiator left in the ring wins "
+      "the glory of Kraanan."
    TosArena_guildvguild = "Guild Vs Guild"
-   TosArena_guildvguild_rules = "Two guilds may choose to combat each other.  A representative "
-      "from one guild registers that guild as the CHAMPION, and then a member of "
-      "the challenging guild proffers a CHALLENGE.  At this point, other guild members "
-      "from both guilds have 30 seconds to join in, although no more than 10 "
-      "people from any one guild may participate."
+   TosArena_guildvguild_rules = \
+      "Two guilds may choose to combat each other.  A representative from one "
+      "guild registers that guild as the CHAMPION, and then a member of the "
+      "challenging guild proffers a CHALLENGE.  At this point, other guild "
+      "members from both guilds have 30 seconds to join in, although no more "
+      "than 10 people from any one guild may participate."
    TosArena_battleRoyale = "Battle Royale"
-   TosArena_battleRoyale_rules = "A mix between last man standing and guild vs guild, "
-      "first a CHAMPION is needed, and then other guild members from other guilds may "
-      "CHALLENGE.  Any number of guilds may take part in the proceedings, but there may "
-      "be no more than 5 members of any one guild in the pit, and no more than 25 combatants total."
+   TosArena_battleRoyale_rules = \
+      "A mix between last man standing and guild vs guild, first a CHAMPION "
+      "is needed, and then other guild members from other guilds may "
+      "CHALLENGE.  Any number of guilds may take part in the proceedings, but "
+      "there may be no more than 5 members of any one guild in the pit, and "
+      "no more than 25 combatants total."
 
    TosArena_rules = "Rules"
    TosArena_rules_rules = \
-      "* Between bouts, any person may say the name of a combat style to change combat styles.  "  
-      "However, all matches must be over and any current champions must RENEGE their titles.\n"
-      "* Magic and combat are limited to between combatants on the arena pit.  Players in the "
-      "stands cannot be harmed by wayward combatants.\n"
-      "* The Watcher reserves the right to make the proceedings more... interesting... if "
-      "he so desires.\n"
-      "* Matches are 'to the death'.  However, combatants suffer no ill effects from arena death."
+      "* Between bouts, any person may say the name of a combat style to "
+      "change combat styles.  However, all matches must be over and any "
+      "current champions must RENEGE their titles.\n"
+      "* Magic and combat are limited to between combatants on the arena "
+      "pit.  Players in the stands cannot be harmed by wayward combatants.\n"
+      "* The Watcher reserves the right to make the proceedings more... "
+      "interesting... if he so desires.\n"
+      "* Matches are 'to the death'.  However, combatants suffer no ill "
+      "effects from arena death."
 
    TosArena_traditional_icon = arsign01.bgf
    TosArena_lastman_icon = arsign02.bgf
@@ -126,9 +138,8 @@ properties:
    pbLocked = FALSE
    pbRealdeath = FALSE
    pbNoReagents = TRUE
-   
-messages:
 
+messages:
 
    CanOffer(who = $, target = $)
    {
