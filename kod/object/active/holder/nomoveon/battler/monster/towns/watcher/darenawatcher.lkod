@@ -1,0 +1,10 @@
+   DeathArenaWatcher_name_rsc = de "Johlan Tulca"
+   DeathArenaWatcher_desc_rsc = de \
+   "Johlan ist der Sohn von Kochtal ko'Tulca. Er war einst ein stolzer Soldat "
+   "der Insel Ko'Catan, aber ... er wurde von der Insel Ko'catan verbannt. Du "
+   "würdest es nicht glauben, was man über die grausamen Dinge sagt, die er "
+   "angestellt haben soll um von der Insel verbannt zu werden. Nun lebt er "
+   "seine Träume als Meister der Arena des Todes."   
+   TSda_entry_welcome = de \
+   "Ahh %s%s. Willkommen in der Arena des Todes. Komm herein und finde nicht "
+   "wieder lebendig heraus, ha ha ha."
