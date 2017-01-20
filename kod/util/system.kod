@@ -2324,7 +2324,9 @@ messages:
       Send(self,@CreateOneRoomIfNew,#num=RID_COR_INN,#class=&CorInn);
       Send(self,@CreateOneRoomIfNew,#num=RID_COR_WEAPONSMASTER,#class=&CorWeaponsMaster);
       Send(self,@CreateOneRoomIfNew,#num=RID_COR_TAILOR,#class=&CorTailor);
-      Send(self,@CreateOneRoomIfNew,#num=RID_COR_UNIV,#class=&CornothUniversity);
+      Send(self,@CreateOneRoomIfNew,#num=RID_COR_UNIV,#class=&CorNothUniversity);
+      Send(self,@CreateOneRoomIfNew,#num=RID_COR_GEN_HALL,#class=&CorNothGenHall);
+      Send(self,@CreateOneRoomIfNew,#num=RID_COR_MUSEUM,#class=&CorNothMuseum);
       Send(self,@CreateOneRoomIfNew,#num=RID_FORGOTTEN_TOO,#class=&ForgottenToo);
 
       // Jasper stuff
@@ -2581,6 +2583,7 @@ messages:
       Send(self,@CreateOneRoomIfNew,#num=RID_OLD_BAR_NORTH,#class=&OldBarloqueNorth);
       Send(self,@CreateOneRoomIfNew,#num=RID_OLD_BAR_SOUTH,#class=&OldBarloqueSouth);
       Send(self,@CreateOneRoomIfNew,#num=RID_OLD_CORNOTH,#class=&OldCorNoth);
+      Send(self,@CreateOneRoomIfNew,#num=RID_OLD_COR_UNIV,#class=&OldCorNothUniversity);
       
       Send(self,@CreateOneRoomIfNew,#num=RID_DESERTPATH1,#class=&DesertPath1);
       Send(self,@CreateOneRoomIfNew,#num=RID_DESERTCLIFFACCESS,#class=&DesertCliffAccess);
