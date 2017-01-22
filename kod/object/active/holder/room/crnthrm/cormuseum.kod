@@ -66,6 +66,13 @@ messages:
 
    CreateStandardObjects()
    {
+      
+	  // NPC
+	  
+	  
+      Send(self,@NewHold,#what=Create(&CorNothMuseumGuard),
+            #new_row=18,#new_col=10,#fine_row=48,#fine_col=56,#new_angle=ANGLE_SOUTH);
+			
       // Bar stools
 
       Send(self,@NewHold,#what=Create(&BarStool),
