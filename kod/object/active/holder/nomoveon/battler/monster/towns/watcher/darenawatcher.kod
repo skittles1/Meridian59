@@ -1,0 +1,61 @@
+// Meridian 59, Copyright 1994-2012 Andrew Kirmse and Chris Kirmse.
+// All rights reserved.
+//
+// This software is distributed under a license that is described in
+// the LICENSE file that accompanies it.
+//
+// Meridian is a registered trademark.
+
+
+////////////////////////////////////////////////////////////////////////////////
+DeathArenaWatcher is Watcher
+
+constants:
+
+   include blakston.khd
+
+resources:
+
+   include darenawatcher.lkod
+
+   DeathArenaWatcher_name_rsc = "Johlan Tulca"
+   DeathArenaWatcher_icon_rsc = tsdeatharenawatcher.bgf
+   DeathArenaWatcher_desc_rsc = \
+   "Johlan is the son of Kochtal ko'Tulca. He was a proud soldier of the "
+   "Ko'catan army until he was banished from the settlement, into the Orc "
+   "Caves.  He travelled the perilous route to the mainland and set up shop "
+   "in the disused Arena of Kraanan storeroom, turning it into an underground "
+   "tavern and arena."
+   
+   TSda_entry_welcome = \
+   "Ahh %s%s. Welcome to the Arena of Death. Come in and never get out "
+   "alive, ha ha ha."
+
+classvars:
+
+   viDefinite = ARTICLE_NONE
+   viIndefinite = ARTICLE_NONE
+
+   vrName = DeathArenaWatcher_name_rsc
+   vrIcon = DeathArenaWatcher_icon_rsc
+   vrDesc = DeathArenaWatcher_desc_rsc
+   
+   viAttributes = MOB_NOMOVE | MOB_FULL_TALK | MOB_LISTEN | MOB_NOFIGHT \
+                  | MOB_NOQUEST
+   viOccupation = MOB_ROLE_WATCHER
+
+properties:
+
+messages:
+
+   UserEntered(who=$)
+   {
+      Post(who,@SomeoneSaid,#what=self,#type=SAY_RESOURCE,
+            #string=TSda_entry_welcome,
+            #parm1=Send(who,@GetDef),#parm2=Send(who,@GetName));
+
+      propagate;
+   }
+
+end
+////////////////////////////////////////////////////////////////////////////////
