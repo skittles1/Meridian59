@@ -8898,7 +8898,7 @@ messages:
       // Can advance in arena if realdeath is on in an arena.
       if NOT Send(what,@CanPlayerAdvanceOnMe)
          OR Send(poOwner,@CheckRoomFlag,#flag=ROOM_SAFE_DEATH)
-         OR (Send(poOwner,@IsArena) AND NOT Send(poOwner,@ArenaRealDeath))
+         OR (Send(poOwner,@IsArena))
       {
          return FALSE;
       }
@@ -9531,10 +9531,11 @@ messages:
       // These aren't cheap deaths, these are ways to avoid actual death.
       if pbLogged_on
          AND ((Send(poOwner,@IsArena)
-               AND Send(poOwner,@InPlay,#what=Self)
+               AND Send(poOwner,@InPlay,#what=self)
                AND NOT Send(poOwner,@ArenaRealDeath))
               OR IsClass(poOwner,&OutOfGrace)
-              OR Send(poOwner,@SafePlayerAttack))
+              OR (Send(poOwner,@SafePlayerAttack)
+               AND NOT Send(poOwner,@ArenaRealDeath)))
       {
          piHealth = 1;
          Send(self,@NewHealth);
@@ -9568,6 +9569,12 @@ messages:
       {
          bNo_drop_death = TRUE;
          piDeathCost = FALSE;
+      }
+      else if (Send(poOwner,@IsArena)
+         AND NOT Send(poOwner,@ArenaDropItems))
+      {
+         // If we get to here and we are in an arena, check for item drop.
+         bNo_drop_death = TRUE;
       }
 
       // Currently, the following block is only for Necromancer Amulets
@@ -9650,22 +9657,19 @@ messages:
                Send(i,@OwnerKilled);
 
                if Send(i,@DropOnDeath)
+                  AND Send(oRoom,@ReqNewHold,#what=i,#new_row=iRow,#new_col=iCol)
                {
-                  if Send(oRoom,@ReqNewHold,#what=i,#new_row=iRow,#new_col=iCol)
+                  if oItemAtt <> $
                   {
-                     if oItemAtt <> $
-                     {
-                        // We know this was a pk.  Only let PKillables pick up the loot.
-                        // Put the appropriate item attribute on it.
-                        Send(oItemAtt,@AddToItem,#oItem=i,
-                              #timer_duration=PKPOINTER_TIME,
-                              #state1=self);
-                     }
-
-                     Send(oRoom,@NewHold,#what=i,#merge=FALSE,
-                           #new_row=iRow,#new_col=iCol,
-                           #fine_row=iFine_row,#fine_col=iFine_col);
+                     // We know this was a pk.  Only let PKillables pick up
+                     // the loot. Put the appropriate item attribute on it.
+                     Send(oItemAtt,@AddToItem,#oItem=i,
+                           #timer_duration=PKPOINTER_TIME,#state1=self);
                   }
+
+                  Send(oRoom,@NewHold,#what=i,#merge=FALSE,
+                        #new_row=iRow,#new_col=iCol,
+                        #fine_row=iFine_row,#fine_col=iFine_col);
                }
             }
          }
@@ -9698,17 +9702,14 @@ messages:
             Send(oItemAtt,@AddtoItem,#oitem=oItem,#timer_duration=18000000);
             Send(self,@NewHold,#what=oItem);
          }
-         else
+         else if piKarma >= 0
          {
-            if piKarma >= 0
-            {
-               // To prevent mule money abuse, make the mace "created".
-               // This makes it worthless to try to sell. It lasts for 5 hours.
-               oItem = Create(&Mace);
-               oItemAtt = Send(SYS,@FindItemAttByNum,#Num=IA_MADE);
-               Send(oItemAtt,@AddtoItem,#oitem=oItem,#timer_duration=18000000);
-               Send(self,@NewHold,#what=oItem);
-            }
+            // To prevent mule money abuse, make the mace "created".
+            // This makes it worthless to try to sell. It lasts for 5 hours.
+            oItem = Create(&Mace);
+            oItemAtt = Send(SYS,@FindItemAttByNum,#Num=IA_MADE);
+            Send(oItemAtt,@AddtoItem,#oitem=oItem,#timer_duration=18000000);
+            Send(self,@NewHold,#what=oItem);
          }
       }
 
@@ -9778,6 +9779,7 @@ messages:
       }
 
       if poOwner = oRoom
+         AND pbLogged_on
       {
          Debug("Player didn't teleport after death!",vrName);
       }
@@ -9956,29 +9958,21 @@ messages:
 
    CreateCorpse(Assassinated=FALSE)
    {
-      local inKocatan;
+      local oRoom;
 
       // Send current pant/shirt color to body only if they both use
       // the new two-color xlats. Otherwise, Send default colors.
-      inKocatan = FALSE;
       if pbLogged_on
       {
-         if Send(poOwner,@GetRegion) = RID_KOCATAN
-         {
-            inKocatan = TRUE;
-         }
+         oRoom = Send(self,@GetOwner);
       }
       else
       {
-         if Send(Send(SYS,@FindRoomByNum,
-               #num=Send(self,@GetSaveRoom)),@GetRegion) = RID_KOCATAN
-         {
-            inKocatan = TRUE;
-         }
+         oRoom = Send(SYS,@FindRoomByNum,#num=Send(self,@GetSaveRoom));
       }
 
-      if Send(sys,@IsTwoColorXLAT,#xlat=Send(self,@GetBodyTranslation))
-         AND Send(sys,@IsTwoColorXLAT,#xlat=Send(self,@GetLegsTranslation))
+      if Send(SYS,@IsTwoColorXLAT,#xlat=Send(self,@GetBodyTranslation))
+         AND Send(SYS,@IsTwoColorXLAT,#xlat=Send(self,@GetLegsTranslation))
       {
          if piGender = GENDER_MALE
          {
@@ -9989,7 +9983,7 @@ messages:
                           #PlayerBodyOverlay=player_dead_male_iconb_rsc,
                           #BodyTranslation=Send(self,@GetBodyTranslation),
                           #LegsTranslation=Send(self,@GetLegsTranslation),
-                          #inKocatan = inKocatan);
+                          #oRoom=oRoom);
          }
          else
          {
@@ -10000,7 +9994,7 @@ messages:
                           #PlayerBodyOverlay=player_dead_female_iconb_rsc,
                           #BodyTranslation=Send(self,@GetBodyTranslation),
                           #LegsTranslation=Send(self,@GetLegsTranslation),
-                          #inKocatan = inKocatan);
+                          #oRoom=oRoom);
          }
       }
 
@@ -10012,7 +10006,7 @@ messages:
                        #PlayerBodyOverlay=player_dead_male_iconb_rsc,
                        #BodyTranslation=Send(self,@GetDefaultShirtTranslation),
                        #LegsTranslation=Send(self,@GetDefaultPantsTranslation),
-                       #inKocatan = inKocatan);
+                       #oRoom=oRoom);
       }
       // female, default colors
       return Create(&DeadBody,
@@ -10020,7 +10014,7 @@ messages:
                     #PlayerBodyOverlay=player_dead_female_iconb_rsc,
                     #BodyTranslation=Send(self,@GetDefaultShirtTranslation),
                     #LegsTranslation=Send(self,@GetDefaultPantsTranslation),
-                    #inKocatan = inKocatan);
+                    #oRoom=oRoom);
    }
 
    GetDeadName()

@@ -980,27 +980,15 @@ messages:
       return;
    }
 
-   CombatantReneges(who = $, died = TRUE)
+   CombatantReneges(who = $, died = TRUE, kill = FALSE)
+   "'died' is TRUE if we took a death, 'kill' is TRUE if this player reneged "
+   "in a way that avoided death, i.e. a real death arena should kill them."
    {
-      local i;
+      local i, iRoomNum;
 
-      // If a player logs off in a 1 vs 1 we might give them a small amount
-      // of time to return.
-      if (pbCrashProtection
-         AND piCombat_Style = STYLE_ONE_ON_ONE
-         AND died = FALSE
-         AND (Send(self,@FightInSession)
-            OR ptCommence <> $)
-         AND IsClass(who,&Player))
+      // Must still be a combatant.
+      if (NOT FindListElem(plCombatants,who))
       {
-         // We probably lost connection or logged off.
-         if Send(who,@GetOwner) <> $
-         {
-            // If we got here while logged on it's probably a bug.
-            Debug("Player ",Send(who,@GetTrueName),
-                  " reneged from arena while still fighting!");
-         }
-
          return;
       }
 
@@ -1012,16 +1000,16 @@ messages:
          }
       }
 
-      // Any room specific stuff that has to be handled when reneging.
-      Send(poOwner,@ArenaCombatantReneges,#who=who,#died=died);
-
       // Don't teleport monsters out
       if IsClass(who,&Player)
          AND ((NOT Send(poOwner,@ArenaRealDeath))
-            OR died = FALSE)
+            OR (died = FALSE AND kill = FALSE))
       {
          Send(self,@Teleport,#what=who,#outofplay=TRUE);
       }
+
+      // Any room specific stuff that has to be handled when reneging.
+      Send(poOwner,@ArenaCombatantReneges,#who=who,#died=died,#kill=kill);
 
       if who = poChampion
       {
@@ -1033,7 +1021,9 @@ messages:
          DeleteTimer(ptAccept);
          ptAccept = $;
 
-         if Send(poOwner,@GetRoomNum) = RID_TOS_ARENA
+         iRoomNum = Send(poOwner,@GetRoomNum);
+         if (iRoomNum = RID_TOS_ARENA
+            OR iRoomNum = RID_TOS_DEATH_ARENA)
          {
             Send(poOwner,@CheckBehindBars);
          }
@@ -1101,7 +1091,7 @@ messages:
                #parm3=Send(victim,@GetDef),#parm4=Send(victim,@GetName));
       }
 
-      Send(self,@CombatantReneges,#who=victim);
+      Send(self,@CombatantReneges,#who=victim,#died=TRUE);
 
       propagate;
    }
@@ -1369,7 +1359,7 @@ messages:
               #parm1=Send(poChampion,@GetCapDef),
               #parm2=Send(poChampion,@GetName),
               #parm3=Send(poChampion,@GetHisHer));
-         Send(self,@CombatantReneges,#who=poChampion);
+         Send(self,@CombatantReneges,#who=poChampion,#died=FALSE);
       }
 
       return;
@@ -1835,7 +1825,7 @@ messages:
       {
          Send(self,@Say,#message_rsc=watcher_combatant_reneges,
                #parm1=Send(what,@GetCapDef),#parm2=Send(what,@GetName));
-         Send(self,@CombatantReneges,#who=what);
+         Send(self,@CombatantReneges,#who=what,#died=FALSE);
       }
       else
       {
@@ -2097,28 +2087,29 @@ messages:
          {
             if ptFight <> $
             {
+               // If crash protection is enabled and we have two combatants
+               // left, give the one who logs 30 sec to return.
                if (pbCrashProtection
-                  AND ptReconnect = $)
+                  AND ptReconnect = $
+                  AND Length(plCombatants) = 2)
                {
                   ptReconnect = CreateTimer(self,@KillLogged,RECONNECT_TIME);
                   Send(self,@Say,#message_rsc=vrPlayerFledReconnect,
                         #parm1=Send(what,@GetCapDef),#parm2=Send(what,@GetName),
                         #parm3=Send(what,@GetCapDef),#parm4=Send(what,@GetName));
-                  // Post so occurs after player logs off.
-                  Post(self,@CombatantReneges,#who=what,#died=FALSE);
                }
                else
                {
                   Send(self,@Say,#message_rsc=vrPlayerFled,
                         #parm1=Send(what,@GetCapDef),#parm2=Send(what,@GetName));
-                  Send(self,@CombatantReneges,#who=what);
+                  Send(self,@CombatantReneges,#who=what,#died=FALSE,#kill=TRUE);
                }
             }
             else
             {
                Send(self,@Say,#message_rsc=vrPlayerWontFight,
                      #parm1=Send(what,@GetDef),#parm2=Send(what,@GetName));
-               Send(self,@CombatantReneges,#who=what);
+               Send(self,@CombatantReneges,#who=what,#died=FALSE);
             }
          }
 
@@ -2144,7 +2135,9 @@ messages:
             AND NOT Send(i,@IsLoggedOn)
          {
             // This is the player we need.
-            Send(self,@CombatantReneges,#who=i);
+            Send(self,@CombatantReneges,#who=i,#died=FALSE,#kill=TRUE);
+
+            return;
          }
       }
 
@@ -2501,7 +2494,7 @@ messages:
                {
                   oSwap = First(lTemp);
                   iSwap = Nth(lTemp,2);
-                  SetNth(lTemp,1,First(i));
+                  SetFirst(lTemp,First(i));
                   SetNth(lTemp,2,Nth(i,2));
                   SetFirst(i,oSwap);
                   SetNth(i,2,iSwap);
@@ -2550,7 +2543,7 @@ messages:
          Send(self,@Say,#message_rsc=watcher_quit_guild,
                #parm1=Send(who,@GetDef),#parm2=Send(who,@GetName),
                #parm3=Send(who,@GetHisHer));
-         Send(self,@CombatantReneges,#who=who);
+         Send(self,@CombatantReneges,#who=who,#died=FALSE);
       }
 
       return;
