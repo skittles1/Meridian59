@@ -14,7 +14,7 @@ system_user_killed_bridge_faith = de \
 system_user_killed_token = de "~B~U~k[###]~n ~B~v%q hat ein Artefakt an %s%q verloren."
 system_user_killed_shield = de "~B~U~k[###]~n ~B~v%q wurde vom Fraktionsrivalen %s%q besiegt."
 system_user_killed_guild = de \
-   "~B~U~k[###]~n ~B~v%q von %s%q wurde von %s%q von %s%q im Gildenkampf abgeschlachtet."
+   "~B~U~k[###]~n ~B~v%q (%s%q) wurde von %s%q (%s%q) im Gildenkampf niedergestreckt."
 guildwar_kill_title1 = de " has slaughtered "
 guildwar_kill_body1 = de "Let it be known that "
 guildwar_kill_body2 = de " of the "
