@@ -61,11 +61,6 @@ resources:
       "to travel back here.  You will keep your items, but lose ability points "
       "and XP."
 
-   deatharena_realdeath_on = "real death on"
-   deatharena_realdeath_off = "real death off"
-   deatharena_realdeath_now_on = "Real deaths are now turned on."
-   deatharena_realdeath_now_off = "Real deaths are now turned off."
-
 classvars:
 
    vrName = room_name_tosdeatharena
@@ -511,33 +506,6 @@ messages:
       pbNoReagents = TRUE;
 
       return;
-   }
-
-   SomeoneSaid(what=$,string=$)
-   {
-      if what <> $
-      {
-         if (StringEqual(string,deatharena_realdeath_on))
-         {
-            pbRealDeath = TRUE;
-            Send(self,@SetRoomFlag,#flag=ROOM_SAFE_DEATH,#value=TRUE);
-            Send(self,@SomeoneSaid,#string=deatharena_realdeath_now_on,
-                  #type=SAY_MESSAGE,#what=self);
-
-            return;
-         }
-         if (StringEqual(string,deatharena_realdeath_off))
-         {
-            pbRealDeath = FALSE;
-            Send(self,@SetRoomFlag,#flag=ROOM_SAFE_DEATH,#value=FALSE);
-            Send(self,@SomeoneSaid,#string=deatharena_realdeath_now_off,
-                  #type=SAY_MESSAGE,#what=self);
-
-            return;
-         }
-      }
-
-      propagate;
    }
 
    CheckBehindBars()
