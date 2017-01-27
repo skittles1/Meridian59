@@ -8,7 +8,7 @@ SOURCEDIR = .
 OUTDIR = $(CLIENTRUNDIR)\resource
 OUTDIRSUB = ..\$(OUTDIR)
 
-DIRS = holyblaze
+DIRS = holyblaze martyrsgrace
 
 all:
    @-for %i in (*.bgf) do @$(CP) %i $(OUTDIR) >nul
