@@ -732,14 +732,94 @@ resources:
    LM_haz_rand15 = "A mighty warrior can spurn magic by advancing his skills.  Unfortunately, there are no notable teachers here."
    LM_haz_rand16 = "Should you kill something, be sure to get the stuff that's been dropped.  Often, you can sell it for a few shillings."
    LM_haz_rand17 = "Be sure that you use your map to help you navigate around.  Type MAP to see it."
-   
+
    LM_haz_rand_apoth1 = "Ravi, the alchemist, is always looking for magical reagents.  Should you find some, he'll offer a good price."
    LM_haz_rand_bar1 = "If you're weary or wounded, Eric's Tavern is a good place to stop and rest."
    LM_haz_rand_inn1 = "Be sure to read all of the signs.  If you've wandered off the path, the sign at the inn on the north side of town is the first."
    LM_haz_rand_elder1 = "Eventually, be sure to seek out the elder.  He has been seeking warriors to help fend off the mummies!"
    LM_haz_rand_smith1 = "The blacksmith in the northwest part of town has excellent weapons and armor for training adventurers."
 
-   lib_signet_lost = "You pat your pockets and check your pack, but you suddenly realize the signet ring you were carrying is gone!"
+   LM_cormuseum_rand1 = \
+      "Did you know that Meridian 59 was the first commercial, 3D massively "
+      "multiplayer online role-playing game?"
+   LM_cormuseum_rand2 = \
+      "Meridian was first launched online in an early form on December 15, "
+      "1995 and released commercially on September 27, 1996 with a flat-rate "
+      "monthly subscription."
+   LM_cormuseum_rand3 = \
+      "Meridian was developed by Archetype Interactive and published in "
+      "September 1996 by 3DO."
+   LM_cormuseum_rand4 = \
+      "Meridian 59 was initially inspired by Scepter of Goth."
+   LM_cormuseum_rand5 = \
+      "The game was in an early beta stage in April 1996 when it was noticed "
+      "by Kevin Hester and other game developers at 3DO."
+   LM_cormuseum_rand6 = \
+      "Not many know that the classic Meridian 59 client uses a similar "
+      "engine to Doom."
+   LM_cormuseum_rand7 = \
+      "Meridian 59 is currently available as open source software.  Want to "
+      "help us develop? Feel free to join in on our forums and on GitHub!"
+   LM_cormuseum_rand8 = \
+      "Meridian 59 received multiple awards, including the fantasy "
+      "role-playing game of the year for 1996!"
+   LM_cormuseum_rand9 = \
+      "Archetype was run by Steve Sellers, Mike Sellers, and John Hanke, with "
+      "Andrew Kirmse and Chris Kirmse filling key technical roles."
+   LM_cormuseum_rand10 = \
+      "Did you know that John Hanke (part of the Archetype Interactive team) "
+      "released Pokémon Go?"
+   LM_cormuseum_rand11 = \
+      "More than 25,000 players joined the game's public beta that lasted up "
+      "until its commercial launch on September 27, 1996."
+   LM_cormuseum_rand12 = \
+      "Meridian arguably holds the title as the first real-time three "
+      "dimensional online role-playing game."
+   LM_cormuseum_rand13 = \
+      "Meridian contained many other features that modern games duplicated "
+      "later! Guilds had a dynamic voting system for changing leadership, "
+      "customized sigils that appeared on shields, and guild halls that "
+      "could be won or lost."
+   LM_cormuseum_rand14 = \
+      "3DO shut down the game on August 31, 2000 and it was re-released by "
+      "Near Death Studios, Inc. in 2002."
+   LM_cormuseum_rand15 = \
+      "Near Death Studios was co-founded by former Meridian 59 developers "
+      "Rob \"Q\" Ellis and Brian \"Psychochild\" Green."
+   LM_cormuseum_rand16 = \
+      "In October 2004, NDS added a new 3D rendering engine to the client in "
+      "the 'Evolution' expansion."
+   LM_cormuseum_rand17 = \
+      "Near Death Studios announced that they would be closing their doors "
+      "on January 6, 2010."
+   LM_cormuseum_rand18 = \
+      "In February, 2010 Meridian 59 was turned over to the original "
+      "technical developers, Andrew \"Zaphod\" Kirmse and Chris \"Zandramas\" "
+      "Kirmse."
+   LM_cormuseum_rand19 = \
+      "Meridian 59 stands as one of the longest running original online "
+      "role-playing games!"
+   LM_cormuseum_rand20 = \
+      "On September 15, 2012, Zaphod & Zandramas released the source code "
+      "for Meridian 59 to the public at no charge to the players."
+   LM_cormuseum_rand21 = \
+      "Archetype Interactive first planned to name this game 'Terranova', "
+      "but went with Meridian due to trademark issues.  Meridian was also "
+      "trademarked, so they added '59' to it!"
+   LM_cormuseum_rand22 = \
+      "3DO banned a whole guild for duping, and the news made it onto the "
+      "front page of one of the biggest gaming websites!"
+   LM_cormuseum_rand23 = \
+      "Want to hear a funny story from the past?  A guide went rogue and "
+      "teleported every player online to the Ghost of Far'Nohl.  Only two "
+      "characters survived, who promptly began looting the victims."
+   LM_cormuseum_rand24 = \
+      "Did you know that 3DO tripled the cost of Meridian subscriptions in "
+      "the same week Ultima Online was released and lost 50% of their players?"
+
+   lib_signet_lost = \
+      "You pat your pockets and check your pack, but you suddenly realize "
+      "the signet ring you were carrying is gone!"
 
 #endregion Fortune Resources
 
@@ -1190,6 +1270,33 @@ messages:
          [48,0,[ LIBACT_SAY, LM_haz_rand_inn1 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand_smith1 ]],
          [48,0,[ LIBACT_SAY, LM_haz_rand_elder1 ]]
+      ]],plRandomLib);
+
+      plRandomLib = Cons([&CorNothMuseumGuard,[
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand1 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand2 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand3 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand4 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand5 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand6 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand7 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand8 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand9 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand10 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand11 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand12 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand13 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand14 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand15 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand16 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand17 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand18 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand19 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand20 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand21 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand22 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand23 ]],
+         [48,0,[ LIBACT_SAY, LM_cormuseum_rand24 ]]
       ]],plRandomLib);
 
       return;

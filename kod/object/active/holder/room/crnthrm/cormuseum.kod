@@ -112,7 +112,6 @@ resources:
    museumportal_sign_desc = \
       "How to Visit the historical Cities:\n"
 
-
 classvars:
 
    vrName = room_name_cormuseum
@@ -156,181 +155,153 @@ messages:
 
    CreateStandardObjects()
    {
-      local oBook, oSign;
+      local oObj;
 
       // NPC
-   
       Send(self,@NewHold,#what=Create(&CorNothMuseumGuard),
-         #new_row=18,#new_col=10,#fine_row=48,#fine_col=56,#new_angle=ANGLE_SOUTH);
- 
+            #new_row=18,#new_col=10,#fine_row=48,#fine_col=56);
+
       // Bar stools
-
       Send(self,@NewHold,#what=Create(&BarStool),
-         #new_row=18,#new_col=9,#fine_row=16,#fine_col=0);
-
+            #new_row=18,#new_col=9,#fine_row=16,#fine_col=0);
       Send(self,@NewHold,#what=Create(&BarStool),
-         #new_row=19,#new_col=9,#fine_row=0,#fine_col=0);
+            #new_row=19,#new_col=9,#fine_row=0,#fine_col=0);
 
       // Lighting
-
       Send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,#iIntensity=30),
-         #new_row=17,#new_col=11,#fine_row=36,#fine_col=32);
+            #new_row=17,#new_col=11,#fine_row=36,#fine_col=32);
       Send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,#iIntensity=30),
-         #new_row=12,#new_col=2,#fine_row=32,#fine_col=32);
+            #new_row=12,#new_col=2,#fine_row=32,#fine_col=32);
       Send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,#iIntensity=30),
-         #new_row=21,#new_col=1,#fine_row=48,#fine_col=32);
+            #new_row=21,#new_col=1,#fine_row=48,#fine_col=32);
       Send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,#iIntensity=30),
-         #new_row=10,#new_col=44,#fine_row=7,#fine_col=32);
+            #new_row=10,#new_col=44,#fine_row=7,#fine_col=32);
       Send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,#iIntensity=30),
-         #new_row=34,#new_col=12,#fine_row=0,#fine_col=6);
+            #new_row=34,#new_col=12,#fine_row=0,#fine_col=6);
       Send(self,@NewHold,#what=Create(&DynamicLight,#iColor=LIGHT_FIRE,#iIntensity=30),
-         #new_row=27,#new_col=17,#fine_row=46,#fine_col=56);
+            #new_row=27,#new_col=17,#fine_row=46,#fine_col=56);
 
       // Books for the Versions
+      oObj = Create(&BookPedestal,#Name=theinternetquestbegins_book_name,
+                  #Text=theinternetquestbegins_book_text);
+      Send(self,@NewHold,#what=oObj,#new_row=24,#new_col=14,
+            #fine_row=28,#fine_col=40,#new_angle=ANGLE_SOUTH_WEST);
 
-      oBook = Create(&BookPedestal,#Name=theinternetquestbegins_book_name,#Text=theinternetquestbegins_book_text);
-      Send(self,@NewHold,#what=oBook,
-         #new_row=24,#new_col=14,#fine_row=28,#fine_col=40,#new_angle=ANGLE_SOUTH_WEST);
+      oObj = Create(&BookPedestal,#Name=valeofsorrow_book_name,
+                  #Text=valeofsorrow_book_text);
+      Send(self,@NewHold,#what=oObj,#new_row=26,#new_col=16,
+            #fine_row=24,#fine_col=16,#new_angle=ANGLE_SOUTH_WEST);
 
-      oBook = Create(&BookPedestal,#Name=valeofsorrow_book_name,#Text=valeofsorrow_book_text);
-      Send(self,@NewHold,#what=oBook,
-         #new_row=26,#new_col=16,#fine_row=24,#fine_col=16,#new_angle=ANGLE_SOUTH_WEST);
+      oObj = Create(&BookPedestal,#Name=revelation_book_name,
+                  #Text=revelation_book_text);
+      Send(self,@NewHold,#what=oObj,#new_row=27,#new_col=16,
+            #fine_row=52,#fine_col=0,#new_angle=ANGLE_NORTH_WEST);
 
-      oBook = Create(&BookPedestal,#Name=revelation_book_name,#Text=revelation_book_text);
-      Send(self,@NewHold,#what=oBook,
-         #new_row=27,#new_col=16,#fine_row=52,#fine_col=0,#new_angle=ANGLE_NORTH_WEST);
+      oObj = Create(&BookPedestal,#Name=renaissance_book_name,
+                     #Text=renaissance_book_text);
+      Send(self,@NewHold,#what=oObj,#new_row=29,#new_col=14,
+            #fine_row=20,#fine_col=8,#new_angle=ANGLE_NORTH_WEST);
 
-      oBook = Create(&BookPedestal,#Name=renaissance_book_name,#Text=renaissance_book_text);
-      Send(self,@NewHold,#what=oBook,
-         #new_row=29,#new_col=14,#fine_row=20,#fine_col=8,#new_angle=ANGLE_NORTH_WEST);
+      oObj = Create(&BookPedestal,#Name=insurrection_book_name,
+                  #Text=insurrection_book_text);
+      Send(self,@NewHold,#what=oObj,#new_row=30,#new_col=12,
+            #fine_row=32,#fine_col=32,#new_angle=ANGLE_NORTH_WEST);
 
-      oBook = Create(&BookPedestal,#Name=insurrection_book_name,#Text=insurrection_book_text);
-      Send(self,@NewHold,#what=oBook,
-         #new_row=30,#new_col=12,#fine_row=32,#fine_col=32,#new_angle=ANGLE_NORTH_WEST);
+      oObj = Create(&BookPedestal,#Name=darkauspices_book_name,
+                  #Text=darkauspices_book_text);
+      Send(self,@NewHold,#what=oObj,#new_row=27,#new_col=6,
+            #fine_row=44,#fine_col=20,#new_angle=ANGLE_NORTH_EAST);
 
-      oBook = Create(&BookPedestal,#Name=darkauspices_book_name,#Text=darkauspices_book_text);
-      Send(self,@NewHold,#what=oBook,
-         #new_row=27,#new_col=6,#fine_row=44,#fine_col=20,#new_angle=ANGLE_NORTH_EAST);
+      oObj = Create(&BookPedestal,#Name=resurrection_book_name,
+                  #Text=resurrection_book_text);
+      Send(self,@NewHold,#what=oObj,#new_row=25,#new_col=4,
+            #fine_row=48,#fine_col=44,#new_angle=ANGLE_NORTH_EAST);
 
-      oBook = Create(&BookPedestal,#Name=resurrection_book_name,#Text=resurrection_book_text);
-      Send(self,@NewHold,#what=oBook,
-         #new_row=25,#new_col=4,#fine_row=48,#fine_col=44,#new_angle=ANGLE_NORTH_EAST);
+      oObj = Create(&BookPedestal,#Name=evolution_book_name,
+                  #Text=evolution_book_text);
+      Send(self,@NewHold,#what=oObj,#new_row=23,#new_col=2,
+            #fine_row=46,#fine_col=62,#new_angle=ANGLE_NORTH_EAST);
 
-      oBook = Create(&BookPedestal,#Name=evolution_book_name,#Text=evolution_book_text);
-      Send(self,@NewHold,#what=oBook,
-           #new_row=23,#new_col=2,#fine_row=46,#fine_col=62,#new_angle=ANGLE_NORTH_EAST);
-
-      // Book how to use the portal
-  
-      oSign = Create(&Sign,#name=museumportal_sign_name,#desc=museumportal_sign_desc);
-      Send(self,@NewHold,#what=oSign,#new_row=13,#new_col=4,#fine_row=32,#fine_col=20);
-
-
-      // museum objects
-
-      // table above right
+      // Book on how to use the portal
+      oObj = Create(&Sign,#name=museumportal_sign_name,
+                  #desc=museumportal_sign_desc);
+      Send(self,@NewHold,#what=oObj,#new_row=13,#new_col=4,
+            #fine_row=32,#fine_col=20);
 
 
+      // Museum objects
+      // Table above right
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_WAND),
-         #new_row=13,#new_col=9,#fine_row=48,#fine_col=20,#new_angle=ANGLE_EAST);
-   
+            #new_row=13,#new_col=9,#fine_row=48,#fine_col=20,#new_angle=ANGLE_EAST);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_THRONE),
-         #new_row=13,#new_col=10,#fine_row=48,#fine_col=8,#new_angle=ANGLE_EAST);
+            #new_row=13,#new_col=10,#fine_row=48,#fine_col=8,#new_angle=ANGLE_EAST);
 
-      // table above right lower
-
+      // Table above right lower
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_SPIDER),
-         #new_row=16,#new_col=9,#fine_row=16,#fine_col=20,#new_angle=ANGLE_EAST);
-   
+            #new_row=16,#new_col=9,#fine_row=16,#fine_col=20,#new_angle=ANGLE_EAST);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_FEY),
-         #new_row=16,#new_col=10,#fine_row=16,#fine_col=8,#new_angle=ANGLE_EAST);
-   
-      // table middle right
+            #new_row=16,#new_col=10,#fine_row=16,#fine_col=8,#new_angle=ANGLE_EAST);
 
+      // Table middle right
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_LUPOGG),
-         #new_row=20,#new_col=7,#fine_row=52,#fine_col=6,#new_angle=ANGLE_EAST);
-   
+            #new_row=20,#new_col=7,#fine_row=52,#fine_col=6,#new_angle=ANGLE_EAST);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_LUTE),
-         #new_row=21,#new_col=7,#fine_row=22,#fine_col=36,#new_angle=ANGLE_EAST);
-
+            #new_row=21,#new_col=7,#fine_row=22,#fine_col=36,#new_angle=ANGLE_EAST);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_PLATEARMOR),
-         #new_row=21,#new_col=7,#fine_row=52,#fine_col=62,#new_angle=ANGLE_EAST);
-   
+            #new_row=21,#new_col=7,#fine_row=52,#fine_col=62,#new_angle=ANGLE_EAST);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_SIGNETRING),
-         #new_row=22,#new_col=8,#fine_row=18,#fine_col=24,#new_angle=ANGLE_EAST);
-   
-      // table middle left
+            #new_row=22,#new_col=8,#fine_row=18,#fine_col=24,#new_angle=ANGLE_EAST);
 
+      // Table middle left
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_SCIMITAR),
-         #new_row=21,#new_col=5,#fine_row=66,#fine_col=48,#new_angle=ANGLE_EAST);
-   
+            #new_row=21,#new_col=5,#fine_row=66,#fine_col=48,#new_angle=ANGLE_EAST);
       Send(self,@NewHold,#what=Create(&ModelNode),
-         #new_row=22,#new_col=6,#fine_row=32,#fine_col=16,#new_angle=ANGLE_EAST);
-
+            #new_row=22,#new_col=6,#fine_row=32,#fine_col=16,#new_angle=ANGLE_EAST);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_FUNGUSBEAST),
-         #new_row=23,#new_col=6,#fine_row=0,#fine_col=44,#new_angle=ANGLE_EAST);
-   
+            #new_row=23,#new_col=6,#fine_row=0,#fine_col=44,#new_angle=ANGLE_EAST);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_AVAR),
-         #new_row=23,#new_col=7,#fine_row=32,#fine_col=8,#new_angle=ANGLE_EAST);
-   
-      // table rounded for old NPC
+            #new_row=23,#new_col=7,#fine_row=32,#fine_col=8,#new_angle=ANGLE_EAST);
 
+      // Table rounded for old NPC
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_ORC),
-         #new_row=25,#new_col=10,#fine_row=32,#fine_col=16,#new_angle=ANGLE_EAST);
-   
+            #new_row=25,#new_col=10,#fine_row=32,#fine_col=16,#new_angle=ANGLE_EAST);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_CENTIPEDE),
-         #new_row=25,#new_col=11,#fine_row=8,#fine_col=0,#new_angle=ANGLE_EAST);
-
+            #new_row=25,#new_col=11,#fine_row=8,#fine_col=0,#new_angle=ANGLE_EAST);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_ANT),
-         #new_row=26,#new_col=11,#fine_row=0,#fine_col=24,#new_angle=ANGLE_EAST);
-   
+            #new_row=26,#new_col=11,#fine_row=0,#fine_col=24,#new_angle=ANGLE_EAST);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_FEY),
-         #new_row=26,#new_col=10,#fine_row=24,#fine_col=32,#new_angle=ANGLE_EAST);
-   
-      // table upstairs
+            #new_row=26,#new_col=10,#fine_row=24,#fine_col=32,#new_angle=ANGLE_EAST);
 
+      // Table upstairs
        Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_HAMMER),
-         #new_row=33,#new_col=12,#fine_row=8,#fine_col=56,#new_angle=ANGLE_EAST);
-   
+            #new_row=33,#new_col=12,#fine_row=8,#fine_col=56,#new_angle=ANGLE_EAST);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_SHORTSWORD),
-         #new_row=32,#new_col=14,#fine_row=8,#fine_col=0,#new_angle=ANGLE_EAST);
-
+            #new_row=32,#new_col=14,#fine_row=8,#fine_col=0,#new_angle=ANGLE_EAST);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_HELM),
-         #new_row=30,#new_col=15,#fine_row=56,#fine_col=32,#new_angle=ANGLE_EAST);
-   
+            #new_row=30,#new_col=15,#fine_row=56,#fine_col=32,#new_angle=ANGLE_EAST);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_GAUNTLETS),
-         #new_row=29,#new_col=16,#fine_row=40,#fine_col=56,#new_angle=ANGLE_EAST);
-   
+            #new_row=29,#new_col=16,#fine_row=40,#fine_col=56,#new_angle=ANGLE_EAST);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_INKYCAP),
-         #new_row=28,#new_col=18,#fine_row=40,#fine_col=8,#new_angle=ANGLE_EAST);
-   
-      // small tables
+            #new_row=28,#new_col=18,#fine_row=40,#fine_col=8,#new_angle=ANGLE_EAST);
 
+      // Small tables
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_ALTAR),
-         #new_row=31,#new_col=10,#fine_row=4,#fine_col=44,#new_angle=ANGLE_EAST);
-   
+            #new_row=31,#new_col=10,#fine_row=4,#fine_col=44,#new_angle=ANGLE_EAST);
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_MUSEUM_CHALICE),
-         #new_row=22,#new_col=13,#fine_row=46,#fine_col=25,#new_angle=ANGLE_EAST);
+            #new_row=22,#new_col=13,#fine_row=46,#fine_col=25,#new_angle=ANGLE_EAST);
 
- 
-      // small tablesPortals from left to right */
-      
+      // Portals from left to right
       Send(self,@NewHold,#what=Create(&Portal,#dest_row=21,#dest_col=11),
-         #new_row=20,#new_col=1,#fine_row=0,#fine_col=48,#new_angle=ANGLE_EAST);
-  
+            #new_row=20,#new_col=1,#fine_row=0,#fine_col=48,#new_angle=ANGLE_EAST);
       Send(self,@NewHold,#what=Create(&Portal,#dest_row=21,#dest_col=11),
-         #new_row=18,#new_col=1,#fine_row=40,#fine_col=48,#new_angle=ANGLE_EAST);
+            #new_row=18,#new_col=1,#fine_row=40,#fine_col=48,#new_angle=ANGLE_EAST);
+      Send(self,@NewHold,#what=Create(&Portal,#dest_row=21,#dest_col=11),
+            #new_row=17,#new_col=1,#fine_row=16,#fine_col=48,#new_angle=ANGLE_EAST);
+      Send(self,@NewHold,#what=Create(&Portal,#dest_row=21,#dest_col=11),
+            #new_row=16,#new_col=1,#fine_row=0,#fine_col=48,#new_angle=ANGLE_EAST);
+      Send(self,@NewHold,#what=Create(&Portal,#dest_row=21,#dest_col=11),
+            #new_row=14,#new_col=1,#fine_row=32,#fine_col=48,#new_angle=ANGLE_EAST);
 
-      Send(self,@NewHold,#what=Create(&Portal,#dest_row=21,#dest_col=11),
-         #new_row=17,#new_col=1,#fine_row=16,#fine_col=48,#new_angle=ANGLE_EAST);
-   
-      Send(self,@NewHold,#what=Create(&Portal,#dest_row=21,#dest_col=11),
-         #new_row=16,#new_col=1,#fine_row=0,#fine_col=48,#new_angle=ANGLE_EAST);
-   
-      Send(self,@NewHold,#what=Create(&Portal,#dest_row=21,#dest_col=11),
-         #new_row=14,#new_col=1,#fine_row=32,#fine_col=48,#new_angle=ANGLE_EAST);
-        
-   
       propagate;
    }
 
