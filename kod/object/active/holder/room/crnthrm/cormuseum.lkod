@@ -73,7 +73,6 @@ insurrection_book_text = de \
    "Die Städte Barloque und Jasper haben neue Grafiken bekommen, und wurden so "
    "Optisch deutlich aufgewertet und haben das heutige Stadtbild erhalten. "
 
-
 darkauspices_book_name= de "Dark Auspices"
 darkauspices_book_text = de \
    "Der zweite Teil der geplanten Update Reihe wurde am 18. März 1997 unter dem "
@@ -92,8 +91,6 @@ darkauspices_book_text = de \
    "neue Zaubersprüche beibringen können.\n\n " 
    "Ein kleineres Update Namens Liberation ist noch gefolgt, das jedoch nur "
    "kleinere Fehlerkorrekturen beinhaltete. Es war das letzte Update von 3DO. "
-
-
 
 resurrection_book_name= de "Resurrection"
 resurrection_book_text = de \
@@ -114,7 +111,6 @@ resurrection_book_text = de \
    "erhalten, die im Namen der nun drei Fraktion erobert werden konnten und die "
    "dann unter der Flagge dieser Fraktion wehten. "
 
-
 evolution_book_name= de "Evolution"
 evolution_book_text = de \
    "Das am 31. Oktober 2004 veröffentlichte Update Evolution enthielt das wohl "
@@ -130,5 +126,4 @@ evolution_book_text = de \
    "Viva la Vida Meridian59! "
 
 museumportal_sign_name= de "Besuche die Historischen Städte!"
-museumportal_sign_desc = de \
-      "Wie besuche ich die Historischen Städte?\n"
+museumportal_sign_desc = de "Wie besuche ich die Historischen Städte?\n"
