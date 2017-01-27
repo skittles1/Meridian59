@@ -19,8 +19,9 @@ resources:
    include d6e6.lkod
 
    room_OutdoorsD6E6 = d6e6.roo
-   room_name_OutdoorsD6E6 ="Deep in the Forest of Farol"
+   room_name_OutdoorsD6E6 = "Deep in the Forest of Farol"
    OutdoorsD6E6_music = walk7.ogg
+   gotocave_OutdoorsD6E6 = "You step into the dark cave."
 
 classvars:
 
@@ -78,7 +79,9 @@ messages:
       plEdge_Exits = Cons([LEAVE_SOUTH, RID_E7, 2, 21, ROTATE_NONE, COL_IS_GREATER_THAN, 60], plEdge_exits);
       plEdge_Exits = Cons([LEAVE_NORTH, RID_D5, 48, 22, ROTATE_NONE, COL_IS_LESS_THAN,50], plEdge_exits);    
       plEdge_Exits = Cons([LEAVE_NORTH, RID_D5, 48, 72, ROTATE_NONE, COL_IS_GREATER_THAN, 60], plEdge_exits);  
-
+      
+      plExits = Cons([ 15, 54, RID_D6E6ULAKE, 16, 40, ROTATE_180, gotocave_OutdoorsD6E6 ],plExits);
+  
       propagate;
    }
    
