@@ -5251,14 +5251,6 @@ messages:
       return pbRoomIllusionsEnabled;
    }
 
-   SystemRemoveFromChampionLists(oldChamp=$)
-   {
-      // Should send to all Watchers, but unfortuantely there is no Watcher class.
-      // The "Goad" watcher was poorly written and doesn't even handle this method.
-      Send(&TosWatcher, @removefromchampionlists, #oldChamp = oldChamp);
-      return;
-   }
-
    RecreateMonsterTemplates()
    "Monster Template does not include revenants!"
    {

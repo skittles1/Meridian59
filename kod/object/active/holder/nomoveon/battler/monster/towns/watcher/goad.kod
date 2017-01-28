@@ -163,13 +163,13 @@ classvars:
    vrCmdOneOnOne = Goad_style_one_on_one
    vrCmdLastManStanding = Goad_style_last_man_standing
 
-
    viDefinite = ARTICLE_NONE
    viIndefinite = ARTICLE_NONE
 
    viAttributes = \
       MOB_NOMOVE | MOB_FULL_TALK | MOB_LISTEN | MOB_NOFIGHT | MOB_NOQUEST
    viOccupation = MOB_ROLE_WATCHER
+   viWatcherID = WATCHER_BRAX_ARENA
 
 properties:
 
