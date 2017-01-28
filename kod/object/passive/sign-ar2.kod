@@ -109,7 +109,8 @@ messages:
          return;
       }
 
-      lChampList = Send(oWatcher,@GetChampionsList,#style=piStyle);
+      lChampList = Send(Send(SYS,@GetLore),@GetChampionsList,#style=piStyle,
+                        #iWatcherID=WATCHER_TOS_ARENA);
 
       AddPacket(4,newarenasign_desc_rsc, 4,Send(oWatcher,@GetCombatName,#style=piStyle));
 

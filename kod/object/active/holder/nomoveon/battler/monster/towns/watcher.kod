@@ -300,6 +300,7 @@ classvars:
    viAttributes = MOB_NOMOVE | MOB_FULL_TALK | MOB_LISTEN | MOB_NOFIGHT \
                   | MOB_NOQUEST
    viOccupation = MOB_ROLE_WATCHER
+   viWatcherID = WATCHER_NONE
 
 properties:
 
@@ -341,9 +342,6 @@ properties:
    // Has the Watcher given the one minute warning?
    pbLastMinute = FALSE
 
-   // List of best ever players.
-   plChampions = $
-
    // How many victories the current champ has.
    piKill_counter = 0
 
@@ -371,25 +369,6 @@ properties:
    pbCrashProtection = FALSE
 
 messages:
-
-   Constructor()
-   {
-      // This is a list of two element lists.  The first element is the type
-      //  of combat.  The second element is a list of the top players, and
-      //  how many kills they have.
-
-      plChampions = [ [STYLE_ONE_ON_ONE,
-                       [[$,0],[$,0],[$,0],[$,0],[$,0]]],
-                      [STYLE_LAST_MAN_STANDING,
-                       [[$,0],[$,0],[$,0],[$,0],[$,0]]],
-                      [STYLE_GUILD_VS_GUILD,
-                       [[$,0],[$,0],[$,0],[$,0],[$,0]]],
-                      [STYLE_LAST_GUILD_STANDING,
-                       [[$,0],[$,0],[$,0],[$,0],[$,0]]]
-                    ];
-
-      propagate;
-   }
 
    NewOwner(what=$)
    {
@@ -1282,10 +1261,27 @@ messages:
 
    RewardWinner()
    {
-      local index, i;
+      local index, i, oChamp;
 
+      // Increment kill counter and update champ lists.
       // Tell self to update standings.
-      Send(self,@AddChampionToChampList);
+      ++piKill_counter;
+      if piCombat_style = STYLE_ONE_ON_ONE
+         OR piCombat_style = STYLE_LAST_MAN_STANDING
+      {
+         oChamp = poChampion;
+      }
+      else
+      {
+         oChamp = poChampion_guild;
+      }
+
+      if oChamp <> $
+      {
+         Send(Send(SYS,@GetLore),@AddChampionToChampList,#what=oChamp,
+               #iNum=piKill_counter,#style=piCombat_style,
+               #iWatcherID=viWatcherID);
+      }
 
       // Tell room to lower maze or get rid of pests, whatever.
       Send(poOwner,@ArenaEndFight,#lCombatants=plCombatants);
@@ -2282,7 +2278,7 @@ messages:
 
    SomethingEntered(what=$)
    {
-      local lSublist, lTemp, i;
+      local i, lChampions, lSublist, lTemp;
 
       if (pbCrashProtection)
       {
@@ -2337,7 +2333,9 @@ messages:
 
       if IsClass(what,&Player)
       {
-         foreach lSublist in plChampions
+         lChampions = Send(Send(SYS,@GetLore),@GetChampionsList,
+                           #iWatcherID=viWatcherID);
+         foreach lSublist in lChampions
          {
             lTemp = Nth(lSublist,2);
             foreach i in lTemp
@@ -2376,157 +2374,6 @@ messages:
    GetCombatantList()
    {
       return plCombatants;
-   }
-
-   ////  Champions List
-
-   // Keeps the standings on the signs, and keeps them updated
-   // Of special note, the signs must delete your standings if
-   // your character or guild is deleted or restarted.
-
-   AddChampiontoChampList()
-   "This is called whenever a winner of a fight is declared.  Note that it "
-   "is not called when a match is a draw, or when the last challenger leaves "
-   "by logging off."
-   {
-      local i, oChamp, lChampList, bFound;
-
-      bFound = FALSE;
-      ++piKill_counter;
-
-      if piCombat_style = STYLE_ONE_ON_ONE
-         OR piCombat_style = STYLE_LAST_MAN_STANDING
-      {
-         oChamp = poChampion;
-      }
-      else
-      {
-         oChamp = poChampion_guild;
-      }
-
-      if oChamp = $
-      {
-         return;
-      }
-
-      lChampList = Send(self,@GetChampionsList,#style=piCombat_style);
-
-      // If player is already in the champ list, then check their victories.
-      // If their old record is smaller, replace it.
-      foreach i in lChampList
-      {
-         if First(i) = oChamp
-         {
-            bFound = TRUE;
-            if Nth(i,2) < piKill_counter
-            {
-               SetFirst(i,oChamp);
-               SetNth(i,2,piKill_counter);
-            }
-            else
-            {
-               return;
-            }
-         }
-      }
-
-      // If the guy wasn't in the list, see if the current counter is lower
-      // than anyone on the list.  If so, then replace that guy.  
-
-      if NOT bFound
-      {
-         foreach i in lChamplist
-         {
-            if Nth(i,2) < piKill_counter
-            {
-                SetFirst(i,oChamp);
-                SetNth(i,2,piKill_counter);
-
-                break;
-            }
-         }
-      }
-
-      Send(self,@SortChampionList,#lChamplist=lChamplist);
-
-      return;
-   }
-
-   RemoveFromChampionLists(oldChamp = $)
-   {
-      local lSublist, lTemp, i;
-
-      foreach lSublist in plChampions
-      {
-         lTemp = Nth(lSublist,2);
-         foreach i in lTemp
-         {
-            if First(i) = oldChamp
-            {
-               SetFirst(i,$);
-               SetNth(i,2,0);
-            }
-         }
-
-         Send(self,@SortChampionList,#lChamplist=lTemp);
-      }
-
-      return;
-   }
-
-   SortChampionList(lChamplist=$)
-   "Used by both Addchampiontochamplist and removechampionfromchamplist "
-   "after a change to be sure that the champions are in a proper order."
-   {
-      local bCheckAgain, iCount, i, lTemp, oSwap, iSwap;
-
-      bCheckAgain = TRUE;
-      while bCheckAgain
-      {
-         bCheckAgain = FALSE;
-         iCount = 0;
-         foreach i in lChamplist
-         {
-            if ++iCount < 5
-            {
-               lTemp = Nth(lChamplist,iCount + 1);
-               if Nth(i,2) < Nth(lTemp,2)
-               {
-                  oSwap = First(lTemp);
-                  iSwap = Nth(lTemp,2);
-                  SetFirst(lTemp,First(i));
-                  SetNth(lTemp,2,Nth(i,2));
-                  SetFirst(i,oSwap);
-                  SetNth(i,2,iSwap);
-                  bCheckAgain = TRUE;
-               }
-            }
-         }
-      }
-
-      return;
-   }
-
-   GetChampionsList(style=STYLE_ONE_ON_ONE)
-   {
-      local i;
-
-      if style = -1
-      {
-         return plChampions;
-      }
-
-      foreach i in plChampions
-      {
-         if First(i) = style
-         {
-            return Nth(i,2);
-         }
-      }
-
-      Debug("GetChampionsList requested a combat style that doesn't exist!");
-
-      return $;
    }
 
    GetActor()

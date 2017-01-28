@@ -1250,7 +1250,6 @@ messages:
          ptBondedItemReport = $;
       }
 
-      Send(SYS,@SystemRemoveFromChampionLists,#oldchamp = self);
       Send(&QuestX,@CancelQuester,#quester=self);
       Send(self,@ClearQuestHistory);
 
@@ -2930,8 +2929,6 @@ messages:
       Send(self,@SetPlayerFlag,#flag=PFLAG_INTRIGUING,#value=FALSE);
       Send(self,@SetPlayerFlag,#flag=PFLAG_TEMPSAFE,#value=FALSE);
       Send(self,@SetPlayerFlag,#flag=PFLAG_PERMA_NO_PVP,#value=FALSE);
-
-      Send(SYS,@SystemRemoveFromChampionLists,#oldchamp=self);
 
       // quit the guild, then be sure any guild commands are set to nil
       // important, keep this after the player flags part above.

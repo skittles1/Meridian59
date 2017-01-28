@@ -1339,6 +1339,15 @@
    STYLE_GUILD_VS_GUILD = 3
    STYLE_LAST_GUILD_STANDING = 4
 
+   // Watcher IDs.
+   // Keep min/max equal to lowest/highest valid IDs.
+   WATCHER_NONE        = 0
+   WATCHER_ID_MIN      = 1
+   WATCHER_TOS_ARENA   = 1
+   WATCHER_BRAX_ARENA  = 2
+   WATCHER_DEATH_ARENA = 3
+   WATCHER_ID_MAX      = 3
+
    // Level of ground each end of the Riija bridge.
    BRIDGE_OF_FAITH_LEVEL = 384
 

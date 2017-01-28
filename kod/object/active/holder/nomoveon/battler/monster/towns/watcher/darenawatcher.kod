@@ -160,6 +160,7 @@ classvars:
    viAttributes = MOB_NOMOVE | MOB_FULL_TALK | MOB_LISTEN | MOB_NOFIGHT \
                   | MOB_NOQUEST
    viOccupation = MOB_ROLE_WATCHER
+   viWatcherID = WATCHER_DEATH_ARENA
 
 properties:
 
