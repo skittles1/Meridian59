@@ -1333,11 +1333,14 @@
    KVERY_EVIL = 5
 
    // Arena combat styles
+   // Keep min/max equal to lowest/highest valid styles.
    STYLE_NO_FIGHT = 0
+   ARENA_STYLE_MIN = 1
    STYLE_ONE_ON_ONE = 1
    STYLE_LAST_MAN_STANDING = 2
    STYLE_GUILD_VS_GUILD = 3
    STYLE_LAST_GUILD_STANDING = 4
+   ARENA_STYLE_MAX = 4
 
    // Watcher IDs.
    // Keep min/max equal to lowest/highest valid IDs.

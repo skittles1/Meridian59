@@ -108,6 +108,11 @@ messages:
       {
          Send(self,@LoreCreateArenaLists);
       }
+      else
+      {
+         // Make sure all styles are present.
+         Send(self,@LoreVerifyArenaLists);
+      }
 
       return;
    }
@@ -154,23 +159,59 @@ messages:
 
    LoreCreateArenaLists()
    {
-      local i;
+      local i, j, lTemp;
 
       plArenaChampions = $;
 
       // Arena champion lists. Each watcher needs their own list.
-      for (i = WATCHER_ID_MIN; i <= WATCHER_ID_MAX; ++i)
+      for (i = WATCHER_ID_MAX; i >= WATCHER_ID_MIN; --i)
       {
-         plArenaChampions = Cons(
-                    [ [STYLE_ONE_ON_ONE,
-                       [[$,0],[$,0],[$,0],[$,0],[$,0]]],
-                      [STYLE_LAST_MAN_STANDING,
-                       [[$,0],[$,0],[$,0],[$,0],[$,0]]],
-                      [STYLE_GUILD_VS_GUILD,
-                       [[$,0],[$,0],[$,0],[$,0],[$,0]]],
-                      [STYLE_LAST_GUILD_STANDING,
-                       [[$,0],[$,0],[$,0],[$,0],[$,0]]]
-                    ],plArenaChampions);
+         lTemp = $;
+         for (j = ARENA_STYLE_MAX; j >= ARENA_STYLE_MIN; --j)
+         {
+            lTemp = Cons([j,[[$,0],[$,0],[$,0],[$,0],[$,0]]],lTemp);
+         }
+         plArenaChampions = Cons(lTemp,plArenaChampions);
+      }
+
+      return;
+   }
+
+   LoreVerifyArenaLists()
+   "Future proofing - check if we need to add a fight style list."
+   {
+      local bFound, i, lWList, lSubList;
+
+      // Check if we just need to create the whole lists.
+      if (plArenaChampions = $)
+      {
+         Send(self,@LoreCreateArenaLists);
+
+         return;
+      }
+
+      for (i = ARENA_STYLE_MIN; i <= ARENA_STYLE_MAX; ++i)
+      {
+         foreach lWList in plArenaChampions
+         {
+            bFound = FALSE;
+
+            foreach lSubList in lWList
+            {
+               if (First(lSubList) = i)
+               {
+                  bFound = TRUE;
+
+                  break;
+               }
+            }
+            if (NOT bFound)
+            {
+               // Append to try keep the lists looking like the created ones.
+               lWList = AppendListElem([i,[[$,0],[$,0],[$,0],[$,0],[$,0]]],
+                           lWList);
+            }
+         }
       }
 
       return;
