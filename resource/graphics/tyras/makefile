@@ -8,7 +8,7 @@ SOURCEDIR = .
 OUTDIR = $(CLIENTRUNDIR)\resource
 OUTDIRSUB = ..\$(OUTDIR)
 
-DIRS = cornoth dhelm cnmuseumguard
+DIRS = cornoth dhelm cnmuseumguard objects
 
 all:
    @-for %i in (*.bgf) do @$(CP) %i $(OUTDIR) >nul

@@ -618,3 +618,6 @@ oo_modportal_name = de "Miniaturportal"
 oo_modportal_desc = de \
    "Auf einem Schild unter dem Modell steht:\nEin Portal, das diejenigen "
    "teleportiert, die hindurchtreten."
+oo_potplant_name = de "Kübelpflanze"
+oo_potplant_desc = de \
+   "Welche schöne Kübelpflanze, oder? "
