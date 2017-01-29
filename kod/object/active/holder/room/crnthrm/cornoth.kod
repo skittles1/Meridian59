@@ -373,6 +373,16 @@ messages:
       Send(self,@NewHold,#what=Create(&SmokeColumn),
             #new_row=15,#new_col=80,#fine_row=32,#fine_col=24);
 
+      // Barrel
+      Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_BARREL),
+           #new_row=44,#new_col=35,#fine_row=16,#fine_col=48,#new_angle=ANGLE_EAST);
+      Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_BARREL),
+           #new_row=44,#new_col=36,#fine_row=48,#fine_col=48,#new_angle=ANGLE_EAST);
+      Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_BARREL2),
+           #new_row=29,#new_col=42,#fine_row=0,#fine_col=24,#new_angle=ANGLE_EAST);
+      Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_BARREL2),
+           #new_row=29,#new_col=43,#fine_row=32,#fine_col=0,#new_angle=ANGLE_EAST);
+
       propagate;
    }
 
