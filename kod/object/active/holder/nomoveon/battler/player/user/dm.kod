@@ -1957,6 +1957,10 @@ messages:
       {
          oObject = Create(&OrnamentalObject,#type=OO_QORMAS_WREATH);
       }
+      else if StringContain(string,"place potplant")
+      {
+         oObject = Create(&OrnamentalObject,#type=OO_POTPLANT);
+      }
 
       if oObject = $
       {

@@ -746,6 +746,12 @@ resources:
    oo_modportal_desc = \
       "A plaque below the model reads:\nA portal, which transports those who "
       "pass through it."
+  
+   oo_potplant_name = "potted plant"
+   oo_potplant_icon = potplant.bgf
+   oo_potplant_desc = \
+      "A leafy potted plant."
+
 
 classvars:
 
@@ -1377,6 +1383,13 @@ messages:
          vrName = oo_modportal_name;
          vrIcon = oo_modteleport_icon;
          vrDesc = oo_modportal_desc;
+      }
+
+      if type = OO_POTPLANT
+      {
+         vrName = oo_potplant_name;
+         vrIcon = oo_potplant_icon;
+         vrDesc = oo_potplant_desc;
       }
 
       /// tell the room we changed, unless this is in constructor
