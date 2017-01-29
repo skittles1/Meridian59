@@ -3418,7 +3418,15 @@ messages:
                return TRUE;
             }
 
-            Send(what,@MsgSendUser,#message_rsc=room_door_was_opened);
+            // Check for specialised door message.
+            if (Length(i) = 7)
+            {
+               Send(what,@MsgSendUser,#message_rsc=Nth(i,7));
+            }
+            else
+            {
+               Send(what,@MsgSendUser,#message_rsc=room_door_was_opened);
+            }
 
             iAngle = Send(self,@TranslateAngleChange,
                           #iAngle=Send(what,@GetAngle),
