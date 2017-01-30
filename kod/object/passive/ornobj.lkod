@@ -621,3 +621,9 @@ oo_modportal_desc = de \
 oo_potplant_name = de "Kübelpflanze"
 oo_potplant_desc = de \
    "Welche schöne Kübelpflanze, oder? "
+oo_rshrub_name = de "Geformter Busch"
+oo_rshrub_desc = de \
+   "Ein sorgfältig geformter Busch."
+oo_bucket2_name = de "Wassereimer"
+oo_bucket2_desc = de \
+   "Ein alter hölzender Wassereimer. "

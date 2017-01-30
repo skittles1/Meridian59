@@ -1961,6 +1961,14 @@ messages:
       {
          oObject = Create(&OrnamentalObject,#type=OO_POTPLANT);
       }
+      else if StringContain(string,"place rshrub")
+      {
+         oObject = Create(&OrnamentalObject,#type=OO_RSHRUB);
+      }
+      else if StringContain(string,"place bucket")
+      {
+         oObject = Create(&OrnamentalObject,#type=OO_BUCKET2);
+      }
 
       if oObject = $
       {
