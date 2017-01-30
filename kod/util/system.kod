@@ -2444,6 +2444,7 @@ messages:
       Send(self,@CreateOneRoomIfNew,#num=RID_D5,#class=&OutdoorsD5);
       Send(self,@CreateOneRoomIfNew,#num=RID_D6,#class=&OutdoorsD6);
       Send(self,@CreateOneRoomIfNew,#num=RID_D6E6,#class=&OutdoorsD6E6);
+      Send(self,@CreateOneRoomIfNew,#num=RID_D6E6ULAKE,#class=&UlakeD6E6);
       Send(self,@CreateOneRoomIfNew,#num=RID_D7,#class=&OutdoorsD7);
       Send(self,@CreateOneRoomIfNew,#num=RID_E2,#class=&OutdoorsE2);
       Send(self,@CreateOneRoomIfNew,#num=RID_E4,#class=&OutdoorsE4);

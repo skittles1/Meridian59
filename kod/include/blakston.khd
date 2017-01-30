@@ -616,6 +616,7 @@
    RID_D8 = 548
    RID_D9 = 549
    RID_D6E6 = 550
+   RID_D6E6ULAKE = 551
 
    RID_E2 = 552
    RID_E4 = 554
