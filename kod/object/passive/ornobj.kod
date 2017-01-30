@@ -751,8 +751,17 @@ resources:
    oo_potplant_icon = potplant.bgf
    oo_potplant_desc = \
       "A leafy potted plant."
-
-
+  
+   oo_rshrub_name = "sculpted shrub"
+   oo_rshrub_icon = roundshrub.bgf
+   oo_rshrub_desc = \
+      "A finely sculpted topiary."
+  
+   oo_bucket2_name = "bucket"
+   oo_bucket2_icon = bucket2.bgf
+   oo_bucket2_desc = \
+      "An old wooden bucket, with straw poking through a hole in its base."
+  
 classvars:
 
 properties:
@@ -1390,6 +1399,20 @@ messages:
          vrName = oo_potplant_name;
          vrIcon = oo_potplant_icon;
          vrDesc = oo_potplant_desc;
+      }
+ 
+      if type = OO_RSHRUB
+      {
+         vrName = oo_rshrub_name;
+         vrIcon = oo_rshrub_icon;
+         vrDesc = oo_rshrub_desc;
+      }
+  
+      if type = OO_BUCKET2
+      {
+         vrName = oo_bucket2_name;
+         vrIcon = oo_bucket2_icon;
+         vrDesc = oo_bucket2_desc;
       }
 
       /// tell the room we changed, unless this is in constructor
