@@ -44,9 +44,12 @@ properties:
 
    piStyle = STYLE_ONE_ON_ONE
 
+   // The room ID for the arena this sign is associated with.
+   piRID = RID_TOS_ARENA
+
 messages:
 
-   Constructor(name=$, style = $, icon = $)
+   Constructor(name=$, style = $, icon = $, RID = RID_TOS_ARENA)
    {
       if name <> $
       {
@@ -75,23 +78,28 @@ messages:
          vrIcon = newarenasign_icon4_rsc;
       }
 
+      piRID = RID;
+
+      Post(self,@ArenaSignCheckRoom);
+
       propagate;
    }
 
-   NewOwner(what=$)
-   "Deletes itself if not loaded into the Tos Arena. The poOwner=$ is "
-   "necessary to keep it from deleting itself as soon as it's made."
+   ArenaSignCheckRoom()
    {
-     if what = $
+      local oRoom;
+
+      // Double-check RID - RID must be for an arena.
+
+      oRoom = Send(SYS,@FindRoomByNum,#num=piRID);
+      if (oRoom = $
+         OR NOT Send(oRoom,@IsArena))
       {
-         return;
-      }
-      else if (NOT IsClass(what,&TosArena))
-      {
-         Send(self,@Delete);
+         Debug("Arena sign ",self," created in non-arena room ",piRID);
+         piRID = RID_TOS_ARENA;
       }
 
-      propagate;
+      return;
    }
 
    ShowDesc()
@@ -99,7 +107,14 @@ messages:
    {
       local oWatcher, lChamplist, iCount, i, oArena;
 
-      oArena = Send(SYS,@FindRoomByNum,#num=RID_TOS_ARENA);
+      oArena = Send(SYS,@FindRoomByNum,#num=piRID);
+
+      if (oArena = $)
+      {
+         Debug("Arena sign referencing invalid RID ",piRID);
+
+         return;
+      }
 
       oWatcher = Send(oArena,@GetWatcher);
       if oWatcher = $
@@ -110,7 +125,7 @@ messages:
       }
 
       lChampList = Send(Send(SYS,@GetLore),@GetChampionsList,#style=piStyle,
-                        #iWatcherID=WATCHER_TOS_ARENA);
+                        #iWatcherID=Send(oWatcher,@GetWatcherID));
 
       AddPacket(4,newarenasign_desc_rsc, 4,Send(oWatcher,@GetCombatName,#style=piStyle));
 

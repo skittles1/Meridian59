@@ -17,9 +17,8 @@ resources:
    include easttos.lkod
 
    room_EastTos = toseast.roo
-   name_EastTos = "East Ende"   
-   EastTos_dont_drink = "~kA voice mumbles, \"Ehh? You dont want to drink from the hole where the dogs drink from? That's disgusting!\"" 
-   
+   name_EastTos = "East Ende"
+
    EastTos_music = tos.ogg
    wind_sound_easttos = ambcntry.ogg
    wind1_sound_easttos = rs_wind.ogg
@@ -50,17 +49,10 @@ properties:
 
 messages:
 
-
    CreateStandardExits()
    {
       plExits = $;
-      
-      plExits = Cons([ 11, 22, ROOM_LOCKED_DOOR, EastTos_dont_drink ],plExits);
-      plExits = Cons([ 10, 21, ROOM_LOCKED_DOOR, EastTos_dont_drink ],plExits);
-      plExits = Cons([ 8, 22, ROOM_LOCKED_DOOR, EastTos_dont_drink ],plExits);
-      plExits = Cons([ 9, 24, ROOM_LOCKED_DOOR, EastTos_dont_drink ],plExits);
-      plExits = Cons([ 11, 23, ROOM_LOCKED_DOOR, EastTos_dont_drink ],plExits);
-      
+
       plExits = Cons([ 8,7, ROOM_LOCKED_DOOR ],plExits);
       plExits = Cons([ 12,15, ROOM_LOCKED_DOOR ],plExits);
 
@@ -84,8 +76,8 @@ messages:
       plExits = Cons([ 17, 35, RID_TOS_ARENA2, 17, 36, ROTATE_NONE ],plExits);
       plExits = Cons([ 17, 36, RID_TOS_ARENA2, 17, 37, ROTATE_NONE ],plExits);
 
-      plExits = Cons([ 28, 51, RID_TOS_DEATH_ARENA, 8, 23, ROTATE_NONE ],plExits);
-      plExits = Cons([ 29, 51, RID_TOS_DEATH_ARENA, 8, 24, ROTATE_NONE ],plExits);
+      plExits = Cons([ 28, 51, RID_TOS_DEATH_ARENA, 8, 24, ROTATE_NONE ],plExits);
+      plExits = Cons([ 29, 51, RID_TOS_DEATH_ARENA, 8, 25, ROTATE_NONE ],plExits);
 
       plEdge_Exits = Cons([ LEAVE_SOUTH, RID_I6, 2, 47, ANGLE_SOUTH ], plEdge_exits);
 
@@ -140,7 +132,7 @@ messages:
            #new_row=23,#new_col=3,#fine_row=32,#fine_col=48,#new_angle=ANGLE_SOUTH);
       Send(self,@NewHold,#what=Create(&Shrub),
            #new_row=22,#new_col=4,#fine_row=48,#fine_col=48,#new_angle=ANGLE_SOUTH);
-   
+
       //Barrel
       Send(self,@NewHold,#what=Create(&OrnamentalObject,#type=OO_BARREL2),
            #new_row=12,#new_col=21,#fine_row=8,#fine_col=24,#new_angle=ANGLE_EAST);
@@ -272,9 +264,6 @@ messages:
       Send(self,@NewHold,#what=Create(&Lamp),#new_row=30,#new_col=23,
            #fine_row=35,#fine_col=35,#new_angle=ANGLE_EAST);
 
-
-
-
      propagate;
    }
 
@@ -293,7 +282,6 @@ messages:
 
       propagate;
    }
-
 
 end
 ////////////////////////////////////////////////////////////////////////////////
