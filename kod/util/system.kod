@@ -3385,6 +3385,7 @@ messages:
       Send(self,@CreateOneSpellIfNew,#num=SID_EXPLOSIVE_FROST,#class=&ExplosiveFrost);
       Send(self,@CreateOneSpellIfNew,#num=SID_SPLASH_OF_ACID,#class=&SplashOfAcid);
       Send(self,@CreateOneSpellIfNew,#num=SID_HOLY_BLAZE,#class=&HolyBlaze);
+      Send(self,@CreateOneSpellIfNew,#num=SID_MARTYRS_GRACE,#class=&MartyrsGrace);
       Send(self,@CreateOneSpellIfNew,#num=SID_PURGE,#class=&Purge);
       Send(self,@CreateOneSpellIfNew,#num=SID_ELUSION,#class=&Elusion);
       Send(self,@CreateOneSpellIfNew,#num=SID_CIVILITY,#class=&Civility);
