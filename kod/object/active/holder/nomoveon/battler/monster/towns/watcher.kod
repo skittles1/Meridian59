@@ -2428,5 +2428,10 @@ messages:
       return TRUE;
    }
 
+   GetWatcherID()
+   {
+      return viWatcherID;
+   }
+
 end
 //////////////////////////////////////////////////////////////////////////////
