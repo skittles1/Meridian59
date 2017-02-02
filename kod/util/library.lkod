@@ -871,33 +871,33 @@ LM_haz_rand_smith1 = de \
    "Der Schmied im Nordwesten der Stadt bietet vorzügliche Waffen für ambitionierte "
    "Abenteurer."
 LM_cormuseum_rand1 = de \
-   "Wusstest du, das Meridian 59 das erste kommerzielle 3D Massively Multiplayer Spiel war?"
+   "Wusstest du, dass Meridian 59 das erste kommerzielle 3D Massively Multiplayer Spiel war?"
 LM_cormuseum_rand2 = de \
-   "Meridian wurde erstmals am 15. Dezember 1995 zur Beta-Phase vorgestellt, und erst am 27. September 1996 folgte die erste kommerzielle Veröffentlichung mit einem hohen monatlichen Beitrag."
+   "Meridian wurde erstmals am 15. Dezember 1995 zur Beta-Phase vorgestellt und erst am 27. September 1996 folgte die erste kommerzielle Veröffentlichung mit einer monatlich zu bezahlenden Gebühr."
 LM_cormuseum_rand3 = de \
-   "Meridian59 wurde von Archetype Interactive entwickelt, und von 3DO im "
+   "Meridian59 wurde von Archetype Interactive entwickelt und von 3DO im "
    "Jahre 1996 veröffentlicht und betrieben."
 LM_cormuseum_rand4 = de \
-   "Wusstest du, das die technologische Basis des Spiels von Sceptre of Goth "
+   "Wusstest du, dass die technologische Basis des Spiels von Sceptre of Goth "
    "inspiert wurde?"
 LM_cormuseum_rand5 = de \
    "Meridian war in einer sehr früheren Beta-Phase, als das Spiel von Kevin "
    "Hester und anderen Spieleentwicklern bei 3DO entdeckt wurde."
 LM_cormuseum_rand6 = de \
-   "Wusstest du, das der klassische Meridian-Client eine ähnliche Engine "
+   "Wusstest du, dass der klassische Meridian-Client eine ähnliche Engine "
    "wie Doom verwendet?"
 LM_cormuseum_rand7 = de \
    "Meridian59 ist als Open-Source veröffentlicht. Hast du vielleicht "
-   "Interesse das Spiel weiterzuentwickeln? Dann nehme doch Kontakt mit uns auf!"
+   "Interesse das Spiel weiterzuentwickeln? Dann nimm doch Kontakt mit uns auf!"
 LM_cormuseum_rand8 = de \
-   "Wusstest du, dass Meridian mehrere Auszeichnungen erhielt? Darunter den "
+   "Wusstest du, dasss Meridian mehrere Auszeichnungen erhielt? Darunter den "
    "Titel 'Fantasy-Rollenspiel des Jahres 1996'?"
 LM_cormuseum_rand9 = de \
    "Archetype wurde von Steve Sellers, Mike Sellers und John Hanke geführt. "
-   "Mit den Brüdern Andrew und Chris Kirmse in der wichtigen Rolle des "
-   "Technischen Leiter."
+   "Mit den Brüdern Andrew und Chris Kirmse in der wichtigen Rolle der "
+   "technischen Leitung. "
 LM_cormuseum_rand10 = de \
-   "Wusstest du, das John Hanke (Einer der Entwickler von Meridian) den "
+   "Wusstest du, dass John Hanke (Einer der Entwickler von Meridian) den "
    "Welthit PokémonGo entwickelt hat?"
 LM_cormuseum_rand11 = de \
    "Mehr als 25.000 Spieler schlossen sich der ersten öffentlichen Beta "
@@ -906,9 +906,9 @@ LM_cormuseum_rand12 = de \
    "Meridian hält den Titel als erstes 3D-MMORPG der Welt!"
 LM_cormuseum_rand13 = de \
    "Meridian hat viele Features, die in vielen anderen Spielen erfolgreich "
-   "kopiert wurden. Darunter das Gildensystem mit einem dynamischen "
+   "kopiert wurden. Darunter Gilden mit einem dynamischen "
    "Wahlsystem, um die Führung zu ändern. Oder auch Insignien auf Rüstungen "
-   "(Gildenschilder) oder gar Gildenhallen die Erobert werden können."
+   "(Gildenschilder) oder gar Gildenhallen die erobert werden können."
 LM_cormuseum_rand14 = de \
    "Als 3DO die Server am 31. August geschlossen haben, hat Near Death "
    "Studios (NDS) im Jahre 2002 die Rechte erworben und die Tore erneut "
@@ -917,30 +917,30 @@ LM_cormuseum_rand15 = de \
    "NDS wurde von den ehemaligen Entwicklern Rob 'Q' Ellis und Brian "
    "'Psychochild' Green gegründet."
 LM_cormuseum_rand16 = de \
-   "Wusstest du, dass die neue DirectX 3D-Engine im Update 'Evolution' im "
+   "Wusstest du, dasss die neue DirectX 3D-Engine im Update 'Evolution' im "
    "Oktober 2004 enthalten war?"
 LM_cormuseum_rand17 = de \
    "NDS verkündete die erneute Schließung aller Server am 06. Januar 2010."
 LM_cormuseum_rand18 = de \
-   "Wusstest du, das im Februar 2010 die Rechte von Meridian wieder an die "
-   "ursprünglichen Entwickler Andrew und Chris Kirmes zurück gingen?"
+   "Wusstest du, dass im Februar 2010 die Rechte von Meridian wieder an die "
+   "ursprünglichen Entwickler Andrew und Chris Kirmse zurück gingen?"
 LM_cormuseum_rand19 = de \
-   "Meridian59 steht als eines der längsten laufenden MMORPG !"
+   "Meridian59 steht für eines der längsten laufenden MMORPG!"
 LM_cormuseum_rand20 = de \
-   "Am 15. September haben die Gebrüder Kirmse Ihre Server der Öffentlichkeit "
+   "Am 15. September 2012 haben die Gebrüder Kirmse Ihre Server der Öffentlichkeit "
    "kostenlos zur Verfügung gestellt."
 LM_cormuseum_rand21 = de \
-   "Wusstest du, das Meridian eigentlich 'Terranova ' heißen sollte?"
+   "Wusstest du, dass Meridian eigentlich 'Terranova ' heißen sollte?"
 LM_cormuseum_rand22 = de \
-   "Wusstest du, das 3DO eine ganze Gilde verbannt hatte, und es damit auf "
+   "Wusstest du, dass 3DO eine ganze Gilde verbannt hatte, und es damit auf "
    "die Titelseite einer der größten Gaming-Webseite geschafft hat?"
 LM_cormuseum_rand23 = de \
    "Willst du mal eine lustige Geschichte aus der Vergangenheit hören? Ein "
    "Guide hatte die Nerven verloren, und alle Spieler in den Thronsaal zu "
-   "Far’Nohls Geist teleportiert. Nur zwei der Character überlebten. Der "
+   "FarNohls Geist teleportiert. Nur zwei der Charaktere überlebten. Der "
    "Guide war anschließend Geschichte."
 LM_cormuseum_rand24 = de \
-   "Wusstest du, das 3DO die Monatlichen Gebühren von Meridian verdreifachte, "
+   "Wusstest du, dass 3DO die monatlichen Gebühren von Meridian verdreifachte "
    "und das ausgerechnet in der Woche, als Ultima Online veröffentlich "
    "wurde? Die Server haben 50% ihrer Spieler verloren.."
 lib_signet_lost = de \
