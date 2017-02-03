@@ -198,6 +198,8 @@ EXPORTS
 	DibOpenFile
 	BitmapsFree
 	CreateMemBitmap
+	DibOpenBitmapFile
+	CreateMemBitmapFromBmp
 
 ; Animation
 	AnimateObject
