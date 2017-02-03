@@ -60,6 +60,7 @@ typedef struct {
 Bool DibOpenFile(char *szFile, Bitmaps *b);
 void DibFree(PDIB pdib);
 void BitmapsFree(Bitmaps *b);
+Bool DibOpenBitmapFile(char *szFile, HBITMAP *phBitmap, HPALETTE *phPalette);
 
 /****************************************************************************
    Bitmaps structure macros
