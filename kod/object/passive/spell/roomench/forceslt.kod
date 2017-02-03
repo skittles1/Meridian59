@@ -78,7 +78,7 @@ messages:
       Send(oRoom,@SomeoneSaid,#type=SAY_MESSAGE,#string=forcesoflight_on,
             #what=self);
 
-      Send(oRoom,@RoomStartEnchantment,#what=self,#state=iSpellpower,
+      Send(oRoom,@RoomStartEnchantment,#what=self,#state=[iSpellpower,who],
             #time=Send(self,@GetDuration,#iSpellpower=iSpellpower));
       Send(oRoom,@EnchantAllOccupants,#what=self);
 
@@ -147,7 +147,7 @@ messages:
       // Up to ~3 minutes.
       iDuration = 6 * (iSpellpower/3 + 1); /// 1 - 33
       // Convert to milliseconds
-      iDuration = iDuration * 1000;  
+      iDuration *= 1000;
 
       return iDuration;
    }
@@ -156,7 +156,7 @@ messages:
    {
       local iState;
 
-      iState = Send(Send(who,@GetOwner),@GetEnchantedState,#what=self);
+      iState = First(Send(Send(who,@GetOwner),@GetEnchantedState,#what=self));
 
       AddPacket(4, forcesoflight_enchantment_rsc, 4, Send(self,@GetName),
                 4, iState + 50, 4, iState / 10);

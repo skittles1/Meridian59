@@ -2013,7 +2013,7 @@ messages:
    //// Combat messages
 
    AllowBattlerAttack(victim=$,stroke_obj=$,report=TRUE,minion=FALSE,
-                      oMinionRoom=$)
+                      oRoomOverride=$)
     "Can this monster attack the victim? "
    {
       local oRoom, bWasBad, lMinions;
@@ -2045,10 +2045,9 @@ messages:
       // allows distance attacks (like wall spells) to work properly.
       if Send(victim,@GetOwner) <> poOwner
       {
-         if (minion
-            AND oMinionRoom <> $)
+         if (oRoomOverride <> $)
          {
-            oRoom = oMinionRoom;
+            oRoom = oRoomOverride;
          }
          else
          {

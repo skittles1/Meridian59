@@ -253,7 +253,7 @@ messages:
 
       foreach i in plCurrentEnchantments
       {
-         source = Nth(i,1);
+         source = First(i);
          iDrain = Nth(i,2);
          iPeriodic = Nth(i,3);
          lEnchanted = Nth(i,4);
@@ -619,9 +619,9 @@ messages:
 
       foreach i in plCurrentEnchantments
       {
-         if Nth(i,1) = source
+         if First(i) = source
          {
-            source = Nth(i,1);
+            source = First(i);
             iDrain = Nth(i,2);
             iPeriodic = Nth(i,3);
             lEnchanted = Nth(i,4);
@@ -657,7 +657,7 @@ messages:
                }
             }
 
-            SetNth(i,1,$);
+            SetFirst(i,$);
             SetNth(i,2,0);
             SetNth(i,3,0);
             SetNth(i,4,$);
@@ -760,6 +760,16 @@ messages:
    AdjustManaTime(time=0, lRadiusState=0)
    {
       return time;
+   }
+
+   GetCaster(state = $)
+   {
+      if (state <> $)
+      {
+         return First(state);
+      }
+
+      return $;
    }
 
 end

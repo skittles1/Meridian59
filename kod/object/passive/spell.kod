@@ -2318,39 +2318,37 @@ messages:
          //  prefers natural settings.
          iPrimaryBonus = Send(oRoom,@GetShalilleBonus);
          // Secondary bonus based on Karma.
-         iSecondaryBonus = abs(Send(who,@GetKarma)/10);
+         iSecondaryBonus = Abs(Send(who,@GetKarma)/10);
 
          // Forces of Light boosts Shal'ille
          if Send(oRoom,@IsEnchanted,#what=SID_FORCES_OF_LIGHT)
          {
             // Add a function of the spellpower.
-            iAbilityGain = Send(oRoom,@GetEnchantmentState,
-                                 #what=SID_FORCES_OF_LIGHT);
-            iAbilityGain = iAbilityGain/10;
-            iSecondaryBonus = iSecondaryBonus + iAbilityGain;
+            iAbilityGain = First(Send(oRoom,@GetEnchantmentState,
+                                 #what=SID_FORCES_OF_LIGHT));
+            iAbilityGain /= 10;
+            iSecondaryBonus += iAbilityGain;
          }
       }
-      
-      if viSchool = SS_QOR
+      else if viSchool = SS_QOR
       {
          // Qor strength determined by day or night.
          iPrimaryBonus =  (2 + Send(SYS,@GetHour));
          // Secondary bonus comes from Karma.
-         iSecondaryBonus = abs(Send(who,@GetKarma)/10);
+         iSecondaryBonus = Abs(Send(who,@GetKarma)/10);
 
          // Darkness boosts Qor
          if Send(oRoom,@IsEnchanted,#what=SID_DARKNESS)
          {
             // This reconstructs the darkness spellpower.
-            iAbilityGain = Send(oRoom,@GetEnchantmentState,
-                                 #what=SID_DARKNESS);
+            iAbilityGain = First(Send(oRoom,@GetEnchantmentState,
+                                 #what=SID_DARKNESS));
             iAbilityGain = -(iAbilityGain - 25);
-            iAbilityGain = iAbilityGain/10;
-            iSecondaryBonus = iSecondaryBonus + iAbilityGain;
+            iAbilityGain /= 10;
+            iSecondaryBonus += iAbilityGain;
          }
       }
-      
-      if viSchool = SS_RIIJA
+      else if viSchool = SS_RIIJA
       {
          // Riija's bonuses are a bit random seeming.
          // Riija strength determined by moon position - range is -16 to 30
@@ -2365,16 +2363,14 @@ messages:
          // Riija's secondary bonus depends on the number of items you're holding.
          iSecondaryBonus = (Send(who,@GetBulkHold)*10)/Send(who,@GetBulkMax);
       }
-      
-      if viSchool = SS_FAREN
+      else if viSchool = SS_FAREN
       {
          // Faren prefers water and fire.  If he finds water and fire, he gets stronger.
          iPrimaryBonus = Send(oRoom,@GetFarenBonus);
          // Faren also rewards the vigorous warrior.
          iSecondaryBonus = Send(who,@GetVigor)/20;
       }
-      
-      if viSchool = SS_KRAANAN
+      else if viSchool = SS_KRAANAN
       {
          // Kraanan favors adversity and armies.  More people in a room, the better.
          iPrimaryBonus = Length(Send(oRoom,@GetHolderActive));
@@ -2387,8 +2383,7 @@ messages:
             iItemModifier = iItemModifier/2;
          }
       }
-      
-      if viSchool = SS_JALA
+      else if viSchool = SS_JALA
       {
          // Jala's strength is based on the strength of the instrument
          //  that it's master is wielding.  The bonus is a bit different from
@@ -2406,9 +2401,9 @@ messages:
       // Bind the bonuses to reasonable values.
       if viSchool <> SS_JALA
       {
-         iPrimaryBonus = bound(iPrimaryBonus,0,30);
+         iPrimaryBonus = Bound(iPrimaryBonus,0,30);
       }
-      iSecondaryBonus = bound(iSecondaryBonus,0,10);
+      iSecondaryBonus = Bound(iSecondaryBonus,0,10);
 
       iSpellPower = iPrimaryBonus + iSecondaryBonus + iPowerBonus + iBase;
 
