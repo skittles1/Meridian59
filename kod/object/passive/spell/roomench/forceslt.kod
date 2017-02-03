@@ -74,10 +74,12 @@ messages:
 
       oRoom = Send(who,@GetOwner);
 
-      // global effects of the enchantment
-      Send(oRoom,@SomeoneSaid,#type=SAY_MESSAGE,#string=forcesoflight_on,#what=self);
+      // Global effects of the enchantment.
+      Send(oRoom,@SomeoneSaid,#type=SAY_MESSAGE,#string=forcesoflight_on,
+            #what=self);
 
-      Send(oRoom,@RoomStartEnchantment,#what=self,#state=iSpellpower,#time=send(self,@GetDuration,#iSpellpower=iSpellpower),#state=$);
+      Send(oRoom,@RoomStartEnchantment,#what=self,#state=iSpellpower,
+            #time=Send(self,@GetDuration,#iSpellpower=iSpellpower));
       Send(oRoom,@EnchantAllOccupants,#what=self);
 
       propagate;
