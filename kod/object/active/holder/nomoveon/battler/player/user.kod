@@ -3535,7 +3535,7 @@ messages:
 
    ToCliStats(group = $)
    {
-      local i, oSpell, oSkill, iCount, lCurrentResistances, iQLength;
+      local i, oSpell, oSkill, iCount, lResists, iQLength;
 
       if NOT pbLogged_on
       {
@@ -3572,14 +3572,11 @@ messages:
          Send(self,@SendStatDefense);
          Send(self,@SendStatArmor);
 
-         i = 1;
-         lCurrentResistances = Send(self,@GetCurrentResistances);
+         lResists = Send(self,@GetCurrentResistances);
 
-         while i < 14
+         for (i = 1; i < 14; ++i)
          {
-            Send(self,@SendStatResistances,#num=i,
-                  #lCurrentResistances=lCurrentResistances);
-            ++i;
+            Send(self,@SendStatResistances,#num=i,#lCurrentResistances=lResists);
          }
 
          Send(self,@SendStatUnboundEnergy);
@@ -8985,242 +8982,207 @@ messages:
 
    SendStatResistances(num=1,lCurrentResistances=$)
    {
-      local i, bWeaponAll, bWeaponThrust, bWeaponBludgeon, bWeaponSlash,
-               bWeaponPierce, bSpellAll, bSpellFire, bSpellShock, bSpellCold,
-               bSpellAcid, bSpellHoly, bSpellUnholy, bSpellQuake;
-
-      bWeaponAll = FALSE;
-      bWeaponThrust = FALSE;
-      bWeaponBludgeon = FALSE;
-      bWeaponSlash = FALSE;
-      bWeaponPierce = FALSE;
-      bSpellAll = FALSE;
-      bSpellFire = FALSE;
-      bSpellShock = FALSE;
-      bSpellCold = FALSE;
-      bSpellAcid = FALSE;
-      bSpellHoly = FALSE;
-      bSpellUnholy = FALSE;
-      bSpellQuake = FALSE;
+      local lRes;
 
       if num = 1
       {
-         foreach i in lCurrentResistances
+         lRes = GetListNode(lCurrentResistances, 1, ATCK_WEAP_ALL);
+         if (lRes <> $)
          {
-            if First(i) = ATCK_WEAP_ALL
-            {
-               AddPacket(1,14, 4,user_resist_weapons, 1,STAT_VALUE, 1,STAT_INTEGER,4,Nth(i,2), 4,-30, 4,100, 4,0);
-               bWeaponAll = TRUE;
-            }
+            AddPacket(1,14, 4,user_resist_weapons, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,Nth(lRes,2), 4,-30, 4,100, 4,0);
          }
-         if NOT bWeaponAll
+         else
          {
-            AddPacket(1,14, 4,user_resist_weapons, 1,STAT_VALUE, 1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
+            AddPacket(1,14, 4,user_resist_weapons, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
          }
       }
       else if num = 2
       {
-         foreach i in lCurrentResistances
+         lRes = GetListNode(lCurrentResistances, 1, ATCK_WEAP_THRUST);
+         if (lRes <> $)
          {
-            if First(i) = ATCK_WEAP_THRUST
-            {
-               AddPacket(1,15, 4,user_resist_thrust, 1,STAT_VALUE, 1,STAT_INTEGER,4,Nth(i,2), 4,-30, 4,100, 4,0);
-               bWeaponThrust = TRUE;
-            }
+            AddPacket(1,15, 4,user_resist_thrust, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,Nth(lRes,2), 4,-30, 4,100, 4,0);
          }
-         if NOT bWeaponThrust
+         else
          {
-            AddPacket(1,15, 4,user_resist_thrust, 1,STAT_VALUE, 1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
+            AddPacket(1,15, 4,user_resist_thrust, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
          }
       }
       else if num = 3
       {
-         foreach i in lCurrentResistances
+         lRes = GetListNode(lCurrentResistances, 1, ATCK_WEAP_BLUDGEON);
+         if (lRes <> $)
          {
-            if First(i) = ATCK_WEAP_BLUDGEON
-            {
-               AddPacket(1,16, 4,user_resist_bludgeon, 1,STAT_VALUE, 1,STAT_INTEGER,4,Nth(i,2), 4,-30, 4,100, 4,0);
-               bWeaponBludgeon = TRUE;
-            }
+            AddPacket(1,16, 4,user_resist_bludgeon, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,Nth(lRes,2), 4,-30, 4,100, 4,0);
          }
-         if NOT bWeaponBludgeon
+         else
          {
-            AddPacket(1,16, 4,user_resist_bludgeon, 1,STAT_VALUE, 1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
+            AddPacket(1,16, 4,user_resist_bludgeon, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
          }
       }
       else if num = 4
       {
-         foreach i in lCurrentResistances
+         lRes = GetListNode(lCurrentResistances, 1, ATCK_WEAP_SLASH);
+         if (lRes <> $)
          {
-            if First(i) = ATCK_WEAP_SLASH
-            {
-               AddPacket(1,17, 4,user_resist_slash, 1,STAT_VALUE, 1,STAT_INTEGER,4,Nth(i,2), 4,-30, 4,100, 4,0);
-               bWeaponSlash = TRUE;
-            }
+            AddPacket(1,17, 4,user_resist_slash, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,Nth(lRes,2), 4,-30, 4,100, 4,0);
          }
-         if NOT bWeaponSlash
+         else
          {
-            AddPacket(1,17, 4,user_resist_slash, 1,STAT_VALUE, 1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
+            AddPacket(1,17, 4,user_resist_slash, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
          }
       }
       else if num = 5
       {
-         foreach i in lCurrentResistances
+         lRes = GetListNode(lCurrentResistances, 1, ATCK_WEAP_PIERCE);
+         if (lRes <> $)
          {
-            if First(i) = ATCK_WEAP_PIERCE
-            {
-               AddPacket(1,18, 4,user_resist_pierce, 1,STAT_VALUE, 1,STAT_INTEGER,4,Nth(i,2), 4,-30, 4,100, 4,0);
-               bWeaponPierce = TRUE;
-            }
+            AddPacket(1,18, 4,user_resist_pierce, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,Nth(lRes,2), 4,-30, 4,100, 4,0);
          }
-         if NOT bWeaponPierce
+         else
          {
-            AddPacket(1,18, 4,user_resist_pierce, 1,STAT_VALUE, 1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
+            AddPacket(1,18, 4,user_resist_pierce, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
          }
       }
       else if num = 6
       {
-         foreach i in lCurrentResistances
+         lRes = GetListNode(lCurrentResistances, 1, -ATCK_SPELL_ALL);
+         if (lRes <> $)
          {
-            if First(i) = -ATCK_SPELL_ALL
-            {
-               AddPacket(1,19, 4,user_resist_magic, 1,STAT_VALUE, 1,STAT_INTEGER,4,Nth(i,2), 4,-30, 4,100, 4,0);
-               bSpellAll = TRUE;
-            }
+            AddPacket(1,19, 4,user_resist_magic, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,Nth(lRes,2), 4,-30, 4,100, 4,0);
          }
-         if NOT bSpellAll
+         else
          {
-            AddPacket(1,19, 4,user_resist_magic, 1,STAT_VALUE, 1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
+            AddPacket(1,19, 4,user_resist_magic, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
          }
       }
       else if num = 7
       {
-         foreach i in lCurrentResistances
+         lRes = GetListNode(lCurrentResistances, 1, -ATCK_SPELL_FIRE);
+         if (lRes <> $)
          {
-            if First(i) = -ATCK_SPELL_FIRE
-            {
-               AddPacket(1,20, 4,user_resist_fire, 1,STAT_VALUE, 1,STAT_INTEGER,4,Nth(i,2), 4,-30, 4,100, 4,0);
-               bSpellFire = TRUE;
-            }
+            AddPacket(1,20, 4,user_resist_fire, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,Nth(lRes,2), 4,-30, 4,100, 4,0);
          }
-         if NOT bSpellFire
+         else
          {
-            AddPacket(1,20, 4,user_resist_fire, 1,STAT_VALUE, 1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
+            AddPacket(1,20, 4,user_resist_fire, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
          }
       }
       else if num = 8
       {
-         foreach i in lCurrentResistances
+         lRes = GetListNode(lCurrentResistances, 1, -ATCK_SPELL_SHOCK);
+         if (lRes <> $)
          {
-            if First(i) = -ATCK_SPELL_SHOCK
-            {
-               AddPacket(1,21, 4,user_resist_shock, 1,STAT_VALUE, 1,STAT_INTEGER,4,Nth(i,2), 4,-30, 4,100, 4,0);
-               bSpellShock = TRUE;
-            }
+            AddPacket(1,21, 4,user_resist_shock, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,Nth(lRes,2), 4,-30, 4,100, 4,0);
          }
-         if NOT bSpellShock
+         else
          {
-            AddPacket(1,21, 4,user_resist_shock, 1,STAT_VALUE, 1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
+            AddPacket(1,21, 4,user_resist_shock, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
          }
       }
       else if num = 9
       {
-         foreach i in lCurrentResistances
+         lRes = GetListNode(lCurrentResistances, 1, -ATCK_SPELL_COLD);
+         if (lRes <> $)
          {
-            if First(i) = -ATCK_SPELL_COLD
-            {
-               AddPacket(1,22, 4,user_resist_cold, 1,STAT_VALUE, 1,STAT_INTEGER,4,Nth(i,2), 4,-30, 4,100, 4,0);
-               bSpellCold = TRUE;
-            }
+            AddPacket(1,22, 4,user_resist_cold, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,Nth(lRes,2), 4,-30, 4,100, 4,0);
          }
-         if NOT bSpellCold
+         else
          {
-            AddPacket(1,22, 4,user_resist_cold, 1,STAT_VALUE, 1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
+            AddPacket(1,22, 4,user_resist_cold, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
          }
       }
       else if num = 10
       {
-         foreach i in lCurrentResistances
+         lRes = GetListNode(lCurrentResistances, 1, -ATCK_SPELL_ACID);
+         if (lRes <> $)
          {
-            if First(i) = -ATCK_SPELL_ACID
-            {
-               AddPacket(1,23, 4,user_resist_acid, 1,STAT_VALUE, 1,STAT_INTEGER,4,Nth(i,2), 4,-30, 4,100, 4,0);
-               bSpellAcid = TRUE;
-            }
+            AddPacket(1,23, 4,user_resist_acid, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,Nth(lRes,2), 4,-30, 4,100, 4,0);
          }
-         if NOT bSpellAcid
+         else
          {
-            AddPacket(1,23, 4,user_resist_acid, 1,STAT_VALUE, 1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
+            AddPacket(1,23, 4,user_resist_acid, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
          }
       }
       else if num = 11
       {
-         foreach i in lCurrentResistances
+         lRes = GetListNode(lCurrentResistances, 1, -ATCK_SPELL_HOLY);
+         if (lRes <> $)
          {
-            if First(i) = -ATCK_SPELL_HOLY
-            {
-               AddPacket(1,24, 4,user_resist_holy, 1,STAT_VALUE, 1,STAT_INTEGER,4,Nth(i,2), 4,-30, 4,100, 4,0);
-               bSpellHoly = TRUE;
-            }
+            AddPacket(1,24, 4,user_resist_holy, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,Nth(lRes,2), 4,-30, 4,100, 4,0);
          }
-         if NOT bSpellHoly
+         else
          {
-            AddPacket(1,24, 4,user_resist_holy, 1,STAT_VALUE, 1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
+            AddPacket(1,24, 4,user_resist_holy, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
          }
       }
       else if num = 12
       {
-         foreach i in lCurrentResistances
+         lRes = GetListNode(lCurrentResistances, 1, -ATCK_SPELL_UNHOLY);
+         if (lRes <> $)
          {
-            if First(i) = -ATCK_SPELL_UNHOLY
-            {
-               AddPacket(1,25, 4,user_resist_unholy, 1,STAT_VALUE, 1,STAT_INTEGER,4,Nth(i,2), 4,-30, 4,100, 4,0);
-               bSpellUnholy = TRUE;
-            }
+            AddPacket(1,25, 4,user_resist_unholy, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,Nth(lRes,2), 4,-30, 4,100, 4,0);
          }
-         if NOT bSpellUnholy
+         else
          {
-            AddPacket(1,25, 4,user_resist_unholy, 1,STAT_VALUE, 1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
+            AddPacket(1,25, 4,user_resist_unholy, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
          }
       }
       else if num = 13
       {
-         foreach i in lCurrentResistances
+         lRes = GetListNode(lCurrentResistances, 1, -ATCK_SPELL_QUAKE);
+         if (lRes <> $)
          {
-            if First(i) = -ATCK_SPELL_QUAKE
-            {
-               AddPacket(1,26, 4,user_resist_quake, 1,STAT_VALUE, 1,STAT_INTEGER,4,Nth(i,2), 4,-30, 4,100, 4,0);
-               bSpellQuake = TRUE;
-            }
+            AddPacket(1,26, 4,user_resist_quake, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,Nth(lRes,2), 4,-30, 4,100, 4,0);
          }
-         if NOT bSpellQuake
+         else
          {
-            AddPacket(1,26, 4,user_resist_quake, 1,STAT_VALUE, 1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
+            AddPacket(1,26, 4,user_resist_quake, 1,STAT_VALUE,
+                      1,STAT_INTEGER,4,0, 4,-30, 4,100, 4,0);
          }
       }
 
       return;
    }
-   
+
    DrawResistances()
    {
-      local i, lCurrentResistances;
-      
-      i = 1;
-      
-      lCurrentResistances = Send(self,@GetCurrentResistances);
-      
+      local i, lResists;
+
       if pbLogged_on
       {
-         while i < 14
+         lResists = Send(self,@GetCurrentResistances);
+         for (i = 1; i < 14; ++i)
          {
             AddPacket(1,BP_STAT,1,2);
-            Send(self,@SendStatResistances,#num=i,#lCurrentResistances=lCurrentResistances);
+            Send(self,@SendStatResistances,#num=i,#lCurrentResistances=lResists);
             SendPacket(poSession);
-            ++i;
          }
-         
-         return;
       }
 
       return;
