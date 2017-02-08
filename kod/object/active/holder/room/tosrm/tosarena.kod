@@ -590,7 +590,7 @@ messages:
          {
             foreach k in Send(j,@GetRadiusEnchantments)
             {
-               Send(First(k),@CancelRadiusEnchantment,#source=Nth(k,3));
+               Send(Nth(k,2),@RemoveEnchantment,#who=j,#state=Nth(k,3));
             }
          }
       }

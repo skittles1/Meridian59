@@ -2174,13 +2174,10 @@ messages:
          Send(what,@ShowAddEnchantment,#what=each_obj,#type=ENCHANTMENT_ROOM);
       }
 
-      if IsClass(what,&User)
+      foreach i in Send(what,@GetRadiusEnchantments)
       {
-         foreach i in Send(what,@GetRadiusEnchantments)
-         {
-            each_obj = First(i);
-            Send(what,@ShowAddEnchantment,#what=each_obj,#type=ENCHANTMENT_ROOM);
-         }
+         each_obj = Nth(i,2);
+         Send(what,@ShowAddEnchantment,#what=each_obj,#type=ENCHANTMENT_ROOM);
       }
 
       return;
@@ -2682,6 +2679,9 @@ messages:
       }
 
       ClearPacket();
+
+      // Radius enchants, because SomethingMoved not always sent to players.
+      SendListByClass(plActive,1,&NoMoveOn,@NoMoveOnRadiusEnchCheckOne,#who=what);
 
       return;
    }
@@ -3591,6 +3591,20 @@ messages:
          {
             // Should be affected, e.g. turned outlaw.
             Send(oSpell,@StartEnchantment,#who=who,#state=state);
+         }
+      }
+
+      // Radius enchant recalcs.
+      foreach i in plActive
+      {
+         oUser = First(i);
+         if (oUser = who)
+         {
+            Send(oUser,@NoMoveOnRadiusEnchCheckAll);
+         }
+         else if (IsClass(oUser,&NoMoveOn))
+         {
+            Send(oUser,@NoMoveOnRadiusEnchCheckOne,#who=who);
          }
       }
 

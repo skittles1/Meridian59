@@ -134,11 +134,6 @@ properties:
    plItem_attributes = $
    piItem_flags = 0
 
-   // List of enchantments applied by radius spells.
-   // Each element is [song object, spellpower, caster]
-   // Support for players, monsters, and items
-   plRadiusEnchantments = $
-
 messages:
 
    Constructor(corpse=$, oDMCreator=$)
@@ -2436,111 +2431,6 @@ messages:
       }
 
       return resistance_list;
-   }
-
-   AddRadiusEnchantment(what=$,iPower=0,source=$)
-   {
-      local i;
-
-      foreach i in plRadiusEnchantments
-      {
-         if First(i) = what
-            AND Nth(i,2) = iPower
-            AND Nth(i,3) = source
-         {
-            return;
-         }
-      }
-
-      plRadiusEnchantments = Cons([what,iPower,source],plRadiusEnchantments);
-
-      return;
-   }
-
-   RemoveRadiusEnchantment(what=$,iPower=0,source=$)
-   {
-      local i, bFound;
-
-      bFound = FALSE;
-
-      foreach i in plRadiusEnchantments
-      {
-         if First(i) = what
-            AND Nth(i,2) = iPower
-            AND Nth(i,3) = source
-         {
-            plRadiusEnchantments = DelListElem(plRadiusEnchantments,i);
-            bFound = TRUE;
-         }
-      }
-
-      if NOT bFound
-      {
-         Debug(self,"Tried to remove radius enchantment ",what," but not in list",
-               plRadiusEnchantments);
-      }
-
-      return;
-   }
-
-   IsAffectedByRadiusEnchantment(what=$,caster=$,byClass=&RadiusEnchantment)
-   "Returns whether or not currently enchanted by <what> radius enchantment."
-   {
-      local i;
-
-      if plRadiusEnchantments = $
-      {
-         return FALSE;
-      }
-
-      if what = $
-      {
-         foreach i in plRadiusEnchantments
-         {
-            if IsClass(First(i),byClass)
-               AND (caster = $ OR Nth(i,3) = caster)
-            {
-               return TRUE;
-            }
-         }
-      }
-      else
-      {
-         foreach i in plRadiusEnchantments
-         {
-            if First(i) = what
-               AND (caster = $ OR Nth(i,3) = caster)
-            {
-               return TRUE;
-            }
-         }
-      }
-
-      return FALSE;
-   }
-
-   GetMostPowerfulRadiusEnchantmentState(byClass=&RadiusEnchantment)
-   {
-      local i, oHighest;
-
-      foreach i in plRadiusEnchantments
-      {
-         if IsClass(First(i),byClass)
-         {
-            if (oHighest = $
-               OR Nth(i,2) > Nth(oHighest,2))
-            {
-               oHighest = i;
-            }
-         }
-      }
-
-      return oHighest;
-   }
-
-   GetRadiusEnchantments()
-   {
-      return plRadiusEnchantments;
    }
 
    IsInSameRoom(what = $)

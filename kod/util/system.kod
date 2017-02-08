@@ -3766,7 +3766,6 @@ messages:
       foreach i in plUsers
       {
          Send(i,@RemoveAllEnchantments,#report=FALSE);
-         Send(i,@RemoveAllRadiusEnchantments,#report=FALSE);
       }
 
       foreach i in plSpells
