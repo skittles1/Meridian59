@@ -4413,15 +4413,6 @@ messages:
       foreach i in plEnchantments
       {
          oEnch = Nth(i,2);
-         if IsClass(oEnch,&Jala)
-         {
-            lState = Nth(i,3);
-            if who = Nth(lState,2)
-            {
-               bRetVal = Send(oEnch,@BreakTrance,#who=who,#event=event,
-                              #state=lState,#location=self);
-            }
-         }
 
          // It's a room enchantment! It's a trance spell! It's both!
          //  It's Silence!  Handle the special case here.

@@ -132,6 +132,15 @@ messages:
       {
          Send(oRoom,@RemoveAllEnchantments);
 
+         foreach i in Send(who,@GetRadiusEnchantments)
+         {
+            oSpell = Nth(i,2);
+            state = Nth(i,3);
+            // Remove at the source.
+            Send(Send(oSpell,@GetSource,#state=state),@RemoveRadiusEnchantment,
+                  #what=oSpell,#state=state,#recheck=TRUE);
+         }
+
          return TRUE;
       }
 
@@ -185,7 +194,7 @@ messages:
             {
                // Remove at the source.
                Send(Send(oSpell,@GetSource,#state=state),@RemoveRadiusEnchantment,
-                     #what=oSpell,#state=state,#event=EVENT_STEER);
+                     #what=oSpell,#state=state,#recheck=TRUE);
                bRemovedSomething = TRUE;
             }
          }

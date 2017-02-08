@@ -3066,14 +3066,13 @@ messages:
 
       if IsClass(what,&NumberItem)
       {
-         AddPacket(NUMBER_OBJECT,what, 4,Send(what,@GetNumber));
+         AddPacket(NUMBER_OBJECT,what, 4,Send(what,@GetNumber),
+                   4,Send(what,@GetIcon));
       }
       else
       {
-         AddPacket(4, what);
+         AddPacket(4, what, 4,Send(what,@GetIcon));
       }
-
-      AddPacket(4,Send(what,@GetIcon));
 
       // Used for the reveal spell.  Do we show the true name, or the apparent
       // name?

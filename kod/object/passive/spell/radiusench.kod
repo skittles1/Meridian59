@@ -75,7 +75,7 @@ classvars:
    viManaDrain = 3
    viDrainTime = 5000
    viPostCast_time = 1
-   viBaseRange = 5 * 64
+   viBaseRange = 5 * FINENESS
 
    vbCanCastonOthers = FALSE
    vbCanCastOnMonsters = FALSE
@@ -326,7 +326,7 @@ messages:
 #endregion Casting Infrastructure
 
 #region Enchant Targets
-   StartPeriodicEnchantment(who=$,state=$)
+   StartPeriodicEnchantment(who=$,state=$,iSpellPower=0)
    "Drain mana, heal targets in range etc."
    {
       local iDuration, iAbility, oSpell, oCaster, i, each_obj;
@@ -358,7 +358,7 @@ messages:
             {
                Send(who,@StartEnchantment,#what=self,#time=iDuration,
                      #who=oCaster,#state=state,#addicon=FALSE,#lastcall=TRUE,
-                     #bRadiusEnchant=TRUE);
+                     #bRadiusEnchant=TRUE,#iSpellPower=iSpellPower);
 
                return;
             }
@@ -366,7 +366,8 @@ messages:
       }
 
       Send(who,@StartEnchantment,#what=self,#time=iDuration,#who=oCaster,
-            #state=state,#addicon=FALSE,#lastcall=FALSE,#bRadiusEnchant=TRUE);
+            #state=state,#addicon=FALSE,#lastcall=FALSE,#bRadiusEnchant=TRUE,
+            #iSpellPower=iSpellPower);
 
       // Have to do periodic effect on everyone enchanted by spell.
       foreach i in Send(Send(who,@GetOwner),@GetHolderActive)
@@ -446,9 +447,11 @@ messages:
    }
 
    RadEnchEnchantUser(who = $, state = $, iSpellPower = 0)
-   "Assumes we can definitely enchant the object given in 'who'."
+   "Assumes 'who' is in range of the RE, and has passed suitability checks.  "
+   "May still fail to enchant object if it has a stronger enchantment of "
+   "the same spell already present."
    {
-      local oCaster, iDuration;
+      local oCaster, iDuration, lOldState;
 
       if (who = $
          OR state = $)
@@ -456,6 +459,22 @@ messages:
          Debug("Bad params to RadEnchEnchantUser for ",vrName, who, state);
 
          return;
+      }
+
+      // Already enchanted? Stronger spell takes precedence, unless 'who'
+      // is the source of the lesser enchantment. Don't enchant if
+      // equal spellpower to avoid toggling two spells.
+      lOldState = Send(who,@GetRadiusEnchantmentState,#what=self);
+      if (lOldState <> $)
+      {
+         if (Send(self,@GetSource,#state=lOldState) = who
+            OR iSpellPower <= Send(who,@GetRECastPower,#what=self))
+         {
+            return;
+         }
+         // Not the source, and spellpower of old enchantment is lower.
+         // Remove it.
+         Send(who,@RemoveRadiusEnchantment,#what=self,#state=lOldState);
       }
 
       oCaster = Send(self,@GetCaster,#state=state);
@@ -469,7 +488,7 @@ messages:
                #parm1=Send(oCaster,@GetDef),#parm2=Send(oCaster,@GetName));
       }
 
-      // Target is already enchanted.
+      // Don't try to re-enchant the source.
       if (who <> Send(self,@GetSource,#state=state))
       {
          if (Send(self,@GetLastCall))
@@ -714,9 +733,9 @@ messages:
       return;
    }
 
-   EndEnchantment(who=$,report=TRUE,state=$)
+   EndEnchantment(who=$,report=TRUE,state=$,recheck=FALSE)
    {
-      local oSource, oCaster, i, each_obj;
+      local oSource, i, each_obj;
 
       if who = $
       {
@@ -727,8 +746,7 @@ messages:
 
       if report
       {
-         oCaster = Send(self,@GetCaster,#state=state);
-         if (who = oCaster)
+         if (who = Send(self,@GetCaster,#state=state))
          {
             Send(who,@MsgSendUser,#message_rsc=vrEnchantmentOff);
          }
@@ -741,20 +759,20 @@ messages:
 
       if (who = oSource)
       {
-         Send(who,@RecalcFlickerFlag);
+         if (IsClass(who,&User))
+         {
+            Send(who,@RecalcFlickerFlag);
+         }
 
          // Original spell is ending, unenchant all in range.
-         if (oSource = who)
+         foreach i in Send(Send(oSource,@GetOwner),@GetHolderActive)
          {
-            foreach i in Send(Send(oSource,@GetOwner),@GetHolderActive)
+            each_obj = First(i);
+            if (each_obj <> who
+               AND IsClass(each_obj,&NoMoveOn))
             {
-               each_obj = First(i);
-               if (each_obj <> who
-                  AND IsClass(each_obj,&NoMoveOn))
-               {
-                  Send(each_obj,@RemoveRadiusEnchantment,#what=self,#state=state,
-                        #report=report);
-               }
+               Send(each_obj,@RemoveRadiusEnchantment,#what=self,#state=state,
+                     #report=report,#recheck=recheck);
             }
          }
       }
@@ -764,10 +782,10 @@ messages:
 
    BreakTrance(who = $, event = $, state = $)
    {
-      local oRoom;
+      local oRoom, bRecheck;
 
-      // The spell keeps going if you get damaged, move, cast, use an item, or make an attack.
-      // Players must rest to end most radius spells.
+      // The spell keeps going if you get damaged, move, cast, use an item,
+      // or make an attack. Players must rest to end most radius spells.
       if event = EVENT_DAMAGE
          OR event = EVENT_ATTACK
          OR event = EVENT_RUN
@@ -780,7 +798,8 @@ messages:
 
       oRoom = Send(who,@GetOwner);
 
-      // Only cancel Persist spells if they are offensive & caster is entering a non-combat room
+      // Only cancel Persist spells if they are offensive & caster is
+      // entering a non-combat room
       if (event = EVENT_NEWOWNER
          OR event = EVENT_REQNEWOWNER)
       {
@@ -792,7 +811,10 @@ messages:
          }
       }
 
-      Send(who,@RemoveRadiusEnchantment,#what=self,#state=state);
+      bRecheck = (event = EVENT_REST);
+
+      Send(who,@RemoveRadiusEnchantment,#what=self,#state=state,
+            #recheck=bRecheck);
 
       propagate;
    }

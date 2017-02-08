@@ -3392,11 +3392,12 @@ messages:
             if Length(i) >= ENCHANTMENT_LIST_STATE
             {
                Send(Nth(i,2),@StartPeriodicEnchantment,
-                     #who=self,#state=Nth(i,3));
+                     #who=self,#state=Nth(i,3),#iSpellPower=Nth(i,4));
             }
             else
             {
-               Send(Nth(i,2),@StartPeriodicEnchantment,#who=self,#state=$);
+               Send(Nth(i,2),@StartPeriodicEnchantment,#who=self,#state=$,
+                     #iSpellPower=Nth(i,3));
             }
 
             return;
@@ -3409,7 +3410,8 @@ messages:
          {
             plRadiusEnchantments = DelListElem(plRadiusEnchantments,i);
 
-            Send(Nth(i,2),@StartPeriodicEnchantment,#who=self,#state=Nth(i,3));
+            Send(Nth(i,2),@StartPeriodicEnchantment,#who=self,#state=Nth(i,3),
+                  #iSpellPower=Nth(i,4));
 
             return;
          }
@@ -3761,7 +3763,7 @@ messages:
       return;
    }
 
-   RemoveRadiusEnchantment(what=$,state=$,report=TRUE)
+   RemoveRadiusEnchantment(what=$,state=$,report=TRUE,recheck=FALSE)
    {
       local i, lState;
 
@@ -3791,10 +3793,11 @@ messages:
                         #type=ENCHANTMENT_PLAYER);
                }
 
-               Send(what,@RemoveEnchantmentEffects,#who=self,
-                     #state=lState,#report=report);
-
                plRadiusEnchantments = DelListElem(plRadiusEnchantments,i);
+
+               Send(what,@RemoveEnchantmentEffects,#who=self,
+                     #state=lState,#report=report,#recheck=recheck);
+
                Send(self,@ResetPlayerFlagList,#who=self);
             }
          }
@@ -3807,6 +3810,14 @@ messages:
          {
             plPassiveImprovement = DelListElem(plPassiveImprovement,i);
          }
+      }
+
+      // If logged on, see if we should get enchanted by another radius
+      // enchantment.
+      if (recheck AND poOwner <> $)
+      {
+         SendListByClass(Send(poOwner,@GetHolderActive),1,&NoMoveOn,
+               @NoMoveOnRadiusEnchCheckOne,#who=self);
       }
 
       return;
@@ -5255,8 +5266,6 @@ messages:
    GetOffense(what = $, stroke_obj=$)
    {
       local i, oWeapon, iStroke, iProficiency, iAim, iOffense, oMonster;
-
-      oWeapon = $;
 
       // Morphed?
       oMonster = Send(self,@GetIllusionForm);
