@@ -85,7 +85,7 @@ messages:
 
    CastSpell(who = $,lTargets = $,iSpellPower = $)
    {
-      local oRoom, i;
+      local oRoom;
 
       if IsClass(who,&Room)
       {
@@ -107,16 +107,6 @@ messages:
       Send(oRoom,@SomeoneSaid,#type=SAY_MESSAGE,#string=discordance_on,#what=self);
       Send(self,@DoDiscordance,#who=who,#oRoom=oRoom,#iChance=iSpellPower);
 
-      foreach i in Send(who,@GetRadiusEnchantments)
-      {
-         if iSpellPower = $
-            OR Random(1,100) < iSpellPower
-         {
-            Send(First(i),@CancelRadiusEnchantment,#source=Nth(i,3),
-                  #event=EVENT_STEER);
-         }
-      }
-
       if NOT IsClass(who,&Player)
       {
          return;
@@ -128,8 +118,8 @@ messages:
    DoDiscordance(who = $,oRoom = $,iChance = $)
    "Remove enchantments in the room with a given chance to remove each one."
    {
-      local iNumEnchantments, lEnchantments, iModifiedChance, lEnchantment,
-            oSpell, bRemovedSomething, oCaster;
+      local lEnchantments, iModifiedChance, i, oSpell, bRemovedSomething,
+            oCaster, each_obj, state;
 
       if oRoom = $
       {
@@ -147,12 +137,11 @@ messages:
 
       bRemovedSomething = FALSE;
       lEnchantments = Send(oRoom,@GetEnchantmentList);
-      iNumEnchantments = Length(lEnchantments);
 
-      foreach lEnchantment in lEnchantments
+      foreach i in lEnchantments
       {
-         oSpell = Nth(lEnchantment,2);
-         oCaster = Send(oSpell,@GetCaster,#state=Nth(lEnchantment,3));
+         oSpell = Nth(i,2);
+         oCaster = Send(oSpell,@GetCaster,#state=Nth(i,3));
          iModifiedChance = iChance;
          if Send(oSpell,@GetSchool) = SS_JALA
          {
@@ -168,6 +157,35 @@ messages:
                         #oRoomOverride=oRoom))
             {
                Send(oRoom,@RemoveEnchantment,#what=oSpell);
+               bRemovedSomething = TRUE;
+            }
+         }
+      }
+
+      // Radius enchantments, only discord the ones we see.
+      foreach i in Send(who,@GetRadiusEnchantments)
+      {
+         oSpell = Nth(i,2);
+         state = Nth(i,3);
+         oCaster = Send(oSpell,@GetCaster,#state=state);
+         iModifiedChance = iChance;
+         if Send(oSpell,@GetSchool) = SS_JALA
+         {
+            // Only half chance to discord a Jala song
+            iModifiedChance = (iModifiedChance * JALA_PERCENT) / 100;
+         }
+
+         if iModifiedChance > Random(1,100)
+         {
+            // Check whether we can attack the caster.
+            if (NOT IsClass(who,&Battler)
+               OR NOT IsClass(oCaster,&Battler)
+               OR Send(who,@AllowBattlerAttack,#victim=oCaster,#stroke_obj=self,
+                        #oRoomOverride=oRoom))
+            {
+               // Remove at the source.
+               Send(Send(oSpell,@GetSource,#state=state),@RemoveRadiusEnchantment,
+                     #what=oSpell,#state=state,#event=EVENT_STEER);
                bRemovedSomething = TRUE;
             }
          }
