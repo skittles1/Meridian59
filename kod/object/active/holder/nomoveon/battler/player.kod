@@ -1410,10 +1410,7 @@ messages:
       return (piPreferences & flag);
    }
 
-   // Added a nodraw paramater to this function to deal with buggy Jala
-   // implementation. Can remove this and 3 instances of it used in 
-   // player.kod when Jala fixed
-   ResetPlayerFlagList(nodraw=FALSE)
+   ResetPlayerFlagList()
    {
       local i;
 
@@ -1452,11 +1449,8 @@ messages:
          Send(poOwner,@SomethingChanged,#what=self);
       }
 
-      if nodraw=FALSE
-      {
-         Post(self,@DrawOffense);
-         Post(self,@DrawDefense);
-      }
+      Post(self,@DrawOffense);
+      Post(self,@DrawDefense);
 
       return;
    }
@@ -3300,51 +3294,76 @@ messages:
 
    EnchantmentTimer(timer = $)
    {
-      local i, j, oEnchanter;
+      local i, j, oEnchanter, oSpell;
 
       foreach i in plEnchantments
       {
+         oSpell = Nth(i,2);
          if First(i) = timer
          {
             if Length(i) >= ENCHANTMENT_LIST_STATE
             {
-               Send(Nth(i,2),@EndEnchantment,#who=self,#state=Nth(i,3));
+               Send(oSpell,@EndEnchantment,#who=self,#state=Nth(i,3));
             }
             else
             {
-               Send(Nth(i,2),@EndEnchantment,#who=self);
+               Send(oSpell,@EndEnchantment,#who=self);
             }
 
-            Send(self,@ShowRemoveEnchantment,#what=Nth(i,2),
-                 #type=ENCHANTMENT_PLAYER);
+            Send(self,@ShowRemoveEnchantment,#what=oSpell,
+                  #type=ENCHANTMENT_PLAYER);
 
             // TODO: i no longer exists at this point?
             // EndEnchantment removing it?
             plEnchantments = DelListElem(plEnchantments,i);
-            
+
             // Also remove from passive improvement list.
             foreach j in plPassiveImprovement
             {
-               if First(j) = Nth(i,2)
+               if First(j) = oSpell
                {
                   plPassiveImprovement = DelListElem(plPassiveImprovement,j);
                }
             }
 
-            if IsClass(Nth(i,2),&Mirth)
-               OR IsClass(Nth(i,2),&Melancholy)
-            {
-               Send(self,@ResetPlayerFlagList,#nodraw=TRUE,#who=self);
-            }
-            else
-            {
-               Send(self,@ResetPlayerFlagList,#who=self);
-            }
+            Send(self,@ResetPlayerFlagList,#who=self);
 
             if poOwner <> $
             {
                Send(poOwner,@SomethingChanged,#what=self);
             }
+
+            return;
+         }
+      }
+
+      foreach i in plRadiusEnchantments
+      {
+         oSpell = Nth(i,2);
+         if First(i) = timer
+         {
+            if (Send(oSpell,@GetCaster,#state=Nth(i,3)) = self)
+            {
+               Send(self,@ShowRemoveEnchantment,#what=oSpell,
+                     #type=ENCHANTMENT_PLAYER);
+            }
+            Send(self,@ShowRemoveEnchantment,#what=oSpell,
+                  #type=ENCHANTMENT_ROOM);
+
+            Send(oSpell,@EndEnchantment,#who=self,#state=Nth(i,3));
+
+            plRadiusEnchantments = DelListElem(plRadiusEnchantments,i);
+
+            // Also remove from passive improvement list.
+            foreach j in plPassiveImprovement
+            {
+               if First(j) = oSpell
+               {
+                  plPassiveImprovement = DelListElem(plPassiveImprovement,j);
+               }
+            }
+
+            Send(self,@ResetPlayerFlagList,#who=self);
 
             if poOwner <> $
             {
@@ -3373,12 +3392,26 @@ messages:
             if Length(i) >= ENCHANTMENT_LIST_STATE
             {
                Send(Nth(i,2),@StartPeriodicEnchantment,
-                     #who=self,#state=Nth(i,3));
+                     #who=self,#state=Nth(i,3),#iSpellPower=Nth(i,4));
             }
             else
             {
-               Send(Nth(i,2),@StartPeriodicEnchantment,#who=self,#state=$);
+               Send(Nth(i,2),@StartPeriodicEnchantment,#who=self,#state=$,
+                     #iSpellPower=Nth(i,3));
             }
+
+            return;
+         }
+      }
+
+      foreach i in plRadiusEnchantments
+      {
+         if First(i) = timer
+         {
+            plRadiusEnchantments = DelListElem(plRadiusEnchantments,i);
+
+            Send(Nth(i,2),@StartPeriodicEnchantment,#who=self,#state=Nth(i,3),
+                  #iSpellPower=Nth(i,4));
 
             return;
          }
@@ -3389,8 +3422,8 @@ messages:
       return;
    }
 
-   StartEnchantment(what=$,who=$,time=$,state=$,lastcall=TRUE,
-                     addicon=TRUE,ltype=$,bItemCast=FALSE,iSpellPower=0)
+   StartEnchantment(what=$,who=$,time=$,state=$,lastcall=TRUE,addicon=TRUE,
+                    ltype=$,bItemCast=FALSE,iSpellPower=0,bRadiusEnchant=FALSE)
    "Adds <what> to our enchantments, and creates a timer that will cause it "
    "to end."
    {
@@ -3418,30 +3451,42 @@ messages:
          lNew_enchantment = [oTimer, what, state, iSpellPower];
       }
 
-      plEnchantments = Cons(lNew_enchantment,plEnchantments);
+      if (bRadiusEnchant)
+      {
+         plRadiusEnchantments = Cons(lNew_enchantment,plRadiusEnchantments);
+      }
+      else
+      {
+         plEnchantments = Cons(lNew_enchantment,plEnchantments);
+      }
 
       // If we are also the source of the enchantment, add the enchantment
       // to our passive improvement list. ltype has the form:
       // [oSpell,Defensive,Offensive,Resistance]
       if who = self
          AND NOT bItemCast
+         AND lType <> $
       {
          plPassiveImprovement = Cons(ltype,plPassiveImprovement);
       }
 
-      if IsClass(what,&Mirth)
-         OR IsClass(what,&Melancholy)
-      {
-         Send(self,@ResetPlayerFlagList,#nodraw=TRUE,#who=self);
-      }
-      else
-      {
-         Send(self,@ResetPlayerFlagList,#who=self);
-      }
+      Send(self,@ResetPlayerFlagList,#who=self);
 
       if addicon
       {
-         Send(self,@ShowAddEnchantment,#what=what,#type=ENCHANTMENT_PLAYER);
+         if (bRadiusEnchant)
+         {
+            Send(self,@ShowAddEnchantment,#what=what,#type=ENCHANTMENT_ROOM);
+            // Show icon if we cast the spell.
+            if (who = self)
+            {
+               Send(self,@ShowAddEnchantment,#what=what,#type=ENCHANTMENT_PLAYER);
+            }
+         }
+         else
+         {
+            Send(self,@ShowAddEnchantment,#what=what,#type=ENCHANTMENT_PLAYER);
+         }
       }
 
       Post(self,@DrawResistances);
@@ -3456,29 +3501,12 @@ messages:
 
       foreach i in plEnchantments
       {
-         if NOT IsClass(Nth(i,2),&RadiusEnchantment)
-         {
-            Send(self,@RemoveEnchantment,#what=Nth(i,2),#report=report);
-         }
+         Send(self,@RemoveEnchantment,#what=Nth(i,2),#report=report);
       }
+
+      Send(self,@RemoveAllRadiusEnchantments,#report=report);
 
       plPassiveImprovement = $;
-
-      return;
-   }
-
-   RemoveAllRadiusEnchantments(report=TRUE)
-   "Remove all current radius enchantments."
-   {
-      local i;
-
-      foreach i in plRadiusEnchantments
-      {
-         Send(self,@RemoveRadiusEnchantment,#what=Nth(i,1),
-               #iPower=Nth(i,2),#caster=Nth(i,3),#report=report);
-      }
-
-      plRadiusEnchantments = $;
 
       return;
    }
@@ -3491,6 +3519,7 @@ messages:
 
       removedSomething = FALSE;
 
+      // TODO: Need to remove any personal radius enchantments.
       foreach i in plEnchantments
       {
          oSpell = Nth(i,2);
@@ -3623,11 +3652,11 @@ messages:
 
             if Send(Nth(i,2),@IsPeriodic,#state=state,#who=self)
             {
-               SetNth(i,1,CreateTimer(self,@PeriodicEnchantmentTimer,iTime));
+               SetFirst(i,CreateTimer(self,@PeriodicEnchantmentTimer,iTime));
             }
             else
             {
-               SetNth(i,1,CreateTimer(self,@EnchantmentTimer,iTime));
+               SetFirst(i,CreateTimer(self,@EnchantmentTimer,iTime));
             }
 
             Send(Nth(i,2),@RestartEnchantmentEffect,#who=self,#state=state);
@@ -3686,9 +3715,7 @@ messages:
    RemoveEnchantment(what = $, report=TRUE)
    "If have a current enchantment set by <what>, end it."
    {
-      local i,state;
-
-      state = $ ;
+      local i, state;
 
       foreach i in plEnchantments
       {
@@ -3720,13 +3747,57 @@ messages:
 
             plEnchantments = DelListElem(plEnchantments,i);
 
-            if IsClass(what,&Mirth)
-               OR IsClass(what,&Melancholy)
+            Send(self,@ResetPlayerFlagList,#who=self);
+         }
+      }
+
+      // Also remove from passive improvement list.
+      foreach i in plPassiveImprovement
+      {
+         if First(i) = what
+         {
+            plPassiveImprovement = DelListElem(plPassiveImprovement,i);
+         }
+      }
+
+      return;
+   }
+
+   RemoveRadiusEnchantment(what=$,state=$,report=TRUE,recheck=FALSE)
+   {
+      local i, lState;
+
+      foreach i in plRadiusEnchantments
+      {
+         if (what = Nth(i,2))
+         {
+            lState = Nth(i,3);
+            if (First(state) = First(lState)
+               AND Nth(state,2) = Nth(lState,2))
             {
-               Send(self,@ResetPlayerFlagList,#nodraw=TRUE,#who=self);
-            }
-            else
-            {
+               if First(i) <> $
+               {
+                  if IsTimer(First(i))
+                  {
+                     DeleteTimer(First(i));
+                  }
+                  SetFirst(i,$);
+               }
+
+               // Everyone has the room icon, only caster has player icon.
+               Send(self,@ShowRemoveEnchantment,#what=what,
+                     #type=ENCHANTMENT_ROOM);
+               if (Send(what,@GetCaster,#state=lState) = self)
+               {
+                  Send(self,@ShowRemoveEnchantment,#what=what,
+                        #type=ENCHANTMENT_PLAYER);
+               }
+
+               plRadiusEnchantments = DelListElem(plRadiusEnchantments,i);
+
+               Send(what,@RemoveEnchantmentEffects,#who=self,
+                     #state=lState,#report=report,#recheck=recheck);
+
                Send(self,@ResetPlayerFlagList,#who=self);
             }
          }
@@ -3739,6 +3810,14 @@ messages:
          {
             plPassiveImprovement = DelListElem(plPassiveImprovement,i);
          }
+      }
+
+      // If logged on, see if we should get enchanted by another radius
+      // enchantment.
+      if (recheck AND poOwner <> $)
+      {
+         SendListByClass(Send(poOwner,@GetHolderActive),1,&NoMoveOn,
+               @NoMoveOnRadiusEnchCheckOne,#who=self);
       }
 
       return;
@@ -3779,6 +3858,17 @@ messages:
          each_obj = Nth(i,2);
          if NOT (IsClass(each_obj,&Seance)
             OR IsClass(each_obj,&IllusionaryWounds))
+         {
+            Send(self,@ShowAddEnchantment,#what=each_obj,
+                  #type=ENCHANTMENT_PLAYER);
+         }
+      }
+
+      // Just send the ones we are the source for, Room handles all others.
+      foreach i in plRadiusEnchantments
+      {
+         each_obj = Nth(i,2);
+         if (Send(each_obj,@GetSource,#state=Nth(i,3)) = self)
          {
             Send(self,@ShowAddEnchantment,#what=each_obj,
                   #type=ENCHANTMENT_PLAYER);
@@ -4307,7 +4397,7 @@ messages:
    }
 
    AllowBattlerAttack(victim=$,stroke_obj=$,use_weapon=$,report=TRUE,
-                     actual=TRUE,minion=FALSE,oMinionRoom=$)
+                     actual=TRUE,minion=FALSE,oRoomOverride=$)
    "Will not let a person attack someone who isn't pkill_enabled."
    "Will not let a person who isn't pkill_enabled attack another person."
    {
@@ -4321,10 +4411,9 @@ messages:
       if victim <> $
          AND Send(victim,@GetOwner) <> poOwner
       {
-         if (minion
-            AND oMinionRoom <> $)
+         if (oRoomOverride <> $)
          {
-            oRoom = oMinionRoom;
+            oRoom = oRoomOverride;
          }
          else
          {
@@ -4540,7 +4629,7 @@ messages:
                            #victim=Send(victim,@GetMaster),
                            #use_weapon=use_weapon,#stroke_obj=stroke_obj,
                            #report=report,#actual=actual,#minion=TRUE,
-                           #oMinionRoom=oRoom)
+                           #oRoomOverride=oRoom)
                {
                   return FALSE;
                }
@@ -5176,10 +5265,7 @@ messages:
    // This returns the battler's ability to-hit.  Ranges from 1 to 1000
    GetOffense(what = $, stroke_obj=$)
    {
-      local i, oWeapon, iStroke, iProficiency, iAim, iOffense,
-            oMonster, lRadiusState;
-
-      oWeapon = $;
+      local i, oWeapon, iStroke, iProficiency, iAim, iOffense, oMonster;
 
       // Morphed?
       oMonster = Send(self,@GetIllusionForm);
@@ -5226,24 +5312,13 @@ messages:
                         #hit_roll=iOffense,#stroke_obj=stroke_obj);
       }
 
-      if Send(self,@IsAffectedByRadiusEnchantment,#byClass=&Mirth)
+      foreach i in plRadiusEnchantments
       {
-         lRadiusState = Send(self,@GetMostPowerfulRadiusEnchantmentState,
-               #byClass=&Mirth);
-         iOffense = Send(Nth(lRadiusState,1),@ModifyHitRoll,#who=self,#what=what,
-                        #hit_roll=iOffense,#lRadiusState=lRadiusState);
+         iOffense = Send(Nth(i,2),@ModifyHitRoll,#who=self,#what=what,
+                           #hit_roll=iOffense,#state=Nth(i,3));
       }
 
-      if Send(self,@IsAffectedByRadiusEnchantment,#byClass=&Melancholy)
-      {
-         lRadiusState = Send(self,@GetMostPowerfulRadiusEnchantmentState,
-               #byClass=&Melancholy);
-         iOffense = Send(Nth(lRadiusState,1),@ModifyHitRoll,#who=self,#what=what,
-                        #hit_roll=iOffense,#lRadiusState=lRadiusState);
-      }
-
-      iOffense = iOffense + Send(Send(SYS,@GetParliament),
-                                 @GetFactionHitrollBonus,#who=self);
+      iOffense += Send(Send(SYS,@GetParliament),@GetFactionHitrollBonus,#who=self);
 
       // If we're using a ranged weapon and don't have a clear line of sight,
       //  then half our offense.
@@ -5273,23 +5348,15 @@ messages:
          AND (piFlags & PFLAG_MORPHED)
       {
          iDefense = Send(oMonster,@GetDefense,#what=what,
-                        #stroke_obj=stroke_obj);
+                           #stroke_obj=stroke_obj);
       }
       else
       {
          // A player's defense is based on his dodge, parry,
          // block skills, agility, and max hps.
-         iParry = 0;
-         iDodge = 0;
-         iBlock = 0;
-
-         // Ask the weapon, it might give a bonus to parrying.
          iParry = Send(self,@GetParryAbility,#stroke_obj=stroke_obj);
-
-         // Ask the shield, it might give a bonus to block.
-         iBlock = Send(self,@GetBlockAbility,#stroke_obj=stroke_obj);
-
          iDodge = Send(self,@GetDodgeAbility,#stroke_obj=stroke_obj);
+         iBlock = Send(self,@GetBlockAbility,#stroke_obj=stroke_obj);
 
          iAgility = Send(self,@GetAgility);
 
@@ -5302,18 +5369,17 @@ messages:
 
       foreach i in plDefense_modifiers
       {
-         iDefense = Send(i,@ModifyDefensePower,#who=self,
-                           #what=what,#defense_power=iDefense);
+         iDefense = Send(i,@ModifyDefensePower,#who=self,#what=what,
+                           #defense_power=iDefense);
       }
 
       foreach i in plRadiusEnchantments
       {
-         iDefense = Send(Nth(i,1),@ModifyDefensePower,#attacker=what,
-                     #iPower=Nth(i,2),#caster=Nth(i,3),#defense_power=iDefense);
+         iDefense = Send(Nth(i,2),@ModifyDefensePower,#who=self,#what=what,
+                        #state=Nth(i,3),#defense_power=iDefense);
       }
 
-      iDefense = iDefense + Send(Send(SYS,@GetParliament),
-                                 @GetFactionDefenseBonus,#who=self);
+      iDefense += Send(Send(SYS,@GetParliament),@GetFactionDefenseBonus,#who=self);
 
       return Bound(iDefense,1,2000);
    }
@@ -5400,7 +5466,7 @@ messages:
    GetDamage(what = $, stroke_obj=$)
    {
       local i, iDamage, oStroke, oWeapon, iStrokeNum, iModBonus, iDamageBonus,
-            oSpell, oMonster, lRadiusState;
+            oSpell, oMonster;
 
       // Morphed?
       oMonster = Send(self,@GetIllusionForm);
@@ -5445,33 +5511,23 @@ messages:
          //  damage to get the damage bonus.
          iModBonus = Send(i,@ModifyDamage,#who=self,#what=what,#damage=iDamage,
                           #stroke_obj=oStroke);
-         iDamageBonus = iDamageBonus + (iModBonus - iDamage);
+         iDamageBonus += (iModBonus - iDamage);
 
          Send(i,@WeaponHitTarget);
       }
 
-      if Send(self,@IsAffectedByRadiusEnchantment,#byClass=&Melancholy)
+      foreach i in plRadiusEnchantments
       {
-         lRadiusState = Send(self,@GetMostPowerfulRadiusEnchantmentState,
-                              #byClass=&Melancholy);
-         iDamageBonus = Send(Nth(lRadiusState,1),@ModifyDamage,#who=self,
-                              #what=what,#damage=iDamageBonus);
-      }
-      if Send(self,@IsAffectedByRadiusEnchantment,#byClass=&Mirth)
-      {
-         lRadiusState = Send(self,@GetMostPowerfulRadiusEnchantmentState,
-                              #byClass=&Mirth);
-         iDamageBonus = Send(Nth(lRadiusState,1),@ModifyDamage,#who=self,
-                              #what=what,#damage=iDamageBonus);
+         iDamageBonus = Send(Nth(i,2),@ModifyDamage,#who=self,#what=what,
+                              #state=Nth(i,3),#damage=iDamageBonus);
       }
 
-      iDamageBonus = iDamageBonus + Send(Send(SYS,@GetParliament),
-                                          @GetFactionDamageBonus,#who=self);
+      iDamageBonus += Send(Send(SYS,@GetParliament),@GetFactionDamageBonus,#who=self);
 
       // Convert to high precision. Super dirty, will be cleaned up shortly.
-      iDamageBonus = iDamageBonus*100;
+      iDamageBonus *= 100;
 
-      iDamage = iDamage + iDamageBonus;
+      iDamage += iDamageBonus;
 
       return iDamage;
    }
@@ -5618,15 +5674,8 @@ messages:
                            #report_resistance=report_resistance);
             Send(i,@DefendingHit,#who=self,#what=what);
          }
-      
-         iResistance = Send(self,@ResistanceCheck,#atype=atype,#aspell=aspell);
 
-         foreach i in plRadiusEnchantments
-         {
-            iResistance = Send(First(i),@ModifyResistance,#attacker=what,
-                  #atype=atype,#iPower=Nth(i,2),
-                  #caster=Nth(i,3),#resistance=iResistance);
-         }
+         iResistance = Send(self,@ResistanceCheck,#atype=atype,#aspell=aspell);
 
          damage = Send(self,@GetDamageFromResistance,#what=damage,
                         #value=iResistance);
@@ -6577,25 +6626,22 @@ messages:
                #parm3=Send(use_weapon,@GetIndef),
                #parm4=Send(use_weapon,@GetName));
       }
+      else if IsClass(stroke_obj,&Spell)
+      {
+         if IsClass(stroke_obj,&RadiusEnchantment)
+         {
+            return;
+         }
+
+         Send(self,@MsgSendUser,#message_rsc=player_attack_out_of_SPELL_range,
+               #parm1=Send(what,@GetDef),#parm2=Send(what,@GetName),
+               #parm3=Send(stroke_obj,@GetName));
+      }
       else
       {
-         if IsClass(stroke_obj,&spell)
-         {
-            if IsClass(stroke_obj,&RadiusEnchantment)
-            {
-               return;
-            }
-
-            Send(self,@MsgSendUser,#message_rsc=player_attack_out_of_SPELL_range,
-                  #parm1=Send(what,@GetDef),#parm2=Send(what,@GetName),
-                  #parm3=Send(stroke_obj,@GetName));
-         }
-         else
-         {
-            Send(self,@MsgSendUser,#message_rsc=player_attack_out_of_PUNCH_range,
-                  #parm1=Send(what,@GetDef),#parm2=Send(what,@GetName),
-                  #parm3=Send(stroke_obj,@GetName));
-         }
+         Send(self,@MsgSendUser,#message_rsc=player_attack_out_of_PUNCH_range,
+               #parm1=Send(what,@GetDef),#parm2=Send(what,@GetName),
+               #parm3=Send(stroke_obj,@GetName));
       }
 
       return;
@@ -11758,21 +11804,21 @@ messages:
 
    SetTranceFlag()
    {
-      piFlags = piFlags | PFLAG_TRANCE;
+      piFlags |= PFLAG_TRANCE;
 
       return;
    }
 
    ClearTranceFlag()
    {
-      piFlags = piFlags & (~PFLAG_TRANCE);
+      piFlags &= ~PFLAG_TRANCE;
 
       return;
    }
 
    SetFlickerFlag()
    {
-      piDrawEffectFlag = piDrawEffectFlag | OF_FLICKERING;
+      piDrawEffectFlag |= OF_FLICKERING;
 
       return;
    }
@@ -11784,7 +11830,7 @@ messages:
       local i;
 
       // Unset flag.
-      piDrawEffectFlag = piDrawEffectFlag & (~OF_FLICKERING);
+      piDrawEffectFlag &= ~OF_FLICKERING;
 
       // Check torches and glow enchantment.
       foreach i in plUsing
@@ -11793,7 +11839,7 @@ messages:
             OR (IsClass(i,&Weapon)
                AND Send(i,@HasAttribute,#ItemAtt=WA_GLOWING))
          {
-            piDrawEffectFlag = piDrawEffectFlag | OF_FLICKERING;
+            piDrawEffectFlag |= OF_FLICKERING;
 
             return;
          }
@@ -11802,9 +11848,9 @@ messages:
       // Check radius enchantments.
       foreach i in plRadiusEnchantments
       {
-         if Nth(i,3) = self
+         if (Send(Nth(i,2),@GetSource,#state=Nth(i,3)) = self)
          {
-            piDrawEffectFlag = piDrawEffectFlag | OF_FLICKERING;
+            piDrawEffectFlag |= OF_FLICKERING;
 
             return;
          }
@@ -11842,9 +11888,11 @@ messages:
 
       foreach i in plRadiusEnchantments
       {
-         if Nth(i,3) = self
+         oEnch = Nth(i,2);
+         state = Nth(i,3);
+         if (Send(oEnch,@GetCaster,#state=state) = self)
          {
-            Send(Nth(i,1),@BreakTrance,#who=Nth(i,3),#event=event);
+            Send(oEnch,@BreakTrance,#who=self,#state=state,#event=event);
          }
       }
 
@@ -14478,15 +14526,12 @@ messages:
 
       foreach i in plRadiusEnchantments
       {
-         if Nth(i,3) = self
+         oLightObject = Nth(i,2);
+         if (Send(oLightObject,@GetSource,#state=Nth(i,3)) = self
+            AND Send(oLightObject,@GetLightIntensity) >= iIntensity)
          {
-            oLightObject = First(i);
-
-            if Send(oLightObject,@GetLightIntensity) >= iIntensity
-            {
-                iIntensity = Send(oLightObject,@GetLightIntensity);
-                iColor = Send(oLightObject,@GetLightColor);
-            }
+            iIntensity = Send(oLightObject,@GetLightIntensity);
+            iColor = Send(oLightObject,@GetLightColor);
          }
       }
 

@@ -416,7 +416,7 @@ messages:
       propagate;
    }
 
-   ResetPlayerFlagList(nodraw=FALSE)
+   ResetPlayerFlagList()
    {
       local i;
 
@@ -464,11 +464,8 @@ messages:
          Send(poOwner,@SomethingChanged,#what=self);
       }
 
-      if nodraw=FALSE
-      {
-         Post(self,@DrawOffense);
-         Post(self,@DrawDefense);
-      }
+      Post(self,@DrawOffense);
+      Post(self,@DrawDefense);
 
       return;
    }

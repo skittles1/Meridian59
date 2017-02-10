@@ -2174,13 +2174,10 @@ messages:
          Send(what,@ShowAddEnchantment,#what=each_obj,#type=ENCHANTMENT_ROOM);
       }
 
-      if IsClass(what,&User)
+      foreach i in Send(what,@GetRadiusEnchantments)
       {
-         foreach i in Send(what,@GetRadiusEnchantments)
-         {
-            each_obj = First(i);
-            Send(what,@ShowAddEnchantment,#what=each_obj,#type=ENCHANTMENT_ROOM);
-         }
+         each_obj = Nth(i,2);
+         Send(what,@ShowAddEnchantment,#what=each_obj,#type=ENCHANTMENT_ROOM);
       }
 
       return;
@@ -2682,6 +2679,9 @@ messages:
       }
 
       ClearPacket();
+
+      // Radius enchants, because SomethingMoved not always sent to players.
+      SendListByClass(plActive,1,&NoMoveOn,@NoMoveOnRadiusEnchCheckOne,#who=what);
 
       return;
    }
@@ -3594,6 +3594,20 @@ messages:
          }
       }
 
+      // Radius enchant recalcs.
+      foreach i in plActive
+      {
+         oUser = First(i);
+         if (oUser = who)
+         {
+            Send(oUser,@NoMoveOnRadiusEnchCheckAll);
+         }
+         else if (IsClass(oUser,&NoMoveOn))
+         {
+            Send(oUser,@NoMoveOnRadiusEnchCheckOne,#who=who);
+         }
+      }
+
       return;
    }
 
@@ -4399,15 +4413,6 @@ messages:
       foreach i in plEnchantments
       {
          oEnch = Nth(i,2);
-         if IsClass(oEnch,&Jala)
-         {
-            lState = Nth(i,3);
-            if who = Nth(lState,2)
-            {
-               bRetVal = Send(oEnch,@BreakTrance,#who=who,#event=event,
-                              #state=lState,#location=self);
-            }
-         }
 
          // It's a room enchantment! It's a trance spell! It's both!
          //  It's Silence!  Handle the special case here.

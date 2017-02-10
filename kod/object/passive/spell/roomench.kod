@@ -225,5 +225,15 @@ messages:
       return viAttack_type;
    }
 
+   GetCaster(state = $)
+   {
+      if (state <> $)
+      {
+         return Nth(state,2);
+      }
+
+      return $;
+   }
+
 end
 ////////////////////////////////////////////////////////////////////////////////

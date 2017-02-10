@@ -492,9 +492,6 @@ properties:
    //  Take Nth of this list
    vlLevelPoints = $
 
-   // A master list of all spell-casting active objects
-   plSpellTotems = $
-
    // A master list of all object attributes, for maintenance, control, & statistics purposes
    plObject_attributes_master = $
 
@@ -637,9 +634,6 @@ messages:
 
       lSavedFlagStates = ListCopy(Send(poTerritoryGame,@SaveFlagStates));
       lSavedSenate = ListCopy(Send(poTokenGame,@GetSenate));
-
-      // Don't leave any active spellcasting objects
-      Send(self,@DeleteAllSpellTotems);
 
       Send(self,@CreateUserTable);
 
@@ -3766,7 +3760,6 @@ messages:
       foreach i in plUsers
       {
          Send(i,@RemoveAllEnchantments,#report=FALSE);
-         Send(i,@RemoveAllRadiusEnchantments,#report=FALSE);
       }
 
       foreach i in plSpells
@@ -7644,42 +7637,6 @@ messages:
    GetBanks()
    {
       return plBanks;
-   }
-
-   AddSpellTotemToServerList(oTotem=$)
-   {
-      if oTotem <> $
-         AND IsClass(oTotem,&RadiusEnchantmentTotem)
-      {
-         plSpellTotems = Cons(oTotem,plSpellTotems);
-      }
-
-      return;
-   }
-
-   DeleteSpellTotemFromMasterList(oTotem=$)
-   {
-      if oTotem <> $
-         AND IsClass(oTotem,&RadiusEnchantmentTotem)
-         AND plSpellTotems <> $
-         AND FindListElem(plSpellTotems,oTotem) <> 0
-      {
-         plSpellTotems = DelListElem(plSpellTotems,oTotem);
-      }
-
-      return;
-   }
-
-   DeleteAllSpellTotems()
-   {
-      local i;
-
-      foreach i in plSpellTotems
-      {
-         Send(i,@Delete);
-      }
-
-      return;
    }
 
    GetResistanceName(type=ATCK_WEAP_ALL)
