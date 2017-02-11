@@ -3475,7 +3475,8 @@ messages:
    {
       local lAction, iNum, oTarget, i, lActives, oLibrary;
 
-      if (ptRandom <> timer)
+      if (ptRandom <> $
+         AND ptRandom <> timer)
       {
          DeleteTimer(ptRandom);
       }
