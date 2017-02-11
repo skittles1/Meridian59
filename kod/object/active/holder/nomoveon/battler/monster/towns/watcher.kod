@@ -404,6 +404,14 @@ messages:
       return watcher_ad_good_fight;
    }
 
+   SayDMWelcome(who = $)
+   {
+      Post(self,@Say,#message_rsc=vrWorshipDM,
+            #parm1=Send(who,@GetLordLady),#parm2=Send(who,@GetName));
+
+      return;
+   }
+
    SayVictor()
    {
       Send(self,@Say,#message_rsc=vrVictor);
@@ -2321,8 +2329,7 @@ messages:
          AND NOT Send(what,@CheckPlayerFlag,#flag=PFLAG_MORPHED)
          AND NOT Send(what,@CheckPlayerFlag,#flag=PFLAG_ANONYMOUS)
       {
-         Post(self,@Say,#message_rsc=vrWorshipDM,
-               #parm1=Send(what,@GetLordLady),#parm2=Send(what,@GetName));
+         Send(self,@SayDMWelcome,#who=what);
          if NOT pbTournament
          {
             Post(poOwner,@SpecialGreeting);
