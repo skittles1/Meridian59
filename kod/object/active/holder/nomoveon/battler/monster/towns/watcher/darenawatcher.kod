@@ -192,6 +192,14 @@ messages:
       return DeathArenaWatcher_ad_good_fight1;
    }
 
+   SayDMWelcome(who = $)
+   {
+      Post(self,@Say,#message_rsc=vrWorshipDM,
+            #parm1=Send(who,@GetName),#parm2=Send(who,@GetLordLady));
+
+      return;
+   }
+
    SayVictor(who = $)
    {
       Send(self,@Say,#message_rsc=vrVictor,#parm1=Send(who,@GetCapDef),
