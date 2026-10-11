@@ -9,6 +9,7 @@
 #include <libpq-fe.h>
 #define DATABASE_SCHEMA_POSTGRESQL
 #include "database_schema.h"
+#include "database_sql.h"
 
 // Worker thread state
 enum { DB_STOPPED=0, DB_STOPPING, DB_STARTING, DB_CONNECTED, DB_READY };
@@ -199,51 +200,7 @@ static bool PgIsConnected(void)
    return true;
 }
 
-static bool PgAppendSql(char *sql, size_t capacity, size_t *length, const char *text)
-{
-   size_t text_length = strlen(text);
-   if (text_length >= capacity - *length)
-      return false;
-
-   memcpy(sql + *length, text, text_length);
-   *length += text_length;
-   sql[*length] = 0;
-   return true;
-}
-
-static bool PgAppendSqlItem(char *sql, size_t capacity, size_t *length,
-   bool *first_item, const char *text)
-{
-   if (!*first_item && !PgAppendSql(sql, capacity, length, ", "))
-      return false;
-
-   *first_item = false;
-   return PgAppendSql(sql, capacity, length, text);
-}
-
-static bool PgGetColumn(const char *columns, int column_index,
-   char *column, size_t column_capacity)
-{
-   const char *start = columns;
-   for (int i = 0; i < column_index; ++i)
-   {
-      start = strchr(start, ',');
-      if (!start)
-         return false;
-      ++start;
-   }
-
-   const char *end = strchr(start, ',');
-   size_t column_length = end ? (size_t)(end - start) : strlen(start);
-   if (column_length == 0 || column_length >= column_capacity)
-      return false;
-
-   memcpy(column, start, column_length);
-   column[column_length] = 0;
-   return true;
-}
-
-static bool PgAppendInsertColumns(char *sql, size_t capacity, size_t *length,
+static bool PgAppendInsertColumns(std::string &sql,
    const sql_statistic_type *operation, bool values)
 {
    bool first_item = true;
@@ -251,92 +208,82 @@ static bool PgAppendInsertColumns(char *sql, size_t capacity, size_t *length,
    {
       if (operation->timestamp_column && operation->timestamp_position == i)
       {
-         if (!PgAppendSqlItem(sql, capacity, length, &first_item,
-            values ? "NOW()" : operation->timestamp_column))
-            return false;
+         DatabaseAppendSqlItem(sql,
+            values ? "NOW()" : operation->timestamp_column, first_item);
       }
 
       if (i == operation->num_fields)
          break;
 
-      char item[64];
+      std::string item;
       if (values)
-         snprintf(item, sizeof(item), "$%d", i + 1);
-      else if (!PgGetColumn(operation->columns, i, item, sizeof(item)))
+         item = "$" + std::to_string(i + 1);
+      else if (!DatabaseGetColumn(operation->columns, i, item))
          return false;
 
-      if (!PgAppendSqlItem(sql, capacity, length, &first_item, item))
-         return false;
+      DatabaseAppendSqlItem(sql, item, first_item);
    }
 
    return true;
 }
 
-static bool PgBuildWriteQuery(char *sql, size_t capacity,
+static std::string PgBuildWriteQuery(
    const sql_statistic_type *operation)
 {
-   size_t length = 0;
    bool first_item = true;
-   sql[0] = 0;
+   std::string sql;
 
    if (operation->write_mode == DB_WRITE_UPDATE)
    {
-      if (!PgAppendSql(sql, capacity, &length, "UPDATE ") ||
-         !PgAppendSql(sql, capacity, &length, operation->table_name) ||
-         !PgAppendSql(sql, capacity, &length, " SET ") ||
-         !PgAppendSql(sql, capacity, &length, operation->update_assignments) ||
-         !PgAppendSql(sql, capacity, &length, " WHERE "))
-         return false;
+      sql = "UPDATE ";
+      sql += operation->table_name;
+      sql += " SET ";
+      sql += operation->update_assignments;
+      sql += " WHERE ";
 
       for (int i = 0; i < operation->num_fields; ++i)
       {
-         char column[64];
-         char predicate[96];
-         if (!PgGetColumn(operation->columns, i, column, sizeof(column)))
-            return false;
-         snprintf(predicate, sizeof(predicate), "%s = $%d", column, i + 1);
-         if ((i > 0 && !PgAppendSql(sql, capacity, &length, " AND ")) ||
-            !PgAppendSql(sql, capacity, &length, predicate))
-            return false;
+         std::string column;
+         if (!DatabaseGetColumn(operation->columns, i, column))
+            return std::string();
+         if (i > 0)
+            sql += " AND ";
+         sql += column + " = $" + std::to_string(i + 1);
       }
-      return true;
+      return sql;
    }
 
-   if (!PgAppendSql(sql, capacity, &length, "INSERT INTO ") ||
-      !PgAppendSql(sql, capacity, &length, operation->table_name) ||
-      !PgAppendSql(sql, capacity, &length, " ("))
-      return false;
+   sql = "INSERT INTO ";
+   sql += operation->table_name;
+   sql += " (";
 
-   if (!PgAppendInsertColumns(sql, capacity, &length, operation, false) ||
-      !PgAppendSql(sql, capacity, &length, ") VALUES ("))
-      return false;
+   if (!PgAppendInsertColumns(sql, operation, false))
+      return std::string();
+   sql += ") VALUES (";
 
    first_item = true;
-   if (!PgAppendInsertColumns(sql, capacity, &length, operation, true) ||
-      !PgAppendSql(sql, capacity, &length, ")"))
-      return false;
+   if (!PgAppendInsertColumns(sql, operation, true))
+      return std::string();
+   sql += ")";
 
    if (operation->write_mode == DB_WRITE_UPSERT)
    {
-      if (!PgAppendSql(sql, capacity, &length, " ON CONFLICT (") ||
-         !PgAppendSql(sql, capacity, &length, operation->conflict_columns) ||
-         !PgAppendSql(sql, capacity, &length, ") DO UPDATE SET "))
-         return false;
+      sql += " ON CONFLICT (";
+      sql += operation->conflict_columns;
+      sql += ") DO UPDATE SET ";
 
       first_item = true;
       for (int i = 0; ; ++i)
       {
-         char column[64];
-         char assignment[160];
-         if (!PgGetColumn(operation->update_columns, i, column, sizeof(column)))
+         std::string column;
+         if (!DatabaseGetColumn(operation->update_columns, i, column))
             break;
-         snprintf(assignment, sizeof(assignment), "%s = EXCLUDED.%s", column, column);
-         if (!PgAppendSqlItem(sql, capacity, &length, &first_item, assignment))
-            return false;
+         std::string assignment = column + " = EXCLUDED." + column;
+         DatabaseAppendSqlItem(sql, assignment, first_item);
       }
    }
 
-   return true;
+   return sql;
 }
 
 static void PgWriteNode(sql_queue_node *node)
@@ -394,14 +341,14 @@ static void PgWriteNode(sql_queue_node *node)
       nParams++;
    }
 
-   char sql[4096];
-   if (!PgBuildWriteQuery(sql, sizeof(sql), operation))
+   std::string sql = PgBuildWriteQuery(operation);
+   if (sql.empty())
    {
       eprintf("Could not build PostgreSQL write query for statistic %d\n", type);
       return;
    }
 
-   PGresult *res = PQexecParams(pg_conn, sql, nParams, NULL,
+   PGresult *res = PQexecParams(pg_conn, sql.c_str(), nParams, NULL,
       paramValues, NULL, NULL, 0);
 
    if (PQresultStatus(res) != PGRES_COMMAND_OK)
@@ -427,9 +374,9 @@ static void PgTruncateTable(int type)
    if (!table)
       return;
 
-   char sql[256];
-   snprintf(sql, sizeof(sql), "TRUNCATE TABLE %s", table);
-   PGresult *res = PQexec(pg_conn, sql);
+   std::string sql = "TRUNCATE TABLE ";
+   sql += table;
+   PGresult *res = PQexec(pg_conn, sql.c_str());
    if (PQresultStatus(res) != PGRES_COMMAND_OK)
       eprintf("PostgreSQL TRUNCATE %s failed: %s\n", table, PQerrorMessage(pg_conn));
    PQclear(res);

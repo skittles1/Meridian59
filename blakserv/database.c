@@ -12,6 +12,7 @@
 
 #include "blakserv.h"
 #include "database_schema.h"
+#include "database_sql.h"
 
 #define SLEEPTIME              10
 #define SLEEPTIMENOCON         1000
@@ -55,159 +56,99 @@ void MySQLGenerateDrop(sql_recordtype type, char *buffer)
    buffer[num_chars] = 0;
 }
 
-static bool MySQLAppendSql(char *sql, size_t capacity, size_t *length,
-   const char *text)
-{
-   size_t text_length = strlen(text);
-   if (text_length >= capacity - *length)
-      return false;
-
-   memcpy(sql + *length, text, text_length);
-   *length += text_length;
-   sql[*length] = 0;
-   return true;
-}
-
-static bool MySQLAppendSqlItem(char *sql, size_t capacity, size_t *length,
-   bool *first_item, const char *text)
-{
-   if (!*first_item && !MySQLAppendSql(sql, capacity, length, ", "))
-      return false;
-
-   *first_item = false;
-   return MySQLAppendSql(sql, capacity, length, text);
-}
-
-static bool MySQLGetColumn(const char *columns, int column_index,
-   char *column, size_t column_capacity)
-{
-   const char *start = columns;
-   for (int i = 0; i < column_index; ++i)
-   {
-      start = strchr(start, ',');
-      if (!start)
-         return false;
-      ++start;
-   }
-
-   const char *end = strchr(start, ',');
-   size_t column_length = end ? (size_t)(end - start) : strlen(start);
-   if (column_length == 0 || column_length >= column_capacity)
-      return false;
-
-   memcpy(column, start, column_length);
-   column[column_length] = 0;
-   return true;
-}
-
-static bool MySQLAppendProcedureColumns(char *sql, size_t capacity,
-   size_t *length, const sql_statistic_type *operation, bool values)
+static bool MySQLAppendProcedureColumns(std::string &sql,
+   const sql_statistic_type *operation, bool values)
 {
    bool first_item = true;
    for (int i = 0; i <= operation->num_fields; ++i)
    {
       if (operation->timestamp_column && operation->timestamp_position == i)
       {
-         if (!MySQLAppendSqlItem(sql, capacity, length, &first_item,
-            values ? "NOW()" : operation->timestamp_column))
-            return false;
+         DatabaseAppendSqlItem(sql,
+            values ? "NOW()" : operation->timestamp_column, first_item);
       }
 
       if (i == operation->num_fields)
          break;
 
-      char item[64];
+      std::string item;
       if (values)
-         snprintf(item, sizeof(item), "p%d", i + 1);
-      else if (!MySQLGetColumn(operation->columns, i, item, sizeof(item)))
+         item = "p" + std::to_string(i + 1);
+      else if (!DatabaseGetColumn(operation->columns, i, item))
          return false;
 
-      if (!MySQLAppendSqlItem(sql, capacity, length, &first_item, item))
-         return false;
+      DatabaseAppendSqlItem(sql, item, first_item);
    }
 
    return true;
 }
 
-static bool MySQLGenerateProcedure(const sql_statistic_type *operation,
-   char *sql, size_t capacity)
+static std::string MySQLGenerateProcedure(const sql_statistic_type *operation)
 {
-   size_t length = 0;
    bool first_item = true;
-   sql[0] = 0;
+   std::string sql = "CREATE PROCEDURE ";
 
-   if (!MySQLAppendSql(sql, capacity, &length, "CREATE PROCEDURE ") ||
-      !MySQLAppendSql(sql, capacity, &length, operation->procedure_name) ||
-      !MySQLAppendSql(sql, capacity, &length, "("))
-      return false;
+   sql += operation->procedure_name;
+   sql += "(";
 
    for (int i = 0; i < operation->num_fields; ++i)
    {
-      char parameter[48];
-      snprintf(parameter, sizeof(parameter), "IN p%d LONGTEXT", i + 1);
-      if (!MySQLAppendSqlItem(sql, capacity, &length, &first_item, parameter))
-         return false;
+      std::string parameter = "IN p" + std::to_string(i + 1) + " LONGTEXT";
+      DatabaseAppendSqlItem(sql, parameter, first_item);
    }
 
-   if (!MySQLAppendSql(sql, capacity, &length, ") BEGIN "))
-      return false;
+   sql += ") BEGIN ";
 
    if (operation->write_mode == DB_WRITE_UPDATE)
    {
-      if (!MySQLAppendSql(sql, capacity, &length, "UPDATE ") ||
-         !MySQLAppendSql(sql, capacity, &length, operation->table_name) ||
-         !MySQLAppendSql(sql, capacity, &length, " SET ") ||
-         !MySQLAppendSql(sql, capacity, &length, operation->update_assignments) ||
-         !MySQLAppendSql(sql, capacity, &length, " WHERE "))
-         return false;
+      sql += "UPDATE ";
+      sql += operation->table_name;
+      sql += " SET ";
+      sql += operation->update_assignments;
+      sql += " WHERE ";
 
       for (int i = 0; i < operation->num_fields; ++i)
       {
-         char column[64];
-         char predicate[96];
-         if (!MySQLGetColumn(operation->columns, i, column, sizeof(column)))
-            return false;
-         snprintf(predicate, sizeof(predicate), "%s = p%d", column, i + 1);
-         if ((i > 0 && !MySQLAppendSql(sql, capacity, &length, " AND ")) ||
-            !MySQLAppendSql(sql, capacity, &length, predicate))
-            return false;
+         std::string column;
+         if (!DatabaseGetColumn(operation->columns, i, column))
+            return std::string();
+         if (i > 0)
+            sql += " AND ";
+         sql += column + " = p" + std::to_string(i + 1);
       }
    }
    else
    {
-      if (!MySQLAppendSql(sql, capacity, &length, "INSERT INTO ") ||
-         !MySQLAppendSql(sql, capacity, &length, operation->table_name) ||
-         !MySQLAppendSql(sql, capacity, &length, " ("))
-         return false;
+      sql += "INSERT INTO ";
+      sql += operation->table_name;
+      sql += " (";
 
-      if (!MySQLAppendProcedureColumns(sql, capacity, &length, operation, false) ||
-         !MySQLAppendSql(sql, capacity, &length, ") VALUES ("))
-         return false;
+      if (!MySQLAppendProcedureColumns(sql, operation, false))
+         return std::string();
+      sql += ") VALUES (";
 
-      if (!MySQLAppendProcedureColumns(sql, capacity, &length, operation, true) ||
-         !MySQLAppendSql(sql, capacity, &length, ")"))
-         return false;
+      if (!MySQLAppendProcedureColumns(sql, operation, true))
+         return std::string();
+      sql += ")";
 
       if (operation->write_mode == DB_WRITE_UPSERT)
       {
-         if (!MySQLAppendSql(sql, capacity, &length, " ON DUPLICATE KEY UPDATE "))
-            return false;
+         sql += " ON DUPLICATE KEY UPDATE ";
 
          first_item = true;
          for (int i = 0; ; ++i)
          {
-            char column[64];
-            char assignment[160];
-            if (!MySQLGetColumn(operation->update_columns, i, column, sizeof(column)))
+            std::string column;
+            if (!DatabaseGetColumn(operation->update_columns, i, column))
                break;
-            snprintf(assignment, sizeof(assignment), "%s = VALUES(%s)", column, column);
-            if (!MySQLAppendSqlItem(sql, capacity, &length, &first_item, assignment))
-               return false;
+            std::string assignment = column + " = VALUES(" + column + ")";
+            DatabaseAppendSqlItem(sql, assignment, first_item);
          }
       }
    }
 
-   return MySQLAppendSql(sql, capacity, &length, "; END");
+   sql += "; END";
+   return sql;
 }
 
 /*
@@ -585,7 +526,7 @@ void _MySQLVerifySchema()
    for (size_t i = 0; i < DATABASE_SCHEMA_STATEMENT_COUNT; ++i)
       MYSQL_QUERY_CHECKED(mysql, DatabaseSchemaStatements[i], status);
 
-   char buffer[4096];
+   char buffer[128];
    // Drop existing procedures if present.
    for (int i = 1; i <= STAT_MAXSTAT; ++i)
    {
@@ -596,12 +537,13 @@ void _MySQLVerifySchema()
    // Recreate procedures from the shared write contract.
    for (int i = 1; i <= STAT_MAXSTAT; ++i)
    {
-      if (!MySQLGenerateProcedure(&Statistics_Table[i], buffer, sizeof(buffer)))
+      std::string procedure = MySQLGenerateProcedure(&Statistics_Table[i]);
+      if (procedure.empty())
       {
          bprintf("Could not generate MySQL procedure for statistic %i.", i);
          continue;
       }
-      MYSQL_QUERY_CHECKED(mysql, buffer, status);
+      MYSQL_QUERY_CHECKED(mysql, procedure.c_str(), status);
    }
 
    // set state to schema verified
