@@ -7,6 +7,8 @@
 #include <unistd.h>
 #endif
 #include <libpq-fe.h>
+#define DATABASE_SCHEMA_POSTGRESQL
+#include "database_schema.h"
 
 // Worker thread state
 enum { DB_STOPPED=0, DB_STOPPING, DB_STARTING, DB_CONNECTED, DB_READY };
@@ -195,476 +197,6 @@ static sql_statistic_type Statistics_Table[] = {
 };
 
 /******************************************************************************/
-// Schema creation - all tables
-/******************************************************************************/
-
-static const char *schema_sql =
-"CREATE TABLE IF NOT EXISTS money_total ("
-"  money_total_time TIMESTAMP NOT NULL DEFAULT NOW(),"
-"  money_total_amount VARCHAR(18) NOT NULL,"
-"  PRIMARY KEY (money_total_time, money_total_amount));"
-
-"CREATE TABLE IF NOT EXISTS money_created ("
-"  money_created_time TIMESTAMP NOT NULL DEFAULT NOW(),"
-"  money_created_amount INT NOT NULL,"
-"  PRIMARY KEY (money_created_time, money_created_amount));"
-
-"CREATE TABLE IF NOT EXISTS player_logins ("
-"  plogin_account_name VARCHAR(45) NOT NULL,"
-"  plogin_character_name VARCHAR(45) NOT NULL,"
-"  plogin_IP VARCHAR(45) NOT NULL,"
-"  plogin_time TIMESTAMP NOT NULL DEFAULT NOW(),"
-"  PRIMARY KEY (plogin_account_name, plogin_time));"
-
-"CREATE TABLE IF NOT EXISTS player_damaged ("
-"  idpdamaged SERIAL PRIMARY KEY,"
-"  pdamaged_who VARCHAR(45) NOT NULL,"
-"  pdamaged_attacker VARCHAR(45) NOT NULL,"
-"  pdamaged_aspell INT NOT NULL,"
-"  pdamaged_atype INT NOT NULL,"
-"  pdamaged_applied INT NOT NULL,"
-"  pdamaged_original INT NOT NULL,"
-"  pdamaged_weapon VARCHAR(45) NOT NULL,"
-"  pdamaged_time TIMESTAMP NOT NULL DEFAULT NOW());"
-
-"CREATE TABLE IF NOT EXISTS player_death ("
-"  pdeath_victim VARCHAR(45) NOT NULL,"
-"  pdeath_killer VARCHAR(45) NOT NULL,"
-"  pdeath_room VARCHAR(63) NOT NULL,"
-"  pdeath_attack VARCHAR(45) NOT NULL,"
-"  pdeath_ispvp INT NOT NULL,"
-"  pdeath_time TIMESTAMP NOT NULL DEFAULT NOW(),"
-"  PRIMARY KEY (pdeath_victim, pdeath_time));"
-
-"CREATE TABLE IF NOT EXISTS player ("
-"  player_account_id INT NOT NULL,"
-"  player_name VARCHAR(45) NOT NULL PRIMARY KEY,"
-"  player_home VARCHAR(128),"
-"  player_bind VARCHAR(128),"
-"  player_guild VARCHAR(45),"
-"  player_max_health INT,"
-"  player_max_mana INT,"
-"  player_might INT,"
-"  player_int INT,"
-"  player_myst INT,"
-"  player_stam INT,"
-"  player_agil INT,"
-"  player_aim INT,"
-"  player_suicide INT DEFAULT 0,"
-"  player_suicide_time TIMESTAMP);"
-
-"CREATE TABLE IF NOT EXISTS guild ("
-"  guild_name VARCHAR(100) NOT NULL PRIMARY KEY,"
-"  guild_leader VARCHAR(45) NOT NULL,"
-"  guild_hall VARCHAR(100),"
-"  guild_rent_paid INT NOT NULL,"
-"  guild_disbanded INT NOT NULL DEFAULT 0,"
-"  guild_disbanded_time TIMESTAMP);"
-
-"CREATE TABLE IF NOT EXISTS wiki_spells ("
-"  spell_id INT NOT NULL PRIMARY KEY,"
-"  spell_name VARCHAR(63) NOT NULL,"
-"  spell_name_ger VARCHAR(63) NOT NULL,"
-"  spell_icon VARCHAR(63) NOT NULL,"
-"  spell_desc TEXT,"
-"  spell_desc_ger TEXT,"
-"  spell_school INT,"
-"  spell_level INT,"
-"  spell_mana INT,"
-"  spell_chance INT,"
-"  spell_mediate_ratio INT,"
-"  spell_exertion INT,"
-"  spell_casttime INT,"
-"  spell_iflag INT NOT NULL);"
-
-"CREATE TABLE IF NOT EXISTS wiki_spell_reagent ("
-"  spell_id INT NOT NULL,"
-"  spell_reagent VARCHAR(63) NOT NULL,"
-"  spell_reagent_amount INT,"
-"  PRIMARY KEY (spell_id, spell_reagent));"
-
-"CREATE TABLE IF NOT EXISTS wiki_treasure_gen ("
-"  treasure_id INT NOT NULL,"
-"  item_name VARCHAR(63) NOT NULL,"
-"  item_chance INT,"
-"  PRIMARY KEY (treasure_id, item_name));"
-
-"CREATE TABLE IF NOT EXISTS wiki_monster ("
-"  monster_name VARCHAR(63) NOT NULL PRIMARY KEY,"
-"  monster_name_ger VARCHAR(63) NOT NULL,"
-"  monster_icon VARCHAR(63) NOT NULL,"
-"  monster_desc TEXT,"
-"  monster_desc_ger TEXT,"
-"  monster_level INT,"
-"  monster_karma INT,"
-"  monster_treasure INT,"
-"  monster_speed INT,"
-"  monster_behavior INT,"
-"  monster_difficulty INT,"
-"  monster_visiondistance INT,"
-"  monster_iflag INT);"
-
-"CREATE TABLE IF NOT EXISTS wiki_monster_zone ("
-"  monster_rid INT NOT NULL,"
-"  monster_name VARCHAR(63) NOT NULL,"
-"  monster_spawnchance INT,"
-"  PRIMARY KEY (monster_rid, monster_name));"
-
-"CREATE TABLE IF NOT EXISTS wiki_npcs ("
-"  npc_name VARCHAR(63) NOT NULL PRIMARY KEY,"
-"  npc_name_ger VARCHAR(63) NOT NULL,"
-"  npc_icon VARCHAR(63) NOT NULL,"
-"  npc_desc TEXT,"
-"  npc_desc_ger TEXT,"
-"  npc_merchantmarkup INT,"
-"  npc_iflag INT);"
-
-"CREATE TABLE IF NOT EXISTS wiki_weapons ("
-"  weapon_name VARCHAR(63) NOT NULL PRIMARY KEY,"
-"  weapon_name_ger VARCHAR(63) NOT NULL,"
-"  weapon_icon VARCHAR(63) NOT NULL,"
-"  weapon_group INT NOT NULL,"
-"  weapon_color INT NOT NULL,"
-"  weapon_desc TEXT,"
-"  weapon_desc_ger TEXT,"
-"  weapon_value INT,"
-"  weapon_weight INT,"
-"  weapon_bulk INT,"
-"  weapon_range INT,"
-"  weapon_skill INT,"
-"  weapon_prof INT,"
-"  weapon_iflag INT);"
-
-"CREATE TABLE IF NOT EXISTS wiki_rooms ("
-"  room_name VARCHAR(63) NOT NULL,"
-"  room_name_ger VARCHAR(63) NOT NULL,"
-"  room_roo VARCHAR(63) NOT NULL,"
-"  room_number INT NOT NULL PRIMARY KEY,"
-"  room_region INT NOT NULL,"
-"  room_iflag INT NOT NULL);"
-
-"CREATE TABLE IF NOT EXISTS wiki_npc_zone ("
-"  npc_name VARCHAR(63) NOT NULL,"
-"  npc_roomid INT NOT NULL,"
-"  npc_row INT NOT NULL,"
-"  npc_col INT NOT NULL,"
-"  PRIMARY KEY (npc_name, npc_roomid, npc_row, npc_col));"
-
-"CREATE TABLE IF NOT EXISTS wiki_npc_sellitem ("
-"  npc_name VARCHAR(63) NOT NULL,"
-"  npc_item_sold VARCHAR(63) NOT NULL,"
-"  item_color INT NOT NULL,"
-"  PRIMARY KEY (npc_name, npc_item_sold, item_color));"
-
-"CREATE TABLE IF NOT EXISTS wiki_npc_sellskill ("
-"  npc_name VARCHAR(63) NOT NULL,"
-"  npc_skill_id INT NOT NULL,"
-"  PRIMARY KEY (npc_name, npc_skill_id));"
-
-"CREATE TABLE IF NOT EXISTS wiki_npc_sellspell ("
-"  npc_name VARCHAR(63) NOT NULL,"
-"  npc_spell_id INT NOT NULL,"
-"  PRIMARY KEY (npc_name, npc_spell_id));"
-
-"CREATE TABLE IF NOT EXISTS wiki_npc_sellcond ("
-"  npc_name VARCHAR(63) NOT NULL,"
-"  npc_item_sold VARCHAR(63) NOT NULL,"
-"  item_color INT NOT NULL,"
-"  item_price INT NOT NULL,"
-"  PRIMARY KEY (npc_name, npc_item_sold, item_color));"
-
-"CREATE TABLE IF NOT EXISTS wiki_reagents ("
-"  reagent_name VARCHAR(63) NOT NULL PRIMARY KEY,"
-"  reagent_name_ger VARCHAR(63) NOT NULL,"
-"  reagent_icon VARCHAR(63) NOT NULL,"
-"  reagent_group INT NOT NULL,"
-"  reagent_color INT NOT NULL,"
-"  reagent_desc TEXT,"
-"  reagent_desc_ger TEXT,"
-"  reagent_value INT,"
-"  reagent_weight INT,"
-"  reagent_bulk INT,"
-"  reagent_iflag INT);"
-
-"CREATE TABLE IF NOT EXISTS wiki_food ("
-"  food_name VARCHAR(63) NOT NULL PRIMARY KEY,"
-"  food_name_ger VARCHAR(63) NOT NULL,"
-"  food_icon VARCHAR(63) NOT NULL,"
-"  food_group INT NOT NULL,"
-"  food_color INT NOT NULL,"
-"  food_desc TEXT,"
-"  food_desc_ger TEXT,"
-"  food_value INT,"
-"  food_weight INT,"
-"  food_bulk INT,"
-"  food_iflag INT);"
-
-"CREATE TABLE IF NOT EXISTS wiki_ammo ("
-"  ammo_name VARCHAR(63) NOT NULL PRIMARY KEY,"
-"  ammo_name_ger VARCHAR(63) NOT NULL,"
-"  ammo_icon VARCHAR(63) NOT NULL,"
-"  ammo_group INT NOT NULL,"
-"  ammo_color INT NOT NULL,"
-"  ammo_desc TEXT,"
-"  ammo_desc_ger TEXT,"
-"  ammo_value INT,"
-"  ammo_weight INT,"
-"  ammo_bulk INT,"
-"  ammo_iflag INT);"
-
-"CREATE TABLE IF NOT EXISTS wiki_armor ("
-"  armor_name VARCHAR(63) NOT NULL PRIMARY KEY,"
-"  armor_name_ger VARCHAR(63) NOT NULL,"
-"  armor_icon VARCHAR(63) NOT NULL,"
-"  armor_group INT NOT NULL,"
-"  armor_color INT NOT NULL,"
-"  armor_desc TEXT,"
-"  armor_desc_ger TEXT,"
-"  armor_value INT,"
-"  armor_weight INT,"
-"  armor_bulk INT,"
-"  armor_iflag INT);"
-
-"CREATE TABLE IF NOT EXISTS wiki_miscitems ("
-"  misc_name VARCHAR(63) NOT NULL PRIMARY KEY,"
-"  misc_name_ger VARCHAR(63) NOT NULL,"
-"  misc_icon VARCHAR(63) NOT NULL,"
-"  misc_group INT NOT NULL,"
-"  misc_color INT NOT NULL,"
-"  misc_desc TEXT,"
-"  misc_desc_ger TEXT,"
-"  misc_value INT,"
-"  misc_weight INT,"
-"  misc_bulk INT,"
-"  misc_iflag INT);"
-
-"CREATE TABLE IF NOT EXISTS wiki_rings ("
-"  rings_name VARCHAR(63) NOT NULL PRIMARY KEY,"
-"  rings_name_ger VARCHAR(63) NOT NULL,"
-"  rings_icon VARCHAR(63) NOT NULL,"
-"  rings_group INT NOT NULL,"
-"  rings_color INT NOT NULL,"
-"  rings_desc TEXT,"
-"  rings_desc_ger TEXT,"
-"  rings_value INT,"
-"  rings_weight INT,"
-"  rings_bulk INT,"
-"  rings_iflag INT);"
-
-"CREATE TABLE IF NOT EXISTS wiki_rods ("
-"  rods_name VARCHAR(63) NOT NULL PRIMARY KEY,"
-"  rods_name_ger VARCHAR(63) NOT NULL,"
-"  rods_icon VARCHAR(63) NOT NULL,"
-"  rods_group INT NOT NULL,"
-"  rods_color INT NOT NULL,"
-"  rods_desc TEXT,"
-"  rods_desc_ger TEXT,"
-"  rods_value INT,"
-"  rods_weight INT,"
-"  rods_bulk INT,"
-"  rods_iflag INT);"
-
-"CREATE TABLE IF NOT EXISTS wiki_potions ("
-"  potion_name VARCHAR(63) NOT NULL PRIMARY KEY,"
-"  potion_name_ger VARCHAR(63) NOT NULL,"
-"  potion_icon VARCHAR(63) NOT NULL,"
-"  potion_group INT NOT NULL,"
-"  potion_color INT NOT NULL,"
-"  potion_desc TEXT,"
-"  potion_desc_ger TEXT,"
-"  potion_value INT,"
-"  potion_weight INT,"
-"  potion_bulk INT,"
-"  potion_iflag INT);"
-
-"CREATE TABLE IF NOT EXISTS wiki_scrolls ("
-"  scrolls_name VARCHAR(63) NOT NULL PRIMARY KEY,"
-"  scrolls_name_ger VARCHAR(63) NOT NULL,"
-"  scrolls_icon VARCHAR(63) NOT NULL,"
-"  scrolls_group INT NOT NULL,"
-"  scrolls_color INT NOT NULL,"
-"  scrolls_desc TEXT,"
-"  scrolls_desc_ger TEXT,"
-"  scrolls_value INT,"
-"  scrolls_weight INT,"
-"  scrolls_bulk INT,"
-"  scrolls_iflag INT);"
-
-"CREATE TABLE IF NOT EXISTS wiki_wands ("
-"  wands_name VARCHAR(63) NOT NULL PRIMARY KEY,"
-"  wands_name_ger VARCHAR(63) NOT NULL,"
-"  wands_icon VARCHAR(63) NOT NULL,"
-"  wands_group INT NOT NULL,"
-"  wands_color INT NOT NULL,"
-"  wands_desc TEXT,"
-"  wands_desc_ger TEXT,"
-"  wands_value INT,"
-"  wands_weight INT,"
-"  wands_bulk INT,"
-"  wands_iflag INT);"
-
-"CREATE TABLE IF NOT EXISTS wiki_questitems ("
-"  questitem_name VARCHAR(63) NOT NULL PRIMARY KEY,"
-"  questitem_name_ger VARCHAR(63) NOT NULL,"
-"  questitem_icon VARCHAR(63) NOT NULL,"
-"  questitem_group INT NOT NULL,"
-"  questitem_color INT NOT NULL,"
-"  questitem_desc TEXT,"
-"  questitem_desc_ger TEXT,"
-"  questitem_value INT,"
-"  questitem_weight INT,"
-"  questitem_bulk INT,"
-"  questitem_iflag INT);"
-
-"CREATE TABLE IF NOT EXISTS wiki_skills ("
-"  skill_id INT NOT NULL PRIMARY KEY,"
-"  skill_name VARCHAR(63) NOT NULL,"
-"  skill_name_ger VARCHAR(63) NOT NULL,"
-"  skill_icon VARCHAR(63) NOT NULL,"
-"  skill_desc TEXT,"
-"  skill_desc_ger TEXT,"
-"  skill_school INT,"
-"  skill_level INT,"
-"  skill_chance INT,"
-"  skill_mediate_ratio INT,"
-"  skill_exertion INT,"
-"  skill_iflag INT NOT NULL);"
-
-"CREATE TABLE IF NOT EXISTS wiki_necklace ("
-"  necklace_name VARCHAR(63) NOT NULL PRIMARY KEY,"
-"  necklace_name_ger VARCHAR(63) NOT NULL,"
-"  necklace_icon VARCHAR(63) NOT NULL,"
-"  necklace_group INT NOT NULL,"
-"  necklace_color INT NOT NULL,"
-"  necklace_desc TEXT,"
-"  necklace_desc_ger TEXT,"
-"  necklace_value INT,"
-"  necklace_weight INT,"
-"  necklace_bulk INT,"
-"  necklace_iflag INT);"
-
-"CREATE TABLE IF NOT EXISTS wiki_instruments ("
-"  instrument_name VARCHAR(63) NOT NULL PRIMARY KEY,"
-"  instrument_name_ger VARCHAR(63) NOT NULL,"
-"  instrument_icon VARCHAR(63) NOT NULL,"
-"  instrument_group INT NOT NULL,"
-"  instrument_color INT NOT NULL,"
-"  instrument_desc TEXT,"
-"  instrument_desc_ger TEXT,"
-"  instrument_value INT,"
-"  instrument_weight INT,"
-"  instrument_bulk INT,"
-"  instrument_iflag INT);"
-
-"CREATE TABLE IF NOT EXISTS wiki_gems ("
-"  gem_name VARCHAR(63) NOT NULL PRIMARY KEY,"
-"  gem_name_ger VARCHAR(63) NOT NULL,"
-"  gem_icon VARCHAR(63) NOT NULL,"
-"  gem_group INT NOT NULL,"
-"  gem_color INT NOT NULL,"
-"  gem_desc TEXT,"
-"  gem_desc_ger TEXT,"
-"  gem_value INT,"
-"  gem_weight INT,"
-"  gem_bulk INT,"
-"  gem_iflag INT);"
-
-"CREATE TABLE IF NOT EXISTS wiki_offerings ("
-"  offering_name VARCHAR(63) NOT NULL PRIMARY KEY,"
-"  offering_name_ger VARCHAR(63) NOT NULL,"
-"  offering_icon VARCHAR(63) NOT NULL,"
-"  offering_group INT NOT NULL,"
-"  offering_color INT NOT NULL,"
-"  offering_desc TEXT,"
-"  offering_desc_ger TEXT,"
-"  offering_value INT,"
-"  offering_weight INT,"
-"  offering_bulk INT,"
-"  offering_iflag INT);"
-
-"CREATE TABLE IF NOT EXISTS wiki_quests ("
-"  quest_id INT NOT NULL PRIMARY KEY,"
-"  quest_name VARCHAR(63) NOT NULL,"
-"  quest_name_ger VARCHAR(63) NOT NULL,"
-"  quest_icon VARCHAR(63) NOT NULL,"
-"  quest_icon_group INT NOT NULL,"
-"  quest_desc TEXT,"
-"  quest_desc_ger TEXT,"
-"  quest_recent_time INT,"
-"  quest_schedule_pct INT,"
-"  quest_est_time INT,"
-"  quest_est_diff INT);"
-
-"CREATE TABLE IF NOT EXISTS wiki_treasure_extra ("
-"  treasure_id INT NOT NULL,"
-"  item_name VARCHAR(63) NOT NULL,"
-"  item_min_amount INT,"
-"  item_max_amount INT,"
-"  PRIMARY KEY (treasure_id, item_name));"
-
-"CREATE TABLE IF NOT EXISTS wiki_treasure_magic ("
-"  treasure_id INT NOT NULL,"
-"  item_name VARCHAR(63) NOT NULL,"
-"  item_attribute_id INT NOT NULL,"
-"  PRIMARY KEY (treasure_id, item_name, item_attribute_id));"
-
-"CREATE TABLE IF NOT EXISTS player_logpen ("
-"  player_name VARCHAR(63) NOT NULL,"
-"  logpen_time TIMESTAMP NOT NULL DEFAULT NOW(),"
-"  room_id INT,"
-"  logpen_xp INT NOT NULL,"
-"  logpen_hp INT NOT NULL,"
-"  logpen_spellpct INT NOT NULL,"
-"  logpen_skillpct INT NOT NULL,"
-"  logpen_numitems INT NOT NULL,"
-"  PRIMARY KEY (player_name, logpen_time));"
-
-"CREATE TABLE IF NOT EXISTS player_logpen_items ("
-"  logpen_item_id SERIAL PRIMARY KEY,"
-"  player_name VARCHAR(63) NOT NULL,"
-"  logpen_time TIMESTAMP NOT NULL DEFAULT NOW(),"
-"  item_name VARCHAR(63) NOT NULL,"
-"  item_number INT NOT NULL);"
-
-"CREATE TABLE IF NOT EXISTS player_completed_quests ("
-"  quest_id INT NOT NULL,"
-"  player_name VARCHAR(63) NOT NULL,"
-"  completion_time TIMESTAMP NOT NULL DEFAULT NOW(),"
-"  num_seconds_taken INT NOT NULL,"
-"  xp_rewarded INT NOT NULL,"
-"  tp_rewarded INT NOT NULL,"
-"  PRIMARY KEY (quest_id, player_name, completion_time));"
-
-"CREATE TABLE IF NOT EXISTS player_quest_reward_items ("
-"  quest_rewarditem_id SERIAL PRIMARY KEY,"
-"  quest_id INT NOT NULL,"
-"  player_name VARCHAR(63) NOT NULL,"
-"  completion_time TIMESTAMP NOT NULL DEFAULT NOW(),"
-"  item_name VARCHAR(63) NOT NULL,"
-"  item_number INT NOT NULL);"
-
-"CREATE TABLE IF NOT EXISTS wiki_quest_giver ("
-"  quest_id INT NOT NULL,"
-"  quest_npc_name VARCHAR(63) NOT NULL,"
-"  PRIMARY KEY (quest_id, quest_npc_name));"
-
-"CREATE TABLE IF NOT EXISTS server_accounts ("
-"  acct_id INT NOT NULL PRIMARY KEY,"
-"  acct_name VARCHAR(63) NOT NULL,"
-"  acct_password VARCHAR(63) NOT NULL,"
-"  acct_email VARCHAR(255) NOT NULL,"
-"  acct_type INT NOT NULL,"
-"  acct_loggedin_time INT NOT NULL,"
-"  acct_last_login INT NOT NULL,"
-"  acct_suspend_time INT NOT NULL);"
-
-"CREATE TABLE IF NOT EXISTS server_account_chars ("
-"  entry_id SERIAL PRIMARY KEY,"
-"  acct_id INT NOT NULL,"
-"  char_name VARCHAR(63) NOT NULL);"
-;
-
-/******************************************************************************/
 // Internal functions
 /******************************************************************************/
 
@@ -693,14 +225,17 @@ static bool PgConnect(void)
 
 static bool PgVerifySchema(void)
 {
-   PGresult *res = PQexec(pg_conn, schema_sql);
-   if (PQresultStatus(res) != PGRES_COMMAND_OK)
+   for (size_t i = 0; i < DATABASE_SCHEMA_STATEMENT_COUNT; ++i)
    {
-      eprintf("PostgreSQL schema creation failed: %s\n", PQerrorMessage(pg_conn));
+      PGresult *res = PQexec(pg_conn, DatabaseSchemaStatements[i]);
+      if (PQresultStatus(res) != PGRES_COMMAND_OK)
+      {
+         eprintf("PostgreSQL schema creation failed: %s\n", PQerrorMessage(pg_conn));
+         PQclear(res);
+         return false;
+      }
       PQclear(res);
-      return false;
    }
-   PQclear(res);
    dprintf("PostgreSQL schema verified\n");
    return true;
 }
@@ -810,15 +345,15 @@ static void PgWriteNode(sql_queue_node *node)
 
    case STAT_LOGPEN:
       snprintf(sql, sizeof(sql),
-         "INSERT INTO player_logpen (player_name, room_id, logpen_xp, logpen_hp, "
+         "INSERT INTO player_logpen (player_name, logpen_time, room_id, logpen_xp, logpen_hp, "
          "logpen_spellpct, logpen_skillpct, logpen_numitems) "
-         "VALUES ($1, $2, $3, $4, $5, $6, $7)");
+         "VALUES ($1, NOW(), $2, $3, $4, $5, $6, $7)");
       break;
 
    case STAT_LOGPEN_ITEM:
       snprintf(sql, sizeof(sql),
-         "INSERT INTO player_logpen_items (player_name, item_name, item_number) "
-         "VALUES ($1, $2, $3)");
+         "INSERT INTO player_logpen_items (player_name, logpen_time, item_name, item_number) "
+         "VALUES ($1, NOW(), $2, $3)");
       break;
 
    case STAT_ACCOUNT_CHARS:
@@ -829,14 +364,15 @@ static void PgWriteNode(sql_queue_node *node)
    case STAT_COMPL_QUESTS:
       snprintf(sql, sizeof(sql),
          "INSERT INTO player_completed_quests "
-         "(quest_id, player_name, num_seconds_taken, xp_rewarded, tp_rewarded) "
-         "VALUES ($1, $2, $3, $4, $5)");
+         "(quest_id, player_name, completion_time, num_seconds_taken, xp_rewarded, tp_rewarded) "
+         "VALUES ($1, $2, NOW(), $3, $4, $5)");
       break;
 
    case STAT_COMPL_QUEST_ITEMS:
       snprintf(sql, sizeof(sql),
-         "INSERT INTO player_quest_reward_items (quest_id, player_name, item_name, item_number) "
-         "VALUES ($1, $2, $3, $4)");
+         "INSERT INTO player_quest_reward_items "
+         "(quest_id, player_name, completion_time, item_name, item_number) "
+         "VALUES ($1, $2, NOW(), $3, $4)");
       break;
 
    default:
