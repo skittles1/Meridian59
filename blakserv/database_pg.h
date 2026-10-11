@@ -69,6 +69,8 @@ enum sql_recordtype
 
 typedef enum sql_recordtype sql_recordtype;
 
+#include "database_procedures.h"
+
 struct sql_data_node
 {
    int type;
@@ -97,17 +99,6 @@ struct sql_queue
    sql_queue_node *first;
    sql_queue_node *last;
 };
-
-// timestamp_pos: 0 = no auto-timestamp, 1 = NOW() as first value, -1 = NOW() as last value
-// has_serial: true if table has SERIAL PRIMARY KEY as first column
-typedef struct {
-   sql_recordtype stat_type;
-   int num_fields;
-   bool enabled;
-   const char *table_name;
-   int timestamp_pos;
-   bool has_serial;
-} sql_statistic_type;
 
 // Public API - same names as MySQL version for compatibility
 void MySQLInit(char *Host, int Port, char *User, char *Password, char *DB);

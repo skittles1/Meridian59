@@ -44,1483 +44,6 @@ UINT record_count = 0;
       if (!(strstr(_err, "Table") && strstr(_err, "already exists"))) { \
          bprintf("MySQL error %i on line %i: %s", c, __LINE__, _err); } }
 
-#pragma region SQL
-#define SQLQUERY_CREATEPROC_MONEYTOTAL      "\
-   CREATE PROCEDURE WriteTotalMoney(       \n\
-      IN total_money VARCHAR(18))          \n\
-   BEGIN                                   \n\
-     INSERT INTO money_total               \n\
-      SET                                  \n\
-        money_total_amount = total_money,  \n\
-        money_total_time = now();          \n\
-   END"
-
-#define SQLQUERY_CREATEPROC_MONEYCREATED        "\
-   CREATE PROCEDURE WriteMoneyCreated(         \n\
-      IN money_created INT(11))                \n\
-   BEGIN                                       \n\
-     INSERT INTO money_created                 \n\
-      SET                                      \n\
-        money_created_amount = money_created,  \n\
-        money_created_time = now();            \n\
-   END"
-
-#define SQLQUERY_CREATEPROC_PLAYERLOGIN   "\
-   CREATE PROCEDURE WritePlayerLogin(    \n\
-     IN account   VARCHAR(45),           \n\
-     IN charname  VARCHAR(45),           \n\
-     IN ip        VARCHAR(45))           \n\
-   BEGIN                                 \n\
-     INSERT INTO player_logins           \n\
-      SET                                \n\
-      plogin_account_name   = account,   \n\
-      plogin_character_name = charname,  \n\
-      plogin_IP             = ip,        \n\
-      plogin_time           = now();     \n\
-   END"
-
-#define SQLQUERY_CREATEPROC_PLAYERASSESSDAMAGE  "\
-   CREATE PROCEDURE WritePlayerAssessDamage(   \n\
-     IN who        VARCHAR(45),                \n\
-     IN attacker   VARCHAR(45),                \n\
-     IN aspell     INT(11),                    \n\
-     IN atype      INT(11),                    \n\
-     IN applied    INT(11),                    \n\
-     IN original   INT(11),                    \n\
-     IN weapon     VARCHAR(45))                \n\
-   BEGIN                                       \n\
-     INSERT INTO player_damaged                \n\
-      SET                                      \n\
-      pdamaged_who      = who,                 \n\
-      pdamaged_attacker = attacker,            \n\
-      pdamaged_aspell   = aspell,              \n\
-      pdamaged_atype    = atype,               \n\
-      pdamaged_applied  = applied,             \n\
-      pdamaged_original = original,            \n\
-      pdamaged_weapon   = weapon,              \n\
-      pdamaged_time     = now();               \n\
-   END"
-
-#define SQLQUERY_CREATEPROC_PLAYERDEATH  "\
-   CREATE PROCEDURE WritePlayerDeath(   \n\
-     IN victim  VARCHAR(45),            \n\
-     IN killer  VARCHAR(45),            \n\
-     IN room    VARCHAR(63),            \n\
-     IN attack  VARCHAR(45),            \n\
-     IN ispvp   INT(1))                 \n\
-   BEGIN                                \n\
-     INSERT INTO player_death           \n\
-      SET                               \n\
-       pdeath_victim  = victim,         \n\
-       pdeath_killer  = killer,         \n\
-       pdeath_room    = room,           \n\
-       pdeath_attack  = attack,         \n\
-       pdeath_ispvp   = ispvp,          \n\
-       pdeath_time    = now();          \n\
-   END"
-
-#define SQLQUERY_CREATEPROC_LOGPEN             "\
-   CREATE PROCEDURE WriteLogpen(              \n\
-     IN player_name      VARCHAR(63),         \n\
-     IN room_id          INT(6),              \n\
-     IN logpen_xp        INT(8),              \n\
-     IN logpen_hp        INT(8),              \n\
-     IN logpen_spellpct  INT(6),              \n\
-     IN logpen_skillpct  INT(6),              \n\
-     IN logpen_numitems  INT(4))              \n\
-   BEGIN                                      \n\
-     INSERT INTO player_logpen                \n\
-      SET                                     \n\
-       player_name  = player_name,            \n\
-       logpen_time  = now(),                  \n\
-       room_id      = room_id,                \n\
-       logpen_xp    = logpen_xp,              \n\
-       logpen_hp    = logpen_hp,              \n\
-       logpen_spellpct = logpen_spellpct,     \n\
-       logpen_skillpct  = logpen_skillpct,    \n\
-       logpen_numitems = logpen_numitems;     \n\
-   END"
-
-#define SQLQUERY_CREATEPROC_LOGPEN_ITEM    "\
-   CREATE PROCEDURE WriteLogpenItem(      \n\
-     IN player_name     VARCHAR(63),      \n\
-     IN item_name       VARCHAR(63),      \n\
-     IN item_number     INT(6))           \n\
-   BEGIN                                  \n\
-     INSERT INTO player_logpen_items      \n\
-      SET                                 \n\
-       player_name     = player_name,     \n\
-       logpen_time     = now(),           \n\
-       item_name       = item_name,       \n\
-       item_number     = item_number;     \n\
-   END"
-
-#define SQLQUERY_CREATEPROC_COMPL_QUEST "\
-   CREATE PROCEDURE WriteCompletedQuest(IN quest_id INT(6), IN player_name VARCHAR(63), \
-     IN num_seconds_taken INT(12), IN xp_rewarded INT(6), IN tp_rewarded INT(6)) \
-   BEGIN \
-     INSERT INTO player_completed_quests SET quest_id = quest_id, player_name = player_name, \
-       completion_time = now(), num_seconds_taken = num_seconds_taken, \
-       xp_rewarded = xp_rewarded, tp_rewarded = tp_rewarded; \
-   END"
-
-#define SQLQUERY_CREATEPROC_COMPL_QUEST_ITEMS "\
-   CREATE PROCEDURE WriteCompQuestRewardItems(IN quest_id INT(6), IN player_name VARCHAR(63), \
-     IN item_name VARCHAR(63), IN item_number INT(6)) \
-   BEGIN \
-     INSERT INTO player_quest_reward_items SET quest_id = quest_id, player_name = player_name, \
-       completion_time = now(), item_name = item_name, item_number = item_number;\
-   END"
-
-#define SQLQUERY_CREATEPROC_PLAYER    "\
-   CREATE PROCEDURE WritePlayer(       \
-     IN account_id   INT(11),          \
-     IN p_name       VARCHAR(45),      \
-     IN home         VARCHAR(128),     \
-     IN bind         VARCHAR(128),     \
-     IN guild        VARCHAR(45),      \
-     IN max_health   INT(6),           \
-     IN max_mana     INT(6),           \
-     IN might        INT(4),           \
-     IN p_int        INT(4),           \
-     IN myst         INT(4),           \
-     IN stam         INT(4),           \
-     IN agil         INT(4),           \
-     IN aim          INT(4))           \
-   BEGIN                               \
-     INSERT INTO player                \
-      (  player_account_id,            \
-         player_name,                  \
-         player_home,                  \
-         player_bind,                  \
-         player_guild,                 \
-         player_max_health,            \
-         player_max_mana,              \
-         player_might,                 \
-         player_int,                   \
-         player_myst,                  \
-         player_stam,                  \
-         player_agil,                  \
-         player_aim)                   \
-         VALUES (account_id,           \
-            p_name,                    \
-            home,                      \
-            bind,                      \
-            guild,                     \
-            max_health,                \
-            max_mana,                  \
-            might,                     \
-            p_int,                     \
-            myst,                      \
-            stam,                      \
-            agil,                      \
-            aim)                       \
-      ON DUPLICATE KEY UPDATE          \
-      player_account_id = account_id,  \
-      player_home = home,              \
-      player_bind = bind,              \
-      player_guild = guild,            \
-      player_max_health = max_health,  \
-      player_max_mana = max_mana,      \
-      player_might = might,            \
-      player_int = p_int,              \
-      player_myst = myst,              \
-      player_stam = stam,              \
-      player_agil = agil,              \
-      player_aim = aim;                \
-   END"
-
-#define SQLQUERY_CREATEPROC_PLAYERSUICIDE    "\
-   CREATE PROCEDURE WritePlayerSuicide(     \n\
-     IN account_id   INT(11),               \n\
-     IN name         VARCHAR(45))           \n\
-   BEGIN                                    \n\
-     UPDATE player                          \n\
-      SET                                   \n\
-      player_suicide = 1,                   \n\
-      player_suicide_time = now()           \n\
-      WHERE player_account_id = account_id  \n\
-         AND player_name = name;            \n\
-   END"
-
-#define SQLQUERY_CREATEPROC_GUILD  "\
-   CREATE PROCEDURE WriteGuild(     \
-     IN name      VARCHAR(100),     \
-     IN leader    VARCHAR(100),     \
-     IN hall      VARCHAR(100),     \
-     IN rent      INT(11))          \
-   BEGIN                            \
-     INSERT INTO guild              \
-      (  guild_name,                \
-         guild_leader,              \
-         guild_hall,                \
-         guild_rent_paid)           \
-         VALUES (                   \
-            name,                   \
-            leader,                 \
-            hall,                   \
-            rent)                   \
-      ON DUPLICATE KEY UPDATE       \
-      guild_leader = leader,        \
-      guild_hall = hall,            \
-      guild_rent_paid = rent;       \
-   END"
-
-#define SQLQUERY_CREATEPROC_GUILDDISBAND  "\
-   CREATE PROCEDURE WriteGuildDisband(   \n\
-     IN name      VARCHAR(100))          \n\
-   BEGIN                                 \n\
-     UPDATE guild                        \n\
-      SET                                \n\
-      guild_hall = '',                   \n\
-      guild_disbanded = 1,               \n\
-      guild_disbanded_time = now()       \n\
-      WHERE guild_name = name;           \n\
-   END"
-
-#define SQLQUERY_CREATEPROC_SPELLS                "\
-   CREATE PROCEDURE WriteSpells(                   \
-     IN spell_id             INT(4),               \
-     IN spell_name           VARCHAR(63),          \
-     IN spell_name_ger       VARCHAR(63),          \
-     IN spell_icon           VARCHAR(63),          \
-     IN spell_desc           TEXT,                 \
-     IN spell_desc_ger       TEXT,                 \
-     IN spell_school         INT(4),               \
-     IN spell_level          INT(4),               \
-     IN spell_mana           INT(4),               \
-     IN spell_chance         INT(4),               \
-     IN spell_mediate_ratio  INT(4),               \
-     IN spell_exertion       INT(4),               \
-     IN spell_casttime       INT(4),               \
-     IN spell_iflag          INT(8))               \
-   BEGIN                                           \
-     INSERT INTO wiki_spells                       \
-      (  spell_id,                                 \
-         spell_name,                               \
-         spell_name_ger,                           \
-         spell_icon,                               \
-         spell_desc,                               \
-         spell_desc_ger,                           \
-         spell_school,                             \
-         spell_level,                              \
-         spell_mana,                               \
-         spell_chance,                             \
-         spell_mediate_ratio,                      \
-         spell_exertion,                           \
-         spell_casttime,                           \
-         spell_iflag)                              \
-         VALUES (spell_id,                         \
-            spell_name,                            \
-            spell_name_ger,                        \
-            spell_icon,                            \
-            spell_desc,                            \
-            spell_desc_ger,                        \
-            spell_school,                          \
-            spell_level,                           \
-            spell_mana,                            \
-            spell_chance,                          \
-            spell_mediate_ratio,                   \
-            spell_exertion,                        \
-            spell_casttime,                        \
-            spell_iflag)                           \
-      ON DUPLICATE KEY UPDATE                      \
-      spell_name = spell_name,                     \
-      spell_name_ger = spell_name_ger,             \
-      spell_desc = spell_desc,                     \
-      spell_desc_ger = spell_desc_ger,             \
-      spell_school = spell_school,                 \
-      spell_level = spell_level,                   \
-      spell_mana = spell_mana,                     \
-      spell_chance = spell_chance,                 \
-      spell_mediate_ratio = spell_mediate_ratio,   \
-      spell_exertion = spell_exertion,             \
-      spell_mediate_ratio = spell_mediate_ratio,   \
-      spell_casttime = spell_casttime,             \
-      spell_iflag = spell_iflag;                   \
-   END"
-
-#define SQLQUERY_CREATEPROC_SKILLS              "\
-   CREATE PROCEDURE WriteSkills(                 \
-     IN skill_id             INT(4),             \
-     IN skill_name           VARCHAR(63),        \
-     IN skill_name_ger       VARCHAR(63),        \
-     IN skill_icon           VARCHAR(63),        \
-     IN skill_desc           TEXT,               \
-     IN skill_desc_ger       TEXT,               \
-     IN skill_school         INT(4),             \
-     IN skill_level          INT(4),             \
-     IN skill_chance         INT(4),             \
-     IN skill_mediate_ratio  INT(4),             \
-     IN skill_exertion       INT(4),             \
-     IN skill_iflag          INT(8))             \
-   BEGIN                                         \
-     INSERT INTO wiki_skills                     \
-      (  skill_id,                               \
-         skill_name,                             \
-         skill_name_ger,                         \
-         skill_icon,                             \
-         skill_desc,                             \
-         skill_desc_ger,                         \
-         skill_school,                           \
-         skill_level,                            \
-         skill_chance,                           \
-         skill_mediate_ratio,                    \
-         skill_exertion,                         \
-         skill_iflag)                            \
-         VALUES (skill_id,                       \
-            skill_name,                          \
-            skill_name_ger,                      \
-            skill_icon,                          \
-            skill_desc,                          \
-            skill_desc_ger,                      \
-            skill_school,                        \
-            skill_level,                         \
-            skill_chance,                        \
-            skill_mediate_ratio,                 \
-            skill_exertion,                      \
-            skill_iflag)                         \
-      ON DUPLICATE KEY UPDATE                    \
-      skill_name = skill_name,                   \
-      skill_name_ger = skill_name_ger,           \
-      skill_desc = skill_desc,                   \
-      skill_desc_ger = skill_desc_ger,           \
-      skill_school = skill_school,               \
-      skill_level = skill_level,                 \
-      skill_chance = skill_chance,               \
-      skill_mediate_ratio = skill_mediate_ratio, \
-      skill_exertion = skill_exertion,           \
-      skill_iflag = skill_iflag;                 \
-   END"
-
-#define SQLQUERY_CREATEPROC_SPELL_REAGENT  "\
-   CREATE PROCEDURE WriteSpellReagent(      \
-     IN spell_id              INT(4),       \
-     IN spell_reagent         VARCHAR(63),  \
-     IN spell_reagent_amount  INT(4))       \
-   BEGIN                                    \
-   INSERT INTO wiki_spell_reagent           \
-      (  spell_id,                          \
-         spell_reagent,                     \
-         spell_reagent_amount)              \
-         VALUES (spell_id,                  \
-            spell_reagent,                  \
-            spell_reagent_amount);          \
-   END"
-
-#define SQLQUERY_CREATEPROC_TREASURE_GEN  "\
-   CREATE PROCEDURE WriteTreasureGen(      \
-     IN treasure_id          INT(4),       \
-     IN item_name            VARCHAR(63),  \
-     IN item_chance          INT(4))       \
-   BEGIN                                   \
-   INSERT INTO wiki_treasure_gen           \
-      (  treasure_id,                      \
-         item_name,                        \
-         item_chance)                      \
-         VALUES (treasure_id,              \
-            item_name,                     \
-            item_chance);                  \
-   END"
-
-#define SQLQUERY_CREATEPROC_TREASURE_EXTRA  "\
-   CREATE PROCEDURE WriteTreasureExtra(      \
-     IN treasure_id          INT(4),         \
-     IN item_name            VARCHAR(63),    \
-     IN item_min_amount      INT(8),         \
-     IN item_max_amount      INT(8))         \
-   BEGIN                                     \
-   INSERT INTO wiki_treasure_extra           \
-      (  treasure_id,                        \
-         item_name,                          \
-         item_min_amount,                    \
-         item_max_amount)                    \
-         VALUES (treasure_id,                \
-            item_name,                       \
-            item_min_amount,                 \
-            item_max_amount);                \
-   END"
-
-#define SQLQUERY_CREATEPROC_TREASURE_MAGIC  "\
-   CREATE PROCEDURE WriteTreasureMagic(      \
-     IN treasure_id          INT(4),         \
-     IN item_name            VARCHAR(63),    \
-     IN item_attribute_id    INT(4))         \
-   BEGIN                                     \
-   INSERT INTO wiki_treasure_magic           \
-      (  treasure_id,                        \
-         item_name,                          \
-         item_attribute_id)                  \
-         VALUES (treasure_id,                \
-            item_name,                       \
-            item_attribute_id);              \
-   END"
-
-#define SQLQUERY_CREATEPROC_MONSTER                    "\
-   CREATE PROCEDURE WriteMonster(                       \
-     IN monster_name            VARCHAR(63),            \
-     IN monster_name_ger        VARCHAR(63),            \
-     IN monster_icon            VARCHAR(63),            \
-     IN monster_desc            TEXT,                   \
-     IN monster_desc_ger        TEXT,                   \
-     IN monster_level           INT(4),                 \
-     IN monster_karma           INT(4),                 \
-     IN monster_treasure        INT(4),                 \
-     IN monster_speed           INT(4),                 \
-     IN monster_behavior        INT(10),                \
-     IN monster_difficulty      INT(4),                 \
-     IN monster_visiondistance  INT(4),                 \
-     IN monster_iflag           INT(8))                 \
-   BEGIN                                                \
-   INSERT INTO wiki_monster                             \
-      (  monster_name,                                  \
-         monster_name_ger,                              \
-         monster_icon,                                  \
-         monster_desc,                                  \
-         monster_desc_ger,                              \
-         monster_level,                                 \
-         monster_karma,                                 \
-         monster_treasure,                              \
-         monster_speed,                                 \
-         monster_behavior,                              \
-         monster_difficulty,                            \
-         monster_visiondistance,                        \
-         monster_iflag)                                 \
-         VALUES (monster_name,                          \
-            monster_name_ger,                           \
-            monster_icon,                               \
-            monster_desc,                               \
-            monster_desc_ger,                           \
-            monster_level,                              \
-            monster_karma,                              \
-            monster_treasure,                           \
-            monster_speed,                              \
-            monster_behavior,                           \
-            monster_difficulty,                         \
-            monster_visiondistance,                     \
-            monster_iflag)                              \
-      ON DUPLICATE KEY UPDATE                           \
-      monster_desc = monster_desc,                      \
-      monster_desc_ger = monster_desc_ger,              \
-      monster_level = monster_level,                    \
-      monster_karma = monster_karma,                    \
-      monster_treasure = monster_treasure,              \
-      monster_speed = monster_speed,                    \
-      monster_behavior = monster_behavior,              \
-      monster_difficulty = monster_difficulty,          \
-      monster_visiondistance = monster_visiondistance,  \
-      monster_iflag = monster_iflag;                    \
-   END"
-
-#define SQLQUERY_CREATEPROC_MONSTER_ZONE    "\
-   CREATE PROCEDURE WriteMonsterZone(        \
-     IN monster_rid          INT(6),         \
-     IN monster_name         VARCHAR(63),    \
-     IN monster_spawnchance  INT(4))         \
-   BEGIN                                     \
-   INSERT INTO wiki_monster_zone             \
-      (  monster_rid,                        \
-         monster_name,                       \
-         monster_spawnchance)                \
-         VALUES (monster_rid,                \
-            monster_name,                    \
-            monster_spawnchance);            \
-   END"
-
-#define SQLQUERY_CREATEPROC_NPCS               "\
-   CREATE PROCEDURE WriteNpcs(                  \
-      IN npc_name            VARCHAR(63),       \
-      IN npc_name_ger        VARCHAR(63),       \
-      IN npc_icon            VARCHAR(63),       \
-      IN npc_desc            TEXT,              \
-      IN npc_desc_ger        TEXT,              \
-      IN npc_merchantmarkup  INT(4),            \
-      IN npc_iflag           INT(8))            \
-   BEGIN                                        \
-   INSERT INTO wiki_npcs                        \
-      (  npc_name,                              \
-         npc_name_ger,                          \
-         npc_icon,                              \
-         npc_desc,                              \
-         npc_desc_ger,                          \
-         npc_merchantmarkup,                    \
-         npc_iflag)                             \
-         VALUES (npc_name,                      \
-            npc_name_ger,                       \
-            npc_icon,                           \
-            npc_desc,                           \
-            npc_desc_ger,                       \
-            npc_merchantmarkup,                 \
-            npc_iflag)                          \
-      ON DUPLICATE KEY UPDATE                   \
-      npc_name_ger = npc_name_ger,              \
-      npc_desc = npc_desc,                      \
-      npc_desc_ger = npc_desc_ger,              \
-      npc_merchantmarkup = npc_merchantmarkup,  \
-      npc_iflag = npc_iflag;                    \
-   END"
-
-#define SQLQUERY_CREATEPROC_WEAPONS      "\
-   CREATE PROCEDURE WriteWeapons(         \
-     IN weapon_name      VARCHAR(63),     \
-     IN weapon_name_ger  VARCHAR(63),     \
-     IN weapon_icon      VARCHAR(63),     \
-     IN weapon_group     INT(4),          \
-     IN weapon_color     INT(4),          \
-     IN weapon_desc      TEXT,            \
-     IN weapon_desc_ger  TEXT,            \
-     IN weapon_value     INT(8),          \
-     IN weapon_weight    INT(4),          \
-     IN weapon_bulk      INT(4),          \
-     IN weapon_range     INT(4),          \
-     IN weapon_skill     INT(4),          \
-     IN weapon_prof      INT(4),          \
-     IN weapon_iflag     INT(8))          \
-   BEGIN                                  \
-   INSERT INTO wiki_weapons               \
-      (  weapon_name,                     \
-         weapon_name_ger,                 \
-         weapon_icon,                     \
-         weapon_group,                    \
-         weapon_color,                    \
-         weapon_desc,                     \
-         weapon_desc_ger,                 \
-         weapon_value,                    \
-         weapon_weight,                   \
-         weapon_bulk,                     \
-         weapon_range,                    \
-         weapon_skill,                    \
-         weapon_prof,                     \
-         weapon_iflag)                    \
-         VALUES (weapon_name,             \
-            weapon_name_ger,              \
-            weapon_icon,                  \
-            weapon_group,                 \
-            weapon_color,                 \
-            weapon_desc,                  \
-            weapon_desc_ger,              \
-            weapon_value,                 \
-            weapon_weight,                \
-            weapon_bulk,                  \
-            weapon_range,                 \
-            weapon_skill,                 \
-            weapon_prof,                  \
-            weapon_iflag)                 \
-      ON DUPLICATE KEY UPDATE             \
-      weapon_group = weapon_group,        \
-      weapon_color = weapon_color,        \
-      weapon_desc = weapon_desc,          \
-      weapon_desc_ger = weapon_desc_ger,  \
-      weapon_value = weapon_value,        \
-      weapon_weight = weapon_weight,      \
-      weapon_bulk = weapon_bulk,          \
-      weapon_range = weapon_range,        \
-      weapon_skill = weapon_skill,        \
-      weapon_prof = weapon_prof,          \
-      weapon_iflag = weapon_iflag;        \
-   END"
-
-#define SQLQUERY_CREATEPROC_ROOMS        "\
-   CREATE PROCEDURE WriteRooms(           \
-     IN room_name      VARCHAR(63),       \
-     IN room_name_ger  VARCHAR(63),       \
-     IN room_roo       VARCHAR(63),       \
-     IN room_number    INT(6),            \
-     IN room_region    INT(4),            \
-     IN room_iflag     INT(8))            \
-   BEGIN                                  \
-   INSERT INTO wiki_rooms                 \
-      (  room_name,                       \
-         room_name_ger,                   \
-         room_roo,                        \
-         room_number,                     \
-         room_region,                     \
-         room_iflag)                      \
-         VALUES (room_name,               \
-            room_name_ger,                \
-            room_roo,                     \
-            room_number,                  \
-            room_region,                  \
-            room_iflag)                   \
-      ON DUPLICATE KEY UPDATE             \
-      room_name = room_name,              \
-      room_name_ger = room_name_ger,      \
-      room_roo = room_roo,                \
-      room_region = room_region,          \
-      room_iflag = room_iflag;            \
-   END"
-
-#define SQLQUERY_CREATEPROC_NPC_ZONE     "\
-   CREATE PROCEDURE WriteNpcZone(         \
-     IN npc_name      VARCHAR(63),        \
-     IN npc_roomid    INT(6),             \
-     IN npc_row       INT(4),             \
-     IN npc_col       INT(4))             \
-   BEGIN                                  \
-   INSERT INTO wiki_npc_zone              \
-      (  npc_name,                        \
-         npc_roomid,                      \
-         npc_row,                         \
-         npc_col)                         \
-         VALUES (npc_name,                \
-            npc_roomid,                   \
-            npc_row,                      \
-            npc_col);                     \
-   END"
-
-#define SQLQUERY_CREATEPROC_NPC_SELLITEM "\
-   CREATE PROCEDURE WriteNpcSellItem(     \
-     IN npc_name       VARCHAR(63),       \
-     IN npc_item_sold  VARCHAR(63),       \
-     IN item_color     INT(4))            \
-   BEGIN                                  \
-   INSERT INTO wiki_npc_sellitem          \
-      (  npc_name,                        \
-         npc_item_sold,                   \
-         item_color)                      \
-         VALUES (npc_name,                \
-            npc_item_sold,                \
-            item_color);                  \
-   END"
-
-#define SQLQUERY_CREATEPROC_NPC_SELLSKILL   "\
-   CREATE PROCEDURE WriteNpcSellSkill(       \
-     IN npc_name        VARCHAR(63),         \
-     IN npc_skill_id    INT(4))              \
-   BEGIN                                     \
-   INSERT INTO wiki_npc_sellskill            \
-      (  npc_name,                           \
-         npc_skill_id)                       \
-         VALUES (npc_name,                   \
-            npc_skill_id);                   \
-   END"
-
-#define SQLQUERY_CREATEPROC_NPC_SELLSPELL   "\
-   CREATE PROCEDURE WriteNpcSellSpell(       \
-     IN npc_name        VARCHAR(63),         \
-     IN npc_spell_id    INT(4))              \
-   BEGIN                                     \
-   INSERT INTO wiki_npc_sellspell            \
-      (  npc_name,                           \
-         npc_spell_id)                       \
-         VALUES (npc_name,                   \
-            npc_spell_id);                   \
-   END"
-
-#define SQLQUERY_CREATEPROC_NPC_SELLCOND "\
-   CREATE PROCEDURE WriteNpcSellCond(     \
-     IN npc_name       VARCHAR(63),       \
-     IN npc_item_sold  VARCHAR(63),       \
-     IN item_color     INT(4),            \
-     IN item_price     INT(8))            \
-   BEGIN                                  \
-   INSERT INTO wiki_npc_sellcond          \
-      (  npc_name,                        \
-         npc_item_sold,                   \
-         item_color,                      \
-         item_price)                      \
-         VALUES (npc_name,                \
-            npc_item_sold,                \
-            item_color,                   \
-            item_price);                  \
-   END"
-
-#define SQLQUERY_CREATEPROC_REAGENTS          "\
-   CREATE PROCEDURE WriteReagents(             \
-     IN reagent_name      VARCHAR(63),         \
-     IN reagent_name_ger  VARCHAR(63),         \
-     IN reagent_icon      TEXT,                \
-     IN reagent_group     INT(4),              \
-     IN reagent_color     INT(4),              \
-     IN reagent_desc      TEXT,                \
-     IN reagent_desc_ger  TEXT,                \
-     IN reagent_value     INT(8),              \
-     IN reagent_weight    INT(4),              \
-     IN reagent_bulk      INT(4),              \
-     IN reagent_iflag     INT(8))              \
-   BEGIN                                       \
-   INSERT INTO wiki_reagents                   \
-      (  reagent_name,                         \
-         reagent_name_ger,                     \
-         reagent_icon,                         \
-         reagent_group,                        \
-         reagent_color,                        \
-         reagent_desc,                         \
-         reagent_desc_ger,                     \
-         reagent_value,                        \
-         reagent_weight,                       \
-         reagent_bulk,                         \
-         reagent_iflag)                        \
-         VALUES (reagent_name,                 \
-            reagent_name_ger,                  \
-            reagent_icon,                      \
-            reagent_group,                     \
-            reagent_color,                     \
-            reagent_desc,                      \
-            reagent_desc_ger,                  \
-            reagent_value,                     \
-            reagent_weight,                    \
-            reagent_bulk,                      \
-            reagent_iflag)                     \
-         ON DUPLICATE KEY UPDATE               \
-         reagent_icon = reagent_icon,          \
-         reagent_group = reagent_group,        \
-         reagent_color = reagent_color,        \
-         reagent_desc = reagent_desc,          \
-         reagent_desc_ger = reagent_desc_ger,  \
-         reagent_value = reagent_value,        \
-         reagent_weight = reagent_weight,      \
-         reagent_bulk = reagent_bulk,          \
-         reagent_iflag = reagent_iflag;        \
-   END"
-
-#define SQLQUERY_CREATEPROC_FOOD         "\
-   CREATE PROCEDURE WriteFood(            \
-     IN food_name      VARCHAR(63),       \
-     IN food_name_ger  VARCHAR(63),       \
-     IN food_icon      TEXT,              \
-     IN food_group     INT(4),            \
-     IN food_color     INT(4),            \
-     IN food_desc      TEXT,              \
-     IN food_desc_ger  TEXT,              \
-     IN food_value     INT(8),            \
-     IN food_weight    INT(4),            \
-     IN food_bulk      INT(4),            \
-     IN food_iflag     INT(8))            \
-   BEGIN                                  \
-   INSERT INTO wiki_food                  \
-      (  food_name,                       \
-         food_name_ger,                   \
-         food_icon,                       \
-         food_group,                      \
-         food_color,                      \
-         food_desc,                       \
-         food_desc_ger,                   \
-         food_value,                      \
-         food_weight,                     \
-         food_bulk,                       \
-         food_iflag)                      \
-         VALUES (food_name,               \
-            food_name_ger,                \
-            food_icon,                    \
-            food_group,                   \
-            food_color,                   \
-            food_desc,                    \
-            food_desc_ger,                \
-            food_value,                   \
-            food_weight,                  \
-            food_bulk,                    \
-            food_iflag)                   \
-         ON DUPLICATE KEY UPDATE          \
-         food_group = food_group,         \
-         food_color = food_color,         \
-         food_desc = food_desc,           \
-         food_desc_ger = food_desc_ger,   \
-         food_value = food_value,         \
-         food_weight = food_weight,       \
-         food_bulk = food_bulk,           \
-         food_iflag = food_iflag;         \
-   END"
-
-#define SQLQUERY_CREATEPROC_AMMO         "\
-   CREATE PROCEDURE WriteAmmo(            \
-     IN ammo_name      VARCHAR(63),       \
-     IN ammo_name_ger  VARCHAR(63),       \
-     IN ammo_icon      TEXT,              \
-     IN ammo_group     INT(4),            \
-     IN ammo_color     INT(4),            \
-     IN ammo_desc      TEXT,              \
-     IN ammo_desc_ger  TEXT,              \
-     IN ammo_value     INT(8),            \
-     IN ammo_weight    INT(4),            \
-     IN ammo_bulk      INT(4),            \
-     IN ammo_iflag     INT(8))            \
-   BEGIN                                  \
-   INSERT INTO wiki_ammo                  \
-      (  ammo_name,                       \
-         ammo_name_ger,                   \
-         ammo_icon,                       \
-         ammo_group,                      \
-         ammo_color,                      \
-         ammo_desc,                       \
-         ammo_desc_ger,                   \
-         ammo_value,                      \
-         ammo_weight,                     \
-         ammo_bulk,                       \
-         ammo_iflag)                      \
-         VALUES (ammo_name,               \
-            ammo_name_ger,                \
-            ammo_icon,                    \
-            ammo_group,                   \
-            ammo_color,                   \
-            ammo_desc,                    \
-            ammo_desc_ger,                \
-            ammo_value,                   \
-            ammo_weight,                  \
-            ammo_bulk,                    \
-            ammo_iflag)                   \
-         ON DUPLICATE KEY UPDATE          \
-         ammo_group = ammo_group,         \
-         ammo_color = ammo_color,         \
-         ammo_desc = ammo_desc,           \
-         ammo_desc_ger = ammo_desc_ger,   \
-         ammo_value = ammo_value,         \
-         ammo_weight = ammo_weight,       \
-         ammo_bulk = ammo_bulk,           \
-         ammo_iflag = ammo_iflag;         \
-   END"
-
-#define SQLQUERY_CREATEPROC_ARMOR        "\
-   CREATE PROCEDURE WriteArmor(           \
-     IN armor_name      VARCHAR(63),      \
-     IN armor_name_ger  VARCHAR(63),      \
-     IN armor_icon      TEXT,             \
-     IN armor_group     INT(4),           \
-     IN armor_color     INT(4),           \
-     IN armor_desc      TEXT,             \
-     IN armor_desc_ger  TEXT,             \
-     IN armor_value     INT(8),           \
-     IN armor_weight    INT(4),           \
-     IN armor_bulk      INT(4),           \
-     IN armor_iflag     INT(8))           \
-   BEGIN                                  \
-   INSERT INTO wiki_armor                 \
-      (  armor_name,                      \
-         armor_name_ger,                  \
-         armor_icon,                      \
-         armor_group,                     \
-         armor_color,                     \
-         armor_desc,                      \
-         armor_desc_ger,                  \
-         armor_value,                     \
-         armor_weight,                    \
-         armor_bulk,                      \
-         armor_iflag)                     \
-         VALUES (armor_name,              \
-            armor_name_ger,               \
-            armor_icon,                   \
-            armor_group,                  \
-            armor_color,                  \
-            armor_desc,                   \
-            armor_desc_ger,               \
-            armor_value,                  \
-            armor_weight,                 \
-            armor_bulk,                   \
-            armor_iflag)                  \
-         ON DUPLICATE KEY UPDATE          \
-         armor_group = armor_group,       \
-         armor_color = armor_color,       \
-         armor_desc = armor_desc,         \
-         armor_desc_ger = armor_desc_ger, \
-         armor_value = armor_value,       \
-         armor_weight = armor_weight,     \
-         armor_bulk = armor_bulk,         \
-         armor_iflag = armor_iflag;       \
-   END"
-
-#define SQLQUERY_CREATEPROC_MISCITEMS    "\
-   CREATE PROCEDURE WriteMiscItems(       \
-     IN misc_name      VARCHAR(63),       \
-     IN misc_name_ger  VARCHAR(63),       \
-     IN misc_icon      TEXT,              \
-     IN misc_group     INT(4),            \
-     IN misc_color     INT(4),            \
-     IN misc_desc      TEXT,              \
-     IN misc_desc_ger  TEXT,              \
-     IN misc_value     INT(8),            \
-     IN misc_weight    INT(4),            \
-     IN misc_bulk      INT(4),            \
-     IN misc_iflag     INT(8))            \
-   BEGIN                                  \
-   INSERT INTO wiki_miscitems             \
-      (  misc_name,                       \
-         misc_name_ger,                   \
-         misc_icon,                       \
-         misc_group,                      \
-         misc_color,                      \
-         misc_desc,                       \
-         misc_desc_ger,                   \
-         misc_value,                      \
-         misc_weight,                     \
-         misc_bulk,                       \
-         misc_iflag)                      \
-         VALUES (misc_name,               \
-            misc_name_ger,                \
-            misc_icon,                    \
-            misc_group,                   \
-            misc_color,                   \
-            misc_desc,                    \
-            misc_desc_ger,                \
-            misc_value,                   \
-            misc_weight,                  \
-            misc_bulk,                    \
-            misc_iflag)                   \
-         ON DUPLICATE KEY UPDATE          \
-         misc_group = misc_group,         \
-         misc_color = misc_color,         \
-         misc_desc = misc_desc,           \
-         misc_desc_ger = misc_desc_ger,   \
-         misc_value = misc_value,         \
-         misc_weight = misc_weight,       \
-         misc_bulk = misc_bulk,           \
-         misc_iflag = misc_iflag;         \
-   END"
-
-#define SQLQUERY_CREATEPROC_RINGS        "\
-   CREATE PROCEDURE WriteRings(           \
-     IN rings_name      VARCHAR(63),      \
-     IN rings_name_ger  VARCHAR(63),      \
-     IN rings_icon      TEXT,             \
-     IN rings_group     INT(4),           \
-     IN rings_color     INT(4),           \
-     IN rings_desc      TEXT,             \
-     IN rings_desc_ger  TEXT,             \
-     IN rings_value     INT(8),           \
-     IN rings_weight    INT(4),           \
-     IN rings_bulk      INT(4),           \
-     IN rings_iflag     INT(8))           \
-   BEGIN                                  \
-   INSERT INTO wiki_rings                 \
-      (  rings_name,                      \
-         rings_name_ger,                  \
-         rings_icon,                      \
-         rings_group,                     \
-         rings_color,                     \
-         rings_desc,                      \
-         rings_desc_ger,                  \
-         rings_value,                     \
-         rings_weight,                    \
-         rings_bulk,                      \
-         rings_iflag)                     \
-         VALUES (rings_name,              \
-            rings_name_ger,               \
-            rings_icon,                   \
-            rings_group,                  \
-            rings_color,                  \
-            rings_desc,                   \
-            rings_desc_ger,               \
-            rings_value,                  \
-            rings_weight,                 \
-            rings_bulk,                   \
-            rings_iflag)                  \
-         ON DUPLICATE KEY UPDATE          \
-         rings_group = rings_group,       \
-         rings_color = rings_color,       \
-         rings_desc = rings_desc,         \
-         rings_desc_ger = rings_desc_ger, \
-         rings_value = rings_value,       \
-         rings_weight = rings_weight,     \
-         rings_bulk = rings_bulk,         \
-         rings_iflag = rings_iflag;       \
-   END"
-
-#define SQLQUERY_CREATEPROC_RODS         "\
-   CREATE PROCEDURE WriteRods(            \
-     IN rods_name      VARCHAR(63),       \
-     IN rods_name_ger  VARCHAR(63),       \
-     IN rods_icon      TEXT,              \
-     IN rods_group     INT(4),            \
-     IN rods_color     INT(4),            \
-     IN rods_desc      TEXT,              \
-     IN rods_desc_ger  TEXT,              \
-     IN rods_value     INT(8),            \
-     IN rods_weight    INT(4),            \
-     IN rods_bulk      INT(4),            \
-     IN rods_iflag     INT(8))            \
-   BEGIN                                  \
-   INSERT INTO wiki_rods                  \
-      (  rods_name,                       \
-         rods_name_ger,                   \
-         rods_icon,                       \
-         rods_group,                      \
-         rods_color,                      \
-         rods_desc,                       \
-         rods_desc_ger,                   \
-         rods_value,                      \
-         rods_weight,                     \
-         rods_bulk,                       \
-         rods_iflag)                      \
-         VALUES (rods_name,               \
-            rods_name_ger,                \
-            rods_icon,                    \
-            rods_group,                   \
-            rods_color,                   \
-            rods_desc,                    \
-            rods_desc_ger,                \
-            rods_value,                   \
-            rods_weight,                  \
-            rods_bulk,                    \
-            rods_iflag)                   \
-         ON DUPLICATE KEY UPDATE          \
-         rods_group = rods_group,         \
-         rods_color = rods_color,         \
-         rods_desc = rods_desc,           \
-         rods_desc_ger = rods_desc_ger,   \
-         rods_value = rods_value,         \
-         rods_weight = rods_weight,       \
-         rods_bulk = rods_bulk,           \
-         rods_iflag = rods_iflag;         \
-   END"
-
-#define SQLQUERY_CREATEPROC_POTIONS         "\
-   CREATE PROCEDURE WritePotions(            \
-     IN potion_name      VARCHAR(63),        \
-     IN potion_name_ger  VARCHAR(63),        \
-     IN potion_icon      TEXT,               \
-     IN potion_group     INT(4),             \
-     IN potion_color     INT(4),             \
-     IN potion_desc      TEXT,               \
-     IN potion_desc_ger  TEXT,               \
-     IN potion_value     INT(8),             \
-     IN potion_weight    INT(4),             \
-     IN potion_bulk      INT(4),             \
-     IN potion_iflag     INT(8))             \
-   BEGIN                                     \
-   INSERT INTO wiki_potions                  \
-      (  potion_name,                        \
-         potion_name_ger,                    \
-         potion_icon,                        \
-         potion_group,                       \
-         potion_color,                       \
-         potion_desc,                        \
-         potion_desc_ger,                    \
-         potion_value,                       \
-         potion_weight,                      \
-         potion_bulk,                        \
-         potion_iflag)                       \
-         VALUES (potion_name,                \
-            potion_name_ger,                 \
-            potion_icon,                     \
-            potion_group,                    \
-            potion_color,                    \
-            potion_desc,                     \
-            potion_desc_ger,                 \
-            potion_value,                    \
-            potion_weight,                   \
-            potion_bulk,                     \
-            potion_iflag)                    \
-         ON DUPLICATE KEY UPDATE             \
-         potion_group = potion_group,        \
-         potion_color = potion_color,        \
-         potion_desc = potion_desc,          \
-         potion_desc_ger = potion_desc_ger,  \
-         potion_value = potion_value,        \
-         potion_weight = potion_weight,      \
-         potion_bulk = potion_bulk,          \
-         potion_iflag = potion_iflag;        \
-   END"
-
-#define SQLQUERY_CREATEPROC_SCROLLS           "\
-   CREATE PROCEDURE WriteScrolls(              \
-    IN scrolls_name      VARCHAR(63),          \
-    IN scrolls_name_ger  VARCHAR(63),          \
-    IN scrolls_icon      TEXT,                 \
-    IN scrolls_group     INT(4),               \
-    IN scrolls_color     INT(4),               \
-    IN scrolls_desc      TEXT,                 \
-    IN scrolls_desc_ger  TEXT,                 \
-    IN scrolls_value     INT(8),               \
-    IN scrolls_weight    INT(4),               \
-    IN scrolls_bulk      INT(4),               \
-    IN scrolls_iflag     INT(8))               \
-   BEGIN                                       \
-   INSERT INTO wiki_scrolls                    \
-      (  scrolls_name,                         \
-         scrolls_name_ger,                     \
-         scrolls_icon,                         \
-         scrolls_group,                        \
-         scrolls_color,                        \
-         scrolls_desc,                         \
-         scrolls_desc_ger,                     \
-         scrolls_value,                        \
-         scrolls_weight,                       \
-         scrolls_bulk,                         \
-         scrolls_iflag)                        \
-         VALUES (scrolls_name,                 \
-            scrolls_name_ger,                  \
-            scrolls_icon,                      \
-            scrolls_group,                     \
-            scrolls_color,                     \
-            scrolls_desc,                      \
-            scrolls_desc_ger,                  \
-            scrolls_value,                     \
-            scrolls_weight,                    \
-            scrolls_bulk,                      \
-            scrolls_iflag)                     \
-         ON DUPLICATE KEY UPDATE               \
-         scrolls_group = scrolls_group,        \
-         scrolls_color = scrolls_color,        \
-         scrolls_desc = scrolls_desc,          \
-         scrolls_desc_ger = scrolls_desc_ger,  \
-         scrolls_value = scrolls_value,        \
-         scrolls_weight = scrolls_weight,      \
-         scrolls_bulk = scrolls_bulk,          \
-         scrolls_iflag = scrolls_iflag;        \
-   END"
-
-#define SQLQUERY_CREATEPROC_WANDS         "\
-   CREATE PROCEDURE WriteWands(            \
-    IN wands_name      VARCHAR(63),        \
-    IN wands_name_ger  VARCHAR(63),        \
-    IN wands_icon      TEXT,               \
-    IN wands_group     INT(4),             \
-    IN wands_color     INT(4),             \
-    IN wands_desc      TEXT,               \
-    IN wands_desc_ger  TEXT,               \
-    IN wands_value     INT(8),             \
-    IN wands_weight    INT(4),             \
-    IN wands_bulk      INT(4),             \
-    IN wands_iflag     INT(8))             \
-   BEGIN                                   \
-   INSERT INTO wiki_wands                  \
-      (  wands_name,                       \
-         wands_name_ger,                   \
-         wands_icon,                       \
-         wands_group,                      \
-         wands_color,                      \
-         wands_desc,                       \
-         wands_desc_ger,                   \
-         wands_value,                      \
-         wands_weight,                     \
-         wands_bulk,                       \
-         wands_iflag)                      \
-         VALUES (wands_name,               \
-            wands_name_ger,                \
-            wands_icon,                    \
-            wands_group,                   \
-            wands_color,                   \
-            wands_desc,                    \
-            wands_desc_ger,                \
-            wands_value,                   \
-            wands_weight,                  \
-            wands_bulk,                    \
-            wands_iflag)                   \
-         ON DUPLICATE KEY UPDATE           \
-         wands_group = wands_group,        \
-         wands_color = wands_color,        \
-         wands_desc = wands_desc,          \
-         wands_desc_ger = wands_desc_ger,  \
-         wands_value = wands_value,        \
-         wands_weight = wands_weight,      \
-         wands_bulk = wands_bulk,          \
-         wands_iflag = wands_iflag;        \
-   END"
-
-#define SQLQUERY_CREATEPROC_QUESTITEMS            "\
-   CREATE PROCEDURE WriteQuestItems(               \
-    IN questitem_name      VARCHAR(63),            \
-    IN questitem_name_ger  VARCHAR(63),            \
-    IN questitem_icon      TEXT,                   \
-    IN questitem_group     INT(4),                 \
-    IN questitem_color     INT(4),                 \
-    IN questitem_desc      TEXT,                   \
-    IN questitem_desc_ger  TEXT,                   \
-    IN questitem_value     INT(8),                 \
-    IN questitem_weight    INT(4),                 \
-    IN questitem_bulk      INT(4),                 \
-    IN questitem_iflag     INT(8))                 \
-   BEGIN                                           \
-   INSERT INTO wiki_questitems                     \
-      (  questitem_name,                           \
-         questitem_name_ger,                       \
-         questitem_icon,                           \
-         questitem_group,                          \
-         questitem_color,                          \
-         questitem_desc,                           \
-         questitem_desc_ger,                       \
-         questitem_value,                          \
-         questitem_weight,                         \
-         questitem_bulk,                           \
-         questitem_iflag)                          \
-         VALUES (questitem_name,                   \
-            questitem_name_ger,                    \
-            questitem_icon,                        \
-            questitem_group,                       \
-            questitem_color,                       \
-            questitem_desc,                        \
-            questitem_desc_ger,                    \
-            questitem_value,                       \
-            questitem_weight,                      \
-            questitem_bulk,                        \
-            questitem_iflag)                       \
-         ON DUPLICATE KEY UPDATE                   \
-         questitem_group = questitem_group,        \
-         questitem_color = questitem_color,        \
-         questitem_desc = questitem_desc,          \
-         questitem_desc_ger = questitem_desc_ger,  \
-         questitem_value = questitem_value,        \
-         questitem_weight = questitem_weight,      \
-         questitem_bulk = questitem_bulk,          \
-         questitem_iflag = questitem_iflag;        \
-   END"
-
-#define SQLQUERY_CREATEPROC_NECKLACE            "\
-   CREATE PROCEDURE WriteNecklace(               \
-    IN necklace_name      VARCHAR(63),           \
-    IN necklace_name_ger  VARCHAR(63),           \
-    IN necklace_icon      TEXT,                  \
-    IN necklace_group     INT(4),                \
-    IN necklace_color     INT(4),                \
-    IN necklace_desc      TEXT,                  \
-    IN necklace_desc_ger  TEXT,                  \
-    IN necklace_value     INT(8),                \
-    IN necklace_weight    INT(4),                \
-    IN necklace_bulk      INT(4),                \
-    IN necklace_iflag     INT(8))                \
-   BEGIN                                         \
-   INSERT INTO wiki_necklace                     \
-      (  necklace_name,                          \
-         necklace_name_ger,                      \
-         necklace_icon,                          \
-         necklace_group,                         \
-         necklace_color,                         \
-         necklace_desc,                          \
-         necklace_desc_ger,                      \
-         necklace_value,                         \
-         necklace_weight,                        \
-         necklace_bulk,                          \
-         necklace_iflag)                         \
-         VALUES (necklace_name,                  \
-            necklace_name_ger,                   \
-            necklace_icon,                       \
-            necklace_group,                      \
-            necklace_color,                      \
-            necklace_desc,                       \
-            necklace_desc_ger,                   \
-            necklace_value,                      \
-            necklace_weight,                     \
-            necklace_bulk,                       \
-            necklace_iflag)                      \
-         ON DUPLICATE KEY UPDATE                 \
-         necklace_group = necklace_group,        \
-         necklace_color = necklace_color,        \
-         necklace_desc = necklace_desc,          \
-         necklace_desc_ger = necklace_desc_ger,  \
-         necklace_value = necklace_value,        \
-         necklace_weight = necklace_weight,      \
-         necklace_bulk = necklace_bulk,          \
-         necklace_iflag = necklace_iflag;        \
-   END"
-
-#define SQLQUERY_CREATEPROC_INSTRUMENTS              "\
-   CREATE PROCEDURE WriteInstruments(                 \
-    IN instrument_name      VARCHAR(63),              \
-    IN instrument_name_ger  VARCHAR(63),              \
-    IN instrument_icon      TEXT,                     \
-    IN instrument_group     INT(4),                   \
-    IN instrument_color     INT(4),                   \
-    IN instrument_desc      TEXT,                     \
-    IN instrument_desc_ger  TEXT,                     \
-    IN instrument_value     INT(8),                   \
-    IN instrument_weight    INT(4),                   \
-    IN instrument_bulk      INT(4),                   \
-    IN instrument_iflag     INT(8))                   \
-   BEGIN                                              \
-   INSERT INTO wiki_instruments                       \
-      (  instrument_name,                             \
-         instrument_name_ger,                         \
-         instrument_icon,                             \
-         instrument_group,                            \
-         instrument_color,                            \
-         instrument_desc,                             \
-         instrument_desc_ger,                         \
-         instrument_value,                            \
-         instrument_weight,                           \
-         instrument_bulk,                             \
-         instrument_iflag)                            \
-         VALUES (instrument_name,                     \
-            instrument_name_ger,                      \
-            instrument_icon,                          \
-            instrument_group,                         \
-            instrument_color,                         \
-            instrument_desc,                          \
-            instrument_desc_ger,                      \
-            instrument_value,                         \
-            instrument_weight,                        \
-            instrument_bulk,                          \
-            instrument_iflag)                         \
-         ON DUPLICATE KEY UPDATE                      \
-         instrument_group = instrument_group,         \
-         instrument_color = instrument_color,         \
-         instrument_desc = instrument_desc,           \
-         instrument_desc_ger = instrument_desc_ger,   \
-         instrument_value = instrument_value,         \
-         instrument_weight = instrument_weight,       \
-         instrument_bulk = instrument_bulk,           \
-         instrument_iflag = instrument_iflag;         \
-   END"
-
-#define SQLQUERY_CREATEPROC_GEMS      "\
-   CREATE PROCEDURE WriteGems(         \
-    IN gem_name      VARCHAR(63),      \
-    IN gem_name_ger  VARCHAR(63),      \
-    IN gem_icon      TEXT,             \
-    IN gem_group     INT(4),           \
-    IN gem_color     INT(4),           \
-    IN gem_desc      TEXT,             \
-    IN gem_desc_ger  TEXT,             \
-    IN gem_value     INT(8),           \
-    IN gem_weight    INT(4),           \
-    IN gem_bulk      INT(4),           \
-    IN gem_iflag     INT(8))           \
-   BEGIN                               \
-   INSERT INTO wiki_gems               \
-      (  gem_name,                     \
-         gem_name_ger,                 \
-         gem_icon,                     \
-         gem_group,                    \
-         gem_color,                    \
-         gem_desc,                     \
-         gem_desc_ger,                 \
-         gem_value,                    \
-         gem_weight,                   \
-         gem_bulk,                     \
-         gem_iflag)                    \
-         VALUES (gem_name,             \
-            gem_name_ger,              \
-            gem_icon,                  \
-            gem_group,                 \
-            gem_color,                 \
-            gem_desc,                  \
-            gem_desc_ger,              \
-            gem_value,                 \
-            gem_weight,                \
-            gem_bulk,                  \
-            gem_iflag)                 \
-         ON DUPLICATE KEY UPDATE       \
-         gem_group = gem_group,        \
-         gem_color = gem_color,        \
-         gem_desc = gem_desc,          \
-         gem_desc_ger = gem_desc_ger,  \
-         gem_value = gem_value,        \
-         gem_weight = gem_weight,      \
-         gem_bulk = gem_bulk,          \
-         gem_iflag = gem_iflag;        \
-   END"
-
-#define SQLQUERY_CREATEPROC_OFFERINGS          "\
-   CREATE PROCEDURE WriteOfferings(             \
-    IN offering_name      VARCHAR(63),          \
-    IN offering_name_ger  VARCHAR(63),          \
-    IN offering_icon      TEXT,                 \
-    IN offering_group     INT(4),               \
-    IN offering_color     INT(4),               \
-    IN offering_desc      TEXT,                 \
-    IN offering_desc_ger  TEXT,                 \
-    IN offering_value     INT(8),               \
-    IN offering_weight    INT(4),               \
-    IN offering_bulk      INT(4),               \
-    IN offering_iflag     INT(8))               \
-   BEGIN                                        \
-   INSERT INTO wiki_offerings                   \
-      (  offering_name,                         \
-         offering_name_ger,                     \
-         offering_icon,                         \
-         offering_group,                        \
-         offering_color,                        \
-         offering_desc,                         \
-         offering_desc_ger,                     \
-         offering_value,                        \
-         offering_weight,                       \
-         offering_bulk,                         \
-         offering_iflag)                        \
-         VALUES (offering_name,                 \
-            offering_name_ger,                  \
-            offering_icon,                      \
-            offering_group,                     \
-            offering_color,                     \
-            offering_desc,                      \
-            offering_desc_ger,                  \
-            offering_value,                     \
-            offering_weight,                    \
-            offering_bulk,                      \
-            offering_iflag)                     \
-         ON DUPLICATE KEY UPDATE                \
-         offering_group = offering_group,       \
-         offering_color = offering_color,       \
-         offering_desc = offering_desc,         \
-         offering_desc_ger = offering_desc_ger, \
-         offering_value = offering_value,       \
-         offering_weight = offering_weight,     \
-         offering_bulk = offering_bulk,         \
-         offering_iflag = offering_iflag;       \
-   END"
-
-#define SQLQUERY_CREATEPROC_QUESTS          "\
-   CREATE PROCEDURE WriteQuests(             \
-    IN quest_id           INT(4),            \
-    IN quest_name         VARCHAR(63),       \
-    IN quest_name_ger     VARCHAR(63),       \
-    IN quest_icon         TEXT,              \
-    IN quest_icon_group   INT(2),            \
-    IN quest_desc         TEXT,              \
-    IN quest_desc_ger     TEXT,              \
-    IN quest_recent_time  INT(4),            \
-    IN quest_schedule_pct INT(4),            \
-    IN quest_est_time     INT(4),            \
-    IN quest_est_diff     INT(4))            \
-   BEGIN                                     \
-   INSERT INTO wiki_quests                   \
-      (  quest_id,                           \
-         quest_name,                         \
-         quest_name_ger,                     \
-         quest_icon,                         \
-         quest_icon_group,                   \
-         quest_desc,                         \
-         quest_desc_ger,                     \
-         quest_recent_time,                  \
-         quest_schedule_pct,                 \
-         quest_est_time,                     \
-         quest_est_diff)                     \
-         VALUES (quest_id,                   \
-            quest_name,                      \
-            quest_name_ger,                  \
-            quest_icon,                      \
-            quest_icon_group,                \
-            quest_desc,                      \
-            quest_desc_ger,                  \
-            quest_recent_time,               \
-            quest_schedule_pct,              \
-            quest_est_time,                  \
-            quest_est_diff);                 \
-   END"
-
-#define SQLQUERY_CREATEPROC_QUESTGIVER      "\
-   CREATE PROCEDURE WriteQuestGiver(         \
-    IN quest_id           INT(4),            \
-    IN quest_npc_name     VARCHAR(63))       \
-   BEGIN                                     \
-   INSERT INTO wiki_quest_giver              \
-      (  quest_id,                           \
-         quest_npc_name)                     \
-         VALUES (quest_id,                   \
-            quest_npc_name);                 \
-   END"
-
-#define SQLQUERY_CREATEPROC_ACCOUNT         "\
-   CREATE PROCEDURE WriteAccount(IN acct_id INT(8), IN acct_name VARCHAR(63), IN acct_password VARCHAR(63),\
-    IN acct_email VARCHAR(255), IN acct_type INT(2), IN acct_loggedin_time INT(12), IN acct_last_login INT(12),\
-    IN acct_suspend_time INT(12)) \
-   BEGIN \
-   INSERT INTO server_accounts (acct_id, acct_name, acct_password, acct_email, acct_type, acct_loggedin_time,\
-         acct_last_login, acct_suspend_time) \
-      VALUES (acct_id, acct_name, acct_password, acct_email, acct_type, acct_loggedin_time, acct_last_login,\
-               acct_suspend_time)\
-      ON DUPLICATE KEY UPDATE                \
-         acct_name = acct_name, acct_password = acct_password, acct_email = acct_email, acct_type = acct_type,\
-         acct_loggedin_time = acct_loggedin_time, acct_last_login = acct_last_login,\
-         acct_suspend_time = acct_suspend_time;\
-   END"
-
-#define SQLQUERY_CREATEPROC_ACCOUNT_CHAR        "\
-   CREATE PROCEDURE WriteAccountChar(IN acct_id INT(8), IN char_name VARCHAR(63))\
-   BEGIN \
-   INSERT INTO server_account_chars (acct_id, char_name) \
-      VALUES (acct_id, char_name); \
-   END"
-
-#pragma endregion
-
 /*
  * MySQLGenerateDrop: Assembles a string in the passed buffer which specifies
  *   a SQL procedure to drop based on the sql record type passed.
@@ -1530,6 +53,161 @@ void MySQLGenerateDrop(sql_recordtype type, char *buffer)
    int num_chars = sprintf(buffer, "DROP PROCEDURE IF EXISTS %s;",
       Statistics_Table[type].procedure_name);
    buffer[num_chars] = 0;
+}
+
+static bool MySQLAppendSql(char *sql, size_t capacity, size_t *length,
+   const char *text)
+{
+   size_t text_length = strlen(text);
+   if (text_length >= capacity - *length)
+      return false;
+
+   memcpy(sql + *length, text, text_length);
+   *length += text_length;
+   sql[*length] = 0;
+   return true;
+}
+
+static bool MySQLAppendSqlItem(char *sql, size_t capacity, size_t *length,
+   bool *first_item, const char *text)
+{
+   if (!*first_item && !MySQLAppendSql(sql, capacity, length, ", "))
+      return false;
+
+   *first_item = false;
+   return MySQLAppendSql(sql, capacity, length, text);
+}
+
+static bool MySQLGetColumn(const char *columns, int column_index,
+   char *column, size_t column_capacity)
+{
+   const char *start = columns;
+   for (int i = 0; i < column_index; ++i)
+   {
+      start = strchr(start, ',');
+      if (!start)
+         return false;
+      ++start;
+   }
+
+   const char *end = strchr(start, ',');
+   size_t column_length = end ? (size_t)(end - start) : strlen(start);
+   if (column_length == 0 || column_length >= column_capacity)
+      return false;
+
+   memcpy(column, start, column_length);
+   column[column_length] = 0;
+   return true;
+}
+
+static bool MySQLAppendProcedureColumns(char *sql, size_t capacity,
+   size_t *length, const sql_statistic_type *operation, bool values)
+{
+   bool first_item = true;
+   for (int i = 0; i <= operation->num_fields; ++i)
+   {
+      if (operation->timestamp_column && operation->timestamp_position == i)
+      {
+         if (!MySQLAppendSqlItem(sql, capacity, length, &first_item,
+            values ? "NOW()" : operation->timestamp_column))
+            return false;
+      }
+
+      if (i == operation->num_fields)
+         break;
+
+      char item[64];
+      if (values)
+         snprintf(item, sizeof(item), "p%d", i + 1);
+      else if (!MySQLGetColumn(operation->columns, i, item, sizeof(item)))
+         return false;
+
+      if (!MySQLAppendSqlItem(sql, capacity, length, &first_item, item))
+         return false;
+   }
+
+   return true;
+}
+
+static bool MySQLGenerateProcedure(const sql_statistic_type *operation,
+   char *sql, size_t capacity)
+{
+   size_t length = 0;
+   bool first_item = true;
+   sql[0] = 0;
+
+   if (!MySQLAppendSql(sql, capacity, &length, "CREATE PROCEDURE ") ||
+      !MySQLAppendSql(sql, capacity, &length, operation->procedure_name) ||
+      !MySQLAppendSql(sql, capacity, &length, "("))
+      return false;
+
+   for (int i = 0; i < operation->num_fields; ++i)
+   {
+      char parameter[48];
+      snprintf(parameter, sizeof(parameter), "IN p%d LONGTEXT", i + 1);
+      if (!MySQLAppendSqlItem(sql, capacity, &length, &first_item, parameter))
+         return false;
+   }
+
+   if (!MySQLAppendSql(sql, capacity, &length, ") BEGIN "))
+      return false;
+
+   if (operation->write_mode == DB_WRITE_UPDATE)
+   {
+      if (!MySQLAppendSql(sql, capacity, &length, "UPDATE ") ||
+         !MySQLAppendSql(sql, capacity, &length, operation->table_name) ||
+         !MySQLAppendSql(sql, capacity, &length, " SET ") ||
+         !MySQLAppendSql(sql, capacity, &length, operation->update_assignments) ||
+         !MySQLAppendSql(sql, capacity, &length, " WHERE "))
+         return false;
+
+      for (int i = 0; i < operation->num_fields; ++i)
+      {
+         char column[64];
+         char predicate[96];
+         if (!MySQLGetColumn(operation->columns, i, column, sizeof(column)))
+            return false;
+         snprintf(predicate, sizeof(predicate), "%s = p%d", column, i + 1);
+         if ((i > 0 && !MySQLAppendSql(sql, capacity, &length, " AND ")) ||
+            !MySQLAppendSql(sql, capacity, &length, predicate))
+            return false;
+      }
+   }
+   else
+   {
+      if (!MySQLAppendSql(sql, capacity, &length, "INSERT INTO ") ||
+         !MySQLAppendSql(sql, capacity, &length, operation->table_name) ||
+         !MySQLAppendSql(sql, capacity, &length, " ("))
+         return false;
+
+      if (!MySQLAppendProcedureColumns(sql, capacity, &length, operation, false) ||
+         !MySQLAppendSql(sql, capacity, &length, ") VALUES ("))
+         return false;
+
+      if (!MySQLAppendProcedureColumns(sql, capacity, &length, operation, true) ||
+         !MySQLAppendSql(sql, capacity, &length, ")"))
+         return false;
+
+      if (operation->write_mode == DB_WRITE_UPSERT)
+      {
+         if (!MySQLAppendSql(sql, capacity, &length, " ON DUPLICATE KEY UPDATE "))
+            return false;
+
+         first_item = true;
+         for (int i = 0; ; ++i)
+         {
+            char column[64];
+            char assignment[160];
+            if (!MySQLGetColumn(operation->update_columns, i, column, sizeof(column)))
+               break;
+            snprintf(assignment, sizeof(assignment), "%s = VALUES(%s)", column, column);
+            if (!MySQLAppendSqlItem(sql, capacity, &length, &first_item, assignment))
+               return false;
+         }
+      }
+   }
+
+   return MySQLAppendSql(sql, capacity, &length, "; END");
 }
 
 /*
@@ -1907,7 +585,7 @@ void _MySQLVerifySchema()
    for (size_t i = 0; i < DATABASE_SCHEMA_STATEMENT_COUNT; ++i)
       MYSQL_QUERY_CHECKED(mysql, DatabaseSchemaStatements[i], status);
 
-   char buffer[128];
+   char buffer[4096];
    // Drop existing procedures if present.
    for (int i = 1; i <= STAT_MAXSTAT; ++i)
    {
@@ -1915,55 +593,16 @@ void _MySQLVerifySchema()
       MYSQL_QUERY_CHECKED(mysql, buffer, status);
    }
 
-   // Recreate procedures.
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_MONEYTOTAL, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_MONEYCREATED, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_PLAYERLOGIN, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_PLAYERASSESSDAMAGE, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_PLAYERDEATH, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_LOGPEN, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_LOGPEN_ITEM, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_COMPL_QUEST, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_COMPL_QUEST_ITEMS, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_PLAYER, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_PLAYERSUICIDE, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_GUILD, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_GUILDDISBAND, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_SPELLS, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_SKILLS, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_SPELL_REAGENT, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_TREASURE_GEN, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_TREASURE_EXTRA, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_TREASURE_MAGIC, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_MONSTER, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_MONSTER_ZONE, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_NPCS, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_WEAPONS, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_ROOMS, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_NPC_ZONE, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_NPC_SELLITEM, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_NPC_SELLSKILL, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_NPC_SELLSPELL, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_NPC_SELLCOND, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_REAGENTS, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_FOOD, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_AMMO, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_ARMOR, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_MISCITEMS, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_RINGS, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_RODS, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_POTIONS, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_SCROLLS, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_WANDS, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_QUESTITEMS, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_NECKLACE, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_INSTRUMENTS, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_GEMS, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_OFFERINGS, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_QUESTS, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_QUESTGIVER, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_ACCOUNT, status);
-   MYSQL_QUERY_CHECKED(mysql, SQLQUERY_CREATEPROC_ACCOUNT_CHAR, status);
+   // Recreate procedures from the shared write contract.
+   for (int i = 1; i <= STAT_MAXSTAT; ++i)
+   {
+      if (!MySQLGenerateProcedure(&Statistics_Table[i], buffer, sizeof(buffer)))
+      {
+         bprintf("Could not generate MySQL procedure for statistic %i.", i);
+         continue;
+      }
+      MYSQL_QUERY_CHECKED(mysql, buffer, status);
+   }
 
    // set state to schema verified
    state = SCHEMAVERIFIED;

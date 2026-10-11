@@ -142,60 +142,6 @@ static void PgThreadJoin(void)
 #endif
 }
 
-// Statistics table - maps STAT_TYPE to table name and expected field count
-// timestamp_pos: 0 = no auto-timestamp, 1 = NOW() as first value, -1 = NOW() as last value
-static sql_statistic_type Statistics_Table[] = {
-   {STAT_NONE,             0, false, NULL,                        0},
-   {STAT_TOTALMONEY,       1, true,  "money_total",               1},
-   {STAT_MONEYCREATED,     1, true,  "money_created",             1},
-   {STAT_PLAYERLOGIN,      3, true,  "player_logins",            -1},
-   {STAT_ASSESS_DAM,       7, true,  "player_damaged",           -1, true},
-   {STAT_PLAYERDEATH,      5, true,  "player_death",             -1},
-   {STAT_PLAYER,          13, true,  "player",                    0},
-   {STAT_PLAYERSUICIDE,    2, true,  "player",                    0},
-   {STAT_GUILD,            4, true,  "guild",                     0},
-   {STAT_GUILDDISBAND,     1, true,  "guild",                     0},
-   {STAT_SPELLS,          14, true,  "wiki_spells",               0},
-   {STAT_SPELL_REAGENT,    3, true,  "wiki_spell_reagent",        0},
-   {STAT_TREASURE_GEN,     3, true,  "wiki_treasure_gen",         0},
-   {STAT_MONSTER,         13, true,  "wiki_monster",              0},
-   {STAT_MONSTER_ZONE,     3, true,  "wiki_monster_zone",         0},
-   {STAT_NPCS,             7, true,  "wiki_npcs",                 0},
-   {STAT_WEAPONS,         14, true,  "wiki_weapons",              0},
-   {STAT_ROOMS,            6, true,  "wiki_rooms",                0},
-   {STAT_NPC_ZONE,         4, true,  "wiki_npc_zone",             0},
-   {STAT_NPC_SELLITEM,     3, true,  "wiki_npc_sellitem",         0},
-   {STAT_NPC_SELLSKILL,    2, true,  "wiki_npc_sellskill",        0},
-   {STAT_NPC_SELLSPELL,    2, true,  "wiki_npc_sellspell",        0},
-   {STAT_REAGENTS,        11, true,  "wiki_reagents",             0},
-   {STAT_FOOD,            11, true,  "wiki_food",                 0},
-   {STAT_AMMO,            11, true,  "wiki_ammo",                 0},
-   {STAT_ARMOR,           11, true,  "wiki_armor",                0},
-   {STAT_MISCITEMS,       11, true,  "wiki_miscitems",            0},
-   {STAT_RINGS,           11, true,  "wiki_rings",                0},
-   {STAT_RODS,            11, true,  "wiki_rods",                 0},
-   {STAT_POTIONS,         11, true,  "wiki_potions",              0},
-   {STAT_SCROLLS,         11, true,  "wiki_scrolls",              0},
-   {STAT_WANDS,           11, true,  "wiki_wands",                0},
-   {STAT_QUESTITEMS,      11, true,  "wiki_questitems",           0},
-   {STAT_SKILLS,          12, true,  "wiki_skills",               0},
-   {STAT_NECKLACE,        11, true,  "wiki_necklace",             0},
-   {STAT_INSTRUMENTS,     11, true,  "wiki_instruments",          0},
-   {STAT_GEMS,            11, true,  "wiki_gems",                 0},
-   {STAT_OFFERINGS,       11, true,  "wiki_offerings",            0},
-   {STAT_QUESTS,          11, true,  "wiki_quests",               0},
-   {STAT_TREASURE_EXTRA,   4, true,  "wiki_treasure_extra",       0},
-   {STAT_TREASURE_MAGIC,   3, true,  "wiki_treasure_magic",       0},
-   {STAT_NPC_SELLCOND,     4, true,  "wiki_npc_sellcond",         0},
-   {STAT_LOGPEN,           7, true,  "player_logpen",             0},
-   {STAT_LOGPEN_ITEM,      3, true,  "player_logpen_items",       0},
-   {STAT_QUESTGIVER,       2, true,  "wiki_quest_giver",          0},
-   {STAT_ACCOUNTS,         8, true,  "server_accounts",           0},
-   {STAT_ACCOUNT_CHARS,    2, true,  "server_account_chars",      0},
-   {STAT_COMPL_QUESTS,     5, true,  "player_completed_quests",   0},
-   {STAT_COMPL_QUEST_ITEMS,4, true,  "player_quest_reward_items", 0}
-};
-
 /******************************************************************************/
 // Internal functions
 /******************************************************************************/
@@ -253,6 +199,146 @@ static bool PgIsConnected(void)
    return true;
 }
 
+static bool PgAppendSql(char *sql, size_t capacity, size_t *length, const char *text)
+{
+   size_t text_length = strlen(text);
+   if (text_length >= capacity - *length)
+      return false;
+
+   memcpy(sql + *length, text, text_length);
+   *length += text_length;
+   sql[*length] = 0;
+   return true;
+}
+
+static bool PgAppendSqlItem(char *sql, size_t capacity, size_t *length,
+   bool *first_item, const char *text)
+{
+   if (!*first_item && !PgAppendSql(sql, capacity, length, ", "))
+      return false;
+
+   *first_item = false;
+   return PgAppendSql(sql, capacity, length, text);
+}
+
+static bool PgGetColumn(const char *columns, int column_index,
+   char *column, size_t column_capacity)
+{
+   const char *start = columns;
+   for (int i = 0; i < column_index; ++i)
+   {
+      start = strchr(start, ',');
+      if (!start)
+         return false;
+      ++start;
+   }
+
+   const char *end = strchr(start, ',');
+   size_t column_length = end ? (size_t)(end - start) : strlen(start);
+   if (column_length == 0 || column_length >= column_capacity)
+      return false;
+
+   memcpy(column, start, column_length);
+   column[column_length] = 0;
+   return true;
+}
+
+static bool PgAppendInsertColumns(char *sql, size_t capacity, size_t *length,
+   const sql_statistic_type *operation, bool values)
+{
+   bool first_item = true;
+   for (int i = 0; i <= operation->num_fields; ++i)
+   {
+      if (operation->timestamp_column && operation->timestamp_position == i)
+      {
+         if (!PgAppendSqlItem(sql, capacity, length, &first_item,
+            values ? "NOW()" : operation->timestamp_column))
+            return false;
+      }
+
+      if (i == operation->num_fields)
+         break;
+
+      char item[64];
+      if (values)
+         snprintf(item, sizeof(item), "$%d", i + 1);
+      else if (!PgGetColumn(operation->columns, i, item, sizeof(item)))
+         return false;
+
+      if (!PgAppendSqlItem(sql, capacity, length, &first_item, item))
+         return false;
+   }
+
+   return true;
+}
+
+static bool PgBuildWriteQuery(char *sql, size_t capacity,
+   const sql_statistic_type *operation)
+{
+   size_t length = 0;
+   bool first_item = true;
+   sql[0] = 0;
+
+   if (operation->write_mode == DB_WRITE_UPDATE)
+   {
+      if (!PgAppendSql(sql, capacity, &length, "UPDATE ") ||
+         !PgAppendSql(sql, capacity, &length, operation->table_name) ||
+         !PgAppendSql(sql, capacity, &length, " SET ") ||
+         !PgAppendSql(sql, capacity, &length, operation->update_assignments) ||
+         !PgAppendSql(sql, capacity, &length, " WHERE "))
+         return false;
+
+      for (int i = 0; i < operation->num_fields; ++i)
+      {
+         char column[64];
+         char predicate[96];
+         if (!PgGetColumn(operation->columns, i, column, sizeof(column)))
+            return false;
+         snprintf(predicate, sizeof(predicate), "%s = $%d", column, i + 1);
+         if ((i > 0 && !PgAppendSql(sql, capacity, &length, " AND ")) ||
+            !PgAppendSql(sql, capacity, &length, predicate))
+            return false;
+      }
+      return true;
+   }
+
+   if (!PgAppendSql(sql, capacity, &length, "INSERT INTO ") ||
+      !PgAppendSql(sql, capacity, &length, operation->table_name) ||
+      !PgAppendSql(sql, capacity, &length, " ("))
+      return false;
+
+   if (!PgAppendInsertColumns(sql, capacity, &length, operation, false) ||
+      !PgAppendSql(sql, capacity, &length, ") VALUES ("))
+      return false;
+
+   first_item = true;
+   if (!PgAppendInsertColumns(sql, capacity, &length, operation, true) ||
+      !PgAppendSql(sql, capacity, &length, ")"))
+      return false;
+
+   if (operation->write_mode == DB_WRITE_UPSERT)
+   {
+      if (!PgAppendSql(sql, capacity, &length, " ON CONFLICT (") ||
+         !PgAppendSql(sql, capacity, &length, operation->conflict_columns) ||
+         !PgAppendSql(sql, capacity, &length, ") DO UPDATE SET "))
+         return false;
+
+      first_item = true;
+      for (int i = 0; ; ++i)
+      {
+         char column[64];
+         char assignment[160];
+         if (!PgGetColumn(operation->update_columns, i, column, sizeof(column)))
+            break;
+         snprintf(assignment, sizeof(assignment), "%s = EXCLUDED.%s", column, column);
+         if (!PgAppendSqlItem(sql, capacity, &length, &first_item, assignment))
+            return false;
+      }
+   }
+
+   return true;
+}
+
 static void PgWriteNode(sql_queue_node *node)
 {
    sql_data_node *data = (sql_data_node *)node->data;
@@ -265,9 +351,16 @@ static void PgWriteNode(sql_queue_node *node)
    if (!Statistics_Table[type].enabled)
       return;
 
-   const char *table = Statistics_Table[type].table_name;
-   if (!table)
+   const sql_statistic_type *operation = &Statistics_Table[type];
+   if (!operation->table_name)
       return;
+
+   if (nf != operation->num_fields || nf > MAX_SQL_PARAMS)
+   {
+      eprintf("Invalid PostgreSQL field count for statistic %d: found %d, expected %d\n",
+         type, nf, operation->num_fields);
+      return;
+   }
 
    // Build parameterized INSERT
    // Convert all fields to string params for PQexecParams
@@ -302,110 +395,10 @@ static void PgWriteNode(sql_queue_node *node)
    }
 
    char sql[4096];
-   bool customSql = true;
-
-   // These records omit generated/default columns or mirror UPDATE/UPSERT
-   // procedures in database.c, so they cannot use a positional table insert.
-   switch (type)
+   if (!PgBuildWriteQuery(sql, sizeof(sql), operation))
    {
-   case STAT_PLAYER:
-      snprintf(sql, sizeof(sql),
-         "INSERT INTO player (player_account_id, player_name, player_home, player_bind, player_guild, "
-         "player_max_health, player_max_mana, player_might, player_int, player_myst, player_stam, player_agil, player_aim) "
-         "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) "
-         "ON CONFLICT (player_name) DO UPDATE SET "
-         "player_account_id = EXCLUDED.player_account_id, player_home = EXCLUDED.player_home, "
-         "player_bind = EXCLUDED.player_bind, player_guild = EXCLUDED.player_guild, "
-         "player_max_health = EXCLUDED.player_max_health, player_max_mana = EXCLUDED.player_max_mana, "
-         "player_might = EXCLUDED.player_might, player_int = EXCLUDED.player_int, "
-         "player_myst = EXCLUDED.player_myst, player_stam = EXCLUDED.player_stam, "
-         "player_agil = EXCLUDED.player_agil, player_aim = EXCLUDED.player_aim");
-      break;
-
-   case STAT_PLAYERSUICIDE:
-      snprintf(sql, sizeof(sql),
-         "UPDATE player SET player_suicide = 1, player_suicide_time = NOW() "
-         "WHERE player_account_id = $1 AND player_name = $2");
-      break;
-
-   case STAT_GUILD:
-      snprintf(sql, sizeof(sql),
-         "INSERT INTO guild (guild_name, guild_leader, guild_hall, guild_rent_paid) "
-         "VALUES ($1, $2, $3, $4) "
-         "ON CONFLICT (guild_name) DO UPDATE SET "
-         "guild_leader = EXCLUDED.guild_leader, guild_hall = EXCLUDED.guild_hall, "
-         "guild_rent_paid = EXCLUDED.guild_rent_paid");
-      break;
-
-   case STAT_GUILDDISBAND:
-      snprintf(sql, sizeof(sql),
-         "UPDATE guild SET guild_hall = '', guild_disbanded = 1, guild_disbanded_time = NOW() "
-         "WHERE guild_name = $1");
-      break;
-
-   case STAT_LOGPEN:
-      snprintf(sql, sizeof(sql),
-         "INSERT INTO player_logpen (player_name, logpen_time, room_id, logpen_xp, logpen_hp, "
-         "logpen_spellpct, logpen_skillpct, logpen_numitems) "
-         "VALUES ($1, NOW(), $2, $3, $4, $5, $6, $7)");
-      break;
-
-   case STAT_LOGPEN_ITEM:
-      snprintf(sql, sizeof(sql),
-         "INSERT INTO player_logpen_items (player_name, logpen_time, item_name, item_number) "
-         "VALUES ($1, NOW(), $2, $3)");
-      break;
-
-   case STAT_ACCOUNT_CHARS:
-      snprintf(sql, sizeof(sql),
-         "INSERT INTO server_account_chars (acct_id, char_name) VALUES ($1, $2)");
-      break;
-
-   case STAT_COMPL_QUESTS:
-      snprintf(sql, sizeof(sql),
-         "INSERT INTO player_completed_quests "
-         "(quest_id, player_name, completion_time, num_seconds_taken, xp_rewarded, tp_rewarded) "
-         "VALUES ($1, $2, NOW(), $3, $4, $5)");
-      break;
-
-   case STAT_COMPL_QUEST_ITEMS:
-      snprintf(sql, sizeof(sql),
-         "INSERT INTO player_quest_reward_items "
-         "(quest_id, player_name, completion_time, item_name, item_number) "
-         "VALUES ($1, $2, NOW(), $3, $4)");
-      break;
-
-   default:
-      customSql = false;
-      break;
-   }
-
-   if (!customSql)
-   {
-      // Generic tables whose parameter order matches their physical columns.
-      // Auto-columns are supported only at the beginning or end of the row.
-      int ts_pos = Statistics_Table[type].timestamp_pos;
-      bool has_serial = Statistics_Table[type].has_serial;
-      char placeholders[1024];
-      placeholders[0] = 0;
-
-      if (has_serial)
-         strcat(placeholders, "DEFAULT,");
-
-      if (ts_pos == 1)
-         strcat(placeholders, "NOW(),");
-
-      for (int i = 0; i < nParams; i++)
-      {
-         char ph[8];
-         snprintf(ph, sizeof(ph), "%s$%d", i > 0 ? "," : "", i + 1);
-         strcat(placeholders, ph);
-      }
-
-      if (ts_pos == -1)
-         strcat(placeholders, ",NOW()");
-
-      snprintf(sql, sizeof(sql), "INSERT INTO %s VALUES (%s) ON CONFLICT DO NOTHING", table, placeholders);
+      eprintf("Could not build PostgreSQL write query for statistic %d\n", type);
+      return;
    }
 
    PGresult *res = PQexecParams(pg_conn, sql, nParams, NULL,
@@ -416,7 +409,7 @@ static void PgWriteNode(sql_queue_node *node)
       // Don't spam errors - just log once
       static int error_count = 0;
       if (error_count++ < 10)
-         eprintf("PostgreSQL INSERT into %s failed: %s\n", table, PQerrorMessage(pg_conn));
+         eprintf("PostgreSQL write to %s failed: %s\n", operation->table_name, PQerrorMessage(pg_conn));
    }
    else
    {
