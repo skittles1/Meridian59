@@ -16,11 +16,9 @@
 
 #define SLEEPTIME              10
 #define SLEEPTIMENOCON         1000
-#define MAX_ITEMS_UNTIL_LOOP   10
 #define SLEEPINIT              100
 
 // Max number of parameters to an SQL call. Based on max kod params.
-#define MAX_SQL_PARAMS 45
 
 sql_queue queue         = {0, 0, 0, 0};
 HANDLE hMySQLWorker     = 0;
@@ -329,10 +327,10 @@ BOOL MySQLRecordGeneric(int type, int num_fields, sql_data_node data[])
       return FALSE;
    }
 
-   if (num_fields > MAX_SQL_PARAMS)
+   if (num_fields > DATABASE_MAX_SQL_PARAMS)
    {
       bprintf("Too many params received in MySQLRecordGeneric for statistic %i, found %i max %i.",
-         type, num_fields, MAX_SQL_PARAMS);
+         type, num_fields, DATABASE_MAX_SQL_PARAMS);
 
       FreeDataNodeMemory(num_fields, num_fields, data);
       return FALSE;
@@ -469,7 +467,7 @@ void __cdecl _MySQLWorker(void* parameters)
 
 						// reached limit, do more next loop
 						// to get updated state etc.
-						if (processedcount >= MAX_ITEMS_UNTIL_LOOP)
+                  if (processedcount >= DATABASE_MAX_ITEMS_PER_LOOP)
 							break;						
 					}
 					
@@ -658,8 +656,8 @@ void _MySQLWriteNode(sql_queue_node* Node, BOOL ProcessNode)
    if (!Node || !Node->data)
       return;
 
-   MYSQL_BIND params[MAX_SQL_PARAMS];
-   unsigned long str_lens[MAX_SQL_PARAMS];
+   MYSQL_BIND params[DATABASE_MAX_SQL_PARAMS];
+   unsigned long str_lens[DATABASE_MAX_SQL_PARAMS];
    my_bool is_null = 1;
 
    // really write it, or just free mem at end?

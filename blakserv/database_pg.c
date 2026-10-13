@@ -34,10 +34,8 @@ static HANDLE db_thread = NULL;
 static pthread_t db_thread;
 #endif
 
-#define MAX_SQL_PARAMS 45
 #define DB_WORKER_SLEEP_MS 10
 #define DB_RECONNECT_SLEEP_MS 5000
-#define MAX_ITEMS_PER_LOOP 10
 
 #ifdef BLAK_PLATFORM_WINDOWS
 static void PgSleepMs(unsigned int delay_ms)
@@ -256,7 +254,7 @@ static void PgWriteNode(sql_queue_node *node)
    if (!operation->table_name)
       return;
 
-   if (nf != operation->num_fields || nf > MAX_SQL_PARAMS)
+   if (nf != operation->num_fields || nf > DATABASE_MAX_SQL_PARAMS)
    {
       eprintf("Invalid PostgreSQL field count for statistic %d: found %d, expected %d\n",
          type, nf, operation->num_fields);
@@ -265,11 +263,11 @@ static void PgWriteNode(sql_queue_node *node)
 
    // Build parameterized INSERT
    // Convert all fields to string params for PQexecParams
-   const char *paramValues[MAX_SQL_PARAMS];
-   char numbufs[MAX_SQL_PARAMS][20];
+   const char *paramValues[DATABASE_MAX_SQL_PARAMS];
+   char numbufs[DATABASE_MAX_SQL_PARAMS][20];
    int nParams = 0;
 
-   for (int i = 0; i < nf && i < MAX_SQL_PARAMS; i++)
+   for (int i = 0; i < nf && i < DATABASE_MAX_SQL_PARAMS; i++)
    {
       switch (data[i].type)
       {
@@ -399,7 +397,7 @@ static void *PgWorker(void *arg)
       if (db_state == DB_READY && PgIsConnected())
       {
          int processed = 0;
-         for (int i = 0; i < MAX_ITEMS_PER_LOOP; i++)
+         for (int i = 0; i < DATABASE_MAX_ITEMS_PER_LOOP; i++)
          {
             if (PgDequeue(true))
                processed++;
@@ -529,7 +527,7 @@ BOOL MySQLRecordGeneric(int type, int num_fields, sql_data_node data[])
       return FALSE;
    }
 
-   if (num_fields < 0 || num_fields > MAX_SQL_PARAMS ||
+   if (num_fields < 0 || num_fields > DATABASE_MAX_SQL_PARAMS ||
       num_fields != Statistics_Table[type].num_fields)
    {
       FreeDataNodeMemory(num_fields, num_fields, data);
