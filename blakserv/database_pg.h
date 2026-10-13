@@ -5,10 +5,6 @@
 #ifndef _DATABASE_PG_H
 #define _DATABASE_PG_H
 
-#ifndef BLAK_PLATFORM_WINDOWS
-#include <pthread.h>
-#endif
-
 #include <libpq-fe.h>
 
 #pragma region Structs/Enums
@@ -69,36 +65,8 @@ enum sql_recordtype
 
 typedef enum sql_recordtype sql_recordtype;
 
+#include "database_common.h"
 #include "database_procedures.h"
-
-struct sql_data_node
-{
-   int type;
-   union {
-      int num;
-      char *str;
-   } value;
-};
-
-struct sql_queue_node
-{
-   sql_recordtype type;
-   int num_fields;
-   void *data;
-   sql_queue_node *next;
-};
-
-struct sql_queue
-{
-#ifdef BLAK_PLATFORM_WINDOWS
-   HANDLE mutex;
-#else
-   pthread_mutex_t mutex;
-#endif
-   int count;
-   sql_queue_node *first;
-   sql_queue_node *last;
-};
 
 // Public API - same names as MySQL version for compatibility
 void MySQLInit(char *Host, int Port, char *User, char *Password, char *DB);

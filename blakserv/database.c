@@ -12,13 +12,10 @@
 
 #include "blakserv.h"
 #include "database_schema.h"
-#include "database_sql.h"
+#include "database_common.h"
 
 #define SLEEPTIME              10
 #define SLEEPTIMENOCON         1000
-#define MAX_RECORD_QUEUE       15000
-#define RECORD_ENQUEUE_TIMEOUT 60
-#define RECORD_DEQUEUE_TIMEOUT 60
 #define MAX_ITEMS_UNTIL_LOOP   10
 #define SLEEPINIT              100
 
@@ -207,6 +204,10 @@ void MySQLInit(char* Host, int Port, char* User, char* Password, char* DB)
 	if (state != STOPPED || !Host || !User || !Password || !DB)
 		return;
 	
+   // Initialize the queue before callers can submit records or the worker connects.
+   if (!DatabaseQueueInit(&queue))
+      return;
+
 	// set state to starting
 	state = STARTING;
 
@@ -308,6 +309,14 @@ void FreeDataNodeMemory(int total_fields, int fields_entered, sql_data_node data
  */
 BOOL MySQLRecordGeneric(int type, int num_fields, sql_data_node data[])
 {
+   if (num_fields < 0)
+      return FALSE;
+
+	if (state == STOPPED || state == STOPPING)
+	{
+		FreeDataNodeMemory(num_fields, num_fields, data);
+		return FALSE;
+	}
 
    // Check number of args - not done in C_RecordStat because blakserv
    // can call MySQLRecordGeneric directly.
@@ -396,12 +405,6 @@ void __cdecl _MySQLWorker(void* parameters)
 	/*            Initialization
 	/******************************************/
 		
-	// init the queue
-	queue.mutex = CreateMutex(NULL, FALSE, NULL);
-	queue.count = 0;
-	queue.first = 0;
-	queue.last = 0;
-
 	// init mysql
 	mysql = mysql_init(NULL);
 	
@@ -504,9 +507,7 @@ void __cdecl _MySQLWorker(void* parameters)
 	// clear queue
 	while(_MySQLDequeue(FALSE));
 
-	// delete mutex
-	if (queue.mutex)
-		CloseHandle(queue.mutex);
+   DatabaseQueueShutdown(&queue);
 
 	// mark stopped
 	state = STOPPED;
@@ -551,78 +552,16 @@ void _MySQLVerifySchema()
 };
 
 BOOL _MySQLEnqueue(sql_queue_node* Node)
-{	
-	BOOL enqueued = FALSE;
-
-	if (!Node)
-		return enqueued;
-
-	// make sure it has no successor set
-	Node->next = 0;
-
-	// try to lock for multithreaded access
-	if (WaitForSingleObject(queue.mutex, RECORD_ENQUEUE_TIMEOUT) == WAIT_OBJECT_0)
-	{
-		// got space in queue left
-		if (queue.count < MAX_RECORD_QUEUE)
-		{
-			// empty queue
-			if (queue.count == 0 ||
-				queue.first == NULL ||
-				queue.last == NULL)
-			{
-				queue.first = Node;
-				queue.last = Node;
-				queue.count = 1;
-			}
-
-			// not empty
-			else
-			{
-				queue.last->next = Node;
-				queue.last = Node;
-				queue.count++;
-			}
-
-			enqueued = TRUE;
-		}
-		
-		// release lock
-		ReleaseMutex(queue.mutex);		
-	}
-
-	return enqueued;
+{
+   return DatabaseQueueEnqueue(&queue, Node, DATABASE_MAX_RECORD_QUEUE)
+      ? TRUE : FALSE;
 };
 
 BOOL _MySQLDequeue(BOOL processNode)
 {
-	BOOL			dequeued	= FALSE;
-	sql_queue_node*	node		= 0;
-			
-	// try to lock for multithreaded access
-	if (WaitForSingleObject(queue.mutex, RECORD_ENQUEUE_TIMEOUT) == WAIT_OBJECT_0)
-	{
-		// dequeue from the beginning (FIFO)
-		if (queue.first)
-		{
-			// get first element to process
-			node = queue.first;
-			
-			// update queue, set first item to the next one
-			queue.first = node->next;
-			queue.count--;
-
-			// save that we dequeued a node
-			dequeued = TRUE;			
-		}
-		
-		// release lock
-		ReleaseMutex(queue.mutex);		
-	}
-	
-	// if we dequeued one, process it
-	if (node)
-	{
+   sql_queue_node *node = DatabaseQueueDequeue(&queue);
+   if (node)
+   {
       // process node
       if (node->num_fields < 0)
       {
@@ -636,9 +575,9 @@ BOOL _MySQLDequeue(BOOL processNode)
          FreeDataNodeMemory(node->num_fields, node->num_fields, (sql_data_node *)node->data);
       }
       FreeMemory(MALLOC_ID_SQL, node, sizeof(sql_queue_node));
-	}
+   }
 
-	return dequeued;
+   return node != NULL;
 }
 
 /*

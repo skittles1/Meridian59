@@ -40,31 +40,6 @@ typedef struct sql_data_node sql_data_node;
 typedef enum sql_recordtype sql_recordtype;
 typedef enum sql_worker_state sql_worker_state;
 
-struct sql_data_node
-{
-   int type; // kod type
-   union {
-      int num; // also stores 0 for nil, num for session etc
-      char *str; // string, resource, debugstr
-   } value;
-};
-
-struct sql_queue_node
-{
-	sql_recordtype type;
-   int num_fields;
-	void* data;
-	sql_queue_node* next;
-};
-
-struct sql_queue
-{
-	HANDLE mutex;
-	int count;
-	sql_queue_node* first;
-	sql_queue_node* last;
-};
-
 enum sql_recordtype
 {
    STAT_NONE = 0,
@@ -119,6 +94,7 @@ enum sql_recordtype
    STAT_MAXSTAT = 48 // Equal to highest defined stat.
 };
 
+#include "database_common.h"
 #include "database_procedures.h"
 
 enum sql_worker_state

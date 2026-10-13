@@ -9,7 +9,7 @@
 #include <libpq-fe.h>
 #define DATABASE_SCHEMA_POSTGRESQL
 #include "database_schema.h"
-#include "database_sql.h"
+#include "database_common.h"
 
 // Worker thread state
 enum { DB_STOPPED=0, DB_STOPPING, DB_STARTING, DB_CONNECTED, DB_READY };
@@ -34,38 +34,12 @@ static HANDLE db_thread = NULL;
 static pthread_t db_thread;
 #endif
 
-#define MAX_RECORD_QUEUE 15000
 #define MAX_SQL_PARAMS 45
 #define DB_WORKER_SLEEP_MS 10
 #define DB_RECONNECT_SLEEP_MS 5000
 #define MAX_ITEMS_PER_LOOP 10
 
 #ifdef BLAK_PLATFORM_WINDOWS
-static bool PgQueueInit(void)
-{
-   queue.mutex = CreateMutex(NULL, FALSE, NULL);
-   return queue.mutex != NULL;
-}
-
-static void PgQueueShutdown(void)
-{
-   if (queue.mutex != NULL)
-   {
-      CloseHandle(queue.mutex);
-      queue.mutex = NULL;
-   }
-}
-
-static void PgQueueLock(void)
-{
-   WaitForSingleObject(queue.mutex, INFINITE);
-}
-
-static void PgQueueUnlock(void)
-{
-   ReleaseMutex(queue.mutex);
-}
-
 static void PgSleepMs(unsigned int delay_ms)
 {
    Sleep(delay_ms);
@@ -80,26 +54,6 @@ static bool PgThreadStart(void);
 static void PgThreadJoin(void);
 static unsigned __stdcall PgWorker(void *arg);
 #else
-static bool PgQueueInit(void)
-{
-   return pthread_mutex_init(&queue.mutex, NULL) == 0;
-}
-
-static void PgQueueShutdown(void)
-{
-   pthread_mutex_destroy(&queue.mutex);
-}
-
-static void PgQueueLock(void)
-{
-   pthread_mutex_lock(&queue.mutex);
-}
-
-static void PgQueueUnlock(void)
-{
-   pthread_mutex_unlock(&queue.mutex);
-}
-
 static void PgSleepMs(unsigned int delay_ms)
 {
    usleep(delay_ms * 1000);
@@ -382,26 +336,30 @@ static void PgTruncateTable(int type)
    PQclear(res);
 }
 
-static bool PgDequeue(void)
+static bool PgEnqueueNode(sql_queue_node *node)
 {
-   PgQueueLock();
-   if (queue.count == 0)
-   {
-      PgQueueUnlock();
+   if (!node || db_state == DB_STOPPED || db_state == DB_STOPPING)
       return false;
+
+   if (db_state == DB_STOPPED || db_state == DB_STOPPING)
+      return false;
+
+   return DatabaseQueueEnqueue(&queue, node, DATABASE_MAX_RECORD_QUEUE);
+}
+
+static bool PgDequeue(bool processNode)
+{
+   sql_queue_node *node = DatabaseQueueDequeue(&queue);
+   if (!node)
+      return false;
+
+   if (processNode)
+   {
+      if (node->num_fields < 0)
+         PgTruncateTable(node->type);
+      else
+         PgWriteNode(node);
    }
-
-   sql_queue_node *node = queue.first;
-   queue.first = node->next;
-   if (queue.first == NULL)
-      queue.last = NULL;
-   queue.count--;
-   PgQueueUnlock();
-
-   if (node->num_fields < 0)
-      PgTruncateTable(node->type);
-   else
-      PgWriteNode(node);
 
    // Free data
    if (node->data)
@@ -418,18 +376,6 @@ static unsigned __stdcall PgWorker(void *arg)
 static void *PgWorker(void *arg)
 #endif
 {
-   if (!PgQueueInit())
-   {
-   db_state = DB_STOPPED;
-#ifdef BLAK_PLATFORM_WINDOWS
-   return 0;
-#else
-   return NULL;
-#endif
-   }
-
-   db_state = DB_STARTING;
-
    // Connect
    while (db_state != DB_STOPPING)
    {
@@ -455,7 +401,7 @@ static void *PgWorker(void *arg)
          int processed = 0;
          for (int i = 0; i < MAX_ITEMS_PER_LOOP; i++)
          {
-            if (PgDequeue())
+            if (PgDequeue(true))
                processed++;
             else
                break;
@@ -477,15 +423,15 @@ static void *PgWorker(void *arg)
       }
    }
 
-   // Drain remaining queue
-   while (PgDequeue()) {}
+   // Discard queued records if shutdown occurs before they can be written.
+   while (PgDequeue(false)) {}
 
    if (pg_conn)
    {
       PQfinish(pg_conn);
       pg_conn = NULL;
    }
-   PgQueueShutdown();
+   DatabaseQueueShutdown(&queue);
    db_state = DB_STOPPED;
 #ifdef BLAK_PLATFORM_WINDOWS
    return 0;
@@ -515,8 +461,31 @@ void MySQLInit(char *Host, int Port, char *User, char *Password, char *DB)
    db_pass = PgStrdup(Password);
    db_name = PgStrdup(DB);
 
+   if (!db_host || !db_user || !db_pass || !db_name)
+   {
+      free(db_host); db_host = NULL;
+      free(db_user); db_user = NULL;
+      free(db_pass); db_pass = NULL;
+      free(db_name); db_name = NULL;
+      eprintf("PostgreSQL init failed: could not allocate connection parameters\n");
+      return;
+   }
+
+   if (!DatabaseQueueInit(&queue))
+   {
+      free(db_host); db_host = NULL;
+      free(db_user); db_user = NULL;
+      free(db_pass); db_pass = NULL;
+      free(db_name); db_name = NULL;
+      eprintf("PostgreSQL init failed: could not initialize queue\n");
+      return;
+   }
+
+   db_state = DB_STARTING;
+
    if (!PgThreadStart())
    {
+      DatabaseQueueShutdown(&queue);
       free(db_host); db_host = NULL;
       free(db_user); db_user = NULL;
       free(db_pass); db_pass = NULL;
@@ -545,8 +514,14 @@ void MySQLEnd()
 
 BOOL MySQLRecordGeneric(int type, int num_fields, sql_data_node data[])
 {
-   if (type <= STAT_NONE || type > STAT_MAXSTAT)
+   if (num_fields < 0)
       return FALSE;
+
+   if (type <= STAT_NONE || type > STAT_MAXSTAT)
+   {
+      FreeDataNodeMemory(num_fields, num_fields, data);
+      return FALSE;
+   }
 
    if (!Statistics_Table[type].enabled)
    {
@@ -554,7 +529,14 @@ BOOL MySQLRecordGeneric(int type, int num_fields, sql_data_node data[])
       return FALSE;
    }
 
-   if (db_state < DB_READY)
+   if (num_fields < 0 || num_fields > MAX_SQL_PARAMS ||
+      num_fields != Statistics_Table[type].num_fields)
+   {
+      FreeDataNodeMemory(num_fields, num_fields, data);
+      return FALSE;
+   }
+
+   if (db_state == DB_STOPPED || db_state == DB_STOPPING)
    {
       FreeDataNodeMemory(num_fields, num_fields, data);
       return FALSE;
@@ -562,49 +544,47 @@ BOOL MySQLRecordGeneric(int type, int num_fields, sql_data_node data[])
 
    sql_queue_node *node = (sql_queue_node *)AllocateMemory(MALLOC_ID_SQL,
       sizeof(sql_queue_node));
+   if (!node)
+   {
+      FreeDataNodeMemory(num_fields, num_fields, data);
+      return FALSE;
+   }
    node->type = (sql_recordtype)type;
    node->num_fields = num_fields;
    node->data = data;
    node->next = NULL;
 
-   PgQueueLock();
-   if (queue.count >= MAX_RECORD_QUEUE)
+   if (!PgEnqueueNode(node))
    {
-      PgQueueUnlock();
       FreeDataNodeMemory(num_fields, num_fields, data);
       FreeMemory(MALLOC_ID_SQL, node, sizeof(sql_queue_node));
-      eprintf("PostgreSQL queue full, dropping record\n");
+      eprintf("PostgreSQL queue unavailable or full, dropping record\n");
       return FALSE;
    }
-
-   if (queue.last)
-      queue.last->next = node;
-   else
-      queue.first = node;
-   queue.last = node;
-   queue.count++;
-   PgQueueUnlock();
 
    return TRUE;
 }
 
 BOOL MySQLEmptyTable(int type)
 {
+   if (type <= STAT_NONE || type > STAT_MAXSTAT ||
+      db_state == DB_STOPPED || db_state == DB_STOPPING)
+      return FALSE;
+
    sql_queue_node *node = (sql_queue_node *)AllocateMemory(MALLOC_ID_SQL,
       sizeof(sql_queue_node));
+   if (!node)
+      return FALSE;
    node->type = (sql_recordtype)type;
    node->num_fields = -1;
    node->data = NULL;
    node->next = NULL;
 
-   PgQueueLock();
-   if (queue.last)
-      queue.last->next = node;
-   else
-      queue.first = node;
-   queue.last = node;
-   queue.count++;
-   PgQueueUnlock();
+   if (!PgEnqueueNode(node))
+   {
+      FreeMemory(MALLOC_ID_SQL, node, sizeof(sql_queue_node));
+      return FALSE;
+   }
 
    return TRUE;
 }
